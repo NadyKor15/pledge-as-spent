@@ -1,0 +1,263 @@
+{
+ "receiptId": "hero-ja-01",
+ "set": "hero",
+ "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T14:32:00",
+  "receiptNumber": "8258",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Natural water 2L",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melt water 2L",
+    "qty": 4,
+    "unitPriceMinor": 472,
+    "amountMinor": 1888,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral water 2L PET",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 2196,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ソフトキッズおおむつ M 44 枚",
+    "translationEn": "Soft kids large diaper 44 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "パビ -7 アツ NM 3m",
+    "translationEn": "Pabi -7 Ats NM 3m",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18 枚",
+    "translationEn": "Paper diaper M 18 pieces",
+    "qty": 1,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "アルカリ乾電池単 3 2 本入",
+    "translationEn": "Alkaline dry battery single 3 2 pieces",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "単 3 電池 1 本入",
+    "translationEn": "Single 3 battery 1 piece",
+    "qty": 1,
+    "unitPriceMinor": 796,
+    "amountMinor": 796,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "単 3 ばら",
+    "translationEn": "Single 3 loose",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 980,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "缶ピール 350m",
+    "translationEn": "Can peel 350m",
+    "qty": 6,
+    "unitPriceMinor": 199,
+    "amountMinor": 1194,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "ギフトカード",
+    "translationEn": "Gift card",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 14646,
+  "taxMinor": 1486,
+  "taxIncluded": false,
+  "totalMinor": 14646,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "会員番号 3216 2141 5525",
+    "bbox": {
+     "x": 0.21470321295937153,
+     "y": 0.844130830007919,
+     "w": 0.6248486492831369,
+     "h": 0.02192573813890586
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "クレジット seco 591",
+    "bbox": {
+     "x": 0.21014162795290017,
+     "y": 0.7517929140092322,
+     "w": 0.6250683992393229,
+     "h": 0.025536119470606633
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water 2L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Melt water 2L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2L PET counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 44,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft kids large diaper 44 pieces counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Pabi -7 Ats NM 3m does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 18,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Paper diaper M 18 pieces counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline dry battery single 3 2 pieces counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single 3 battery 1 piece counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single 3 loose counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Can peel 350m does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Gift card is not funded.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1389,
+   "tokensOut": 768,
+   "usdCeiling": 0.001261,
+   "usdActual": 0.000268
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1384,
+   "tokensOut": 470,
+   "usdCeiling": 0.001279,
+   "usdActual": 0.000196
+  }
+ ],
+ "latencyMs": {
+  "read": 4029,
+  "classify": 3324
+ },
+ "errors": []
+}

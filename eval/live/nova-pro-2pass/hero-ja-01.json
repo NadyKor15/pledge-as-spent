@@ -1,0 +1,314 @@
+{
+ "receiptId": "hero-ja-01",
+ "set": "hero",
+ "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+ "reading": {
+  "merchantName": "麺屋武蔵",
+  "merchantAddress": "東京都新宿区歌舞伎町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T14:32:00",
+  "receiptNumber": "8258",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "鶏白湯醤油 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "枚チーズ",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "鶏白湯塩 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 236,
+    "amountMinor": 472,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "枚 x #118",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "鶏白湯辛味噌",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 216,
+    "amountMinor": 216,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "枚チーズ",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "枚 x #108",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "鶏白湯辛味噌 M",
+    "translationEn": "",
+    "qty": 44,
+    "unitPriceMinor": 59,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "枚 x #1,298",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "鶏白湯辛味噌 M",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "枚 x #1,098",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "鶏白湯辛味噌 M",
+    "translationEn": "",
+    "qty": 18,
+    "unitPriceMinor": 33,
+    "amountMinor": 598,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "鶏白湯辛味噌",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "鶏白湯辛味噌",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 79,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "枚 x #398",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 0,
+    "amountMinor": 0,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 14646,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 14646,
+  "pii": [],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a food item and does not match any of the listed needs.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 4997,
+   "tokensOut": 1066,
+   "usdCeiling": 0.048922999999999994,
+   "usdActual": 0.007408
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1395,
+   "tokensOut": 635,
+   "usdCeiling": 0.017092,
+   "usdActual": 0.003148
+  }
+ ],
+ "latencyMs": {
+  "read": 13850,
+  "classify": 45011
+ },
+ "errors": []
+}

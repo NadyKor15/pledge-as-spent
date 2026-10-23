@@ -27,7 +27,7 @@ export class ModelOutputError extends Error {
   raw?: unknown;
 }
 
-interface Options {
+export interface Options {
   client: ConverseClient;
   cap: SpendCap;
   modelId?: string;
@@ -81,7 +81,7 @@ export function minorUnits(s: string | undefined, exponent: number): number | st
 }
 
 /** Splits "key=value; key=value" on the known keys, so a value may itself contain ";" or "=". */
-function kv(entry: string, keys: string[]): Record<string, string> | null {
+export function kv(entry: string, keys: string[]): Record<string, string> | null {
   const marks = [...entry.matchAll(new RegExp(`(?:^|;)\\s*(${keys.join("|")})\\s*[=:]`, "gi"))];
   if (marks.length === 0) return null;
   const out: Record<string, string> = {};
@@ -164,7 +164,7 @@ interface Tool {
 }
 
 /** One Converse call through the spend cap, with one more attempt after the model's own broken tool call. */
-async function converse(o: Required<Options>, args: { what: string; system: string; content: ContentBlock[]; tool?: Tool }) {
+export async function converse(o: Required<Options>, args: { what: string; system: string; content: ContentBlock[]; tool?: Tool }) {
   const textChars = args.system.length + args.content.reduce((s, b) => s + (b.text?.length ?? 0), 0);
   for (let attempt = 1; ; attempt++) {
     try {
@@ -201,7 +201,7 @@ async function converse(o: Required<Options>, args: { what: string; system: stri
   }
 }
 
-const fails = (what: string, stop: unknown, usage: ModelUsage, raw: unknown) => (why: string) =>
+export const fails = (what: string, stop: unknown, usage: ModelUsage, raw: unknown) => (why: string) =>
   Object.assign(new ModelOutputError(`${what}: ${why} (stop reason: ${stop})`), { usage, raw });
 
 async function converseStructured<T>(
@@ -233,7 +233,7 @@ async function converseStructured<T>(
   return { value: parsed.data, usage };
 }
 
-const IMAGE_FORMAT = { "image/png": "png", "image/jpeg": "jpeg", "image/webp": "webp" } as const;
+export const IMAGE_FORMAT = { "image/png": "png", "image/jpeg": "jpeg", "image/webp": "webp" } as const;
 
 export const READER_SYSTEM = `You read photos of store receipts for a disaster-relief fundraiser and report exactly what is printed.
 Answer in plain text only, nothing else, in this form (one row per line; leave a key out when it is not printed; never guess):
