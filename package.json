@@ -1,0 +1,46 @@
+{
+  "name": "pledge-as-spent",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:live": "vitest run tests/live"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "@neondatabase/serverless": "1.2.0",
+    "@paypal/paypal-server-sdk": "2.5.0",
+    "ag-grid-community": "36.2.0",
+    "ag-grid-react": "36.2.0",
+    "drizzle-orm": "0.45.4",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "24.19.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "drizzle-kit": "0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "fast-check": "4.10.2",
+    "tailwindcss": "^4",
+    "tsx": "4.23.15",
+    "typescript": "^5",
+    "vitest": "5.0.5"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  }
+}
