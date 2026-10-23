@@ -1,0 +1,118 @@
+{
+ "receiptId": "v1-es-02",
+ "set": "v1",
+ "imageSha256": "bc64dcf12265afc7041102e734a5e86c1cd4a5d9a8ca9fcdfc1509255d746a06",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 90000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-07-11T08:08:00",
+  "receiptNumber": "2375",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "Maria cookies",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries LR6 8U",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 1797,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA 1,30 B BOTELLA 1,5 L 2x0,65",
+    "translationEn": "Clara source water 1.30 B 1.5 L bottle 2x0.65",
+    "qty": 3,
+    "unitPriceMinor": 599,
+    "amountMinor": 1797,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA 4U",
+    "translationEn": "AAA batteries 4U",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 49,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "Whole milk 1L",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 2451,
+  "taxMinor": 549,
+  "taxIncluded": true,
+  "totalMinor": 3000,
+  "pii": [
+   {
+    "kind": "other",
+    "text": "Na y ARS AA AAA",
+    "bbox": {
+     "x": 0.11992449976523814,
+     "y": 0.9369888766524633,
+     "w": 0.7598789533126524,
+     "h": 0.03225317745826539
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Maria cookies are not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1184,
+   "tokensOut": 475,
+   "usdCeiling": 0.001255,
+   "usdActual": 0.000185
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1206,
+   "tokensOut": 58,
+   "usdCeiling": 0.00125,
+   "usdActual": 0.000086
+  }
+ ],
+ "latencyMs": {
+  "read": 2804,
+  "classify": 701
+ },
+ "errors": []
+}

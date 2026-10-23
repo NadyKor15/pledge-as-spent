@@ -1,0 +1,173 @@
+{
+ "receiptId": "v1-ja-08",
+ "set": "v1",
+ "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T09:25:00",
+  "receiptNumber": "5482",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L ¥384※",
+    "translationEn": "Natural water of Kitasora 2L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "値引 -¥40※",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ポタン電池 CR2632 ¥398",
+    "translationEn": "Potan battery CR2632",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "雪解けの水 2L ¥118※",
+    "translationEn": "Meltwater 2L",
+    "qty": null,
+    "unitPriceMinor": 118,
+    "amountMinor": 118,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズおむつ L 34 枚 ¥2,596",
+    "translationEn": "Soft kids diapers L 34 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ノンアルコールピール ¥256※ 359mL",
+    "translationEn": "Non-alcoholic peel 359mL",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3712,
+  "taxMinor": 356,
+  "taxIncluded": false,
+  "totalMinor": 4068,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "クレジットキキキキキキネキキネキネ 4464",
+    "bbox": {
+     "x": 0.7664904746754353,
+     "y": 0.672973546390819,
+     "w": 0.05716021844938335,
+     "h": 0.02092585703182237
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "会員番号 8870 6749 4333",
+    "bbox": {
+     "x": 0.6379879797002395,
+     "y": 0.791436219878018,
+     "w": 0.19721026570100508,
+     "h": 0.020282257861705677
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water of Kitasora 2L matches the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discounts are not clearly linked to a specific item.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Potan battery CR2632 does not match the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Meltwater 2L matches the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Soft kids diapers L do not match the size M diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Non-alcoholic peel 359mL does not match any listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1226,
+   "tokensOut": 461,
+   "usdCeiling": 0.016622,
+   "usdActual": 0.002456
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1232,
+   "tokensOut": 251,
+   "usdCeiling": 0.01669,
+   "usdActual": 0.001789
+  }
+ ],
+ "latencyMs": {
+  "read": 5916,
+  "classify": 2058
+ },
+ "errors": []
+}

@@ -1,0 +1,152 @@
+{
+ "receiptId": "v1-es-02",
+ "set": "v1",
+ "imageSha256": "bc64dcf12265afc7041102e734a5e86c1cd4a5d9a8ca9fcdfc1509255d746a06",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-07T08:08:00",
+  "receiptNumber": "2375",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "GALLETAS MARÍA 1,45 B",
+    "translationEn": "MARIA COOKIES",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILAS AA LR6 8U 17,97 €",
+    "translationEn": "AA LR6 BATTERIES 8U",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 1797,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA 1,30 B BOTELLA 1,5 L 2x0,65",
+    "translationEn": "FUENTE CLARA WATER 1.30 B BOTTLE 1.5 L",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 63,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA 4U 3,29 €",
+    "translationEn": "AAA BATTERIES 4U",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN 0,49 C",
+    "translationEn": "PROMOTION DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 49,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "LECHE ENTERA 1L 0,99 A",
+    "translationEn": "WHOLE MILK 1L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 99,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 2356,
+  "taxMinor": 96,
+  "taxIncluded": true,
+  "totalMinor": 2451,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Maria cookies are not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1.5 L water bottles are a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Whole milk is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1184,
+   "tokensOut": 432,
+   "usdCeiling": 0.016728,
+   "usdActual": 0.00233
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1241,
+   "tokensOut": 216,
+   "usdCeiling": 0.016697,
+   "usdActual": 0.001684
+  }
+ ],
+ "latencyMs": {
+  "read": 6703,
+  "classify": 1885
+ },
+ "errors": []
+}

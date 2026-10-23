@@ -1,0 +1,1347 @@
+{
+ "reader": "nova-pro-2pass",
+ "set": "v1",
+ "receipts": 30,
+ "scoredReceipts": 30,
+ "errors": [],
+ "lines": {
+  "precision": 0.5942622950819673,
+  "recall": 0.9119496855345912,
+  "f1": 0.7196029776674938,
+  "tp": 145,
+  "fp": 99,
+  "fn": 14
+ },
+ "lineAmountExact": {
+  "num": 88,
+  "den": 159,
+  "rate": 0.5534591194968553
+ },
+ "totalExact": {
+  "num": 26,
+  "den": 30,
+  "rate": 0.8666666666666667
+ },
+ "dateExact": {
+  "num": 30,
+  "den": 30,
+  "rate": 1
+ },
+ "dateTimeExact": {
+  "num": 30,
+  "den": 30,
+  "rate": 1
+ },
+ "merchant": {
+  "meanSimilarity": 0.6023809523809524,
+  "atLeast80": {
+   "num": 18,
+   "den": 30,
+   "rate": 0.6
+  }
+ },
+ "lineClass": {
+  "num": 76,
+  "den": 143,
+  "rate": 0.5314685314685315
+ },
+ "needQty": {
+  "num": 21,
+  "den": 87,
+  "rate": 0.2413793103448276
+ },
+ "ruleLines": {
+  "num": 6,
+  "den": 10,
+  "rate": 0.6,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 5,
+   "den": 46,
+   "rate": 0.10869565217391304
+  },
+  "meanIou": null
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 18,
+   "tn": 12,
+   "recall": null,
+   "falseAlarmRate": 0.6
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 26,
+  "poor_quality": 1,
+  "zone_unknown": 4
+ },
+ "byLanguage": {
+  "en": {
+   "precision": 0.85,
+   "recall": 1,
+   "f1": 0.9189189189189189,
+   "totalExact": {
+    "num": 6,
+    "den": 6,
+    "rate": 1
+   }
+  },
+  "es": {
+   "precision": 0.825,
+   "recall": 1,
+   "f1": 0.9041095890410958,
+   "totalExact": {
+    "num": 6,
+    "den": 6,
+    "rate": 1
+   }
+  },
+  "ja": {
+   "precision": 0.46078431372549017,
+   "recall": 0.7833333333333333,
+   "f1": 0.5802469135802469,
+   "totalExact": {
+    "num": 8,
+    "den": 12,
+    "rate": 0.6666666666666666
+   }
+  },
+  "tr": {
+   "precision": 0.5,
+   "recall": 0.96875,
+   "f1": 0.6595744680851063,
+   "totalExact": {
+    "num": 6,
+    "den": 6,
+    "rate": 1
+   }
+  }
+ },
+ "latency": {
+  "readerMedianMs": 7424,
+  "receiptMedianMs": 9977
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.20712699999999995,
+  "calls": 60,
+  "tokensIn": 135748,
+  "tokensOut": 30791,
+  "usdActual": 0.20712700000000006,
+  "usdCeiling": 1.517548
+ },
+ "perReceipt": [
+  {
+   "id": "v1-en-01",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-02",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 6
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-03",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-04",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-05",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 2,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-06",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 4,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 7
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-01",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 3,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-02",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-03",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 2,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-04",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-05",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 2,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-06",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-01",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 4,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 2
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.0714285714285714,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-02",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 5,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-03",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 7,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-04",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 2,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-05",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 5,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 3,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-06",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 7,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 8
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 8
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-07",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 6,
+    "fn": 3,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 7
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-08",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 7,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 3,
+     "den": 5
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-09",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 9,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-10",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 3,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-11",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-12",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 2,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-01",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 1,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 2
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-02",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 3,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-03",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 9,
+    "fp": 10,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 9
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 7,
+     "den": 8
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-04",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 1,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-05",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 10,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-06",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 6,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  }
+ ]
+}

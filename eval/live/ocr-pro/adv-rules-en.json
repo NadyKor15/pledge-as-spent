@@ -1,0 +1,219 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "2147",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK $23.97 T",
+    "translationEn": "AA BATTERY 8PK",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL $9.99 T",
+    "translationEn": "LAGER 6PK BTL",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "WATER 24PK.5L $4.99 F",
+    "translationEn": "WATER 24PK .5L",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW $59.96 T BLANKET",
+    "translationEn": "FLEECE THROW",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK $31.98 T",
+    "translationEn": "AA ALKALINE 24PK",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SPIRAL NOTEBOOK $3.98 T",
+    "translationEn": "SPIRAL NOTEBOOK",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25 $25.08 F",
+    "translationEn": "GIFT CARD $25",
+    "qty": 1,
+    "unitPriceMinor": 2508,
+    "amountMinor": 2508,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CIGARETTES MENTHOL $8.49 T",
+    "translationEn": "CIGARETTES MENTHOL",
+    "qty": 1,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1083,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "eoooeioioioik§",
+    "bbox": {
+     "x": 0.5975670751492109,
+     "y": 0.6952308463352268,
+     "w": 0.2274056082412188,
+     "h": 0.01811389359286375
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.22301736374806355,
+     "y": 0.7920188735155769,
+     "w": 0.16522855647610327,
+     "h": 0.016410124076442156
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": {
+     "x": 0.6917586686454704,
+     "y": 0.8070367177914991,
+     "w": 0.1399822084480451,
+     "h": 0.016378467621502524
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 8-packs count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water must be in 1 gallon jugs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throws count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 48,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 24-packs count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebooks are not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1189,
+   "tokensOut": 604,
+   "usdCeiling": 0.016754,
+   "usdActual": 0.002884
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1307,
+   "tokensOut": 301,
+   "usdCeiling": 0.01689,
+   "usdActual": 0.002009
+  }
+ ],
+ "latencyMs": {
+  "read": 6782,
+  "classify": 2536
+ },
+ "errors": []
+}

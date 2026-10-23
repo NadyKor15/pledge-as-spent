@@ -1,0 +1,100 @@
+{
+ "receiptId": "adv-predisaster-ja",
+ "set": "adversarial",
+ "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+ "reading": {
+  "merchantName": "ドラッグヒカリ",
+  "merchantAddress": "北空県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2029-07-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "NC-37 ルツ M",
+    "translationEn": "NC-37 Ruth M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1600
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単 3 電池 19 本入",
+    "translationEn": "Single 3 battery 19 pack",
+    "qty": 3,
+    "unitPriceMinor": 796,
+    "amountMinor": 796,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ボタン電池 CR2032",
+    "translationEn": "Button battery CR2032",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "Single 4 alkaline dry battery 4 pack",
+    "qty": 4,
+    "unitPriceMinor": 476,
+    "amountMinor": 476,
+    "taxRateBp": 1900
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": false,
+  "totalMinor": 2768,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "9728",
+    "bbox": {
+     "x": 0.7437940769692758,
+     "y": 0.7670951868821632,
+     "w": 0.05169052448343103,
+     "h": 0.016940915056342987
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The Ruth M diapers are not size M.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1148,
+   "tokensOut": 354,
+   "usdCeiling": 0.001239,
+   "usdActual": 0.000154
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1134,
+   "tokensOut": 57,
+   "usdCeiling": 0.001234,
+   "usdActual": 0.000082
+  }
+ ],
+ "latencyMs": {
+  "read": 3092,
+  "classify": 708
+ },
+ "errors": []
+}

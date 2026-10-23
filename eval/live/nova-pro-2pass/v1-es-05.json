@@ -1,0 +1,188 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PANALES T4 40U",
+    "translationEn": "",
+    "qty": 40,
+    "unitPriceMinor": null,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2 x 3,29",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": null,
+    "amountMinor": 449,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "MANTA POLAR 130X160",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 698,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "2 x 3,49",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -70,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3929,
+  "taxMinor": 553,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3055,
+   "tokensOut": 738,
+   "usdCeiling": 0.032835,
+   "usdActual": 0.004805
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1214,
+   "tokensOut": 302,
+   "usdCeiling": 0.016702,
+   "usdActual": 0.001938
+  }
+ ],
+ "latencyMs": {
+  "read": 8052,
+  "classify": 3250
+ },
+ "errors": []
+}

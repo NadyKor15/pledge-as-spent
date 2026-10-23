@@ -1,0 +1,134 @@
+{
+ "receiptId": "v1-tr-04",
+ "set": "v1",
+ "imageSha256": "57525c6e67184d9fce7de878f407d7aadfdfa1ab18b7f8b1a9f735b25bbbb618",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T08:26:00",
+  "receiptNumber": "8832",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBÉK BEZI 3 NO 44'LÜ %20",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 27900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "KAYNA SU 0,5L 12'LI %10",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MINI BEBÉK BEZI 4 NO %20",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "%20",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 90716,
+  "taxMinor": 17644,
+  "taxIncluded": false,
+  "totalMinor": 108360,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product is not the exact size of diapers needed (size 4).;",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product is not the exact size of water bottles needed (5 L).;",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product is not the exact size of diapers needed (size 4).;",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need.;",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and needs further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2852,
+   "tokensOut": 624,
+   "usdCeiling": 0.032755,
+   "usdActual": 0.004278
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1141,
+   "tokensOut": 212,
+   "usdCeiling": 0.016444,
+   "usdActual": 0.001591
+  }
+ ],
+ "latencyMs": {
+  "read": 7424,
+  "classify": 2091
+ },
+ "errors": []
+}

@@ -1,0 +1,24 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3385,
+   "tokensOut": 666,
+   "usdCeiling": 0.032528,
+   "usdActual": 0.0048389999999999996
+  }
+ ],
+ "latencyMs": {
+  "read": 8356,
+  "classify": null
+ },
+ "errors": [
+  "read: two-pass read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[8].qty",
+  "raw: {\"transcription\":\"20261105() 12:43\\nNo.4108\\n3 ¥1,832\\n4 x 458\\n5 ¥398\\n¥128\\n4 1L\\n¥198\\n3 20 ¥1,396\\n2 x 698\\n¥324\\n2\\n3 x 108\\n(6) ¥4,276\\n8 ¥2,482\\n¥198\\n10% ¥1,794\\n¥179\\n¥4,653\\n1033\\n¥4,653\\n5449 1448 4664\",\"structured\":\"RECEIPT: merchant=<store name not printed>; address=<address not printed>; country=JP; currency=JPY; purchased=2026-11-05T12:43:00; number=4108; subtotal=4653; tax=179; tax_included=false; total=4653; readability=poor\\nLINE: no=1; qty=3; unit=1832; amount=5496; text=¥1,832\\nLINE: no=2; qty=4; unit=458; amount=1832; text=4 x 458\\nLINE: no=3; unit=128; amount=398; text=¥398\\nLINE: no=4; qty=4; unit=198; amount=792; text=4 1L ¥198\\nLINE: no=5; qty=3; unit=20; amount=1396; text=3 20 ¥1,396\\nLINE: no=6; qty=2; unit=698; amount=1396; text=2 x 698\\nLINE: no=7; qty=2; unit=108; amount=324; text=¥324 2\\nLINE: no=8; qty=3; unit=108; amount=1284; text=3 x 108\\nLINE: no=9; qty=(6); unit=2482; amount=4276; text=(6) ¥4,276\\nLINE: no=10; qty=8; unit=198; amount=1584; text=8 ¥2,482 ¥198\\nLINE: no=11; rate=1000; amount=1794; text=10% ¥1,794\\nLINE: no=12; amount=179; text=¥179\\nPII: kind=card_number; text=5449 1448 4664\"}"
+ ]
+}

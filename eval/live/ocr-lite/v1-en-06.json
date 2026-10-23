@@ -1,0 +1,164 @@
+{
+ "receiptId": "v1-en-06",
+ "set": "v1",
+ "imageSha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T13:41:00",
+  "receiptNumber": "2492",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA Battery 8PK",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 799,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DIAPERS SZ 5 72CT",
+    "translationEn": "Diapers SZ 5 72CT",
+    "qty": 72,
+    "unitPriceMinor": null,
+    "amountMinor": 2499,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies Diapers SZ 3 38CT",
+    "qty": 38,
+    "unitPriceMinor": null,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 5,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 596,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "4 @ $1.49",
+    "translationEn": "4 @ $1.49",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Bread Wheat",
+    "qty": 1,
+    "unitPriceMinor": 279,
+    "amountMinor": 279,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 Gallon Jug",
+    "qty": 1,
+    "unitPriceMinor": 507,
+    "amountMinor": 507,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 9,
+    "rawText": "3 @ $1.69",
+    "translationEn": "3 @ $1.69",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 10,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift Card $25",
+    "qty": 1,
+    "unitPriceMinor": 25,
+    "amountMinor": 25,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 10927,
+  "taxMinor": 511,
+  "taxIncluded": false,
+  "totalMinor": 11438,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.16523967758436178,
+     "y": 0.7829088042287824,
+     "w": 0.1737361164885952,
+     "h": 0.017643321518208244
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3694265361",
+    "bbox": {
+     "x": 0.6559090606280373,
+     "y": 0.8234253009110816,
+     "w": 0.14579449754828788,
+     "h": 0.0170428097535954
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need and match the exact item listed in the drive rules.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1164,
+   "tokensOut": 721,
+   "usdCeiling": 0.001253,
+   "usdActual": 0.000243
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1349,
+   "tokensOut": 60,
+   "usdCeiling": 0.001278,
+   "usdActual": 0.000095
+  }
+ ],
+ "latencyMs": {
+  "read": 3688,
+  "classify": 787
+ },
+ "errors": []
+}

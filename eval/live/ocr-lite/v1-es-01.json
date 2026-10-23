@@ -1,0 +1,245 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-05-11T10:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "Water clear source",
+    "qty": null,
+    "unitPriceMinor": 130,
+    "amountMinor": 130,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BOTELLA 1,5 L",
+    "translationEn": "Bottle 1.5 L",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL BEBE T3 44U",
+    "translationEn": "Baby panel T3 44U",
+    "qty": 44,
+    "unitPriceMinor": null,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "Batteries AA LR6 8U",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2x 5,99",
+    "translationEn": "2x 5.99",
+    "qty": 2,
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PAN BARRA",
+    "translationEn": "Bar bread",
+    "qty": null,
+    "unitPriceMinor": 170,
+    "amountMinor": 170,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2x 6,85",
+    "translationEn": "2x 6.85",
+    "qty": 2,
+    "unitPriceMinor": 685,
+    "amountMinor": 1370,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "AGUA SL GARRAFA",
+    "translationEn": "Water single jar",
+    "qty": null,
+    "unitPriceMinor": 119,
+    "amountMinor": 119,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 10,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "PROMO DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4006,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2835,
+  "taxMinor": 163,
+  "taxIncluded": true,
+  "totalMinor": 2835,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "6082753386",
+    "bbox": {
+     "x": 0.657548769153294,
+     "y": 0.8093274568910797,
+     "w": 0.14451841209203597,
+     "h": 0.014992142726305335
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.17343218239572963,
+     "y": 0.8222034095962732,
+     "w": 0.2001431975443634,
+     "h": 0.015976930814066037
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The description 'Water clear source' is unclear if it matches the need.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Bottle 1.5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 44,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby panel T3 44U counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Batteries AA LR6 8U counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The line '2x 5,99' does not match any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bar bread does not match any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The line '2x 6,85' does not match any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The description 'Water single jar' is unclear if it matches the need.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Promotion discount does not match any need.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1224,
+   "tokensOut": 660,
+   "usdCeiling": 0.001258,
+   "usdActual": 0.000232
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1334,
+   "tokensOut": 463,
+   "usdCeiling": 0.001276,
+   "usdActual": 0.000191
+  }
+ ],
+ "latencyMs": {
+  "read": 3679,
+  "classify": 3262
+ },
+ "errors": []
+}

@@ -1,0 +1,120 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Maritimo 9, 00000 Puerto Brisa",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-06-11T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Diapers T3 Pants 36U",
+    "qty": 36,
+    "unitPriceMinor": null,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2x 7,49",
+    "translationEn": "2x 7.49",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "Toilet paper 12R",
+    "qty": 12,
+    "unitPriceMinor": null,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 1661,
+  "taxMinor": 515,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "900 000 088",
+    "bbox": {
+     "x": 0.4606255445518099,
+     "y": 0.2731778673184665,
+     "w": 0.16093355431044737,
+     "h": 0.02318002427760607
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "B00000088",
+    "bbox": {
+     "x": 0.4738557330909203,
+     "y": 0.3077891076483715,
+     "w": 0.131694792970605,
+     "h": 0.02104875998167688
+    }
+   },
+   {
+    "kind": "address",
+    "text": "Paseo Maritimo 9, 00000 Puerto Brisa",
+    "bbox": {
+     "x": 0.38145685560379533,
+     "y": 0.23674499037229396,
+     "w": 0.1749860216107056,
+     "h": 0.023763975548726057
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1108,
+   "tokensOut": 466,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.000178
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1131,
+   "tokensOut": 57,
+   "usdCeiling": 0.00123,
+   "usdActual": 0.000082
+  }
+ ],
+ "latencyMs": {
+  "read": 3987,
+  "classify": 645
+ },
+ "errors": []
+}

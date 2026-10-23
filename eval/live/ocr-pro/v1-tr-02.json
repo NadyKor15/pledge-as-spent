@@ -1,0 +1,185 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ 420",
+    "translationEn": "CUTE BABY DIAPER 420",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %1@ MATRAH",
+    "translationEn": "VAT 1% MATTRESS",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV *20 MATRAH",
+    "translationEn": "VAT 20% MATTRESS",
+    "qty": 1,
+    "unitPriceMinor": 29083,
+    "amountMinor": 29083,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 30775,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "0 555 000 00 42",
+    "bbox": {
+     "x": 0.4051573144356328,
+     "y": 0.2532273856516844,
+     "w": 0.21615422018310743,
+     "h": 0.024345146954998342
+    }
+   },
+   {
+    "kind": "other",
+    "text": "0000000042",
+    "bbox": {
+     "x": 0.45087040886112895,
+     "y": 0.2850903806604916,
+     "w": 0.14335195705618997,
+     "h": 0.0216038216248694
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "7374",
+    "bbox": {
+     "x": 0.4186147445751614,
+     "y": 0.7051339923013621,
+     "w": 0.05551050346820369,
+     "h": 0.017443257796754152
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6875116590318759,
+     "y": 0.7490650033733007,
+     "w": 0.1443720893437057,
+     "h": 0.02078928724382334
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.20831727496259914,
+     "y": 0.7912390222349289,
+     "w": 0.1864797530934211,
+     "h": 0.028345453869762394
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L is eligible as it matches the need for drinking water 5 L.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "CUTE BABY DIAPER 420 is eligible as it matches the need for baby diapers size 4.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 1% MATTRESS does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 20% MATTRESS does not match any of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1161,
+   "tokensOut": 467,
+   "usdCeiling": 0.016594,
+   "usdActual": 0.002423
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1151,
+   "tokensOut": 233,
+   "usdCeiling": 0.016499,
+   "usdActual": 0.001666
+  }
+ ],
+ "latencyMs": {
+  "read": 5983,
+  "classify": 1953
+ },
+ "errors": []
+}

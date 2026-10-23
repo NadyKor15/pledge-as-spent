@@ -1,0 +1,199 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "MINI BABY DIAPER 4 NO",
+    "qty": 4,
+    "unitPriceMinor": 57980,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "RAKI 70 CL",
+    "qty": null,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ",
+    "translationEn": "ADORABLE BABY DIAPER",
+    "qty": null,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "NO:4 JUMBO 42'Lİ",
+    "translationEn": "NO:4 JUMBO 42'Lİ",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "YILDIZ SİGARA MAVİ",
+    "translationEn": "YILDIZ CIGARETTE BLUE",
+    "qty": null,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": null,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10'PACK",
+    "qty": null,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "BLANKET SINGLE",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 0,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 260808,
+  "taxMinor": 52162,
+  "taxIncluded": false,
+  "totalMinor": 362970,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "*3.629,70",
+    "bbox": {
+     "x": 0.671219924359967,
+     "y": 0.7816019596533758,
+     "w": 0.12776883739890998,
+     "h": 0.018276535435221786
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 diapers are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Raki is a type of alcohol and is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The translation is unclear, but it seems to be a baby diaper.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The translation is unclear, but it seems to be a baby diaper.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are a type of tobacco and are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blankets are a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1241,
+   "tokensOut": 705,
+   "usdCeiling": 0.001253,
+   "usdActual": 0.000244
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1306,
+   "tokensOut": 353,
+   "usdCeiling": 0.001266,
+   "usdActual": 0.000163
+  }
+ ],
+ "latencyMs": {
+  "read": 3277,
+  "classify": 2379
+ },
+ "errors": []
+}

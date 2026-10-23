@@ -1,0 +1,173 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "潮風マート 海風店",
+  "merchantAddress": "海原県海風市浜通 5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T12:43:00",
+  "receiptNumber": "4198",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ人缶 3 缶パック ¥1,832※",
+    "translationEn": "Tuna can 3 can pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5 箱 ¥398",
+    "translationEn": "Tissue 5 boxes",
+    "qty": 5,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート ¥128%",
+    "translationEn": "Chocolate",
+    "qty": null,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L ¥198※",
+    "translationEn": "Milk 1L",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池単 3 2 本入 ¥1,396",
+    "translationEn": "Alkaline dry battery 3 2 pack",
+    "qty": 2,
+    "unitPriceMinor": 1396,
+    "amountMinor": 1396,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2m x 3698 ミネラルウォーター ¥324※ 2L ペット 3 点 x 単 198",
+    "translationEn": "Mineral water 2L 3 items",
+    "qty": 3,
+    "unitPriceMinor": 198,
+    "amountMinor": 458,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 377,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.5903603694396546,
+     "y": 0.7995419372689613,
+     "w": 0.19911730491481539,
+     "h": 0.018149261287994656
+    }
+   },
+   {
+    "kind": "name",
+    "text": "FHI Wy 様",
+    "bbox": {
+     "x": 0.17688985155272735,
+     "y": 0.7599925529632715,
+     "w": 0.12044695439598918,
+     "h": 0.017653754664983312
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2L bottles count toward the drinking water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1228,
+   "tokensOut": 465,
+   "usdCeiling": 0.016618,
+   "usdActual": 0.00247
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1255,
+   "tokensOut": 236,
+   "usdCeiling": 0.016691,
+   "usdActual": 0.001759
+  }
+ ],
+ "latencyMs": {
+  "read": 6377,
+  "classify": 2166
+ },
+ "errors": []
+}

@@ -1,0 +1,134 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarş1 Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 5,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDIRIM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVIMLI BEBEK BEZI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "NO:4 JUMBO 42'LI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "*58,17",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5817,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 36761,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs further review to determine its eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The product does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and needs further review to determine its eligibility.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3012,
+   "tokensOut": 646,
+   "usdCeiling": 0.032762,
+   "usdActual": 0.004476
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1109,
+   "tokensOut": 200,
+   "usdCeiling": 0.016408,
+   "usdActual": 0.001527
+  }
+ ],
+ "latencyMs": {
+  "read": 7037,
+  "classify": 1713
+ },
+ "errors": []
+}

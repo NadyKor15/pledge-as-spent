@@ -1,0 +1,122 @@
+{
+ "receiptId": "v1-en-03",
+ "set": "v1",
+ "imageSha256": "4344c0502147d37457b0aaa396fdc6e979b840bec40af506f29fd797e6b534da",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6-pack bottle",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 999,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline 24-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1599,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gal matches the need for drinking water 1 gallon.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is an alcoholic beverage and is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline 24-pack matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon's eligibility is unclear without knowing its value and what it applies to.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3018,
+   "tokensOut": 562,
+   "usdCeiling": 0.032751,
+   "usdActual": 0.004213
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1092,
+   "tokensOut": 174,
+   "usdCeiling": 0.016402,
+   "usdActual": 0.00143
+  }
+ ],
+ "latencyMs": {
+  "read": 6723,
+  "classify": 2195
+ },
+ "errors": []
+}

@@ -1,0 +1,155 @@
+{
+ "receiptId": "v1-en-04",
+ "set": "v1",
+ "imageSha256": "9f725aa0562828c4824eb34aba8ea7fba76d77d2e0f75f74a71d0f698b183352",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:18:00",
+  "receiptNumber": "01765",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA ALKALINE 24PK",
+    "qty": 24,
+    "unitPriceMinor": null,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA BATTERY 8PK",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 1598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2 @ $7.99",
+    "translationEn": "2 @ $7.99",
+    "qty": 2,
+    "unitPriceMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "POTATO CHIPS",
+    "translationEn": "POTATO CHIPS",
+    "qty": 1,
+    "unitPriceMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PURE WTR 1GAL 4CT",
+    "translationEn": "PURE WTR 1GAL 4CT",
+    "qty": 1,
+    "unitPriceMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
+    "qty": 38,
+    "unitPriceMinor": null,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "MILK 1GAL",
+    "translationEn": "MILK 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 778,
+    "amountMinor": 778,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 9,
+    "rawText": "2 @ $3.89",
+    "translationEn": "2 @ $3.89",
+    "qty": 2,
+    "unitPriceMinor": 389,
+    "amountMinor": 778,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 8620,
+  "taxMinor": 529,
+  "taxIncluded": false,
+  "totalMinor": 9149,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.16214847304115276,
+     "y": 0.774226745055321,
+     "w": 0.1786274487757486,
+     "h": 0.017686438927298043
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "2356750201",
+    "bbox": {
+     "x": 0.6591484254388645,
+     "y": 0.8089529391277972,
+     "w": 0.14389975069572314,
+     "h": 0.016950069483708363
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries are listed as a need and match the specified unit.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1143,
+   "tokensOut": 663,
+   "usdCeiling": 0.00125,
+   "usdActual": 0.000228
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1314,
+   "tokensOut": 61,
+   "usdCeiling": 0.001267,
+   "usdActual": 0.000093
+  }
+ ],
+ "latencyMs": {
+  "read": 4091,
+  "classify": 746
+ },
+ "errors": []
+}

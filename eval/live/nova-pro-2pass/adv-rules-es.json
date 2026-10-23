@@ -1,0 +1,260 @@
+{
+ "receiptId": "adv-rules-es",
+ "set": "adversarial",
+ "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T12:24:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 24,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BOTELLA 1,5 L",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 65,
+    "amountMinor": 390,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TARJETA REALO 50",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "TARJETA REGALO 50",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": 449,
+    "amountMinor": 7948,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 10,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 11,
+    "rawText": "CERVEZA ALBORADA 6X33",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 489,
+    "amountMinor": 24,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 8268,
+  "taxMinor": 1471,
+  "taxIncluded": true,
+  "totalMinor": 8268,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Whole milk is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This item does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This item does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 6649,
+   "tokensOut": 1056,
+   "usdCeiling": 0.049479999999999996,
+   "usdActual": 0.008698000000000001
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1344,
+   "tokensOut": 448,
+   "usdCeiling": 0.017089,
+   "usdActual": 0.002509
+  }
+ ],
+ "latencyMs": {
+  "read": 12202,
+  "classify": 3755
+ },
+ "errors": []
+}

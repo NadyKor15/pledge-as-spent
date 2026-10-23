@@ -1,0 +1,129 @@
+{
+ "receiptId": "v1-en-03",
+ "set": "v1",
+ "imageSha256": "4344c0502147d37457b0aaa396fdc6e979b840bec40af506f29fd797e6b534da",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL $5.96 F",
+    "translationEn": "Spring Water 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 596,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "4 @ $1.49",
+    "translationEn": "4 units at $1.49 each",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "LAGER 6PK BTL $9.99 T",
+    "translationEn": "Lager 6PK BTL",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA ALKALINE 24PK $15.99 T",
+    "translationEn": "AA Alkaline 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "COUPON $2.40",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 149,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "pec AL1OS",
+    "bbox": {
+     "x": 0.7543572984749456,
+     "y": 0.6358099878197321,
+     "w": 0.07298474945533762,
+     "h": 0.01705237515225333
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1977124183006536,
+     "y": 0.7543645960211125,
+     "w": 0.1721132897603486,
+     "h": 0.01786439301664633
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.684640522875817,
+     "y": 0.7762890783597239,
+     "w": 0.1470588235294118,
+     "h": 0.01705237515225333
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1GAL counts toward the drinking water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1092,
+   "tokensOut": 480,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000181
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1157,
+   "tokensOut": 54,
+   "usdCeiling": 0.001239,
+   "usdActual": 0.000082
+  }
+ ],
+ "latencyMs": {
+  "read": 4360,
+  "classify": 864
+ },
+ "errors": []
+}

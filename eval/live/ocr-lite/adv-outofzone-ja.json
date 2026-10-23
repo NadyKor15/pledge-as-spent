@@ -1,0 +1,181 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "潮風マート 海風店",
+  "merchantAddress": "海原県海風市浜通 5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T12:43:00",
+  "receiptNumber": "4198",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ人缶 3 缶パック ¥1,832",
+    "translationEn": "Canned tuna 3 cans pack ¥1,832",
+    "qty": 3,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5 箱 ¥398",
+    "translationEn": "Tissues 5 boxes ¥398",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート ¥128",
+    "translationEn": "Chocolate ¥128",
+    "qty": null,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L ¥198",
+    "translationEn": "Milk 1L ¥198",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池単 3 2 本入 ¥1,396",
+    "translationEn": "Alkaline dry battery single 3 2 pack ¥1,396",
+    "qty": null,
+    "unitPriceMinor": 1396,
+    "amountMinor": 1396,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター 2L ペット ¥324",
+    "translationEn": "Mineral water 2L pet ¥324",
+    "qty": 3,
+    "unitPriceMinor": 198,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "外税 1* 対象 ¥1,794",
+    "translationEn": "External tax 1* target ¥1,794",
+    "qty": 1,
+    "unitPriceMinor": 179,
+    "amountMinor": 179,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 2482,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.5903603694396546,
+     "y": 0.7995419372689613,
+     "w": 0.19911730491481539,
+     "h": 0.018149261287994656
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned tuna is a canned food item and matches the need for canned food.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues do not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Chocolate is not a listed need and is not eligible for funding.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline dry battery single 3 matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2L matches the need for drinking water.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "External tax is not a purchasable item and does not match any of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1228,
+   "tokensOut": 558,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000208
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1308,
+   "tokensOut": 332,
+   "usdCeiling": 0.001262,
+   "usdActual": 0.000158
+  }
+ ],
+ "latencyMs": {
+  "read": 3537,
+  "classify": 2350
+ },
+ "errors": []
+}

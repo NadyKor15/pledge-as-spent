@@ -1,0 +1,253 @@
+{
+ "receiptId": "v1-en-06",
+ "set": "v1",
+ "imageSha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T13:41:00",
+  "receiptNumber": "2492",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA BATTERY 8PK",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DIAPERS SZ 5 72CT",
+    "translationEn": "DIAPERS SZ 5 72CT",
+    "qty": 1,
+    "unitPriceMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
+    "qty": 1,
+    "unitPriceMinor": 3747,
+    "amountMinor": 3747,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "@",
+    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "SPRING WATER 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 596,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "@",
+    "translationEn": "SPRING WATER 1GAL",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "BREAD WHEAT",
+    "qty": 1,
+    "unitPriceMinor": 279,
+    "amountMinor": 279,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DEER CREEK WATER",
+    "translationEn": "DEER CREEK WATER",
+    "qty": 1,
+    "unitPriceMinor": 507,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "1 GALLON JUG",
+    "translationEn": "DEER CREEK WATER",
+    "qty": 1,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "@",
+    "translationEn": "DEER CREEK WATER",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "GIFT CARD $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 10927,
+  "taxMinor": 511,
+  "taxIncluded": false,
+  "totalMinor": 11438,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "3694265361",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 8-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size 5 diapers do not count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jug of spring water counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jug of spring water counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread does not count toward any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Deer Creek water does not count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Deer Creek water does not count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Deer Creek water does not count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3426,
+   "tokensOut": 1010,
+   "usdCeiling": 0.032879,
+   "usdActual": 0.005973
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1362,
+   "tokensOut": 439,
+   "usdCeiling": 0.017122,
+   "usdActual": 0.002494
+  }
+ ],
+ "latencyMs": {
+  "read": 10144,
+  "classify": 3581
+ },
+ "errors": []
+}

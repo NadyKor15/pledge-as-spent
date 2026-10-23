@@ -1,0 +1,227 @@
+{
+ "receiptId": "adv-rules-es",
+ "set": "adversarial",
+ "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-09-11T12:24:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "Whole milk 1L",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 600
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "Source water",
+    "qty": 1,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "Mineral water 1.5L",
+    "qty": 6,
+    "unitPriceMinor": 65,
+    "amountMinor": 354,
+    "taxRateBp": 500
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TARJETA REGALO 50",
+    "translationEn": "Gift card 50",
+    "qty": 1,
+    "unitPriceMinor": 50,
+    "amountMinor": 50,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "Alkaline AA battery 4U",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CERVEZA ALBORADA 6X33",
+    "translationEn": "Alborada beer 6X33",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Liar tobacco pack",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 7874,
+  "taxMinor": 394,
+  "taxIncluded": true,
+  "totalMinor": 8268,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9618947969",
+    "bbox": {
+     "x": 0.684563689052583,
+     "y": 0.8095824145853336,
+     "w": 0.1433755912565743,
+     "h": 0.014924809804065853
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.2062501499157364,
+     "y": 0.8371791213611746,
+     "w": 0.1985186586032566,
+     "h": 0.015204107902033082
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Whole milk is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Source water is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 1.5L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA battery 4U counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1265,
+   "tokensOut": 649,
+   "usdCeiling": 0.001264,
+   "usdActual": 0.000232
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1310,
+   "tokensOut": 395,
+   "usdCeiling": 0.001272,
+   "usdActual": 0.000173
+  }
+ ],
+ "latencyMs": {
+  "read": 4169,
+  "classify": 2442
+ },
+ "errors": []
+}

@@ -1,0 +1,386 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarş1 Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBĞK BEZI 3 NO 44'LÜ",
+    "translationEn": "Baby diaper size 3, 44 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 27900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3 X 12,00",
+    "translationEn": "3 x 12",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BATTANiYE TEK KIŞILIK",
+    "translationEn": "Single blanket",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 44900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DEFTER A5",
+    "translationEn": "Notebook A5",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "MİNİ BEBĞK BEZI 4 NO",
+    "translationEn": "Mini baby diaper size 4",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 X 289,90",
+    "translationEn": "2 x 289.90",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "AA KAEM PİL 4'LÜ",
+    "translationEn": "AA alkaline batteries, 4 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 15980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "2 X 79,90",
+    "translationEn": "2 x 79.90",
+    "qty": 2,
+    "unitPriceMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "INDIRIIM",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -799,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KAYNA SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 9800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "4 X 24,50",
+    "translationEn": "4 x 24.50",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "KDV %1 MATRAH 35,64",
+    "translationEn": "VAT 1% base 35.64",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 36,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "KDV %10 MATRAH 89,09",
+    "translationEn": "VAT 10% base 89.09",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 891,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "KDV %20 MATRAH 1.251,34",
+    "translationEn": "VAT 20% base 1251.34",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 25027,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 25954,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 19,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "Credit card",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 213561,
+  "taxMinor": 25954,
+  "taxIncluded": false,
+  "totalMinor": 213561,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby diapers size 3 are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single blankets are eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mini baby diapers are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries are eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount may be related to eligible items, but it is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 5 L is eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total VAT is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total amount is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 19,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Credit card payment is not eligible for funding.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3527,
+   "tokensOut": 1278,
+   "usdCeiling": 0.032956,
+   "usdActual": 0.0069110000000000005
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1730,
+   "tokensOut": 679,
+   "usdCeiling": 0.017998,
+   "usdActual": 0.003557
+  }
+ ],
+ "latencyMs": {
+  "read": 14259,
+  "classify": 7064
+ },
+ "errors": []
+}

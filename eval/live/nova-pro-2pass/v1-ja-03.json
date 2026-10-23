@@ -1,0 +1,143 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": {
+  "merchantName": "-t",
+  "merchantAddress": "TEL 0123-22-0042",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T13:23:00",
+  "receiptNumber": "000100000551",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "720mL",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 1596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": null,
+    "amountMinor": 1392,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "10",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 1190,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "(5)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -8164,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "8",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1596,
+    "amountMinor": 1596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "10",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 6568,
+    "amountMinor": 6568,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "(8 118)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -118,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "(10 597)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -597,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8164,
+  "taxMinor": 6048,
+  "taxIncluded": false,
+  "totalMinor": 8164,
+  "pii": [],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3227,
+   "tokensOut": 579,
+   "usdCeiling": 0.032533,
+   "usdActual": 0.004435
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1232,
+   "tokensOut": 391,
+   "usdCeiling": 0.016796,
+   "usdActual": 0.002237
+  }
+ ],
+ "latencyMs": {
+  "read": 6564,
+  "classify": 3413
+ },
+ "errors": []
+}

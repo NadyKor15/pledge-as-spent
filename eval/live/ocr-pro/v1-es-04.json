@@ -1,0 +1,127 @@
+{
+ "receiptId": "v1-es-04",
+ "set": "v1",
+ "imageSha256": "0d464b243050cf05623d6ce260f1b35ec1d1ff9f56d535b03f3feb83fff20f25",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T20:36:00",
+  "receiptNumber": "8426",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAPEL HIGIÉNICO 12R 4,49 A",
+    "translationEn": "Toilet paper 12R",
+    "qty": 12,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILA AA ALCALINA 4U 6,98 A",
+    "translationEn": "AA alkaline battery 4U",
+    "qty": 4,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2x 3,49",
+    "translationEn": "2x 3,49",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AA LR6 8U 5,99 A",
+    "translationEn": "AA LR6 batteries 8U",
+    "qty": 8,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 1443,
+  "taxMinor": 303,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "5572",
+    "bbox": {
+     "x": 0.38563066642553023,
+     "y": 0.7688885832487597,
+     "w": 0.055846342061422416,
+     "h": 0.018360247613748992
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The description 2x 3,49 is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA LR6 batteries count toward the batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1091,
+   "tokensOut": 344,
+   "usdCeiling": 0.016562,
+   "usdActual": 0.001974
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1137,
+   "tokensOut": 170,
+   "usdCeiling": 0.016422,
+   "usdActual": 0.001454
+  }
+ ],
+ "latencyMs": {
+  "read": 5230,
+  "classify": 1512
+ },
+ "errors": []
+}

@@ -1,0 +1,181 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:27:00",
+  "receiptNumber": "2894",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6 9,87 A",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 987,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3 x 3,29",
+    "translationEn": "3 x 3.29",
+    "qty": 3,
+    "unitPriceMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAÑAL BEBÉ T3 44U 17,90 A",
+    "translationEn": "BABY DIAPER T3 44U",
+    "qty": 1,
+    "unitPriceMinor": 1790,
+    "amountMinor": 1790,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2x 8,95",
+    "translationEn": "2x 8.95",
+    "qty": 2,
+    "unitPriceMinor": 895,
+    "amountMinor": 1790,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TABACO LIAR CAJETILLA 4,60 B",
+    "translationEn": "ROLLING TOBACCO BOX",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAÑALES T3 PANTS 36U 7,49 A",
+    "translationEn": "T3 PANTS DIAPERS 36U",
+    "qty": 1,
+    "unitPriceMinor": 749,
+    "amountMinor": 749,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DTO. PROMOCIÓN -1,12 A",
+    "translationEn": "PROMOTION DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3564,
+  "taxMinor": 310,
+  "taxIncluded": true,
+  "totalMinor": 3874,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "RK dom tato 2040",
+    "bbox": {
+     "x": 0.38968913838073194,
+     "y": 0.7967212174453442,
+     "w": 0.05729426959056755,
+     "h": 0.016298731032148295
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified, so it needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified, so it needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco products are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount needs to be reviewed to ensure it applies to eligible items.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1153,
+   "tokensOut": 510,
+   "usdCeiling": 0.016657,
+   "usdActual": 0.002554
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1275,
+   "tokensOut": 279,
+   "usdCeiling": 0.016755,
+   "usdActual": 0.001913
+  }
+ ],
+ "latencyMs": {
+  "read": 7460,
+  "classify": 2621
+ },
+ "errors": []
+}

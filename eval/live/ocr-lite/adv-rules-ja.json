@@ -1,0 +1,227 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": {
+  "merchantName": "ドラッグヒカリ",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "9777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ギフトカード 3,966 円",
+    "translationEn": "Gift card 3,966 yen",
+    "qty": 1,
+    "unitPriceMinor": 3966,
+    "amountMinor": 3966,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "缶ビピール 356ml 6 缶",
+    "translationEn": "Canned beer 356ml 6 cans",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "Single 4 Alkaline dry batteries 4 pack",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 238,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melting snow water 2L",
+    "qty": 1,
+    "unitPriceMinor": 236,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 点 x 118",
+    "translationEn": "2 items x 118",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ノート AS",
+    "translationEn": "Notebook AS",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ホシノメンソール",
+    "translationEn": "Hoshin Menthol",
+    "qty": 1,
+    "unitPriceMinor": 580,
+    "amountMinor": 580,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "3351-9- 2L",
+    "translationEn": "3351-9- 2L",
+    "qty": 1,
+    "unitPriceMinor": 324,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "3m x 単 198",
+    "translationEn": "3m x single 198",
+    "qty": 3,
+    "unitPriceMinor": 198,
+    "amountMinor": 11,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 560,
+  "taxIncluded": false,
+  "totalMinor": 5724,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7788 9428 0676",
+    "bbox": {
+     "x": 0.6016409557585458,
+     "y": 0.8102266599681114,
+     "w": 0.19837942634592254,
+     "h": 0.014925810079353785
+    }
+   },
+   {
+    "kind": "name",
+    "text": "Bl ゆ様",
+    "bbox": {
+     "x": 0.1697499330177317,
+     "y": 0.7843019524940761,
+     "w": 0.1124888143908235,
+     "h": 0.01369681162404679
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded by the drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Canned beer is an alcoholic beverage and is not funded by the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Melting snow water 2L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and cannot be matched to any need.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not listed as a need for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Hoshin Menthol does not match any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and cannot be matched to any need.",
+   "confidence": 0.2
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and cannot be matched to any need.",
+   "confidence": 0.1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1244,
+   "tokensOut": 599,
+   "usdCeiling": 0.001248,
+   "usdActual": 0.000218
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1339,
+   "tokensOut": 345,
+   "usdCeiling": 0.001271,
+   "usdActual": 0.000163
+  }
+ ],
+ "latencyMs": {
+  "read": 3100,
+  "classify": 2396
+ },
+ "errors": []
+}

@@ -1,0 +1,137 @@
+{
+ "receiptId": "v1-ja-04",
+ "set": "v1",
+ "imageSha256": "48e033a845b2e2db319d7cd69df06bf4aacb74075df7e2982a3c9c637cc68e7e",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T19:56:00",
+  "receiptNumber": "4993",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パビー7 NYIM ¥1,098",
+    "translationEn": "Pabby 7 NYIM",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3 缶パック ¥1,832※",
+    "translationEn": "Tuna can 3 can pack",
+    "qty": 3,
+    "unitPriceMinor": null,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌者缶詰 ¥2,256※",
+    "translationEn": "Saba miso can",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入 ¥476",
+    "translationEn": "4 AA alkaline batteries 4 pack",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 476,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 475,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "seek 4 414",
+    "bbox": {
+     "x": 0.7747363880486794,
+     "y": 0.6478382189895372,
+     "w": 0.05974330592185195,
+     "h": 0.023946208896499566
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.6361447890505884,
+     "y": 0.7780273047785063,
+     "w": 0.2036804963526011,
+     "h": 0.02124635123406715
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pabby 7 NYIM does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Saba miso can does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "4 AA alkaline batteries do not match the listed need for AA batteries.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1208,
+   "tokensOut": 386,
+   "usdCeiling": 0.016587,
+   "usdActual": 0.002202
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1163,
+   "tokensOut": 173,
+   "usdCeiling": 0.01646,
+   "usdActual": 0.001484
+  }
+ ],
+ "latencyMs": {
+  "read": 4948,
+  "classify": 1624
+ },
+ "errors": []
+}

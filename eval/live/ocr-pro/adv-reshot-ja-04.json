@@ -1,0 +1,128 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-07-11T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パピ -7 パツ M ¥1,098",
+    "translationEn": "Papi -7 Pack M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3 缶バック ¥1,832※",
+    "translationEn": "Tuna can 3 can pack",
+    "qty": 3,
+    "unitPriceMinor": null,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "4m x 単 458",
+    "translationEn": "4m x single 458",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 56,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "さば味噌煮缶詰 ¥2,256※",
+    "translationEn": "Miso-simmered mackerel canned",
+    "qty": null,
+    "unitPriceMinor": 2256,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "単 4 アルカリ乾電池 4 本入 ¥476",
+    "translationEn": "Single 4 alkaline dry battery 4 pack",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 点 x 単 238",
+    "translationEn": "2 items x single 238",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 474,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "米村玉村玉玉本本キキキキ 4414",
+    "bbox": {
+     "x": 0.7473766010829886,
+     "y": 0.6641283535117284,
+     "w": 0.055312140769027685,
+     "h": 0.02459832296285569
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.592554468707096,
+     "y": 0.785535943079337,
+     "w": 0.2001494926398356,
+     "h": 0.020425790837085955
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "2 items x single 238 does not match any listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1221,
+   "tokensOut": 483,
+   "usdCeiling": 0.016594,
+   "usdActual": 0.002522
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1251,
+   "tokensOut": 259,
+   "usdCeiling": 0.016693,
+   "usdActual": 0.00183
+  }
+ ],
+ "latencyMs": {
+  "read": 7261,
+  "classify": 2415
+ },
+ "errors": []
+}

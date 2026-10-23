@@ -1,0 +1,188 @@
+{
+ "receiptId": "v1-en-05",
+ "set": "v1",
+ "imageSha256": "09360b22a2707e0482455be16dfb1115d4961a40e81c6ec326e0b1ad3a8f2990",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:05:00",
+  "receiptNumber": "2075",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPIRAL NOTEBOOK $1.99 T",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 199,
+    "amountMinor": 199,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON -$0.20",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEER CREEK WATER $5.07 F",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 507,
+    "amountMinor": 507,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "1 GALLON JUG 3 @ $1.69",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "LITTLE LAMB DIAPERS $24.99 T",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "FLEECE THROW $29.98 T",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 2998,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BLANKET 2 @ $14.99",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "WATER 24PK.5L $4.99 F",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 6682,
+  "taxMinor": 412,
+  "taxIncluded": false,
+  "totalMinor": 7094,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebooks are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupons are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Deer Creek Water is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jugs of water count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Little Lamb Diapers are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Fleece Throws are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "24PK.5L Water is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2980,
+   "tokensOut": 712,
+   "usdCeiling": 0.032789,
+   "usdActual": 0.0046619999999999995
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1232,
+   "tokensOut": 314,
+   "usdCeiling": 0.016748,
+   "usdActual": 0.00199
+  }
+ ],
+ "latencyMs": {
+  "read": 8447,
+  "classify": 2534
+ },
+ "errors": []
+}

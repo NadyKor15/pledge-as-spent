@@ -1,0 +1,24 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3237,
+   "tokensOut": 447,
+   "usdCeiling": 0.032508999999999996,
+   "usdActual": 0.00402
+  }
+ ],
+ "latencyMs": {
+  "read": 5600,
+  "classify": null
+ },
+ "errors": [
+  "read: two-pass read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[5].amountMinor\n✖ Invalid input: expected number, received string\n  → at lines[6].amountMinor",
+  "raw: {\"transcription\":\"-1\\nTEL 0123-22-0042\\n20261104() 19:56\\nNo.4093\\n1,098\\n1,832\\n4 x 458\\n2,256\\n12 x 188\\n476\\n2 x 238\\n(4) 5,662\\n4,088  327\\n1,574  157\\n6,146\\n4414\\n6,146\\n3846 7326 4188\",\"structured\":\"RECEIPT: merchant=-1; address=TEL 0123-22-0042; country=JP; currency=JPY; purchased=2026-11-04T19:56:00; number=4093; subtotal=5662; tax=484; tax_included=false; total=6146; readability=good\\nLINE: no=1; amount=1098; text=1,098\\nLINE: no=2; amount=1832; text=4 x 458\\nLINE: no=3; amount=2256; text=12 x 188\\nLINE: no=4; amount=476; text=2 x 238\\nLINE: no=5; amount=-4; text=(4)\\nLINE: no=6; amount=4088; tax=327; text=4,088  327\\nLINE: no=7; amount=1574; tax=157; text=1,574  157\\nPII: kind=card_number; text=3846 7326 4188\"}"
+ ]
+}

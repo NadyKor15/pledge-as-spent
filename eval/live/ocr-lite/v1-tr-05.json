@@ -1,0 +1,299 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-08-11T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Source water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2450,
+    "amountMinor": 2450,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA battery 10-pack",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Single blanket",
+    "qty": 1,
+    "unitPriceMinor": 89800,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 x 449,00",
+    "translationEn": "2 x 449.00",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KAYNAK SU @,5L 12'Lİ",
+    "translationEn": "Source water @ 0.5L 12-pack",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 4380,
+    "amountMinor": 4380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 x 21,99",
+    "translationEn": "2 x 21.99",
+    "qty": 2,
+    "unitPriceMinor": 2199,
+    "amountMinor": 4398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "İNDİRİM #10",
+    "translationEn": "Discount #10",
+    "qty": 1,
+    "unitPriceMinor": -657,
+    "amountMinor": -657,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %1@ MATRAH 141,03",
+    "translationEn": "VAT 1% on 141.03",
+    "qty": 1,
+    "unitPriceMinor": 1410,
+    "amountMinor": 1410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV 420 MATRAH 889,92",
+    "translationEn": "VAT 18% on 889.92",
+    "qty": 1,
+    "unitPriceMinor": 17798,
+    "amountMinor": 17798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": 1,
+    "unitPriceMinor": 19208,
+    "amountMinor": 19208,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 122303,
+    "amountMinor": 122303,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 141030,
+  "taxMinor": 19208,
+  "taxIncluded": false,
+  "totalMinor": 122303,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "555 000 00 57",
+    "bbox": {
+     "x": 0.4410711979186442,
+     "y": 0.2394286760583644,
+     "w": 0.18978210429635894,
+     "h": 0.019929146412080795
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "0000000057",
+    "bbox": {
+     "x": 0.4566095616277389,
+     "y": 0.26951881222525637,
+     "w": 0.14576486208105932,
+     "h": 0.01808606069027463
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Source water 5 L matches the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA battery 10-pack matches the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Milk 1 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single blanket matches the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "2 x 449.00 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Source water @ 0.5L 12-pack does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L matches the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "2 x 21.99 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Discount #10 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "VAT 1% on 141.03 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "VAT 18% on 889.92 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Total VAT does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Total does not match any need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1221,
+   "tokensOut": 848,
+   "usdCeiling": 0.00125,
+   "usdActual": 0.000277
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1496,
+   "tokensOut": 544,
+   "usdCeiling": 0.001299,
+   "usdActual": 0.00022
+  }
+ ],
+ "latencyMs": {
+  "read": 3864,
+  "classify": 3984
+ },
+ "errors": []
+}

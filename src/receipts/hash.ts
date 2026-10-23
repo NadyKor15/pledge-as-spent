@@ -10,9 +10,9 @@ export function sha256Hex(bytes: Uint8Array): string {
 const cols = 17;
 const rows = 16;
 
-type Raster = { width: number; height: number; data: Uint8Array | Buffer };
+export type Raster = { width: number; height: number; data: Uint8Array | Buffer };
 
-function decode(image: ReceiptImage): Raster | null {
+export function decodeImage(image: ReceiptImage): Raster | null {
   if (image.mediaType === "image/png") return PNG.sync.read(Buffer.from(image.bytes));
   if (image.mediaType === "image/jpeg") return jpeg.decode(image.bytes, { useTArray: true });
   return null; // webp: no pure-JS decoder here
@@ -23,7 +23,7 @@ function decode(image: ReceiptImage): Raster | null {
  * Returns null for formats we cannot decode; the caller then relies on the other keys.
  */
 export function dHash(image: ReceiptImage): string | null {
-  const raster = decode(image);
+  const raster = decodeImage(image);
   if (!raster) return null;
   const { width, height, data } = raster;
   if (width < cols || height < rows) throw new Error(`image too small for dHash: ${width}x${height}`);

@@ -1,0 +1,188 @@
+{
+ "receiptId": "adv-predisaster-en",
+ "set": "adversarial",
+ "imageSha256": "7da867d498098aa77c76cd6909c66973ebfa3424916c6547d54621479bcc0f0c",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-10-18T16:05:00",
+  "receiptNumber": "3936",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
+    "qty": 1,
+    "unitPriceMinor": 894,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "6 @ $1.49",
+    "translationEn": "6 @ $1.49",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA Alkaline 24 pack",
+    "qty": 1,
+    "unitPriceMinor": 3198,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2 @ $15.99",
+    "translationEn": "2 @ $15.99",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW",
+    "translationEn": "Fleece throw",
+    "qty": 1,
+    "unitPriceMinor": 2998,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 @ $14.99",
+    "translationEn": "2 @ $14.99",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "SOFTIES DIAPERS SZ 3 8CT",
+    "translationEn": "Softies diapers size 3 8 count",
+    "qty": 1,
+    "unitPriceMinor": 3747,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 10837,
+  "taxMinor": 721,
+  "taxIncluded": false,
+  "totalMinor": 11558,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gal matches the need for drinking water 1 gallon.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item “6 @ $1.49” is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline 24 pack matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item “2 @ $15.99” is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw matches the need for blankets.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item “2 @ $14.99” is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3 8 count matches the need for baby diapers size 3.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item “3 @ $12.49” is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3035,
+   "tokensOut": 780,
+   "usdCeiling": 0.032767,
+   "usdActual": 0.0049239999999999996
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1267,
+   "tokensOut": 396,
+   "usdCeiling": 0.016806,
+   "usdActual": 0.002281
+  }
+ ],
+ "latencyMs": {
+  "read": 8968,
+  "classify": 3452
+ },
+ "errors": []
+}

@@ -1,0 +1,118 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "T0000100000712",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単 3 電池 16 本入 ¥1,194",
+    "translationEn": "3 single batteries 16-pack ¥1,194",
+    "qty": 1,
+    "unitPriceMinor": 1194,
+    "amountMinor": 1194,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "QRIO* 2L ¥236%",
+    "translationEn": "QRIO* 2L ¥236",
+    "qty": 2,
+    "unitPriceMinor": 236,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ベビーラブパンツ M 38 枚 ¥2,196",
+    "translationEn": "Baby Love Pants M 38 pieces ¥2,196",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 2196,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "缶ビピール 350ml 6% ¥1,198",
+    "translationEn": "Canned Beer 350ml 6% ¥1,198",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BAIR ¥236",
+    "translationEn": "Discount ¥236",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 51,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "(内消費税等 16* ¥417)",
+    "translationEn": "Tax ¥417",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 17,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 417,
+  "taxIncluded": false,
+  "totalMinor": 4824,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "SMHS",
+    "bbox": {
+     "x": 0.3262580769452899,
+     "y": 0.257201285498138,
+     "w": 0.09386683266136614,
+     "h": 0.020246237242682985
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1170,
+   "tokensOut": 474,
+   "usdCeiling": 0.001241,
+   "usdActual": 0.000184
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1262,
+   "tokensOut": 53,
+   "usdCeiling": 0.001252,
+   "usdActual": 0.000088
+  }
+ ],
+ "latencyMs": {
+  "read": 3127,
+  "classify": 829
+ },
+ "errors": []
+}

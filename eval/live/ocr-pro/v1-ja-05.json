@@ -1,0 +1,24 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1212,
+   "tokensOut": 532,
+   "usdCeiling": 0.016594,
+   "usdActual": 0.002672
+  }
+ ],
+ "latencyMs": {
+  "read": 5853,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at taxMinor",
+  "raw: {\"ocr\":\"ミナト生活館\\n北空店\\n空川県北空市港町 2-8-1\\nTEL @123-45-6789\\n登録番号 T9999109099427\\n2926 年 11 月 94 日 ( 水 ) 14:38\\nレジ @3 No.4174\\n北空の天然水 2L ¥256※\\n2m x 単 128\\n値引 -¥46※\\nノート AS ¥296\\n2m x M148\\nソフトキッズおむつ L 34 枚 ¥1,298\\nチョコレート ¥128※\\n単 3 電池 16 本入 ¥1,194\\n3 点 x 単 398\\n単 3 形 4 本入 ¥258\\n小計 (6 点 ) ¥3,390\\n8% 対象 ¥344\\n16% 対象 ¥3,046\\n(内消費税等 8* ¥25)\\n(内消費税等 1es ¥276)\\n合計 ¥3,399\\nクレジット本本ネ末ネネネネ 8931\\nお支払い ¥3,390\\n※ は軽減税率 (8*) 対象商品です\\nご来店ありがとうさざいました\",\"structured\":\"RECEIPT: merchant=ミナト生活館; address=空川県北空市港町 2-8-1; country=JP; currency=JPY; purchased=2026-11-09T14:38:00; number=4174; subtotal=3390; tax=25+276; tax_included=false; total=3399; readability=poor\\nLINE: no=1; qty=2; unit=128; amount=256; rate=800; text=北空の天然水 2L ¥256※; en=Natural water of Kitasora 2L\\nLINE: no=2; amount=-46; rate=800; text=値引 -¥46※; en=Discount\\nLINE: no=3; qty=2; unit=148; amount=296; rate=1600; text=ノート AS ¥296 2m x M148; en=Notebook\\nLINE: no=4; amount=1298; text=ソフトキッズおむつ L 34 枚 ¥1,298; en=Soft kids diapers L 34 pieces\\nLINE: no=5; unit=128; amount=128; rate=800; text=チョコレート ¥128※; en=Chocolate\\nLINE: no=6; qty=3; unit=398; amount=1194; rate=1600; text=単 3 電池 16 本入 ¥1,194 3 点 x 単 398; en=AA batteries 16 pack\\nLINE: no=7; qty=4; unit=64.5; amount=258; rate=1600; text=単 3 形 4 本入 ¥258; en=AA batteries 4 pack\\nPII: kind=card_number; text=クレジット本本ネ末ネネネネ 8931\\nPII: kind=phone; text=TEL @123-45-6789\\nPII: kind=other; text=登録番号 T9999109099427\"}"
+ ]
+}

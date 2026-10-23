@@ -1,0 +1,109 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-04-11T13:23:00",
+  "receiptNumber": "5144",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "日本酒 729mt",
+    "translationEn": "Japanese sake 729ml",
+    "qty": 1,
+    "unitPriceMinor": 1489,
+    "amountMinor": 1489,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Natural water from Hokusou 2L 6 case",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ソフトキッズおむつ L",
+    "translationEn": "Soft kids diaper L",
+    "qty": 34,
+    "unitPriceMinor": null,
+    "amountMinor": 2596,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 3 電池 19 本入",
+    "translationEn": "Single 3 battery 19 pack",
+    "qty": 19,
+    "unitPriceMinor": null,
+    "amountMinor": 1194,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズおむつ M",
+    "translationEn": "Soft kids diaper M",
+    "qty": 44,
+    "unitPriceMinor": null,
+    "amountMinor": 1298,
+    "taxRateBp": 1900
+   }
+  ],
+  "subtotalMinor": 8164,
+  "taxMinor": 118,
+  "taxIncluded": false,
+  "totalMinor": 8164,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "FA AAA AAIAAKG O48",
+    "bbox": {
+     "x": 0.7489208748486315,
+     "y": 0.760408359587005,
+     "w": 0.04521366214490252,
+     "h": 0.02549987711772661
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Japanese sake is an alcohol product and is not funded by the drive.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1207,
+   "tokensOut": 411,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000171
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1182,
+   "tokensOut": 60,
+   "usdCeiling": 0.001243,
+   "usdActual": 0.000085
+  }
+ ],
+ "latencyMs": {
+  "read": 3357,
+  "classify": 631
+ },
+ "errors": []
+}

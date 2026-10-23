@@ -1,0 +1,181 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-26",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T19:48:00",
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パビ - デルツ M ¥1,098",
+    "translationEn": "Pavilion Lights M",
+    "qty": null,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ギフトカード 3,000F Y3,999",
+    "translationEn": "Gift Card 3,000F",
+    "qty": null,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ティッシュ 5 箱 ¥398",
+    "translationEn": "Tissues 5 boxes",
+    "qty": 5,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ミ多 7 ォター 2L Y¥648※",
+    "translationEn": "Water 2L 2 bottles",
+    "qty": 2,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "6m x 単 198",
+    "translationEn": "6m x single",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "外税 10* WR ¥1,496 消費税 ¥149",
+    "translationEn": "Tax 10% WR ¥1,496 Tax ¥149",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 51,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "非課税対象 ¥3,000",
+    "translationEn": "Non-taxable ¥3,000",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5144,
+  "taxMinor": 1496,
+  "taxIncluded": false,
+  "totalMinor": 5344,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "1081 2345 8996",
+    "bbox": {
+     "x": 0.5879209011527424,
+     "y": 0.7802646422891101,
+     "w": 0.1929697552623899,
+     "h": 0.019137579660158832
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Pavilion Lights M are not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded by the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Tissues are not a listed need, but it's unclear if they are needed for the relief effort.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 2L bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "6m x single is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Non-taxable items are not a listed need.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1177,
+   "tokensOut": 479,
+   "usdCeiling": 0.001242,
+   "usdActual": 0.000186
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1288,
+   "tokensOut": 269,
+   "usdCeiling": 0.001259,
+   "usdActual": 0.000142
+  }
+ ],
+ "latencyMs": {
+  "read": 4430,
+  "classify": 1801
+ },
+ "errors": []
+}

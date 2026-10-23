@@ -1,0 +1,219 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": -329,
+    "amountMinor": -329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ 420",
+    "translationEn": "Lovely baby diaper 420",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 34900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %1@ MATRAH 16,92",
+    "translationEn": "VAT 1% on 16.92",
+    "qty": 1,
+    "unitPriceMinor": 169,
+    "amountMinor": 169,
+    "taxRateBp": 10
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV *20 MATRAH 290,83",
+    "translationEn": "VAT 20% on 290.83",
+    "qty": 1,
+    "unitPriceMinor": 5817,
+    "amountMinor": 5817,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV *59,86",
+    "translationEn": "Total VAT 59.86",
+    "qty": 1,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM *367,61",
+    "translationEn": "Total 367.61",
+    "qty": 1,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KREDİ KARTI *367,61",
+    "translationEn": "Credit card 367.61",
+    "qty": 1,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 349,
+  "taxMinor": 1692,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************7374",
+    "bbox": {
+     "x": 0.4186147445751614,
+     "y": 0.7051339923013621,
+     "w": 0.05551050346820369,
+     "h": 0.017443257796754152
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6875116590318759,
+     "y": 0.7490650033733007,
+     "w": 0.1443720893437057,
+     "h": 0.02078928724382334
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.20831727496259914,
+     "y": 0.7912390222349289,
+     "w": 0.1864797530934211,
+     "h": 0.028345453869762394
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discount line, cannot determine its impact.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 420,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Lovely baby diaper 420 counts toward the baby diapers size 4 need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT line, cannot determine its impact.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT line, cannot determine its impact.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total VAT line, cannot determine its impact.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total amount line, cannot determine its impact.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Payment method line, cannot determine its impact.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1161,
+   "tokensOut": 657,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000227
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1303,
+   "tokensOut": 292,
+   "usdCeiling": 0.001262,
+   "usdActual": 0.000148
+  }
+ ],
+ "latencyMs": {
+  "read": 3676,
+  "classify": 2021
+ },
+ "errors": []
+}

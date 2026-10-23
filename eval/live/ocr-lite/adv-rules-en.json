@@ -1,0 +1,291 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "2147",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK $23.97 T",
+    "translationEn": "AA Battery 8PK",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 2397,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3 @ $7.99",
+    "translationEn": "3 @ $7.99",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "LAGER 6PK BTL $9.99 T",
+    "translationEn": "Lager 6PK BTL",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 999,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "WATER 24PK.5L $4.99 F",
+    "translationEn": "Water 24PK .5L",
+    "qty": 24,
+    "unitPriceMinor": null,
+    "amountMinor": 499,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW $59.96 T",
+    "translationEn": "Fleece Throw",
+    "qty": 1,
+    "unitPriceMinor": 5996,
+    "amountMinor": 5996,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "4 @ $14.99",
+    "translationEn": "4 @ $14.99",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA ALKALINE 24PK $31.98 T",
+    "translationEn": "AA Alkaline 24PK",
+    "qty": 24,
+    "unitPriceMinor": null,
+    "amountMinor": 3198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 @ $15.99",
+    "translationEn": "2 @ $15.99",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "SPIRAL NOTEBOOK $3.98 T",
+    "translationEn": "Spiral Notebook",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "2 @ $1.99",
+    "translationEn": "2 @ $1.99",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "GIFT CARD $25 $25.08 F",
+    "translationEn": "Gift Card $25",
+    "qty": 1,
+    "unitPriceMinor": 2508,
+    "amountMinor": 2508,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "CIGARETTES MENTHOL $8.49 T",
+    "translationEn": "Cigarettes Menthol",
+    "qty": 1,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1083,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************5400",
+    "bbox": {
+     "x": 0.7838681703846141,
+     "y": 0.6918083248804962,
+     "w": 0.04559597841775609,
+     "h": 0.02039352048673826
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.22301736374806355,
+     "y": 0.7920188735155769,
+     "w": 0.16522855647610327,
+     "h": 0.016410124076442156
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": {
+     "x": 0.6917586686454704,
+     "y": 0.8070367177914991,
+     "w": 0.1399822084480451,
+     "h": 0.016378467621502524
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are listed as a need and match the item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece Throw is a blanket and matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is an alcoholic beverage and is not a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in.5L packs does not match the need for 1 gallon jugs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece Throw is a blanket and matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "4 @ $14.99 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline batteries are listed as a need and match the item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "2 @ $15.99 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Spiral Notebook does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "2 @ $1.99 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift Card is not a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are a tobacco product and are not a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1189,
+   "tokensOut": 898,
+   "usdCeiling": 0.001257,
+   "usdActual": 0.000287
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1463,
+   "tokensOut": 558,
+   "usdCeiling": 0.001295,
+   "usdActual": 0.000222
+  }
+ ],
+ "latencyMs": {
+  "read": 6624,
+  "classify": 3668
+ },
+ "errors": []
+}

@@ -1,0 +1,145 @@
+{
+ "receiptId": "v1-ja-11",
+ "set": "v1",
+ "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T19:20:00",
+  "receiptNumber": "7892",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L ¥384※",
+    "translationEn": "Natural water from Kitasora 2L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズおむつ M 44K ¥2,596",
+    "translationEn": "Soft kids diapers M 44K",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 3,
+    "rawText": "65) -¥130",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "カップ麺 ¥316※",
+    "translationEn": "Cup noodles",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "チョコレート ¥128※",
+    "translationEn": "Chocolate",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 285,
+  "taxIncluded": false,
+  "totalMinor": 3294,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "3485",
+    "bbox": {
+     "x": 0.7764725010993994,
+     "y": 0.745531103958963,
+     "w": 0.05505278576285555,
+     "h": 0.024821283469071198
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water from Kitasora 2L matches the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft kids diapers M 44K matches the baby diapers size M need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Cup noodles do not match any of the listed needs. rule=not_in_needs",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Chocolate does not match any of the listed needs. rule=not_in_needs",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1183,
+   "tokensOut": 357,
+   "usdCeiling": 0.016556,
+   "usdActual": 0.002089
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1169,
+   "tokensOut": 207,
+   "usdCeiling": 0.01654,
+   "usdActual": 0.001598
+  }
+ ],
+ "latencyMs": {
+  "read": 5608,
+  "classify": 1930
+ },
+ "errors": []
+}

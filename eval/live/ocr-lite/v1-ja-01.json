@@ -1,0 +1,217 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2029-11-09T16:52:00",
+  "receiptNumber": "4986",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ベビーラブパンツ M 38 枚",
+    "translationEn": "Baby Love Pants M 38 pieces",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral Water 2L PET",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "小計 (2 点 )",
+    "translationEn": "Subtotal (2 items)",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 1746,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "8* 対象",
+    "translationEn": "8% target",
+    "qty": 1,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "19* 対象",
+    "translationEn": "19% target",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 6,
+    "rawText": "(内消費税等 8* ¥48 )",
+    "translationEn": "(including consumption tax 8% ¥48)",
+    "qty": 1,
+    "unitPriceMinor": 48,
+    "amountMinor": 48,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "(内消費税等 19* ¥99)",
+    "translationEn": "(including consumption tax 19% ¥99)",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計 ¥1,746",
+    "translationEn": "Total ¥1,746",
+    "qty": 1,
+    "unitPriceMinor": 1746,
+    "amountMinor": 1746,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 9,
+    "rawText": "お支払い ¥1,746",
+    "translationEn": "Payment ¥1,746",
+    "qty": 1,
+    "unitPriceMinor": 1746,
+    "amountMinor": 1746,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 99,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "1020",
+    "bbox": {
+     "x": 0.7532906850816544,
+     "y": 0.7325018433978001,
+     "w": 0.05520435562787007,
+     "h": 0.015950360103525574
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 38,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love Pants M match the size M diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral Water 2L PET matches the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Subtotal line, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Tax information, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Tax information, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Tax information, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Tax information, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Total amount, not a purchasable item.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Payment amount, not a purchasable item.",
+   "confidence": 0.1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1142,
+   "tokensOut": 589,
+   "usdCeiling": 0.001239,
+   "usdActual": 0.00021
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1329,
+   "tokensOut": 356,
+   "usdCeiling": 0.001272,
+   "usdActual": 0.000165
+  }
+ ],
+ "latencyMs": {
+  "read": 4276,
+  "classify": 2585
+ },
+ "errors": []
+}

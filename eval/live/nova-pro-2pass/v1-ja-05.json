@@ -1,0 +1,260 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": {
+  "merchantName": "麺屋武一",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "鶏白湯ラーメン 2L",
+    "translationEn": "Chicken white soup ramen 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2玉 x #128",
+    "translationEn": "2 servings x #128",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "味玉",
+    "translationEn": "Marinated egg",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "味玉 /- A5",
+    "translationEn": "Marinated egg /- A5",
+    "qty": 2,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2玉 x #148",
+    "translationEn": "2 servings x #148",
+    "qty": 2,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "チャーシュー丼 L 34玉",
+    "translationEn": "Chashu rice bowl L 34 servings",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "メンマ",
+    "translationEn": "Bamboo shoots",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "餃子 10個",
+    "translationEn": "Dumplings 10 pieces",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "3個 x #398",
+    "translationEn": "3 pieces x #398",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "餃子 4個",
+    "translationEn": "Dumplings 4 pieces",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 258,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "8%割引",
+    "translationEn": "8% discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "10%割引",
+    "translationEn": "10% discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 256,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3390,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 3046,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken white soup ramen 2L is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "2 servings x #128 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Marinated egg is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Marinated egg /- A5 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "2 servings x #148 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chashu rice bowl L 34 servings is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bamboo shoots is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dumplings 10 pieces is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "3 pieces x #398 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dumplings 4 pieces is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "8% discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "10% discount is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3436,
+   "tokensOut": 908,
+   "usdCeiling": 0.032716999999999996,
+   "usdActual": 0.005655
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1413,
+   "tokensOut": 451,
+   "usdCeiling": 0.017218,
+   "usdActual": 0.002574
+  }
+ ],
+ "latencyMs": {
+  "read": 10099,
+  "classify": 3532
+ },
+ "errors": []
+}

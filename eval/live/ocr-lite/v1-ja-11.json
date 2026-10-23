@@ -1,0 +1,145 @@
+{
+ "receiptId": "v1-ja-11",
+ "set": "v1",
+ "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T19:20:00",
+  "receiptNumber": "7892",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L ¥384※",
+    "translationEn": "North Sky Natural Water 2L ¥384※",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズおむつ M 44K ¥2,596",
+    "translationEn": "Soft Kids Diapers M 44K ¥2,596",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "65) -¥130",
+    "translationEn": "Discount -¥130",
+    "qty": null,
+    "unitPriceMinor": -130,
+    "amountMinor": -130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "カップ麺 ¥316※",
+    "translationEn": "Cup Noodles ¥316※",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "チョコレート ¥128※",
+    "translationEn": "Chocolate ¥128※",
+    "qty": null,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 828,
+  "taxIncluded": false,
+  "totalMinor": 3294,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "3485",
+    "bbox": {
+     "x": 0.7764725010993994,
+     "y": 0.745531103958963,
+     "w": 0.05505278576285555,
+     "h": 0.024821283469071198
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 44,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M diapers count toward the diaper need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not affect eligibility, but we need to check the original item.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Cup noodles do not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Chocolate is not a listed need and is rejected due to the 'other_rule'.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1183,
+   "tokensOut": 405,
+   "usdCeiling": 0.001242,
+   "usdActual": 0.000168
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1195,
+   "tokensOut": 214,
+   "usdCeiling": 0.001243,
+   "usdActual": 0.000123
+  }
+ ],
+ "latencyMs": {
+  "read": 2552,
+  "classify": 1537
+ },
+ "errors": []
+}

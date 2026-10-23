@@ -1,0 +1,116 @@
+{
+ "receiptId": "v1-en-01",
+ "set": "v1",
+ "imageSha256": "2b460202a354f484f9de4a10ed7d11b4ddc77666b6667c2dcd22f6b7a20130dd",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "8713",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies Diapers Size 3 38 Count",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON -$1.25",
+    "translationEn": "Coupon -$1.25",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1 Gallon",
+    "qty": 2,
+    "unitPriceMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 Gallon Jug",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4361,
+  "taxMinor": 172,
+  "taxIncluded": false,
+  "totalMinor": 4533,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies Diapers Size 3 38 Count are eligible as they match the need for Baby diapers size 3.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon is not clearly linked to a specific need or rule.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1 Gallon is eligible as it matches the need for Drinking water 1 gallon.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek Water 1 Gallon Jug is eligible as it matches the need for Drinking water 1 gallon.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2977,
+   "tokensOut": 527,
+   "usdCeiling": 0.032749,
+   "usdActual": 0.004068
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1118,
+   "tokensOut": 202,
+   "usdCeiling": 0.016462,
+   "usdActual": 0.001541
+  }
+ ],
+ "latencyMs": {
+  "read": 6899,
+  "classify": 2465
+ },
+ "errors": []
+}

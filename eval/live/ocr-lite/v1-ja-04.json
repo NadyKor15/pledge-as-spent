@@ -1,0 +1,163 @@
+{
+ "receiptId": "v1-ja-04",
+ "set": "v1",
+ "imageSha256": "48e033a845b2e2db319d7cd69df06bf4aacb74075df7e2982a3c9c637cc68e7e",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2626-11-09T19:56:00",
+  "receiptNumber": "4993",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パビー7 NYIM",
+    "translationEn": "Puppy NYIM",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3 缶パック",
+    "translationEn": "Canned Tuna 3 cans pack",
+    "qty": 3,
+    "unitPriceMinor": 1832,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌者缶詰",
+    "translationEn": "Mackerel miso canned",
+    "qty": 12,
+    "unitPriceMinor": 2256,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "Single 4 Alkaline dry battery 4 pack",
+    "qty": 4,
+    "unitPriceMinor": 476,
+    "amountMinor": 476,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "外税 8* WR",
+    "translationEn": "External tax 8* WR",
+    "qty": 1,
+    "unitPriceMinor": 4088,
+    "amountMinor": 4088,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "外税 1* 対象",
+    "translationEn": "External tax 1* target",
+    "qty": 1,
+    "unitPriceMinor": 1574,
+    "amountMinor": 1574,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 488,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.6361447890505884,
+     "y": 0.7780273047785063,
+     "w": 0.2036804963526011,
+     "h": 0.02124635123406715
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned tuna counts toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mackerel miso canned counts toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Single 4 Alkaline dry battery does not match the AA battery need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "External tax is not a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "External tax is not a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "External tax is not a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1208,
+   "tokensOut": 470,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.000185
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1218,
+   "tokensOut": 268,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000137
+  }
+ ],
+ "latencyMs": {
+  "read": 4579,
+  "classify": 2059
+ },
+ "errors": []
+}

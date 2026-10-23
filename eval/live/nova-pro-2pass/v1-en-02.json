@@ -1,0 +1,176 @@
+{
+ "receiptId": "v1-en-02",
+ "set": "v1",
+ "imageSha256": "483b7ca5b81bf1ac30d65662e5139d49a0e4b719ba669b7aa616555fedfb147a",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T15:58:00",
+  "receiptNumber": "2718",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 894,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA battery 8 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 799,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -120,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline 24 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1599,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Bread wheat",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 558,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA battery 8 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 799,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "MILK 1GAL",
+    "translationEn": "Milk 1 gal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 389,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4918,
+  "taxMinor": 223,
+  "taxIncluded": false,
+  "totalMinor": 5141,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "MEMBER #",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of the coupon is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries in 24 pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread wheat is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AA batteries in 8 pack are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 gallon is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2905,
+   "tokensOut": 731,
+   "usdCeiling": 0.032822000000000004,
+   "usdActual": 0.004664
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1191,
+   "tokensOut": 278,
+   "usdCeiling": 0.01671,
+   "usdActual": 0.001842
+  }
+ ],
+ "latencyMs": {
+  "read": 7990,
+  "classify": 2565
+ },
+ "errors": []
+}

@@ -1,0 +1,209 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単 4 アルカリ乾電池 4 本入 ¥238",
+    "translationEn": "4-pack Alkaline batteries ¥238",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "おしりふふき 80K ¥198",
+    "translationEn": "Butt wiper 80K ¥198",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮缶詰 ¥1,128※",
+    "translationEn": "Miso-marinated mackerel ¥1,128",
+    "qty": null,
+    "unitPriceMinor": 1128,
+    "amountMinor": 1128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "6 点 x 単 188",
+    "translationEn": "6 items at ¥188 each",
+    "qty": null,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "日本酒 729ml ¥1,489",
+    "translationEn": "Japanese sake 729ml ¥1,489",
+    "qty": null,
+    "unitPriceMinor": 1489,
+    "amountMinor": 1489,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "牛乳 1L ¥198※",
+    "translationEn": "Milk 1L ¥198",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "雪解けの水 2L ¥798※",
+    "translationEn": "Meltwater 2L ¥798",
+    "qty": null,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "6 点 x 単 118",
+    "translationEn": "6 items at ¥118 each",
+    "qty": null,
+    "unitPriceMinor": 118,
+    "amountMinor": 188,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "ソフトキッズおむつ M 44 枚 ¥1,298",
+    "translationEn": "Soft kids diaper M 44 pieces ¥1,298",
+    "qty": null,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "ミ 1 胞オケー 2L ¥648※",
+    "translationEn": "M 1-cell occa 2L ¥648",
+    "qty": null,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "6 点 x F108",
+    "translationEn": "6 items at ¥108 each",
+    "qty": null,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "外税 8* 対象 ¥2,682",
+    "translationEn": "Taxable at 8% ¥2,682",
+    "qty": null,
+    "unitPriceMinor": 2682,
+    "amountMinor": 2682,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "消費税 ¥214",
+    "translationEn": "Consumption tax ¥214",
+    "qty": null,
+    "unitPriceMinor": 214,
+    "amountMinor": 214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "外税 19* 対象 ¥3,214",
+    "translationEn": "Taxable at 19% ¥3,214",
+    "qty": null,
+    "unitPriceMinor": 3214,
+    "amountMinor": 3214,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 15,
+    "rawText": "消費税 ¥321",
+    "translationEn": "Consumption tax ¥321",
+    "qty": null,
+    "unitPriceMinor": 321,
+    "amountMinor": 321,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 535,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9648 0870 8321",
+    "bbox": {
+     "x": 0.6311037262785137,
+     "y": 0.7900209454473106,
+     "w": 0.19425090888523322,
+     "h": 0.01776420480556573
+    }
+   },
+   {
+    "kind": "name",
+    "text": "SY Ly 様",
+    "bbox": {
+     "x": 0.21321416651552472,
+     "y": 0.7843914539006506,
+     "w": 0.10928419969123254,
+     "h": 0.015334471693527418
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "The line mentions 'アルカリ乾電池' which translates to 'Alkaline batteries', but the description also includes '単 4' which translates to '4-pack', and the amount is high for batteries, suggesting it might be a typo or an error in the OCR.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1264,
+   "tokensOut": 987,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000313
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1691,
+   "tokensOut": 106,
+   "usdCeiling": 0.001331,
+   "usdActual": 0.000127
+  }
+ ],
+ "latencyMs": {
+  "read": 7921,
+  "classify": 891
+ },
+ "errors": []
+}

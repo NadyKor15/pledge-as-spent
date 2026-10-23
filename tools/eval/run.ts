@@ -7,6 +7,8 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { BedrockNovaClassifier, BedrockNovaReader, NOVA_MODELS, createBedrockClient } from "../../src/receipts/bedrock";
+import { OcrNovaReader, TesseractEngine } from "../../src/receipts/ocr";
+import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { RecordedClassifier, RecordedReader, Recordings, receiptKey } from "../../src/receipts/recorded";
 import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
@@ -26,6 +28,7 @@ export async function loadTruths(set: SetName, root = RECEIPTS): Promise<Truth[]
   return Promise.all(files.map(async (f) => Truth.parse(JSON.parse(await readFile(path.join(dir, f), "utf8")))));
 }
 
+const median = (xs: number[]) => (xs.length ? [...xs].sort((a, b) => a - b)[Math.floor((xs.length - 1) / 2)] : null);
 const rate = (t: Tally) => ({ ...t, rate: ratio(t.num, t.den) });
 
 export interface EvalInput {
@@ -38,7 +41,7 @@ export interface EvalInput {
   known: Truth[];
   root?: string;
   /** Called once per receipt with what the reader and classifier returned, for saving live answers. */
-  onReceipt?: (r: { truth: Truth; reading: ParsedReceipt | null; labels: LineClassification[] | null; usage: ModelUsage[]; errors: string[] }) => Promise<void> | void;
+  onReceipt?: (r: { truth: Truth; reading: ParsedReceipt | null; labels: LineClassification[] | null; usage: ModelUsage[]; errors: string[]; latencyMs: { read: number; classify: number | null } }) => Promise<void> | void;
 }
 
 export async function runEval(input: EvalInput) {
@@ -61,6 +64,7 @@ export async function runEval(input: EvalInput) {
   const usage: ModelUsage[] = [];
   const errors: { id: string; stage: string; message: string }[] = [];
   const perReceipt: unknown[] = [];
+  const latencies: { read: number; classify: number | null }[] = [];
 
   for (const t of input.truths) {
     const sc = t.locale === "ja" && t.set === "hero" ? { ...SCENARIOS.ja, needs: HERO_NEEDS } : SCENARIOS[t.locale];
@@ -80,6 +84,8 @@ export async function runEval(input: EvalInput) {
       const raw = (e as { raw?: unknown }).raw;
       if (raw !== undefined) myErrors.push(`raw: ${JSON.stringify(raw)}`);
     };
+    const clock = { read: 0, classify: null as number | null };
+    const t0 = performance.now();
     try {
       const r = await input.reader.read(image, { currency: sc.drive.baseCurrency, languages: sc.languages });
       pred = r.receipt;
@@ -90,6 +96,7 @@ export async function runEval(input: EvalInput) {
       myErrors.push(`read: ${errors[errors.length - 1].message}`);
       failedCall(e);
     }
+    clock.read = Math.round(performance.now() - t0);
     if (pred && pred.readability !== "unreadable") {
       try {
         const c = await input.classifier.classify({ receipt: pred, needs: sc.needs, rules: sc.drive.rules });
@@ -103,7 +110,9 @@ export async function runEval(input: EvalInput) {
       }
     }
 
-    await input.onReceipt?.({ truth: t, reading: pred, labels, usage: mine, errors: myErrors });
+    if (pred && pred.readability !== "unreadable") clock.classify = Math.round(performance.now() - t0 - clock.read);
+    latencies.push(clock);
+    await input.onReceipt?.({ truth: t, reading: pred, labels, usage: mine, errors: myErrors, latencyMs: clock });
 
     // Fraud flags from the deterministic checks, on what the reader returned.
     const others = knownFp.filter((k) => k.receiptId !== t.id);
@@ -173,6 +182,7 @@ export async function runEval(input: EvalInput) {
     flags: Object.fromEntries(FLAGS.map((f) => [f, flagStats(flags[f])])) as Record<CheatFlag, ReturnType<typeof flagStats>>,
     otherFlagsRaised: otherFlags,
     byLanguage: Object.fromEntries(Object.entries(byLocale).map(([k, v]) => [k, { ...f1(v.tp, v.fp, v.fn), totalExact: rate(v.total) }])),
+    latency: { readerMedianMs: median(latencies.map((l) => l.read)), receiptMedianMs: median(latencies.map((l) => l.read + (l.classify ?? 0))) },
     spend: { ledgerDeltaUsd: null as number | null, calls: usage.length, tokensIn: sum((u) => u.tokensIn), tokensOut: sum((u) => u.tokensOut), usdActual: sum((u) => u.usdActual ?? u.usdCeiling), usdCeiling: sum((u) => u.usdCeiling) },
     perReceipt,
   };
@@ -203,6 +213,7 @@ Run ${when}. ${r.receipts} receipts (${r.scoredReceipts} scored on content; unre
 | Need quantity exact (eligible lines) | ${t(r.needQty)} |
 | Rule lines rejected with the right code (alcohol, tobacco, gift card) | ${t(r.ruleLines)}; funded by mistake: ${r.ruleLines.fundedByMistake} |
 | Personal data found / mean box overlap | ${t(r.pii.found)} / ${pct(r.pii.meanIou)} |
+| Median latency per receipt | reader ${r.latency.readerMedianMs ?? "n/a"} ms; reader + classifier ${r.latency.receiptMedianMs ?? "n/a"} ms |
 | Spend | ${r.spend.calls} answered calls, ${r.spend.tokensIn} in / ${r.spend.tokensOut} out tokens, $${r.spend.usdActual.toFixed(4)} actual; ledger moved by ${r.spend.ledgerDeltaUsd === null ? "n/a" : "$" + r.spend.ledgerDeltaUsd.toFixed(4)} (failed calls stay reserved at their ceiling) |
 
 ## Fraud flags
@@ -225,7 +236,7 @@ ${r.errors.length ? `\n## Errors\n\n${r.errors.map((e) => `- ${e.id} (${e.stage}
 async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0]) {
   await mkdir(dir, { recursive: true });
   const bytes = await readFile(path.join(RECEIPTS, x.truth.set, x.truth.image.file));
-  const rec = { receiptId: x.truth.id, set: x.truth.set, imageSha256: createHash("sha256").update(bytes).digest("hex"), reading: x.reading, classifications: x.labels, usage: x.usage, errors: x.errors };
+  const rec = { receiptId: x.truth.id, set: x.truth.set, imageSha256: createHash("sha256").update(bytes).digest("hex"), reading: x.reading, classifications: x.labels, usage: x.usage, latencyMs: x.latencyMs, errors: x.errors };
   await writeFile(path.join(dir, `${x.truth.id}.json`), JSON.stringify(rec, null, 1) + "\n");
 }
 
@@ -241,14 +252,22 @@ export async function loadLiveRecordings(dir: string): Promise<Recordings> {
   return Recordings.parse(rec);
 }
 
-type Choice = "recorded" | "nova-lite" | "nova-pro";
+type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro";
+const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro"];
+/** The model that classifies lines for a reader choice: the reader's own model. */
+const classifierFor = (c: Choice): Choice => (c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
 
-async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings) {
+const TESSDATA = path.join(ROOT, "vendor/tessdata");
+
+async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings, engine: TesseractEngine) {
   if (choice === "recorded") return { reader: new RecordedReader(recordings), classifier: new RecordedClassifier(recordings) };
   const cap = ledger!;
   const client = createBedrockClient();
-  const modelId = choice === "nova-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
-  return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier: new BedrockNovaClassifier({ client, cap, modelId }) };
+  const modelId = choice === "nova-lite" || choice === "nova-lite-2pass" || choice === "ocr-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
+  const classifier = new BedrockNovaClassifier({ client, cap, modelId });
+  if (choice.endsWith("-2pass")) return { reader: new TwoPassReader({ client, cap, modelId }), classifier };
+  if (choice === "ocr-lite" || choice === "ocr-pro") return { reader: new OcrNovaReader({ client, cap, modelId, engine }), classifier };
+  return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier };
 }
 
 async function main() {
@@ -256,22 +275,24 @@ async function main() {
   const arg = (n: string) => (args.includes(`--${n}`) ? args[args.indexOf(`--${n}`) + 1] : undefined);
   const readerChoice = arg("reader") as Choice | undefined;
   const set = arg("set") as SetName | undefined;
-  const classifierChoice = (arg("classifier") as Choice | undefined) ?? readerChoice;
-  if (!readerChoice || !["recorded", "nova-lite", "nova-pro"].includes(readerChoice) || !set || !["v1", "adversarial", "hero"].includes(set)) {
-    throw new Error("usage: npm run eval -- --reader recorded|nova-lite|nova-pro --set v1|adversarial|hero [--classifier recorded|nova-lite|nova-pro]");
+  if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero"].includes(set)) {
+    throw new Error(`usage: npm run eval -- --reader ${CHOICES.join("|")} --set v1|adversarial|hero [--classifier ${CHOICES.join("|")}]`);
   }
+  const classifierChoice = (arg("classifier") as Choice | undefined) ?? classifierFor(readerChoice);
   const recordings = Recordings.parse(JSON.parse(await readFile(path.join(RECEIPTS, "recorded.json"), "utf8")));
   const live = readerChoice !== "recorded" || classifierChoice !== "recorded";
   const cap = live ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
-  const r = await build(readerChoice, cap, recordings);
-  const c = classifierChoice === readerChoice ? r : await build(classifierChoice!, cap, recordings);
+  const engine = new TesseractEngine(TESSDATA);
+  const r = await build(readerChoice, cap, recordings, engine);
+  const c = classifierChoice === readerChoice ? r : await build(classifierChoice, cap, recordings, engine);
+  const name = classifierChoice === classifierFor(readerChoice) ? readerChoice : `${readerChoice}+${classifierChoice}`;
 
   const truths = await loadTruths(set);
   const ledgerBefore = cap ? await cap.ledger.total() : null;
   const known = set === "v1" ? truths : await loadTruths("v1");
-  const liveDir = live ? path.join(ROOT, "eval/live", readerChoice === classifierChoice ? readerChoice : `${readerChoice}+${classifierChoice}`) : null;
+  const liveDir = live ? path.join(ROOT, "eval/live", name) : null;
   const result = await runEval({
-    readerName: readerChoice === classifierChoice ? readerChoice : `${readerChoice}+${classifierChoice}`,
+    readerName: name,
     set,
     reader: r.reader,
     classifier: c.classifier,
@@ -280,6 +301,7 @@ async function main() {
     onReceipt: liveDir ? (x) => saveLive(liveDir, x) : undefined,
   });
 
+  await engine.close();
   if (cap) result.spend.ledgerDeltaUsd = (await cap.ledger.total()) - ledgerBefore!;
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
   const base = path.join(ROOT, "eval/results", `${result.reader}-${set}-${stamp}`);

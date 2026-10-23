@@ -1,0 +1,100 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "ミナト生活館",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:19:00",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "YS 3 缶パバック ¥1,832%",
+    "translationEn": "YS 3 can pack",
+    "qty": 3,
+    "unitPriceMinor": 1832,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "毛布シングル ¥1,980",
+    "translationEn": "Single blanket",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1600
+   },
+   {
+    "lineNo": 3,
+    "rawText": "アルカリ乾電池単 3 26 本入 Y698",
+    "translationEn": "Alkaline dry battery 3 26 pack",
+    "qty": 26,
+    "unitPriceMinor": 26,
+    "amountMinor": 698,
+    "taxRateBp": 1600
+   },
+   {
+    "lineNo": 4,
+    "rawText": "値引 -¥100",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -100,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4410,
+  "taxMinor": 403,
+  "taxIncluded": false,
+  "totalMinor": 4813,
+  "pii": [
+   {
+    "kind": "other",
+    "text": "登録番号 T9990109699427",
+    "bbox": {
+     "x": 0.46818291852193294,
+     "y": 0.2836925329919894,
+     "w": 0.20007547990946284,
+     "h": 0.022650108730330243
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discount line requires review to determine its impact on the receipt.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1142,
+   "tokensOut": 322,
+   "usdCeiling": 0.016505,
+   "usdActual": 0.001944
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1134,
+   "tokensOut": 171,
+   "usdCeiling": 0.016436,
+   "usdActual": 0.001454
+  }
+ ],
+ "latencyMs": {
+  "read": 5064,
+  "classify": 1856
+ },
+ "errors": []
+}

@@ -1,0 +1,296 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "<store name not printed>",
+  "merchantAddress": "<address not printed>",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "#4 4 ¥238",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "80 ¥198",
+    "translationEn": "",
+    "qty": 80,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "¥1,128",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "6 x ¥188",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "720ml ¥1,480",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "1L ¥198",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "2L ¥708",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 708,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "6 x ¥118",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "M 44 ¥1,298",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "2L ¥648",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "x ¥108",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": 108,
+    "amountMinor": 108,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "(8) ¥5,896",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5896,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "8% ¥2,682 ¥214",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "10% ¥3,214 ¥321",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 321,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 643,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '#4 4' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '80' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '¥1,128' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '6 x ¥188' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '720ml ¥1,480' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '1L ¥198' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '2L ¥708' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '6 x ¥118' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 'M 44 ¥1,298' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '2L ¥648' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 'x ¥108' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '(8) ¥5,896' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '8% ¥2,682 ¥214' is unclear and needs further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '10% ¥3,214 ¥321' is unclear and needs further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 6403,
+   "tokensOut": 698,
+   "usdCeiling": 0.048972,
+   "usdActual": 0.007356
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1410,
+   "tokensOut": 594,
+   "usdCeiling": 0.017233,
+   "usdActual": 0.003029
+  }
+ ],
+ "latencyMs": {
+  "read": 9829,
+  "classify": 4718
+ },
+ "errors": []
+}

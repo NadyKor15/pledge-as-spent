@@ -1,0 +1,137 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-06-11T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAÑALES T4 40U",
+    "translationEn": "Diapers T4 40U",
+    "qty": 1,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L Pack 6",
+    "qty": 1,
+    "unitPriceMinor": 658,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet Paper 12R",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MANTA POLAR",
+    "translationEn": "Polar Blanket",
+    "qty": null,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "Alkaline AA Battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "Alkaline AA Battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "PROMO DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 470,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 3457,
+  "taxMinor": 472,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [
+   {
+    "kind": "other",
+    "text": "seek follar tock 7289",
+    "bbox": {
+     "x": 0.3858474938233651,
+     "y": 0.80296815011656,
+     "w": 0.055528123251494976,
+     "h": 0.015141627793242796
+    }
+   },
+   {
+    "kind": "other",
+    "text": "GRACIAS POR SU VISITA >",
+    "bbox": {
+     "x": 0.35988481310177756,
+     "y": 0.8260809588875898,
+     "w": 0.23920781117841705,
+     "h": 0.019806180003229312
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 40,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Diapers T4 do not match the needed size 3.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1174,
+   "tokensOut": 536,
+   "usdCeiling": 0.001253,
+   "usdActual": 0.000199
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1232,
+   "tokensOut": 65,
+   "usdCeiling": 0.001255,
+   "usdActual": 0.00009
+  }
+ ],
+ "latencyMs": {
+  "read": 2999,
+  "classify": 778
+ },
+ "errors": []
+}

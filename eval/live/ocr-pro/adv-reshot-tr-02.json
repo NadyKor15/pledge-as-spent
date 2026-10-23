@@ -1,0 +1,139 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU SL «10 *21,98",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 2198,
+    "amountMinor": 2198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM “19 *-3,29",
+    "translationEn": "",
+    "qty": 19,
+    "unitPriceMinor": -329,
+    "amountMinor": -329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ «20 *349,00",
+    "translationEn": "",
+    "qty": 20,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %1@ MATRAH 16,92 *1,69",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %2@ MATRAH 290,83 «58,17",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 29083,
+    "amountMinor": 5817,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 30775,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "0 555 000 00 42",
+    "bbox": {
+     "x": 0.432030393443961,
+     "y": 0.2576675134583382,
+     "w": 0.21603361723754766,
+     "h": 0.023847145227837208
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek aölek tok 7374",
+    "bbox": {
+     "x": 0.3924558988224552,
+     "y": 0.7051378402800667,
+     "w": 0.056354985166649496,
+     "h": 0.01765403081649153
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6618106076265573,
+     "y": 0.7673971420991136,
+     "w": 0.1422749246876549,
+     "h": 0.02270512533010627
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.1583402785629604,
+     "y": 0.7850158743370643,
+     "w": 0.19701239616719446,
+     "h": 0.03170291540213066
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1155,
+   "tokensOut": 449,
+   "usdCeiling": 0.016593,
+   "usdActual": 0.002361
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1164,
+   "tokensOut": 206,
+   "usdCeiling": 0.016475,
+   "usdActual": 0.00159
+  }
+ ],
+ "latencyMs": {
+  "read": 7055,
+  "classify": 1966
+ },
+ "errors": []
+}

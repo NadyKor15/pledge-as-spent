@@ -1,0 +1,227 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10-PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1.7 L",
+    "translationEn": "MILK 1.7 L",
+    "qty": 10,
+    "unitPriceMinor": 7700,
+    "amountMinor": 7700,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "SPRING WATER 5 L",
+    "qty": 5,
+    "unitPriceMinor": 4900,
+    "amountMinor": 4900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "EKMEK %01",
+    "translationEn": "BREAD %01",
+    "qty": 1,
+    "unitPriceMinor": 1200,
+    "amountMinor": 1200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "SEVİMLİ BEBEK BEZİ «20",
+    "translationEn": "LOVELY BABY DIAPER «20",
+    "qty": 1,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "NO:4 JUMBO 42'Lİ",
+    "translationEn": "NO:4 JUMBO 42'S",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %1 MATRAH 11.88",
+    "translationEn": "TAX %1 BASE 11.88",
+    "qty": 1,
+    "unitPriceMinor": 1188,
+    "amountMinor": 12,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KDV %1@ MATRAH 114.55",
+    "translationEn": "TAX %1@ BASE 114.55",
+    "qty": 1,
+    "unitPriceMinor": 11455,
+    "amountMinor": 1145,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "KDV %2@ MATRAH 723.25",
+    "translationEn": "TAX %2@ BASE 723.25",
+    "qty": 1,
+    "unitPriceMinor": 72325,
+    "amountMinor": 14465,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL TAX",
+    "qty": 1,
+    "unitPriceMinor": 15622,
+    "amountMinor": 15622,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 150590,
+    "amountMinor": 150590,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "NAKİT",
+    "translationEn": "CASH",
+    "qty": 1,
+    "unitPriceMinor": 151000,
+    "amountMinor": 151000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "PARA USTU",
+    "translationEn": "CHANGE",
+    "qty": 1,
+    "unitPriceMinor": 410,
+    "amountMinor": 410,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 150590,
+  "taxMinor": 15622,
+  "taxIncluded": false,
+  "totalMinor": 151000,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.6854805268740041,
+     "y": 0.7841602907405788,
+     "w": 0.1414138930939769,
+     "h": 0.01786594428025512
+    }
+   },
+   {
+    "kind": "name",
+    "text": "EMRE KARAGÖZ",
+    "bbox": {
+     "x": 0.20897763523055118,
+     "y": 0.8242164033801167,
+     "w": 0.17270922157110807,
+     "h": 0.021673405882342123
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1260,
+   "tokensOut": 996,
+   "usdCeiling": 0.001254,
+   "usdActual": 0.000315
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1610,
+   "tokensOut": 53,
+   "usdCeiling": 0.001324,
+   "usdActual": 0.000109
+  }
+ ],
+ "latencyMs": {
+  "read": 4859,
+  "classify": 623
+ },
+ "errors": []
+}

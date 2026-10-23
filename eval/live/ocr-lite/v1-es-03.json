@@ -1,0 +1,145 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-09-11T20:27:00",
+  "receiptNumber": "2894",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑAL BEBÉ T3",
+    "translationEn": "Baby diaper T3",
+    "qty": 44,
+    "unitPriceMinor": null,
+    "amountMinor": 1790,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Tobacco Liar pack",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAÑALES T3 PANTS",
+    "translationEn": "Diapers T3 pants",
+    "qty": 36,
+    "unitPriceMinor": 21,
+    "amountMinor": 749,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3104,
+  "taxMinor": 770,
+  "taxIncluded": true,
+  "totalMinor": 3874,
+  "pii": [
+   {
+    "kind": "other",
+    "text": "RK dom tato 2040",
+    "bbox": {
+     "x": 0.38968913838073194,
+     "y": 0.7967212174453442,
+     "w": 0.05729426959056755,
+     "h": 0.016298731032148295
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 44,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diaper T3 counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not a funded item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 36,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers T3 pants count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Promotion discount does not count toward any need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1153,
+   "tokensOut": 383,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000161
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1146,
+   "tokensOut": 224,
+   "usdCeiling": 0.001239,
+   "usdActual": 0.000123
+  }
+ ],
+ "latencyMs": {
+  "read": 3658,
+  "classify": 1567
+ },
+ "errors": []
+}

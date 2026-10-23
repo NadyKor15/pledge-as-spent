@@ -1,0 +1,289 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "スマイルマート",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-01-04T20:57:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Natural water 2L 6 cases",
+    "qty": null,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ディッシュ SH",
+    "translationEn": "Dish SH",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ビー-7 ルツ M",
+    "translationEn": "B-7 Ruts M",
+    "qty": null,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "34 x 単",
+    "translationEn": "34 x single",
+    "qty": null,
+    "unitPriceMinor": 1698,
+    "amountMinor": 1698,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "YH 3 缶パック",
+    "translationEn": "YH 3 can pack",
+    "qty": null,
+    "unitPriceMinor": 458,
+    "amountMinor": 458,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ソフトキッズおむつ L 34枚",
+    "translationEn": "Soft kids diaper L 34 pieces",
+    "qty": null,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "2m x M",
+    "translationEn": "2m x M",
+    "qty": null,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "紙おむつ M 18K",
+    "translationEn": "Paper diaper M 18K",
+    "qty": null,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "お試しレパック A 1L",
+    "translationEn": "Trial pack A 1L",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "att (7m)",
+    "translationEn": "att (7m)",
+    "qty": null,
+    "unitPriceMinor": 8349,
+    "amountMinor": 8349,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "BAR",
+    "translationEn": "BAR",
+    "qty": null,
+    "unitPriceMinor": 1454,
+    "amountMinor": 1454,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "10%",
+    "translationEn": "10%",
+    "qty": null,
+    "unitPriceMinor": 6886,
+    "amountMinor": 6886,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "(ABRRE 10%)",
+    "translationEn": "(ABRRE 10%)",
+    "qty": null,
+    "unitPriceMinor": 626,
+    "amountMinor": 626,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 8346,
+  "taxMinor": 660,
+  "taxIncluded": false,
+  "totalMinor": 9006,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9739 4221 9384",
+    "bbox": {
+     "x": 0.6312210108555011,
+     "y": 0.817192852042725,
+     "w": 0.21261316854796275,
+     "h": 0.016124101440478267
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 36,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water 2L bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dish SH does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "B-7 Ruts M is likely a type of alcohol.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 34,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "34 x single likely refers to 34 AA batteries.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "YH 3 can pack counts 3 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft kids diaper L does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2m x M likely refers to 2 packs of diapers M.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": "diapers",
+   "needQty": 18,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Paper diaper M counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Trial pack A 1L does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "att (7m) does not match any listed need and is not a standard item.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "BAR does not match any listed need and is not a standard item.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "10% is unclear and could be a discount or a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "(ABRRE 10%) is unclear and could be a discount or a product.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1214,
+   "tokensOut": 705,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000242
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1444,
+   "tokensOut": 602,
+   "usdCeiling": 0.001298,
+   "usdActual": 0.000231
+  }
+ ],
+ "latencyMs": {
+  "read": 5097,
+  "classify": 3717
+ },
+ "errors": []
+}

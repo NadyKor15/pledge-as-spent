@@ -1,0 +1,127 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "北空東店 空川県北空市東町 7-26",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パビ - デルツ M ¥1,098",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ギフトカード 3,000F Y3,999",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3999,
+    "amountMinor": 3999,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ティッシュ 5 箱 ¥398",
+    "translationEn": "",
+    "qty": 5,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ミ多 7 ォター 2L Y¥648※",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 648,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5144,
+  "taxMinor": 648,
+  "taxIncluded": false,
+  "totalMinor": 5344,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "1081 2345 8996",
+    "bbox": {
+     "x": 0.5879209011527424,
+     "y": 0.7802646422891101,
+     "w": 0.1929697552623899,
+     "h": 0.019137579660158832
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues are not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 2 L is a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1177,
+   "tokensOut": 290,
+   "usdCeiling": 0.016565,
+   "usdActual": 0.00187
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1115,
+   "tokensOut": 155,
+   "usdCeiling": 0.016377,
+   "usdActual": 0.001388
+  }
+ ],
+ "latencyMs": {
+  "read": 4993,
+  "classify": 1444
+ },
+ "errors": []
+}

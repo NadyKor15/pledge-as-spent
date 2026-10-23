@@ -110,6 +110,7 @@ describe("BedrockNovaReader", () => {
     expect(minorUnits("-0,06", 2)).toBe(-6);
     expect(minorUnits("€ 12.50", 2)).toBe(1250);
     expect(minorUnits("1250", 2)).toBe(1250);
+    expect(minorUnits("7.7", 2)).toBe(770);
     expect(minorUnits("1,298", 2)).toBe("1,298"); // thousands or decimals? not guessed
     expect(minorUnits("abc", 2)).toBe("abc");
     expect(minorUnits("-", 2)).toBeNull();

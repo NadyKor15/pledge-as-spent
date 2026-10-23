@@ -1,0 +1,163 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAÑALES T4 40U 8,95 A",
+    "translationEn": "Diapers T4 40U 8.95 A",
+    "qty": 40,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6 6,58 A",
+    "translationEn": "WATER 1.5L PACK 6 6.58 A",
+    "qty": 6,
+    "unitPriceMinor": 658,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R 4,49 B",
+    "translationEn": "TOILET PAPER 12R 4.49 B",
+    "qty": 12,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MANTA POLAR 12,99 B 130X160",
+    "translationEn": "POLAR BLANKET 12.99 B 130X160",
+    "qty": null,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILA AA ALCALINA 4U 6,98 B",
+    "translationEn": "AA ALKALINE BATTERY 4U 6.98 B",
+    "qty": 4,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DTO. PROMOCIÓN 4,70 B",
+    "translationEn": "PROMOTION DISCOUNT 4.70 B",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 470,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 3457,
+  "taxMinor": 453,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************289",
+    "bbox": {
+     "x": 0.3858474938233651,
+     "y": 0.80296815011656,
+     "w": 0.055528123251494976,
+     "h": 0.015141627793242796
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Diapers T4 do not match the required size 3 diapers.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The blanket size is not specified, and it is not clear if it matches the required size.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs to be reviewed to determine if it applies to eligible items.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1174,
+   "tokensOut": 500,
+   "usdCeiling": 0.016705,
+   "usdActual": 0.002539
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1290,
+   "tokensOut": 252,
+   "usdCeiling": 0.016734,
+   "usdActual": 0.001838
+  }
+ ],
+ "latencyMs": {
+  "read": 7726,
+  "classify": 2199
+ },
+ "errors": []
+}

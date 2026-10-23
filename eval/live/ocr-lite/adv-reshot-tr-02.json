@@ -1,0 +1,147 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU SL",
+    "translationEn": "Mountain Water SL",
+    "qty": 10,
+    "unitPriceMinor": 2198,
+    "amountMinor": 2198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": -329,
+    "amountMinor": -329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ",
+    "translationEn": "Lovely Baby Diaper",
+    "qty": 20,
+    "unitPriceMinor": null,
+    "amountMinor": 34900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %1@ MATRAH",
+    "translationEn": "Tax %1@ Base",
+    "qty": null,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %2@ MATRAH",
+    "translationEn": "Tax %2@ Base",
+    "qty": null,
+    "unitPriceMinor": 29083,
+    "amountMinor": 29083,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "Total Tax",
+    "qty": null,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 34900,
+  "taxMinor": 5817,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "7374",
+    "bbox": {
+     "x": 0.3924558988224552,
+     "y": 0.7051378402800667,
+     "w": 0.056354985166649496,
+     "h": 0.01765403081649153
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6618106076265573,
+     "y": 0.7673971420991136,
+     "w": 0.1422749246876549,
+     "h": 0.02270512533010627
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.1583402785629604,
+     "y": 0.7850158743370643,
+     "w": 0.19701239616719446,
+     "h": 0.03170291540213066
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain Water SL is a 5 L bottle of drinking water, which matches the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1155,
+   "tokensOut": 537,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.000198
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1195,
+   "tokensOut": 62,
+   "usdCeiling": 0.001251,
+   "usdActual": 0.000087
+  }
+ ],
+ "latencyMs": {
+  "read": 4698,
+  "classify": 692
+ },
+ "errors": []
+}

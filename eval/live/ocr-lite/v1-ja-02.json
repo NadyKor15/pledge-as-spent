@@ -1,0 +1,127 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T09:19:00",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "缶パバック",
+    "translationEn": "Canned packed",
+    "qty": 3,
+    "unitPriceMinor": 1832,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "毛布シングル",
+    "translationEn": "Single blanket",
+    "qty": null,
+    "unitPriceMinor": 458,
+    "amountMinor": 458,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "アルカリ乾電池単 3 26 本入",
+    "translationEn": "Alkaline dry battery single 3 26 pack",
+    "qty": 26,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 1600
+   },
+   {
+    "lineNo": 4,
+    "rawText": "値引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -100,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 4410,
+  "taxMinor": 403,
+  "taxIncluded": false,
+  "totalMinor": 4813,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "T9990109699427",
+    "bbox": {
+     "x": 0.46818291852193294,
+     "y": 0.2836925329919894,
+     "w": 0.20007547990946284,
+     "h": 0.022650108730330243
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned food is one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single blanket counts as one blanket toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 26,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries (単3) are one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discount lines do not contribute to the needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1142,
+   "tokensOut": 317,
+   "usdCeiling": 0.001238,
+   "usdActual": 0.000145
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1110,
+   "tokensOut": 171,
+   "usdCeiling": 0.001231,
+   "usdActual": 0.000108
+  }
+ ],
+ "latencyMs": {
+  "read": 2707,
+  "classify": 1301
+ },
+ "errors": []
+}

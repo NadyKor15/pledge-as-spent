@@ -1,0 +1,163 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2029-11-09T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "North Sky Natural Water 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ノート AS",
+    "translationEn": "Notebook AS",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ソフトキッズおむつ L",
+    "translationEn": "Soft Kids Diapers L",
+    "qty": 34,
+    "unitPriceMinor": 38,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "単 3 電池 16 本入",
+    "translationEn": "Single 3 Battery 16 pack",
+    "qty": 16,
+    "unitPriceMinor": null,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "単 3 形 4 本入",
+    "translationEn": "Single 3 4 pack",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 258,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3390,
+  "taxMinor": 344,
+  "taxIncluded": false,
+  "totalMinor": 3399,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "8931",
+    "bbox": {
+     "x": 0.7404825370114964,
+     "y": 0.7743570006866145,
+     "w": 0.059963612457414106,
+     "h": 0.02529307229968314
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "North Sky Natural Water 2L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids Diapers L do not match the size M diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single 3 Battery 16 pack counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single 3 4 pack counts toward the AA batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1212,
+   "tokensOut": 453,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000181
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1191,
+   "tokensOut": 279,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000138
+  }
+ ],
+ "latencyMs": {
+  "read": 2915,
+  "classify": 1769
+ },
+ "errors": []
+}

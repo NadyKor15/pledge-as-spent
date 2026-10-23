@@ -1,0 +1,242 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBÊK BEZI 4 NO",
+    "translationEn": "MINI BABY DIAPER SIZE 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "RAKI 70 CL",
+    "qty": 1,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVIMLI BEBÊK BEZI",
+    "translationEn": "CUTE BABY DIAPER",
+    "qty": 1,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "NO:4 JUMBO 42'Lİ",
+    "translationEn": "NO:4 JUMBO 42'S",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "YILDIZ SIGARA MAVI",
+    "translationEn": "YILDIZ CIGARETTE BLUE",
+    "qty": 1,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "BATTANiYE TEK KISILIK",
+    "translationEn": "BLANKET SINGLE",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "VAT 20% MATTRESS",
+    "qty": 1,
+    "unitPriceMinor": 260808,
+    "amountMinor": 260808,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 310808,
+  "taxMinor": 52162,
+  "taxIncluded": false,
+  "totalMinor": 362970,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diaper size 4 matches the need for baby diapers size 4.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Raki is an alcoholic beverage and is not eligible.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cute baby diaper does not specify size 4 and is not eligible.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "No:4 Jumbo 42's does not match the need for baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Yildiz cigarette blue is a tobacco product and is not eligible.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift card 500 TL is not eligible.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA battery 10 pack matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket single matches the need for blankets.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 20% mattress does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total VAT line requires review to determine eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line requires review to determine eligibility.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3186,
+   "tokensOut": 1058,
+   "usdCeiling": 0.032853,
+   "usdActual": 0.005934
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1410,
+   "tokensOut": 438,
+   "usdCeiling": 0.017158,
+   "usdActual": 0.00253
+  }
+ ],
+ "latencyMs": {
+  "read": 12323,
+  "classify": 3588
+ },
+ "errors": []
+}
