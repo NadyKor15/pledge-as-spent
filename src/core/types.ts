@@ -82,4 +82,23 @@ export interface Pledge {
   honorUntil?: string;
   expiresAt?: string;
   reauthorizedAt?: string;
+  /** How the donor approved the hold; only PayPal-account holds can be reauthorized. */
+  paymentSource?: PaymentSource;
+}
+
+export type PaymentSource = "paypal" | "card";
+
+/**
+ * One approved receipt line, as the receipts module hands it to the engine.
+ * Mirrors `FundableLine` in src/receipts/types.ts field for field, declared here
+ * so the engine does not depend on the receipts module.
+ */
+export interface FundableLineInput {
+  receiptId: string;
+  lineNo: number;
+  needId: string;
+  /** Quantity in the need's unit, whole units. */
+  needQty: number;
+  /** Line amount in the drive's base currency, minor units, tax share included. */
+  amountBase: number;
 }
