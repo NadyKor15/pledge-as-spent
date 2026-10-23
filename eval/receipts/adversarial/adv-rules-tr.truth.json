@@ -1,0 +1,428 @@
+{
+ "id": "adv-rules-tr",
+ "set": "adversarial",
+ "locale": "tr",
+ "seed": 6008,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "adv-rules-tr.png",
+  "sha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+  "mediaType": "image/png",
+  "width": 613,
+  "height": 841
+ },
+ "receipt": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "Raki 70 cl",
+    "qty": 1,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YILDIZ SİGARA MAVİ",
+    "translationEn": "Yildiz cigarettes, blue",
+    "qty": 1,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Blanket, single",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 52162,
+  "taxIncluded": true,
+  "totalMinor": 362970,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 2115",
+    "bbox": {
+     "x": 0.1684,
+     "y": 0.7987,
+     "w": 0.2784,
+     "h": 0.0247
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket, single counts toward Blankets.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-rules-tr",
+  "set": "adversarial",
+  "locale": "tr",
+  "seed": 6008,
+  "store": {
+   "name": "GÖLPINAR TOPTAN GIDA",
+   "address": [
+    "Sanayi Sk. No:7",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 57",
+   "taxId": "VKN: 0000000057"
+  },
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "MİNİ BEBEK BEZİ 4 NO"
+    ],
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "RAKI 70 CL"
+    ],
+    "translationEn": "Raki 70 cl",
+    "qty": 1,
+    "unitMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SEVİMLİ BEBEK BEZİ",
+     "NO:4 JUMBO 42'Lİ"
+    ],
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "YILDIZ SİGARA MAVİ"
+    ],
+    "translationEn": "Yildiz cigarettes, blue",
+    "qty": 1,
+    "unitMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "HEDİYE KARTI 500 TL"
+    ],
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BATTANİYE TEK KİŞİLİK"
+    ],
+    "translationEn": "Blanket, single",
+    "qty": 2,
+    "unitMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blanket, single counts toward Blankets."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 2000,
+    "baseMinor": 312970,
+    "taxMinor": 52162
+   }
+  ],
+  "taxMinor": 52162,
+  "subtotalMinor": null,
+  "totalMinor": 362970,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2115"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 2115"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.922,
+   "rotX": -4.288,
+   "rotY": 2.7,
+   "perspective": 1251,
+   "blurPx": 0.512,
+   "noise": 0.049,
+   "lightAngle": 239,
+   "lightStrength": 0.185,
+   "glare": {
+    "x": 0.605,
+    "y": 0.272,
+    "strength": 0.174
+   },
+   "creases": [
+    {
+     "x": 0.775,
+     "y": 0.872,
+     "angle": 35,
+     "width": 65,
+     "length": 298,
+     "strength": 0.111
+    },
+    {
+     "x": 0.401,
+     "y": 0.11,
+     "angle": -32,
+     "width": 50,
+     "length": 322,
+     "strength": 0.059
+    },
+    {
+     "x": 0.614,
+     "y": 0.882,
+     "angle": 60,
+     "width": 68,
+     "length": 626,
+     "strength": 0.089
+    },
+    {
+     "x": 0.772,
+     "y": 0.355,
+     "angle": 22,
+     "width": 43,
+     "length": 377,
+     "strength": 0.091
+    },
+    {
+     "x": 0.625,
+     "y": 0.204,
+     "angle": 62,
+     "width": 67,
+     "length": 591,
+     "strength": 0.079
+    },
+    {
+     "x": 0.497,
+     "y": 0.174,
+     "angle": -23,
+     "width": 52,
+     "length": 262,
+     "strength": 0.12
+    },
+    {
+     "x": 0.66,
+     "y": 0.278,
+     "angle": -51,
+     "width": 46,
+     "length": 642,
+     "strength": 0.12
+    }
+   ],
+   "desk": "slate",
+   "seed": 6015
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

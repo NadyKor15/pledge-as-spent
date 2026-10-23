@@ -1,0 +1,454 @@
+{
+ "id": "v1-en-02",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4001,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-02.png",
+  "sha256": "483b7ca5b81bf1ac30d65662e5139d49a0e4b719ba669b7aa616555fedfb147a",
+  "mediaType": "image/png",
+  "width": 616,
+  "height": 914
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T15:58:00",
+  "receiptNumber": "2718",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA batteries, 8 pack",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COUPON",
+    "translationEn": "Discount on AAA batteries, 8 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -120,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Wheat bread",
+    "qty": 2,
+    "unitPriceMinor": 279,
+    "amountMinor": 558,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 7,
+    "rawText": "MILK 1GAL",
+    "translationEn": "Milk 1 gallon",
+    "qty": 1,
+    "unitPriceMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4918,
+  "taxMinor": 223,
+  "taxIncluded": false,
+  "totalMinor": 5141,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2496",
+    "bbox": {
+     "x": 0.5726,
+     "y": 0.6765,
+     "w": 0.2358,
+     "h": 0.0274
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.1766,
+     "y": 0.76,
+     "w": 0.1704,
+     "h": 0.0253
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "2899736096",
+    "bbox": {
+     "x": 0.6525,
+     "y": 0.8035,
+     "w": 0.1473,
+     "h": 0.0248
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 pack is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 pack is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wheat bread is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 gallon is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-02",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4001,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-04T15:58:00",
+  "receiptNumber": "2718",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AAA BATTERY 8PK"
+    ],
+    "translationEn": "AAA batteries, 8 pack",
+    "qty": 1,
+    "unitMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 pack is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on AAA batteries, 8 pack",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -120,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 pack is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BREAD WHEAT"
+    ],
+    "translationEn": "Wheat bread",
+    "qty": 2,
+    "unitMinor": 279,
+    "amountMinor": 558,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Wheat bread is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA BATTERY 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 1,
+    "unitMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MILK 1GAL"
+    ],
+    "translationEn": "Milk 1 gallon",
+    "qty": 1,
+    "unitMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 gallon is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 3077,
+    "taxMinor": 223
+   }
+  ],
+  "taxMinor": 223,
+  "subtotalMinor": 4918,
+  "totalMinor": 5141,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2496"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2496"
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "2899736096"
+   }
+  ],
+  "photo": {
+   "rotZ": 2,
+   "rotX": -4.34,
+   "rotY": -4.636,
+   "perspective": 1329,
+   "blurPx": 0.762,
+   "noise": 0.059,
+   "lightAngle": 234,
+   "lightStrength": 0.289,
+   "glare": {
+    "x": 0.43,
+    "y": 0.508,
+    "strength": 0.105
+   },
+   "creases": [
+    {
+     "x": 0.498,
+     "y": 0.297,
+     "angle": 66,
+     "width": 35,
+     "length": 329,
+     "strength": 0.113
+    },
+    {
+     "x": 0.715,
+     "y": 0.858,
+     "angle": -28,
+     "width": 42,
+     "length": 554,
+     "strength": 0.069
+    },
+    {
+     "x": 0.846,
+     "y": 0.446,
+     "angle": 46,
+     "width": 43,
+     "length": 390,
+     "strength": 0.089
+    },
+    {
+     "x": 0.174,
+     "y": 0.275,
+     "angle": -33,
+     "width": 28,
+     "length": 318,
+     "strength": 0.109
+    },
+    {
+     "x": 0.77,
+     "y": 0.273,
+     "angle": 53,
+     "width": 64,
+     "length": 643,
+     "strength": 0.081
+    },
+    {
+     "x": 0.819,
+     "y": 0.764,
+     "angle": -51,
+     "width": 48,
+     "length": 470,
+     "strength": 0.113
+    },
+    {
+     "x": 0.06,
+     "y": 0.082,
+     "angle": -40,
+     "width": 58,
+     "length": 496,
+     "strength": 0.08
+    }
+   ],
+   "desk": "slate",
+   "seed": 4008
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

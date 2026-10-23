@@ -1,0 +1,261 @@
+{
+ "id": "adv-unreadable-tr",
+ "set": "adversarial",
+ "locale": "tr",
+ "seed": 6006,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "adv-unreadable-tr.png",
+  "sha256": "798cd879017d6474026a58f307a0351b4d928aa00610e517bde8ea571b7c085c",
+  "mediaType": "image/png",
+  "width": 616,
+  "height": 732
+ },
+ "receipt": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T08:29:00",
+  "receiptNumber": "1081",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitPriceMinor": 16990,
+    "amountMinor": 33980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 1,
+    "unitPriceMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 10495,
+  "taxIncluded": true,
+  "totalMinor": 62970,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.1668,
+     "y": 0.764,
+     "w": 0.1902,
+     "h": 0.0332
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "2128178608",
+    "bbox": {
+     "x": 0.6584,
+     "y": 0.7524,
+     "w": 0.1508,
+     "h": 0.0317
+    }
+   }
+  ],
+  "readability": "unreadable"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": true
+ },
+ "spec": {
+  "id": "adv-unreadable-tr",
+  "set": "adversarial",
+  "locale": "tr",
+  "seed": 6006,
+  "store": {
+   "name": "SÜPER YILDIZ MARKET",
+   "address": [
+    "Çarşı Cd. No:12",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 42",
+   "taxId": "VKN: 0000000042"
+  },
+  "purchasedAt": "2026-11-09T08:29:00",
+  "receiptNumber": "1081",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitMinor": 16990,
+    "amountMinor": 33980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 20,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MİNİ BEBEK BEZİ 4 NO"
+    ],
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 1,
+    "unitMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 2000,
+    "baseMinor": 62970,
+    "taxMinor": 10495
+   }
+  ],
+  "taxMinor": 10495,
+  "subtotalMinor": null,
+  "totalMinor": 62970,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 63000,
+   "changeMinor": 30,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN"
+   },
+   {
+    "kind": "member_id",
+    "text": "2128178608"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.661,
+   "rotX": 3.693,
+   "rotY": -4.249,
+   "perspective": 1428,
+   "blurPx": 6.674,
+   "noise": 0.1,
+   "lightAngle": 345,
+   "lightStrength": 0.379,
+   "glare": {
+    "x": 0.537,
+    "y": 0.095,
+    "strength": 0.172
+   },
+   "creases": [
+    {
+     "x": 0.565,
+     "y": 0.29,
+     "angle": -1,
+     "width": 63,
+     "length": 324,
+     "strength": 0.073
+    },
+    {
+     "x": 0.459,
+     "y": 0.828,
+     "angle": -11,
+     "width": 37,
+     "length": 296,
+     "strength": 0.076
+    },
+    {
+     "x": 0.301,
+     "y": 0.547,
+     "angle": 18,
+     "width": 35,
+     "length": 373,
+     "strength": 0.11
+    },
+    {
+     "x": 0.346,
+     "y": 0.168,
+     "angle": -67,
+     "width": 60,
+     "length": 412,
+     "strength": 0.064
+    },
+    {
+     "x": 0.525,
+     "y": 0.885,
+     "angle": -28,
+     "width": 39,
+     "length": 246,
+     "strength": 0.103
+    },
+    {
+     "x": 0.252,
+     "y": 0.822,
+     "angle": 17,
+     "width": 52,
+     "length": 419,
+     "strength": 0.054
+    },
+    {
+     "x": 0.234,
+     "y": 0.073,
+     "angle": 26,
+     "width": 52,
+     "length": 323,
+     "strength": 0.096
+    }
+   ],
+   "desk": "slate",
+   "seed": 6013
+  },
+  "readability": "unreadable",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": true
+  }
+ }
+}

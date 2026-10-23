@@ -1,0 +1,330 @@
+{
+ "id": "v1-en-03",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4002,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-03.png",
+  "sha256": "4344c0502147d37457b0aaa396fdc6e979b840bec40af506f29fd797e6b534da",
+  "mediaType": "image/png",
+  "width": 612,
+  "height": 821
+ },
+ "receipt": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "Discount on AA alkaline batteries, 24 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1105",
+    "bbox": {
+     "x": 0.59,
+     "y": 0.6327,
+     "w": 0.238,
+     "h": 0.0261
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1972,
+     "y": 0.7511,
+     "w": 0.1739,
+     "h": 0.0239
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.684,
+     "y": 0.7729,
+     "w": 0.1487,
+     "h": 0.0237
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-03",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4002,
+  "store": {
+   "name": "BRINDLEWOOD GROCERY",
+   "address": [
+    "210 Mill Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0042"
+  },
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 4,
+    "unitMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "LAGER 6PK BTL"
+    ],
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on AA alkaline batteries, 24 pack",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": true
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 2358,
+    "taxMinor": 171
+   }
+  ],
+  "taxMinor": 171,
+  "subtotalMinor": 2954,
+  "totalMinor": 3125,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1105"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1105"
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.913,
+   "rotX": -3.072,
+   "rotY": -3.194,
+   "perspective": 1197,
+   "blurPx": 0.726,
+   "noise": 0.05,
+   "lightAngle": 186,
+   "lightStrength": 0.252,
+   "glare": {
+    "x": 0.424,
+    "y": 0.53,
+    "strength": 0.198
+   },
+   "creases": [
+    {
+     "x": 0.468,
+     "y": 0.878,
+     "angle": -4,
+     "width": 32,
+     "length": 326,
+     "strength": 0.084
+    },
+    {
+     "x": 0.069,
+     "y": 0.94,
+     "angle": -32,
+     "width": 37,
+     "length": 369,
+     "strength": 0.052
+    },
+    {
+     "x": 0.828,
+     "y": 0.696,
+     "angle": -18,
+     "width": 49,
+     "length": 386,
+     "strength": 0.061
+    },
+    {
+     "x": 0.907,
+     "y": 0.561,
+     "angle": -12,
+     "width": 33,
+     "length": 629,
+     "strength": 0.096
+    },
+    {
+     "x": 0.265,
+     "y": 0.136,
+     "angle": -18,
+     "width": 28,
+     "length": 628,
+     "strength": 0.09
+    }
+   ],
+   "desk": "cloth",
+   "seed": 4009
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

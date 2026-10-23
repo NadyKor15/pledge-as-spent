@@ -1,0 +1,409 @@
+{
+ "id": "adv-outofzone-ja",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 6003,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "adv-outofzone-ja.png",
+  "sha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+  "mediaType": "image/png",
+  "width": 625,
+  "height": 1006
+ },
+ "receipt": {
+  "merchantName": "潮風マート 海風店",
+  "merchantAddress": "海原県海風市浜通5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ缶 3缶パック",
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5箱",
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池 単3 20本入",
+    "translationEn": "Alkaline AA batteries, pack of 20",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター 2Lペット",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 377,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1033",
+    "bbox": {
+     "x": 0.5681,
+     "y": 0.6841,
+     "w": 0.2316,
+     "h": 0.0254
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ",
+    "bbox": {
+     "x": 0.1758,
+     "y": 0.759,
+     "w": 0.0845,
+     "h": 0.0202
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.5886,
+     "y": 0.7972,
+     "w": 0.2017,
+     "h": 0.0248
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans, pack of 3 counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues, 5 boxes is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate bar is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 40,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": true,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-outofzone-ja",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 6003,
+  "store": {
+   "name": "潮風マート",
+   "branch": "海風店",
+   "address": [
+    "海原県海風市浜通5-1"
+   ],
+   "city": "海風",
+   "phone": "0456-78-1234",
+   "taxId": "T0000100000899"
+  },
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "ツナ缶 3缶パック"
+    ],
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 4,
+    "unitMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tuna cans, pack of 3 counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ティッシュ 5箱"
+    ],
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tissues, 5 boxes is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "チョコレート"
+    ],
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Chocolate bar is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "牛乳 1L"
+    ],
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "アルカリ乾電池 単3 20本入"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 20",
+    "qty": 2,
+    "unitMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 40,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ミネラルウォーター",
+     "2Lペット"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 3,
+    "unitMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 2482,
+    "taxMinor": 198
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1794,
+    "taxMinor": 179
+   }
+  ],
+  "taxMinor": 377,
+  "subtotalMinor": 4276,
+  "totalMinor": 4653,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1033"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1033"
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.367,
+   "rotX": -4.928,
+   "rotY": -4.059,
+   "perspective": 1633,
+   "blurPx": 0.755,
+   "noise": 0.065,
+   "lightAngle": 250,
+   "lightStrength": 0.384,
+   "glare": {
+    "x": 0.521,
+    "y": 0.066,
+    "strength": 0.195
+   },
+   "creases": [
+    {
+     "x": 0.428,
+     "y": 0.824,
+     "angle": 66,
+     "width": 59,
+     "length": 239,
+     "strength": 0.081
+    },
+    {
+     "x": 0.394,
+     "y": 0.07,
+     "angle": -49,
+     "width": 62,
+     "length": 452,
+     "strength": 0.078
+    },
+    {
+     "x": 0.727,
+     "y": 0.351,
+     "angle": 14,
+     "width": 52,
+     "length": 588,
+     "strength": 0.076
+    },
+    {
+     "x": 0.787,
+     "y": 0.092,
+     "angle": 67,
+     "width": 55,
+     "length": 336,
+     "strength": 0.108
+    },
+    {
+     "x": 0.622,
+     "y": 0.59,
+     "angle": 40,
+     "width": 36,
+     "length": 450,
+     "strength": 0.089
+    }
+   ],
+   "desk": "slate",
+   "seed": 6010
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": true,
+   "unreadable": false
+  }
+ }
+}

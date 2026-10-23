@@ -1,0 +1,319 @@
+{
+ "id": "v1-tr-01",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2000,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-01.png",
+  "sha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+  "mediaType": "image/png",
+  "width": 613,
+  "height": 733
+ },
+ "receipt": {
+  "merchantName": "EVİM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount on AA batteries, pack of 10",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -1699,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 1,
+    "unitPriceMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 7380,
+  "taxIncluded": true,
+  "totalMinor": 44281,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0229",
+    "bbox": {
+     "x": 0.1927,
+     "y": 0.6862,
+     "w": 0.2779,
+     "h": 0.0324
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.1976,
+     "y": 0.7806,
+     "w": 0.19,
+     "h": 0.0294
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9309880230",
+    "bbox": {
+     "x": 0.6841,
+     "y": 0.7356,
+     "w": 0.1491,
+     "h": 0.0286
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-01",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2000,
+  "store": {
+   "name": "EVİM YAPI MARKET",
+   "address": [
+    "Atatürk Bulv. No:101",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 63",
+   "taxId": "VKN: 0000000063"
+  },
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNDİRİM"
+    ],
+    "translationEn": "Discount on AA batteries, pack of 10",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -1699,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "MİNİ BEBEK BEZİ 4 NO"
+    ],
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 1,
+    "unitMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 2000,
+    "baseMinor": 44281,
+    "taxMinor": 7380
+   }
+  ],
+  "taxMinor": 7380,
+  "subtotalMinor": null,
+  "totalMinor": 44281,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "0229"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0229"
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN"
+   },
+   {
+    "kind": "member_id",
+    "text": "9309880230"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.351,
+   "rotX": -1.738,
+   "rotY": -2.988,
+   "perspective": 1646,
+   "blurPx": 0.783,
+   "noise": 0.067,
+   "lightAngle": 83,
+   "lightStrength": 0.203,
+   "glare": {
+    "x": 0.426,
+    "y": 0.447,
+    "strength": 0.208
+   },
+   "creases": [
+    {
+     "x": 0.154,
+     "y": 0.716,
+     "angle": 33,
+     "width": 46,
+     "length": 371,
+     "strength": 0.051
+    },
+    {
+     "x": 0.572,
+     "y": 0.595,
+     "angle": 4,
+     "width": 69,
+     "length": 410,
+     "strength": 0.079
+    },
+    {
+     "x": 0.31,
+     "y": 0.453,
+     "angle": 19,
+     "width": 67,
+     "length": 323,
+     "strength": 0.053
+    },
+    {
+     "x": 0.502,
+     "y": 0.49,
+     "angle": -61,
+     "width": 62,
+     "length": 629,
+     "strength": 0.109
+    },
+    {
+     "x": 0.296,
+     "y": 0.42,
+     "angle": 61,
+     "width": 28,
+     "length": 541,
+     "strength": 0.091
+    },
+    {
+     "x": 0.372,
+     "y": 0.65,
+     "angle": 68,
+     "width": 52,
+     "length": 602,
+     "strength": 0.067
+    },
+    {
+     "x": 0.92,
+     "y": 0.798,
+     "angle": -65,
+     "width": 36,
+     "length": 385,
+     "strength": 0.077
+    },
+    {
+     "x": 0.882,
+     "y": 0.891,
+     "angle": 58,
+     "width": 29,
+     "length": 233,
+     "strength": 0.065
+    }
+   ],
+   "desk": "cloth",
+   "seed": 2007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

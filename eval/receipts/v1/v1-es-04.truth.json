@@ -1,0 +1,299 @@
+{
+ "id": "v1-es-04",
+ "set": "v1",
+ "locale": "es",
+ "seed": 3003,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "v1-es-04.png",
+  "sha256": "0d464b243050cf05623d6ce260f1b35ec1d1ff9f56d535b03f3feb83fff20f25",
+  "mediaType": "image/png",
+  "width": 618,
+  "height": 707
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T20:36:00",
+  "receiptNumber": "8426",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries LR6, 8 count",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 303,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5572",
+    "bbox": {
+     "x": 0.1651,
+     "y": 0.7532,
+     "w": 0.2788,
+     "h": 0.0398
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries LR6, 8 count counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-es-04",
+  "set": "v1",
+  "locale": "es",
+  "seed": 3003,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-04T20:36:00",
+  "receiptNumber": "8426",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "PAPEL HIGIÉNICO 12R"
+    ],
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILA AA ALCALINA 4U"
+    ],
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS AA LR6 8U"
+    ],
+    "translationEn": "AA batteries LR6, 8 count",
+    "qty": 1,
+    "unitMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries LR6, 8 count counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 2100,
+    "baseMinor": 1746,
+    "taxMinor": 303
+   }
+  ],
+  "taxMinor": 303,
+  "subtotalMinor": null,
+  "totalMinor": 1746,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "5572"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5572"
+   }
+  ],
+  "photo": {
+   "rotZ": 3.043,
+   "rotX": 3.753,
+   "rotY": -2.72,
+   "perspective": 1298,
+   "blurPx": 0.579,
+   "noise": 0.064,
+   "lightAngle": 359,
+   "lightStrength": 0.371,
+   "glare": {
+    "x": 0.208,
+    "y": 0.243,
+    "strength": 0.19
+   },
+   "creases": [
+    {
+     "x": 0.547,
+     "y": 0.478,
+     "angle": -26,
+     "width": 63,
+     "length": 580,
+     "strength": 0.073
+    },
+    {
+     "x": 0.654,
+     "y": 0.784,
+     "angle": 0,
+     "width": 43,
+     "length": 327,
+     "strength": 0.093
+    },
+    {
+     "x": 0.333,
+     "y": 0.899,
+     "angle": -57,
+     "width": 66,
+     "length": 497,
+     "strength": 0.067
+    },
+    {
+     "x": 0.823,
+     "y": 0.158,
+     "angle": -52,
+     "width": 55,
+     "length": 432,
+     "strength": 0.079
+    },
+    {
+     "x": 0.947,
+     "y": 0.245,
+     "angle": 12,
+     "width": 46,
+     "length": 397,
+     "strength": 0.073
+    },
+    {
+     "x": 0.116,
+     "y": 0.117,
+     "angle": 63,
+     "width": 57,
+     "length": 357,
+     "strength": 0.092
+    },
+    {
+     "x": 0.839,
+     "y": 0.523,
+     "angle": 7,
+     "width": 29,
+     "length": 320,
+     "strength": 0.084
+    },
+    {
+     "x": 0.063,
+     "y": 0.768,
+     "angle": 5,
+     "width": 68,
+     "length": 433,
+     "strength": 0.06
+    },
+    {
+     "x": 0.108,
+     "y": 0.384,
+     "angle": 46,
+     "width": 27,
+     "length": 567,
+     "strength": 0.106
+    }
+   ],
+   "desk": "slate",
+   "seed": 3010
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

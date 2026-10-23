@@ -1,0 +1,280 @@
+{
+ "id": "adv-outofzone-es",
+ "set": "adversarial",
+ "locale": "es",
+ "seed": 6004,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "adv-outofzone-es.png",
+  "sha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+  "mediaType": "image/png",
+  "width": 616,
+  "height": 725
+ },
+ "receipt": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Marítimo 9, 00000 Puerto Brisa",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 1,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Diaper pants size 3, 36 count",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 244,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": true,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-outofzone-es",
+  "set": "adversarial",
+  "locale": "es",
+  "seed": 6004,
+  "store": {
+   "name": "COMESTIBLES MARINA",
+   "address": [
+    "Paseo Marítimo 9",
+    "00000 Puerto Brisa"
+   ],
+   "city": "Puerto Brisa",
+   "phone": "900 000 088",
+   "taxId": "CIF B00000088"
+  },
+  "purchasedAt": "2026-11-06T12:03:00",
+  "receiptNumber": "8076",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "AGUA 1,5L PACK 6"
+    ],
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 1,
+    "unitMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑALES T3 PANTS 36U"
+    ],
+    "translationEn": "Diaper pants size 3, 36 count",
+    "qty": 2,
+    "unitMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAPEL HIGIÉNICO 12R"
+    ],
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 1827,
+    "taxMinor": 166
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 449,
+    "taxMinor": 78
+   }
+  ],
+  "taxMinor": 244,
+  "subtotalMinor": null,
+  "totalMinor": 2276,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 3000,
+   "changeMinor": 724,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": 2.669,
+   "rotX": -4.025,
+   "rotY": -1.529,
+   "perspective": 1490,
+   "blurPx": 0.589,
+   "noise": 0.053,
+   "lightAngle": 87,
+   "lightStrength": 0.305,
+   "glare": {
+    "x": 0.775,
+    "y": 0.294,
+    "strength": 0.12
+   },
+   "creases": [
+    {
+     "x": 0.529,
+     "y": 0.746,
+     "angle": 60,
+     "width": 58,
+     "length": 460,
+     "strength": 0.107
+    },
+    {
+     "x": 0.102,
+     "y": 0.496,
+     "angle": -18,
+     "width": 61,
+     "length": 579,
+     "strength": 0.11
+    },
+    {
+     "x": 0.71,
+     "y": 0.165,
+     "angle": -68,
+     "width": 55,
+     "length": 574,
+     "strength": 0.103
+    },
+    {
+     "x": 0.086,
+     "y": 0.541,
+     "angle": -3,
+     "width": 65,
+     "length": 550,
+     "strength": 0.101
+    },
+    {
+     "x": 0.329,
+     "y": 0.526,
+     "angle": -36,
+     "width": 43,
+     "length": 422,
+     "strength": 0.081
+    },
+    {
+     "x": 0.906,
+     "y": 0.917,
+     "angle": 40,
+     "width": 33,
+     "length": 435,
+     "strength": 0.081
+    },
+    {
+     "x": 0.512,
+     "y": 0.372,
+     "angle": -54,
+     "width": 37,
+     "length": 311,
+     "strength": 0.109
+    },
+    {
+     "x": 0.766,
+     "y": 0.549,
+     "angle": -39,
+     "width": 46,
+     "length": 382,
+     "strength": 0.086
+    }
+   ],
+   "desk": "wood",
+   "seed": 6011
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": true,
+   "unreadable": false
+  }
+ }
+}

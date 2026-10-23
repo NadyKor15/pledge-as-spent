@@ -1,0 +1,388 @@
+{
+ "id": "v1-es-06",
+ "set": "v1",
+ "locale": "es",
+ "seed": 3005,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "v1-es-06.png",
+  "sha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
+  "mediaType": "image/png",
+  "width": 605,
+  "height": 808
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:53:00",
+  "receiptNumber": "1578",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries LR6, 8 count",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "Biscuits",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "VINO TINTO CRIANZA",
+    "translationEn": "Red wine crianza",
+    "qty": 1,
+    "unitPriceMinor": 650,
+    "amountMinor": 650,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUADERNO A5",
+    "translationEn": "Notebook A5",
+    "qty": 2,
+    "unitPriceMinor": 195,
+    "amountMinor": 390,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "Mineral water 1.5 L",
+    "qty": 12,
+    "unitPriceMinor": 59,
+    "amountMinor": 708,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 440,
+  "taxIncluded": true,
+  "totalMinor": 2941,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1277",
+    "bbox": {
+     "x": 0.1792,
+     "y": 0.808,
+     "w": 0.2897,
+     "h": 0.0285
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries LR6, 8 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Biscuits is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook A5 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 1.5 L counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-es-06",
+  "set": "v1",
+  "locale": "es",
+  "seed": 3005,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-09T20:53:00",
+  "receiptNumber": "1578",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "PILAS AA LR6 8U"
+    ],
+    "translationEn": "AA batteries LR6, 8 count",
+    "qty": 1,
+    "unitMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries LR6, 8 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GALLETAS MARÍA"
+    ],
+    "translationEn": "Biscuits",
+    "qty": 1,
+    "unitMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Biscuits is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "VINO TINTO CRIANZA"
+    ],
+    "translationEn": "Red wine crianza",
+    "qty": 1,
+    "unitMinor": 650,
+    "amountMinor": 650,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "CUADERNO A5"
+    ],
+    "translationEn": "Notebook A5",
+    "qty": 2,
+    "unitMinor": 195,
+    "amountMinor": 390,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Notebook A5 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAPEL HIGIÉNICO 12R"
+    ],
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA MINERAL 1,5L"
+    ],
+    "translationEn": "Mineral water 1.5 L",
+    "qty": 12,
+    "unitMinor": 59,
+    "amountMinor": 708,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 1.5 L counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 853,
+    "taxMinor": 78
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 2088,
+    "taxMinor": 362
+   }
+  ],
+  "taxMinor": 440,
+  "subtotalMinor": null,
+  "totalMinor": 2941,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1277"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1277"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.27,
+   "rotX": 4.938,
+   "rotY": 2.43,
+   "perspective": 1522,
+   "blurPx": 0.393,
+   "noise": 0.07,
+   "lightAngle": 130,
+   "lightStrength": 0.265,
+   "glare": {
+    "x": 0.54,
+    "y": 0.294,
+    "strength": 0.11
+   },
+   "creases": [
+    {
+     "x": 0.566,
+     "y": 0.327,
+     "angle": 20,
+     "width": 46,
+     "length": 305,
+     "strength": 0.118
+    },
+    {
+     "x": 0.42,
+     "y": 0.677,
+     "angle": 8,
+     "width": 64,
+     "length": 395,
+     "strength": 0.059
+    },
+    {
+     "x": 0.11,
+     "y": 0.259,
+     "angle": -11,
+     "width": 36,
+     "length": 635,
+     "strength": 0.074
+    },
+    {
+     "x": 0.61,
+     "y": 0.838,
+     "angle": 56,
+     "width": 62,
+     "length": 641,
+     "strength": 0.086
+    },
+    {
+     "x": 0.551,
+     "y": 0.627,
+     "angle": -51,
+     "width": 50,
+     "length": 453,
+     "strength": 0.064
+    },
+    {
+     "x": 0.723,
+     "y": 0.775,
+     "angle": 43,
+     "width": 57,
+     "length": 493,
+     "strength": 0.083
+    }
+   ],
+   "desk": "cloth",
+   "seed": 3012
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

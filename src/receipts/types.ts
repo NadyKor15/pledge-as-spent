@@ -81,3 +81,17 @@ export interface LineClassifier {
     rules: string;
   }): Promise<{ lines: LineClassification[]; usage: ModelUsage }>;
 }
+
+/** An approved receipt line turned into money for one need. */
+export type FundableLine = {
+  receiptId: string;
+  lineNo: number;
+  needId: string;
+  /** Quantity credited to the need, in the need's unit. */
+  needQty: number;
+  /** Line amount in the drive's base currency minor units, with its share of added-on tax. */
+  amountBase: number;
+};
+
+/** Quantity already credited per need id by earlier approved receipts. */
+export type NeedProgress = Record<string, number>;

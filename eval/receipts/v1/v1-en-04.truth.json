@@ -1,0 +1,388 @@
+{
+ "id": "v1-en-04",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4003,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-04.png",
+  "sha256": "9f725aa0562828c4824eb34aba8ea7fba76d77d2e0f75f74a71d0f698b183352",
+  "mediaType": "image/png",
+  "width": 614,
+  "height": 910
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:18:00",
+  "receiptNumber": "1765",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POTATO CHIPS",
+    "translationEn": "Potato chips",
+    "qty": 1,
+    "unitPriceMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PURE WTR 1GAL 4CT",
+    "translationEn": "Pure water 1 gallon, 4 count",
+    "qty": 1,
+    "unitPriceMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 6,
+    "rawText": "MILK 1GAL",
+    "translationEn": "Milk 1 gallon",
+    "qty": 2,
+    "unitPriceMinor": 389,
+    "amountMinor": 778,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8620,
+  "taxMinor": 529,
+  "taxIncluded": false,
+  "totalMinor": 9149,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.1624,
+     "y": 0.7724,
+     "w": 0.1805,
+     "h": 0.0231
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "2356750201",
+    "bbox": {
+     "x": 0.6575,
+     "y": 0.8072,
+     "w": 0.1474,
+     "h": 0.0223
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Potato chips is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pure water 1 gallon, 4 count counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 gallon is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-04",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4003,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-06T10:18:00",
+  "receiptNumber": "1765",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA BATTERY 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "POTATO CHIPS"
+    ],
+    "translationEn": "Potato chips",
+    "qty": 1,
+    "unitMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Potato chips is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PURE WTR 1GAL 4CT"
+    ],
+    "translationEn": "Pure water 1 gallon, 4 count",
+    "qty": 1,
+    "unitMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Pure water 1 gallon, 4 count counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SOFTIES DIAPERS SZ 3 38CT"
+    ],
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MILK 1GAL"
+    ],
+    "translationEn": "Milk 1 gallon",
+    "qty": 2,
+    "unitMinor": 389,
+    "amountMinor": 778,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 gallon is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 7293,
+    "taxMinor": 529
+   }
+  ],
+  "taxMinor": 529,
+  "subtotalMinor": 8620,
+  "totalMinor": 9149,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 10000,
+   "changeMinor": 851,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "2356750201"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.822,
+   "rotX": 1.928,
+   "rotY": 2.468,
+   "perspective": 1209,
+   "blurPx": 0.715,
+   "noise": 0.042,
+   "lightAngle": 286,
+   "lightStrength": 0.199,
+   "glare": {
+    "x": 0.281,
+    "y": 0.273,
+    "strength": 0.167
+   },
+   "creases": [
+    {
+     "x": 0.61,
+     "y": 0.196,
+     "angle": -57,
+     "width": 37,
+     "length": 386,
+     "strength": 0.08
+    },
+    {
+     "x": 0.386,
+     "y": 0.675,
+     "angle": -31,
+     "width": 54,
+     "length": 274,
+     "strength": 0.063
+    },
+    {
+     "x": 0.348,
+     "y": 0.717,
+     "angle": -69,
+     "width": 57,
+     "length": 543,
+     "strength": 0.068
+    },
+    {
+     "x": 0.654,
+     "y": 0.069,
+     "angle": 52,
+     "width": 56,
+     "length": 607,
+     "strength": 0.06
+    },
+    {
+     "x": 0.464,
+     "y": 0.342,
+     "angle": 60,
+     "width": 67,
+     "length": 327,
+     "strength": 0.094
+    }
+   ],
+   "desk": "slate",
+   "seed": 4010
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

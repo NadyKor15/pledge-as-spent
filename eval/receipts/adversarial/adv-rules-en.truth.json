@@ -1,0 +1,483 @@
+{
+ "id": "adv-rules-en",
+ "set": "adversarial",
+ "locale": "en",
+ "seed": 6010,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "adv-rules-en.png",
+  "sha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+  "mediaType": "image/png",
+  "width": 632,
+  "height": 1007
+ },
+ "receipt": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "2147",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "WATER 24PK .5L",
+    "translationEn": "Bottled water 0.5 L, 24 pack (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece throw blanket",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "Spiral notebook",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CIGARETTES MENTHOL",
+    "translationEn": "Menthol cigarettes",
+    "qty": 1,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1003,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************6540",
+    "bbox": {
+     "x": 0.5968,
+     "y": 0.693,
+     "w": 0.2295,
+     "h": 0.0223
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.2225,
+     "y": 0.7906,
+     "w": 0.1671,
+     "h": 0.0201
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": {
+     "x": 0.69,
+     "y": 0.8056,
+     "w": 0.1433,
+     "h": 0.0198
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bottled water 0.5 L, 24 pack (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blanket counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 48,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebook is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-rules-en",
+  "set": "adversarial",
+  "locale": "en",
+  "seed": 6010,
+  "store": {
+   "name": "HARBOR HARDWARE & HOME",
+   "address": [
+    "88 Station Road",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0057"
+  },
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "2147",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "AA BATTERY 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 3,
+    "unitMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "LAGER 6PK BTL"
+    ],
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "WATER 24PK .5L"
+    ],
+    "translationEn": "Bottled water 0.5 L, 24 pack (wrong size)",
+    "qty": 1,
+    "unitMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Bottled water 0.5 L, 24 pack (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW",
+     "BLANKET"
+    ],
+    "translationEn": "Fleece throw blanket",
+    "qty": 4,
+    "unitMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw blanket counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 2,
+    "unitMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 48,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SPIRAL NOTEBOOK"
+    ],
+    "translationEn": "Spiral notebook",
+    "qty": 2,
+    "unitMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Spiral notebook is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GIFT CARD $25"
+    ],
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "CIGARETTES MENTHOL"
+    ],
+    "translationEn": "Menthol cigarettes",
+    "qty": 1,
+    "unitMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 13837,
+    "taxMinor": 1003
+   }
+  ],
+  "taxMinor": 1003,
+  "subtotalMinor": 16836,
+  "totalMinor": 17839,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "6540"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************6540"
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "8224286873"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.922,
+   "rotX": -4.6,
+   "rotY": -4.005,
+   "perspective": 1343,
+   "blurPx": 0.718,
+   "noise": 0.066,
+   "lightAngle": 339,
+   "lightStrength": 0.196,
+   "glare": {
+    "x": 0.621,
+    "y": 0.142,
+    "strength": 0.113
+   },
+   "creases": [
+    {
+     "x": 0.711,
+     "y": 0.305,
+     "angle": 9,
+     "width": 65,
+     "length": 401,
+     "strength": 0.05
+    },
+    {
+     "x": 0.824,
+     "y": 0.885,
+     "angle": 32,
+     "width": 48,
+     "length": 240,
+     "strength": 0.107
+    },
+    {
+     "x": 0.856,
+     "y": 0.77,
+     "angle": 19,
+     "width": 35,
+     "length": 391,
+     "strength": 0.093
+    },
+    {
+     "x": 0.091,
+     "y": 0.408,
+     "angle": -9,
+     "width": 29,
+     "length": 325,
+     "strength": 0.104
+    },
+    {
+     "x": 0.912,
+     "y": 0.658,
+     "angle": -5,
+     "width": 34,
+     "length": 332,
+     "strength": 0.065
+    },
+    {
+     "x": 0.909,
+     "y": 0.642,
+     "angle": -37,
+     "width": 61,
+     "length": 266,
+     "strength": 0.112
+    }
+   ],
+   "desk": "wood",
+   "seed": 6017
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

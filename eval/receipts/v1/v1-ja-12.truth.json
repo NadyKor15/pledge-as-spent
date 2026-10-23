@@ -1,0 +1,346 @@
+{
+ "id": "v1-ja-12",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1011,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-12.png",
+  "sha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+  "mediaType": "image/png",
+  "width": 631,
+  "height": 925
+ },
+ "receipt": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ギフトカード 3,000円",
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ティッシュ 5箱",
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ﾐﾈﾗﾙｳｫｰﾀｰ 2L",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5144,
+  "taxMinor": 200,
+  "taxIncluded": false,
+  "totalMinor": 5344,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1691,
+     "y": 0.7412,
+     "w": 0.0752,
+     "h": 0.0212
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "1081 2345 8996",
+    "bbox": {
+     "x": 0.5845,
+     "y": 0.7782,
+     "w": 0.197,
+     "h": 0.0242
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues, 5 boxes is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-12",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1011,
+  "store": {
+   "name": "ホームセンター ツバメ",
+   "branch": "北空東店",
+   "address": [
+    "空川県北空市東町7-20"
+   ],
+   "city": "北空",
+   "phone": "0123-55-1100",
+   "taxId": "T0000100000712"
+  },
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "2816",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ギフトカード 3,000円"
+    ],
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ティッシュ 5箱"
+    ],
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tissues, 5 boxes is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾐﾈﾗﾙｳｫｰﾀｰ 2L"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 648,
+    "taxMinor": 51
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1496,
+    "taxMinor": 149
+   }
+  ],
+  "taxMinor": 200,
+  "subtotalMinor": 5144,
+  "totalMinor": 5344,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 6000,
+   "changeMinor": 656,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "1081 2345 8996"
+   }
+  ],
+  "photo": {
+   "rotZ": 3.164,
+   "rotX": -3.573,
+   "rotY": 3.28,
+   "perspective": 1370,
+   "blurPx": 0.586,
+   "noise": 0.046,
+   "lightAngle": 234,
+   "lightStrength": 0.227,
+   "glare": {
+    "x": 0.519,
+    "y": 0.204,
+    "strength": 0.217
+   },
+   "creases": [
+    {
+     "x": 0.684,
+     "y": 0.805,
+     "angle": 14,
+     "width": 62,
+     "length": 575,
+     "strength": 0.109
+    },
+    {
+     "x": 0.83,
+     "y": 0.436,
+     "angle": 33,
+     "width": 53,
+     "length": 504,
+     "strength": 0.055
+    },
+    {
+     "x": 0.733,
+     "y": 0.303,
+     "angle": 8,
+     "width": 38,
+     "length": 489,
+     "strength": 0.105
+    },
+    {
+     "x": 0.483,
+     "y": 0.603,
+     "angle": -14,
+     "width": 30,
+     "length": 267,
+     "strength": 0.066
+    },
+    {
+     "x": 0.549,
+     "y": 0.389,
+     "angle": 55,
+     "width": 35,
+     "length": 551,
+     "strength": 0.115
+    },
+    {
+     "x": 0.218,
+     "y": 0.932,
+     "angle": -31,
+     "width": 43,
+     "length": 609,
+     "strength": 0.067
+    },
+    {
+     "x": 0.243,
+     "y": 0.169,
+     "angle": 60,
+     "width": 69,
+     "length": 473,
+     "strength": 0.058
+    },
+    {
+     "x": 0.507,
+     "y": 0.697,
+     "angle": -53,
+     "width": 48,
+     "length": 424,
+     "strength": 0.104
+    }
+   ],
+   "desk": "wood",
+   "seed": 1018
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

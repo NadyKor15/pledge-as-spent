@@ -1,0 +1,400 @@
+{
+ "id": "v1-tr-05",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2004,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-05.png",
+  "sha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+  "mediaType": "image/png",
+  "width": 606,
+  "height": 816
+ },
+ "receipt": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2450,
+    "amountMinor": 2450,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Blanket, single",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KAYNAK SU 0,5L 12'Lİ",
+    "translationEn": "Spring water 0.5 L, 12 pack (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount on Mountain water 5 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -657,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 19208,
+  "taxIncluded": true,
+  "totalMinor": 122303,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket, single counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spring water 0.5 L, 12 pack (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-05",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2004,
+  "store": {
+   "name": "GÖLPINAR TOPTAN GIDA",
+   "address": [
+    "Sanayi Sk. No:7",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 57",
+   "taxId": "VKN: 0000000057"
+  },
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "KAYNAK SU 5 LT"
+    ],
+    "translationEn": "Spring water 5 L",
+    "qty": 1,
+    "unitMinor": 2450,
+    "amountMinor": 2450,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SÜT 1 LT"
+    ],
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BATTANİYE TEK KİŞİLİK"
+    ],
+    "translationEn": "Blanket, single",
+    "qty": 2,
+    "unitMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blanket, single counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "KAYNAK SU 0,5L 12'Lİ"
+    ],
+    "translationEn": "Spring water 0.5 L, 12 pack (wrong size)",
+    "qty": 1,
+    "unitMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Spring water 0.5 L, 12 pack (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DAĞ SUYU 5 L"
+    ],
+    "translationEn": "Mountain water 5 L",
+    "qty": 2,
+    "unitMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNDİRİM"
+    ],
+    "translationEn": "Discount on Mountain water 5 L",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -657,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": true
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 15513,
+    "taxMinor": 1410
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 106790,
+    "taxMinor": 17798
+   }
+  ],
+  "taxMinor": 19208,
+  "subtotalMinor": null,
+  "totalMinor": 122303,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 123000,
+   "changeMinor": 697,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -1.397,
+   "rotX": 3.432,
+   "rotY": -3.627,
+   "perspective": 1584,
+   "blurPx": 0.652,
+   "noise": 0.069,
+   "lightAngle": 30,
+   "lightStrength": 0.389,
+   "glare": {
+    "x": 0.321,
+    "y": 0.07,
+    "strength": 0.081
+   },
+   "creases": [
+    {
+     "x": 0.228,
+     "y": 0.38,
+     "angle": 67,
+     "width": 47,
+     "length": 350,
+     "strength": 0.092
+    },
+    {
+     "x": 0.18,
+     "y": 0.817,
+     "angle": 27,
+     "width": 39,
+     "length": 596,
+     "strength": 0.117
+    },
+    {
+     "x": 0.419,
+     "y": 0.538,
+     "angle": -10,
+     "width": 26,
+     "length": 567,
+     "strength": 0.084
+    },
+    {
+     "x": 0.589,
+     "y": 0.534,
+     "angle": -53,
+     "width": 61,
+     "length": 563,
+     "strength": 0.099
+    },
+    {
+     "x": 0.682,
+     "y": 0.897,
+     "angle": -26,
+     "width": 40,
+     "length": 424,
+     "strength": 0.106
+    }
+   ],
+   "desk": "slate",
+   "seed": 2011
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

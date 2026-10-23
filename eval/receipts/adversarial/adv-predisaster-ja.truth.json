@@ -1,0 +1,303 @@
+{
+ "id": "adv-predisaster-ja",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 6001,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "adv-predisaster-ja.png",
+  "sha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+  "mediaType": "image/png",
+  "width": 615,
+  "height": 782
+ },
+ "receipt": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ボタン電池 CR2032",
+    "translationEn": "Coin cell battery CR2032",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単4 アルカリ乾電池 4本入",
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": true,
+  "totalMinor": 2768,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0728",
+    "bbox": {
+     "x": 0.5681,
+     "y": 0.7616,
+     "w": 0.2316,
+     "h": 0.0277
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coin cell battery CR2032 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": true,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-predisaster-ja",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 6001,
+  "store": {
+   "name": "ドラッグ ヒカリ",
+   "branch": "北空中央店",
+   "address": [
+    "空川県北空市中央3-5-12"
+   ],
+   "city": "北空",
+   "phone": "0123-33-7788",
+   "taxId": "T0000100000634"
+  },
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 20,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ボタン電池 CR2032"
+    ],
+    "translationEn": "Coin cell battery CR2032",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Coin cell battery CR2032 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単4 アルカリ乾電池 4本入"
+    ],
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 2,
+    "unitMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 2768,
+    "taxMinor": 251
+   }
+  ],
+  "taxMinor": 251,
+  "subtotalMinor": 2768,
+  "totalMinor": 2768,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "0728"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0728"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.36,
+   "rotX": -2.374,
+   "rotY": 4.276,
+   "perspective": 1628,
+   "blurPx": 0.543,
+   "noise": 0.057,
+   "lightAngle": 50,
+   "lightStrength": 0.379,
+   "glare": {
+    "x": 0.55,
+    "y": 0.384,
+    "strength": 0.082
+   },
+   "creases": [
+    {
+     "x": 0.153,
+     "y": 0.233,
+     "angle": -50,
+     "width": 64,
+     "length": 516,
+     "strength": 0.077
+    },
+    {
+     "x": 0.053,
+     "y": 0.793,
+     "angle": -23,
+     "width": 46,
+     "length": 594,
+     "strength": 0.059
+    },
+    {
+     "x": 0.434,
+     "y": 0.784,
+     "angle": 19,
+     "width": 51,
+     "length": 428,
+     "strength": 0.08
+    },
+    {
+     "x": 0.277,
+     "y": 0.366,
+     "angle": 46,
+     "width": 30,
+     "length": 446,
+     "strength": 0.106
+    },
+    {
+     "x": 0.756,
+     "y": 0.097,
+     "angle": -29,
+     "width": 46,
+     "length": 632,
+     "strength": 0.116
+    }
+   ],
+   "desk": "cloth",
+   "seed": 6008
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": true,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

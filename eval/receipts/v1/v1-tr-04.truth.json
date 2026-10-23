@@ -1,0 +1,340 @@
+{
+ "id": "v1-tr-04",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2003,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-04.png",
+  "sha256": "57525c6e67184d9fce7de878f407d7aadfdfa1ab18b7f8b1a9f735b25bbbb618",
+  "mediaType": "image/png",
+  "width": 608,
+  "height": 726
+ },
+ "receipt": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T08:26:00",
+  "receiptNumber": "8832",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diapers no. 3 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "KAYNAK SU 0,5L 12'Lİ",
+    "translationEn": "Spring water 0.5 L, 12 pack (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 17644,
+  "taxIncluded": true,
+  "totalMinor": 108360,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 6869",
+    "bbox": {
+     "x": 0.1882,
+     "y": 0.7784,
+     "w": 0.2832,
+     "h": 0.0357
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby diapers no. 3 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spring water 0.5 L, 12 pack (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-04",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2003,
+  "store": {
+   "name": "GÖLPINAR TOPTAN GIDA",
+   "address": [
+    "Sanayi Sk. No:7",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 57",
+   "taxId": "VKN: 0000000057"
+  },
+  "purchasedAt": "2026-11-09T08:26:00",
+  "receiptNumber": "8832",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "BEBEK BEZİ 3 NO 44'LÜ"
+    ],
+    "translationEn": "Baby diapers no. 3 (wrong size)",
+    "qty": 1,
+    "unitMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Baby diapers no. 3 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "KAYNAK SU 0,5L 12'Lİ"
+    ],
+    "translationEn": "Spring water 0.5 L, 12 pack (wrong size)",
+    "qty": 1,
+    "unitMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Spring water 0.5 L, 12 pack (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MİNİ BEBEK BEZİ 4 NO"
+    ],
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 5490,
+    "taxMinor": 499
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 102870,
+    "taxMinor": 17145
+   }
+  ],
+  "taxMinor": 17644,
+  "subtotalMinor": null,
+  "totalMinor": 108360,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "6869"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 6869"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.761,
+   "rotX": -3.147,
+   "rotY": 4.546,
+   "perspective": 1295,
+   "blurPx": 0.532,
+   "noise": 0.063,
+   "lightAngle": 58,
+   "lightStrength": 0.363,
+   "glare": {
+    "x": 0.38,
+    "y": 0.302,
+    "strength": 0.176
+   },
+   "creases": [
+    {
+     "x": 0.667,
+     "y": 0.454,
+     "angle": -38,
+     "width": 54,
+     "length": 504,
+     "strength": 0.055
+    },
+    {
+     "x": 0.503,
+     "y": 0.648,
+     "angle": -25,
+     "width": 63,
+     "length": 273,
+     "strength": 0.108
+    },
+    {
+     "x": 0.4,
+     "y": 0.567,
+     "angle": -1,
+     "width": 32,
+     "length": 455,
+     "strength": 0.078
+    },
+    {
+     "x": 0.417,
+     "y": 0.101,
+     "angle": 41,
+     "width": 67,
+     "length": 621,
+     "strength": 0.066
+    },
+    {
+     "x": 0.505,
+     "y": 0.134,
+     "angle": 24,
+     "width": 69,
+     "length": 229,
+     "strength": 0.067
+    },
+    {
+     "x": 0.432,
+     "y": 0.36,
+     "angle": 42,
+     "width": 32,
+     "length": 588,
+     "strength": 0.105
+    },
+    {
+     "x": 0.156,
+     "y": 0.889,
+     "angle": -39,
+     "width": 41,
+     "length": 372,
+     "strength": 0.108
+    },
+    {
+     "x": 0.324,
+     "y": 0.218,
+     "angle": -11,
+     "width": 52,
+     "length": 496,
+     "strength": 0.062
+    },
+    {
+     "x": 0.137,
+     "y": 0.237,
+     "angle": -15,
+     "width": 40,
+     "length": 466,
+     "strength": 0.057
+    }
+   ],
+   "desk": "cloth",
+   "seed": 2010
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

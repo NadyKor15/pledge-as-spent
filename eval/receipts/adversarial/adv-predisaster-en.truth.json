@@ -1,0 +1,335 @@
+{
+ "id": "adv-predisaster-en",
+ "set": "adversarial",
+ "locale": "en",
+ "seed": 6002,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "adv-predisaster-en.png",
+  "sha256": "7da867d498098aa77c76cd6909c66973ebfa3424916c6547d54621479bcc0f0c",
+  "mediaType": "image/png",
+  "width": 627,
+  "height": 822
+ },
+ "receipt": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-10-18T16:05:00",
+  "receiptNumber": "3936",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 10837,
+  "taxMinor": 721,
+  "taxIncluded": false,
+  "totalMinor": 11558,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8720",
+    "bbox": {
+     "x": 0.5611,
+     "y": 0.7464,
+     "w": 0.2276,
+     "h": 0.0295
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 48,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blanket counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": true,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-predisaster-en",
+  "set": "adversarial",
+  "locale": "en",
+  "seed": 6002,
+  "store": {
+   "name": "BRINDLEWOOD GROCERY",
+   "address": [
+    "210 Mill Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0042"
+  },
+  "purchasedAt": "2026-10-18T16:05:00",
+  "receiptNumber": "3936",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 2,
+    "unitMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 48,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW",
+     "BLANKET"
+    ],
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw blanket counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SOFTIES DIAPERS SZ 3 38CT"
+    ],
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 9943,
+    "taxMinor": 721
+   }
+  ],
+  "taxMinor": 721,
+  "subtotalMinor": 10837,
+  "totalMinor": 11558,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "8720"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8720"
+   }
+  ],
+  "photo": {
+   "rotZ": 3.294,
+   "rotX": -2.901,
+   "rotY": 2.599,
+   "perspective": 1220,
+   "blurPx": 0.382,
+   "noise": 0.062,
+   "lightAngle": 58,
+   "lightStrength": 0.338,
+   "glare": {
+    "x": 0.566,
+    "y": 0.5,
+    "strength": 0.158
+   },
+   "creases": [
+    {
+     "x": 0.62,
+     "y": 0.08,
+     "angle": -42,
+     "width": 61,
+     "length": 592,
+     "strength": 0.081
+    },
+    {
+     "x": 0.656,
+     "y": 0.675,
+     "angle": 29,
+     "width": 41,
+     "length": 346,
+     "strength": 0.098
+    },
+    {
+     "x": 0.067,
+     "y": 0.606,
+     "angle": -18,
+     "width": 37,
+     "length": 311,
+     "strength": 0.095
+    },
+    {
+     "x": 0.54,
+     "y": 0.672,
+     "angle": 17,
+     "width": 31,
+     "length": 440,
+     "strength": 0.087
+    },
+    {
+     "x": 0.401,
+     "y": 0.812,
+     "angle": -51,
+     "width": 44,
+     "length": 477,
+     "strength": 0.071
+    },
+    {
+     "x": 0.352,
+     "y": 0.083,
+     "angle": -32,
+     "width": 28,
+     "length": 260,
+     "strength": 0.068
+    },
+    {
+     "x": 0.172,
+     "y": 0.729,
+     "angle": 7,
+     "width": 31,
+     "length": 629,
+     "strength": 0.095
+    },
+    {
+     "x": 0.672,
+     "y": 0.622,
+     "angle": 48,
+     "width": 54,
+     "length": 363,
+     "strength": 0.09
+    },
+    {
+     "x": 0.365,
+     "y": 0.928,
+     "angle": 67,
+     "width": 41,
+     "length": 588,
+     "strength": 0.098
+    }
+   ],
+   "desk": "slate",
+   "seed": 6009
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": true,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

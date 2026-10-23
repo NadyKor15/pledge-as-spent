@@ -1,0 +1,336 @@
+{
+ "id": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 6003,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "adv-reshot-ja-04.png",
+  "sha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 937
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3缶パック",
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮 缶詰",
+    "translationEn": "Mackerel in miso, canned",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単4 アルカリ乾電池 4本入",
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 484,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4414",
+    "bbox": {
+     "x": 0.5708,
+     "y": 0.6619,
+     "w": 0.2332,
+     "h": 0.0272
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1759,
+     "y": 0.7429,
+     "w": 0.0734,
+     "h": 0.0213
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.5914,
+     "y": 0.7836,
+     "w": 0.203,
+     "h": 0.0265
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans, pack of 3 counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mackerel in miso, canned counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": "v1-ja-04",
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-reshot-ja-04",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 6003,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ツナ缶 3缶パック"
+    ],
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 4,
+    "unitMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tuna cans, pack of 3 counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば味噌煮 缶詰"
+    ],
+    "translationEn": "Mackerel in miso, canned",
+    "qty": 12,
+    "unitMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mackerel in miso, canned counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単4 アルカリ乾電池 4本入"
+    ],
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 2,
+    "unitMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 4088,
+    "taxMinor": 327
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1574,
+    "taxMinor": 157
+   }
+  ],
+  "taxMinor": 484,
+  "subtotalMinor": 5662,
+  "totalMinor": 6146,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "4414"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4414"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.367,
+   "rotX": -4.928,
+   "rotY": -4.059,
+   "perspective": 1633,
+   "blurPx": 0.755,
+   "noise": 0.065,
+   "lightAngle": 250,
+   "lightStrength": 0.384,
+   "glare": {
+    "x": 0.521,
+    "y": 0.066,
+    "strength": 0.195
+   },
+   "creases": [
+    {
+     "x": 0.428,
+     "y": 0.824,
+     "angle": 66,
+     "width": 59,
+     "length": 239,
+     "strength": 0.081
+    },
+    {
+     "x": 0.394,
+     "y": 0.07,
+     "angle": -49,
+     "width": 62,
+     "length": 452,
+     "strength": 0.078
+    },
+    {
+     "x": 0.727,
+     "y": 0.351,
+     "angle": 14,
+     "width": 52,
+     "length": 588,
+     "strength": 0.076
+    },
+    {
+     "x": 0.787,
+     "y": 0.092,
+     "angle": 67,
+     "width": 55,
+     "length": 336,
+     "strength": 0.108
+    },
+    {
+     "x": 0.622,
+     "y": 0.59,
+     "angle": 40,
+     "width": 36,
+     "length": 450,
+     "strength": 0.089
+    }
+   ],
+   "desk": "slate",
+   "seed": 6010
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": "v1-ja-04",
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

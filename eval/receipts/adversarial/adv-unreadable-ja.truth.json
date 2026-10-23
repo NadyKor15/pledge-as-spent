@@ -1,0 +1,309 @@
+{
+ "id": "adv-unreadable-ja",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 6005,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "adv-unreadable-ja.png",
+  "sha256": "c24ba8cf0487e2da48f9eaead5c6c52223ef3f10e06d090706c044a43b0ac7a7",
+  "mediaType": "image/png",
+  "width": 626,
+  "height": 870
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T10:56:00",
+  "receiptNumber": "7947",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ﾐﾈﾗﾙｳｫｰﾀｰ 2L",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ソフトキッズ おむつ L 34枚",
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "毛布 シングル",
+    "translationEn": "Blanket, single",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 4724,
+  "taxMinor": 405,
+  "taxIncluded": true,
+  "totalMinor": 4724,
+  "pii": [],
+  "readability": "unreadable"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket, single counts toward Blankets.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": true
+ },
+ "spec": {
+  "id": "adv-unreadable-ja",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 6005,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-05T10:56:00",
+  "receiptNumber": "7947",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L",
+     "6本ケース"
+    ],
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾐﾈﾗﾙｳｫｰﾀｰ 2L"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ L 34枚"
+    ],
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 1,
+    "unitMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "毛布 シングル"
+    ],
+    "translationEn": "Blanket, single",
+    "qty": 1,
+    "unitMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blanket, single counts toward Blankets."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1446,
+    "taxMinor": 107
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 3278,
+    "taxMinor": 298
+   }
+  ],
+  "taxMinor": 405,
+  "subtotalMinor": 4724,
+  "totalMinor": 4724,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 5000,
+   "changeMinor": 276,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -2.933,
+   "rotX": -1.723,
+   "rotY": 2.579,
+   "perspective": 1232,
+   "blurPx": 6.624,
+   "noise": 0.1,
+   "lightAngle": 180,
+   "lightStrength": 0.19,
+   "glare": {
+    "x": 0.418,
+    "y": 0.557,
+    "strength": 0.18
+   },
+   "creases": [
+    {
+     "x": 0.831,
+     "y": 0.168,
+     "angle": -20,
+     "width": 55,
+     "length": 454,
+     "strength": 0.115
+    },
+    {
+     "x": 0.713,
+     "y": 0.305,
+     "angle": -22,
+     "width": 30,
+     "length": 526,
+     "strength": 0.06
+    },
+    {
+     "x": 0.143,
+     "y": 0.467,
+     "angle": -40,
+     "width": 27,
+     "length": 560,
+     "strength": 0.07
+    },
+    {
+     "x": 0.648,
+     "y": 0.263,
+     "angle": -14,
+     "width": 57,
+     "length": 491,
+     "strength": 0.056
+    },
+    {
+     "x": 0.635,
+     "y": 0.165,
+     "angle": -32,
+     "width": 56,
+     "length": 413,
+     "strength": 0.116
+    },
+    {
+     "x": 0.652,
+     "y": 0.539,
+     "angle": 9,
+     "width": 27,
+     "length": 620,
+     "strength": 0.063
+    },
+    {
+     "x": 0.779,
+     "y": 0.169,
+     "angle": -21,
+     "width": 40,
+     "length": 309,
+     "strength": 0.111
+    }
+   ],
+   "desk": "slate",
+   "seed": 6012
+  },
+  "readability": "unreadable",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": true
+  }
+ }
+}

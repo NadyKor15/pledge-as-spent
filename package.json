@@ -10,16 +10,21 @@
     "test": "vitest run",
     "typecheck": "next typegen && tsc --noEmit",
     "test:live": "vitest run tests/live",
-    "story:sandbox": "tsx scripts/sandbox-story.ts"
+    "story:sandbox": "tsx scripts/sandbox-story.ts",
+    "receipts:gen": "tsx tools/receipts/generate.ts",
+    "eval": "tsx tools/eval/run.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "3.1153.0",
     "@electric-sql/pglite": "0.5.10",
     "@neondatabase/serverless": "1.2.0",
     "@paypal/paypal-server-sdk": "2.5.0",
     "ag-grid-community": "36.2.0",
     "ag-grid-react": "36.2.0",
     "drizzle-orm": "0.45.4",
+    "jpeg-js": "0.4.4",
     "next": "16.4.2",
+    "pngjs": "7.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "zod": "4.6.7"
@@ -28,6 +33,7 @@
     "@playwright/test": "1.64.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "24.19.2",
+    "@types/pngjs": "6.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
