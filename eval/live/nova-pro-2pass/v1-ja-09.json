@@ -1,0 +1,161 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": {
+  "merchantName": "-4-7-20",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "T000010000712",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "10 ¥1,194",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 1194,
+    "amountMinor": 11940,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3 x 398",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2L ¥236",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 236,
+    "amountMinor": 472,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2 x 118",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "38 ¥2,196",
+    "translationEn": "",
+    "qty": 38,
+    "unitPriceMinor": 11098,
+    "amountMinor": 421724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 x 11,098",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 11098,
+    "amountMinor": 22196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "350ml 6 ¥1,198",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "(4) ¥4,824",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 4824,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "8% ¥236",
+    "translationEn": "",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10% ¥4,588",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 4588,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "8% ¥417)",
+    "translationEn": "",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 417,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "10% ¥4,824",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 4824,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 482,
+  "taxIncluded": false,
+  "totalMinor": 5000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2912,
+   "tokensOut": 756,
+   "usdCeiling": 0.032557,
+   "usdActual": 0.0047480000000000005
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1358,
+   "tokensOut": 462,
+   "usdCeiling": 0.017025,
+   "usdActual": 0.002565
+  }
+ ],
+ "latencyMs": {
+  "read": 9355,
+  "classify": 3543
+ },
+ "errors": []
+}

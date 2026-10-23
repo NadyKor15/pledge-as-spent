@@ -1,0 +1,317 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO “20 *579,80",
+    "translationEn": "MINI BABY DIAPER SIZE 4",
+    "qty": 20,
+    "unitPriceMinor": 57980,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2 x 289,90",
+    "translationEn": "2 x 289,90",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "RAKI 70 CL «20 *689,00",
+    "translationEn": "RAKI 70 CL",
+    "qty": 20,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SEVİMLİ BEBEK BEZİ «20 *698,00",
+    "translationEn": "CUTE BABY DIAPER",
+    "qty": 20,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "NO:4 JUMBO 42'Lİ 2 x 349,00",
+    "translationEn": "NO:4 JUMBO 42'S 2 x 349,00",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "YILDIZ SİGARA MAVİ “20 *95,00",
+    "translationEn": "YILDIZ CIGARETTE BLUE",
+    "qty": 20,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "HEDİYE KARTI 500 TL *500,00",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "AA PİL 10'LU PAKET «20 *169,90",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 20,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "BATTANİYE TEK KİŞİLİK «20 #898, 00",
+    "translationEn": "BLANKET SINGLE",
+    "qty": 20,
+    "unitPriceMinor": null,
+    "amountMinor": 0,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "2 x 449,00",
+    "translationEn": "2 x 449,00",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV 420 MATRAH 2.608, 08 *521,62",
+    "translationEn": "VAT 420 SUBTOTAL 2608,08 *521,62",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPKDV *521, 62",
+    "translationEn": "TOTAL VAT *521,62",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPLAM *3.629,70",
+    "translationEn": "TOTAL *3.629,70",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "KREDİ KARTI *3.629,70",
+    "translationEn": "CREDIT CARD *3.629,70",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3108,
+  "taxMinor": 52162,
+  "taxIncluded": false,
+  "totalMinor": 362970,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "0 555 000 00 57",
+    "bbox": {
+     "x": 0.43208721532238353,
+     "y": 0.23146771210644174,
+     "w": 0.22015023563122588,
+     "h": 0.019247905455985703
+    }
+   },
+   {
+    "kind": "other",
+    "text": "0000000057",
+    "bbox": {
+     "x": 0.47563651405529755,
+     "y": 0.26163860065556455,
+     "w": 0.1451066985223391,
+     "h": 0.01702367496988283
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diaper size 4 matches the need for baby diapers size 4.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Raki is an alcoholic beverage and is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Yildiz cigarette is a tobacco product and is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift card is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": 200,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA battery 10 pack matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": "blankets",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket single matches the need for blankets.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any specific need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1241,
+   "tokensOut": 989,
+   "usdCeiling": 0.016702,
+   "usdActual": 0.004158
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1713,
+   "tokensOut": 536,
+   "usdCeiling": 0.01766,
+   "usdActual": 0.003086
+  }
+ ],
+ "latencyMs": {
+  "read": 10550,
+  "classify": 4441
+ },
+ "errors": []
+}

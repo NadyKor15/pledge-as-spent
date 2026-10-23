@@ -1,0 +1,24 @@
+{
+ "receiptId": "adv-unreadable-ja",
+ "set": "adversarial",
+ "imageSha256": "c24ba8cf0487e2da48f9eaead5c6c52223ef3f10e06d090706c044a43b0ac7a7",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 878,
+   "tokensOut": 14,
+   "usdCeiling": 0.016192,
+   "usdActual": 0.000747
+  }
+ ],
+ "latencyMs": {
+  "read": 702,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at totalMinor",
+  "raw: {\"ocr\":\"vanity,\\nに be\",\"structured\":\"RECEIPT: currency=JPY; readability=unreadable\"}"
+ ]
+}

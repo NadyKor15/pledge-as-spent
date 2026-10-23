@@ -2,23 +2,208 @@
  "receiptId": "v1-es-06",
  "set": "v1",
  "imageSha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-09-11T20:53:00",
+  "receiptNumber": "1578",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "Piles AA LR6 8U",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 599,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "Maria Cookies",
+    "qty": null,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "VINO TINTO CRIANZA",
+    "translationEn": "Red Wine Aging",
+    "qty": null,
+    "unitPriceMinor": 650,
+    "amountMinor": 650,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUADERNO AS",
+    "translationEn": "Notebook AS",
+    "qty": null,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 x 1,95",
+    "translationEn": "2 x 1.95",
+    "qty": 2,
+    "unitPriceMinor": 195,
+    "amountMinor": 390,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "Toilet Paper 12R",
+    "qty": null,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "Mineral Water 1.5L",
+    "qty": null,
+    "unitPriceMinor": 708,
+    "amountMinor": 708,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 8,
+    "rawText": "12 x 0,59",
+    "translationEn": "12 x 0.59",
+    "qty": 12,
+    "unitPriceMinor": 59,
+    "amountMinor": 708,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 2166,
+  "taxMinor": 775,
+  "taxIncluded": true,
+  "totalMinor": 2941,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "TEL 900 000 057",
+    "bbox": {
+     "x": 0.4429134714253445,
+     "y": 0.24429000423665667,
+     "w": 0.1589996820037371,
+     "h": 0.01692277643546522
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "1277",
+    "bbox": {
+     "x": 0.4098129702826125,
+     "y": 0.8113005993177512,
+     "w": 0.058758703653550626,
+     "h": 0.016437362829329838
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need and the quantity matches the need unit.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Maria Cookies do not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Red Wine Aging is alcohol, which is not a funded item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook AS does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item '2 x 1.95' does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet Paper 12R does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral Water 1.5L is a listed need and the quantity matches the need unit.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral Water 1.5L is a listed need and the quantity matches the need unit.",
+   "confidence": 0.95
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1157,
-   "tokensOut": 522,
+   "tokensOut": 570,
    "usdCeiling": 0.00125,
-   "usdActual": 0.000195
+   "usdActual": 0.000206
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1257,
+   "tokensOut": 390,
+   "usdCeiling": 0.00126,
+   "usdActual": 0.000169
   }
  ],
  "latencyMs": {
-  "read": 3070,
-  "classify": null
+  "read": 4732,
+  "classify": 2441
  },
- "errors": [
-  "read: ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor",
-  "raw: {\"ocr\":\"SUPERMERCADO EL FARO\\nAv. del Rio 45\\n00000 Villa Alborada\\nTEL 900 000 057\\nCIF B00000057\\nFACTURA SIMPLIFICADA N2 1578\\n09/11/2026 20:53 CAJA 06\\nDESCRIPCIÓN IMPORTE\\nPILAS AA LR6 8U 5,99 B\\nGALLETAS MARÍA 1,45 A\\nVINO TINTO CRIANZA 6,50 B\\nCUADERNO AS 3,90 B\\n2 x 1,95\\nPAPEL HIGIENICO 12R 4,49 B\\nAGUA MINERAL 1,5L 7,08 A\\n12 x 0,59\\nTOTAL (IVA INCLUIDO) 29,41 EUR\\nA IVA 10% BASE 7,75 CUOTA 0,78\\nB IVA 21% BASE 17,26 CUOTA 3,62\\nPAGO TARJETA 29,41\\nsee eK joto 1277\\nGRACIAS POR SU VISITA\",\"structured\":\"RECEIPT: merchant=SUPERMERCADO EL FARO; address=Av. del Rio 45, 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-09-11T20:53:00; number=1578; subtotal=21.66; tax=7.75; tax_included=true; total=29.41; readability=good\\nLINE: no=1; qty=8; unit=0.75; amount=5.99; rate=1000; text=PILAS AA LR6 8U; en=Piles AA LR6 8U\\nLINE: no=2; unit=1.45; amount=1.45; rate=1000; text=GALLETAS MARÍA; en=Maria Cookies\\nLINE: no=3; unit=6.5; amount=6.5; rate=1000; text=VINO TINTO CRIANZA; en=Red Wine Aging\\nLINE: no=4; unit=3.9; amount=3.9; rate=1000; text=CUADERNO AS; en=Notebook AS\\nLINE: no=5; qty=2; unit=1.95; amount=3.9; rate=2100; text=2 x 1,95; en=2 x 1.95\\nLINE: no=6; unit=4.49; amount=4.49; rate=1000; text=PAPEL HIGIENICO 12R; en=Toilet Paper 12R\\nLINE: no=7; unit=7.08; amount=7.08; rate=1000; text=AGUA MINERAL 1,5L; en=Mineral Water 1.5L\\nLINE: no=8; qty=12; unit=0.59; amount=7.08; rate=1000; text=12 x 0,59; en=12 x 0.59\\nPII: kind=card_number; box=0.6,0.92,0.23,0.02; text=1277\"}"
- ]
+ "errors": []
 }

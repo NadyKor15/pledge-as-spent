@@ -1,0 +1,134 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Cars1 Cd. No:12, Merkez / Y1ld1zova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAG SUYU 5 L",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDIRIM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVIMLI BEBEK BEZI",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "NO:4 JUMBO 42'LI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %20 MATRAH 290,83",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 29083,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 36761,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs further review to determine its eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The product name needs further review to determine its eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The item is not a listed need and does not contribute to the disaster-relief drive.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2970,
+   "tokensOut": 613,
+   "usdCeiling": 0.032756999999999994,
+   "usdActual": 0.004337000000000001
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1116,
+   "tokensOut": 205,
+   "usdCeiling": 0.016434,
+   "usdActual": 0.001549
+  }
+ ],
+ "latencyMs": {
+  "read": 6558,
+  "classify": 1820
+ },
+ "errors": []
+}

@@ -1,0 +1,109 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T16:52:00",
+  "receiptNumber": "4986",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ベビーラブパンツ M 38 枚 ¥1,098",
+    "translationEn": "Baby Love Pants M 38 pieces",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1900
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター ¥648※ 2L ペット",
+    "translationEn": "Mineral water 2L bottle",
+    "qty": 1,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "6 点 x 単 168",
+    "translationEn": "6 items x unit 168",
+    "qty": 6,
+    "unitPriceMinor": 168,
+    "amountMinor": 168,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 147,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "クレジットキキ本キキネネキネネネ 1020",
+    "bbox": {
+     "x": 0.7532906850816544,
+     "y": 0.7325018433978001,
+     "w": 0.05520435562787007,
+     "h": 0.015950360103525574
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love Pants M matches the need for baby diapers size M.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2L bottle matches the need for drinking water 2 L.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The receipt line does not specify the type of batteries, and only AA batteries are needed.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1142,
+   "tokensOut": 297,
+   "usdCeiling": 0.016514,
+   "usdActual": 0.001864
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1105,
+   "tokensOut": 144,
+   "usdCeiling": 0.016358,
+   "usdActual": 0.001345
+  }
+ ],
+ "latencyMs": {
+  "read": 5769,
+  "classify": 1418
+ },
+ "errors": []
+}

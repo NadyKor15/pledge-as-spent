@@ -1,0 +1,137 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Maritimo 9",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6 3,29 A",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PANALES T3 PANTS 36U 14,98 A",
+    "translationEn": "PANTS T3 PANTS 36U",
+    "qty": 1,
+    "unitPriceMinor": 1498,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2x 7,49",
+    "translationEn": "2x 7.49",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAPEL HIGIENICO 12R 4,49 B",
+    "translationEn": "TOILET PAPER 12R",
+    "qty": 12,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 2110,
+  "taxMinor": 166,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "900 000 088",
+    "bbox": {
+     "x": 0.4606255445518099,
+     "y": 0.2731778673184665,
+     "w": 0.16093355431044737,
+     "h": 0.02318002427760607
+    }
+   },
+   {
+    "kind": "other",
+    "text": "CIF B00000088",
+    "bbox": {
+     "x": 0.4738557330909203,
+     "y": 0.3077891076483715,
+     "w": 0.131694792970605,
+     "h": 0.02104875998167688
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The item is not listed among the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Toilet paper is not listed among the needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1108,
+   "tokensOut": 376,
+   "usdCeiling": 0.016584,
+   "usdActual": 0.00209
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1151,
+   "tokensOut": 168,
+   "usdCeiling": 0.016419,
+   "usdActual": 0.001458
+  }
+ ],
+ "latencyMs": {
+  "read": 5596,
+  "classify": 1568
+ },
+ "errors": []
+}

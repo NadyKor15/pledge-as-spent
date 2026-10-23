@@ -1,0 +1,242 @@
+{
+ "receiptId": "v1-ja-08",
+ "set": "v1",
+ "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+ "reading": {
+  "merchantName": "-4-",
+  "merchantAddress": "TEL 0123-55-1100",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:25:00",
+  "receiptNumber": "5482",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "2L",
+    "translationEn": "2L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "-40",
+    "translationEn": "-40",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "CR2032",
+    "translationEn": "CR2032",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "L 34",
+    "translationEn": "L 34",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2,596",
+    "translationEn": "2,596",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "350ml",
+    "translationEn": "350ml",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "(5)",
+    "translationEn": "(5)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -5,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "8 718",
+    "translationEn": "8 718",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3712,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "57",
+    "translationEn": "57",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 57,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10 2,994",
+    "translationEn": "10 2,994",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2994,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "299",
+    "translationEn": "299",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 299,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4068,
+  "taxMinor": 446,
+  "taxIncluded": false,
+  "totalMinor": 4464,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a discount line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "CR2032 batteries are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "L 34 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "350ml is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a discount line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3400,
+   "tokensOut": 725,
+   "usdCeiling": 0.032544000000000003,
+   "usdActual": 0.00504
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1316,
+   "tokensOut": 386,
+   "usdCeiling": 0.016935,
+   "usdActual": 0.002288
+  }
+ ],
+ "latencyMs": {
+  "read": 7728,
+  "classify": 3135
+ },
+ "errors": []
+}

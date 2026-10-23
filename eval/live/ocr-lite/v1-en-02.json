@@ -128,7 +128,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Spring Water 1GAL counts toward the drinking water need.",
+   "reasonEn": "Spring Water 1GAL matches the need for drinking water 1 gallon.",
    "confidence": 0.95
   },
   {
@@ -137,7 +137,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "6 @ $1.49 does not match any listed need.",
+   "reasonEn": "6 @ $1.49 does not match any need.",
    "confidence": 0.95
   },
   {
@@ -146,7 +146,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "AAA Battery 8PK does not match any listed need.",
+   "reasonEn": "AAA Battery 8PK does not match any need.",
    "confidence": 0.95
   },
   {
@@ -154,8 +154,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Coupon -$1.20 does not match any listed need and cannot be counted.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupon -$1.20 does not match any need.",
    "confidence": 0.95
   },
   {
@@ -164,7 +164,7 @@
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Alkaline 24PK counts toward the AA batteries need.",
+   "reasonEn": "AA Alkaline 24PK matches the need for AA batteries.",
    "confidence": 0.95
   },
   {
@@ -173,7 +173,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "2 @ $2.79 does not match any listed need.",
+   "reasonEn": "2 @ $2.79 does not match any need.",
    "confidence": 0.95
   },
   {
@@ -182,7 +182,7 @@
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Battery 8PK counts toward the AA batteries need.",
+   "reasonEn": "AA Battery 8PK matches the need for AA batteries.",
    "confidence": 0.95
   },
   {
@@ -191,7 +191,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Milk 1GAL does not match any listed need.",
+   "reasonEn": "Milk 1GAL does not match any need.",
    "confidence": 0.95
   }
  ],
@@ -199,21 +199,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1135,
-   "tokensOut": 641,
+   "tokensOut": 639,
    "usdCeiling": 0.001249,
-   "usdActual": 0.000222
+   "usdActual": 0.000221
   },
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1279,
-   "tokensOut": 386,
+   "tokensOut": 382,
    "usdCeiling": 0.001262,
-   "usdActual": 0.000169
+   "usdActual": 0.000168
   }
  ],
  "latencyMs": {
-  "read": 3945,
-  "classify": 2510
+  "read": 3317,
+  "classify": 2947
  },
  "errors": []
 }

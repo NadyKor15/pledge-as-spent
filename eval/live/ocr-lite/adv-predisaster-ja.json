@@ -7,7 +7,7 @@
   "merchantAddress": "北空県北空市中央 3-5-12",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-03-19T11:20:00",
+  "purchasedAt": "2029-07-27T11:20:00",
   "receiptNumber": "3996",
   "lines": [
    {
@@ -22,7 +22,7 @@
    {
     "lineNo": 2,
     "rawText": "単 3 電池 19 本入",
-    "translationEn": "AAA battery 19 pack",
+    "translationEn": "Single 3 battery 19 pack",
     "qty": 3,
     "unitPriceMinor": 796,
     "amountMinor": 796,
@@ -40,7 +40,7 @@
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "AA alkaline dry battery 4 pack",
+    "translationEn": "Single 4 alkaline dry battery 4 pack",
     "qty": 4,
     "unitPriceMinor": 476,
     "amountMinor": 476,
@@ -53,7 +53,7 @@
   "totalMinor": 2768,
   "pii": [
    {
-    "kind": "member_id",
+    "kind": "card_number",
     "text": "9728",
     "bbox": {
      "x": 0.7437940769692758,
@@ -72,7 +72,7 @@
    "needQty": 1,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Size M diapers are needed, but this line is for size L diapers.",
+   "reasonEn": "The Ruth M diapers are not size M.",
    "confidence": 0.9
   }
  ],
@@ -80,21 +80,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1148,
-   "tokensOut": 349,
+   "tokensOut": 354,
    "usdCeiling": 0.001239,
-   "usdActual": 0.000153
+   "usdActual": 0.000154
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1130,
-   "tokensOut": 63,
-   "usdCeiling": 0.001233,
-   "usdActual": 0.000083
+   "tokensIn": 1134,
+   "tokensOut": 57,
+   "usdCeiling": 0.001234,
+   "usdActual": 0.000082
   }
  ],
  "latencyMs": {
-  "read": 2828,
-  "classify": 703
+  "read": 3092,
+  "classify": 708
  },
  "errors": []
 }

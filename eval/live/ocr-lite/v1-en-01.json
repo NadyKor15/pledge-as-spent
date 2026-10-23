@@ -26,7 +26,7 @@
     "qty": 2,
     "unitPriceMinor": 149,
     "amountMinor": 298,
-    "taxRateBp": 725
+    "taxRateBp": 0
    },
    {
     "lineNo": 3,
@@ -34,8 +34,8 @@
     "translationEn": "Deer Creek Water 1 gallon jug",
     "qty": 1,
     "unitPriceMinor": 169,
-    "amountMinor": 169,
-    "taxRateBp": 725
+    "amountMinor": 1690,
+    "taxRateBp": 0
    },
    {
     "lineNo": 4,
@@ -44,16 +44,7 @@
     "qty": 10,
     "unitPriceMinor": 169,
     "amountMinor": 1690,
-    "taxRateBp": 725
-   },
-   {
-    "lineNo": 5,
-    "rawText": "COUPON",
-    "translationEn": "Coupon",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": -125,
-    "taxRateBp": null
+    "taxRateBp": 0
    }
   ],
   "subtotalMinor": 4361,
@@ -81,7 +72,34 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size 3 diapers are listed as a need.",
+   "reasonEn": "Size 3 diapers are listed as a need and match the item purchased.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jugs of water are listed as a need and match the item purchased.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jugs of water are listed as a need and match the item purchased.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1 gallon jugs of water are listed as a need and match the item purchased.",
    "confidence": 0.95
   }
  ],
@@ -89,21 +107,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1088,
-   "tokensOut": 395,
+   "tokensOut": 364,
    "usdCeiling": 0.001244,
-   "usdActual": 0.00016
+   "usdActual": 0.000153
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1152,
-   "tokensOut": 53,
-   "usdCeiling": 0.001243,
-   "usdActual": 0.000082
+   "tokensIn": 1125,
+   "tokensOut": 194,
+   "usdCeiling": 0.001236,
+   "usdActual": 0.000114
   }
  ],
  "latencyMs": {
-  "read": 2833,
-  "classify": 700
+  "read": 2848,
+  "classify": 1379
  },
  "errors": []
 }

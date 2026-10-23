@@ -1,0 +1,188 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "麺屋武一",
+  "merchantAddress": "東京都新宿区歌舞伎町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:19:00",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "豚骨 3枚入り",
+    "translationEn": "Pork bone 3 pieces",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "麺 中太麺",
+    "translationEn": "Noodles medium thick",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "豚骨スープ #3 20倍",
+    "translationEn": "Pork bone soup #3 20 times",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "税込",
+    "translationEn": "Tax included",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 100,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "合計 (税)",
+    "translationEn": "Total (tax)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "消費税8% 税込",
+    "translationEn": "Consumption tax 8% tax included",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 146,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "地方消費税10% 税込",
+    "translationEn": "Local consumption tax 10% tax included",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 257,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "お支払",
+    "translationEn": "Payment",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4813,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4410,
+  "taxMinor": 403,
+  "taxIncluded": false,
+  "totalMinor": 4813,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork bone does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Noodles do not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork bone soup does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total (tax) does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Local consumption tax does not match any of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment does not match any of the listed needs.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3001,
+   "tokensOut": 620,
+   "usdCeiling": 0.032617,
+   "usdActual": 0.004385
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1260,
+   "tokensOut": 318,
+   "usdCeiling": 0.016844,
+   "usdActual": 0.002026
+  }
+ ],
+ "latencyMs": {
+  "read": 6925,
+  "classify": 2488
+ },
+ "errors": []
+}

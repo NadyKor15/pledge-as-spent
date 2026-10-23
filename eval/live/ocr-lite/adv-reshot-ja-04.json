@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-07-11T19:56:00",
+  "purchasedAt": "2026-04-07T19:56:00",
   "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "パピ -7 パツ",
-    "translationEn": "Papier towels",
+    "translationEn": "Papier -7 Pat",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -22,9 +22,9 @@
    {
     "lineNo": 2,
     "rawText": "ツナ缶 3 缶バック",
-    "translationEn": "Canned tuna 3 cans",
+    "translationEn": "Canned tuna 3 cans pack",
     "qty": 3,
-    "unitPriceMinor": 614,
+    "unitPriceMinor": null,
     "amountMinor": 1832,
     "taxRateBp": 800
    },
@@ -40,15 +40,15 @@
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "4 alkaline dry batteries 4-pack",
+    "translationEn": "Single 4 Alkaline dry batteries 4-pack",
     "qty": 12,
-    "unitPriceMinor": 155,
+    "unitPriceMinor": null,
     "amountMinor": 476,
     "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 1257,
+  "taxMinor": 485,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
@@ -81,8 +81,35 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line does not match any of the listed needs and is not a valid item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned tuna matches the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Paper towels are not a listed need.",
+   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
    "confidence": 0.95
   }
  ],
@@ -90,21 +117,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1221,
-   "tokensOut": 406,
+   "tokensOut": 410,
    "usdCeiling": 0.001245,
-   "usdActual": 0.000171
+   "usdActual": 0.000172
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1142,
-   "tokensOut": 58,
-   "usdCeiling": 0.001234,
-   "usdActual": 0.000082
+   "tokensIn": 1149,
+   "tokensOut": 200,
+   "usdCeiling": 0.001235,
+   "usdActual": 0.000117
   }
  ],
  "latencyMs": {
-  "read": 3353,
-  "classify": 1225
+  "read": 4242,
+  "classify": 1422
  },
  "errors": []
 }

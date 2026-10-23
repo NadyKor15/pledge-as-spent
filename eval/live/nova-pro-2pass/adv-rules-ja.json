@@ -1,0 +1,24 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 6213,
+   "tokensOut": 787,
+   "usdCeiling": 0.048977,
+   "usdActual": 0.00749
+  }
+ ],
+ "latencyMs": {
+  "read": 9841,
+  "classify": null
+ },
+ "errors": [
+  "read: two-pass read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[1].qty\n✖ Invalid input: expected number, received string\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected number, received string\n  → at lines[6].unitPriceMinor",
+  "raw: {\"transcription\":\"20261103() 20:11\\nNo.0777\\n- 3,000 ¥3,000\\n- 350ml 6 ¥1,198\\n4 4 ¥238\\n2L ¥236\\n2 x #118\\n- A5 ¥148\\n¥580\\n- 2L ¥324\\n3 x #108\\n(7) ¥5,724\\n8 ¥560\\n10 ¥2,164\\n¥3,000\\n( 8% ¥41)\\n( 10% ¥196)\\n¥5,724\\n2050\\n¥5,724\\n7788 0428 0676\",\"structured\":\"RECEIPT: merchant=<store name not printed>; address=<store address not printed>; country=JP; currency=JPY; purchased=2026-11-03T20:11:00; number=0777; subtotal=5724; tax=237; tax_included=false; total=5724; readability=good\\nLINE: no=1; qty=3; unit=1000; amount=3000; text=- 3,000 ¥3,000\\nLINE: no=2; qty=350ml; unit=6; amount=1198; text=- 350ml 6 ¥1,198\\nLINE: no=3; qty=4; unit=4; amount=238; text=4 4 ¥238\\nLINE: no=4; unit=2L; amount=236; text=2L ¥236\\nLINE: no=5; qty=2; text=2 x #118\\nLINE: no=6; amount=148; text=- A5 ¥148\\nLINE: no=7; amount=580; text=¥580\\nLINE: no=8; unit=2L; amount=324; text=- 2L ¥324\\nLINE: no=9; qty=3; text=3 x #108\\nLINE: no=10; amount=5724; text=(7) ¥5,724\\nLINE: no=11; unit=8; amount=560; text=8 ¥560\\nLINE: no=12; unit=10; amount=2164; text=10 ¥2,164\\nLINE: no=13; amount=3000; text=¥3,000\\nLINE: no=14; amount=41; text=( 8% ¥41)\\nLINE: no=15; amount=196; text=( 10% ¥196)\\nLINE: no=16; amount=5724; text=¥5,724\\nLINE: no=17; amount=2050; text=2050\\nLINE: no=18; amount=5724; text=¥5,724\\nPII: kind=card_number; text=7788 0428 0676\"}"
+ ]
+}

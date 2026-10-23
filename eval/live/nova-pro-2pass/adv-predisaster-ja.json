@@ -1,0 +1,188 @@
+{
+ "receiptId": "adv-predisaster-ja",
+ "set": "adversarial",
+ "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+ "reading": {
+  "merchantName": "<not printed>",
+  "merchantAddress": "<not printed>",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "M ¥1,098 10 ¥796",
+    "translationEn": "M 1098 10 796",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2 x 398",
+    "translationEn": "2 x 398",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "CR2032 ¥398",
+    "translationEn": "CR2032 398",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "4 4 ¥476",
+    "translationEn": "4 4 476",
+    "qty": 4,
+    "unitPriceMinor": null,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 x 238",
+    "translationEn": "2 x 238",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "(4) ¥2,768",
+    "translationEn": "(4) 2768",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "10% ¥2,768",
+    "translationEn": "10% 2768",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "( 10% ¥251)",
+    "translationEn": "( 10% 251)",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -251,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": false,
+  "totalMinor": 2768,
+  "pii": [],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of size M diapers, which is a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of blankets, which is a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a CR2032 battery, which is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of AA batteries, which is a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of AA batteries, which is a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of canned food, which is a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This appears to be a discount line, but the exact nature of the discount is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This appears to be a discount line, but the exact nature of the discount is unclear.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2861,
+   "tokensOut": 589,
+   "usdCeiling": 0.032502,
+   "usdActual": 0.004173
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1294,
+   "tokensOut": 353,
+   "usdCeiling": 0.016762,
+   "usdActual": 0.002165
+  }
+ ],
+ "latencyMs": {
+  "read": 6773,
+  "classify": 2957
+ },
+ "errors": []
+}

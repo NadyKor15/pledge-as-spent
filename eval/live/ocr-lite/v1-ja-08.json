@@ -51,7 +51,7 @@
     "rawText": "ソフトキッズおむつ L",
     "translationEn": "Soft kids diaper L",
     "qty": 34,
-    "unitPriceMinor": 76,
+    "unitPriceMinor": null,
     "amountMinor": 2596,
     "taxRateBp": 800
    },
@@ -67,15 +67,24 @@
    {
     "lineNo": 7,
     "rawText": "ノンアルコールピール 359mL",
-    "translationEn": "Non-alcoholic peel 359mL",
+    "translationEn": "Non-alcohol peel 359mL",
+    "qty": null,
+    "unitPriceMinor": 256,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 点 x M128",
+    "translationEn": "",
     "qty": 3,
     "unitPriceMinor": 128,
     "amountMinor": 384,
-    "taxRateBp": 800
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 3712,
-  "taxMinor": 718,
+  "taxMinor": 57,
   "taxIncluded": false,
   "totalMinor": 4068,
   "pii": [
@@ -119,7 +128,7 @@
    "verdict": "review",
    "ruleCode": "unclear",
    "reasonEn": "Discount line, cannot determine its impact on eligibility.",
-   "confidence": 0.8
+   "confidence": 0.5
   },
   {
    "lineNo": 3,
@@ -127,8 +136,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Battery CR2632 does not match any need.",
-   "confidence": 0.9
+   "reasonEn": "Battery CR2632 does not match any listed need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
@@ -145,47 +154,56 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Soft kids diaper L does not match any need.",
-   "confidence": 0.9
+   "reasonEn": "Soft kids diaper L does not match any listed need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item description is unclear and does not match any need.",
-   "confidence": 0.9
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Cannot determine the item from the given text.",
+   "confidence": 0.5
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Non-alcoholic peel 359mL does not match any need.",
-   "confidence": 0.9
+   "ruleCode": "alcohol",
+   "reasonEn": "Non-alcohol peel is not funded as it is an alcohol product.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "M128 batteries match the AA batteries need.",
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1226,
-   "tokensOut": 479,
+   "tokensOut": 507,
    "usdCeiling": 0.001247,
-   "usdActual": 0.000189
+   "usdActual": 0.000195
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1220,
-   "tokensOut": 295,
-   "usdCeiling": 0.001253,
-   "usdActual": 0.000144
+   "tokensIn": 1251,
+   "tokensOut": 325,
+   "usdCeiling": 0.001259,
+   "usdActual": 0.000153
   }
  ],
  "latencyMs": {
-  "read": 3315,
-  "classify": 2338
+  "read": 3074,
+  "classify": 2229
  },
  "errors": []
 }

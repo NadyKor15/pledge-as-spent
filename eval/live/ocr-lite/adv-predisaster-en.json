@@ -17,16 +17,16 @@
     "qty": 1,
     "unitPriceMinor": 894,
     "amountMinor": 894,
-    "taxRateBp": 0
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
     "rawText": "6 @ $1.49",
-    "translationEn": "6 at $1.49 each",
+    "translationEn": "6 at $1.49",
     "qty": 6,
     "unitPriceMinor": 149,
     "amountMinor": 894,
-    "taxRateBp": 0
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
@@ -40,7 +40,7 @@
    {
     "lineNo": 4,
     "rawText": "2 @ $15.99",
-    "translationEn": "2 at $15.99 each",
+    "translationEn": "2 at $15.99",
     "qty": 2,
     "unitPriceMinor": 1599,
     "amountMinor": 3198,
@@ -58,7 +58,7 @@
    {
     "lineNo": 6,
     "rawText": "2 @ $14.99",
-    "translationEn": "2 at $14.99 each",
+    "translationEn": "2 at $14.99",
     "qty": 2,
     "unitPriceMinor": 1499,
     "amountMinor": 2998,
@@ -76,7 +76,7 @@
    {
     "lineNo": 8,
     "rawText": "3 @ $12.49",
-    "translationEn": "3 at $12.49 each",
+    "translationEn": "3 at $12.49",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
@@ -90,18 +90,13 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "728********",
+    "text": "************728",
     "bbox": {
      "x": 0.7473433437683492,
      "y": 0.7522416058262165,
      "w": 0.042350789383874266,
      "h": 0.027735050031992725
     }
-   },
-   {
-    "kind": "name",
-    "text": "eI",
-    "bbox": null
    }
   ],
   "readability": "good"
@@ -184,21 +179,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1108,
-   "tokensOut": 612,
+   "tokensOut": 581,
    "usdCeiling": 0.001245,
-   "usdActual": 0.000213
+   "usdActual": 0.000206
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1278,
+   "tokensIn": 1274,
    "tokensOut": 359,
-   "usdCeiling": 0.001264,
+   "usdCeiling": 0.001262,
    "usdActual": 0.000163
   }
  ],
  "latencyMs": {
-  "read": 3297,
-  "classify": 2752
+  "read": 3263,
+  "classify": 2340
  },
  "errors": []
 }

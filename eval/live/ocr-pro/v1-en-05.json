@@ -1,0 +1,163 @@
+{
+ "receiptId": "v1-en-05",
+ "set": "v1",
+ "imageSha256": "09360b22a2707e0482455be16dfb1115d4961a40e81c6ec326e0b1ad3a8f2990",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:05:00",
+  "receiptNumber": "2075",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPIRAL NOTEBOOK $1.99 T",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 199,
+    "amountMinor": 199,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON -$0.20",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEER CREEK WATER $5.07 F",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 507,
+    "amountMinor": 507,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "LITTLE LAMB DIAPERS $24.99 T",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW $29.98 T",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "WATER 24PK.5L $4.99 F",
+    "translationEn": "",
+    "qty": 24,
+    "unitPriceMinor": null,
+    "amountMinor": 169,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 6682,
+  "taxMinor": 412,
+  "taxIncluded": false,
+  "totalMinor": 7094,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "sePeoeek2 719",
+    "bbox": {
+     "x": 0.6009828565477644,
+     "y": 0.7484825206304251,
+     "w": 0.2345611149536082,
+     "h": 0.03203467115941849
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebooks are not listed as a need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupons are not listed as a need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek Water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Little Lamb Diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Fleece throws are not listed as a need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Water in 24PK.5L does not match the required 1 gallon jugs for the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1116,
+   "tokensOut": 364,
+   "usdCeiling": 0.016631,
+   "usdActual": 0.002058
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1159,
+   "tokensOut": 280,
+   "usdCeiling": 0.016558,
+   "usdActual": 0.001823
+  }
+ ],
+ "latencyMs": {
+  "read": 4700,
+  "classify": 2316
+ },
+ "errors": []
+}

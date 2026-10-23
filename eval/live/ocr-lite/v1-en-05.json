@@ -8,7 +8,7 @@
   "country": "US",
   "currency": "USD",
   "purchasedAt": "2026-11-06T10:05:00",
-  "receiptNumber": "02075",
+  "receiptNumber": "02",
   "lines": [
    {
     "lineNo": 1,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "LITTLE LAMB DIAPERS SZ3 66CT",
-    "translationEn": "Little Lamb Diapers SZ3 66CT",
+    "rawText": "3 @ $1.69",
+    "translationEn": "3 @ $1.69",
     "qty": 3,
     "unitPriceMinor": 169,
     "amountMinor": 507,
@@ -48,6 +48,15 @@
    },
    {
     "lineNo": 5,
+    "rawText": "LITTLE LAMB DIAPERS SZ3 66CT",
+    "translationEn": "Little Lamb Diapers SZ3 66CT",
+    "qty": 1,
+    "unitPriceMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
     "rawText": "FLEECE THROW BLANKET",
     "translationEn": "Fleece Throw Blanket",
     "qty": 1,
@@ -56,12 +65,21 @@
     "taxRateBp": 1000
    },
    {
-    "lineNo": 6,
-    "rawText": "WATER 24PK.5L",
-    "translationEn": "Water 24PK.5L",
+    "lineNo": 7,
+    "rawText": "2 @ $14.99",
+    "translationEn": "2 @ $14.99",
     "qty": 2,
     "unitPriceMinor": 1499,
     "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "WATER 24PK.5L",
+    "translationEn": "Water 24PK.5L",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
     "taxRateBp": 1000
    }
   ],
@@ -72,7 +90,7 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "************719;",
+    "text": "************719",
     "bbox": {
      "x": 0.7913836005138098,
      "y": 0.7484825206304251,
@@ -90,7 +108,70 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "A spiral notebook is not a listed need.",
+   "reasonEn": "A spiral notebook is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A coupon is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek Water 1 Gallon Jug matches the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 66,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Little Lamb Diapers SZ3 66CT matches the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece Throw Blanket matches the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water 24PK.5L does not match the water need as it is not in 1 gallon jugs.",
    "confidence": 0.95
   }
  ],
@@ -98,21 +179,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1116,
-   "tokensOut": 443,
+   "tokensOut": 546,
    "usdCeiling": 0.001247,
-   "usdActual": 0.000173
+   "usdActual": 0.000198
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1186,
-   "tokensOut": 59,
-   "usdCeiling": 0.00125,
-   "usdActual": 0.000085
+   "tokensIn": 1265,
+   "tokensOut": 410,
+   "usdCeiling": 0.001264,
+   "usdActual": 0.000174
   }
  ],
  "latencyMs": {
-  "read": 2158,
-  "classify": 682
+  "read": 4284,
+  "classify": 2593
  },
  "errors": []
 }

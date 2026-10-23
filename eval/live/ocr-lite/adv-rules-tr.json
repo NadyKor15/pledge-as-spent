@@ -67,7 +67,7 @@
    {
     "lineNo": 7,
     "rawText": "AA PİL 10'LU PAKET",
-    "translationEn": "AA BATTERY 10-PACK",
+    "translationEn": "AA BATTERY 10'PACK",
     "qty": null,
     "unitPriceMinor": 16990,
     "amountMinor": 16990,
@@ -77,18 +77,9 @@
     "lineNo": 8,
     "rawText": "BATTANİYE TEK KİŞİLİK",
     "translationEn": "BLANKET SINGLE",
-    "qty": null,
-    "unitPriceMinor": 89800,
-    "amountMinor": 0,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 9,
-    "rawText": "",
-    "translationEn": "",
     "qty": 2,
     "unitPriceMinor": 44900,
-    "amountMinor": 89800,
+    "amountMinor": 0,
     "taxRateBp": null
    }
   ],
@@ -98,18 +89,8 @@
   "totalMinor": 362970,
   "pii": [
    {
-    "kind": "phone",
-    "text": "0 555 000 00 57",
-    "bbox": {
-     "x": 0.43208721532238353,
-     "y": 0.23146771210644174,
-     "w": 0.22015023563122588,
-     "h": 0.019247905455985703
-    }
-   },
-   {
     "kind": "card_number",
-    "text": "***********3629",
+    "text": "*3.629,70",
     "bbox": {
      "x": 0.671219924359967,
      "y": 0.7816019596533758,
@@ -127,7 +108,7 @@
    "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size 4 diapers count toward the baby diapers need.",
+   "reasonEn": "Size 4 diapers are a listed need.",
    "confidence": 0.95
   },
   {
@@ -136,7 +117,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Raki is a type of alcohol and is not funded.",
+   "reasonEn": "Raki is a type of alcohol and is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -152,10 +133,10 @@
    "lineNo": 4,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The translation is unclear, but it seems to be a baby diaper.",
+   "confidence": 0.5
   },
   {
    "lineNo": 5,
@@ -163,7 +144,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "tobacco",
-   "reasonEn": "Cigarettes are not funded.",
+   "reasonEn": "Cigarettes are a type of tobacco and are not a listed need.",
    "confidence": 0.95
   },
   {
@@ -172,7 +153,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded.",
+   "reasonEn": "Gift cards are not a listed need.",
    "confidence": 0.95
   },
   {
@@ -181,47 +162,38 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the AA batteries need.",
+   "reasonEn": "AA batteries are a listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 8,
    "needId": "blankets",
-   "needQty": 1,
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "A single blanket counts toward the blankets need.",
+   "reasonEn": "Blankets are a listed need.",
    "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is blank and cannot be classified.",
-   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1241,
-   "tokensOut": 625,
+   "tokensOut": 705,
    "usdCeiling": 0.001253,
-   "usdActual": 0.000224
+   "usdActual": 0.000244
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1330,
-   "tokensOut": 387,
-   "usdCeiling": 0.001271,
-   "usdActual": 0.000173
+   "tokensIn": 1306,
+   "tokensOut": 353,
+   "usdCeiling": 0.001266,
+   "usdActual": 0.000163
   }
  ],
  "latencyMs": {
-  "read": 4912,
-  "classify": 2949
+  "read": 3277,
+  "classify": 2379
  },
  "errors": []
 }

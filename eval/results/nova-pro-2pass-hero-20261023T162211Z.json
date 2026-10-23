@@ -1,26 +1,32 @@
 {
- "reader": "ocr-pro",
+ "reader": "nova-pro-2pass",
  "set": "hero",
  "receipts": 1,
  "scoredReceipts": 1,
- "errors": [],
+ "errors": [
+  {
+   "id": "hero-ja-01",
+   "stage": "read",
+   "message": "two-pass read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[18].qty"
+  }
+ ],
  "lines": {
-  "precision": 1,
-  "recall": 0.9090909090909091,
-  "f1": 0.9523809523809523,
-  "tp": 10,
+  "precision": null,
+  "recall": 0,
+  "f1": 0,
+  "tp": 0,
   "fp": 0,
-  "fn": 1
+  "fn": 11
  },
  "lineAmountExact": {
-  "num": 7,
+  "num": 0,
   "den": 11,
-  "rate": 0.6363636363636364
+  "rate": 0
  },
  "totalExact": {
-  "num": 1,
+  "num": 0,
   "den": 1,
-  "rate": 1
+  "rate": 0
  },
  "dateExact": {
   "num": 0,
@@ -33,7 +39,7 @@
   "rate": 0
  },
  "merchant": {
-  "meanSimilarity": 0.6666666666666667,
+  "meanSimilarity": 0,
   "atLeast80": {
    "num": 0,
    "den": 1,
@@ -41,28 +47,28 @@
   }
  },
  "lineClass": {
-  "num": 6,
+  "num": 0,
   "den": 11,
-  "rate": 0.5454545454545454
+  "rate": 0
  },
  "needQty": {
-  "num": 2,
+  "num": 0,
   "den": 9,
-  "rate": 0.2222222222222222
+  "rate": 0
  },
  "ruleLines": {
-  "num": 1,
+  "num": 0,
   "den": 2,
-  "rate": 0.5,
+  "rate": 0,
   "fundedByMistake": 0
  },
  "pii": {
   "found": {
-   "num": 1,
+   "num": 0,
    "den": 3,
-   "rate": 0.3333333333333333
+   "rate": 0
   },
-  "meanIou": 0.786607662
+  "meanIou": null
  },
  "flags": {
   "duplicate": {
@@ -98,73 +104,67 @@
    "falseAlarmRate": 0
   }
  },
- "otherFlagsRaised": {
-  "total_mismatch": 1
- },
+ "otherFlagsRaised": {},
  "byLanguage": {
   "ja": {
-   "precision": 1,
-   "recall": 0.9090909090909091,
-   "f1": 0.9523809523809523,
+   "precision": null,
+   "recall": 0,
+   "f1": 0,
    "totalExact": {
-    "num": 1,
+    "num": 0,
     "den": 1,
-    "rate": 1
+    "rate": 0
    }
   }
  },
  "latency": {
-  "readerMedianMs": 10606,
-  "receiptMedianMs": 14426
+  "readerMedianMs": 14381,
+  "receiptMedianMs": 14381
  },
  "spend": {
-  "ledgerDeltaUsd": 0.00632099999999991,
-  "calls": 2,
-  "tokensIn": 2893,
-  "tokensOut": 1252,
-  "usdActual": 0.006321,
-  "usdCeiling": 0.033965
+  "ledgerDeltaUsd": 0.008083000000000062,
+  "calls": 1,
+  "tokensIn": 5024,
+  "tokensOut": 1270,
+  "usdActual": 0.008083,
+  "usdCeiling": 0.049214
  },
  "perReceipt": [
   {
    "id": "hero-ja-01",
    "locale": "ja",
-   "readability": "good",
-   "flags": [
-    "total_mismatch"
-   ],
+   "readability": null,
+   "flags": [],
    "score": {
-    "tp": 10,
+    "tp": 0,
     "fp": 0,
-    "fn": 1,
+    "fn": 11,
     "lineAmountExact": {
-     "num": 7,
+     "num": 0,
      "den": 11
     },
-    "totalExact": true,
+    "totalExact": false,
     "dateExact": false,
     "dateTimeExact": false,
-    "merchantSimilarity": 0.6666666666666667,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 6,
+     "num": 0,
      "den": 11
     },
     "needQty": {
-     "num": 2,
+     "num": 0,
      "den": 9
     },
     "ruleLines": {
-     "num": 1,
+     "num": 0,
      "den": 2
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
-    "piiIou": [
-     0.786607662
-    ]
+    "piiIou": []
    }
   }
  ]

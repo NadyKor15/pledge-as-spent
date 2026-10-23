@@ -22,7 +22,7 @@
    {
     "lineNo": 2,
     "rawText": "4@ $1.49",
-    "translationEn": "4@ $1.49",
+    "translationEn": "4 @ $1.49",
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
@@ -83,7 +83,7 @@
    },
    {
     "kind": "member_id",
-    "text": "8646828725",
+    "text": "MEMBER # 8646828725",
     "bbox": {
      "x": 0.6849728040936459,
      "y": 0.7773179598179599,
@@ -106,11 +106,11 @@
   },
   {
    "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "4@ $1.49 does not match any need.",
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "4 @ $1.49 counts toward the drinking water need.",
    "confidence": 0.95
   },
   {
@@ -137,7 +137,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Coupon -$2.40 is not a need.",
+   "reasonEn": "Coupon -$2.40 does not count toward any need.",
    "confidence": 0.95
   }
  ],
@@ -145,21 +145,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1091,
-   "tokensOut": 448,
+   "tokensOut": 451,
    "usdCeiling": 0.001244,
-   "usdActual": 0.000173
+   "usdActual": 0.000174
   },
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1141,
-   "tokensOut": 239,
+   "tokensOut": 234,
    "usdCeiling": 0.001237,
-   "usdActual": 0.000126
+   "usdActual": 0.000125
   }
  ],
  "latencyMs": {
-  "read": 2426,
-  "classify": 1889
+  "read": 2631,
+  "classify": 2157
  },
  "errors": []
 }

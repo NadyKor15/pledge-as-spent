@@ -44,7 +44,7 @@
     "qty": 2,
     "unitPriceMinor": 648,
     "amountMinor": 648,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
@@ -81,22 +81,12 @@
   "pii": [
    {
     "kind": "member_id",
-    "text": "会員番号 1081 2345 8996",
+    "text": "1081 2345 8996",
     "bbox": {
      "x": 0.5879209011527424,
      "y": 0.7802646422891101,
      "w": 0.1929697552623899,
      "h": 0.019137579660158832
-    }
-   },
-   {
-    "kind": "card_number",
-    "text": "SRW ®",
-    "bbox": {
-     "x": 0.1705391009021418,
-     "y": 0.7430288752221025,
-     "w": 0.07376484303841427,
-     "h": 0.016021083043778472
     }
    }
   ],
@@ -127,7 +117,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Tissues are not a listed need, but it's unclear if they are needed for the disaster relief.",
+   "reasonEn": "Tissues are not a listed need, but it's unclear if they are needed for the relief effort.",
    "confidence": 0.5
   },
   {
@@ -154,7 +144,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Tax lines are not eligible for the drive.",
+   "reasonEn": "Tax is not a listed need.",
    "confidence": 0.9
   },
   {
@@ -163,7 +153,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Non-taxable items are not eligible for the drive.",
+   "reasonEn": "Non-taxable items are not a listed need.",
    "confidence": 0.9
   }
  ],
@@ -171,21 +161,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1177,
-   "tokensOut": 511,
+   "tokensOut": 479,
    "usdCeiling": 0.001242,
-   "usdActual": 0.000193
+   "usdActual": 0.000186
   },
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1288,
-   "tokensOut": 272,
+   "tokensOut": 269,
    "usdCeiling": 0.001259,
-   "usdActual": 0.000143
+   "usdActual": 0.000142
   }
  ],
  "latencyMs": {
-  "read": 3459,
-  "classify": 2096
+  "read": 4430,
+  "classify": 1801
  },
  "errors": []
 }

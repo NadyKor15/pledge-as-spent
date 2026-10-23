@@ -1,0 +1,145 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-04-11T13:23:00",
+  "receiptNumber": "5144",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "日本酒 729mt ¥1,489",
+    "translationEn": "Japanese sake 729ml",
+    "qty": 1,
+    "unitPriceMinor": 1489,
+    "amountMinor": 1489,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "北空の天然水 2L ¥1,596※ 6 本ケース",
+    "translationEn": "Natural water from Hokuku 2L",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ソフトキッズおむつ L 34 枚 ¥2,596 2 点 x 1,298",
+    "translationEn": "Soft kids diapers L 34 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 3 電池 19 本入 ¥1,194 3 点 x M398",
+    "translationEn": "AA batteries 19 pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズおむつ M 44K ¥1,298",
+    "translationEn": "Soft kids diapers M 44 pack",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 8164,
+  "taxMinor": 715,
+  "taxIncluded": false,
+  "totalMinor": 8164,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "FA AAA AAIAAKG O48",
+    "bbox": {
+     "x": 0.7489208748486315,
+     "y": 0.760408359587005,
+     "w": 0.04521366214490252,
+     "h": 0.02549987711772661
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded in this disaster-relief drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water from Hokuku 2L counts toward the drinking water need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Only size M diapers are needed, not size L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 57,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft kids diapers M 44 pack counts toward the diapers need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1207,
+   "tokensOut": 454,
+   "usdCeiling": 0.016598,
+   "usdActual": 0.002418
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1241,
+   "tokensOut": 203,
+   "usdCeiling": 0.016645,
+   "usdActual": 0.001642
+  }
+ ],
+ "latencyMs": {
+  "read": 5936,
+  "classify": 1833
+ },
+ "errors": []
+}

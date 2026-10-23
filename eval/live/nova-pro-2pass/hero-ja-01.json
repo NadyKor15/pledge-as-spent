@@ -1,0 +1,24 @@
+{
+ "receiptId": "hero-ja-01",
+ "set": "hero",
+ "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 5024,
+   "tokensOut": 1270,
+   "usdCeiling": 0.049214,
+   "usdActual": 0.008083
+  }
+ ],
+ "latencyMs": {
+  "read": 14381,
+  "classify": null
+ },
+ "errors": [
+  "read: two-pass read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[18].qty",
+  "raw: {\"transcription\":\"店名：麺屋武一\\n住所\\n東京都新宿区歌舞伎町2-8-1\\nTEL 0123-45-6789\\n店舗番号 T0000100000427\\n2026年11月05日(木) 14:32\\nL番04\\nNo.8258\\n鶏白湯らーめん 2L\\n¥798\\n餃子 2L\\n¥472\\n4個 x #118\\n鶏白湯つけ麺\\n¥216\\n2杯目半\\n2杯 x #108\\nチャーシュー丼 M 44円\\n¥2,596\\n2杯 x #1,298\\n鶏白湯つけ麺 M\\n¥3,294\\n3杯 x #1,098\\n麺大盛 M 18円\\n¥598\\nサービス券\\n¥698\\nお会計 10円\\n¥796\\n2杯 x #398\\n¥080\\n3 20 ¥698\\n10 ¥796\\n2 x 398\\n3 5 ¥980\\n10 x 98\\n350ml 6 ¥1,198\\n- 3,000 ¥3,000\\n(11) ¥14,646\\n8 ¥1,486\\n10 ¥10,160\\n8 ¥110)\\n10% ¥923)\\n¥14,646\\n9591\\n¥14,646\\n3216 2141 5525\",\"structured\":\"RECEIPT: merchant=麺屋武一; address=東京都新宿区歌舞伎町2-8-1; country=JP; currency=JPY; purchased=2026-11-05T14:32:00; number=8258; subtotal=14646; tax=1486; tax_included=false; total=14646; readability=poor\\nLINE: no=1; qty=1; unit=798; amount=798; text=鶏白湯らーめん 2L\\nLINE: no=2; qty=1; unit=472; amount=472; text=餃子 2L\\nLINE: no=3; qty=4; unit=118; amount=472; text=4個 x #118\\nLINE: no=4; qty=1; unit=216; amount=216; text=鶏白湯つけ麺\\nLINE: no=5; qty=2; unit=108; amount=216; text=2杯目半 2杯 x #108\\nLINE: no=6; qty=1; unit=2596; amount=2596; text=チャーシュー丼 M 44円\\nLINE: no=7; qty=2; unit=1298; amount=2596; text=2杯 x #1,298\\nLINE: no=8; qty=1; unit=3294; amount=3294; text=鶏白湯つけ麺 M\\nLINE: no=9; qty=3; unit=1098; amount=3294; text=3杯 x #1,098\\nLINE: no=10; qty=1; unit=598; amount=598; text=麺大盛 M 18円\\nLINE: no=11; qty=1; unit=698; amount=698; text=サービス券\\nLINE: no=12; qty=10; unit=796; amount=7960; text=お会計 10円\\nLINE: no=13; qty=2; unit=398; amount=796; text=2杯 x #398\\nLINE: no=14; qty=3; unit=698; amount=2094; text=3 20 ¥698\\nLINE: no=15; qty=10; unit=98; amount=980; text=10 ¥796\\nLINE: no=16; qty=2; unit=398; amount=796; text=2 x 398\\nLINE: no=17; qty=3; unit=980; amount=2940; text=3 5 ¥980\\nLINE: no=18; qty=10; unit=98; amount=980; text=10 x 98\\nLINE: no=19; qty=350ml; unit=6; amount=1198; text=350ml 6 ¥1,198\\nLINE: no=20; qty=-3000; unit=100; amount=-300000; text=- 3,000 ¥3,000\\nPII: kind=card_number; text=3216 2141 5525\"}"
+ ]
+}

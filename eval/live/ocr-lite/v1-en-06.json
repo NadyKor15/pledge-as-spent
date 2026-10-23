@@ -2,23 +2,163 @@
  "receiptId": "v1-en-06",
  "set": "v1",
  "imageSha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T13:41:00",
+  "receiptNumber": "2492",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA Battery 8PK",
+    "qty": 8,
+    "unitPriceMinor": null,
+    "amountMinor": 799,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DIAPERS SZ 5 72CT",
+    "translationEn": "Diapers SZ 5 72CT",
+    "qty": 72,
+    "unitPriceMinor": null,
+    "amountMinor": 2499,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies Diapers SZ 3 38CT",
+    "qty": 38,
+    "unitPriceMinor": null,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 5,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 596,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "4 @ $1.49",
+    "translationEn": "4 @ $1.49",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Bread Wheat",
+    "qty": 1,
+    "unitPriceMinor": 279,
+    "amountMinor": 279,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 Gallon Jug",
+    "qty": 1,
+    "unitPriceMinor": 507,
+    "amountMinor": 507,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 9,
+    "rawText": "3 @ $1.69",
+    "translationEn": "3 @ $1.69",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 10,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift Card $25",
+    "qty": 1,
+    "unitPriceMinor": 25,
+    "amountMinor": 25,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 10927,
+  "taxMinor": 511,
+  "taxIncluded": false,
+  "totalMinor": 11438,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.16523967758436178,
+     "y": 0.7829088042287824,
+     "w": 0.1737361164885952,
+     "h": 0.017643321518208244
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3694265361",
+    "bbox": {
+     "x": 0.6559090606280373,
+     "y": 0.8234253009110816,
+     "w": 0.14579449754828788,
+     "h": 0.0170428097535954
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need and match the exact item listed in the drive rules.",
+   "confidence": 0.95
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1164,
-   "tokensOut": 734,
+   "tokensOut": 721,
    "usdCeiling": 0.001253,
-   "usdActual": 0.000246
+   "usdActual": 0.000243
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1349,
+   "tokensOut": 60,
+   "usdCeiling": 0.001278,
+   "usdActual": 0.000095
   }
  ],
  "latencyMs": {
-  "read": 4397,
-  "classify": null
+  "read": 3688,
+  "classify": 787
  },
- "errors": [
-  "read: ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor",
-  "raw: {\"ocr\":\"CORNER PHARMACY #14\\n3 Elm Court\\nBrindlewood, Marlow Co.\\nTEL (555) 010-0063\\n11/03/2026 01:41 PM REG 06\\nTRANS #2492\\nAA BATTERY 8PK $7.99 T\\nDIAPERS SZ 5 72CT $24.99 T\\nSOFTIES DIAPERS SZ 3 38CT $37.47 T\\n3 @ $12.49\\nSPRING WATER 1GAL $5.96 F\\n4 @ $1.49\\nBREAD WHEAT $2.79 F\\nDEER CREEK WATER $5.07 F\\n1 GALLON JUG\\n3 @ $1.69\\nGIFT CARD $25 $25.00 F\\nSUBTOTAL $109.27\\nSALES TAX 7.25% $5.11\\nTOTAL $114.38\\nCASH $120.00\\nCHANGE $5.62\\nREWARDS MEMBER\\nJORDAN WELLS\\nMEMBER # 3694265361\\nT = TAXABLE F = NON-TAXABLE\\nTHANK YOU ~ COME AGAIN\",\"structured\":\"RECEIPT: merchant=CORNER PHARMACY #14; address=3 Elm Court, Brindlewood, Marlow Co.; country=US; currency=USD; purchased=2026-11-03T13:41:00; number=2492; subtotal=109.27; tax=5.11; tax_included=false; total=114.38; readability=good\\nLINE: no=1; qty=8; unit=0.99875; amount=7.99; rate=1000; text=AA BATTERY 8PK $7.99 T; en=AA Battery 8PK\\nLINE: no=2; qty=72; unit=0.347222; amount=24.99; rate=1000; text=DIAPERS SZ 5 72CT $24.99 T; en=Diapers Size 5 72CT\\nLINE: no=3; qty=38; unit=0.986053; amount=37.47; rate=1000; text=SOFTIES DIAPERS SZ 3 38CT $37.47 T; en=Softies Diapers Size 3 38CT\\nLINE: no=4; qty=3; unit=12.49; amount=37.47; rate=0; text=3 @ $12.49; en=3 @ $12.49\\nLINE: no=5; qty=1; unit=5.96; amount=5.96; rate=0; text=SPRING WATER 1GAL $5.96 F; en=Spring Water 1GAL\\nLINE: no=6; qty=4; unit=1.49; amount=5.96; rate=0; text=4 @ $1.49; en=4 @ $1.49\\nLINE: no=7; qty=1; unit=2.79; amount=2.79; rate=0; text=BREAD WHEAT $2.79 F; en=Bread Wheat\\nLINE: no=8; qty=1; unit=5.07; amount=5.07; rate=0; text=DEER CREEK WATER $5.07 F; en=Deer Creek Water\\nLINE: no=9; qty=1; unit=1.69; amount=1.69; rate=0; text=1 GALLON JUG; en=1 GALLON JUG\\nLINE: no=10; qty=1; unit=25; amount=25; rate=0; text=GIFT CARD $25 $25.00 F; en=Gift Card $25\\nPII: kind=name; box=0.0,0.91,0.36,0.02; text=JORDAN WELLS\\nPII: kind=member_id; box=0.36,0.91,0.36,0.02; text=3694265361\"}"
- ]
+ "errors": []
 }

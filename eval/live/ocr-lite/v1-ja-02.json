@@ -31,11 +31,11 @@
    {
     "lineNo": 3,
     "rawText": "アルカリ乾電池単 3 26 本入",
-    "translationEn": "Alkaline dry battery single 3 26 pieces",
+    "translationEn": "Alkaline dry battery single 3 26 pack",
     "qty": 26,
     "unitPriceMinor": 698,
     "amountMinor": 698,
-    "taxRateBp": 1000
+    "taxRateBp": 1600
    },
    {
     "lineNo": 4,
@@ -81,7 +81,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Blankets are one of the listed needs.",
+   "reasonEn": "Single blanket counts as one blanket toward the blankets need.",
    "confidence": 0.95
   },
   {
@@ -90,7 +90,7 @@
    "needQty": 26,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are one of the listed needs.",
+   "reasonEn": "AA batteries (単3) are one of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -107,21 +107,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1142,
-   "tokensOut": 316,
+   "tokensOut": 317,
    "usdCeiling": 0.001238,
-   "usdActual": 0.000144
+   "usdActual": 0.000145
   },
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1110,
-   "tokensOut": 165,
+   "tokensOut": 171,
    "usdCeiling": 0.001231,
-   "usdActual": 0.000106
+   "usdActual": 0.000108
   }
  ],
  "latencyMs": {
-  "read": 2574,
-  "classify": 1819
+  "read": 2707,
+  "classify": 1301
  },
  "errors": []
 }

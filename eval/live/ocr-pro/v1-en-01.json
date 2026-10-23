@@ -1,0 +1,127 @@
+{
+ "receiptId": "v1-en-01",
+ "set": "v1",
+ "imageSha256": "2b460202a354f484f9de4a10ed7d11b4ddc77666b6667c2dcd22f6b7a20130dd",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "8713",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT $24.98 T",
+    "translationEn": "Softies Diapers Size 3, 38 count",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON -$1.25",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SPRING WATER 1GAL $2.98 F",
+    "translationEn": "Spring Water 1 gallon",
+    "qty": 2,
+    "unitPriceMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DEER CREEK WATER $16.90 F 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 gallon jug",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4361,
+  "taxMinor": 172,
+  "taxIncluded": false,
+  "totalMinor": 4533,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "(555) 010-0042",
+    "bbox": {
+     "x": 0.4356545527897126,
+     "y": 0.24787170788550647,
+     "w": 0.20335852652876746,
+     "h": 0.019717015196399484
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies Diapers Size 3, 38 count are eligible as they match the need for Baby diapers size 3.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon is not clearly linked to a specific need or rule.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1 gallon is eligible as it matches the need for Drinking water 1 gallon.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek Water 1 gallon jug is eligible as it matches the need for Drinking water 1 gallon.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1088,
+   "tokensOut": 330,
+   "usdCeiling": 0.016581,
+   "usdActual": 0.001926
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1134,
+   "tokensOut": 203,
+   "usdCeiling": 0.016483,
+   "usdActual": 0.001557
+  }
+ ],
+ "latencyMs": {
+  "read": 4828,
+  "classify": 1820
+ },
+ "errors": []
+}

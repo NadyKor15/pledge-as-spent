@@ -1,0 +1,116 @@
+{
+ "receiptId": "v1-tr-01",
+ "set": "v1",
+ "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+ "reading": {
+  "merchantName": "EVIM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101, Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 1699,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDIRIM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -1699,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %20 MATRAH 369,01",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 36901,
+    "amountMinor": 36901,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 44281,
+  "taxMinor": 7380,
+  "taxIncluded": false,
+  "totalMinor": 44281,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in a 10-piece pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs further review to determine its eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2806,
+   "tokensOut": 570,
+   "usdCeiling": 0.032704,
+   "usdActual": 0.004069
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1090,
+   "tokensOut": 172,
+   "usdCeiling": 0.016342,
+   "usdActual": 0.001422
+  }
+ ],
+ "latencyMs": {
+  "read": 6042,
+  "classify": 1666
+ },
+ "errors": []
+}

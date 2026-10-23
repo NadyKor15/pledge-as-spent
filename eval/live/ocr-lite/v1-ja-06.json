@@ -3,11 +3,11 @@
  "set": "v1",
  "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
  "reading": {
-  "merchantName": "スマイルマート",
+  "merchantName": "スマイルマート 北空駅前店",
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2029-11-06T15:34:00",
+  "purchasedAt": "2026-11-06T15:34:00",
   "receiptNumber": "6753",
   "lines": [
    {
@@ -94,7 +94,7 @@
    {
     "lineNo": 10,
     "rawText": "ミ 1 胞オケー 2L ¥648※",
-    "translationEn": "1-cell occa 2L ¥648",
+    "translationEn": "M 1-cell occa 2L ¥648",
     "qty": null,
     "unitPriceMinor": 648,
     "amountMinor": 648,
@@ -111,8 +111,8 @@
    },
    {
     "lineNo": 12,
-    "rawText": "外税 8* 対象 ¥2,682 消費税 ¥214",
-    "translationEn": "Taxable at 8% ¥2,682 tax ¥214",
+    "rawText": "外税 8* 対象 ¥2,682",
+    "translationEn": "Taxable at 8% ¥2,682",
     "qty": null,
     "unitPriceMinor": 2682,
     "amountMinor": 2682,
@@ -120,12 +120,30 @@
    },
    {
     "lineNo": 13,
-    "rawText": "外税 19* 対象 ¥3,214 消費税 ¥321",
-    "translationEn": "Taxable at 19% ¥3,214 tax ¥321",
+    "rawText": "消費税 ¥214",
+    "translationEn": "Consumption tax ¥214",
+    "qty": null,
+    "unitPriceMinor": 214,
+    "amountMinor": 214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "外税 19* 対象 ¥3,214",
+    "translationEn": "Taxable at 19% ¥3,214",
     "qty": null,
     "unitPriceMinor": 3214,
     "amountMinor": 3214,
     "taxRateBp": 800
+   },
+   {
+    "lineNo": 15,
+    "rawText": "消費税 ¥321",
+    "translationEn": "Consumption tax ¥321",
+    "qty": null,
+    "unitPriceMinor": 321,
+    "amountMinor": 321,
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 5896,
@@ -159,141 +177,33 @@
  "classifications": [
   {
    "lineNo": 1,
-   "needId": null,
-   "needQty": null,
+   "needId": "batteries",
+   "needQty": 4,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Japanese sake is not a funded item.",
+   "reasonEn": "The line mentions 'アルカリ乾電池' which translates to 'Alkaline batteries', but the description also includes '単 4' which translates to '4-pack', and the amount is high for batteries, suggesting it might be a typo or an error in the OCR.",
    "confidence": 0.9
-  },
-  {
-   "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Butt wipers are not a funded item.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 3,
-   "needId": "canned",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Miso-marinated mackerel counts toward the canned food need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Japanese sake is not a funded item.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Milk is not a funded item.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 7,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Meltwater counts toward the drinking water need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 9,
-   "needId": "diapers",
-   "needQty": 44,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Soft kids diaper M counts toward the baby diapers need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 11,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 12,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 13,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear.",
-   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1264,
-   "tokensOut": 926,
+   "tokensOut": 987,
    "usdCeiling": 0.001249,
-   "usdActual": 0.000298
+   "usdActual": 0.000313
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1629,
-   "tokensOut": 438,
-   "usdCeiling": 0.001317,
-   "usdActual": 0.000203
+   "tokensIn": 1691,
+   "tokensOut": 106,
+   "usdCeiling": 0.001331,
+   "usdActual": 0.000127
   }
  ],
  "latencyMs": {
-  "read": 5371,
-  "classify": 2952
+  "read": 7921,
+  "classify": 891
  },
  "errors": []
 }

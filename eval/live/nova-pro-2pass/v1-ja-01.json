@@ -1,0 +1,152 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "一ー六本木一 六本木",
+  "merchantAddress": "東京都港区六本木7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "01",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "チーズタッカルビ 38㎝ ¥1,098",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ポテトサラダ ¥648 2Lサイズ 6枚 x #108",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "8%割引 ¥648",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "(割引金額 8% ¥48)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "10%割引 ¥1,098",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "(割引金額 10% ¥99)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cheese dakgalbi is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Potato salad is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3014,
+   "tokensOut": 492,
+   "usdCeiling": 0.032599,
+   "usdActual": 0.003985
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1196,
+   "tokensOut": 227,
+   "usdCeiling": 0.016572,
+   "usdActual": 0.001683
+  }
+ ],
+ "latencyMs": {
+  "read": 6117,
+  "classify": 1974
+ },
+ "errors": []
+}

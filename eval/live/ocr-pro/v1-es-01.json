@@ -1,0 +1,219 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T10:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6 3,29 B",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA FUENTE CLARA 1,30 B",
+    "translationEn": "FUENTE CLARA WATER 1.30",
+    "qty": 1,
+    "unitPriceMinor": 130,
+    "amountMinor": 130,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BOTELLA 1,5 L 2 x 0,65",
+    "translationEn": "BOTTLE 1.5 L",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL BEBE T3 44U 8,95 B",
+    "translationEn": "BABY DIAPER T3 44U",
+    "qty": null,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS AA LR6 8U 11,98 C 2x 5,99",
+    "translationEn": "AA LR6 BATTERIES 8U",
+    "qty": 8,
+    "unitPriceMinor": 1198,
+    "amountMinor": 65,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAN BARRA 1,70 A 2x 6,85",
+    "translationEn": "BREAD LOAF",
+    "qty": 2,
+    "unitPriceMinor": 170,
+    "amountMinor": 65,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA SL GARRAFA 1,19 B",
+    "translationEn": "WATER SL JAR",
+    "qty": 1,
+    "unitPriceMinor": 119,
+    "amountMinor": 119,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DTO. PROMOCIÓN 40,06 B",
+    "translationEn": "PROMOTION DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4006,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2835,
+  "taxMinor": 163,
+  "taxIncluded": true,
+  "totalMinor": 2835,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "ao ek ojo 7636",
+    "bbox": {
+     "x": 0.3945237502781705,
+     "y": 0.7590098733485551,
+     "w": 0.0550824825412351,
+     "h": 0.013408757957748874
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "SOCIO 6082753386",
+    "bbox": {
+     "x": 0.657548769153294,
+     "y": 0.8093274568910797,
+     "w": 0.14451841209203597,
+     "h": 0.014992142726305335
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.17343218239572963,
+     "y": 0.8222034095962732,
+     "w": 0.2001431975443634,
+     "h": 0.015976930814066037
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not the exact item listed (1.5 L bottle).",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread loaf is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in a jar is not the exact item listed (1.5 L bottle).",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The promotion discount needs further review to determine its eligibility.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1224,
+   "tokensOut": 602,
+   "usdCeiling": 0.016773,
+   "usdActual": 0.002906
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1332,
+   "tokensOut": 332,
+   "usdCeiling": 0.016904,
+   "usdActual": 0.002128
+  }
+ ],
+ "latencyMs": {
+  "read": 8419,
+  "classify": 3101
+ },
+ "errors": []
+}

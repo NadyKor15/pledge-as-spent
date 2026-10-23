@@ -1,0 +1,89 @@
+{
+ "receiptId": "v1-ja-04",
+ "set": "v1",
+ "imageSha256": "48e033a845b2e2db319d7cd69df06bf4aacb74075df7e2982a3c9c637cc68e7e",
+ "reading": {
+  "merchantName": "-t",
+  "merchantAddress": "TEL 0123-22-0042",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "No.4093 M",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": null,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "4 x #458",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "12 x #188",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2 x #238 (4)",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 5662,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 1574,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3234,
+   "tokensOut": 422,
+   "usdCeiling": 0.032543,
+   "usdActual": 0.003937
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1085,
+   "tokensOut": 177,
+   "usdCeiling": 0.016338,
+   "usdActual": 0.001434
+  }
+ ],
+ "latencyMs": {
+  "read": 5761,
+  "classify": 1751
+ },
+ "errors": []
+}

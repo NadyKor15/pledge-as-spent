@@ -1,0 +1,170 @@
+{
+ "receiptId": "v1-ja-10",
+ "set": "v1",
+ "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:25:00",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "M 44",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "1,298",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "5 x 258",
+    "translationEn": "",
+    "qty": 5,
+    "unitPriceMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "1,098",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "(4)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -38,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "8 256 20",
+    "translationEn": "",
+    "qty": 8,
+    "unitPriceMinor": 256,
+    "amountMinor": 2048,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "10% 3,686",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3686,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3942,
+  "taxMinor": 368,
+  "taxIncluded": false,
+  "totalMinor": 4330,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Unable to determine the product from the receipt line.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2774,
+   "tokensOut": 446,
+   "usdCeiling": 0.032498,
+   "usdActual": 0.003647
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1165,
+   "tokensOut": 245,
+   "usdCeiling": 0.016574,
+   "usdActual": 0.001716
+  }
+ ],
+ "latencyMs": {
+  "read": 5002,
+  "classify": 2112
+ },
+ "errors": []
+}

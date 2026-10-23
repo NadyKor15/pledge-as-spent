@@ -14,8 +14,8 @@
     "lineNo": 1,
     "rawText": "AA PIL 10'LU PAKET",
     "translationEn": "AA BATTERY 10-PACK",
-    "qty": 1,
-    "unitPriceMinor": 16990,
+    "qty": 10,
+    "unitPriceMinor": 1699,
     "amountMinor": 16990,
     "taxRateBp": null
    },
@@ -24,16 +24,16 @@
     "rawText": "İNDİRİM",
     "translationEn": "DISCOUNT",
     "qty": 1,
-    "unitPriceMinor": -1699,
+    "unitPriceMinor": 1699,
     "amountMinor": -1699,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
     "rawText": "MİNİ BEBEK BEZİ 4 NO",
-    "translationEn": "MINI BABY DIAPER 4 PACK",
-    "qty": 1,
-    "unitPriceMinor": 28990,
+    "translationEn": "MINI BABY DIAPER 4 PCS",
+    "qty": 4,
+    "unitPriceMinor": null,
     "amountMinor": 28990,
     "taxRateBp": null
    }
@@ -73,25 +73,7 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries in a 10-pack count towards the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discounts are not funded.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": "diapers",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size 4 baby diapers in a 4-pack count towards the baby diapers need.",
+   "reasonEn": "AA batteries are one of the listed needs.",
    "confidence": 0.95
   }
  ],
@@ -99,21 +81,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1141,
-   "tokensOut": 332,
+   "tokensOut": 329,
    "usdCeiling": 0.001242,
-   "usdActual": 0.000148
+   "usdActual": 0.000147
   },
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1078,
-   "tokensOut": 145,
+   "tokensOut": 53,
    "usdCeiling": 0.001222,
-   "usdActual": 0.000099
+   "usdActual": 0.000077
   }
  ],
  "latencyMs": {
-  "read": 3130,
-  "classify": 1138
+  "read": 3920,
+  "classify": 664
  },
  "errors": []
 }

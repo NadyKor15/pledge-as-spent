@@ -1,0 +1,107 @@
+{
+ "receiptId": "v1-es-02",
+ "set": "v1",
+ "imageSha256": "bc64dcf12265afc7041102e734a5e86c1cd4a5d9a8ca9fcdfc1509255d746a06",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-07T08:08:00",
+  "receiptNumber": "2375",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "MARIA COOKIES",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 BATTERIES 8U",
+    "qty": 8,
+    "unitPriceMinor": 599,
+    "amountMinor": 1797,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "FUENTE CLARA WATER BOTTLE 1.5 L",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA 4U",
+    "translationEn": "AAA BATTERIES 4U",
+    "qty": 4,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "PROMOTION DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -49,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "WHOLE MILK 1L",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 400
+   }
+  ],
+  "subtotalMinor": 2402,
+  "taxMinor": 49,
+  "taxIncluded": true,
+  "totalMinor": 2451,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "MARIA COOKIES are not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2988,
+   "tokensOut": 688,
+   "usdCeiling": 0.032868999999999995,
+   "usdActual": 0.004592000000000001
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1192,
+   "tokensOut": 283,
+   "usdCeiling": 0.01664,
+   "usdActual": 0.001859
+  }
+ ],
+ "latencyMs": {
+  "read": 7517,
+  "classify": 3099
+ },
+ "errors": []
+}

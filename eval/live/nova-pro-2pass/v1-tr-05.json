@@ -1,0 +1,350 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 2450,
+    "amountMinor": 2450,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SUT 1 LT",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANIYE TEK KISILIIK",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 89800,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 X 449,00",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KAYNAK SU 0,5L 12'LI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DAG SUYU 5 L",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 4380,
+    "amountMinor": 4380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 X 21,90",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "INDIRIIM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -657,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %10 MATRAH 141,03",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14103,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "*14,10",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KDV %20 MATRAH 889,92",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 88992,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "*177,98",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 17798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "TOPKDV",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 19208,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "TOPLAM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 122303,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "NAKII",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 123000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "PARA ÜSTU",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 697,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 103095,
+  "taxMinor": 19208,
+  "taxIncluded": false,
+  "totalMinor": 122303,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in 0.5 L bottles does not match the 5 L bottle need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3135,
+   "tokensOut": 1055,
+   "usdCeiling": 0.032834,
+   "usdActual": 0.005884
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1507,
+   "tokensOut": 726,
+   "usdCeiling": 0.017501,
+   "usdActual": 0.003529
+  }
+ ],
+ "latencyMs": {
+  "read": 10591,
+  "classify": 7349
+ },
+ "errors": []
+}

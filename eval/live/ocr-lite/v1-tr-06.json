@@ -4,7 +4,7 @@
  "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
  "reading": {
   "merchantName": "GOLPINAR TOPTAN GIDA",
-  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-11-04T20:01:00",
@@ -23,7 +23,7 @@
     "lineNo": 2,
     "rawText": "SÜT 1.7 L",
     "translationEn": "MILK 1.7 L",
-    "qty": 1,
+    "qty": 10,
     "unitPriceMinor": 7700,
     "amountMinor": 7700,
     "taxRateBp": null
@@ -41,7 +41,7 @@
     "lineNo": 4,
     "rawText": "KAYNAK SU 5 LT",
     "translationEn": "SPRING WATER 5 L",
-    "qty": 1,
+    "qty": 5,
     "unitPriceMinor": 4900,
     "amountMinor": 4900,
     "taxRateBp": null
@@ -86,13 +86,22 @@
     "lineNo": 9,
     "rawText": "NO:4 JUMBO 42'Lİ",
     "translationEn": "NO:4 JUMBO 42'S",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "",
+    "translationEn": "",
     "qty": 2,
     "unitPriceMinor": 34900,
     "amountMinor": 69800,
     "taxRateBp": null
    },
    {
-    "lineNo": 10,
+    "lineNo": 11,
     "rawText": "KDV %1 MATRAH 11.88",
     "translationEn": "TAX %1 BASE 11.88",
     "qty": 1,
@@ -101,7 +110,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 11,
+    "lineNo": 12,
     "rawText": "KDV %1@ MATRAH 114.55",
     "translationEn": "TAX %1@ BASE 114.55",
     "qty": 1,
@@ -110,7 +119,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 12,
+    "lineNo": 13,
     "rawText": "KDV %2@ MATRAH 723.25",
     "translationEn": "TAX %2@ BASE 723.25",
     "qty": 1,
@@ -119,7 +128,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 13,
+    "lineNo": 14,
     "rawText": "TOPKDV",
     "translationEn": "TOTAL TAX",
     "qty": 1,
@@ -128,7 +137,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
+    "lineNo": 15,
     "rawText": "TOPLAM",
     "translationEn": "TOTAL",
     "qty": 1,
@@ -137,7 +146,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 15,
+    "lineNo": 16,
     "rawText": "NAKİT",
     "translationEn": "CASH",
     "qty": 1,
@@ -146,7 +155,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 16,
+    "lineNo": 17,
     "rawText": "PARA USTU",
     "translationEn": "CHANGE",
     "qty": 1,
@@ -190,7 +199,7 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need.",
+   "reasonEn": "AA batteries are one of the listed needs.",
    "confidence": 0.95
   }
  ],
@@ -198,21 +207,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1260,
-   "tokensOut": 957,
+   "tokensOut": 996,
    "usdCeiling": 0.001254,
-   "usdActual": 0.000305
+   "usdActual": 0.000315
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1584,
-   "tokensOut": 51,
-   "usdCeiling": 0.001318,
-   "usdActual": 0.000107
+   "tokensIn": 1610,
+   "tokensOut": 53,
+   "usdCeiling": 0.001324,
+   "usdActual": 0.000109
   }
  ],
  "latencyMs": {
-  "read": 4591,
-  "classify": 641
+  "read": 4859,
+  "classify": 623
  },
  "errors": []
 }

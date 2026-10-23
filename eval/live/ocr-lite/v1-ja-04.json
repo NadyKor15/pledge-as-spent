@@ -40,7 +40,7 @@
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "Single 4 Alkaline batteries 4 pack",
+    "translationEn": "Single 4 Alkaline dry battery 4 pack",
     "qty": 4,
     "unitPriceMinor": 476,
     "amountMinor": 476,
@@ -53,7 +53,7 @@
     "qty": 1,
     "unitPriceMinor": 4088,
     "amountMinor": 4088,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
     "lineNo": 6,
@@ -62,11 +62,11 @@
     "qty": 1,
     "unitPriceMinor": 1574,
     "amountMinor": 1574,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 484,
+  "taxMinor": 488,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
@@ -90,7 +90,7 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Canned food counts toward the canned food need.",
+   "reasonEn": "Canned tuna counts toward the canned food need.",
    "confidence": 0.95
   },
   {
@@ -99,65 +99,65 @@
    "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Canned food counts toward the canned food need.",
+   "reasonEn": "Mackerel miso canned counts toward the canned food need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
+   "needId": "batteries",
+   "needQty": 4,
    "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "Single 4 Alkaline dry battery does not match the AA battery need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Single 4 Alkaline batteries do not match the AA battery need.",
-   "confidence": 0.9
+   "ruleCode": "gift_card",
+   "reasonEn": "External tax is not a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
+   "ruleCode": "gift_card",
    "reasonEn": "External tax is not a need.",
-   "confidence": 0.9
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
+   "ruleCode": "gift_card",
    "reasonEn": "External tax is not a need.",
-   "confidence": 0.9
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1208,
-   "tokensOut": 471,
+   "tokensOut": 470,
    "usdCeiling": 0.001244,
-   "usdActual": 0.000186
+   "usdActual": 0.000185
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1217,
-   "tokensOut": 266,
+   "tokensIn": 1218,
+   "tokensOut": 268,
    "usdCeiling": 0.001249,
    "usdActual": 0.000137
   }
  ],
  "latencyMs": {
-  "read": 2854,
-  "classify": 1885
+  "read": 4579,
+  "classify": 2059
  },
  "errors": []
 }

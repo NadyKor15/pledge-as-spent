@@ -24,7 +24,7 @@
     "rawText": "PILA AA ALCALINA 4U",
     "translationEn": "Alkaline AA battery 4U",
     "qty": 4,
-    "unitPriceMinor": 175,
+    "unitPriceMinor": null,
     "amountMinor": 698,
     "taxRateBp": 1000
    },
@@ -33,7 +33,7 @@
     "rawText": "PILAS AA LR6 8U",
     "translationEn": "LR6 AA batteries 8U",
     "qty": 2,
-    "unitPriceMinor": 175,
+    "unitPriceMinor": null,
     "amountMinor": 349,
     "taxRateBp": 1000
    }
@@ -45,7 +45,7 @@
   "pii": [
    {
     "kind": "other",
-    "text": "5572",
+    "text": "Ao aloja ola 5572",
     "bbox": {
      "x": 0.38563066642553023,
      "y": 0.7688885832487597,
@@ -71,9 +71,9 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1091,
-   "tokensOut": 306,
+   "tokensOut": 311,
    "usdCeiling": 0.001242,
-   "usdActual": 0.000139
+   "usdActual": 0.00014
   },
   {
    "model": "amazon.nova-lite-v1:0",
@@ -84,8 +84,8 @@
   }
  ],
  "latencyMs": {
-  "read": 2713,
-  "classify": 869
+  "read": 1939,
+  "classify": 698
  },
  "errors": []
 }

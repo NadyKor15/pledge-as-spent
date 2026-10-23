@@ -17,53 +17,71 @@
     "qty": 10,
     "unitPriceMinor": 2198,
     "amountMinor": 2198,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
     "rawText": "İNDİRİM",
     "translationEn": "Discount",
-    "qty": 19,
+    "qty": null,
     "unitPriceMinor": -329,
     "amountMinor": -329,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
     "rawText": "SEVİMLİ BEBEK BEZİ",
     "translationEn": "Lovely Baby Diaper",
     "qty": 20,
-    "unitPriceMinor": 34900,
+    "unitPriceMinor": null,
     "amountMinor": 34900,
     "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "KDV %1@ MATRAH 16,92",
-    "translationEn": "Tax %1@ Base 16,92",
-    "qty": 1,
+    "rawText": "KDV %1@ MATRAH",
+    "translationEn": "Tax %1@ Base",
+    "qty": null,
     "unitPriceMinor": 1692,
-    "amountMinor": 169,
+    "amountMinor": 1692,
     "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "KDV %2@ MATRAH 290,83",
-    "translationEn": "Tax %2@ Base 290,83",
-    "qty": 1,
+    "rawText": "KDV %2@ MATRAH",
+    "translationEn": "Tax %2@ Base",
+    "qty": null,
     "unitPriceMinor": 29083,
-    "amountMinor": 169,
+    "amountMinor": 29083,
     "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "Total Tax",
+    "qty": null,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 36761,
-  "taxMinor": 5986,
+  "subtotalMinor": 34900,
+  "taxMinor": 5817,
   "taxIncluded": false,
   "totalMinor": 36761,
   "pii": [
    {
     "kind": "card_number",
-    "text": "seek aölek tok 7374",
+    "text": "7374",
     "bbox": {
      "x": 0.3924558988224552,
      "y": 0.7051378402800667,
@@ -103,63 +121,27 @@
    "ruleCode": null,
    "reasonEn": "Mountain Water SL is a 5 L bottle of drinking water, which matches the water need.",
    "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discounts are not funded.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 3,
-   "needId": "diapers",
-   "needQty": 20,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Lovely Baby Diaper is a pack of size 4 diapers, which matches the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Taxes are not funded.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Taxes are not funded.",
-   "confidence": 1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1155,
-   "tokensOut": 585,
+   "tokensOut": 537,
    "usdCeiling": 0.001244,
-   "usdActual": 0.00021
+   "usdActual": 0.000198
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1160,
-   "tokensOut": 217,
-   "usdCeiling": 0.001238,
-   "usdActual": 0.000122
+   "tokensIn": 1195,
+   "tokensOut": 62,
+   "usdCeiling": 0.001251,
+   "usdActual": 0.000087
   }
  ],
  "latencyMs": {
-  "read": 5077,
-  "classify": 1555
+  "read": 4698,
+  "classify": 692
  },
  "errors": []
 }

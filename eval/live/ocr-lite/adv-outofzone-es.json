@@ -15,7 +15,7 @@
     "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "Water 1.5L pack 6",
     "qty": 6,
-    "unitPriceMinor": 55,
+    "unitPriceMinor": null,
     "amountMinor": 329,
     "taxRateBp": 1000
    },
@@ -24,7 +24,7 @@
     "rawText": "PAÑALES T3 PANTS 36U",
     "translationEn": "Diapers T3 Pants 36U",
     "qty": 36,
-    "unitPriceMinor": 42,
+    "unitPriceMinor": null,
     "amountMinor": 1498,
     "taxRateBp": 1000
    },
@@ -42,13 +42,13 @@
     "rawText": "PAPEL HIGIENICO 12R",
     "translationEn": "Toilet paper 12R",
     "qty": 12,
-    "unitPriceMinor": 37,
+    "unitPriceMinor": null,
     "amountMinor": 449,
     "taxRateBp": 2100
    }
   ],
   "subtotalMinor": 1661,
-  "taxMinor": 573,
+  "taxMinor": 515,
   "taxIncluded": true,
   "totalMinor": 2276,
   "pii": [
@@ -71,6 +71,16 @@
      "w": 0.131694792970605,
      "h": 0.02104875998167688
     }
+   },
+   {
+    "kind": "address",
+    "text": "Paseo Maritimo 9, 00000 Puerto Brisa",
+    "bbox": {
+     "x": 0.38145685560379533,
+     "y": 0.23674499037229396,
+     "w": 0.1749860216107056,
+     "h": 0.023763975548726057
+    }
    }
   ],
   "readability": "good"
@@ -90,9 +100,9 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1108,
-   "tokensOut": 417,
+   "tokensOut": 466,
    "usdCeiling": 0.001244,
-   "usdActual": 0.000167
+   "usdActual": 0.000178
   },
   {
    "model": "amazon.nova-lite-v1:0",
@@ -103,8 +113,8 @@
   }
  ],
  "latencyMs": {
-  "read": 3168,
-  "classify": 866
+  "read": 3987,
+  "classify": 645
  },
  "errors": []
 }

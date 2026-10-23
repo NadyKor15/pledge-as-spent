@@ -1,119 +1,68 @@
 {
- "reader": "ocr-lite",
+ "reader": "nova-pro-2pass",
  "set": "v1",
  "receipts": 30,
  "scoredReceipts": 30,
- "errors": [
-  {
-   "id": "v1-en-03",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor"
-  },
-  {
-   "id": "v1-en-04",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor"
-  },
-  {
-   "id": "v1-en-06",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor"
-  },
-  {
-   "id": "v1-es-01",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor"
-  },
-  {
-   "id": "v1-es-02",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor"
-  },
-  {
-   "id": "v1-es-03",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at taxMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor"
-  },
-  {
-   "id": "v1-es-05",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor"
-  },
-  {
-   "id": "v1-es-06",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor"
-  },
-  {
-   "id": "v1-ja-09",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Too small: expected number to be >0\n  → at lines[4].qty"
-  },
-  {
-   "id": "v1-tr-04",
-   "stage": "read",
-   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor"
-  }
- ],
+ "errors": [],
  "lines": {
-  "precision": 0.58125,
-  "recall": 0.5849056603773585,
-  "f1": 0.5830721003134797,
-  "tp": 93,
-  "fp": 67,
-  "fn": 66
+  "precision": 0.5942622950819673,
+  "recall": 0.9119496855345912,
+  "f1": 0.7196029776674938,
+  "tp": 145,
+  "fp": 99,
+  "fn": 14
  },
  "lineAmountExact": {
-  "num": 60,
+  "num": 88,
   "den": 159,
-  "rate": 0.37735849056603776
+  "rate": 0.5534591194968553
  },
  "totalExact": {
-  "num": 17,
+  "num": 26,
   "den": 30,
-  "rate": 0.5666666666666667
+  "rate": 0.8666666666666667
  },
  "dateExact": {
-  "num": 6,
+  "num": 30,
   "den": 30,
-  "rate": 0.2
+  "rate": 1
  },
  "dateTimeExact": {
-  "num": 6,
+  "num": 30,
   "den": 30,
-  "rate": 0.2
+  "rate": 1
  },
  "merchant": {
-  "meanSimilarity": 0.5907640834111422,
+  "meanSimilarity": 0.6023809523809524,
   "atLeast80": {
-   "num": 14,
+   "num": 18,
    "den": 30,
-   "rate": 0.4666666666666667
+   "rate": 0.6
   }
  },
  "lineClass": {
-  "num": 55,
+  "num": 76,
   "den": 143,
-  "rate": 0.38461538461538464
+  "rate": 0.5314685314685315
  },
  "needQty": {
-  "num": 16,
+  "num": 21,
   "den": 87,
-  "rate": 0.1839080459770115
+  "rate": 0.2413793103448276
  },
  "ruleLines": {
-  "num": 4,
+  "num": 6,
   "den": 10,
-  "rate": 0.4,
+  "rate": 0.6,
   "fundedByMistake": 0
  },
  "pii": {
   "found": {
-   "num": 20,
+   "num": 5,
    "den": 46,
-   "rate": 0.43478260869565216
+   "rate": 0.10869565217391304
   },
-  "meanIou": 0.53115299005
+  "meanIou": null
  },
  "flags": {
   "duplicate": {
@@ -127,18 +76,18 @@
   "pre_disaster": {
    "tp": 0,
    "fn": 0,
-   "fp": 6,
-   "tn": 24,
-   "recall": null,
-   "falseAlarmRate": 0.2
-  },
-  "out_of_zone": {
-   "tp": 0,
-   "fn": 0,
    "fp": 0,
    "tn": 30,
    "recall": null,
    "falseAlarmRate": 0
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 18,
+   "tn": 12,
+   "recall": null,
+   "falseAlarmRate": 0.6
   },
   "unreadable": {
    "tp": 0,
@@ -150,77 +99,76 @@
   }
  },
  "otherFlagsRaised": {
-  "total_mismatch": 20,
-  "poor_quality": 5
+  "total_mismatch": 26,
+  "poor_quality": 1,
+  "zone_unknown": 4
  },
  "byLanguage": {
   "en": {
-   "precision": 0.7894736842105263,
-   "recall": 0.4411764705882353,
-   "f1": 0.5660377358490566,
+   "precision": 0.85,
+   "recall": 1,
+   "f1": 0.9189189189189189,
    "totalExact": {
-    "num": 3,
+    "num": 6,
     "den": 6,
-    "rate": 0.5
+    "rate": 1
    }
   },
   "es": {
-   "precision": 0.6666666666666666,
-   "recall": 0.06060606060606061,
-   "f1": 0.1111111111111111,
+   "precision": 0.825,
+   "recall": 1,
+   "f1": 0.9041095890410958,
    "totalExact": {
-    "num": 1,
+    "num": 6,
     "den": 6,
-    "rate": 0.16666666666666666
+    "rate": 1
    }
   },
   "ja": {
-   "precision": 0.5714285714285714,
-   "recall": 0.8,
-   "f1": 0.6666666666666666,
+   "precision": 0.46078431372549017,
+   "recall": 0.7833333333333333,
+   "f1": 0.5802469135802469,
    "totalExact": {
-    "num": 9,
+    "num": 8,
     "den": 12,
-    "rate": 0.75
+    "rate": 0.6666666666666666
    }
   },
   "tr": {
-   "precision": 0.5185185185185185,
-   "recall": 0.875,
-   "f1": 0.6511627906976744,
+   "precision": 0.5,
+   "recall": 0.96875,
+   "f1": 0.6595744680851063,
    "totalExact": {
-    "num": 4,
+    "num": 6,
     "den": 6,
-    "rate": 0.6666666666666666
+    "rate": 1
    }
   }
  },
  "latency": {
-  "readerMedianMs": 3332,
-  "receiptMedianMs": 4397
+  "readerMedianMs": 7424,
+  "receiptMedianMs": 9977
  },
  "spend": {
-  "ledgerDeltaUsd": 0.008910999999999225,
-  "calls": 50,
-  "tokensIn": 61229,
-  "tokensOut": 21829,
-  "usdActual": 0.008910999999999997,
-  "usdCeiling": 0.062696
+  "ledgerDeltaUsd": 0.20712699999999995,
+  "calls": 60,
+  "tokensIn": 135748,
+  "tokensOut": 30791,
+  "usdActual": 0.20712700000000006,
+  "usdCeiling": 1.517548
  },
  "perReceipt": [
   {
    "id": "v1-en-01",
    "locale": "en",
    "readability": "good",
-   "flags": [
-    "total_mismatch"
-   ],
+   "flags": [],
    "score": {
     "tp": 4,
-    "fp": 1,
+    "fp": 0,
     "fn": 0,
     "lineAmountExact": {
-     "num": 2,
+     "num": 4,
      "den": 4
     },
     "totalExact": true,
@@ -228,11 +176,11 @@
     "dateTimeExact": true,
     "merchantSimilarity": 1,
     "lineClass": {
-     "num": 1,
+     "num": 3,
      "den": 3
     },
     "needQty": {
-     "num": 1,
+     "num": 3,
      "den": 3
     },
     "ruleLines": {
@@ -251,16 +199,88 @@
    "id": "v1-en-02",
    "locale": "en",
    "readability": "good",
-   "flags": [
-    "total_mismatch"
-   ],
+   "flags": [],
    "score": {
     "tp": 7,
-    "fp": 1,
+    "fp": 0,
     "fn": 0,
     "lineAmountExact": {
-     "num": 1,
+     "num": 7,
      "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 6
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-03",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-04",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
     },
     "totalExact": true,
     "dateExact": true,
@@ -272,84 +292,6 @@
     },
     "needQty": {
      "num": 2,
-     "den": 3
-    },
-    "ruleLines": {
-     "num": 0,
-     "den": 0
-    },
-    "ruleLinesFunded": 0,
-    "pii": {
-     "num": 3,
-     "den": 3
-    },
-    "piiIou": [
-     0.138687868,
-     0.703077441,
-     0.709251397
-    ]
-   }
-  },
-  {
-   "id": "v1-en-03",
-   "locale": "en",
-   "readability": null,
-   "flags": [],
-   "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 4,
-    "lineAmountExact": {
-     "num": 0,
-     "den": 4
-    },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
-    "lineClass": {
-     "num": 0,
-     "den": 3
-    },
-    "needQty": {
-     "num": 0,
-     "den": 2
-    },
-    "ruleLines": {
-     "num": 0,
-     "den": 1
-    },
-    "ruleLinesFunded": 0,
-    "pii": {
-     "num": 0,
-     "den": 3
-    },
-    "piiIou": []
-   }
-  },
-  {
-   "id": "v1-en-04",
-   "locale": "en",
-   "readability": null,
-   "flags": [],
-   "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 6,
-    "lineAmountExact": {
-     "num": 0,
-     "den": 6
-    },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
-    "lineClass": {
-     "num": 0,
-     "den": 6
-    },
-    "needQty": {
-     "num": 0,
      "den": 4
     },
     "ruleLines": {
@@ -358,7 +300,7 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 0,
+     "num": 2,
      "den": 2
     },
     "piiIou": []
@@ -372,11 +314,11 @@
     "total_mismatch"
    ],
    "score": {
-    "tp": 4,
+    "tp": 6,
     "fp": 2,
-    "fn": 2,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 4,
+     "num": 3,
      "den": 6
     },
     "totalExact": true,
@@ -384,7 +326,7 @@
     "dateTimeExact": true,
     "merchantSimilarity": 1,
     "lineClass": {
-     "num": 1,
+     "num": 2,
      "den": 5
     },
     "needQty": {
@@ -397,46 +339,46 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
-    "piiIou": [
-     0.153019347
-    ]
+    "piiIou": []
    }
   },
   {
    "id": "v1-en-06",
    "locale": "en",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 7,
+    "tp": 7,
+    "fp": 4,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 3,
      "den": 7
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 6,
      "den": 7
     },
     "needQty": {
-     "num": 0,
+     "num": 1,
      "den": 4
     },
     "ruleLines": {
-     "num": 0,
+     "num": 1,
      "den": 1
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 0,
+     "num": 2,
      "den": 2
     },
     "piiIou": []
@@ -445,26 +387,29 @@
   {
    "id": "v1-es-01",
    "locale": "es",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 7,
+    "tp": 7,
+    "fp": 3,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 2,
      "den": 7
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 5,
      "den": 6
     },
     "needQty": {
-     "num": 0,
+     "num": 2,
      "den": 4
     },
     "ruleLines": {
@@ -482,22 +427,25 @@
   {
    "id": "v1-es-02",
    "locale": "es",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
+    "tp": 6,
     "fp": 0,
-    "fn": 6,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 6,
      "den": 6
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 1,
      "den": 5
     },
     "needQty": {
@@ -519,30 +467,33 @@
   {
    "id": "v1-es-03",
    "locale": "es",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 5,
+    "tp": 5,
+    "fp": 2,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 1,
      "den": 5
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 4,
      "den": 4
     },
     "needQty": {
-     "num": 0,
+     "num": 1,
      "den": 3
     },
     "ruleLines": {
-     "num": 0,
+     "num": 1,
      "den": 1
     },
     "ruleLinesFunded": 0,
@@ -559,26 +510,26 @@
    "readability": "good",
    "flags": [
     "total_mismatch",
-    "pre_disaster"
+    "out_of_zone"
    ],
    "score": {
-    "tp": 2,
-    "fp": 1,
-    "fn": 1,
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 2,
+     "num": 3,
      "den": 3
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
     "merchantSimilarity": 1,
     "lineClass": {
-     "num": 1,
+     "num": 3,
      "den": 3
     },
     "needQty": {
-     "num": 0,
+     "num": 1,
      "den": 2
     },
     "ruleLines": {
@@ -587,37 +538,38 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
-    "piiIou": [
-     0.092405416
-    ]
+    "piiIou": []
    }
   },
   {
    "id": "v1-es-05",
    "locale": "es",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 6,
+    "tp": 6,
+    "fp": 2,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 2,
      "den": 6
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 5,
      "den": 5
     },
     "needQty": {
-     "num": 0,
+     "num": 1,
      "den": 3
     },
     "ruleLines": {
@@ -635,30 +587,33 @@
   {
    "id": "v1-es-06",
    "locale": "es",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
+    "tp": 6,
     "fp": 0,
-    "fn": 6,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 6,
      "den": 6
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 6,
      "den": 6
     },
     "needQty": {
-     "num": 0,
+     "num": 2,
      "den": 2
     },
     "ruleLines": {
-     "num": 0,
+     "num": 1,
      "den": 1
     },
     "ruleLinesFunded": 0,
@@ -672,25 +627,25 @@
   {
    "id": "v1-ja-01",
    "locale": "ja",
-   "readability": "poor",
+   "readability": "good",
    "flags": [
-    "poor_quality",
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
     "tp": 2,
-    "fp": 8,
+    "fp": 4,
     "fn": 0,
     "lineAmountExact": {
      "num": 2,
      "den": 2
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.7142857142857143,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.0714285714285714,
     "lineClass": {
-     "num": 2,
+     "num": 0,
      "den": 2
     },
     "needQty": {
@@ -703,12 +658,10 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
-    "piiIou": [
-     0.13128317
-    ]
+    "piiIou": []
    }
   },
   {
@@ -716,22 +669,23 @@
    "locale": "ja",
    "readability": "good",
    "flags": [
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
     "tp": 3,
-    "fp": 1,
+    "fp": 5,
     "fn": 1,
     "lineAmountExact": {
      "num": 3,
      "den": 4
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 1,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 2,
+     "num": 0,
      "den": 3
     },
     "needQty": {
@@ -753,25 +707,26 @@
   {
    "id": "v1-ja-03",
    "locale": "ja",
-   "readability": "good",
+   "readability": "poor",
    "flags": [
+    "poor_quality",
     "total_mismatch",
-    "pre_disaster"
+    "out_of_zone"
    ],
    "score": {
-    "tp": 4,
-    "fp": 5,
-    "fn": 1,
+    "tp": 3,
+    "fp": 7,
+    "fn": 2,
     "lineAmountExact": {
-     "num": 4,
+     "num": 3,
      "den": 5
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.5833333333333333,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 4,
+     "num": 0,
      "den": 5
     },
     "needQty": {
@@ -779,7 +734,7 @@
      "den": 3
     },
     "ruleLines": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
     "ruleLinesFunded": 0,
@@ -793,29 +748,29 @@
   {
    "id": "v1-ja-04",
    "locale": "ja",
-   "readability": "poor",
+   "readability": "good",
    "flags": [
-    "poor_quality",
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
-    "tp": 4,
+    "tp": 2,
     "fp": 2,
-    "fn": 0,
+    "fn": 2,
     "lineAmountExact": {
-     "num": 4,
+     "num": 0,
      "den": 4
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 1,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 2,
+     "num": 0,
      "den": 4
     },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
     "ruleLines": {
@@ -824,12 +779,10 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
-    "piiIou": [
-     0.816604967
-    ]
+    "piiIou": []
    }
   },
   {
@@ -837,26 +790,27 @@
    "locale": "ja",
    "readability": "good",
    "flags": [
-    "total_mismatch"
+    "total_mismatch",
+    "zone_unknown"
    ],
    "score": {
-    "tp": 6,
-    "fp": 0,
-    "fn": 1,
+    "tp": 7,
+    "fp": 5,
+    "fn": 0,
     "lineAmountExact": {
      "num": 1,
      "den": 7
     },
     "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 1,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 5,
+     "num": 3,
      "den": 6
     },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
     "ruleLines": {
@@ -874,25 +828,25 @@
   {
    "id": "v1-ja-06",
    "locale": "ja",
-   "readability": "poor",
+   "readability": "good",
    "flags": [
-    "poor_quality",
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
-    "tp": 6,
+    "tp": 7,
     "fp": 7,
-    "fn": 2,
+    "fn": 1,
     "lineAmountExact": {
-     "num": 3,
+     "num": 2,
      "den": 8
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.5833333333333333,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 5,
+     "num": 0,
      "den": 8
     },
     "needQty": {
@@ -900,46 +854,43 @@
      "den": 4
     },
     "ruleLines": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 2
     },
-    "piiIou": [
-     0.746132358
-    ]
+    "piiIou": []
    }
   },
   {
    "id": "v1-ja-07",
    "locale": "ja",
-   "readability": "poor",
+   "readability": "good",
    "flags": [
-    "poor_quality",
     "total_mismatch",
-    "pre_disaster"
+    "zone_unknown"
    ],
    "score": {
-    "tp": 7,
+    "tp": 4,
     "fp": 6,
-    "fn": 0,
+    "fn": 3,
     "lineAmountExact": {
-     "num": 3,
+     "num": 0,
      "den": 7
     },
     "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 1,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 1,
+     "num": 0,
      "den": 7
     },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 4
     },
     "ruleLines": {
@@ -960,26 +911,26 @@
    "readability": "good",
    "flags": [
     "total_mismatch",
-    "pre_disaster"
+    "out_of_zone"
    ],
    "score": {
-    "tp": 5,
-    "fp": 2,
-    "fn": 1,
+    "tp": 4,
+    "fp": 7,
+    "fn": 2,
     "lineAmountExact": {
-     "num": 5,
+     "num": 4,
      "den": 6
     },
-    "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.7142857142857143,
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 4,
+     "num": 3,
      "den": 5
     },
     "needQty": {
-     "num": 2,
+     "num": 1,
      "den": 2
     },
     "ruleLines": {
@@ -988,30 +939,31 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
-    "piiIou": [
-     0.198626961
-    ]
+    "piiIou": []
    }
   },
   {
    "id": "v1-ja-09",
    "locale": "ja",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 4,
+    "tp": 3,
+    "fp": 9,
+    "fn": 1,
     "lineAmountExact": {
      "num": 0,
      "den": 4
     },
     "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
     "merchantSimilarity": 0,
     "lineClass": {
      "num": 0,
@@ -1038,90 +990,8 @@
    "locale": "ja",
    "readability": "good",
    "flags": [
-    "total_mismatch"
-   ],
-   "score": {
-    "tp": 2,
-    "fp": 2,
-    "fn": 2,
-    "lineAmountExact": {
-     "num": 2,
-     "den": 4
-    },
-    "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.5833333333333333,
-    "lineClass": {
-     "num": 1,
-     "den": 4
-    },
-    "needQty": {
-     "num": 1,
-     "den": 4
-    },
-    "ruleLines": {
-     "num": 0,
-     "den": 0
-    },
-    "ruleLinesFunded": 0,
-    "pii": {
-     "num": 1,
-     "den": 2
-    },
-    "piiIou": [
-     0.739820719
-    ]
-   }
-  },
-  {
-   "id": "v1-ja-11",
-   "locale": "ja",
-   "readability": "good",
-   "flags": [
-    "total_mismatch"
-   ],
-   "score": {
-    "tp": 5,
-    "fp": 0,
-    "fn": 0,
-    "lineAmountExact": {
-     "num": 5,
-     "den": 5
-    },
-    "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 1,
-    "lineClass": {
-     "num": 4,
-     "den": 4
-    },
-    "needQty": {
-     "num": 1,
-     "den": 2
-    },
-    "ruleLines": {
-     "num": 0,
-     "den": 0
-    },
-    "ruleLinesFunded": 0,
-    "pii": {
-     "num": 1,
-     "den": 1
-    },
-    "piiIou": [
-     0.215919996
-    ]
-   }
-  },
-  {
-   "id": "v1-ja-12",
-   "locale": "ja",
-   "readability": "poor",
-   "flags": [
-    "poor_quality",
-    "total_mismatch"
+    "total_mismatch",
+    "zone_unknown"
    ],
    "score": {
     "tp": 4,
@@ -1132,9 +1002,89 @@
      "den": 4
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.7142857142857143,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-11",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-12",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
     "lineClass": {
      "num": 2,
      "den": 4
@@ -1144,17 +1094,15 @@
      "den": 2
     },
     "ruleLines": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 2
     },
-    "piiIou": [
-     0.77463063
-    ]
+    "piiIou": []
    }
   },
   {
@@ -1162,11 +1110,12 @@
    "locale": "tr",
    "readability": "good",
    "flags": [
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
     "tp": 3,
-    "fp": 0,
+    "fp": 1,
     "fn": 0,
     "lineAmountExact": {
      "num": 3,
@@ -1181,7 +1130,7 @@
      "den": 2
     },
     "needQty": {
-     "num": 1,
+     "num": 2,
      "den": 2
     },
     "ruleLines": {
@@ -1190,13 +1139,10 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 2,
+     "num": 0,
      "den": 3
     },
-    "piiIou": [
-     0.94510886,
-     0.760938649
-    ]
+    "piiIou": []
    }
   },
   {
@@ -1204,27 +1150,26 @@
    "locale": "tr",
    "readability": "good",
    "flags": [
-    "total_mismatch",
-    "pre_disaster"
+    "total_mismatch"
    ],
    "score": {
-    "tp": 3,
-    "fp": 2,
-    "fn": 0,
+    "tp": 2,
+    "fp": 3,
+    "fn": 1,
     "lineAmountExact": {
-     "num": 3,
+     "num": 1,
      "den": 3
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.9411764705882353,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 1,
+     "num": 0,
      "den": 2
     },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 2
     },
     "ruleLines": {
@@ -1233,14 +1178,10 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 3,
+     "num": 0,
      "den": 3
     },
-    "piiIou": [
-     0.109349833,
-     0.970508672,
-     0.730324536
-    ]
+    "piiIou": []
    }
   },
   {
@@ -1252,7 +1193,7 @@
    ],
    "score": {
     "tp": 9,
-    "fp": 9,
+    "fp": 10,
     "fn": 0,
     "lineAmountExact": {
      "num": 3,
@@ -1263,7 +1204,7 @@
     "dateTimeExact": true,
     "merchantSimilarity": 1,
     "lineClass": {
-     "num": 4,
+     "num": 7,
      "den": 8
     },
     "needQty": {
@@ -1276,33 +1217,34 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 1,
+     "num": 0,
      "den": 1
     },
-    "piiIou": [
-     0.14031423
-    ]
+    "piiIou": []
    }
   },
   {
    "id": "v1-tr-04",
    "locale": "tr",
-   "readability": null,
-   "flags": [],
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
    "score": {
-    "tp": 0,
-    "fp": 0,
-    "fn": 4,
+    "tp": 4,
+    "fp": 1,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 0,
+     "num": 3,
      "den": 4
     },
-    "totalExact": false,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
-     "num": 0,
+     "num": 2,
      "den": 4
     },
     "needQty": {
@@ -1327,20 +1269,20 @@
    "readability": "good",
    "flags": [
     "total_mismatch",
-    "pre_disaster"
+    "out_of_zone"
    ],
    "score": {
     "tp": 7,
-    "fp": 5,
+    "fp": 10,
     "fn": 0,
     "lineAmountExact": {
      "num": 4,
      "den": 7
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0.9444444444444444,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
     "lineClass": {
      "num": 6,
      "den": 6
@@ -1366,41 +1308,39 @@
    "locale": "tr",
    "readability": "good",
    "flags": [
-    "total_mismatch"
+    "total_mismatch",
+    "out_of_zone"
    ],
    "score": {
     "tp": 6,
-    "fp": 10,
+    "fp": 6,
     "fn": 0,
     "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
      "num": 2,
      "den": 6
     },
-    "totalExact": false,
-    "dateExact": true,
-    "dateTimeExact": true,
-    "merchantSimilarity": 0.9444444444444444,
-    "lineClass": {
-     "num": 1,
-     "den": 6
-    },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 3
     },
     "ruleLines": {
-     "num": 0,
+     "num": 1,
      "den": 1
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 2,
+     "num": 0,
      "den": 2
     },
-    "piiIou": [
-     0.815068048,
-     0.731986703
-    ]
+    "piiIou": []
    }
   }
  ]

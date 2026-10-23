@@ -1,0 +1,224 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T10:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "FUENTE CLARA WATER",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BOTELLA 1,5 L",
+    "translationEn": "BOTTLE 1.5 L",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL BEBÉ T3 44U",
+    "translationEn": "BABY DIAPER T3 44U",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 895,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 BATTERIES 8U",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 X 5,99",
+    "translationEn": "2 X 5.99",
+    "qty": 2,
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PAN BARRA",
+    "translationEn": "BREAD LOAF",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 170,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 X 0,85",
+    "translationEn": "2 X 0.85",
+    "qty": 2,
+    "unitPriceMinor": 85,
+    "amountMinor": 170,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "AGUA 5L GARRAFÁ",
+    "translationEn": "WATER 5L GARRAFÁ",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 119,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "PROMOTION DISCOUNT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -6,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2835,
+  "taxMinor": 163,
+  "taxIncluded": true,
+  "totalMinor": 2835,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 6 1.5L water bottles, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is 2 1.5L water bottles, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of size 3 baby diapers, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 8 AA batteries, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and may or may not match a need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and may or may not match a need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and may or may not match a need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3511,
+   "tokensOut": 844,
+   "usdCeiling": 0.032933000000000004,
+   "usdActual": 0.005509
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1345,
+   "tokensOut": 407,
+   "usdCeiling": 0.017026,
+   "usdActual": 0.002378
+  }
+ ],
+ "latencyMs": {
+  "read": 9527,
+  "classify": 3542
+ },
+ "errors": []
+}

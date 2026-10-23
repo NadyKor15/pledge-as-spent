@@ -12,7 +12,7 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥256※",
+    "rawText": "北空の天然水 2L",
     "translationEn": "North Sky Natural Water 2L",
     "qty": 2,
     "unitPriceMinor": 128,
@@ -21,25 +21,25 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ノート AS ¥296",
+    "rawText": "ノート AS",
     "translationEn": "Notebook AS",
     "qty": 1,
-    "unitPriceMinor": 296,
-    "amountMinor": 296,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
     "taxRateBp": 1000
    },
    {
     "lineNo": 3,
-    "rawText": "ソフトキッズおむつ L 34 枚 ¥1,298",
-    "translationEn": "Soft Kids Diapers L 34 pcs",
-    "qty": 1,
-    "unitPriceMinor": 1298,
+    "rawText": "ソフトキッズおむつ L",
+    "translationEn": "Soft Kids Diapers L",
+    "qty": 34,
+    "unitPriceMinor": 38,
     "amountMinor": 1298,
     "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "チョコレート ¥128※",
+    "rawText": "チョコレート",
     "translationEn": "Chocolate",
     "qty": 1,
     "unitPriceMinor": 128,
@@ -48,19 +48,19 @@
    },
    {
     "lineNo": 5,
-    "rawText": "単 3 電池 16 本入 ¥1,194",
-    "translationEn": "Single 3 batteries 16 pcs",
-    "qty": 1,
-    "unitPriceMinor": 1194,
+    "rawText": "単 3 電池 16 本入",
+    "translationEn": "Single 3 Battery 16 pack",
+    "qty": 16,
+    "unitPriceMinor": null,
     "amountMinor": 1194,
     "taxRateBp": 1000
    },
    {
     "lineNo": 6,
-    "rawText": "単 3 形 4 本入 ¥258",
-    "translationEn": "Single 3 type 4 pcs",
-    "qty": 1,
-    "unitPriceMinor": 258,
+    "rawText": "単 3 形 4 本入",
+    "translationEn": "Single 3 4 pack",
+    "qty": 4,
+    "unitPriceMinor": null,
     "amountMinor": 258,
     "taxRateBp": 1000
    }
@@ -108,7 +108,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Soft Kids Diapers L are not the size M diapers needed.",
+   "reasonEn": "Soft Kids Diapers L do not match the size M diapers need.",
    "confidence": 0.95
   },
   {
@@ -116,8 +116,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Chocolate is considered alcohol and is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -126,16 +126,16 @@
    "needQty": 16,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Single 3 batteries count toward the AA batteries need.",
+   "reasonEn": "Single 3 Battery 16 pack counts toward the AA batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Single 3 type batteries are not the AA batteries needed.",
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single 3 4 pack counts toward the AA batteries need.",
    "confidence": 0.95
   }
  ],
@@ -143,21 +143,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1212,
-   "tokensOut": 499,
+   "tokensOut": 453,
    "usdCeiling": 0.001245,
-   "usdActual": 0.000192
+   "usdActual": 0.000181
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1232,
-   "tokensOut": 278,
-   "usdCeiling": 0.00125,
-   "usdActual": 0.000141
+   "tokensIn": 1191,
+   "tokensOut": 279,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000138
   }
  ],
  "latencyMs": {
-  "read": 3448,
-  "classify": 2102
+  "read": 2915,
+  "classify": 1769
  },
  "errors": []
 }

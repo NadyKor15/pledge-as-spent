@@ -1,0 +1,170 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborrada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:27:00",
+  "receiptNumber": "2894",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 987,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3 X 3,29",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PANAL BEBÉ T3 44U",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1790,
+    "amountMinor": 1790,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2 X 8,95",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 895,
+    "amountMinor": 1790,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PANALES T3 PANTS 36U",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 749,
+    "amountMinor": 749,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3874,
+  "taxMinor": 390,
+  "taxIncluded": true,
+  "totalMinor": 3874,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco products are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3009,
+   "tokensOut": 680,
+   "usdCeiling": 0.032831,
+   "usdActual": 0.0045839999999999995
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1181,
+   "tokensOut": 269,
+   "usdCeiling": 0.016606,
+   "usdActual": 0.001806
+  }
+ ],
+ "latencyMs": {
+  "read": 7173,
+  "classify": 2308
+ },
+ "errors": []
+}

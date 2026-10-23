@@ -1,0 +1,100 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": {
+  "merchantName": "ホームセンターツバメ",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単 3 電池 16 本入 ¥1,194",
+    "translationEn": "AA batteries 16 pack",
+    "qty": 16,
+    "unitPriceMinor": null,
+    "amountMinor": 1194,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "QRIO* 2L ¥236%",
+    "translationEn": "QRIO 2L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ベビーラブパンツ M 38 枚 ¥2,196",
+    "translationEn": "Baby pants M 38 pack",
+    "qty": 38,
+    "unitPriceMinor": null,
+    "amountMinor": 2196,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "缶ビピール 350ml 6% ¥1,198",
+    "translationEn": "Canned beverage 350ml 6 pack",
+    "qty": 6,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 434,
+  "taxIncluded": false,
+  "totalMinor": 4824,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "2026118088",
+    "bbox": {
+     "x": 0.17690292212406594,
+     "y": 0.30918336697109094,
+     "w": 0.23079571166384133,
+     "h": 0.02407225345566666
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Canned beverage 350ml 6 pack is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1170,
+   "tokensOut": 356,
+   "usdCeiling": 0.016551,
+   "usdActual": 0.002075
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1162,
+   "tokensOut": 180,
+   "usdCeiling": 0.016465,
+   "usdActual": 0.001506
+  }
+ ],
+ "latencyMs": {
+  "read": 6034,
+  "classify": 1699
+ },
+ "errors": []
+}

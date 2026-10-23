@@ -22,7 +22,7 @@
    {
     "lineNo": 2,
     "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
-    "translationEn": "Baby diaper 3 NO 44's",
+    "translationEn": "Baby diaper 3 NO 44'LÜ",
     "qty": 3,
     "unitPriceMinor": 27900,
     "amountMinor": 27900,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "3 x 12,00",
-    "translationEn": "",
+    "rawText": "12,00",
+    "translationEn": "12,00",
     "qty": 3,
     "unitPriceMinor": 1200,
     "amountMinor": 3600,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "DEFTER AS",
-    "translationEn": "Notebook A5",
+    "rawText": "DEFTER AS «20",
+    "translationEn": "Notebook A5 «20",
     "qty": null,
     "unitPriceMinor": 4200,
     "amountMinor": 4200,
@@ -76,7 +76,7 @@
    {
     "lineNo": 8,
     "rawText": "2 x 289,90",
-    "translationEn": "",
+    "translationEn": "2 x 289,90",
     "qty": 2,
     "unitPriceMinor": 28990,
     "amountMinor": 57980,
@@ -85,7 +85,7 @@
    {
     "lineNo": 9,
     "rawText": "AA KALEM PİL 4'LÜ 420",
-    "translationEn": "AA pencil battery 4's 420",
+    "translationEn": "AA pencil battery 4'LÜ 420",
     "qty": 4,
     "unitPriceMinor": 15980,
     "amountMinor": 15980,
@@ -94,7 +94,7 @@
    {
     "lineNo": 10,
     "rawText": "2 x 79,98",
-    "translationEn": "",
+    "translationEn": "2 x 79,98",
     "qty": 2,
     "unitPriceMinor": 7998,
     "amountMinor": 15996,
@@ -102,8 +102,8 @@
    },
    {
     "lineNo": 11,
-    "rawText": "İNDİRİM",
-    "translationEn": "Discount",
+    "rawText": "İNDİRİM «20",
+    "translationEn": "Discount «20",
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -799,
@@ -111,8 +111,8 @@
    },
    {
     "lineNo": 12,
-    "rawText": "KAYNAK SU 5 LT",
-    "translationEn": "Source water 5 LT",
+    "rawText": "KAYNAK SU 5 LT »10",
+    "translationEn": "Source water 5 LT »10",
     "qty": null,
     "unitPriceMinor": 9800,
     "amountMinor": 9800,
@@ -121,7 +121,7 @@
    {
     "lineNo": 13,
     "rawText": "4x 24,50",
-    "translationEn": "",
+    "translationEn": "4x 24,50",
     "qty": 4,
     "unitPriceMinor": 2450,
     "amountMinor": 9800,
@@ -130,7 +130,7 @@
    {
     "lineNo": 14,
     "rawText": "KDV %1 MATRAH 35,64",
-    "translationEn": "VAT 1% base 35,64",
+    "translationEn": "VAT %1 base 35,64",
     "qty": null,
     "unitPriceMinor": 3564,
     "amountMinor": 36,
@@ -139,19 +139,19 @@
    {
     "lineNo": 15,
     "rawText": "KDV %1@ MATRAH 89,09",
-    "translationEn": "VAT 1% base 89,09",
+    "translationEn": "VAT %1@ base 89,09",
     "qty": null,
     "unitPriceMinor": 8909,
-    "amountMinor": 36,
+    "amountMinor": 891,
     "taxRateBp": null
    },
    {
     "lineNo": 16,
     "rawText": "KDV %2@ MATRAH 1.251,34",
-    "translationEn": "VAT 2% base 1.251,34",
+    "translationEn": "VAT %2@ base 1.251,34",
     "qty": null,
     "unitPriceMinor": 125134,
-    "amountMinor": 36,
+    "amountMinor": 25027,
     "taxRateBp": null
    },
    {
@@ -200,180 +200,27 @@
    "ruleCode": "gift_card",
    "reasonEn": "Gift cards are not funded by the drive.",
    "confidence": 1
-  },
-  {
-   "lineNo": 2,
-   "needId": "diapers",
-   "needQty": 3,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size 4 baby diapers match the need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item 'Ekmek 301' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item '3 x 12,00' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 5,
-   "needId": "blankets",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Single person blanket matches the need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item 'Defter A5' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Mini baby diaper size 520 does not match any need.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item '2 x 289,90' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 9,
-   "needId": "batteries",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA pencil batteries match the need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item '2 x 79,98' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 11,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "unclear",
-   "reasonEn": "Discount lines do not contribute to any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 12,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "5 L water bottles match the need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 13,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item '4x 24,50' does not match any need and its purpose is unclear.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 14,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "VAT lines do not contribute to any need.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 15,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "VAT lines do not contribute to any need.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 16,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "VAT lines do not contribute to any need.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 17,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Total VAT line does not contribute to any need.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 18,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Total line does not contribute to any need.",
-   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1310,
-   "tokensOut": 909,
+   "tokensOut": 970,
    "usdCeiling": 0.00126,
-   "usdActual": 0.000297
+   "usdActual": 0.000311
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1692,
-   "tokensOut": 704,
-   "usdCeiling": 0.00134,
-   "usdActual": 0.00027
+   "tokensIn": 1746,
+   "tokensOut": 45,
+   "usdCeiling": 0.001344,
+   "usdActual": 0.000116
   }
  ],
  "latencyMs": {
-  "read": 5237,
-  "classify": 4462
+  "read": 5191,
+  "classify": 602
  },
  "errors": []
 }

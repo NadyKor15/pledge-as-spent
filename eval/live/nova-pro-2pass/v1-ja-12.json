@@ -1,0 +1,116 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": {
+  "merchantName": "一-4てんめい-てんしゅ 株式会社",
+  "merchantAddress": "東京都港区芝7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "レ05",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ア・ク・セ ア・ク・セ M",
+    "translationEn": "A・K・SE A・K・SE M",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "フタバチーズ 3,000円",
+    "translationEn": "Futaba cheese 3,000 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チーズ 5個",
+    "translationEn": "Cheese 5 pieces",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "チーズチーズ 2L",
+    "translationEn": "Cheese cheese 2L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 648,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5144,
+  "taxMinor": 51,
+  "taxIncluded": true,
+  "totalMinor": 5344,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2912,
+   "tokensOut": 582,
+   "usdCeiling": 0.032672999999999994,
+   "usdActual": 0.0041919999999999995
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1139,
+   "tokensOut": 162,
+   "usdCeiling": 0.016439,
+   "usdActual": 0.00143
+  }
+ ],
+ "latencyMs": {
+  "read": 6553,
+  "classify": 1650
+ },
+ "errors": []
+}

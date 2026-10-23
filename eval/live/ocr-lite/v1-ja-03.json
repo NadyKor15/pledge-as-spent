@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
  "reading": {
-  "merchantName": "スマイルマート",
+  "merchantName": "スマイルマート 北空駅前店",
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
@@ -14,82 +14,46 @@
     "lineNo": 1,
     "rawText": "日本酒 729mt",
     "translationEn": "Japanese sake 729ml",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 1489,
     "amountMinor": 1489,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
     "rawText": "北空の天然水 2L 6 本ケース",
-    "translationEn": "Natural water from Hokusou 2L 6-pack",
-    "qty": null,
-    "unitPriceMinor": 1596,
+    "translationEn": "Natural water from Hokusou 2L 6 case",
+    "qty": 2,
+    "unitPriceMinor": 798,
     "amountMinor": 1596,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
     "lineNo": 3,
-    "rawText": "ソフトキッズおむつ L 34 枚",
-    "translationEn": "Soft Kids Diapers L 34 pieces",
-    "qty": null,
-    "unitPriceMinor": 2596,
+    "rawText": "ソフトキッズおむつ L",
+    "translationEn": "Soft kids diaper L",
+    "qty": 34,
+    "unitPriceMinor": null,
     "amountMinor": 2596,
-    "taxRateBp": null
+    "taxRateBp": 1900
    },
    {
     "lineNo": 4,
     "rawText": "単 3 電池 19 本入",
-    "translationEn": "Single 3 batteries 19 pieces",
-    "qty": null,
-    "unitPriceMinor": 1194,
+    "translationEn": "Single 3 battery 19 pack",
+    "qty": 19,
+    "unitPriceMinor": null,
     "amountMinor": 1194,
-    "taxRateBp": null
+    "taxRateBp": 1900
    },
    {
     "lineNo": 5,
-    "rawText": "ソフトキッズおむつ M 44K",
-    "translationEn": "Soft Kids Diapers M 44 pieces",
-    "qty": null,
-    "unitPriceMinor": 1298,
+    "rawText": "ソフトキッズおむつ M",
+    "translationEn": "Soft kids diaper M",
+    "qty": 44,
+    "unitPriceMinor": null,
     "amountMinor": 1298,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 6,
-    "rawText": "BTR",
-    "translationEn": "BTR",
-    "qty": null,
-    "unitPriceMinor": 1596,
-    "amountMinor": 1596,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "19% 対象",
-    "translationEn": "19% applicable",
-    "qty": null,
-    "unitPriceMinor": 6568,
-    "amountMinor": 6568,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 8,
-    "rawText": "(内消費税等 8*)",
-    "translationEn": "(including consumption tax 8%)",
-    "qty": null,
-    "unitPriceMinor": 118,
-    "amountMinor": 118,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 9,
-    "rawText": "(内消費税等 19*)",
-    "translationEn": "(including consumption tax 19%)",
-    "qty": null,
-    "unitPriceMinor": 597,
-    "amountMinor": 597,
-    "taxRateBp": null
+    "taxRateBp": 1900
    }
   ],
   "subtotalMinor": 8164,
@@ -117,101 +81,29 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Japanese sake is an alcohol product and is not eligible for the drive.",
+   "reasonEn": "Japanese sake is an alcohol product and is not funded by the drive.",
    "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": "water",
-   "needQty": 6,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Natural water from Hokusou 2L 6-pack counts toward the water need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Soft Kids Diapers L are not listed as a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": "batteries",
-   "needQty": 19,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Single 3 batteries count toward the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": "diapers",
-   "needQty": 44,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Soft Kids Diapers M count toward the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The meaning of 'BTR' is unclear and cannot be determined as eligible or rejected.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The meaning of '19% applicable' is unclear and cannot be determined as eligible or rejected.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The meaning of '(including consumption tax 8%)' is unclear and cannot be determined as eligible or rejected.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The meaning of '(including consumption tax 19%)' is unclear and cannot be determined as eligible or rejected.",
-   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1207,
-   "tokensOut": 512,
+   "tokensOut": 411,
    "usdCeiling": 0.001245,
-   "usdActual": 0.000195
+   "usdActual": 0.000171
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1338,
-   "tokensOut": 448,
-   "usdCeiling": 0.001278,
-   "usdActual": 0.000188
+   "tokensIn": 1182,
+   "tokensOut": 60,
+   "usdCeiling": 0.001243,
+   "usdActual": 0.000085
   }
  ],
  "latencyMs": {
-  "read": 3227,
-  "classify": 3312
+  "read": 3357,
+  "classify": 631
  },
  "errors": []
 }

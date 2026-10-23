@@ -1,0 +1,116 @@
+{
+ "receiptId": "v1-ja-11",
+ "set": "v1",
+ "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+ "reading": {
+  "merchantName": "<store name not printed>",
+  "merchantAddress": "<store address not printed>",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "M 44",
+    "translationEn": "<not translated>",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2 x 1,298",
+    "translationEn": "<not translated>",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "-130",
+    "translationEn": "<not translated>",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "¥128 (4)",
+    "translationEn": "<not translated>",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 224,
+  "taxIncluded": false,
+  "totalMinor": 3294,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item M 44 is not translated, so its eligibility cannot be determined.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 2 x 1,298 is not translated, so its eligibility cannot be determined.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a discount line, which does not contribute to the needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item ¥128 (4) is not translated, so its eligibility cannot be determined.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2772,
+   "tokensOut": 391,
+   "usdCeiling": 0.0325,
+   "usdActual": 0.0034679999999999997
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1097,
+   "tokensOut": 180,
+   "usdCeiling": 0.016415,
+   "usdActual": 0.001454
+  }
+ ],
+ "latencyMs": {
+  "read": 5375,
+  "classify": 1710
+ },
+ "errors": []
+}

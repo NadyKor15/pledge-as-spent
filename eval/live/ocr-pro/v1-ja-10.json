@@ -1,0 +1,137 @@
+{
+ "receiptId": "v1-ja-10",
+ "set": "v1",
+ "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+ "reading": {
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T13:25:00",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L ¥256※",
+    "translationEn": "Natural water of Kitasora 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズおむつ M 44 枚 ¥1,298",
+    "translationEn": "Soft kids diapers M 44 pieces",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単 3 形 4 本入 ¥1,298",
+    "translationEn": "AA batteries 4 pack",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ベビーラブパンツ M 38% ¥1,098",
+    "translationEn": "Baby love pants M 38%",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3942,
+  "taxMinor": 424,
+  "taxIncluded": false,
+  "totalMinor": 4330,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "SY ゆ様",
+    "bbox": {
+     "x": 0.17788511346950447,
+     "y": 0.7359512605684534,
+     "w": 0.1050530542019576,
+     "h": 0.018535003660704152
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "1606 3023 4322",
+    "bbox": {
+     "x": 0.5856243530253546,
+     "y": 0.7839811055137647,
+     "w": 0.19618012219009173,
+     "h": 0.022804361732765344
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water of Kitasora 2L is eligible as drinking water.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft kids diapers M 44 pieces are eligible as baby diapers size M.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries 4 pack are eligible as AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby love pants M 38% do not match any listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1186,
+   "tokensOut": 363,
+   "usdCeiling": 0.01657,
+   "usdActual": 0.00211
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1163,
+   "tokensOut": 184,
+   "usdCeiling": 0.016489,
+   "usdActual": 0.001519
+  }
+ ],
+ "latencyMs": {
+  "read": 6241,
+  "classify": 1953
+ },
+ "errors": []
+}

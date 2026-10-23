@@ -31,7 +31,7 @@
    {
     "lineNo": 3,
     "rawText": "65) -¥130",
-    "translationEn": "65) -¥130",
+    "translationEn": "Discount -¥130",
     "qty": null,
     "unitPriceMinor": -130,
     "amountMinor": -130,
@@ -97,18 +97,18 @@
    "lineNo": 3,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount lines do not contribute to the needs.",
-   "confidence": 0.9
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not affect eligibility, but we need to check the original item.",
+   "confidence": 0.8
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Cup noodles do not match any of the listed needs.",
+   "ruleCode": null,
+   "reasonEn": "Cup noodles do not match any listed need.",
    "confidence": 0.9
   },
   {
@@ -116,8 +116,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Chocolate is not a listed need and is not allowed.",
+   "ruleCode": null,
+   "reasonEn": "Chocolate is not a listed need and is rejected due to the 'other_rule'.",
    "confidence": 0.9
   }
  ],
@@ -125,21 +125,21 @@
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 1183,
-   "tokensOut": 408,
+   "tokensOut": 405,
    "usdCeiling": 0.001242,
-   "usdActual": 0.000169
+   "usdActual": 0.000168
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1197,
-   "tokensOut": 222,
-   "usdCeiling": 0.001242,
-   "usdActual": 0.000125
+   "tokensIn": 1195,
+   "tokensOut": 214,
+   "usdCeiling": 0.001243,
+   "usdActual": 0.000123
   }
  ],
  "latencyMs": {
-  "read": 2825,
-  "classify": 1878
+  "read": 2552,
+  "classify": 1537
  },
  "errors": []
 }
