@@ -1,0 +1,78 @@
+{
+  "seq": 5,
+  "label": "wallet-pledge",
+  "recordedAt": "2026-10-23T15:49:22.133Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders",
+    "headers": {
+      "paypal-request-id": "order:demo-deedc05de3.wallet",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "intent": "AUTHORIZE",
+      "purchase_units": [
+        {
+          "reference_id": "demo-deedc05de3:demo-deedc05de3.wallet",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "10.00"
+          },
+          "description": "Pledge: Drinking water 2 L - Kitasora flood relief (demo)",
+          "custom_id": "demo-deedc05de3.wallet"
+        }
+      ],
+      "payment_source": {
+        "paypal": {
+          "experience_context": {
+            "shipping_preference": "NO_SHIPPING",
+            "user_action": "PAY_NOW"
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f585972aa18eb",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "9KG53879596936812",
+      "intent": "AUTHORIZE",
+      "status": "PAYER_ACTION_REQUIRED",
+      "payment_source": {
+        "paypal": {}
+      },
+      "purchase_units": [
+        {
+          "reference_id": "demo-deedc05de3:demo-deedc05de3.wallet",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "10.00"
+          },
+          "payee": {
+            "email_address": "sb-l1j1d53505233@business.example.com",
+            "merchant_id": "R3AUNAFRP94H8"
+          },
+          "description": "Pledge: Drinking water 2 L - Kitasora flood relief (demo)",
+          "custom_id": "demo-deedc05de3.wallet"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9KG53879596936812",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://www.sandbox.paypal.com/checkoutnow?token=9KG53879596936812",
+          "rel": "payer-action",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

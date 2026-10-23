@@ -43,3 +43,6 @@ next-env.d.ts
 # local evidence drafts and recorded raw responses before sanitising
 /tmp/
 /evidence/raw/
+
+# local PGlite database (npm run dev, npm run db:migrate without DATABASE_URL)
+/.data/

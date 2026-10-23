@@ -1,0 +1,85 @@
+{
+  "seq": 11,
+  "label": "restart-lookup",
+  "recordedAt": "2026-10-23T15:49:30.185Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/captures/3BM27705RC859420P",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f387346383540",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "3BM27705RC859420P",
+      "amount": {
+        "currency_code": "USD",
+        "value": "21.45"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "disbursement_mode": "INSTANT",
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "21.45"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "1.05"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "20.40"
+        }
+      },
+      "invoice_id": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+      "custom_id": "demo-deedc05de3.diapers",
+      "status": "COMPLETED",
+      "processor_response": {
+        "avs_code": "",
+        "cvv_code": "M",
+        "response_code": "0000"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "9NU18810WU3743749",
+          "authorization_id": "4BD44583JM488111B"
+        }
+      },
+      "payee": {
+        "email_address": "sb-l1j1d53505233@business.example.com",
+        "merchant_id": "R3AUNAFRP94H8"
+      },
+      "create_time": "2026-10-23T15:49:29Z",
+      "update_time": "2026-10-23T15:49:29Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/3BM27705RC859420P",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/3BM27705RC859420P/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4BD44583JM488111B",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "936965150255764",
+        "network": "VISA"
+      }
+    }
+  }
+}

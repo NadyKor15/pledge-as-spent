@@ -1,0 +1,90 @@
+{
+  "seq": 8,
+  "label": "capture-now-crash",
+  "recordedAt": "2026-10-23T15:49:25.989Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N/capture",
+    "headers": {
+      "paypal-request-id": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "EUR",
+        "value": "4.58"
+      },
+      "invoice_id": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+      "final_capture": false,
+      "note_to_payer": "3 approved receipt line(s) for Kitasora flood relief (demo)"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f698495020cee",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "23U39065DA3435005",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "4.58"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "EUR",
+          "value": "4.58"
+        },
+        "paypal_fee": {
+          "currency_code": "EUR",
+          "value": "0.51"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "4.44"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "4.44"
+        },
+        "exchange_rate": {
+          "source_currency": "EUR",
+          "target_currency": "USD",
+          "value": "1.090842204431814"
+        }
+      },
+      "invoice_id": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+      "custom_id": "demo-deedc05de3.water",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T15:49:25Z",
+      "update_time": "2026-10-23T15:49:25Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/23U39065DA3435005",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/23U39065DA3435005/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "247743212613214",
+        "network": "VISA"
+      }
+    }
+  }
+}

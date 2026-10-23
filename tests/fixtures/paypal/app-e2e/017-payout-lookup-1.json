@@ -1,0 +1,103 @@
+{
+  "seq": 17,
+  "label": "payout-lookup-1",
+  "recordedAt": "2026-10-23T15:49:45.818Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v1/payments/payouts/58J9C38J3PQWA",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f698127a3ae97",
+      "content-type": "application/json"
+    },
+    "body": {
+      "batch_header": {
+        "payout_batch_id": "58J9C38J3PQWA",
+        "batch_status": "PROCESSING",
+        "time_created": "2026-10-23T15:49:23Z",
+        "sender_batch_header": {
+          "sender_batch_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "email_subject": "Reimbursement for your receipt: Kitasora flood relief (demo)"
+        },
+        "funding_source": "BALANCE",
+        "amount": {
+          "currency": "JPY",
+          "value": "10448"
+        },
+        "fees": {
+          "currency": "JPY",
+          "value": "209"
+        },
+        "currency_conversion": {
+          "from_amount": {
+            "currency": "USD",
+            "value": "69.77"
+          },
+          "to_amount": {
+            "currency": "JPY",
+            "value": "10657"
+          }
+        }
+      },
+      "items": [
+        {
+          "payout_item_id": "98XMHLFZLRXAA",
+          "transaction_id": "4FW744737P499932J",
+          "activity_id": "6DN825621N041960U",
+          "transaction_status": "SUCCESS",
+          "payout_item_fee": {
+            "currency": "JPY",
+            "value": "209"
+          },
+          "payout_batch_id": "58J9C38J3PQWA",
+          "payout_item": {
+            "recipient_type": "EMAIL",
+            "amount": {
+              "currency": "JPY",
+              "value": "10448"
+            },
+            "note": "Receipt demo-deedc05de3.r1: the approved lines, paid from donors' holds.",
+            "receiver": "sb-pywsi53523660@personal.example.com",
+            "sender_item_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+            "recipient_wallet": "PAYPAL",
+            "purpose": "GOODS"
+          },
+          "currency_conversion": {
+            "from_amount": {
+              "currency": "USD",
+              "value": "69.77"
+            },
+            "to_amount": {
+              "currency": "JPY",
+              "value": "10657"
+            },
+            "exchange_rate": "152.754225"
+          },
+          "time_processed": "2026-10-23T15:49:39Z",
+          "links": [
+            {
+              "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/98XMHLFZLRXAA",
+              "rel": "item",
+              "method": "GET",
+              "encType": "application/json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v1/payments/payouts/58J9C38J3PQWA?page_size=1000&page=1",
+          "rel": "self",
+          "method": "GET",
+          "encType": "application/json"
+        }
+      ]
+    }
+  }
+}

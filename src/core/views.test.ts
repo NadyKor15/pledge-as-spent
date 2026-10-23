@@ -133,8 +133,8 @@ describe("feeSavings", () => {
     expect(feeSavings(b.state)).toEqual([]);
     for (const c of cmds) b.confirm(c, NOW, undefined, c.amount.currency === "JPY" ? { currency: "JPY", minor: 50 } : undefined);
     expect(feeSavings(b.state)).toEqual([
-      { currency: "EUR", batches: 1, shares: 3, savedMinor: 2 * FIXED_FEES.EUR.minor, estimate: true, source: FIXED_FEES.EUR.source, paypalFeeMinor: 0, batchesWithReportedFee: 0 },
-      { currency: "JPY", batches: 1, shares: 3, savedMinor: 2 * FIXED_FEES.JPY.minor, estimate: true, source: FIXED_FEES.JPY.source, paypalFeeMinor: 50, batchesWithReportedFee: 1 },
+      { currency: "EUR", batches: 1, shares: 3, savedMinor: 2 * FIXED_FEES.EUR.minor, estimate: false, source: FIXED_FEES.EUR.source, paypalFeeMinor: 0, batchesWithReportedFee: 0 },
+      { currency: "JPY", batches: 1, shares: 3, savedMinor: 2 * FIXED_FEES.JPY.minor, estimate: false, source: FIXED_FEES.JPY.source, paypalFeeMinor: 50, batchesWithReportedFee: 1 },
     ]);
   });
 
@@ -147,9 +147,11 @@ describe("feeSavings", () => {
     expect(rows.find((r) => r.currency === "JPY")).toMatchObject({ savedMinor: 0 });
   });
 
-  it("the USD fixed fee comes from a real sandbox capture; the rest are marked estimates", () => {
+  it("USD, EUR and JPY fixed fees come from sandbox captures; the rest are marked estimates", () => {
     expect(FIXED_FEES.USD).toMatchObject({ minor: 49, estimate: false });
-    for (const [cur, fee] of Object.entries(FIXED_FEES)) if (cur !== "USD") expect(fee.estimate).toBe(true);
+    expect(FIXED_FEES.EUR).toMatchObject({ minor: 39, estimate: false });
+    expect(FIXED_FEES.JPY).toMatchObject({ minor: 49, estimate: false });
+    for (const [cur, fee] of Object.entries(FIXED_FEES)) if (!["USD", "EUR", "JPY"].includes(cur)) expect(fee.estimate).toBe(true);
   });
 });
 
