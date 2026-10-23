@@ -1,0 +1,110 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-07-11T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パピ -7 パツ",
+    "translationEn": "Papier towels",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3 缶バック",
+    "translationEn": "Canned tuna 3 cans",
+    "qty": 3,
+    "unitPriceMinor": 614,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮缶詰",
+    "translationEn": "Miso-pickled mackerel in a can",
+    "qty": 1,
+    "unitPriceMinor": 2256,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "4 alkaline dry batteries 4-pack",
+    "qty": 12,
+    "unitPriceMinor": 155,
+    "amountMinor": 476,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 1257,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "4414",
+    "bbox": {
+     "x": 0.7473766010829886,
+     "y": 0.6641283535117284,
+     "w": 0.055312140769027685,
+     "h": 0.02459832296285569
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.592554468707096,
+     "y": 0.785535943079337,
+     "w": 0.2001494926398356,
+     "h": 0.020425790837085955
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Paper towels are not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1221,
+   "tokensOut": 406,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000171
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1142,
+   "tokensOut": 58,
+   "usdCeiling": 0.001234,
+   "usdActual": 0.000082
+  }
+ ],
+ "latencyMs": {
+  "read": 3353,
+  "classify": 1225
+ },
+ "errors": []
+}

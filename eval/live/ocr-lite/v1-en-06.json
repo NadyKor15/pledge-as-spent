@@ -1,0 +1,24 @@
+{
+ "receiptId": "v1-en-06",
+ "set": "v1",
+ "imageSha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1164,
+   "tokensOut": 734,
+   "usdCeiling": 0.001253,
+   "usdActual": 0.000246
+  }
+ ],
+ "latencyMs": {
+  "read": 4397,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor",
+  "raw: {\"ocr\":\"CORNER PHARMACY #14\\n3 Elm Court\\nBrindlewood, Marlow Co.\\nTEL (555) 010-0063\\n11/03/2026 01:41 PM REG 06\\nTRANS #2492\\nAA BATTERY 8PK $7.99 T\\nDIAPERS SZ 5 72CT $24.99 T\\nSOFTIES DIAPERS SZ 3 38CT $37.47 T\\n3 @ $12.49\\nSPRING WATER 1GAL $5.96 F\\n4 @ $1.49\\nBREAD WHEAT $2.79 F\\nDEER CREEK WATER $5.07 F\\n1 GALLON JUG\\n3 @ $1.69\\nGIFT CARD $25 $25.00 F\\nSUBTOTAL $109.27\\nSALES TAX 7.25% $5.11\\nTOTAL $114.38\\nCASH $120.00\\nCHANGE $5.62\\nREWARDS MEMBER\\nJORDAN WELLS\\nMEMBER # 3694265361\\nT = TAXABLE F = NON-TAXABLE\\nTHANK YOU ~ COME AGAIN\",\"structured\":\"RECEIPT: merchant=CORNER PHARMACY #14; address=3 Elm Court, Brindlewood, Marlow Co.; country=US; currency=USD; purchased=2026-11-03T13:41:00; number=2492; subtotal=109.27; tax=5.11; tax_included=false; total=114.38; readability=good\\nLINE: no=1; qty=8; unit=0.99875; amount=7.99; rate=1000; text=AA BATTERY 8PK $7.99 T; en=AA Battery 8PK\\nLINE: no=2; qty=72; unit=0.347222; amount=24.99; rate=1000; text=DIAPERS SZ 5 72CT $24.99 T; en=Diapers Size 5 72CT\\nLINE: no=3; qty=38; unit=0.986053; amount=37.47; rate=1000; text=SOFTIES DIAPERS SZ 3 38CT $37.47 T; en=Softies Diapers Size 3 38CT\\nLINE: no=4; qty=3; unit=12.49; amount=37.47; rate=0; text=3 @ $12.49; en=3 @ $12.49\\nLINE: no=5; qty=1; unit=5.96; amount=5.96; rate=0; text=SPRING WATER 1GAL $5.96 F; en=Spring Water 1GAL\\nLINE: no=6; qty=4; unit=1.49; amount=5.96; rate=0; text=4 @ $1.49; en=4 @ $1.49\\nLINE: no=7; qty=1; unit=2.79; amount=2.79; rate=0; text=BREAD WHEAT $2.79 F; en=Bread Wheat\\nLINE: no=8; qty=1; unit=5.07; amount=5.07; rate=0; text=DEER CREEK WATER $5.07 F; en=Deer Creek Water\\nLINE: no=9; qty=1; unit=1.69; amount=1.69; rate=0; text=1 GALLON JUG; en=1 GALLON JUG\\nLINE: no=10; qty=1; unit=25; amount=25; rate=0; text=GIFT CARD $25 $25.00 F; en=Gift Card $25\\nPII: kind=name; box=0.0,0.91,0.36,0.02; text=JORDAN WELLS\\nPII: kind=member_id; box=0.36,0.91,0.36,0.02; text=3694265361\"}"
+ ]
+}

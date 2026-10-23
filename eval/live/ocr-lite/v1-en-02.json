@@ -1,0 +1,219 @@
+{
+ "receiptId": "v1-en-02",
+ "set": "v1",
+ "imageSha256": "483b7ca5b81bf1ac30d65662e5139d49a0e4b719ba669b7aa616555fedfb147a",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T15:58:00",
+  "receiptNumber": "2718",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL $8.94 F",
+    "translationEn": "Spring Water 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 894,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "6 @ $1.49",
+    "translationEn": "6 @ $1.49",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AAA BATTERY 8PK $7.99 T",
+    "translationEn": "AAA Battery 8PK",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON -$1.20",
+    "translationEn": "Coupon -$1.20",
+    "qty": 1,
+    "unitPriceMinor": -120,
+    "amountMinor": -120,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK $15.99 T",
+    "translationEn": "AA Alkaline 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 @ $2.79",
+    "translationEn": "2 @ $2.79",
+    "qty": 2,
+    "unitPriceMinor": 279,
+    "amountMinor": 558,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA BATTERY 8PK $7.99 T",
+    "translationEn": "AA Battery 8PK",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "MILK 1GAL $3.89 F",
+    "translationEn": "Milk 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 4918,
+  "taxMinor": 223,
+  "taxIncluded": false,
+  "totalMinor": 5141,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************496",
+    "bbox": {
+     "x": 0.7673097231761855,
+     "y": 0.6817959315377361,
+     "w": 0.044566349742533595,
+     "h": 0.022355644217385007
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.17675111225391935,
+     "y": 0.7629248378584873,
+     "w": 0.16949883469972674,
+     "h": 0.017882431016436606
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "2899736096",
+    "bbox": {
+     "x": 0.653864354978127,
+     "y": 0.8063347216193105,
+     "w": 0.14467421409524128,
+     "h": 0.017908676672401147
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1GAL counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "6 @ $1.49 does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA Battery 8PK does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Coupon -$1.20 does not match any listed need and cannot be counted.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline 24PK counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "2 @ $2.79 does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Battery 8PK counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1GAL does not match any listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1135,
+   "tokensOut": 641,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000222
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1279,
+   "tokensOut": 386,
+   "usdCeiling": 0.001262,
+   "usdActual": 0.000169
+  }
+ ],
+ "latencyMs": {
+  "read": 3945,
+  "classify": 2510
+ },
+ "errors": []
+}

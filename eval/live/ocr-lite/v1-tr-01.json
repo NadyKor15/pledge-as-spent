@@ -1,0 +1,119 @@
+{
+ "receiptId": "v1-tr-01",
+ "set": "v1",
+ "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+ "reading": {
+  "merchantName": "EVİM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10-PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "DISCOUNT",
+    "qty": 1,
+    "unitPriceMinor": -1699,
+    "amountMinor": -1699,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "MINI BABY DIAPER 4 PACK",
+    "qty": 1,
+    "unitPriceMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 36901,
+  "taxMinor": 7380,
+  "taxIncluded": false,
+  "totalMinor": 44281,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.19855917197028794,
+     "y": 0.7810713895017735,
+     "w": 0.18795497442138787,
+     "h": 0.028088525510092777
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9309880230",
+    "bbox": {
+     "x": 0.6862519659077798,
+     "y": 0.7387702249934989,
+     "w": 0.14644323328271291,
+     "h": 0.02215766594500901
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in a 10-pack count towards the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers in a 4-pack count towards the baby diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1141,
+   "tokensOut": 332,
+   "usdCeiling": 0.001242,
+   "usdActual": 0.000148
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1078,
+   "tokensOut": 145,
+   "usdCeiling": 0.001222,
+   "usdActual": 0.000099
+  }
+ ],
+ "latencyMs": {
+  "read": 3130,
+  "classify": 1138
+ },
+ "errors": []
+}

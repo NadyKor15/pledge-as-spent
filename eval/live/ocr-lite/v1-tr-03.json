@@ -1,0 +1,379 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diaper 3 NO 44's",
+    "qty": 3,
+    "unitPriceMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK 301",
+    "translationEn": "Bread 301",
+    "qty": null,
+    "unitPriceMinor": 3600,
+    "amountMinor": 3600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3 x 12,00",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BATTANİYE TEK KİŞİLİK 420",
+    "translationEn": "Blanket single 420",
+    "qty": null,
+    "unitPriceMinor": 44900,
+    "amountMinor": 44900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DEFTER AS",
+    "translationEn": "Notebook A5",
+    "qty": null,
+    "unitPriceMinor": 4200,
+    "amountMinor": 4200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO 520",
+    "translationEn": "Mini baby diaper 4 NO 520",
+    "qty": 4,
+    "unitPriceMinor": 57980,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 x 289,90",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "AA KALEM PİL 4'LÜ 420",
+    "translationEn": "AA pencil battery 4's 420",
+    "qty": 4,
+    "unitPriceMinor": 15980,
+    "amountMinor": 15980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "2 x 79,98",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 7998,
+    "amountMinor": 15996,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -799,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Source water 5 LT",
+    "qty": null,
+    "unitPriceMinor": 9800,
+    "amountMinor": 9800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "4x 24,50",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "KDV %1 MATRAH 35,64",
+    "translationEn": "VAT 1% base 35,64",
+    "qty": null,
+    "unitPriceMinor": 3564,
+    "amountMinor": 36,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "KDV %1@ MATRAH 89,09",
+    "translationEn": "VAT 1% base 89,09",
+    "qty": null,
+    "unitPriceMinor": 8909,
+    "amountMinor": 36,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "KDV %2@ MATRAH 1.251,34",
+    "translationEn": "VAT 2% base 1.251,34",
+    "qty": null,
+    "unitPriceMinor": 125134,
+    "amountMinor": 36,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 25954,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 213561,
+  "taxMinor": 25954,
+  "taxIncluded": false,
+  "totalMinor": 213561,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "9366",
+    "bbox": {
+     "x": 0.4125979255243761,
+     "y": 0.8357996668638746,
+     "w": 0.058546445320250884,
+     "h": 0.015507736885220225
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded by the drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers match the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 'Ekmek 301' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '3 x 12,00' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single person blanket matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 'Defter A5' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mini baby diaper size 520 does not match any need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '2 x 289,90' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA pencil batteries match the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '2 x 79,98' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "unclear",
+   "reasonEn": "Discount lines do not contribute to any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "5 L water bottles match the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item '4x 24,50' does not match any need and its purpose is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines do not contribute to any need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines do not contribute to any need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines do not contribute to any need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total VAT line does not contribute to any need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line does not contribute to any need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1310,
+   "tokensOut": 909,
+   "usdCeiling": 0.00126,
+   "usdActual": 0.000297
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1692,
+   "tokensOut": 704,
+   "usdCeiling": 0.00134,
+   "usdActual": 0.00027
+  }
+ ],
+ "latencyMs": {
+  "read": 5237,
+  "classify": 4462
+ },
+ "errors": []
+}

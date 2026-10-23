@@ -1,21 +1,21 @@
 {
- "reader": "ocr-lite",
+ "reader": "ocr-pro",
  "set": "hero",
  "receipts": 1,
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.5454545454545454,
-  "recall": 0.5454545454545454,
-  "f1": 0.5454545454545454,
-  "tp": 6,
-  "fp": 5,
-  "fn": 5
+  "precision": 1,
+  "recall": 0.9090909090909091,
+  "f1": 0.9523809523809523,
+  "tp": 10,
+  "fp": 0,
+  "fn": 1
  },
  "lineAmountExact": {
-  "num": 6,
+  "num": 7,
   "den": 11,
-  "rate": 0.5454545454545454
+  "rate": 0.6363636363636364
  },
  "totalExact": {
   "num": 1,
@@ -33,22 +33,22 @@
   "rate": 0
  },
  "merchant": {
-  "meanSimilarity": 1,
+  "meanSimilarity": 0.6666666666666667,
   "atLeast80": {
-   "num": 1,
+   "num": 0,
    "den": 1,
-   "rate": 1
+   "rate": 0
   }
  },
  "lineClass": {
-  "num": 5,
+  "num": 6,
   "den": 11,
-  "rate": 0.45454545454545453
+  "rate": 0.5454545454545454
  },
  "needQty": {
-  "num": 1,
+  "num": 2,
   "den": 9,
-  "rate": 0.1111111111111111
+  "rate": 0.2222222222222222
  },
  "ruleLines": {
   "num": 1,
@@ -62,7 +62,7 @@
    "den": 3,
    "rate": 0.3333333333333333
   },
-  "meanIou": 0.243707741
+  "meanIou": 0.786607662
  },
  "flags": {
   "duplicate": {
@@ -99,14 +99,13 @@
   }
  },
  "otherFlagsRaised": {
-  "poor_quality": 1,
   "total_mismatch": 1
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.5454545454545454,
-   "recall": 0.5454545454545454,
-   "f1": 0.5454545454545454,
+   "precision": 1,
+   "recall": 0.9090909090909091,
+   "f1": 0.9523809523809523,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -115,44 +114,43 @@
   }
  },
  "latency": {
-  "readerMedianMs": 4796,
-  "receiptMedianMs": 8192
+  "readerMedianMs": 10606,
+  "receiptMedianMs": 14426
  },
  "spend": {
-  "ledgerDeltaUsd": 0.00044399999999988893,
+  "ledgerDeltaUsd": 0.00632099999999991,
   "calls": 2,
-  "tokensIn": 2714,
-  "tokensOut": 1168,
-  "usdActual": 0.000444,
-  "usdCeiling": 0.002523
+  "tokensIn": 2893,
+  "tokensOut": 1252,
+  "usdActual": 0.006321,
+  "usdCeiling": 0.033965
  },
  "perReceipt": [
   {
    "id": "hero-ja-01",
    "locale": "ja",
-   "readability": "poor",
+   "readability": "good",
    "flags": [
-    "poor_quality",
     "total_mismatch"
    ],
    "score": {
-    "tp": 6,
-    "fp": 5,
-    "fn": 5,
+    "tp": 10,
+    "fp": 0,
+    "fn": 1,
     "lineAmountExact": {
-     "num": 6,
+     "num": 7,
      "den": 11
     },
     "totalExact": true,
     "dateExact": false,
     "dateTimeExact": false,
-    "merchantSimilarity": 1,
+    "merchantSimilarity": 0.6666666666666667,
     "lineClass": {
-     "num": 5,
+     "num": 6,
      "den": 11
     },
     "needQty": {
-     "num": 1,
+     "num": 2,
      "den": 9
     },
     "ruleLines": {
@@ -165,7 +163,7 @@
      "den": 3
     },
     "piiIou": [
-     0.243707741
+     0.786607662
     ]
    }
   }

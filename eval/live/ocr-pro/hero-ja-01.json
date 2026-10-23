@@ -4,16 +4,16 @@
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": {
   "merchantName": "ミナト生活館",
-  "merchantAddress": "空川県北空市港町 2-8-1",
+  "merchantAddress": "北空店 空川県北空市港町 2-8-1",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-09T14:32:00",
-  "receiptNumber": "8258",
+  "receiptNumber": "94 No.8258",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥798※",
-    "translationEn": "Natural water of Kitasora 2L",
+    "rawText": "北空の天然水 2L ¥798※ 6 本ケース",
+    "translationEn": "Natural water from Kitasora 2L",
     "qty": 6,
     "unitPriceMinor": 798,
     "amountMinor": 798,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "雪解けの水 2L ¥472※",
-    "translationEn": "Melting water 2L",
+    "rawText": "雪解けの水 2L ¥472※ 4 点 x 単 118",
+    "translationEn": "Meltwater 2L",
     "qty": 4,
     "unitPriceMinor": 118,
     "amountMinor": 472,
@@ -30,7 +30,7 @@
    },
    {
     "lineNo": 3,
-    "rawText": "ミネラルウォーター ¥216※",
+    "rawText": "ミネラルウォーター ¥216※ 2L ペット 2 点 x 単 168",
     "translationEn": "Mineral water",
     "qty": 2,
     "unitPriceMinor": 168,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "ソフトキッズおおむつ M 44 枚 ¥2,596",
-    "translationEn": "Soft kids diaper M 44 pieces",
+    "rawText": "ソフトキッズおおむつ M 44 枚 ¥2,596 2 点 x 単 1298",
+    "translationEn": "Soft kids diapers M 44 pieces",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
@@ -48,7 +48,7 @@
    },
    {
     "lineNo": 5,
-    "rawText": "パビ -7 アツ NM ¥3,294",
+    "rawText": "パビ -7 アツ NM ¥3,294 3m x 1,098",
     "translationEn": "Pavi -7 Heat NM",
     "qty": 3,
     "unitPriceMinor": 1098,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "紙おむつ M 18 枚 ¥598",
-    "translationEn": "Paper diaper M 18 pieces",
+    "rawText": "紙おむつ M 18 枚 ¥598 お試しパック",
+    "translationEn": "Paper diapers M 18 pieces trial pack",
     "qty": 1,
     "unitPriceMinor": 598,
     "amountMinor": 598,
@@ -66,8 +66,8 @@
    },
    {
     "lineNo": 7,
-    "rawText": "アルカリ乾電池単 3 2 本入 ¥698",
-    "translationEn": "Alkaline dry battery single 3 2 pack",
+    "rawText": "アルカリ乾電池単 3 2 本入 ¥698 単 3 電池 1 本入 ¥796 2 点 x 単 398",
+    "translationEn": "Alkaline dry cell AA 2 pack ¥698 AA battery 1 pack ¥796",
     "qty": 2,
     "unitPriceMinor": 398,
     "amountMinor": 698,
@@ -75,33 +75,24 @@
    },
    {
     "lineNo": 8,
-    "rawText": "単 3 電池 1 本入 ¥796",
-    "translationEn": "Single 3 battery 1 pack",
-    "qty": 1,
-    "unitPriceMinor": 796,
-    "amountMinor": 796,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 9,
-    "rawText": "単 3 ばら ¥980",
-    "translationEn": "Single 3 assorted ¥980",
+    "rawText": "単 3 ばら ¥980 104 x 単 98",
+    "translationEn": "AA loose ¥980",
     "qty": 104,
     "unitPriceMinor": 98,
     "amountMinor": 980,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 10,
+    "lineNo": 9,
     "rawText": "缶ピール 350m 6 缶 ¥1,198",
-    "translationEn": "Can peel 350m 6 cans",
+    "translationEn": "Canned peel 350ml 6 cans",
     "qty": 6,
-    "unitPriceMinor": 1198,
+    "unitPriceMinor": 199,
     "amountMinor": 1198,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 11,
+    "lineNo": 10,
     "rawText": "ギフトカード 3,000 ¥3,000",
     "translationEn": "Gift card 3,000",
     "qty": null,
@@ -160,20 +151,20 @@
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Drinking water counts toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Meltwater is not listed as a need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "water",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Drinking water counts toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water is not listed as a need.",
    "confidence": 0.95
   },
   {
@@ -182,7 +173,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "reasonEn": "Soft kids diapers M count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -191,16 +182,16 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "This item does not match any of the listed needs.",
+   "reasonEn": "Pavi -7 Heat NM is not listed as a need.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": "diapers",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Paper diapers M 18 pieces trial pack is not listed as a need.",
    "confidence": 0.95
   },
   {
@@ -209,16 +200,16 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "reasonEn": "Alkaline dry cell AA 2 pack counts toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 8,
    "needId": "batteries",
-   "needQty": 1,
+   "needQty": 104,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "reasonEn": "AA loose counts toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -227,7 +218,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "This item does not match any of the listed needs.",
+   "reasonEn": "Canned peel is not listed as a need.",
    "confidence": 0.95
   },
   {
@@ -235,17 +226,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item does not match any of the listed needs.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 11,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are never funded.",
+   "reasonEn": "Gift cards are not funded.",
    "confidence": 1
   }
  ],
@@ -253,21 +235,21 @@
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1385,
-   "tokensOut": 797,
+   "tokensOut": 854,
    "usdCeiling": 0.016805,
-   "usdActual": 0.003658
+   "usdActual": 0.003841
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1446,
-   "tokensOut": 421,
-   "usdCeiling": 0.017136,
-   "usdActual": 0.002504
+   "tokensIn": 1508,
+   "tokensOut": 398,
+   "usdCeiling": 0.01716,
+   "usdActual": 0.00248
   }
  ],
  "latencyMs": {
-  "read": 9828,
-  "classify": 3244
+  "read": 10606,
+  "classify": 3820
  },
  "errors": []
 }

@@ -74,8 +74,8 @@ export function minorUnits(s: string | undefined, exponent: number): number | st
     const n = Number(/^[+-]?\d{1,3}([.,]\d{3})+$/.test(t) ? t.replace(/[.,]/g, "") : t);
     return Number.isNaN(n) ? raw : n;
   }
-  const dec = t.match(/^([+-]?)([\d.,]*)[.,](\d{2})$/);
-  if (dec) return Number(`${dec[1]}${dec[2].replace(/[.,]/g, "") || "0"}${dec[3]}`);
+  const dec = t.match(/^([+-]?)([\d.,]*)[.,](\d{1,2})$/);
+  if (dec) return Number(`${dec[1]}${dec[2].replace(/[.,]/g, "") || "0"}${dec[3].padEnd(2, "0")}`);
   const n = Number(t);
   return Number.isNaN(n) ? raw : n;
 }

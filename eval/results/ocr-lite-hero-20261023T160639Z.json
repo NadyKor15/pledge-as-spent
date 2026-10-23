@@ -5,17 +5,17 @@
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.36363636363636365,
-  "recall": 0.36363636363636365,
-  "f1": 0.36363636363636365,
-  "tp": 4,
-  "fp": 7,
-  "fn": 7
+  "precision": 0.8181818181818182,
+  "recall": 0.8181818181818182,
+  "f1": 0.8181818181818182,
+  "tp": 9,
+  "fp": 2,
+  "fn": 2
  },
  "lineAmountExact": {
-  "num": 4,
+  "num": 9,
   "den": 11,
-  "rate": 0.36363636363636365
+  "rate": 0.8181818181818182
  },
  "totalExact": {
   "num": 1,
@@ -41,9 +41,9 @@
   }
  },
  "lineClass": {
-  "num": 2,
+  "num": 7,
   "den": 11,
-  "rate": 0.18181818181818182
+  "rate": 0.6363636363636364
  },
  "needQty": {
   "num": 0,
@@ -62,7 +62,7 @@
    "den": 3,
    "rate": 0.3333333333333333
   },
-  "meanIou": 0.243707741
+  "meanIou": 0.786607662
  },
  "flags": {
   "duplicate": {
@@ -103,9 +103,9 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.36363636363636365,
-   "recall": 0.36363636363636365,
-   "f1": 0.36363636363636365,
+   "precision": 0.8181818181818182,
+   "recall": 0.8181818181818182,
+   "f1": 0.8181818181818182,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -114,16 +114,16 @@
   }
  },
  "latency": {
-  "readerMedianMs": 4993,
-  "receiptMedianMs": 7766
+  "readerMedianMs": 6839,
+  "receiptMedianMs": 9773
  },
  "spend": {
-  "ledgerDeltaUsd": 0.0004450000000000287,
+  "ledgerDeltaUsd": 0.0004550000000000942,
   "calls": 2,
-  "tokensIn": 2767,
-  "tokensOut": 1164,
-  "usdActual": 0.000445,
-  "usdCeiling": 0.002539
+  "tokensIn": 2757,
+  "tokensOut": 1206,
+  "usdActual": 0.000455,
+  "usdCeiling": 0.002537
  },
  "perReceipt": [
   {
@@ -134,11 +134,11 @@
     "total_mismatch"
    ],
    "score": {
-    "tp": 4,
-    "fp": 7,
-    "fn": 7,
+    "tp": 9,
+    "fp": 2,
+    "fn": 2,
     "lineAmountExact": {
-     "num": 4,
+     "num": 9,
      "den": 11
     },
     "totalExact": true,
@@ -146,7 +146,7 @@
     "dateTimeExact": false,
     "merchantSimilarity": 1,
     "lineClass": {
-     "num": 2,
+     "num": 7,
      "den": 11
     },
     "needQty": {
@@ -163,7 +163,7 @@
      "den": 3
     },
     "piiIou": [
-     0.243707741
+     0.786607662
     ]
    }
   }

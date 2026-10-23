@@ -1,0 +1,165 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU SL",
+    "translationEn": "Mountain Water SL",
+    "qty": 10,
+    "unitPriceMinor": 2198,
+    "amountMinor": 2198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 19,
+    "unitPriceMinor": -329,
+    "amountMinor": -329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ",
+    "translationEn": "Lovely Baby Diaper",
+    "qty": 20,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %1@ MATRAH 16,92",
+    "translationEn": "Tax %1@ Base 16,92",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 169,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %2@ MATRAH 290,83",
+    "translationEn": "Tax %2@ Base 290,83",
+    "qty": 1,
+    "unitPriceMinor": 29083,
+    "amountMinor": 169,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 36761,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "seek aölek tok 7374",
+    "bbox": {
+     "x": 0.3924558988224552,
+     "y": 0.7051378402800667,
+     "w": 0.056354985166649496,
+     "h": 0.01765403081649153
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6618106076265573,
+     "y": 0.7673971420991136,
+     "w": 0.1422749246876549,
+     "h": 0.02270512533010627
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.1583402785629604,
+     "y": 0.7850158743370643,
+     "w": 0.19701239616719446,
+     "h": 0.03170291540213066
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain Water SL is a 5 L bottle of drinking water, which matches the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Lovely Baby Diaper is a pack of size 4 diapers, which matches the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Taxes are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Taxes are not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1155,
+   "tokensOut": 585,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.00021
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1160,
+   "tokensOut": 217,
+   "usdCeiling": 0.001238,
+   "usdActual": 0.000122
+  }
+ ],
+ "latencyMs": {
+  "read": 5077,
+  "classify": 1555
+ },
+ "errors": []
+}

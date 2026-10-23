@@ -5,7 +5,7 @@ import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import type { ConverseClient } from "../../src/receipts/bedrock";
-import { OcrNovaReader, TesseractEngine, groundAmounts, locateText, tesseractLanguages, tidyOcrText, type OcrEngine, type OcrLine } from "../../src/receipts/ocr";
+import { OcrNovaReader, TesseractEngine, groundNumbers, locateText, tesseractLanguages, tidyOcrText, type OcrEngine, type OcrLine } from "../../src/receipts/ocr";
 import { findPaper, prepImage } from "../../src/receipts/prep";
 import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
 import { foldText, mergeRows, similarity } from "../../src/receipts/text";
@@ -147,12 +147,18 @@ describe("OCR helpers", () => {
       { rawText: "unknown thing", amountMinor: 555 },
       { rawText: "牛乳", amountMinor: "x" as unknown as number },
     ];
-    expect(groundAmounts(lines, ocr, 0).map((l) => l.amountMinor)).toEqual([798, 1298, -100, 555, "x"]);
+    expect(groundNumbers(lines, ocr, 0).map((l) => l.amountMinor)).toEqual([798, 1298, -100, 555, "x"]);
+  });
+
+  it("drops a unit price and a quantity the text does not support", () => {
+    const ocr = [line([w("AA", 0.1, 0.1), w("$23.97", 0.8, 0.1)]), line([w("3", 0.1, 0.12), w("@", 0.2, 0.12), w("$7.99", 0.8, 0.12)])];
+    const out = groundNumbers([{ rawText: "AA", amountMinor: 2397, unitPriceMinor: 2997, qty: 8 }, { rawText: "AA", amountMinor: 2397, unitPriceMinor: 799, qty: 0 }], ocr, 2);
+    expect(out.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[null, 8], [799, null]]);
   });
 
   it("does not read 3, 000 as 0", () => {
     const ocr = [line([w("ギフトカード", 0.1, 0.5), w("¥3,000", 0.8, 0.5)])];
-    expect(groundAmounts([{ rawText: "ギフトカード", amountMinor: 3000 }], ocr, 0)[0].amountMinor).toBe(3000);
+    expect(groundNumbers([{ rawText: "ギフトカード", amountMinor: 3000 }], ocr, 0)[0].amountMinor).toBe(3000);
   });
 });
 

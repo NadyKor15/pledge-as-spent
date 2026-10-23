@@ -1,0 +1,173 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "潮風マート 海風店",
+  "merchantAddress": "海原県海風市浜通 5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T12:43:00",
+  "receiptNumber": "4198",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ人缶 3 缶パック ¥1,374",
+    "translationEn": "Canned tuna 3 cans pack",
+    "qty": 3,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5 箱 ¥398",
+    "translationEn": "Tissues 5 boxes",
+    "qty": 4,
+    "unitPriceMinor": 99,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート ¥128",
+    "translationEn": "Chocolate",
+    "qty": null,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L ¥198",
+    "translationEn": "Milk 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池単 3 2 本入 ¥1,396",
+    "translationEn": "Alkaline dry battery single 3 2 pack",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター ¥324",
+    "translationEn": "Mineral water",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 2482,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.5903603694396546,
+     "y": 0.7995419372689613,
+     "w": 0.19911730491481539,
+     "h": 0.018149261287994656
+    }
+   },
+   {
+    "kind": "name",
+    "text": "FHI Wy 様",
+    "bbox": {
+     "x": 0.17688985155272735,
+     "y": 0.7599925529632715,
+     "w": 0.12044695439598918,
+     "h": 0.017653754664983312
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned tuna is a canned food item and matches the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues do not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk does not match any of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline dry battery single 3 matches the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water does not match any of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1228,
+   "tokensOut": 497,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000193
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1221,
+   "tokensOut": 283,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000141
+  }
+ ],
+ "latencyMs": {
+  "read": 3083,
+  "classify": 2096
+ },
+ "errors": []
+}

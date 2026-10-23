@@ -3,6 +3,7 @@
 
 import type { CurrencyCode } from "../core/types";
 import { IMAGE_FORMAT, converse, fails, kv, NOVA_MODELS, type Options } from "./bedrock";
+import { groundNumbers } from "./ocr";
 import { prepImage, type Box, type PrepOptions } from "./prep";
 import { structureText, sumUsage, validateReceipt } from "./structure";
 import { foldText, mergeRows } from "./text";
@@ -88,7 +89,9 @@ export class TwoPassReader implements ReceiptReader {
       }
       throw e;
     }
-    const obj = { ...structured.obj, pii: pii.map((p) => ({ kind: PII_KINDS.has(p.kind) ? p.kind : "other", text: p.text, bbox: p.bbox })) };
+    const exp = String(structured.obj.currency) === "JPY" ? 0 : 2;
+    const grounded = Array.isArray(structured.obj.lines) ? { lines: groundNumbers(structured.obj.lines as Parameters<typeof groundNumbers>[0], rows.map((text) => ({ text })), exp) } : {};
+    const obj = { ...structured.obj, ...grounded, pii: pii.map((p) => ({ kind: PII_KINDS.has(p.kind) ? p.kind : "other", text: p.text, bbox: p.bbox })) };
     const usage = sumUsage(usages);
     return { receipt: validateReceipt(obj, what, usage, { transcription: rows.join("\n"), structured: structured.answer }), usage };
   }

@@ -1,0 +1,1407 @@
+{
+ "reader": "ocr-lite",
+ "set": "v1",
+ "receipts": 30,
+ "scoredReceipts": 30,
+ "errors": [
+  {
+   "id": "v1-en-03",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor"
+  },
+  {
+   "id": "v1-en-04",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor"
+  },
+  {
+   "id": "v1-en-06",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor"
+  },
+  {
+   "id": "v1-es-01",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor"
+  },
+  {
+   "id": "v1-es-02",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor"
+  },
+  {
+   "id": "v1-es-03",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at taxMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor"
+  },
+  {
+   "id": "v1-es-05",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor"
+  },
+  {
+   "id": "v1-es-06",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor"
+  },
+  {
+   "id": "v1-ja-09",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Too small: expected number to be >0\n  → at lines[4].qty"
+  },
+  {
+   "id": "v1-tr-04",
+   "stage": "read",
+   "message": "ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor"
+  }
+ ],
+ "lines": {
+  "precision": 0.58125,
+  "recall": 0.5849056603773585,
+  "f1": 0.5830721003134797,
+  "tp": 93,
+  "fp": 67,
+  "fn": 66
+ },
+ "lineAmountExact": {
+  "num": 60,
+  "den": 159,
+  "rate": 0.37735849056603776
+ },
+ "totalExact": {
+  "num": 17,
+  "den": 30,
+  "rate": 0.5666666666666667
+ },
+ "dateExact": {
+  "num": 6,
+  "den": 30,
+  "rate": 0.2
+ },
+ "dateTimeExact": {
+  "num": 6,
+  "den": 30,
+  "rate": 0.2
+ },
+ "merchant": {
+  "meanSimilarity": 0.5907640834111422,
+  "atLeast80": {
+   "num": 14,
+   "den": 30,
+   "rate": 0.4666666666666667
+  }
+ },
+ "lineClass": {
+  "num": 55,
+  "den": 143,
+  "rate": 0.38461538461538464
+ },
+ "needQty": {
+  "num": 16,
+  "den": 87,
+  "rate": 0.1839080459770115
+ },
+ "ruleLines": {
+  "num": 4,
+  "den": 10,
+  "rate": 0.4,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 20,
+   "den": 46,
+   "rate": 0.43478260869565216
+  },
+  "meanIou": 0.53115299005
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 6,
+   "tn": 24,
+   "recall": null,
+   "falseAlarmRate": 0.2
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 20,
+  "poor_quality": 5
+ },
+ "byLanguage": {
+  "en": {
+   "precision": 0.7894736842105263,
+   "recall": 0.4411764705882353,
+   "f1": 0.5660377358490566,
+   "totalExact": {
+    "num": 3,
+    "den": 6,
+    "rate": 0.5
+   }
+  },
+  "es": {
+   "precision": 0.6666666666666666,
+   "recall": 0.06060606060606061,
+   "f1": 0.1111111111111111,
+   "totalExact": {
+    "num": 1,
+    "den": 6,
+    "rate": 0.16666666666666666
+   }
+  },
+  "ja": {
+   "precision": 0.5714285714285714,
+   "recall": 0.8,
+   "f1": 0.6666666666666666,
+   "totalExact": {
+    "num": 9,
+    "den": 12,
+    "rate": 0.75
+   }
+  },
+  "tr": {
+   "precision": 0.5185185185185185,
+   "recall": 0.875,
+   "f1": 0.6511627906976744,
+   "totalExact": {
+    "num": 4,
+    "den": 6,
+    "rate": 0.6666666666666666
+   }
+  }
+ },
+ "latency": {
+  "readerMedianMs": 3332,
+  "receiptMedianMs": 4397
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.008910999999999225,
+  "calls": 50,
+  "tokensIn": 61229,
+  "tokensOut": 21829,
+  "usdActual": 0.008910999999999997,
+  "usdCeiling": 0.062696
+ },
+ "perReceipt": [
+  {
+   "id": "v1-en-01",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 1,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 3
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-02",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 1,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiIou": [
+     0.138687868,
+     0.703077441,
+     0.709251397
+    ]
+   }
+  },
+  {
+   "id": "v1-en-03",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-04",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-05",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 2,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0.153019347
+    ]
+   }
+  },
+  {
+   "id": "v1-en-06",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 7
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-01",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-02",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-03",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 5,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 5
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-04",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 1,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0.092405416
+    ]
+   }
+  },
+  {
+   "id": "v1-es-05",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-06",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-01",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 8,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 2
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.7142857142857143,
+    "lineClass": {
+     "num": 2,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0.13128317
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-02",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 1,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-03",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 5,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.5833333333333333,
+    "lineClass": {
+     "num": 4,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-04",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 2,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.816604967
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-05",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 6
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-06",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 7,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 8
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.5833333333333333,
+    "lineClass": {
+     "num": 5,
+     "den": 8
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiIou": [
+     0.746132358
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-07",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 6,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 7
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-08",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 2,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.7142857142857143,
+    "lineClass": {
+     "num": 4,
+     "den": 5
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.198626961
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-09",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-10",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 2,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.5833333333333333,
+    "lineClass": {
+     "num": 1,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiIou": [
+     0.739820719
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-11",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0.215919996
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-12",
+   "locale": "ja",
+   "readability": "poor",
+   "flags": [
+    "poor_quality",
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 3,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.7142857142857143,
+    "lineClass": {
+     "num": 2,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiIou": [
+     0.77463063
+    ]
+   }
+  },
+  {
+   "id": "v1-tr-01",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 2
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 3
+    },
+    "piiIou": [
+     0.94510886,
+     0.760938649
+    ]
+   }
+  },
+  {
+   "id": "v1-tr-02",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 2,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.9411764705882353,
+    "lineClass": {
+     "num": 1,
+     "den": 2
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiIou": [
+     0.109349833,
+     0.970508672,
+     0.730324536
+    ]
+   }
+  },
+  {
+   "id": "v1-tr-03",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 9,
+    "fp": 9,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 9
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 8
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0.14031423
+    ]
+   }
+  },
+  {
+   "id": "v1-tr-04",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-05",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 5,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.9444444444444444,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-06",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 10,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.9444444444444444,
+    "lineClass": {
+     "num": 1,
+     "den": 6
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiIou": [
+     0.815068048,
+     0.731986703
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1170,
+   "tokensOut": 512,
+   "usdCeiling": 0.001241,
+   "usdActual": 0.000193
+  }
+ ],
+ "latencyMs": {
+  "read": 3580,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Too small: expected number to be >0\n  → at lines[4].qty",
+  "raw: {\"ocr\":\"ホームセンターツバメ\\n北空東店\\n空川県北空市東町 7-29\\nTEL 123-55-1100\\nSMHS T0000100000712\\n2026118088 (A) 14:51\\nレジ 92 No. 1930\\n単 3 電池 16 本入 ¥1,194\\n3m x M398\\nQRIO* 2L ¥236%\\n2 点 x M118\\nベビーラブパンツ M 38 枚 ¥2,196\\n2 点 x 1,098\\n缶ビピール 350ml 6% ¥1,198\\n小計 (4 点 ) ¥4,824\\nBAIR ¥236\\n10* 対象 ¥4,588\\n(内消費税等 8* ¥17)\\n(内消費税等 16* ¥417)\\n合計 ¥4,824\\nお預り ¥5,000\\nお釣り ¥176\\nA SERRE (8%) 対象商品です rT a\\nご来店ありがとうございました\",\"structured\":\"RECEIPT: merchant=ホームセンターツバメ; address=空川県北空市東町 7-29; country=JP; currency=JPY; purchased=2026-11-08T14:51:00; number=T0000100000712; subtotal=4824; tax=417; tax_included=false; total=4824; readability=good\\nLINE: no=1; qty=1; unit=1194; amount=1194; rate=800; text=単 3 電池 16 本入 ¥1,194; en=3 single batteries 16 pack ¥1,194\\nLINE: no=2; qty=2; unit=236; amount=472; rate=800; text=QRIO* 2L ¥236%; en=QRIO* 2L ¥236\\nLINE: no=3; qty=38; unit=58; amount=2196; rate=800; text=ベビーラブパンツ M 38 枚 ¥2,196; en=Baby Love Pants M 38 pieces ¥2,196\\nLINE: no=4; qty=6; unit=1098; amount=6588; rate=800; text=缶ビピール 350ml 6% ¥1,198; en=Canned Beer 350ml 6% ¥1,198\\nLINE: no=4; qty=-1; unit=-1; amount=-417; rate=800; text=缶ビピール 350ml 6% ¥1,198; en=Canned Beer 350ml 6% ¥1,198\\nPII: kind=member_id; box=0.0,0.88,0.1,0.02; text=1930\\nPII: kind=card_number; box=0.0,0.9,0.1,0.02; text=************\"}"
+ ]
+}

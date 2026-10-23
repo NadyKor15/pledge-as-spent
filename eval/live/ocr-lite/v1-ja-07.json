@@ -1,0 +1,181 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-01-04T20:57:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Natural water 2L 6 cases",
+    "qty": 6,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ディッシュ SH",
+    "translationEn": "Dish SH",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ビー-7 ルツ M",
+    "translationEn": "B-7 Ruts M",
+    "qty": 1,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 1.698",
+    "translationEn": "Single 1.698",
+    "qty": 34,
+    "unitPriceMinor": 1698,
+    "amountMinor": 57732,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "YH 3 缶パック",
+    "translationEn": "YH 3 can pack",
+    "qty": 3,
+    "unitPriceMinor": 458,
+    "amountMinor": 458,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ソフトキッズおむつ L",
+    "translationEn": "Soft kids diaper L",
+    "qty": 34,
+    "unitPriceMinor": 76,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "2m x M",
+    "translationEn": "2m x M",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "紙おむつ M",
+    "translationEn": "Paper diaper M",
+    "qty": 18,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "お試しレパック",
+    "translationEn": "Trial pack",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "att (7m)",
+    "translationEn": "att (7m)",
+    "qty": null,
+    "unitPriceMinor": 8349,
+    "amountMinor": 8349,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "BAR",
+    "translationEn": "BAR",
+    "qty": null,
+    "unitPriceMinor": 1454,
+    "amountMinor": 1454,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "10%",
+    "translationEn": "10%",
+    "qty": null,
+    "unitPriceMinor": 6886,
+    "amountMinor": 6886,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 13,
+    "rawText": "(ABRRE 10%)",
+    "translationEn": "(ABRRE 10%)",
+    "qty": null,
+    "unitPriceMinor": 626,
+    "amountMinor": 626,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 8346,
+  "taxMinor": 660,
+  "taxIncluded": false,
+  "totalMinor": 9006,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9739 4221 9384",
+    "bbox": {
+     "x": 0.6312210108555011,
+     "y": 0.817192852042725,
+     "w": 0.21261316854796275,
+     "h": 0.016124101440478267
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water 2L counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1214,
+   "tokensOut": 735,
+   "usdCeiling": 0.001246,
+   "usdActual": 0.000249
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1436,
+   "tokensOut": 53,
+   "usdCeiling": 0.001295,
+   "usdActual": 0.000099
+  }
+ ],
+ "latencyMs": {
+  "read": 5384,
+  "classify": 726
+ },
+ "errors": []
+}

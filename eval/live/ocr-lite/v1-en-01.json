@@ -1,0 +1,109 @@
+{
+ "receiptId": "v1-en-01",
+ "set": "v1",
+ "imageSha256": "2b460202a354f484f9de4a10ed7d11b4ddc77666b6667c2dcd22f6b7a20130dd",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "8713",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies Diapers Size 3 38ct",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1gal",
+    "qty": 2,
+    "unitPriceMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 gallon jug",
+    "qty": 1,
+    "unitPriceMinor": 169,
+    "amountMinor": 169,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek Water 1 gallon jug",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4361,
+  "taxMinor": 172,
+  "taxIncluded": false,
+  "totalMinor": 4533,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "(555) 010-0042",
+    "bbox": {
+     "x": 0.4356545527897126,
+     "y": 0.24787170788550647,
+     "w": 0.20335852652876746,
+     "h": 0.019717015196399484
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers are listed as a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1088,
+   "tokensOut": 395,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.00016
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1152,
+   "tokensOut": 53,
+   "usdCeiling": 0.001243,
+   "usdActual": 0.000082
+  }
+ ],
+ "latencyMs": {
+  "read": 2833,
+  "classify": 700
+ },
+ "errors": []
+}

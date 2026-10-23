@@ -1,0 +1,165 @@
+{
+ "receiptId": "adv-reshot-en-03",
+ "set": "adversarial",
+ "imageSha256": "903bbe6772f5d3674d86dbee3c73e4d780e2bd5043f8f2932c6e16b687426013",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 596,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "4@ $1.49",
+    "translationEn": "4@ $1.49",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6PK BTL",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA Alkaline 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "COUPON -$2.40",
+    "translationEn": "Coupon -$2.40",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "1105",
+    "bbox": {
+     "x": 0.7703184372869453,
+     "y": 0.6332214975869174,
+     "w": 0.05989282493459758,
+     "h": 0.027038566960729593
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.18627164673293314,
+     "y": 0.7607529117827553,
+     "w": 0.17888537711117183,
+     "h": 0.01928602975890714
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.6849728040936459,
+     "y": 0.7773179598179599,
+     "w": 0.14605310751108336,
+     "h": 0.01873200451903434
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1GAL counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "4@ $1.49 does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager 6PK BTL is alcohol and is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline 24PK counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Coupon -$2.40 is not a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1091,
+   "tokensOut": 448,
+   "usdCeiling": 0.001244,
+   "usdActual": 0.000173
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1141,
+   "tokensOut": 239,
+   "usdCeiling": 0.001237,
+   "usdActual": 0.000126
+  }
+ ],
+ "latencyMs": {
+  "read": 2426,
+  "classify": 1889
+ },
+ "errors": []
+}

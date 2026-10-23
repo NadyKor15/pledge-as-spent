@@ -1,0 +1,204 @@
+{
+ "receiptId": "adv-predisaster-en",
+ "set": "adversarial",
+ "imageSha256": "7da867d498098aa77c76cd6909c66973ebfa3424916c6547d54621479bcc0f0c",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-10-18T16:05:00",
+  "receiptNumber": "3936",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring Water 1 Gallon",
+    "qty": 1,
+    "unitPriceMinor": 894,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "6 @ $1.49",
+    "translationEn": "6 at $1.49 each",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA Alkaline 24 Pack",
+    "qty": 1,
+    "unitPriceMinor": 3198,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2 @ $15.99",
+    "translationEn": "2 at $15.99 each",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece Throw Blanket",
+    "qty": 1,
+    "unitPriceMinor": 2998,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2 @ $14.99",
+    "translationEn": "2 at $14.99 each",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies Diapers Size 3 38 Count",
+    "qty": 1,
+    "unitPriceMinor": 3747,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 at $12.49 each",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 10837,
+  "taxMinor": 721,
+  "taxIncluded": false,
+  "totalMinor": 11558,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "728********",
+    "bbox": {
+     "x": 0.7473433437683492,
+     "y": 0.7522416058262165,
+     "w": 0.042350789383874266,
+     "h": 0.027735050031992725
+    }
+   },
+   {
+    "kind": "name",
+    "text": "eI",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1 Gallon counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "6 Spring Water 1 Gallon counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline 24 Pack counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2 AA Alkaline count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece Throw Blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2 Fleece Throw Blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 38,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies Diapers Size 3 38 Count counts toward the baby diapers size 3 need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "3 Softies Diapers Size 3 count toward the baby diapers size 3 need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1108,
+   "tokensOut": 612,
+   "usdCeiling": 0.001245,
+   "usdActual": 0.000213
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1278,
+   "tokensOut": 359,
+   "usdCeiling": 0.001264,
+   "usdActual": 0.000163
+  }
+ ],
+ "latencyMs": {
+  "read": 3297,
+  "classify": 2752
+ },
+ "errors": []
+}

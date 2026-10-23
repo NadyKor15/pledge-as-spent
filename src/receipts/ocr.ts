@@ -129,27 +129,35 @@ function ocrNumbers(text: string, exponent: number): number[] {
 
 const letters = (s: string) => foldText(s.replace(/\d+/g, ""));
 
+type ModelLine = { rawText: string; amountMinor: unknown; unitPriceMinor?: unknown; qty?: unknown };
+
 /**
- * Amounts are the one thing a reader must not invent. A model that structures OCR text sometimes
- * multiplies a quantity into the amount (798 x 6 = 4788). An amount that is not printed anywhere in the OCR
- * text is replaced by the last number of the OCR row that holds the product's name; when no row can be
- * matched the amount is left alone. Amounts that do appear in the text are never touched.
+ * Numbers are the one thing a reader must not invent. A model that structures text sometimes multiplies a
+ * quantity into the amount (798 x 6 = 4788) or divides an amount into a unit price (23.97 / 8). So:
+ * - an amount that is not printed anywhere in the text is replaced by the last number of the row that holds
+ *   the product's name (left alone when no row matches);
+ * - a unit price that is not printed anywhere in the text becomes unknown (null);
+ * - a quantity that is not above zero becomes unknown.
+ * Numbers that do appear in the text are never touched. `rows` is the OCR text or the transcription.
  */
-export function groundAmounts<T extends { rawText: string; amountMinor: unknown }>(lines: T[], ocr: OcrLine[], exponent: number): T[] {
-  const printed = new Set(ocr.flatMap((l) => ocrNumbers(l.text, exponent)).flatMap((n) => [n, Math.abs(n)]));
+export function groundNumbers<T extends ModelLine>(lines: T[], rows: { text: string }[], exponent: number): T[] {
+  const printed = new Set(rows.flatMap((l) => ocrNumbers(l.text, exponent)).flatMap((n) => [n, Math.abs(n)]));
   return lines.map((l) => {
-    if (typeof l.amountMinor !== "number" || printed.has(l.amountMinor)) return l;
+    const out: T = { ...l };
+    if (typeof l.unitPriceMinor === "number" && !printed.has(l.unitPriceMinor)) out.unitPriceMinor = null;
+    if (typeof l.qty === "number" && !(l.qty > 0)) out.qty = null;
+    if (typeof l.amountMinor !== "number" || printed.has(l.amountMinor)) return out;
     const name = letters(l.rawText);
-    if (name.length < 2) return l;
+    if (name.length < 2) return out;
     let best: { score: number; text: string } | null = null;
-    for (const row of ocr) {
+    for (const row of rows) {
       const rowLetters = letters(row.text);
-      // The product's name is a prefix of the OCR row or the other way round, or the two are alike.
+      // The product's name is a prefix of the row or the other way round, or the two are alike.
       const score = rowLetters.includes(name) || name.includes(rowLetters) ? 1 : similarity(name, rowLetters);
       if (score >= 0.6 && (!best || score > best.score)) best = { score, text: row.text };
     }
     const last = best ? ocrNumbers(best.text, exponent).at(-1) : undefined;
-    return last === undefined ? l : { ...l, amountMinor: last };
+    return last === undefined ? out : { ...out, amountMinor: last };
   });
 }
 
@@ -173,7 +181,7 @@ export class OcrNovaReader implements ReceiptReader {
     const s = await structureText(this.o, { what: `${what}: structure`, source: "ocr", text, hint });
     const piiRows = Array.isArray(s.obj.pii) ? (s.obj.pii as { kind: string; text: string }[]) : [];
     const exp = String(s.obj.currency) === "JPY" ? 0 : 2;
-    const grounded = Array.isArray(s.obj.lines) ? { lines: groundAmounts(s.obj.lines as { rawText: string; amountMinor: unknown }[], lines, exp) } : {};
+    const grounded = Array.isArray(s.obj.lines) ? { lines: groundNumbers(s.obj.lines as ModelLine[], lines, exp) } : {};
     const pii = piiRows.map((p) => {
       const box = locateText(lines, p.text);
       return { ...p, bbox: box ? prepared.toOriginal(box) : null };

@@ -1,0 +1,24 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1153,
+   "tokensOut": 382,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000161
+  }
+ ],
+ "latencyMs": {
+  "read": 2944,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at taxMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor",
+  "raw: {\"ocr\":\"SUPERMERCADO EL FARO\\nAv. del Rio 45\\n00000 Villa Alborada\\nTEL 900 000 057\\nCIF B00000057\\nFACTURA SIMPLIFICADA N2 2894\\n09/11/2026 20:27 CAJA 01\\nDESCRIPCIÓN IMPORTE\\nAGUA 1,5L PACK 6 9,87 A\\n3 x 3,29\\nPAÑAL BEBÉ T3 44U 17,90 A\\n2x 8,95\\nTABACO LIAR CAJETILLA 4,60 B\\nPAÑALES T3 PANTS 36U 7,49 A\\nDTO. PROMOCIÓN -1,12 A\\nTOTAL (IVA INCLUIDO) 38,74 EUR\\nA IVA 10% BASE 31,04 CUOTA 3,10\\nB IVA 21% BASE 3,80 CUOTA 0,80\\nPAGO TARJETA 38,74\\nRK dom tato 2040\\nGRACIAS POR SU VISITA\",\"structured\":\"RECEIPT: merchant=SUPERMERCADO EL FARO; address=Av. del Rio 45, 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-09-11T20:27:00; number=2894; subtotal=31.04; tax=7.7; tax_included=true; total=38.74; readability=good\\nLINE: no=1; qty=6; unit=3.29; amount=19.74; rate=1000; text=AGUA 1,5L PACK 6; en=Water 1.5L pack 6\\nLINE: no=2; qty=44; unit=0.41; amount=17.90; rate=1000; text=PAÑAL BEBÉ T3; en=Baby diaper T3\\nLINE: no=3; qty=1; unit=4.6; amount=4.6; rate=2100; text=TABACO LIAR CAJETILLA; en=Tobacco pack\\nLINE: no=4; qty=36; unit=0.21; amount=7.49; rate=1000; text=PAÑALES T3 PANTS; en=Diapers T3 pants\\nLINE: no=5; amount=-1.12; text=DTO. PROMOCIÓN; en=Promotion discount\\nPII: kind=other; box=0.0,0.89,0.38,0.02; text=RK dom tato 2040\"}"
+ ]
+}
