@@ -6,7 +6,7 @@ import { isDeepStrictEqual } from "node:util";
 // Recordings are sanitized at write time: no Authorization header, no OAuth
 // exchange, no token/secret/password fields, no caller-listed secret values.
 
-export type FetchLike = (url: string, init: { method: string; headers: Record<string, string>; body?: string }) => Promise<Response>;
+export type FetchLike = (url: string, init: { method: string; headers: Record<string, string>; body?: string; signal?: AbortSignal }) => Promise<Response>;
 
 export interface RecordedExchange {
   seq: number;

@@ -29,13 +29,26 @@ export function parseAuthorization(raw: unknown): AuthorizationResult {
   };
 }
 
+// The breakdown arrives with a capture that has already moved money: it is informational, so a part
+// we cannot read (an unexpected currency, a missing field) is dropped with a warning, never thrown.
+function lenientMoney(v: unknown, what: string) {
+  try {
+    return optMoney(v);
+  } catch (e) {
+    console.warn(`PayPal seller_receivable_breakdown: ${what} not read (${(e as Error).message})`);
+    return undefined;
+  }
+}
+
 export function parseSellerReceivable(raw: unknown): SellerReceivable | undefined {
   if (raw === undefined || raw === null) return undefined;
   const o = obj(raw);
-  const out: SellerReceivable = { gross: parsePayPalMoney(o.gross_amount) };
-  const fee = optMoney(o.paypal_fee);
-  const net = optMoney(o.net_amount);
-  const receivable = optMoney(o.receivable_amount);
+  const gross = lenientMoney(o.gross_amount, "gross_amount");
+  if (!gross) return undefined;
+  const out: SellerReceivable = { gross };
+  const fee = lenientMoney(o.paypal_fee, "paypal_fee");
+  const net = lenientMoney(o.net_amount, "net_amount");
+  const receivable = lenientMoney(o.receivable_amount, "receivable_amount");
   if (fee) out.paypalFee = fee;
   if (net) out.net = net;
   if (receivable) out.receivable = receivable;
@@ -43,8 +56,8 @@ export function parseSellerReceivable(raw: unknown): SellerReceivable | undefine
   if (str(x.source_currency) && str(x.target_currency) && str(x.value)) {
     const source = x.source_currency as string;
     const target = x.target_currency as string;
-    if (!isCurrencyCode(source) || !isCurrencyCode(target)) throw new Error(`Unsupported exchange_rate currencies ${source}/${target}`);
-    out.exchangeRate = { sourceCurrency: source, targetCurrency: target, value: x.value as string };
+    if (isCurrencyCode(source) && isCurrencyCode(target)) out.exchangeRate = { sourceCurrency: source, targetCurrency: target, value: x.value as string };
+    else console.warn(`PayPal seller_receivable_breakdown: exchange_rate ${source}/${target} not read (unsupported currency)`);
   }
   return out;
 }
