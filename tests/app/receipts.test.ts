@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import { events, receipts, spendLedger } from "../../src/db/schema";
 import type { ConverseClient } from "../../src/receipts/bedrock";
+import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { sha256Hex } from "../../src/receipts/hash";
 import { NOT_BLURRED_NOTE, redactImage } from "../../src/server/redact";
 import { ServiceError } from "../../src/server/errors";
@@ -12,15 +13,36 @@ import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, loadRecordings, receiptBytes } from "./support/harness";
 import { noisePng, syntheticReceipt } from "./support/synthetic";
 
-/** A Bedrock client that answers the forced tool call with fixed JSON and counts calls. */
-function fakeBedrock(answer: { receipt: unknown; lines: unknown }) {
+/** The reader's plain-text rows (RECEIPT / LINE / PII), as src/receipts/bedrock.ts asks Nova to answer. */
+function readerText(r: ParsedReceipt): string {
+  const kv = (o: Record<string, unknown>) =>
+    Object.entries(o)
+      .filter(([, v]) => v !== null && v !== undefined)
+      .map(([k, v]) => `${k}=${v}`)
+      .join("; ");
+  const head = kv({ merchant: r.merchantName, address: r.merchantAddress, country: r.country, currency: r.currency, purchased: r.purchasedAt, number: r.receiptNumber, subtotal: r.subtotalMinor, tax: r.taxMinor, tax_included: r.taxIncluded, total: r.totalMinor, readability: r.readability });
+  const lines = r.lines.map((l) => `LINE: ${kv({ no: l.lineNo, qty: l.qty, unit: l.unitPriceMinor, amount: l.amountMinor, rate: l.taxRateBp, text: l.rawText, en: l.translationEn })}`);
+  return [`RECEIPT: ${head}`, ...lines].join("\n");
+}
+
+/** The classifier's one-string tool answer: one "no=..; need=..; qty=..; verdict=..; conf=..; why=.." row per line. */
+function classifierWire(lines: LineClassification[]): { lines: string } {
+  return {
+    lines: lines
+      .map((c) => [`no=${c.lineNo}`, c.needId && `need=${c.needId}`, c.needQty !== null && `qty=${c.needQty}`, `verdict=${c.verdict}`, c.ruleCode && `rule=${c.ruleCode}`, `conf=${c.confidence}`, `why=${c.reasonEn}`].filter(Boolean).join("; "))
+      .join("\n"),
+  };
+}
+
+/** A Bedrock client speaking the reader's text protocol and the classifier's forced tool; counts calls. */
+function fakeBedrock(answer: { reader: string; lines: LineClassification[] }) {
   const sent: string[] = [];
   const client: ConverseClient = {
     async send(cmd: ConverseCommand): Promise<ConverseCommandOutput> {
-      const name = cmd.input.toolConfig!.tools![0].toolSpec!.name!;
-      sent.push(name);
-      const input = name === "submit_receipt" ? answer.receipt : { lines: answer.lines };
-      return { output: { message: { role: "assistant", content: [{ toolUse: { toolUseId: "t1", name, input: input as never } }] } }, stopReason: "tool_use", usage: { inputTokens: 1200, outputTokens: 300, totalTokens: 1500 }, metrics: { latencyMs: 1 }, $metadata: {} };
+      const tool = cmd.input.toolConfig?.tools?.[0]?.toolSpec?.name;
+      sent.push(tool ?? "read_text");
+      const content = tool ? [{ toolUse: { toolUseId: "t1", name: tool, input: classifierWire(answer.lines) as never } }] : [{ text: answer.reader }];
+      return { output: { message: { role: "assistant", content } }, stopReason: tool ? "tool_use" : "end_turn", usage: { inputTokens: 1200, outputTokens: 300, totalTokens: 1500 }, metrics: { latencyMs: 1 }, $metadata: {} };
     },
   };
   return { client, sent };
@@ -50,7 +72,7 @@ const moneyEvents = async (h: Awaited<ReturnType<typeof setup>>["h"], driveId: s
 
 describe("live reading limits: refused before any model call", () => {
   it("the $5 spend cap refuses the call and offers the cached sample", async () => {
-    const live = fakeBedrock({ receipt: {}, lines: [] });
+    const live = fakeBedrock({ reader: "", lines: [] });
     const { h, driveId } = await setup({ bedrock: () => live.client, spent: 4.999 });
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(77) }));
     expect(e).toMatchObject({ status: 429, code: "spend_cap" });
@@ -61,7 +83,7 @@ describe("live reading limits: refused before any model call", () => {
   });
 
   it("30 live readings a day per IP; the 31st is refused without a call", async () => {
-    const live = fakeBedrock({ receipt: {}, lines: [] });
+    const live = fakeBedrock({ reader: "I cannot read this.", lines: [] });
     const { h, driveId } = await setup({ bedrock: () => live.client });
     const ipHash = h.svc.hashIp("203.0.113.9");
     await h.db.db.insert(receipts).values(
@@ -70,9 +92,10 @@ describe("live reading limits: refused before any model call", () => {
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "203.0.113.9" }));
     expect(e).toMatchObject({ status: 429, code: "live_limit" });
     expect(live.sent).toEqual([]);
-    // Another network still gets its readings.
+    // Another network still gets its reading (here an answer without a RECEIPT row: unreadable).
     const r = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "198.51.100.1" }));
-    expect(r.code).not.toBe("live_limit");
+    expect(r).toMatchObject({ status: 422, code: "unreadable_by_model" });
+    expect(live.sent).toEqual(["read_text"]);
   });
 
   it("with live reading off, an unknown photo gets a plain answer and the sample hint", async () => {
@@ -84,13 +107,13 @@ describe("live reading limits: refused before any model call", () => {
   it("a live reading goes through the cap, is stored, and the same photo later costs nothing", async () => {
     const recTmp = loadRecordings();
     const { parsed } = syntheticReceipt(recTmp, 80, [{ needId: "water", qty: 6, amount: 798 }]);
-    const lines = Object.values(recTmp.classifications).at(-1);
-    const live = fakeBedrock({ receipt: parsed, lines });
+    const lines = Object.values(recTmp.classifications).at(-1)!;
+    const live = fakeBedrock({ reader: readerText(parsed), lines });
     const { h, driveId } = await setup({ bedrock: () => live.client });
     const bytes = noisePng(80); // not in this service's recordings: read live
     const r = await h.svc.submitReceipt({ driveId, bytes, ip: "203.0.113.20" });
     expect(r.receipt).toMatchObject({ status: "funded", reader: "nova" });
-    expect(live.sent).toEqual(["submit_receipt", "submit_classifications"]);
+    expect(live.sent).toEqual(["read_text", "submit_classifications"]);
     const ledger = await h.db.db.select().from(spendLedger);
     expect(ledger.map((x) => x.kind).sort()).toEqual(["reserve", "reserve", "settle", "settle"]);
     // Another demo drive, same photo: the stored answer is reused, no model call.
@@ -169,6 +192,24 @@ describe("receipt checks", () => {
     const v = await svc.getDriveView(id);
     expect(v.needs.find((n) => n.needId === "water")!.qtyCovered).toBe(2);
     expect(v.ledger.filter((l) => l.receiptId === r.receipt.id && l.kind === "rejected").map((l) => [l.lineNo, l.code])).toEqual([[2, "review"]]);
+    expect((await svc.getReceipt(r.receipt.id)).decision).toMatchObject({ approved: { by: "coordinator", lineNos: [1], acceptTotalMismatch: false } });
+  });
+
+  it("a 'review' line is funded only when the coordinator names it", async () => {
+    const rec = loadRecordings();
+    const x = syntheticReceipt(rec, 84, [
+      { needId: "water", qty: 2, amount: 216, confidence: 0.5 },
+      { needId: "batteries", qty: 10, amount: 980, verdict: "review", ruleCode: "unclear" },
+    ]);
+    const svc = (await harness({ fetch: fakeSandbox().fetch, recordings: rec })).svc;
+    const id = (await svc.createDemoDrive({ driveId: "demo-named" })).drive.id;
+    const r = await svc.submitReceipt({ driveId: id, bytes: x.bytes });
+    expect(await reject(svc.coordinatorDecision(r.receipt.id, "approve", "ok", { lineNos: [7] }))).toMatchObject({ status: 400, code: "invalid_line_nos" });
+    await svc.coordinatorDecision(r.receipt.id, "approve", "Ten AA batteries, checked against the photo", { lineNos: [2], by: "Nadya" });
+    const v = await svc.getDriveView(id);
+    expect(v.needs.find((n) => n.needId === "batteries")!.qtyCovered).toBe(10);
+    expect(v.ledger.filter((l) => l.receiptId === r.receipt.id && l.kind === "rejected")).toEqual([]);
+    expect((await svc.getReceipt(r.receipt.id)).decision).toMatchObject({ by: "Nadya", approved: { lineNos: [1, 2] } });
   });
 });
 

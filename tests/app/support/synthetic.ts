@@ -57,8 +57,9 @@ export function syntheticReceipt(
   rec.readings[sha256Hex(bytes)] = parsed;
   rec.classifications[receiptKey(parsed)] = lines.map((l, i) => ({
     lineNo: i + 1,
-    needId: l.verdict && l.verdict !== "eligible" ? null : l.needId,
-    needQty: l.verdict && l.verdict !== "eligible" ? null : l.qty,
+    // A refused line names no need; a "review" line may carry the classifier's guess.
+    needId: l.verdict === "rejected" ? null : l.needId,
+    needQty: l.verdict === "rejected" ? null : l.qty,
     verdict: l.verdict ?? "eligible",
     ruleCode: l.ruleCode ?? null,
     reasonEn: "synthetic",

@@ -83,6 +83,8 @@ describe("API routes", () => {
   it("POST /api/receipts/[id]/decision from the debug form redirects back", async () => {
     const r = await receiptsPOST(req(`/api/drives/${driveId}/receipts`, upload(receiptBytes("eval/receipts/adversarial/adv-predisaster-ja.png"))), ctx(driveId));
     const id = (await r.json()).receipt.id as string;
+    const badLines = await decisionPOST(req(`/api/receipts/${id}/decision`, { method: "POST", body: new URLSearchParams({ decision: "approve", reason: "x", lineNos: "2, 99" }), headers: { "content-type": "application/x-www-form-urlencoded" } }), ctx(id));
+    expect(await badLines.json()).toMatchObject({ error: "invalid_line_nos", message: expect.stringContaining("99") });
     const form = new URLSearchParams({ decision: "reject", reason: "Bought before the flood", back: `/debug/drive/${driveId}` });
     const res = await decisionPOST(req(`/api/receipts/${id}/decision`, { method: "POST", body: form, headers: { "content-type": "application/x-www-form-urlencoded" } }), ctx(id));
     expect(res.status).toBe(303);

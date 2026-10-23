@@ -33,7 +33,7 @@ import { isCurrencyCode } from "../paypal/money";
 import type { FetchLike } from "../paypal/recording";
 import type { PayPalGateway } from "../paypal/types";
 import type { ConverseClient } from "../receipts/bedrock";
-import { allocateTax, checkReceipt, reconcile as reconcileTotals, toFundableLines, type ReceiptFlag } from "../receipts/checks";
+import { allocateTax, checkReceipt, reconcile as reconcileTotals, toFundableLines, type CoordinatorApproval, type ReceiptFlag } from "../receipts/checks";
 import { dHash, semanticKey, sha256Hex } from "../receipts/hash";
 import type { Recordings } from "../receipts/recorded";
 import type { LineClassification, ParsedReceipt, ReceiptImage } from "../receipts/types";
@@ -517,20 +517,20 @@ export class PledgeService {
       });
       // Any flag sends the receipt to the coordinator; no money moves until they decide.
       if (flags.length) return { receiptId, cmds: [] as PayPalCommand[] };
-      return { receiptId, cmds: await this.fundInBook(b, receiptId, reading, row.payoutEmail, undefined) };
+      return { receiptId, cmds: await this.fundInBook(b, receiptId, reading, row.payoutEmail) };
     });
     const commands = await this.execute(driveId, cmds);
     return { receipt: await this.getReceipt(receiptId), commands };
   }
 
   /** Lines into the book (funded or refused, in print order), then the volunteer's payout, then due captures. */
-  private async fundInBook(b: DriveBook, receiptId: string, reading: Pick<Reading, "parsed" | "classified">, payoutEmail: string | null, minConfidence: number | undefined): Promise<PayPalCommand[]> {
+  private async fundInBook(b: DriveBook, receiptId: string, reading: Pick<Reading, "parsed" | "classified">, payoutEmail: string | null, approval?: CoordinatorApproval): Promise<PayPalCommand[]> {
     const now = this.now();
     const s = b.state;
     const parsed = reading.parsed;
     const lines = reading.classified.lines;
     const needs = s.needIds.map((id) => s.needs[id]);
-    const { fundable, rejected } = toFundableLines(parsed, lines, needs, s.drive!, s.qtyCovered, { receiptId, minConfidence });
+    const { fundable, rejected } = toFundableLines(parsed, lines, needs, s.drive!, s.qtyCovered, { receiptId, ...(approval ? { coordinatorApproved: approval } : {}) });
     const tax = allocateTax(parsed) ?? parsed.lines.map(() => 0);
     const amountOf = (lineNo: number) => {
       const i = parsed.lines.findIndex((l) => l.lineNo === lineNo);
@@ -564,10 +564,18 @@ export class PledgeService {
     return out;
   }
 
-  async coordinatorDecision(receiptId: string, decision: "approve" | "reject", reason: string): Promise<SubmitResult> {
+  /**
+   * The coordinator approves what they were shown as flagged: lines held only for low confidence or a
+   * quantity that does not fit (eligible, no rule code), and a total mismatch when that held the receipt.
+   * Lines the classifier itself marked "review" (or eligible with a rule code) stay refused unless named in `lineNos`.
+   */
+  async coordinatorDecision(receiptId: string, decision: "approve" | "reject", reason: string, opts: { lineNos?: number[]; by?: string } = {}): Promise<SubmitResult> {
     if (decision !== "approve" && decision !== "reject") throw new ServiceError(400, "invalid_decision", "decision must be approve or reject.");
     const text = String(reason ?? "").trim().slice(0, 500);
     if (!text) throw new ServiceError(400, "reason_required", "A reason is required.");
+    const by = String(opts.by ?? "coordinator").trim().slice(0, 80) || "coordinator";
+    const named = opts.lineNos ?? [];
+    if (!Array.isArray(named) || named.some((n) => !Number.isSafeInteger(n) || n <= 0)) throw new ServiceError(400, "invalid_line_nos", "lineNos must be positive whole line numbers.");
     const [head] = await this.db.select({ driveId: receipts.driveId }).from(receipts).where(eq(receipts.id, receiptId));
     if (!head) throw new ServiceError(404, "unknown_receipt", `No receipt ${receiptId}.`);
     const row = await this.driveRow(head.driveId);
@@ -579,14 +587,32 @@ export class PledgeService {
       if (decision === "approve" && blocking.length) {
         throw new ServiceError(409, "blocked", `This receipt cannot be approved: ${blocking.map((f) => f.messageEn).join(" ")}`);
       }
+      const reading = { parsed: r.parsed as ParsedReceipt, classified: r.classified as StoredClassification };
+      const printed = new Set(reading.parsed.lines.map((l) => l.lineNo));
+      const unknown = named.filter((n) => !printed.has(n));
+      if (unknown.length) throw new ServiceError(400, "invalid_line_nos", `Receipt ${receiptId} has no line ${unknown.join(", ")}.`);
+      if (decision === "reject") {
+        await b.tx.update(receipts).set({ status: "rejected", decision: { decision, reason: text, by, at: this.now() } }).where(eq(receipts.id, receiptId));
+        return [] as PayPalCommand[];
+      }
+      const s = b.state;
+      const needs = s.needIds.map((id) => s.needs[id]);
+      const held = toFundableLines(reading.parsed, reading.classified.lines, needs, s.drive!, s.qtyCovered, { receiptId }).rejected;
+      const cls = new Map(reading.classified.lines.map((c) => [c.lineNo, c]));
+      const shown = held
+        .filter((x) => (x.code === "low_confidence" || x.code === "review") && cls.get(x.lineNo)?.verdict === "eligible" && !cls.get(x.lineNo)?.ruleCode)
+        .map((x) => x.lineNo);
+      const approval: CoordinatorApproval = {
+        by,
+        reason: text,
+        acceptTotalMismatch: flags.some((f) => f.code === "total_mismatch"),
+        lineNos: [...new Set([...shown, ...named])].sort((x, y) => x - y),
+      };
       await b.tx
         .update(receipts)
-        .set({ status: decision === "approve" ? "funded" : "rejected", decision: { decision, reason: text, at: this.now() } })
+        .set({ status: "funded", decision: { decision, reason: text, by, at: this.now(), approved: approval } })
         .where(eq(receipts.id, receiptId));
-      if (decision === "reject") return [] as PayPalCommand[];
-      // The coordinator looked at the receipt: lines below the confidence threshold may be funded; "review" lines stay refused.
-      const reading = { parsed: r.parsed as ParsedReceipt, classified: r.classified as StoredClassification };
-      return this.fundInBook(b, receiptId, reading, row.payoutEmail, 0);
+      return this.fundInBook(b, receiptId, reading, row.payoutEmail, approval);
     });
     const commands = await this.execute(head.driveId, cmds);
     return { receipt: await this.getReceipt(receiptId), commands };
