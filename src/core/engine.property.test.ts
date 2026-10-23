@@ -2,10 +2,12 @@ import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 import { allocateLine } from "./allocate";
 import type { LedgerEvent, LineFunded } from "./events";
+import { lineKeyOf, shareIdOf } from "./ids";
 import {
   applyEvent,
   availableMinor,
   capacityBase,
+  consecutiveFailures,
   emptyLedger,
   isFundable,
   isLiveStatus,
@@ -14,9 +16,11 @@ import {
   receiptFundedBase,
   replay,
   uncommitted,
+  unsettledHolds,
 } from "./ledger";
 import { minorRate } from "./money";
 import {
+  captureReversedEvent,
   captureSubmittedEvent,
   holdExpiredEvent,
   payoutSubmittedEvent,
@@ -28,7 +32,8 @@ import {
 } from "./plan";
 import { arbRate, CURRENCIES, RUNS } from "./testing/arbitraries";
 import { makeDrive, makePledge } from "./testing/builders";
-import { addMs, HOUR_MS } from "./time";
+import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
+import { addMs, CAPTURE_RETRY_BASE_MS, HOUR_MS } from "./time";
 import type { CurrencyCode, FundableLineInput, Need, PaymentSource, Pledge } from "./types";
 import { closeReport, donorStatement } from "./views";
 
@@ -39,7 +44,9 @@ type Approval = PaymentSource | "pending" | "denied";
 type Op =
   | { k: "advance"; hours: number }
   | { k: "capture"; force: boolean }
-  | { k: "resolve"; pick: number; ok: boolean }
+  | { k: "resolve"; pick: number; ok: boolean; reason: number }
+  | { k: "reverse"; pick: number; frac: number; again: boolean }
+  | { k: "outage"; pick: number }
   | { k: "maintain"; newAuthId: boolean }
   | { k: "repeatLine"; pick: number }
   | { k: "repeatEvent"; pick: number }
@@ -62,7 +69,11 @@ const arbOp: fc.Arbitrary<Op> = fc.oneof(
   // jumps of days, so holds reach reauthorize (day 4), renewal (day 26) and expiry (day 29)
   { weight: 2, arbitrary: fc.record({ k: fc.constant("advance" as const), hours: fc.double({ min: 24, max: 240, noNaN: true }) }) },
   { weight: 3, arbitrary: fc.record({ k: fc.constant("capture" as const), force: fc.boolean() }) },
-  { weight: 4, arbitrary: fc.record({ k: fc.constant("resolve" as const), pick: fc.nat(), ok: fc.boolean() }) },
+  { weight: 4, arbitrary: fc.record({ k: fc.constant("resolve" as const), pick: fc.nat(), ok: fc.boolean(), reason: fc.nat() }) },
+  {
+    weight: 1,
+    arbitrary: fc.record({ k: fc.constant("reverse" as const), pick: fc.nat(), frac: fc.double({ min: 0, max: 1, noNaN: true }), again: fc.boolean() }),
+  },
   { weight: 2, arbitrary: fc.record({ k: fc.constant("maintain" as const), newAuthId: fc.boolean() }) },
   { weight: 1, arbitrary: fc.record({ k: fc.constant("repeatLine" as const), pick: fc.nat() }) },
   { weight: 1, arbitrary: fc.record({ k: fc.constant("repeatEvent" as const), pick: fc.nat() }) },
@@ -78,7 +89,8 @@ const arbOp: fc.Arbitrary<Op> = fc.oneof(
       match: fc.boolean(),
     }),
   },
-  { weight: 1, arbitrary: fc.record({ k: fc.constant("payout" as const), pick: fc.nat(), ok: fc.boolean() }) },
+  { weight: 3, arbitrary: fc.record({ k: fc.constant("payout" as const), pick: fc.nat(), ok: fc.boolean() }) },
+  { weight: 1, arbitrary: fc.record({ k: fc.constant("outage" as const), pick: fc.nat() }) },
 );
 
 const arbScenario = fc.record({
@@ -101,7 +113,7 @@ const arbScenario = fc.record({
     { nil: null },
   ),
   lines: fc.array(
-    fc.record({ needIdx: fc.nat(), qty: fc.integer({ min: 1, max: 25 }), amount: fc.integer({ min: 0, max: 100_000 }), receipt: fc.integer({ min: 0, max: 7 }) }),
+    fc.record({ needIdx: fc.nat(), qty: fc.integer({ min: 1, max: 25 }), amount: fc.integer({ min: 0, max: 100_000 }), receipt: fc.integer({ min: 0, max: 3 }) }),
     { minLength: 1, maxLength: 60, size: "max" },
   ),
   ops: fc.array(fc.record({ op: arbOp, slot: fc.nat() }), { maxLength: 60, size: "max" }),
@@ -110,6 +122,19 @@ const arbScenario = fc.record({
 });
 
 type Scenario = typeof arbScenario extends fc.Arbitrary<infer T> ? T : never;
+
+/** Refusals as the server words them: retryable, unknown (bounded) and terminal. */
+const REFUSALS = [
+  "500 INTERNAL_SERVER_ERROR",
+  "503 SERVICE_UNAVAILABLE",
+  "429 RATE_LIMIT_REACHED",
+  "capture 7XY DECLINED",
+  "422 UNPROCESSABLE_ENTITY INSTRUMENT_DECLINED (debug_id f00)",
+  "422 UNPROCESSABLE_ENTITY AUTHORIZATION_VOIDED",
+];
+
+/** The pledge every drive keeps unapproved until after it closes. */
+const LATE = "zz-late";
 
 // ---- invariants -------------------------------------------------------------
 
@@ -129,26 +154,53 @@ function checkState(s: LedgerState): void {
       must(Number.isSafeInteger(v) && v >= 0, "buckets are non-negative integers", ctx);
     }
     // captured + capturePending + accrued (+ released) never exceed the hold
-    must(uncommitted(h) >= 0, "captured + pending + accrued + released <= authorized", ctx);
-    must(h.uncollected <= h.released, "uncollected is part of released", ctx);
+    // captured + capturePending + accrued + uncollected + reversed + released never exceed the hold
+    must(uncommitted(h) >= 0, "buckets never exceed the authorization", ctx);
     must(h.accrued === h.accruals.reduce((a, x) => a + x.minor, 0), "accrued = sum of accruals", ctx);
     let pending = 0;
     let pendingCount = 0;
-    let confirmed = 0;
+    let confirmedKept = 0;
+    let reversed = 0;
     for (const b of h.batches) {
+      must(b.reversed >= 0 && b.reversed <= b.amount && (b.status === "confirmed" || b.reversed === 0), "a batch reverses at most what it captured", ctx);
+      must(Object.values(b.reversedByShare).reduce((a, x) => a + x, 0) === b.reversed, "reversal split over shares adds up", ctx);
+      for (const a of b.shares) must((b.reversedByShare[a.shareId] ?? 0) <= a.minor, "no share reversed beyond itself", ctx);
+      reversed += b.reversed;
       if (b.status === "pending") {
         pending += b.amount;
         pendingCount += 1;
-      } else if (b.status === "confirmed") confirmed += b.amount;
+      } else if (b.status === "confirmed") confirmedKept += b.amount - b.reversed;
     }
     must(h.capturePending === pending, "capturePending = pending batches", ctx);
-    must(h.captured === confirmed, "captured = confirmed batches", ctx);
+    must(h.captured === confirmedKept, "captured = confirmed batches minus reversals", ctx);
+    must(h.reversed === reversed, "reversed = sum of batch reversals", ctx);
     must(pendingCount <= 1, "one capture in flight per hold", ctx);
+    must(consecutiveFailures(h) <= MAX_CAPTURE_ATTEMPTS, "refused attempts are bounded", ctx);
+    if (h.blockedAt) must(availableMinor(p, h) === 0 && h.accrued === 0, "a blocked hold funds and accrues nothing", ctx);
+    // every charged share sits in exactly one place: accrued, a live batch, or uncollected
+    const where = new Map<string, number>();
+    const seen = (sid: string) => where.set(sid, (where.get(sid) ?? 0) + 1);
+    h.accruals.forEach((a) => seen(a.shareId));
+    h.batches.filter((b) => b.status !== "failed").forEach((b) => b.shares.forEach((a) => seen(a.shareId)));
+    h.uncollectedShareIds.forEach(seen);
+    let uncollected = 0;
+    for (const key of s.lineKeys) {
+      const ev = s.lines[key].event;
+      if (ev.type !== "LineFunded") continue;
+      const sh = ev.shares.find((x) => x.pledgeId === id);
+      if (!sh || sh.quote.minor === 0) continue;
+      const sid = shareIdOf(lineKeyOf(ev.line.receiptId, ev.line.lineNo), id);
+      must(where.get(sid) === 1, "each share is in exactly one place", { ...ctx, sid, n: where.get(sid) ?? 0 });
+      where.delete(sid);
+      if (h.uncollectedShareIds.includes(sid)) uncollected += sh.quote.minor;
+    }
+    must(where.size === 0, "no share outside the book's lines", ctx);
+    must(h.uncollected === uncollected, "uncollected = its shares", ctx);
     must(availableMinor(p, h) <= uncommitted(h), "available <= uncommitted", ctx);
     if (p.status === "voided" || p.status === "expired") {
       must(h.accrued === 0 && uncommitted(h) === 0, "an ended hold keeps nothing", ctx);
     }
-    if (p.status === "captured") must(h.captured === h.authorized, "captured status means fully captured", ctx);
+    if (p.status === "captured") must(h.captured + h.reversed === h.authorized, "captured status means fully captured", ctx);
     if (p.status === "pending_approval" || p.status === "denied") must(h.authorized === 0, "no hold before approval", ctx);
     if (p.kind === "match" && p.fx.base === p.fx.quote) {
       // same-currency match: the ceiling holds exactly in base too
@@ -298,6 +350,7 @@ class Sim {
     if (sc.match) {
       for (let j = 0; j < sc.match.count; j++) this.addPledge(`m${j}`, "match", null, this.currency(sc.match.curIdx + j), sc.match.minor, "paypal");
     }
+    this.addPledge(LATE, "donor", "n0", sc.base, 1000, "pending");
   }
 
   fund(spec: LineSpec) {
@@ -324,6 +377,12 @@ class Sim {
         expect(h.batches.find((b) => b.status === "pending")!.requestId).toBe(c.requestId);
         continue;
       }
+      must(!h.blockedAt, "no capture planned on a blocked hold", c);
+      const refused = consecutiveFailures(h);
+      if (refused > 0 && !force) {
+        const last = h.batches[h.batches.length - 1];
+        must(Date.parse(this.now) >= Date.parse(last.resolvedAt!) + CAPTURE_RETRY_BASE_MS * 2 ** (refused - 1), "a refused hold waits out its backoff", c);
+      }
       expect(c.requestId).toBe(`cap:drv1:${c.pledgeId}:${h.nextSeq}`);
       expect(this.requestIds.has(c.requestId)).toBe(false); // a new batch never reuses an id
       expect(c.amount.minor).toBe(h.accrued);
@@ -339,16 +398,56 @@ class Sim {
     );
   }
 
-  resolve(pick: number, ok: boolean) {
+  resolve(pick: number, ok: boolean, reasonIdx = 0) {
     const pending = this.pendingBatches();
     if (pending.length === 0) return;
     const { pledgeId, b } = pending[pick % pending.length];
     if (ok) {
       const currency = this.state.pledges[pledgeId].amount.currency;
       this.apply({ id: this.id("cc"), at: this.now, driveId: "drv1", type: "CaptureConfirmed", pledgeId, requestId: b.requestId, captureId: `CAP-${b.requestId}`, amount: { currency, minor: b.amount } });
-    } else {
-      this.apply({ id: this.id("cf"), at: this.now, driveId: "drv1", type: "CaptureFailed", pledgeId, requestId: b.requestId, reason: "DECLINED" });
+      return;
     }
+    const reason = REFUSALS[reasonIdx % REFUSALS.length];
+    const live = isLiveStatus(this.state.pledges[pledgeId].status);
+    const before = this.state.holds[pledgeId];
+    this.apply({ id: this.id("cf"), at: this.now, driveId: "drv1", type: "CaptureFailed", pledgeId, requestId: b.requestId, reason });
+    const h = this.state.holds[pledgeId];
+    const terminal = classifyCaptureFailure(reason).terminal || consecutiveFailures(h) >= MAX_CAPTURE_ATTEMPTS;
+    if (!live) must(h.uncollected === before.uncollected + b.amount, "a refusal after the hold ended is uncollected", { pledgeId });
+    else if (terminal) must(Boolean(h.blockedAt) && h.accrued === 0 && h.uncollected === before.uncollected + before.accrued + b.amount, "a terminal refusal uncollects the hold's shares", { pledgeId, reason });
+    else must(!h.blockedAt && h.accrued === before.accrued + b.amount, "a retryable refusal returns the shares to accrued", { pledgeId, reason });
+  }
+
+  /** PayPal keeps answering 500 for one hold: after the bounded attempts its shares are uncollected. */
+  outage(pick: number) {
+    const s = this.state;
+    const ids = s.pledgeIds.filter((id) => isLiveStatus(s.pledges[id].status) && !s.holds[id].blockedAt && s.holds[id].accrued > 0 && !s.holds[id].batches.some((b) => b.status === "pending"));
+    if (ids.length === 0) return;
+    const id = ids[pick % ids.length];
+    if (Date.parse(this.now) >= Date.parse(s.pledges[id].expiresAt!)) return;
+    for (let i = 0; i < MAX_CAPTURE_ATTEMPTS && !this.state.holds[id].blockedAt; i++) {
+      const c = planCaptures(this.state, this.now, { force: true }).find((x) => x.pledgeId === id && !x.retry)!;
+      expect(c).toBeDefined();
+      this.requestIds.add(c.requestId);
+      this.apply(captureSubmittedEvent(c, this.now));
+      this.resolve(this.pendingBatches().findIndex((x) => x.pledgeId === id), false, 0);
+    }
+    const h = this.state.holds[id];
+    must(Boolean(h.blockedAt) && h.accrued === 0 && /refused attempts/.test(h.blockedReason ?? ""), "the attempt bound ends an outage", { id, reason: h.blockedReason });
+  }
+
+  reverse(pick: number, frac: number, again: boolean) {
+    const s = this.state;
+    const open = s.pledgeIds.flatMap((id) => s.holds[id].batches.filter((b) => b.status === "confirmed" && b.amount > b.reversed).map((b) => ({ id, b })));
+    if (open.length === 0) return;
+    const { id, b } = open[pick % open.length];
+    const amount = Math.max(1, Math.floor((b.amount - b.reversed) * frac));
+    const ev = captureReversedEvent(s, { captureId: b.captureId!, amount: { currency: s.pledges[id].amount.currency, minor: amount }, reason: "PAYMENT.CAPTURE.REVERSED", at: this.now, reversalId: this.id("rev") })!;
+    expect(ev).toMatchObject({ pledgeId: id, requestId: b.requestId });
+    const capturedBefore = s.holds[id].captured;
+    this.apply(ev);
+    must(this.state.holds[id].captured === capturedBefore - amount, "a reversal moves exactly its amount out of captured", { id, amount });
+    if (again) expect(applyEvent(this.state, { ...ev, id: `${ev.id}-again` })).toBe(this.state); // same reversal id
   }
 
   maintain(newAuthId: boolean) {
@@ -380,7 +479,8 @@ class Sim {
     const rid = receipts[pick % receipts.length];
     const cmd = planPayout(this.state, rid);
     if (!cmd) return;
-    expect(cmd.amount.minor).toBe(receiptFundedBase(this.state, rid));
+    const paid = (this.state.payouts[rid] ?? []).filter((a) => a.status === "confirmed").reduce((a, x) => a + x.amount, 0);
+    if (!cmd.retry) expect(cmd.amount.minor).toBe(receiptFundedBase(this.state, rid) - paid); // top-ups pay the difference
     if (!cmd.retry) this.apply(payoutSubmittedEvent(cmd, this.now));
     if (ok) this.apply({ id: this.id("po"), at: this.now, driveId: "drv1", type: "PayoutConfirmed", receiptId: rid, senderBatchId: cmd.senderBatchId, payoutBatchId: `PB-${cmd.senderBatchId}` });
     else this.apply({ id: this.id("pf"), at: this.now, driveId: "drv1", type: "PayoutFailed", receiptId: rid, senderBatchId: cmd.senderBatchId, reason: "DENIED" });
@@ -395,7 +495,11 @@ class Sim {
       case "capture":
         return this.capture(op.force);
       case "resolve":
-        return this.resolve(op.pick, op.ok);
+        return this.resolve(op.pick, op.ok, op.reason);
+      case "reverse":
+        return this.reverse(op.pick, op.frac, op.again);
+      case "outage":
+        return this.outage(op.pick);
       case "maintain":
         return this.maintain(op.newAuthId);
       case "repeatLine": {
@@ -417,7 +521,7 @@ class Sim {
         return;
       }
       case "authorize": {
-        const pending = s.pledgeIds.filter((id) => s.pledges[id].status === "pending_approval");
+        const pending = s.pledgeIds.filter((id) => s.pledges[id].status === "pending_approval" && id !== LATE);
         if (pending.length === 0) return;
         this.authorize(pending[op.pick % pending.length], op.source);
         return;
@@ -443,7 +547,7 @@ class Sim {
       if (cmds.some((c) => c.kind === "close_drive")) {
         expect(cmds).toEqual([{ kind: "close_drive", driveId: "drv1" }]);
         this.apply({ id: "closed", at: this.now, driveId: "drv1", type: "DriveClosed" });
-        return;
+        return this.lateApproval();
       }
       for (const c of cmds) {
         if (c.kind === "capture" && !c.retry) {
@@ -461,6 +565,19 @@ class Sim {
       this.now = addMs(this.now, HOUR_MS);
     }
     throw new Error("drive did not close in 20 rounds");
+  }
+
+  /** A donor approves after the close: the hold is voided by the planners, not left for 29 days. */
+  lateApproval() {
+    expect(this.state.pledges[LATE].status).toBe("pending_approval");
+    this.authorize(LATE, "paypal");
+    expect(unsettledHolds(this.state)).toEqual([LATE]);
+    const want = [["void", LATE]];
+    expect(planClose(this.state, this.now).map((c) => [c.kind, "pledgeId" in c ? c.pledgeId : ""])).toEqual(want);
+    expect(planHoldMaintenance(this.state, this.now).map((c) => [c.kind, c.pledgeId])).toEqual(want);
+    this.apply({ id: this.id("hv"), at: this.now, driveId: "drv1", type: "HoldVoided", pledgeId: LATE });
+    expect(unsettledHolds(this.state)).toEqual([]);
+    expect(planClose(this.state, this.now)).toEqual([]);
   }
 }
 
@@ -491,12 +608,16 @@ describe("engine properties (SPEC §3-§6)", () => {
         // pledged = spent + released, per hold, in the donor's currency
         for (const row of closeReport(s)) {
           expect(row.settled).toBe(true);
-          expect(row.spent + row.released).toBe(row.pledged);
+          expect(row.spent + row.released + row.uncollected + row.reversed).toBe(row.pledged);
         }
         for (const id of s.pledgeIds) {
           const h = s.holds[id];
           expect([h.accrued, h.capturePending]).toEqual([0, 0]);
-          for (const r of donorStatement(s, id).rows) expect(["captured", "uncollected", "nothing_to_capture"]).toContain(r.status);
+          const st = donorStatement(s, id);
+          for (const r of st.rows) expect(["captured", "partly_reversed", "reversed", "uncollected", "nothing_to_capture"]).toContain(r.status);
+          expect(st.totals.charged).toBe(h.captured);
+          expect(st.totals.uncollected).toBe(h.uncollected);
+          expect(st.totals.reversed).toBe(h.reversed);
         }
         // the journal rebuilds the book exactly
         expect(replay(sim.events)).toEqual(s);

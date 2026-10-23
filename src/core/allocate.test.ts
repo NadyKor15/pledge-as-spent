@@ -68,8 +68,8 @@ describe("allocateLine (SPEC §3)", () => {
     expect(ev).toMatchObject({ fundedBase: 432, donorBase: 216, matchBase: 216, unfundedBase: 0, rejectedBase: 0 });
     expect(ev.donorCapacityBase).toBe(3247);
     expect(ev.matchCapacityBase).toBe(500_000);
-    expect(shareOf(ev, "anna")).toEqual({ pledgeId: "anna", kind: "donor", base: 216, quote: { currency: "EUR", minor: 133 }, matchBase: 216 });
-    expect(shareOf(ev, "match")).toEqual({ pledgeId: "match", kind: "match", base: 216, quote: { currency: "JPY", minor: 216 }, matchBase: 0 });
+    expect(shareOf(ev, "anna")).toEqual({ pledgeId: "anna", kind: "donor", base: 216, quote: { currency: "EUR", minor: 133 }, matchBase: 216, honored: true });
+    expect(shareOf(ev, "match")).toEqual({ pledgeId: "match", kind: "match", base: 216, quote: { currency: "JPY", minor: 216 }, matchBase: 0, honored: true });
     expect(b.state.holds.anna.accrued).toBe(133);
     expect(b.state.qtyCovered.water).toBe(4);
   });

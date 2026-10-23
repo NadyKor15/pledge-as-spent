@@ -16,6 +16,8 @@ export const REAUTH_FROM_DAY = 4;
 export const RENEWAL_FROM_DAY = 26;
 /** Accrued shares are captured once expiry is this close. */
 export const CAPTURE_BEFORE_EXPIRY_MS = 2 * DAY_MS;
+/** Wait after the n-th refused capture of a hold: 15 min, then doubling. */
+export const CAPTURE_RETRY_BASE_MS = 15 * 60_000;
 
 const ISO_ZONED = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,9})?)?(?:Z|[+-]\d{2}:\d{2})$/;
 

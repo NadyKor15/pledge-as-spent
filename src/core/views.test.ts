@@ -32,8 +32,11 @@ describe("pledgeBalance", () => {
       accrued: 133,
       released: 0,
       uncollected: 0,
+      reversed: 0,
       available: 1867,
       capacityBase: 3031,
+      blocked: false,
+      blockedReason: null,
       authorizationId: "AUTH-anna",
       expiresAt: daysAfter(29),
     });
@@ -58,6 +61,9 @@ describe("donorStatement", () => {
       captureId: null,
       requestId: null,
       status: "accrued",
+      reversed: 0,
+      uncollectedReason: null,
+      honored: true,
       at: NOW,
     });
     const [cmd] = planCaptures(b.state, NOW, { force: true });
@@ -82,7 +88,7 @@ describe("donorStatement", () => {
     const b = setup();
     b.fund(line("r1", 1, "water", 2, 432), NOW);
     b.fund(line("r1", 2, "water", 2, 472), NOW);
-    expect(donorStatement(b.state, "anna").totals).toEqual({ shareBase: 452, share: 278, matchBase: 452, helpBase: 904 });
+    expect(donorStatement(b.state, "anna").totals).toEqual({ shareBase: 452, share: 278, charged: 0, uncollected: 0, reversed: 0, matchBase: 452, helpBase: 904 });
   });
 });
 
@@ -163,8 +169,8 @@ describe("closeReport", () => {
     for (const c of planCaptures(b.state, NOW, { force: true })) b.submit(c, NOW).confirm(c, NOW);
     b.event("HoldVoided", NOW, { pledgeId: "anna" }).event("HoldVoided", NOW, { pledgeId: "match" });
     expect(closeReport(b.state)).toEqual([
-      { pledgeId: "anna", donorName: "Donor anna", kind: "donor", currency: "EUR", pledged: 2000, spent: 133, released: 1867, settled: true },
-      { pledgeId: "match", donorName: "Donor match", kind: "match", currency: "JPY", pledged: 1000, spent: 216, released: 784, settled: true },
+      { pledgeId: "anna", donorName: "Donor anna", kind: "donor", currency: "EUR", pledged: 2000, spent: 133, released: 1867, uncollected: 0, reversed: 0, settled: true },
+      { pledgeId: "match", donorName: "Donor match", kind: "match", currency: "JPY", pledged: 1000, spent: 216, released: 784, uncollected: 0, reversed: 0, settled: true },
     ]);
   });
 });

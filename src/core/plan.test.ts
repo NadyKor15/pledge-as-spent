@@ -87,9 +87,10 @@ describe("planCaptures (SPEC §4)", () => {
     b.fund(line("r1", 1, "water", 1, 300), hoursAfter(1));
     const [first] = planCaptures(b.state, hoursAfter(30));
     b.submit(first, hoursAfter(30)).failCapture(first, hoursAfter(30.01));
-    const [second] = planCaptures(b.state, hoursAfter(30.02));
+    expect(planCaptures(b.state, hoursAfter(30.02))).toEqual([]); // 15 minutes of backoff first
+    const [second] = planCaptures(b.state, hoursAfter(30.26));
     expect(second).toMatchObject({ requestId: "cap:drv1:a:2", seq: 2, amount: yen(300), reasons: ["age"], retry: false });
-    b.submit(second, hoursAfter(30.02)).confirm(second, hoursAfter(30.03));
+    b.submit(second, hoursAfter(30.26)).confirm(second, hoursAfter(30.27));
     b.fund(line("r1", 2, "water", 1, 50), hoursAfter(31));
     expect(planCaptures(b.state, hoursAfter(31), { force: true })[0]).toMatchObject({ requestId: "cap:drv1:a:3", seq: 3, amount: yen(50) });
   });
@@ -206,10 +207,10 @@ describe("planHoldMaintenance (SPEC §5)", () => {
     expect(kinds(fresh, hoursAfter(2))).toEqual(["void"]);
   });
 
-  it("no reauthorize or renewal once the drive is closing", () => {
+  it("no reauthorize or renewal once the drive is closing; the money left is voided", () => {
     const b = oneHold();
     b.event("DriveClosing", daysAfter(1), {});
-    expect(kinds(b, daysAfter(27))).toEqual([]);
+    expect(kinds(b, daysAfter(27))).toEqual(["void"]);
     expect(() => planExplicitReauthorize(b.state, "a", daysAfter(5))).toThrow(/drive is closing/);
   });
 });

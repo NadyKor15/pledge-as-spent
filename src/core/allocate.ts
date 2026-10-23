@@ -87,7 +87,7 @@ const sum = (xs: number[]): number => {
   return total;
 };
 
-function toShares(portions: { id: string; amount: number }[], pool: Backer[], attribution: Map<string, number>): Share[] {
+function toShares(portions: { id: string; amount: number }[], pool: Backer[], attribution: Map<string, number>, nowMs: number): Share[] {
   const shares: Share[] = [];
   portions.forEach((portion, i) => {
     if (portion.amount === 0) return;
@@ -100,6 +100,8 @@ function toShares(portions: { id: string; amount: number }[], pool: Backer[], at
       base: portion.amount,
       quote: { currency: pledge.amount.currency, minor: quote },
       matchBase: attribution.get(pledge.id) ?? 0,
+      // Funds are guaranteed only inside the honor period; later shares are funded but flagged.
+      honored: pledge.honorUntil ? nowMs < parseTime(pledge.honorUntil) : false,
     });
   });
   return shares;
@@ -160,7 +162,8 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
   const attribution = new Map(attributed.map((p) => [p.id, p.amount]));
 
   // §3.4 into each hold's currency
-  const shares = [...toShares(donorPortions, donors, attribution), ...toShares(matchPortions, matches, new Map())];
+  const nowMs = parseTime(now);
+  const shares = [...toShares(donorPortions, donors, attribution, nowMs), ...toShares(matchPortions, matches, new Map(), nowMs)];
 
   return {
     ...head,

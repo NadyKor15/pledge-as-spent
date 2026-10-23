@@ -4,26 +4,36 @@ import { captureRequestId, payoutSenderBatchId, reauthRequestId, voidRequestId }
 import {
   availableMinor,
   type CaptureBatch,
+  consecutiveFailures,
   type HoldBook,
   isLiveStatus,
   latestAuthorizationId,
   type LedgerState,
   lookup,
+  needsVoid,
   pendingBatch,
   receiptFundedBase,
   requireDrive,
   requirePledge,
-  uncommitted,
   unsettledHolds,
 } from "./ledger";
-import { CAPTURE_BEFORE_EXPIRY_MS, dayIndex, HOLD_LIFE_DAYS, HOUR_MS, parseTime, REAUTH_FROM_DAY, RENEWAL_FROM_DAY } from "./time";
-import type { Drive, Pledge } from "./types";
+import {
+  CAPTURE_BEFORE_EXPIRY_MS,
+  CAPTURE_RETRY_BASE_MS,
+  dayIndex,
+  HOLD_LIFE_DAYS,
+  HOUR_MS,
+  parseTime,
+  REAUTH_FROM_DAY,
+  RENEWAL_FROM_DAY,
+} from "./time";
+import type { Drive, Money, Pledge } from "./types";
 
 // State + time -> commands. Planners never change state: the caller performs a
 // command and records what happened as an event.
 
 export interface CaptureOptions {
-  /** The coordinator's "capture now" button. */
+  /** The coordinator's "capture now" button; it also skips the wait after a refusal. */
   force?: boolean;
   /** A pending capture older than this is sent again with the same request id. Default 10. */
   retryAfterMinutes?: number;
@@ -72,9 +82,14 @@ export function planCaptures(s: LedgerState, now: string, opts: CaptureOptions =
       }
       continue;
     }
-    if (hold.accrued <= 0 || !isLiveStatus(pledge.status) || !pledge.expiresAt) continue;
+    if (hold.accrued <= 0 || hold.blockedAt || !isLiveStatus(pledge.status) || !pledge.expiresAt) continue;
     const expiresAt = parseTime(pledge.expiresAt);
     if (t >= expiresAt) continue; // too late to capture; maintenance expires it
+    const refused = consecutiveFailures(hold);
+    if (refused > 0 && !opts.force) {
+      const last = hold.batches[hold.batches.length - 1];
+      if (t < parseTime(last.resolvedAt ?? last.submittedAt) + CAPTURE_RETRY_BASE_MS * 2 ** (refused - 1)) continue;
+    }
     const oldest = Math.min(...hold.accruals.map((a) => parseTime(a.at)));
     const threshold = drive.batch.thresholdMinor[pledge.amount.currency];
     const reasons: E.CaptureReason[] = [];
@@ -145,14 +160,16 @@ function voidCommand(drive: Drive, pledge: Pledge, hold: HoldBook, reason: E.Voi
   };
 }
 
-/** Nothing accrued or in flight, money left at PayPal: a void now loses nothing. */
+/** Nothing accrued or in flight, donor money still held at PayPal: a void now loses nothing. */
 const readyToVoid = (pledge: Pledge, hold: HoldBook): boolean =>
-  isLiveStatus(pledge.status) && hold.accrued === 0 && !pendingBatch(hold) && uncommitted(hold) > 0;
+  needsVoid(pledge, hold) && hold.accrued === 0 && !pendingBatch(hold);
 
 /**
  * SPEC §5: reauthorize once from day 4 (PayPal-account holds only), ask for a
  * renewal from day 26, expire on day 29, void a revoked hold once its accrued
- * shares are captured.
+ * shares are captured, void a hold whose capture was refused for good, and void
+ * any hold still holding money once the drive is closing or closed (a donor may
+ * approve after the close).
  */
 export function planHoldMaintenance(s: LedgerState, now: string): E.MaintenanceCommand[] {
   const drive = requireDrive(s);
@@ -166,11 +183,14 @@ export function planHoldMaintenance(s: LedgerState, now: string): E.MaintenanceC
       out.push({ kind: "expire", driveId: drive.id, pledgeId: id });
       continue;
     }
-    if (hold.revokedAt) {
-      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, "revoked"));
+    if (hold.revokedAt || hold.blockedAt) {
+      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : "revoked"));
       continue;
     }
-    if (drive.status !== "open") continue;
+    if (drive.status !== "open") {
+      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, "close"));
+      continue;
+    }
     if (hold.reauths.length === 0 && reauthBlocker(s, pledge, hold, now) === null) {
       out.push(reauthorizeCommand(s, pledge, hold, false));
     }
@@ -210,12 +230,12 @@ export function renewalRequestedEvent(cmd: E.RenewalRequestCommand, at: string):
 
 /**
  * SPEC §6: capture everything accrued first; void a hold only once its
- * captures are confirmed; `close_drive` once nothing is left anywhere.
+ * captures are confirmed; `close_drive` once nothing is left anywhere. On a
+ * closed drive it still voids holds authorized after the close.
  */
 export function planClose(s: LedgerState, now: string): E.CloseCommand[] {
   const drive = requireDrive(s);
   if (drive.status === "open") throw new CoreError("invalid_state", "record DriveClosing before planning the close");
-  if (drive.status === "closed") return [];
   const t = parseTime(now, "now");
   const out: E.CloseCommand[] = [...planCaptures(s, now)];
   for (const id of s.pledgeIds) {
@@ -223,26 +243,28 @@ export function planClose(s: LedgerState, now: string): E.CloseCommand[] {
     const hold = s.holds[id];
     if (!isLiveStatus(pledge.status) || !pledge.expiresAt) continue;
     if (t >= parseTime(pledge.expiresAt)) out.push({ kind: "expire", driveId: drive.id, pledgeId: id });
-    else if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, "close"));
+    else if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : "close"));
   }
-  if (out.length === 0 && unsettledHolds(s).length === 0) out.push({ kind: "close_drive", driveId: drive.id });
+  if (drive.status === "closing" && out.length === 0 && unsettledHolds(s).length === 0) {
+    out.push({ kind: "close_drive", driveId: drive.id });
+  }
   return out;
 }
 
 /**
  * SPEC §7: the volunteer is paid the funded part of a receipt in the drive
- * currency; the holds guarantee it. Null when nothing is owed or it is paid.
+ * currency; the holds guarantee it. Lines funded after a payout (a flagged line
+ * approved later) are paid as a top-up. Null when nothing is owed.
  */
 export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand | null {
   const drive = requireDrive(s);
   if (!s.lineKeys.some((k) => lineReceipt(s, k) === receiptId)) {
     throw new CoreError("unknown_receipt", `no lines of receipt ${receiptId} in the book`);
   }
-  const owed = receiptFundedBase(s, receiptId);
-  if (owed <= 0) return null;
   const attempts = lookup(s.payouts, receiptId) ?? [];
-  if (attempts.some((a) => a.status === "confirmed")) return null;
+  const owed = receiptFundedBase(s, receiptId) - paidBase(attempts);
   const pendingIndex = attempts.findIndex((a) => a.status === "pending");
+  if (owed <= 0 && pendingIndex < 0) return null;
   if (pendingIndex >= 0) {
     const a = attempts[pendingIndex];
     return {
@@ -267,6 +289,9 @@ export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand |
   };
 }
 
+const paidBase = (attempts: { status: string; amount: number }[]): number =>
+  attempts.filter((a) => a.status === "confirmed").reduce((acc, a) => acc + a.amount, 0);
+
 function lineReceipt(s: LedgerState, key: string): string {
   const ev = s.lines[key].event;
   return ev.type === "LineFunded" ? ev.line.receiptId : ev.receiptId;
@@ -282,4 +307,42 @@ export function payoutSubmittedEvent(cmd: E.PayoutCommand, at: string): E.Payout
     senderBatchId: cmd.senderBatchId,
     amount: { ...cmd.amount },
   };
+}
+
+export interface ReversalInput {
+  /** PayPal's capture id, as webhooks carry it. */
+  captureId: string;
+  amount: Money;
+  reason: string;
+  at: string;
+  /** PayPal's refund or reversal id, when known. */
+  reversalId?: string;
+  /** The event id to use; by default derived from the capture, amount and time. */
+  id?: string;
+}
+
+/**
+ * For the webhook handler: PAYMENT.CAPTURE.REVERSED / REFUNDED -> CaptureReversed,
+ * found by capture id. Null when the capture is not a confirmed one in this book.
+ */
+export function captureReversedEvent(s: LedgerState, r: ReversalInput): E.CaptureReversed | null {
+  const drive = requireDrive(s);
+  parseTime(r.at, "at");
+  for (const id of s.pledgeIds) {
+    const b = s.holds[id].batches.find((x) => x.status === "confirmed" && x.captureId === r.captureId);
+    if (!b) continue;
+    return {
+      id: r.id ?? `reversed:${b.requestId}:${r.reversalId ?? `${r.amount.minor}@${r.at}`}`,
+      at: r.at,
+      driveId: drive.id,
+      type: "CaptureReversed",
+      pledgeId: id,
+      requestId: b.requestId,
+      captureId: r.captureId,
+      amount: { ...r.amount },
+      reason: r.reason,
+      ...(r.reversalId ? { reversalId: r.reversalId } : {}),
+    };
+  }
+  return null;
 }

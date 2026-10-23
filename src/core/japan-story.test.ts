@@ -157,7 +157,7 @@ describe("Japanese story: one receipt, three donors, three currencies, a 1:1 com
       [2, "Drinking water 2 L", 4, 236, 145, 236, "CAP-p-anna", "captured"],
       [3, "Drinking water 2 L", 4, 198, 122, 198, "CAP-p-anna", "captured"],
     ]);
-    expect(st.totals).toEqual({ shareBase: 650, share: 400, matchBase: 650, helpBase: 1300 });
+    expect(st.totals).toEqual({ shareBase: 650, share: 400, charged: 400, uncollected: 0, reversed: 0, matchBase: 650, helpBase: 1300 });
   });
 
   it("reauthorizes PayPal-account holds on day 4 but not the card hold", () => {

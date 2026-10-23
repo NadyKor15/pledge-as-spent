@@ -49,6 +49,8 @@ export interface Share {
   quote: Money;
   /** Donor shares: the part of the match this donor's money unlocked (base). 0 on match shares. */
   matchBase: number;
+  /** false: funded after the hold's honor period, when PayPal no longer guarantees the funds. */
+  honored?: boolean;
 }
 
 export interface LineFunded extends EventBase {
@@ -106,12 +108,30 @@ export interface CaptureConfirmed extends EventBase {
   paypalFee?: Money;
 }
 
-/** PayPal refused the capture. A timeout is not a failure: retry with the same request id. */
+/**
+ * PayPal refused the capture. A timeout is not a failure: retry with the same
+ * request id. The reason is classified (classifyCaptureFailure): a terminal one,
+ * or the last allowed attempt, sends the hold's shares to uncollected.
+ */
 export interface CaptureFailed extends EventBase {
   type: "CaptureFailed";
   pledgeId: string;
   requestId: string;
   reason: string;
+  /** Overrides the classification of `reason` when the caller knows better. */
+  terminal?: boolean;
+}
+
+/** Money PayPal took back after a confirmed capture: refund, chargeback, reversal. */
+export interface CaptureReversed extends EventBase {
+  type: "CaptureReversed";
+  pledgeId: string;
+  requestId: string;
+  captureId: string;
+  amount: Money;
+  reason: string;
+  /** PayPal's refund or reversal id, when known: the same one is never counted twice. */
+  reversalId?: string;
 }
 
 export interface Reauthorized extends EventBase {
@@ -179,6 +199,7 @@ export type LedgerEvent =
   | CaptureSubmitted
   | CaptureConfirmed
   | CaptureFailed
+  | CaptureReversed
   | Reauthorized
   | RenewalRequested
   | HoldVoided
@@ -245,7 +266,7 @@ export interface VoidCommand {
   pledgeId: string;
   authorizationId: string;
   requestId: string;
-  reason: "close" | "revoked";
+  reason: "close" | "revoked" | "capture_refused";
 }
 
 export interface PayoutCommand {

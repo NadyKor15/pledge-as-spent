@@ -217,15 +217,16 @@ describe("captures in the reducer", () => {
     expect(() => b.confirm({ ...cmd, amount: { currency: "JPY", minor: 500 } }, NOW)).toThrow(/differs from the batch/);
   });
 
-  it("a refused capture returns the shares to accrued with their dates", () => {
+  it("a retryable refusal returns the shares to accrued with their dates", () => {
     const { b, cmd } = setup();
-    b.submit(cmd, hoursAfter(5)).failCapture(cmd, hoursAfter(6), "INSTRUMENT_DECLINED");
+    b.submit(cmd, hoursAfter(5)).failCapture(cmd, hoursAfter(6), "500 INTERNAL_SERVER_ERROR");
     expect(b.state.holds.a).toMatchObject({ accrued: 500, capturePending: 0, nextSeq: 2 });
     expect(b.state.holds.a.accruals.map((a) => [a.shareId, a.at])).toEqual([
       ["r1:1@a", NOW],
       ["r1:2@a", hoursAfter(3)],
     ]);
-    expect(b.state.holds.a.batches[0]).toMatchObject({ status: "failed", failReason: "INSTRUMENT_DECLINED" });
+    expect(b.state.holds.a.batches[0]).toMatchObject({ status: "failed", failReason: "500 INTERNAL_SERVER_ERROR" });
+    expect(b.state.holds.a.batches[0].terminal).toBeUndefined();
     const s = b.state;
     b.failCapture(cmd, hoursAfter(7));
     expect(b.state).toBe(s);
@@ -243,12 +244,12 @@ describe("captures in the reducer", () => {
 });
 
 describe("holds ending", () => {
-  it("void releases what is left; accrued shares become uncollected", () => {
+  it("void releases what was unused; accrued shares become uncollected, kept apart from released", () => {
     const b = book().pledge({ id: "a", needId: "water", amount: { currency: "JPY", minor: 1000 } });
     b.fund(line("r1", 1, "water", 1, 300), NOW);
     b.event("HoldVoided", hoursAfter(3), { pledgeId: "a" });
     expect(b.state.pledges.a.status).toBe("voided");
-    expect(b.state.holds.a).toMatchObject({ accrued: 0, released: 1000, uncollected: 300, uncollectedShareIds: ["r1:1@a"] });
+    expect(b.state.holds.a).toMatchObject({ accrued: 0, released: 700, uncollected: 300, uncollectedShareIds: ["r1:1@a"], uncollectedReasons: { "r1:1@a": "hold voided" } });
     const s = b.state;
     b.event("HoldExpired", hoursAfter(4), { pledgeId: "a" }); // PayPal reports expiry as a void and vice versa
     expect(b.state).toBe(s);
@@ -261,7 +262,7 @@ describe("holds ending", () => {
     b.submit(cmd, NOW).event("HoldExpired", hoursAfter(3), { pledgeId: "a" });
     expect(b.state.holds.a).toMatchObject({ released: 700, capturePending: 300 });
     b.failCapture(cmd, hoursAfter(4));
-    expect(b.state.holds.a).toMatchObject({ released: 1000, uncollected: 300, capturePending: 0, accrued: 0 });
+    expect(b.state.holds.a).toMatchObject({ released: 700, uncollected: 300, capturePending: 0, accrued: 0 });
   });
 
   it("a capture confirmed after the hold ended is still money spent", () => {
@@ -295,7 +296,7 @@ describe("payouts and closing in the reducer", () => {
     expect(() => b.apply({ ...ev, senderBatchId: "pay:drv1:r1:2" })).toThrow(/must be pay:drv1:r1/);
     expect(() => b.apply({ ...ev, receiptId: "r9", senderBatchId: "pay:drv1:r9" })).toThrow(/no funded lines/);
     b.apply(ev);
-    expect(() => b.apply({ ...ev, id: "again-2", senderBatchId: "pay:drv1:r1:2" })).toThrow(/in flight or paid/);
+    expect(() => b.apply({ ...ev, id: "again-2", senderBatchId: "pay:drv1:r1:2" })).toThrow(/in flight/);
     b.event("PayoutFailed", NOW, { receiptId: "r1", senderBatchId: "pay:drv1:r1", reason: "RECEIVER_UNREGISTERED" });
     expect(() => b.event("PayoutConfirmed", NOW, { receiptId: "r1", senderBatchId: "pay:drv1:r1", payoutBatchId: "B" })).toThrow(/already failed/);
     const retry = planPayout(b.state, "r1")!;

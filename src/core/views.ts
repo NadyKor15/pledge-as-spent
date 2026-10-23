@@ -32,8 +32,12 @@ export interface PledgeBalance {
   accrued: number;
   released: number;
   uncollected: number;
+  reversed: number;
   available: number;
   capacityBase: number;
+  /** A capture was refused for good; the hold only waits for its void. */
+  blocked: boolean;
+  blockedReason: string | null;
   authorizationId: string | null;
   expiresAt: string | null;
 }
@@ -55,8 +59,11 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     accrued: hold.accrued,
     released: hold.released,
     uncollected: hold.uncollected,
+    reversed: hold.reversed,
     available: availableMinor(pledge, hold),
     capacityBase: capacityBase(pledge, hold),
+    blocked: Boolean(hold.blockedAt),
+    blockedReason: hold.blockedReason ?? null,
     authorizationId: hold.authorizationIds[hold.authorizationIds.length - 1] ?? null,
     expiresAt: pledge.expiresAt ?? null,
   };
@@ -150,26 +157,38 @@ export function matchProgress(s: LedgerState): MatchProgress {
   };
 }
 
-export type ShareStatus = "accrued" | "capture_pending" | "captured" | "uncollected" | "nothing_to_capture";
+export type ShareStatus =
+  | "accrued"
+  | "capture_pending"
+  | "captured"
+  | "partly_reversed"
+  | "reversed"
+  | "uncollected"
+  | "nothing_to_capture";
 
 interface ShareState {
   status: ShareStatus;
   captureId: string | null;
   requestId: string | null;
+  /** Pledge-currency minor units PayPal took back from this share. */
+  reversed: number;
+  uncollectedReason: string | null;
 }
 
 function shareState(hold: HoldBook, shareId: string, quoteMinor: number): ShareState {
-  if (quoteMinor === 0) return { status: "nothing_to_capture", captureId: null, requestId: null };
+  const none = { captureId: null, requestId: null, reversed: 0, uncollectedReason: null };
+  if (quoteMinor === 0) return { ...none, status: "nothing_to_capture" };
   for (const b of hold.batches) {
     if (b.status === "failed" || !b.shares.some((a) => a.shareId === shareId)) continue;
-    return {
-      status: b.status === "confirmed" ? "captured" : "capture_pending",
-      captureId: b.captureId ?? null,
-      requestId: b.requestId,
-    };
+    const reversed = b.reversedByShare[shareId] ?? 0;
+    const status: ShareStatus =
+      b.status === "pending" ? "capture_pending" : reversed === 0 ? "captured" : reversed >= quoteMinor ? "reversed" : "partly_reversed";
+    return { status, captureId: b.captureId ?? null, requestId: b.requestId, reversed, uncollectedReason: null };
   }
-  if (hold.accruals.some((a) => a.shareId === shareId)) return { status: "accrued", captureId: null, requestId: null };
-  if (hold.uncollectedShareIds.includes(shareId)) return { status: "uncollected", captureId: null, requestId: null };
+  if (hold.accruals.some((a) => a.shareId === shareId)) return { ...none, status: "accrued" };
+  if (hold.uncollectedShareIds.includes(shareId)) {
+    return { ...none, status: "uncollected", uncollectedReason: hold.uncollectedReasons[shareId] ?? null };
+  }
   throw new CoreError("invariant_violation", `share ${shareId} is nowhere in its hold`);
 }
 
@@ -187,6 +206,11 @@ export interface StatementRow {
   captureId: string | null;
   requestId: string | null;
   status: ShareStatus;
+  /** Taken back by PayPal after capture, in the donor's currency. */
+  reversed: number;
+  uncollectedReason: string | null;
+  /** false: funded after the hold's honor period. */
+  honored: boolean | null;
   at: string;
 }
 
@@ -196,7 +220,17 @@ export interface DonorStatement {
   baseCurrency: CurrencyCode;
   currency: CurrencyCode;
   rows: StatementRow[];
-  totals: { shareBase: number; share: number; matchBase: number; helpBase: number };
+  totals: {
+    shareBase: number;
+    /** All of the donor's shares in their currency, charged or not. */
+    share: number;
+    /** What the donor was actually charged: captured shares, minus reversals. */
+    charged: number;
+    uncollected: number;
+    reversed: number;
+    matchBase: number;
+    helpBase: number;
+  };
   balance: PledgeBalance;
 }
 
@@ -224,18 +258,31 @@ export function donorStatement(s: LedgerState, pledgeId: string): DonorStatement
       captureId: st.captureId,
       requestId: st.requestId,
       status: st.status,
+      reversed: st.reversed,
+      uncollectedReason: st.uncollectedReason,
+      honored: sh.honored ?? null,
       at: ev.at,
     });
   }
   const shareBase = rows.reduce((a, r) => a + r.shareBase, 0);
   const matchBase = rows.reduce((a, r) => a + r.matchBase, 0);
+  const sumIf = (pick: (r: StatementRow) => number) => rows.reduce((a, r) => a + pick(r), 0);
+  const isCaptured = (r: StatementRow) => r.status === "captured" || r.status === "partly_reversed" || r.status === "reversed";
   return {
     pledgeId,
     donorName: pledge.donorName,
     baseCurrency: drive.baseCurrency,
     currency: pledge.amount.currency,
     rows,
-    totals: { shareBase, share: rows.reduce((a, r) => a + r.share.minor, 0), matchBase, helpBase: shareBase + matchBase },
+    totals: {
+      shareBase,
+      share: sumIf((r) => r.share.minor),
+      charged: sumIf((r) => (isCaptured(r) ? r.share.minor - r.reversed : 0)),
+      uncollected: sumIf((r) => (r.status === "uncollected" ? r.share.minor : 0)),
+      reversed: sumIf((r) => r.reversed),
+      matchBase,
+      helpBase: shareBase + matchBase,
+    },
     balance: pledgeBalance(s, pledgeId),
   };
 }
@@ -260,6 +307,9 @@ export interface LedgerRow {
   matchBase: number;
   status: ShareStatus | "rejected" | "unfunded";
   captureId: string | null;
+  /** Share rows: what PayPal took back after capture, in the donor's currency. */
+  reversed: number | null;
+  honored: boolean | null;
   code: string | null;
   reasonEn: string | null;
 }
@@ -289,6 +339,8 @@ export function ledgerRows(s: LedgerState): LedgerRow[] {
         matchBase: 0,
         status: "rejected",
         captureId: null,
+        reversed: null,
+        honored: null,
         code: ev.code,
         reasonEn: ev.reasonEn,
       });
@@ -319,8 +371,10 @@ export function ledgerRows(s: LedgerState): LedgerRow[] {
         matchBase: sh.matchBase,
         status: st.status,
         captureId: st.captureId,
-        code: null,
-        reasonEn: null,
+        reversed: st.reversed,
+        honored: sh.honored ?? null,
+        code: st.uncollectedReason ? "uncollected" : null,
+        reasonEn: st.uncollectedReason,
       });
     }
     if (ev.rejectedBase > 0 || ev.rejectedQty > 0) {
@@ -337,6 +391,8 @@ export function ledgerRows(s: LedgerState): LedgerRow[] {
         matchBase: 0,
         status: "rejected",
         captureId: null,
+        reversed: null,
+        honored: null,
         code: "need_covered",
         reasonEn: `${need.label}: only ${ev.acceptedQty} of ${ev.line.needQty} were still needed.`,
       });
@@ -355,6 +411,8 @@ export function ledgerRows(s: LedgerState): LedgerRow[] {
         matchBase: 0,
         status: "unfunded",
         captureId: null,
+        reversed: null,
+        honored: null,
         code: "not_enough_pledges",
         reasonEn: `Not enough pledges for ${need.label} to cover this line.`,
       });
@@ -369,13 +427,19 @@ export interface CloseReportRow {
   kind: PledgeKind;
   currency: CurrencyCode;
   pledged: number;
+  /** Captured and kept. */
   spent: number;
+  /** Let go unused. */
   released: number;
-  /** pledged === spent + released: true once the hold is settled. */
+  /** Promised to purchases but never collected (the volunteer was paid): shown, not folded into released. */
+  uncollected: number;
+  /** Captured, then taken back by PayPal. */
+  reversed: number;
+  /** pledged === spent + released + uncollected + reversed: true once the hold is settled. */
   settled: boolean;
 }
 
-/** SPEC §6: per authorized hold, "pledged / spent / released" in the donor's currency. */
+/** SPEC §6: per authorized hold, "pledged / spent / released" (+ uncollected, reversed) in the donor's currency. */
 export function closeReport(s: LedgerState): CloseReportRow[] {
   return s.pledgeIds
     .filter((id) => s.holds[id].authorized > 0)
@@ -389,7 +453,9 @@ export function closeReport(s: LedgerState): CloseReportRow[] {
         pledged: hold.authorized,
         spent: hold.captured,
         released: hold.released,
-        settled: hold.authorized === hold.captured + hold.released,
+        uncollected: hold.uncollected,
+        reversed: hold.reversed,
+        settled: hold.authorized === hold.captured + hold.released + hold.uncollected + hold.reversed,
       };
     });
 }

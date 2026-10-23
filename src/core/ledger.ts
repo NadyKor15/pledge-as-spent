@@ -2,6 +2,8 @@ import { CoreError } from "./errors";
 import type * as E from "./events";
 import { captureRequestId, lineKeyOf, payoutSenderBatchId, reauthRequestId, shareIdOf } from "./ids";
 import { assertMinor, currencyExponent, toBase, validateFx } from "./money";
+import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
+import { largestRemainder } from "./split";
 import { addMs, DAY_MS, HOLD_LIFE_DAYS, HONOR_DAYS, parseTime } from "./time";
 import type { Drive, HoldStatus, Need, Pledge } from "./types";
 
@@ -27,6 +29,12 @@ export interface CaptureBatch {
   captureId?: string;
   paypalFeeMinor?: number;
   failReason?: string;
+  /** The refusal ended capturing on this hold. */
+  terminal?: boolean;
+  /** Taken back by PayPal after confirmation (refund, chargeback). */
+  reversed: number;
+  reversedByShare: Record<string, number>;
+  reversals: { amount: number; reason: string; at: string; reversalId?: string }[];
 }
 
 export interface HoldBook {
@@ -35,9 +43,13 @@ export interface HoldBook {
   captured: number;
   capturePending: number;
   accrued: number;
+  /** Let go by PayPal (void, expiry) without being promised to any line. */
   released: number;
-  /** Part of `released`: funded shares the hold ended before they could be captured. */
+  /** Promised to lines but never captured: the hold ended, or PayPal refused for good. Not charged. */
   uncollected: number;
+  /** Captured, then taken back by PayPal. Not charged. */
+  reversed: number;
+  uncollectedReasons: Record<string, string>;
   accruals: Accrual[];
   batches: CaptureBatch[];
   nextSeq: number;
@@ -47,6 +59,9 @@ export interface HoldBook {
   uncollectedShareIds: string[];
   renewalRequestedAt?: string;
   revokedAt?: string;
+  /** A capture was refused for good: nothing more is funded or captured; the hold waits for its void. */
+  blockedAt?: string;
+  blockedReason?: string;
   endedAt?: string;
 }
 
@@ -104,13 +119,28 @@ const LIVE: ReadonlySet<HoldStatus> = new Set<HoldStatus>(["authorized", "partia
 
 export const isLiveStatus = (status: HoldStatus): boolean => LIVE.has(status);
 
-/** Money still held at PayPal and promised to no line. */
+/**
+ * Money still held at PayPal and promised to no line. Every hold satisfies
+ * authorized = captured + capturePending + accrued + uncollected + reversed + released + uncommitted.
+ */
 export const uncommitted = (h: HoldBook): number =>
-  h.authorized - h.captured - h.capturePending - h.accrued - h.released;
+  h.authorized - h.captured - h.capturePending - h.accrued - h.uncollected - h.reversed - h.released;
 
-/** What new lines may draw on: 0 unless the hold is live and not revoked. */
+/** What new lines may draw on: 0 unless the hold is live, not revoked and not blocked. */
 export function availableMinor(p: Pledge, h: HoldBook): number {
-  return isLiveStatus(p.status) && !h.revokedAt ? uncommitted(h) : 0;
+  return isLiveStatus(p.status) && !h.revokedAt && !h.blockedAt ? uncommitted(h) : 0;
+}
+
+/** A live hold that still keeps donor money at PayPal which no capture will take: it needs a void. */
+export function needsVoid(p: Pledge, h: HoldBook): boolean {
+  return isLiveStatus(p.status) && (uncommitted(h) > 0 || (Boolean(h.blockedAt) && h.uncollected > 0));
+}
+
+/** Refused batches since the hold's last confirmed one. */
+export function consecutiveFailures(h: HoldBook): number {
+  let n = 0;
+  for (let i = h.batches.length - 1; i >= 0 && h.batches[i].status === "failed"; i--) n += 1;
+  return n;
 }
 
 /** Base amount the remaining hold is guaranteed to cover. */
@@ -201,6 +231,8 @@ function reduce(s: LedgerState, e: E.LedgerEvent): LedgerState {
       return onCaptureConfirmed(s, e);
     case "CaptureFailed":
       return onCaptureFailed(s, e);
+    case "CaptureReversed":
+      return onCaptureReversed(s, e);
     case "Reauthorized":
       return onReauthorized(s, e);
     case "RenewalRequested":
@@ -307,6 +339,8 @@ function onPledgeCreated(s: LedgerState, e: E.PledgeCreated): LedgerState {
     accrued: 0,
     released: 0,
     uncollected: 0,
+    reversed: 0,
+    uncollectedReasons: {},
     accruals: [],
     batches: [],
     nextSeq: 1,
@@ -446,6 +480,9 @@ function onCaptureSubmitted(s: LedgerState, e: E.CaptureSubmitted): LedgerState 
     shares: taken,
     status: "pending",
     submittedAt: e.at,
+    reversed: 0,
+    reversedByShare: {},
+    reversals: [],
   };
   return putHold(s, {
     ...hold,
@@ -493,30 +530,82 @@ function onCaptureConfirmed(s: LedgerState, e: E.CaptureConfirmed): LedgerState 
     batches: replaceBatch(hold, nb),
   };
   const status: HoldStatus = isLiveStatus(pledge.status)
-    ? nh.captured >= nh.authorized
+    ? nh.captured + nh.reversed >= nh.authorized
       ? "captured"
       : "partially_captured"
     : pledge.status;
   return putHold(putPledge(s, { ...pledge, status }), nh);
 }
 
+/** Moves shares to uncollected, remembering why. */
+function uncollect(h: HoldBook, shares: Accrual[], reason: string): Pick<HoldBook, "uncollected" | "uncollectedShareIds" | "uncollectedReasons"> {
+  const reasons = { ...h.uncollectedReasons };
+  for (const a of shares) reasons[a.shareId] = reason;
+  return {
+    uncollected: h.uncollected + shares.reduce((acc, a) => acc + a.minor, 0),
+    uncollectedShareIds: [...h.uncollectedShareIds, ...shares.map((a) => a.shareId)],
+    uncollectedReasons: reasons,
+  };
+}
+
 function onCaptureFailed(s: LedgerState, e: E.CaptureFailed): LedgerState {
   const { pledge, hold } = requirePledge(s, e.pledgeId);
   const b = findBatch(e, hold);
   if (b.status === "failed") return s;
-  if (b.status === "confirmed") fail(e, `capture ${e.requestId} was already confirmed`);
-  const nb: CaptureBatch = { ...b, status: "failed", resolvedAt: e.at, failReason: String(e.reason ?? "") };
+  if (b.status === "confirmed") fail(e, `capture ${e.requestId} was already confirmed (record a reversal with CaptureReversed)`);
+  if (e.terminal !== undefined && typeof e.terminal !== "boolean") fail(e, "terminal must be a boolean");
+  const reasonText = String(e.reason ?? "");
+  const cls = classifyCaptureFailure(reasonText);
+  const failedBatch: CaptureBatch = { ...b, status: "failed", resolvedAt: e.at, failReason: reasonText };
+  // Counted with this batch already failed: it is the newest batch of the hold.
+  const exhausted = consecutiveFailures({ ...hold, batches: replaceBatch(hold, failedBatch) }) >= MAX_CAPTURE_ATTEMPTS;
+  const terminal = e.terminal ?? (cls.terminal || exhausted);
+  const nb: CaptureBatch = terminal ? { ...failedBatch, terminal: true } : failedBatch;
   const base: HoldBook = { ...hold, capturePending: hold.capturePending - b.amount, batches: replaceBatch(hold, nb) };
-  if (isLiveStatus(pledge.status)) {
-    // Back to accrued with their original dates, so the next batch goes out at once.
+  if (!isLiveStatus(pledge.status)) {
+    return putHold(s, { ...base, ...uncollect(hold, b.shares, `capture refused after the hold ended: ${cls.code ?? reasonText}`) });
+  }
+  if (!terminal) {
+    // Back to accrued with their original dates; the planner retries after a backoff.
     const accruals = [...b.shares, ...hold.accruals].sort((x, y) => parseTime(x.at) - parseTime(y.at));
     return putHold(s, { ...base, accrued: hold.accrued + b.amount, accruals });
   }
+  // Refused for good: this hold will not be captured again, so nothing accrued on it can be collected.
+  const why = cls.terminal || e.terminal ? (cls.code ?? reasonText) : `${MAX_CAPTURE_ATTEMPTS} refused attempts: ${cls.code ?? reasonText}`;
   return putHold(s, {
     ...base,
-    released: hold.released + b.amount,
-    uncollected: hold.uncollected + b.amount,
-    uncollectedShareIds: [...hold.uncollectedShareIds, ...b.shares.map((a) => a.shareId)],
+    ...uncollect(hold, [...b.shares, ...hold.accruals], why),
+    accrued: 0,
+    accruals: [],
+    blockedAt: e.at,
+    blockedReason: why,
+  });
+}
+
+function onCaptureReversed(s: LedgerState, e: E.CaptureReversed): LedgerState {
+  const { pledge, hold } = requirePledge(s, e.pledgeId);
+  const b = hold.batches.find((x) => x.requestId === e.requestId);
+  if (!b) fail(e, `no capture ${e.requestId} on hold ${hold.pledgeId}`);
+  if (e.reversalId && b!.reversals.some((r) => r.reversalId === e.reversalId)) return s;
+  if (b!.status !== "confirmed") fail(e, `capture ${e.requestId} is ${b!.status}, not confirmed`);
+  if (e.captureId !== b!.captureId) fail(e, `capture ${e.requestId} was confirmed as ${b!.captureId}, not ${e.captureId}`);
+  if (e.amount.currency !== pledge.amount.currency || !isPositiveInt(e.amount.minor)) fail(e, "reversal amount must be positive, in the hold's currency");
+  if (e.amount.minor > b!.amount - b!.reversed) fail(e, `reverses more than was captured and not yet reversed (${b!.amount - b!.reversed})`);
+  // Spread over the batch's shares by what each still has captured, so every share knows its part.
+  const left = b!.shares.map((a) => ({ id: a.shareId, weight: a.minor - (b!.reversedByShare[a.shareId] ?? 0) }));
+  const byShare = { ...b!.reversedByShare };
+  for (const part of largestRemainder(e.amount.minor, left)) byShare[part.id] = (byShare[part.id] ?? 0) + part.amount;
+  const nb: CaptureBatch = {
+    ...b!,
+    reversed: b!.reversed + e.amount.minor,
+    reversedByShare: byShare,
+    reversals: [...b!.reversals, { amount: e.amount.minor, reason: String(e.reason ?? ""), at: e.at, ...(e.reversalId ? { reversalId: e.reversalId } : {}) }],
+  };
+  return putHold(s, {
+    ...hold,
+    captured: hold.captured - e.amount.minor,
+    reversed: hold.reversed + e.amount.minor,
+    batches: replaceBatch(hold, nb),
   });
 }
 
@@ -557,14 +646,12 @@ function onHoldEnded(s: LedgerState, e: E.HoldVoided | E.HoldExpired, status: "v
   if (pledge.status === "voided" || pledge.status === "expired") return s; // PayPal reports expiry as a void too
   if (pledge.status === "captured") fail(e, "a fully captured hold cannot be voided");
   if (pledge.status === "denied") fail(e, "a denied pledge has no hold");
-  const lost = hold.accrued;
   const nh: HoldBook = {
     ...hold,
-    released: hold.released + uncommitted(hold) + lost,
-    uncollected: hold.uncollected + lost,
+    ...uncollect(hold, hold.accruals, `hold ${status}`),
+    released: hold.released + uncommitted(hold),
     accrued: 0,
     accruals: [],
-    uncollectedShareIds: [...hold.uncollectedShareIds, ...hold.accruals.map((a) => a.shareId)],
     endedAt: e.at,
   };
   return putHold(putPledge(s, { ...pledge, status }), nh);
@@ -584,11 +671,13 @@ function onPayoutSubmitted(s: LedgerState, e: E.PayoutSubmitted): LedgerState {
   const drive = requireDrive(s);
   const attempts = lookup(s.payouts, e.receiptId) ?? [];
   if (attempts.some((a) => a.senderBatchId === e.senderBatchId)) return s;
-  if (attempts.some((a) => a.status !== "failed")) fail(e, `receipt ${e.receiptId} already has a payout in flight or paid`);
+  if (attempts.some((a) => a.status === "pending")) fail(e, `receipt ${e.receiptId} already has a payout in flight`);
   const expectedId = payoutSenderBatchId(drive.id, e.receiptId, attempts.length + 1);
   if (e.senderBatchId !== expectedId) fail(e, `senderBatchId must be ${expectedId}`);
-  const owed = receiptFundedBase(s, e.receiptId);
-  if (owed <= 0) fail(e, `receipt ${e.receiptId} has no funded lines`);
+  // Lines funded after a confirmed payout are paid as a top-up of the difference.
+  const paid = attempts.filter((a) => a.status === "confirmed").reduce((acc, a) => acc + a.amount, 0);
+  const owed = receiptFundedBase(s, e.receiptId) - paid;
+  if (owed <= 0) fail(e, `receipt ${e.receiptId} has no funded lines left to pay`);
   if (e.amount.currency !== drive.baseCurrency || e.amount.minor !== owed) {
     fail(e, `payout must be ${owed} ${drive.baseCurrency}`);
   }
@@ -625,7 +714,7 @@ function onDriveClosing(s: LedgerState): LedgerState {
 export function unsettledHolds(s: LedgerState): string[] {
   return s.pledgeIds.filter((id) => {
     const h = s.holds[id];
-    return h.capturePending > 0 || h.accrued > 0 || (isLiveStatus(s.pledges[id].status) && uncommitted(h) > 0);
+    return h.capturePending > 0 || h.accrued > 0 || needsVoid(s.pledges[id], h);
   });
 }
 
