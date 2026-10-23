@@ -36,13 +36,6 @@ import { closeReport, donorStatement } from "./views";
 
 type Approval = PaymentSource | "pending" | "denied";
 
-interface HoldSpec {
-  needIdx: number;
-  curIdx: number;
-  minor: number;
-  approval: Approval;
-}
-
 type Op =
   | { k: "advance"; hours: number }
   | { k: "capture"; force: boolean }
