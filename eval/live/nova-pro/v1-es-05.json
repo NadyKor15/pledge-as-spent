@@ -7,7 +7,7 @@
   "merchantAddress": "Plaza Nueva 3 00000 Villa Alboradá",
   "country": "ES",
   "currency": "EUR",
-  "purchasedAt": "2026-06-11T08:53:00",
+  "purchasedAt": "2026-11-06T08:53:00",
   "receiptNumber": "2571",
   "lines": [
    {
@@ -17,7 +17,7 @@
     "qty": 2,
     "unitPriceMinor": 329,
     "amountMinor": 658,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
@@ -26,7 +26,7 @@
     "qty": 2,
     "unitPriceMinor": 329,
     "amountMinor": 658,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
@@ -35,7 +35,7 @@
     "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
@@ -44,7 +44,7 @@
     "qty": 1,
     "unitPriceMinor": 1299,
     "amountMinor": 1299,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
@@ -53,7 +53,7 @@
     "qty": 2,
     "unitPriceMinor": 349,
     "amountMinor": 698,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 6,
@@ -62,7 +62,7 @@
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -70,
-    "taxRateBp": 1000
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 3929,
@@ -74,29 +74,29 @@
  },
  "classifications": [
   {
-   "lineNo": 6,
+   "lineNo": 1,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The nature of the discount is unclear, and it may or may not be related to the listed needs.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "PANALES T4 40U does not match any listed need.",
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2360,
-   "tokensOut": 424,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003245
+   "tokensIn": 2376,
+   "tokensOut": 382,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003123
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1215,
-   "tokensOut": 259,
+   "tokensOut": 305,
    "usdCeiling": 0.016631,
-   "usdActual": 0.001801
+   "usdActual": 0.001948
   }
  ],
  "errors": []

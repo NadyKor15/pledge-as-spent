@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "M\\u0130N\\u0130 BE\\u015eek BEZI 4 NO",
-    "translationEn": "MINI BEB\\u0130K BEZI 4 NO",
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "MINI BEBEK BEZI 4 NO",
     "qty": 2,
     "unitPriceMinor": 28990,
     "amountMinor": 57980,
@@ -25,13 +25,13 @@
     "translationEn": "RAKI 70 CL",
     "qty": 2,
     "unitPriceMinor": 34900,
-    "amountMinor": 69800,
+    "amountMinor": 68900,
     "taxRateBp": 2000
    },
    {
     "lineNo": 3,
-    "rawText": "SEV\\u0130ML\\u0130 BEB\\u015eEK BEZ\\u0130 NO:4 JUMBO 42\\'L\\u0130",
-    "translationEn": "SEV\\u0130ML\\u0130 BEB\\u0130K BEZ\\u0130 NO:4 JUMBO 42\\'L\\u0130",
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
     "qty": 2,
     "unitPriceMinor": 34900,
     "amountMinor": 69800,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "YILDIZ \\u015e\\u0130GARA MAVI",
-    "translationEn": "YILDIZ \\u015e\\u0130GARA MAVI",
+    "rawText": "YILDIZ ŞİGARA MAVI",
+    "translationEn": "YILDIZ ŞİGARA MAVI",
     "qty": 1,
     "unitPriceMinor": 9500,
     "amountMinor": 9500,
@@ -48,8 +48,8 @@
    },
    {
     "lineNo": 5,
-    "rawText": "HED\\u0130YE KARTI 500 TL",
-    "translationEn": "HED\\u0130YE KARTI 500 TL",
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "HEDİYE KARTI 500 TL",
     "qty": 1,
     "unitPriceMinor": 50000,
     "amountMinor": 50000,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "AA P\\u0130L 10\\'LU PAKET",
-    "translationEn": "AA P\\u0130L 10\\'LU PAKET",
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA PİL 10'LU PAKET",
     "qty": 1,
     "unitPriceMinor": 16990,
     "amountMinor": 16990,
@@ -66,8 +66,8 @@
    },
    {
     "lineNo": 7,
-    "rawText": "BATTANiYE TEK K\\u0130\\u015e\\u0130L\\u0130K",
-    "translationEn": "BATTANiYE TEK K\\u0130\\u015e\\u0130L\\u0130K",
+    "rawText": "BATTANiYE TEK KİŞİLİK",
+    "translationEn": "BATTANiYE TEK KİŞİLİK",
     "qty": 2,
     "unitPriceMinor": 44900,
     "amountMinor": 89800,
@@ -89,7 +89,7 @@
     "qty": 1,
     "unitPriceMinor": 52162,
     "amountMinor": 52162,
-    "taxRateBp": null
+    "taxRateBp": 2000
    },
    {
     "lineNo": 10,
@@ -98,21 +98,21 @@
     "qty": 1,
     "unitPriceMinor": 362970,
     "amountMinor": 362970,
-    "taxRateBp": null
+    "taxRateBp": 2000
    },
    {
     "lineNo": 11,
-    "rawText": "KRED\\u0130 KARTI",
-    "translationEn": "KRED\\u0130 KARTI",
+    "rawText": "KREDİ KARTI",
+    "translationEn": "KREDİ KARTI",
     "qty": 1,
     "unitPriceMinor": 362970,
     "amountMinor": 362970,
-    "taxRateBp": null
+    "taxRateBp": 2000
    }
   ],
-  "subtotalMinor": 362970,
-  "taxMinor": 0,
-  "taxIncluded": true,
+  "subtotalMinor": 52162,
+  "taxMinor": 362970,
+  "taxIncluded": false,
   "totalMinor": 362970,
   "pii": [],
   "readability": "good"
@@ -124,7 +124,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "reasonEn": "Mini baby diapers size 4 are eligible for the diapers need.",
    "confidence": 0.95
   },
   {
@@ -142,7 +142,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "reasonEn": "Cute baby diapers size 4 are eligible for the diapers need.",
    "confidence": 0.95
   },
   {
@@ -169,7 +169,7 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "reasonEn": "AA batteries are eligible for the batteries need.",
    "confidence": 0.95
   },
   {
@@ -178,7 +178,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Blankets count toward the blankets need.",
+   "reasonEn": "Single blankets are eligible for the blankets need.",
    "confidence": 0.95
   },
   {
@@ -187,7 +187,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The nature of this line is unclear.",
+   "reasonEn": "The item is unclear and requires further review.",
    "confidence": 0.5
   },
   {
@@ -196,7 +196,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The nature of this line is unclear.",
+   "reasonEn": "The item is unclear and requires further review.",
    "confidence": 0.5
   },
   {
@@ -205,7 +205,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The nature of this line is unclear.",
+   "reasonEn": "The item is unclear and requires further review.",
    "confidence": 0.5
   },
   {
@@ -214,24 +214,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The nature of this line is unclear.",
+   "reasonEn": "The item is unclear and requires further review.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2394,
-   "tokensOut": 903,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.004805
+   "tokensIn": 2410,
+   "tokensOut": 767,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004382
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1637,
-   "tokensOut": 383,
-   "usdCeiling": 0.017407,
-   "usdActual": 0.002535
+   "tokensIn": 1472,
+   "tokensOut": 394,
+   "usdCeiling": 0.017198,
+   "usdActual": 0.002438
   }
  ],
  "errors": []

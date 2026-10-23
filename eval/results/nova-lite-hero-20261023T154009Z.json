@@ -1,21 +1,21 @@
 {
- "reader": "nova-pro",
+ "reader": "nova-lite",
  "set": "hero",
  "receipts": 1,
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.4,
-  "recall": 0.7272727272727273,
-  "f1": 0.5161290322580645,
-  "tp": 8,
-  "fp": 12,
-  "fn": 3
+  "precision": 0.391304347826087,
+  "recall": 0.8181818181818182,
+  "f1": 0.5294117647058824,
+  "tp": 9,
+  "fp": 14,
+  "fn": 2
  },
  "lineAmountExact": {
-  "num": 6,
+  "num": 3,
   "den": 11,
-  "rate": 0.5454545454545454
+  "rate": 0.2727272727272727
  },
  "totalExact": {
   "num": 1,
@@ -28,9 +28,9 @@
   "rate": 1
  },
  "dateTimeExact": {
-  "num": 1,
+  "num": 0,
   "den": 1,
-  "rate": 1
+  "rate": 0
  },
  "merchant": {
   "meanSimilarity": 0,
@@ -46,9 +46,9 @@
   "rate": 0.18181818181818182
  },
  "needQty": {
-  "num": 0,
+  "num": 2,
   "den": 9,
-  "rate": 0
+  "rate": 0.2222222222222222
  },
  "ruleLines": {
   "num": 0,
@@ -62,7 +62,7 @@
    "den": 3,
    "rate": 0.3333333333333333
   },
-  "meanIou": null
+  "meanIou": 0
  },
  "flags": {
   "duplicate": {
@@ -103,9 +103,9 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.4,
-   "recall": 0.7272727272727273,
-   "f1": 0.5161290322580645,
+   "precision": 0.391304347826087,
+   "recall": 0.8181818181818182,
+   "f1": 0.5294117647058824,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -114,12 +114,12 @@
   }
  },
  "spend": {
-  "ledgerDeltaUsd": 0.008289000000000019,
+  "ledgerDeltaUsd": 0.0008100000000000329,
   "calls": 2,
-  "tokensIn": 4533,
-  "tokensOut": 1457,
-  "usdActual": 0.008289,
-  "usdCeiling": 0.035486
+  "tokensIn": 4848,
+  "tokensOut": 2162,
+  "usdActual": 0.00081,
+  "usdCeiling": 0.002704
  },
  "perReceipt": [
   {
@@ -131,23 +131,23 @@
     "out_of_zone"
    ],
    "score": {
-    "tp": 8,
-    "fp": 12,
-    "fn": 3,
+    "tp": 9,
+    "fp": 14,
+    "fn": 2,
     "lineAmountExact": {
-     "num": 6,
+     "num": 3,
      "den": 11
     },
     "totalExact": true,
     "dateExact": true,
-    "dateTimeExact": true,
+    "dateTimeExact": false,
     "merchantSimilarity": 0,
     "lineClass": {
      "num": 2,
      "den": 11
     },
     "needQty": {
-     "num": 0,
+     "num": 2,
      "den": 9
     },
     "ruleLines": {
@@ -159,7 +159,9 @@
      "num": 1,
      "den": 3
     },
-    "piiIou": []
+    "piiIou": [
+     0
+    ]
    }
   }
  ]

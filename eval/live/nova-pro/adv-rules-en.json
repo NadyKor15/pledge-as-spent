@@ -35,7 +35,7 @@
     "qty": 1,
     "unitPriceMinor": 999,
     "amountMinor": 999,
-    "taxRateBp": 1000
+    "taxRateBp": 0
    },
    {
     "lineNo": 4,
@@ -84,15 +84,6 @@
    },
    {
     "lineNo": 9,
-    "rawText": "2 @ $1.99",
-    "translationEn": "2 @ $1.99",
-    "qty": 2,
-    "unitPriceMinor": 199,
-    "amountMinor": 2500,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 10,
     "rawText": "GIFT CARD $25",
     "translationEn": "GIFT CARD $25",
     "qty": 1,
@@ -101,12 +92,21 @@
     "taxRateBp": 0
    },
    {
-    "lineNo": 11,
+    "lineNo": 10,
     "rawText": "CIGARETTES MENTHOL",
     "translationEn": "CIGARETTES MENTHOL",
     "qty": 1,
     "unitPriceMinor": 849,
     "amountMinor": 849,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "SALES TAX 7.25%",
+    "translationEn": "SALES TAX 7.25%",
+    "qty": 1,
+    "unitPriceMinor": 1003,
+    "amountMinor": 1003,
     "taxRateBp": 1000
    }
   ],
@@ -118,7 +118,12 @@
    {
     "kind": "member_id",
     "text": "8224286873",
-    "bbox": null
+    "bbox": {
+     "x": 0.68,
+     "y": 0.8,
+     "w": 0.17,
+     "h": 0.03
+    }
    }
   ],
   "readability": "good"
@@ -156,8 +161,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Water must be in 1 gallon jugs.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in 24-pack 5L does not match the need for 1 gallon jugs.",
    "confidence": 0.95
   },
   {
@@ -184,7 +189,7 @@
    "needQty": 48,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries in 24-pack count toward the batteries need.",
+   "reasonEn": "AA alkaline batteries in 24-pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -193,20 +198,11 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Spiral notebooks are not a listed need.",
+   "reasonEn": "Spiral notebooks do not match any listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item is not clearly identified.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 10,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
@@ -215,29 +211,38 @@
    "confidence": 0.95
   },
   {
-   "lineNo": 11,
+   "lineNo": 10,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "tobacco",
    "reasonEn": "Tobacco is not funded.",
    "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Sales tax is not a purchase of goods.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2427,
-   "tokensOut": 669,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.004082
+   "tokensIn": 2443,
+   "tokensOut": 716,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.004246
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1374,
-   "tokensOut": 384,
-   "usdCeiling": 0.017097,
-   "usdActual": 0.002328
+   "tokensIn": 1378,
+   "tokensOut": 402,
+   "usdCeiling": 0.017109,
+   "usdActual": 0.002389
   }
  ],
  "errors": []

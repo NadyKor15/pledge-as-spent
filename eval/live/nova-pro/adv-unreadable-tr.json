@@ -7,14 +7,14 @@
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1838,
+   "tokensIn": 1854,
    "tokensOut": 14,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.001515
+   "usdCeiling": 0.01794,
+   "usdActual": 0.001528
   }
  ],
  "errors": [
-  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
   "raw: \"RECEIPT: currency=TRY; readability=unreadable\""
  ]
 }

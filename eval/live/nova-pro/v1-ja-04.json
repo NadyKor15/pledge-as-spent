@@ -4,7 +4,7 @@
  "imageSha256": "48e033a845b2e2db319d7cd69df06bf4aacb74075df7e2982a3c9c637cc68e7e",
  "reading": {
   "merchantName": "ホテルニューオータニ",
-  "merchantAddress": "東京都千代田区紀尾井町4-1",
+  "merchantAddress": "千代田区紀尾井町4-1",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-04T19:56:00",
@@ -21,17 +21,17 @@
    },
    {
     "lineNo": 2,
-    "rawText": "カクテル 3杯セット",
-    "translationEn": "Cocktail 3-cup set",
-    "qty": 3,
+    "rawText": "カフェラテ 3杯セット",
+    "translationEn": "Cafe Latte 3 cups set",
+    "qty": 1,
     "unitPriceMinor": 1832,
-    "amountMinor": 5496,
+    "amountMinor": 1832,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "4種 x #458",
-    "translationEn": "4 types x #458",
+    "rawText": "4杯 x 458",
+    "translationEn": "4 cups x 458",
     "qty": 4,
     "unitPriceMinor": 458,
     "amountMinor": 1832,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "12種 x #188",
-    "translationEn": "12 types x #188",
+    "rawText": "スパークリングワイン 12杯",
+    "translationEn": "Sparkling Wine 12 cups",
     "qty": 12,
     "unitPriceMinor": 188,
     "amountMinor": 2256,
@@ -48,8 +48,8 @@
    },
    {
     "lineNo": 5,
-    "rawText": "#4 スパークリングワイン 4杯",
-    "translationEn": "#4 Sparkling Wine 4 cups",
+    "rawText": "4 スパークリングワイン 4杯",
+    "translationEn": "4 Sparkling Wine 4 cups",
     "qty": 4,
     "unitPriceMinor": 476,
     "amountMinor": 1904,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "2種 x #238",
-    "translationEn": "2 types x #238",
+    "rawText": "2杯 x 238",
+    "translationEn": "2 cups x 238",
     "qty": 2,
     "unitPriceMinor": 238,
     "amountMinor": 476,
@@ -66,55 +66,55 @@
    },
    {
     "lineNo": 7,
-    "rawText": "合計 (4杯)",
-    "translationEn": "Total (4 cups)",
-    "qty": 4,
-    "unitPriceMinor": 1415,
+    "rawText": "合計 (4名)",
+    "translationEn": "Total (4 people)",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 5662,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
-    "rawText": "消費税 ¥327",
-    "translationEn": "Consumption tax ¥327",
-    "qty": 1,
-    "unitPriceMinor": 327,
+    "rawText": "消費税 327",
+    "translationEn": "Consumption tax 327",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 327,
     "taxRateBp": null
    },
    {
     "lineNo": 9,
-    "rawText": "サービス料 ¥157",
-    "translationEn": "Service charge ¥157",
-    "qty": 1,
-    "unitPriceMinor": 157,
+    "rawText": "サービス料 157",
+    "translationEn": "Service charge 157",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 157,
     "taxRateBp": null
    },
    {
     "lineNo": 10,
-    "rawText": "割引10% 割引 ¥1,574",
-    "translationEn": "Discount 10% Discount ¥1,574",
-    "qty": 1,
-    "unitPriceMinor": 1574,
-    "amountMinor": 1574,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 11,
-    "rawText": "合計",
-    "translationEn": "Total",
-    "qty": 1,
-    "unitPriceMinor": 6146,
+    "rawText": "合計金額 6,146",
+    "translationEn": "Total amount 6,146",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 6146,
     "taxRateBp": null
    },
    {
+    "lineNo": 11,
+    "rawText": "***********4414",
+    "translationEn": "***********4414",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4414,
+    "taxRateBp": null
+   },
+   {
     "lineNo": 12,
-    "rawText": "お支払い",
-    "translationEn": "Payment",
-    "qty": 1,
-    "unitPriceMinor": 6146,
+    "rawText": "お支払金額",
+    "translationEn": "Amount paid",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 6146,
     "taxRateBp": null
    }
@@ -126,7 +126,7 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "3846 7326 4188",
+    "text": "***********4414",
     "bbox": null
    }
   ],
@@ -139,7 +139,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Afternoon Tea M contains alcohol, which is not funded.",
+   "reasonEn": "Afternoon Tea M contains alcohol and is not eligible for funding.",
    "confidence": 1
   },
   {
@@ -147,8 +147,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Cocktail 3-cup set contains alcohol, which is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe Latte 3 cups set does not match any listed need.",
    "confidence": 1
   },
   {
@@ -157,7 +157,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "4 types x #458 does not match any listed need.",
+   "reasonEn": "4 cups x 458 does not match any listed need.",
    "confidence": 1
   },
   {
@@ -165,8 +165,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "12 types x #188 does not match any listed need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling Wine 12 cups contains alcohol and is not eligible for funding.",
    "confidence": 1
   },
   {
@@ -175,7 +175,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "#4 Sparkling Wine 4 cups contains alcohol, which is not funded.",
+   "reasonEn": "4 Sparkling Wine 4 cups contains alcohol and is not eligible for funding.",
    "confidence": 1
   },
   {
@@ -184,17 +184,17 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "2 types x #238 does not match any listed need.",
+   "reasonEn": "2 cups x 238 does not match any listed need.",
    "confidence": 1
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Total (4 cups) does not match any listed need.",
-   "confidence": 1
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total (4 people) is a summary line and requires review.",
+   "confidence": 0.5
   },
   {
    "lineNo": 8,
@@ -202,7 +202,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Consumption tax ¥327 does not match any listed need.",
+   "reasonEn": "Consumption tax 327 does not match any listed need.",
    "confidence": 1
   },
   {
@@ -211,51 +211,51 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Service charge ¥157 does not match any listed need.",
+   "reasonEn": "Service charge 157 does not match any listed need.",
    "confidence": 1
   },
   {
    "lineNo": 10,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Discount 10% Discount ¥1,574 does not match any listed need.",
-   "confidence": 1
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total amount 6,146 is a summary line and requires review.",
+   "confidence": 0.5
   },
   {
    "lineNo": 11,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Total does not match any listed need.",
-   "confidence": 1
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "***********4414 is a summary line and requires review.",
+   "confidence": 0.5
   },
   {
    "lineNo": 12,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Payment does not match any listed need.",
-   "confidence": 1
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Amount paid is a summary line and requires review.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2526,
-   "tokensOut": 644,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.004082
+   "tokensIn": 2542,
+   "tokensOut": 568,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003851
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1426,
-   "tokensOut": 476,
-   "usdCeiling": 0.017226,
-   "usdActual": 0.002664
+   "tokensIn": 1427,
+   "tokensOut": 471,
+   "usdCeiling": 0.017263,
+   "usdActual": 0.002649
   }
  ],
  "errors": []

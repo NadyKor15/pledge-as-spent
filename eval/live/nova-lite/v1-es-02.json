@@ -7,14 +7,14 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2393,
-   "tokensOut": 362,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.00023
+   "tokensIn": 2409,
+   "tokensOut": 335,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000225
   }
  ],
  "errors": [
-  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor (stop reason: end_turn)",
-  "raw: \"RECEIPT: merchant=FERRETERIA LA LLAVE; address=Plaza Nueva 3 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-07-11T08:08:00; number=2375; subtotal=30; tax=5.49; tax_included=false; total=24.51; readability=good\\nLINE: no=1; qty=3; unit=5.99; amount=17.97; rate=800; text=PILAS AA LR6 BU; en=PILAS AA LR6 BU\\nLINE: no=2; qty=2; unit=0.65; amount=1.3; rate=800; text=AGUA FUENTE CLARA BOTELLA 1,5 L; en=AGUA FUENTE CLARA BOTELLA 1,5 L\\nLINE: no=3; qty=1; unit=3.29; amount=3.29; rate=1000; text=PILAS AAA 4U; en=PILAS AAA 4U\\nLINE: no=4; unit=-0.49; amount=-0.49; rate=1000; text=DTO. PROMOCIÓN; en=DTO. PROMOCIÓN\\nLINE: no=5; qty=1; unit=0.99; amount=0.99; rate=2100; text=LECHE ENTERA 1L; en=LECHE ENTERA 1L\""
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=FERRETERIA LA LLAVE; address=Plaza Nueva 3 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-07-11T08:08:00; number=2375; subtotal=30.00; tax=5.49; tax_included=false; total=24.51; readability=good\\nLINE: no=1; qty=3; unit=5.99; amount=17.97; rate=800; text=PILAS AA LR6 8U; en=LR6 AA batteries\\nLINE: no=2; qty=1; unit=1.3; amount=1.3; rate=800; text=AGUA FUENTE CLARA BOTELLA 1,5 L; en=1.5 L clear spring water\\nLINE: no=3; qty=2; unit=0.65; amount=1.3; rate=800; text=PILAS AAA 4U; en=AAA batteries\\nLINE: no=4; amount=-0.49; rate=800; text=DTO. PROMOCIÓN; en=Promotion discount\\nLINE: no=5; qty=1; unit=0.99; amount=0.99; rate=800; text=LECHE ENTERA 1L; en=Whole milk 1L\""
  ]
 }

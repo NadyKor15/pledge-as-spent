@@ -13,7 +13,7 @@
    {
     "lineNo": 1,
     "rawText": "SOFTIES DIAPERS SZ 3 38CT",
-    "translationEn": "Softies diapers size 3 38 count",
+    "translationEn": "Softies Diapers Size 3 38 Count",
     "qty": 2,
     "unitPriceMinor": 1249,
     "amountMinor": 2498,
@@ -31,47 +31,29 @@
    {
     "lineNo": 3,
     "rawText": "SPRING WATER 1GAL",
-    "translationEn": "Spring water 1 gallon",
+    "translationEn": "Spring Water 1 Gallon",
     "qty": 2,
     "unitPriceMinor": 149,
     "amountMinor": 298,
-    "taxRateBp": 1000
+    "taxRateBp": 0
    },
    {
     "lineNo": 4,
     "rawText": "DEER CREEK WATER 1 GALLON JUG",
-    "translationEn": "Deer Creek water 1 gallon jug",
+    "translationEn": "Deer Creek Water 1 Gallon Jug",
     "qty": 1,
     "unitPriceMinor": 1690,
     "amountMinor": 1690,
-    "taxRateBp": 1000
+    "taxRateBp": 0
    },
    {
     "lineNo": 5,
-    "rawText": "SUBTOTAL",
-    "translationEn": "Subtotal",
-    "qty": null,
-    "unitPriceMinor": 4361,
-    "amountMinor": 4361,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 6,
-    "rawText": "SALES TAX 7.25%",
-    "translationEn": "Sales tax 7.25%",
-    "qty": null,
-    "unitPriceMinor": 172,
-    "amountMinor": 172,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 7,
-    "rawText": "TOTAL",
-    "translationEn": "Total",
-    "qty": null,
-    "unitPriceMinor": 4533,
-    "amountMinor": 4533,
-    "taxRateBp": 800
+    "rawText": "10 @ $1.69",
+    "translationEn": "10 @ $1.69",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": 0
    }
   ],
   "subtotalMinor": 4361,
@@ -88,24 +70,24 @@
    "needQty": 76,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Softies diapers size 3 match the need for baby diapers size 3.",
+   "reasonEn": "Softies Diapers Size 3 match the need for baby diapers size 3.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2325,
-   "tokensOut": 411,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000238
+   "tokensIn": 2341,
+   "tokensOut": 341,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.000222
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1203,
-   "tokensOut": 60,
-   "usdCeiling": 0.001255,
-   "usdActual": 0.000087
+   "tokensIn": 1149,
+   "tokensOut": 61,
+   "usdCeiling": 0.001241,
+   "usdActual": 0.000084
   }
  ],
  "errors": []

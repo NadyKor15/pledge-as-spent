@@ -2,140 +2,19 @@
  "receiptId": "v1-es-03",
  "set": "v1",
  "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
- "reading": {
-  "merchantName": "SUPERMERCADO EL FARO",
-  "merchantAddress": "Av. del Rio 45 00000 Villa Alborada",
-  "country": "ES",
-  "currency": "EUR",
-  "purchasedAt": "2026-09-11T20:27:00",
-  "receiptNumber": "2894",
-  "lines": [
-   {
-    "lineNo": 1,
-    "rawText": "AGUA 1,5L PACK 6",
-    "translationEn": "Water 1.5L pack 6",
-    "qty": 3,
-    "unitPriceMinor": 329,
-    "amountMinor": 987,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 2,
-    "rawText": "PANAL BEBÉ T3 44U",
-    "translationEn": "Baby food T3 44U",
-    "qty": 2,
-    "unitPriceMinor": 895,
-    "amountMinor": 1790,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 3,
-    "rawText": "TABACO LIAR CAJETILLA",
-    "translationEn": "Tobacco Liar pack",
-    "qty": null,
-    "unitPriceMinor": 460,
-    "amountMinor": 460,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "PAÑALES T3 PANTS 36U",
-    "translationEn": "Diapers T3 Pants 36U",
-    "qty": null,
-    "unitPriceMinor": 749,
-    "amountMinor": 749,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 5,
-    "rawText": "DTO. PROMOCIÓN",
-    "translationEn": "Discount promotion",
-    "qty": null,
-    "unitPriceMinor": -112,
-    "amountMinor": -112,
-    "taxRateBp": 1000
-   }
-  ],
-  "subtotalMinor": 3104,
-  "taxMinor": 770,
-  "taxIncluded": true,
-  "totalMinor": 3874,
-  "pii": [
-   {
-    "kind": "card_number",
-    "text": "**** **** **** 2040",
-    "bbox": {
-     "x": 0.16,
-     "y": 0.79,
-     "w": 0.66,
-     "h": 0.03
-    }
-   }
-  ],
-  "readability": "good"
- },
- "classifications": [
-  {
-   "lineNo": 1,
-   "needId": "water",
-   "needQty": 6,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": "diapers",
-   "needQty": 2,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Baby food does not count toward any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "tobacco",
-   "reasonEn": "Tobacco is not a funded item.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": "diapers",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Diapers T3 Pants 36U count toward the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount lines do not count toward any need.",
-   "confidence": 0.95
-  }
- ],
+ "reading": null,
+ "classifications": null,
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2294,
-   "tokensOut": 390,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000231
-  },
-  {
-   "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1159,
-   "tokensOut": 233,
-   "usdCeiling": 0.00124,
-   "usdActual": 0.000125
+   "tokensIn": 2310,
+   "tokensOut": 354,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000224
   }
  ],
- "errors": []
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=SUPERMERCADO EL FARO; address=Av. del Río 45 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-09-11T20:27:00; number=2894; subtotal=3104; tax=770; tax_included=true; total=3874; readability=good\\nLINE: no=1; qty=3; unit=3.29; amount=9.87; rate=800; text=AGUA 1,5L PACK 6; en=Water 1.5L pack 6\\nLINE: no=2; qty=2; unit=8.95; amount=17.9; rate=400; text=PANAL BEBÉ T3 44U; en=Baby food T3 44U\\nLINE: no=3; unit=4.6; amount=4.6; rate=1000; text=TABACO LIAR CAJETILLA; en=Tobacco Liar pack\\nLINE: no=4; unit=7.49; amount=7.49; rate=1000; text=PAÑALES T3 PANTS 36U; en=Diapers T3 pants 36U\\nLINE: no=5; unit=-1.12; amount=-1.12; rate=1000; text=DTO. PROMOCIÓN; en=Discount promotion\""
+ ]
 }

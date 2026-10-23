@@ -2,19 +2,120 @@
  "receiptId": "v1-ja-09",
  "set": "v1",
  "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "3個 x 398",
+    "translationEn": "3 x 398",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2個 x 118",
+    "translationEn": "2 x 118",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2個 x 1,098",
+    "translationEn": "2 x 1,098",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 2196,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "1本 x 350ml 6本",
+    "translationEn": "1 x 350ml 6",
+    "qty": 1,
+    "unitPriceMinor": 6,
+    "amountMinor": 1198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "合計 (4個)",
+    "translationEn": "Total (4)",
+    "qty": 1,
+    "unitPriceMinor": 4824,
+    "amountMinor": 4824,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "8%税",
+    "translationEn": "8% tax",
+    "qty": 1,
+    "unitPriceMinor": 236,
+    "amountMinor": 236,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 7,
+    "rawText": "10%税 (内訳 8%)",
+    "translationEn": "10% tax (breakdown 8%)",
+    "qty": 1,
+    "unitPriceMinor": 417,
+    "amountMinor": 417,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "10%税 (内訳 10%)",
+    "translationEn": "10% tax (breakdown 10%)",
+    "qty": 1,
+    "unitPriceMinor": 417,
+    "amountMinor": 417,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 176,
+  "taxIncluded": false,
+  "totalMinor": 5000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": 3,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified, so it cannot be matched to any need.",
+   "confidence": 0.5
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2427,
-   "tokensOut": 591,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000287
+   "tokensIn": 2443,
+   "tokensOut": 475,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000261
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1276,
+   "tokensOut": 58,
+   "usdCeiling": 0.001257,
+   "usdActual": 0.00009
   }
  ],
- "errors": [
-  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
-  "raw: \"RECEIPT: merchant=-; address=; country=JP; currency=JPY; purchased=2026-11-08T14:51:00; number=1930; subtotal=4824; tax=417; tax_included=false; total=5000; readability=good\\nLINE: no=1; qty=3; unit=398; amount=1194; rate=800; text=3個 x 398; en=3 x 398\\nLINE: no=2; qty=2; unit=118; amount=236; rate=800; text=2個 x 118; en=2 x 118\\nLINE: no=3; qty=2; unit=1098; amount=2196; rate=800; text=2個 x 1,098; en=2 x 1,098\\nLINE: no=4; qty=1; unit=6; amount=1198; rate=800; text=1本 x 1,198; en=1 x 1,198\\nLINE: no=5; qty=1; unit=4824; amount=4824; rate=800; text=合計 (4個); en=Total (4)\\nLINE: no=6; qty=1; unit=236; amount=236; rate=800; text=8%税; en=8% tax\\nLINE: no=7; qty=1; unit=17; amount=17; rate=1000; text=10%税; en=10% tax\\nLINE: no=8; qty=1; unit=417; amount=417; rate=800; text=(消費税 8%); en=(Consumption tax 8%)\\nLINE: no=9; qty=1; unit=417; amount=417; rate=1000; text=(消費税 10%); en=(Consumption tax 10%)\\nLINE: no=10; qty=1; unit=4824; amount=4824; rate=800; text=小計; en=Subtotal\\nLINE: no=11; qty=1; unit=176; amount=176; rate=800; text=税込; en=Tax included\""
- ]
+ "errors": []
 }

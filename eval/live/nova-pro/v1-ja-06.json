@@ -3,8 +3,8 @@
  "set": "v1",
  "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
  "reading": {
-  "merchantName": "サンクス",
-  "merchantAddress": "東京都港区芝浦1-4",
+  "merchantName": "レストラン-K",
+  "merchantAddress": "東京都港区芝公園1-4",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-07T15:34:00",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "4 スティックチーズ 4本",
-    "translationEn": "4 stick cheese 4 pieces",
+    "rawText": "4人前 前菜4種",
+    "translationEn": "4 appetizers",
     "qty": 4,
     "unitPriceMinor": 238,
     "amountMinor": 952,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "スティック 80g",
-    "translationEn": "stick 80g",
+    "rawText": "スープ 80円",
+    "translationEn": "Soup",
     "qty": 1,
     "unitPriceMinor": 198,
     "amountMinor": 198,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "スティック 6本",
-    "translationEn": "stick 6 pieces",
+    "rawText": "鶏肉の唐揚げ",
+    "translationEn": "Fried chicken",
     "qty": 1,
     "unitPriceMinor": 128,
     "amountMinor": 128,
@@ -39,17 +39,17 @@
    },
    {
     "lineNo": 4,
-    "rawText": "6本 x 188",
-    "translationEn": "6 pieces x 188",
-    "qty": 1,
+    "rawText": "6個 x 188円",
+    "translationEn": "6 pieces at 188 yen each",
+    "qty": 6,
     "unitPriceMinor": 188,
-    "amountMinor": 188,
+    "amountMinor": 1128,
     "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "4本 1L",
-    "translationEn": "4 pieces 1L",
+    "rawText": "ビール 720ml",
+    "translationEn": "Beer",
     "qty": 1,
     "unitPriceMinor": 198,
     "amountMinor": 198,
@@ -57,117 +57,126 @@
    },
    {
     "lineNo": 6,
-    "rawText": "スティック 2L",
-    "translationEn": "stick 2L",
-    "qty": 2,
+    "rawText": "ワイン 1L",
+    "translationEn": "Wine",
+    "qty": 1,
     "unitPriceMinor": 708,
-    "amountMinor": 1416,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "6本 x 118",
-    "translationEn": "6 pieces x 118",
-    "qty": 6,
-    "unitPriceMinor": 118,
     "amountMinor": 708,
     "taxRateBp": null
    },
    {
+    "lineNo": 7,
+    "rawText": "デザート 2種",
+    "translationEn": "2 desserts",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
     "lineNo": 8,
-    "rawText": "スティック M 4本",
-    "translationEn": "stick M 4 pieces",
+    "rawText": "6個 x 118円",
+    "translationEn": "6 pieces at 118 yen each",
+    "qty": 6,
+    "unitPriceMinor": 198,
+    "amountMinor": 1188,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "コーヒー M 4種",
+    "translationEn": "Coffee M 4 types",
     "qty": 1,
     "unitPriceMinor": 298,
     "amountMinor": 298,
     "taxRateBp": null
    },
    {
-    "lineNo": 9,
-    "rawText": "スティック 2L",
-    "translationEn": "stick 2L",
+    "lineNo": 10,
+    "rawText": "紅茶-2L",
+    "translationEn": "Tea 2L",
     "qty": 2,
-    "unitPriceMinor": 648,
-    "amountMinor": 1296,
+    "unitPriceMinor": 324,
+    "amountMinor": 648,
     "taxRateBp": null
    },
    {
-    "lineNo": 10,
-    "rawText": "6本 x 108",
-    "translationEn": "6 pieces x 108",
+    "lineNo": 11,
+    "rawText": "6個 x 108円",
+    "translationEn": "6 pieces at 108 yen each",
     "qty": 6,
     "unitPriceMinor": 108,
     "amountMinor": 648,
     "taxRateBp": null
    },
    {
-    "lineNo": 11,
-    "rawText": "合計 (8本)",
-    "translationEn": "total (8 pieces)",
-    "qty": 8,
-    "unitPriceMinor": 730,
+    "lineNo": 12,
+    "rawText": "合計 (8品)",
+    "translationEn": "Total (8 items)",
+    "qty": 1,
+    "unitPriceMinor": 5896,
     "amountMinor": 5896,
     "taxRateBp": null
    },
    {
-    "lineNo": 12,
-    "rawText": "消費税 14",
-    "translationEn": "consumption tax 14",
+    "lineNo": 13,
+    "rawText": "サービス料 2,682円",
+    "translationEn": "Service charge",
     "qty": 1,
     "unitPriceMinor": 214,
     "amountMinor": 214,
     "taxRateBp": null
    },
    {
-    "lineNo": 13,
-    "rawText": "消費税 8% 計 2,682",
-    "translationEn": "consumption tax 8% total 2,682",
+    "lineNo": 14,
+    "rawText": "消費税8% 3,214円",
+    "translationEn": "Consumption tax 8%",
     "qty": 1,
     "unitPriceMinor": 321,
     "amountMinor": 321,
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
-    "rawText": "消費税10% 計 3,214",
-    "translationEn": "consumption tax 10% total 3,214",
+    "lineNo": 15,
+    "rawText": "消費税10% 3,214円",
+    "translationEn": "Consumption tax 10%",
     "qty": 1,
     "unitPriceMinor": 3214,
     "amountMinor": 3214,
     "taxRateBp": null
    },
    {
-    "lineNo": 15,
-    "rawText": "合計",
-    "translationEn": "total",
+    "lineNo": 16,
+    "rawText": "小計",
+    "translationEn": "Subtotal",
     "qty": 1,
     "unitPriceMinor": 6431,
     "amountMinor": 6431,
     "taxRateBp": null
    },
    {
-    "lineNo": 16,
-    "rawText": "現金",
-    "translationEn": "cash",
+    "lineNo": 17,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
     "qty": 1,
-    "unitPriceMinor": 7000,
-    "amountMinor": 7000,
+    "unitPriceMinor": 700,
+    "amountMinor": 700,
     "taxRateBp": null
    },
    {
-    "lineNo": 17,
-    "rawText": "お釣り",
-    "translationEn": "change",
+    "lineNo": 18,
+    "rawText": "支払い",
+    "translationEn": "Payment",
     "qty": 1,
     "unitPriceMinor": 569,
     "amountMinor": 569,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 5896,
-  "taxMinor": 631,
+  "subtotalMinor": 6431,
+  "taxMinor": 700,
   "taxIncluded": false,
-  "totalMinor": 6431,
+  "totalMinor": 7131,
   "pii": [
    {
     "kind": "card_number",
@@ -184,8 +193,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Stick cheese is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Appetizers are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 2,
@@ -193,8 +202,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Stick 80g is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Soup is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 3,
@@ -202,8 +211,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Stick 6 pieces is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Fried chicken is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 4,
@@ -211,26 +220,26 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "6 pieces x 188 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "6 pieces at 188 yen each are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "4 pieces 1L is not a listed need.",
-   "confidence": 0.95
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is not allowed.",
+   "confidence": 1
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Stick 2L is not a listed need.",
-   "confidence": 0.95
+   "ruleCode": "alcohol",
+   "reasonEn": "Wine is not allowed.",
+   "confidence": 1
   },
   {
    "lineNo": 7,
@@ -238,8 +247,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "6 pieces x 118 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Desserts are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 8,
@@ -247,8 +256,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Stick M 4 pieces is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "6 pieces at 118 yen each are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 9,
@@ -256,8 +265,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Stick 2L is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Coffee M 4 types are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 10,
@@ -265,8 +274,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "6 pieces x 108 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Tea 2L is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 11,
@@ -274,8 +283,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Total (8 pieces) is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "6 pieces at 108 yen each are not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 12,
@@ -283,8 +292,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Consumption tax 14 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Total is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 13,
@@ -292,8 +301,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Consumption tax 8% total 2,682 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Service charge is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 14,
@@ -301,8 +310,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Consumption tax 10% total 3,214 is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Consumption tax 8% is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 15,
@@ -310,8 +319,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Total is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Consumption tax 10% is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 16,
@@ -319,8 +328,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Cash is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Subtotal is not a listed need.",
+   "confidence": 1
   },
   {
    "lineNo": 17,
@@ -328,24 +337,33 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Change is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Consumption tax is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment is not a listed need.",
+   "confidence": 1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2382,
-   "tokensOut": 824,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.004542
+   "tokensIn": 2398,
+   "tokensOut": 848,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004632
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1586,
-   "tokensOut": 677,
-   "usdCeiling": 0.017662,
-   "usdActual": 0.003435
+   "tokensIn": 1607,
+   "tokensOut": 660,
+   "usdCeiling": 0.017738,
+   "usdActual": 0.003398
   }
  ],
  "errors": []

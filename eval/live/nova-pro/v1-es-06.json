@@ -4,8 +4,8 @@
  "imageSha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
  "reading": {
   "merchantName": "SUPERMERCADO EL FARO",
-  "merchantAddress": "Av. del Rio 45 00000 Villa Alborrada",
-  "country": null,
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alboraday",
+  "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-09T20:53:00",
   "receiptNumber": "1578",
@@ -13,80 +13,80 @@
    {
     "lineNo": 1,
     "rawText": "PILAS AA LR6 8U",
-    "translationEn": "",
+    "translationEn": "AA batteries LR6 8U",
     "qty": 1,
-    "unitPriceMinor": 599,
-    "amountMinor": 599,
+    "unitPriceMinor": 5990,
+    "amountMinor": 5990,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
     "rawText": "GALLETAS MARIA",
-    "translationEn": "",
+    "translationEn": "MARIA cookies",
     "qty": 1,
-    "unitPriceMinor": 145,
-    "amountMinor": 145,
+    "unitPriceMinor": 1450,
+    "amountMinor": 1450,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
     "rawText": "VINO TINTO CRIANZA",
-    "translationEn": "",
+    "translationEn": "RED WINE",
     "qty": 1,
-    "unitPriceMinor": 650,
-    "amountMinor": 650,
+    "unitPriceMinor": 6500,
+    "amountMinor": 6500,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
     "rawText": "CUADERNO A5",
-    "translationEn": "",
+    "translationEn": "NOTEBOOK A5",
     "qty": 1,
-    "unitPriceMinor": 390,
-    "amountMinor": 390,
+    "unitPriceMinor": 3900,
+    "amountMinor": 3900,
     "taxRateBp": null
    },
    {
     "lineNo": 5,
     "rawText": "2 X 1,95",
-    "translationEn": "",
+    "translationEn": "2 X 1,95",
     "qty": 2,
-    "unitPriceMinor": 195,
-    "amountMinor": 390,
+    "unitPriceMinor": 1950,
+    "amountMinor": 3900,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
     "rawText": "PAPEL HIGIENICO 12R",
-    "translationEn": "",
+    "translationEn": "TOILET PAPER 12R",
     "qty": 1,
-    "unitPriceMinor": 449,
-    "amountMinor": 449,
+    "unitPriceMinor": 4490,
+    "amountMinor": 4490,
     "taxRateBp": null
    },
    {
     "lineNo": 7,
     "rawText": "AGUA MINERAL 1,5L",
-    "translationEn": "",
+    "translationEn": "MINERAL WATER 1,5L",
     "qty": 1,
-    "unitPriceMinor": 708,
-    "amountMinor": 708,
+    "unitPriceMinor": 7080,
+    "amountMinor": 7080,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
     "rawText": "12 X 0,59",
-    "translationEn": "",
+    "translationEn": "12 X 0,59",
     "qty": 12,
-    "unitPriceMinor": 59,
-    "amountMinor": 708,
+    "unitPriceMinor": 590,
+    "amountMinor": 7080,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 2941,
-  "taxMinor": 362,
+  "subtotalMinor": 29410,
+  "taxMinor": 3620,
   "taxIncluded": true,
-  "totalMinor": 2941,
+  "totalMinor": 29410,
   "pii": [],
   "readability": "good"
  },
@@ -97,7 +97,7 @@
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need.",
+   "reasonEn": "AA batteries LR6 8U are eligible as they match the need for AA batteries.",
    "confidence": 0.95
   },
   {
@@ -106,7 +106,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Cookies are not a listed need.",
+   "reasonEn": "MARIA cookies do not match any of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -115,7 +115,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "reasonEn": "RED WINE is not eligible as alcohol is not funded.",
    "confidence": 0.95
   },
   {
@@ -124,7 +124,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Notebooks are not a listed need.",
+   "reasonEn": "NOTEBOOK A5 does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -133,7 +133,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The item is unclear and may or may not be a listed need.",
+   "reasonEn": "The item 2 X 1,95 is unclear and requires further review.",
    "confidence": 0.5
   },
   {
@@ -142,7 +142,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Toilet paper is not a listed need.",
+   "reasonEn": "TOILET PAPER 12R does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -151,7 +151,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "1.5 L water bottles are a listed need.",
+   "reasonEn": "MINERAL WATER 1,5L is eligible as it matches the need for drinking water in 1.5 L bottles.",
    "confidence": 0.95
   },
   {
@@ -160,24 +160,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The item is unclear and may or may not be a listed need.",
+   "reasonEn": "The item 12 X 0,59 is unclear and requires further review.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2360,
-   "tokensOut": 365,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003056
+   "tokensIn": 2376,
+   "tokensOut": 460,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003373
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1203,
-   "tokensOut": 297,
-   "usdCeiling": 0.016682,
-   "usdActual": 0.001913
+   "tokensIn": 1267,
+   "tokensOut": 354,
+   "usdCeiling": 0.016797,
+   "usdActual": 0.002146
   }
  ],
  "errors": []

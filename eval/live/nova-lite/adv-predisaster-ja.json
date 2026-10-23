@@ -4,7 +4,7 @@
  "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
  "reading": {
   "merchantName": "はなみずき",
-  "merchantAddress": "東京都新宿区新宿3-5-12",
+  "merchantAddress": "東京都新宿区西新宿3-5-12",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-10-27",
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "CR2032",
-    "translationEn": "CR2032",
+    "rawText": "3個 10個",
+    "translationEn": "3 x 10",
     "qty": null,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -39,30 +39,39 @@
    },
    {
     "lineNo": 4,
-    "rawText": "4個 パナソニック電池 4個",
-    "translationEn": "4 Panasonic battery 4",
+    "rawText": "CR2032 4個",
+    "translationEn": "CR2032 4",
     "qty": null,
-    "unitPriceMinor": 796,
-    "amountMinor": 796,
-    "taxRateBp": 800
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "10%割引",
-    "translationEn": "10% discount",
-    "qty": 4,
+    "rawText": "合計 (4)",
+    "translationEn": "Total (4)",
+    "qty": null,
     "unitPriceMinor": 2768,
     "amountMinor": 2768,
     "taxRateBp": 1000
    },
    {
     "lineNo": 6,
+    "rawText": "10%税",
+    "translationEn": "10% tax",
+    "qty": null,
+    "unitPriceMinor": 251,
+    "amountMinor": 251,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
     "rawText": "合計",
-    "translationEn": "total",
+    "translationEn": "Total",
     "qty": null,
     "unitPriceMinor": 2768,
     "amountMinor": 2768,
-    "taxRateBp": null
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 2768,
@@ -86,17 +95,17 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2295,
-   "tokensOut": 349,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000221
+   "tokensIn": 2311,
+   "tokensOut": 389,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000232
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1178,
+   "tokensIn": 1207,
    "tokensOut": 58,
-   "usdCeiling": 0.001242,
-   "usdActual": 0.000085
+   "usdCeiling": 0.001248,
+   "usdActual": 0.000086
   }
  ],
  "errors": []

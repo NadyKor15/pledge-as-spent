@@ -14,28 +14,28 @@
     "lineNo": 1,
     "rawText": "PAPEL HIGIENICO 12R",
     "translationEn": "Hygienic paper 12R",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
-    "taxRateBp": 800
+    "taxRateBp": 2100
    },
    {
     "lineNo": 2,
-    "rawText": "PILA AA ALCALINA 4U",
-    "translationEn": "Alkaline AA battery 4U",
+    "rawText": "PILA AA ALCALINAA 4U",
+    "translationEn": "AA battery alkaline 4U",
     "qty": 2,
     "unitPriceMinor": 349,
     "amountMinor": 698,
-    "taxRateBp": 800
+    "taxRateBp": 2100
    },
    {
     "lineNo": 3,
     "rawText": "PILAS AA LR6 8U",
-    "translationEn": "AA LR6 batteries 8U",
+    "translationEn": "AA batteries LR6 8U",
     "qty": 2,
     "unitPriceMinor": 299,
-    "amountMinor": 598,
-    "taxRateBp": 800
+    "amountMinor": 599,
+    "taxRateBp": 2100
    }
   ],
   "subtotalMinor": 1443,
@@ -49,7 +49,7 @@
     "bbox": {
      "x": 0.15,
      "y": 0.78,
-     "w": 0.28,
+     "w": 0.3,
      "h": 0.03
     }
    }
@@ -70,17 +70,17 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1869,
-   "tokensOut": 294,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000183
+   "tokensIn": 1885,
+   "tokensOut": 300,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000185
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1082,
-   "tokensOut": 55,
+   "tokensIn": 1081,
+   "tokensOut": 51,
    "usdCeiling": 0.001224,
-   "usdActual": 0.000078
+   "usdActual": 0.000077
   }
  ],
  "errors": []

@@ -7,14 +7,14 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1838,
+   "tokensIn": 1854,
    "tokensOut": 43,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000121
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000122
   }
  ],
  "errors": [
-  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected string, received null\n  → at currency\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
   "raw: \"RECEIPT: merchant=; address=; country=; currency=; purchased=; number=; subtotal=; tax=; tax_included=; total=; readability=unreadable\""
  ]
 }

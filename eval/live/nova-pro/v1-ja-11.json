@@ -2,19 +2,297 @@
  "receiptId": "v1-ja-11",
  "set": "v1",
  "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "レストラン-い",
+  "merchantAddress": "東京都港区南青山1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ビーフカレー 2L",
+    "translationEn": "Beef curry 2L",
+    "qty": 2,
+    "unitPriceMinor": 192,
+    "amountMinor": 384,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ハンバーグ デミグラスソース M 440g",
+    "translationEn": "Hamburger demi-glace sauce M 440g",
+    "qty": 1,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チキンカレー 2L",
+    "translationEn": "Chicken curry 2L",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ドリンク",
+    "translationEn": "Drink",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "サイドメニュー",
+    "translationEn": "Side menu",
+    "qty": 2,
+    "unitPriceMinor": 64,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "合計 (4名)",
+    "translationEn": "Total (4 people)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "8%割引",
+    "translationEn": "8% discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 828,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "10%割引",
+    "translationEn": "10% discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2466,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "(税込価格 8%",
+    "translationEn": "(tax included price 8%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 61,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "(税込価格 10%",
+    "translationEn": "(tax included price 10%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 224,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "支払い済み",
+    "translationEn": "Paid",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3485,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 345,
+  "taxIncluded": false,
+  "totalMinor": 3294,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**********3485",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Hamburger demi-glace sauce is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken curry is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Drink is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Side menu is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "8% discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "10% discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included price is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included price is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Paid is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 1
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2493,
-   "tokensOut": 570,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003818
+   "tokensIn": 2509,
+   "tokensOut": 552,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003774
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1445,
+   "tokensOut": 499,
+   "usdCeiling": 0.01737,
+   "usdActual": 0.002753
   }
  ],
- "errors": [
-  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[0].qty (stop reason: end_turn)",
-  "raw: \"RECEIPT: merchant=レストラン-い; address=東京都港区南青山1-4; country=JP; currency=JPY; purchased=2026-11-08T19:20; number=7802; subtotal=3294; tax=345; tax_included=false; total=3294; readability=good\\nLINE: no=1; qty=2L; unit=384; amount=768; text=レモンスカッシュ 2L; en=Lemon soda 2L\\nLINE: no=2; qty=3; unit=128; amount=384; text=3皿 x 128; en=3 plates x 128\\nLINE: no=3; qty=1; unit=2596; amount=2596; text=焼き鳥盛り合わせ M 44種; en=Yakitori assortment M 44 types\\nLINE: no=4; qty=2; unit=1298; amount=2596; text=2皿 x 1,298; en=2 plates x 1,298\\nLINE: no=5; amount=-130; text=割引; en=Discount\\nLINE: no=6; qty=2; unit=158; amount=316; text=2皿 x 158; en=2 plates x 158\\nLINE: no=7; amount=128; text=サービス; en=Service\\nLINE: no=8; amount=3294; text=合計 (4品); en=Total (4 items)\\nLINE: no=9; amount=828; text=8%割引; en=8% discount\\nLINE: no=10; amount=2466; text=10%割引; en=10% discount\\nLINE: no=11; amount=61; text=(ポイント 8%; en=(Points 8%\\nLINE: no=12; amount=224; text=(ポイント 10%; en=(Points 10%\\nLINE: no=13; amount=3294; text=合計; en=Total\\nLINE: no=14; amount=3485; text=支払い済み; en=Paid\\nLINE: no=15; amount=3294; text=おつり; en=Change\""
- ]
+ "errors": []
 }

@@ -2,19 +2,261 @@
  "receiptId": "v1-ja-12",
  "set": "v1",
  "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "",
+    "translationEn": "M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 3000,
+    "unitPriceMinor": 1,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 5,
+    "unitPriceMinor": 398,
+    "amountMinor": 1990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "",
+    "translationEn": "2L",
+    "qty": 2,
+    "unitPriceMinor": 324,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 136,
+    "amountMinor": 544,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 51,
+    "amountMinor": 51,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1496,
+    "amountMinor": 1496,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 656,
+    "amountMinor": 656,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5344,
+  "taxMinor": 656,
+  "taxIncluded": false,
+  "totalMinor": 6000,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "1081 2345 8996",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2L drinking water counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2493,
-   "tokensOut": 471,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003502
+   "tokensIn": 2509,
+   "tokensOut": 458,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003473
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1242,
+   "tokensOut": 407,
+   "usdCeiling": 0.016899,
+   "usdActual": 0.002296
   }
  ],
- "errors": [
-  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
-  "raw: \"RECEIPT: merchant=-; address=-; country=JP; currency=JPY; purchased=2026-11-07T19:48:00; number=2816; subtotal=5344; tax=656; tax_included=false; total=6000; readability=good\\nLINE: no=1; qty=1; unit=1098; amount=1098; text=; en=M\\nLINE: no=2; qty=5; unit=600; amount=3000; text=; en=\\nLINE: no=3; qty=2; unit=199; amount=398; text=; en=2L\\nLINE: no=4; qty=6; unit=108; amount=648; text=; en=x108\\nLINE: no=5; qty=4; unit=1235; amount=5144; text=; en=(4)\\nLINE: no=6; qty=1; unit=648; amount=648; text=; en=\\nLINE: no=7; qty=1; unit=1496; amount=1496; text=; en=\\nLINE: no=8; qty=1; unit=149; amount=149; text=; en=\\nLINE: no=9; qty=1; unit=3000; amount=3000; text=; en=\\nLINE: no=10; qty=1; unit=5344; amount=5344; text=; en=\\nLINE: no=11; qty=1; unit=6000; amount=6000; text=; en=\\nLINE: no=12; qty=1; unit=656; amount=656; text=; en=\\nPII: kind=card_number; text=1081 2345 8996\""
- ]
+ "errors": []
 }

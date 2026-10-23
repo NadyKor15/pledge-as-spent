@@ -26,7 +26,7 @@
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -125,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
@@ -104,26 +104,26 @@
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear, and the quantity and price suggest it may not be a need.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item is not listed among the needs for the drive.",
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2325,
-   "tokensOut": 346,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.002967
+   "tokensIn": 2341,
+   "tokensOut": 353,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.003002
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1157,
-   "tokensOut": 224,
+   "tokensOut": 221,
    "usdCeiling": 0.016533,
-   "usdActual": 0.001642
+   "usdActual": 0.001633
   }
  ],
  "errors": []

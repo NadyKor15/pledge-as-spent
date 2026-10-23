@@ -8,12 +8,12 @@
   "country": "US",
   "currency": "USD",
   "purchasedAt": "2026-11-06T10:18:00",
-  "receiptNumber": "01",
+  "receiptNumber": "1765",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "AA BATTERY 8PK 2 @ $7.99",
-    "translationEn": "AA Battery 8PK 2 @ $7.99",
+    "translationEn": "AA battery 8 pack 2 @ $7.99",
     "qty": 2,
     "unitPriceMinor": 799,
     "amountMinor": 1598,
@@ -22,7 +22,7 @@
    {
     "lineNo": 2,
     "rawText": "AA ALKALINE 24PK",
-    "translationEn": "AA Alkaline 24PK",
+    "translationEn": "AA alkaline 24 pack",
     "qty": null,
     "unitPriceMinor": 1599,
     "amountMinor": 1599,
@@ -31,7 +31,7 @@
    {
     "lineNo": 3,
     "rawText": "POTATO CHIPS",
-    "translationEn": "Potato Chips",
+    "translationEn": "Potato chips",
     "qty": null,
     "unitPriceMinor": 349,
     "amountMinor": 349,
@@ -40,7 +40,7 @@
    {
     "lineNo": 4,
     "rawText": "PURE WTR 1GAL 4CT",
-    "translationEn": "Pure Water 1GAL 4CT",
+    "translationEn": "Pure water 1 gallon 4 count",
     "qty": null,
     "unitPriceMinor": 549,
     "amountMinor": 549,
@@ -49,7 +49,7 @@
    {
     "lineNo": 5,
     "rawText": "SOFTIES DIAPERS SZ 3 38CT 3 @ $12.49",
-    "translationEn": "Softies Diapers SZ 3 38CT 3 @ $12.49",
+    "translationEn": "Softies diapers size 3 38 count 3 @ $12.49",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
@@ -58,11 +58,11 @@
    {
     "lineNo": 6,
     "rawText": "MILK 1GAL 2 @ $3.89",
-    "translationEn": "Milk 1GAL 2 @ $3.89",
+    "translationEn": "Milk 1 gallon 2 @ $3.89",
     "qty": 2,
     "unitPriceMinor": 389,
     "amountMinor": 778,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 8620,
@@ -71,12 +71,12 @@
   "totalMinor": 9149,
   "pii": [
    {
-    "kind": "name",
-    "text": "AVA PRESCOTT",
+    "kind": "member_id",
+    "text": "2356750201",
     "bbox": {
-     "x": 0.16,
-     "y": 0.78,
-     "w": 0.29,
+     "x": 0.66,
+     "y": 0.81,
+     "w": 0.28,
      "h": 0.03
     }
    }
@@ -90,69 +90,24 @@
    "needQty": 16,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": "batteries",
-   "needQty": 48,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Potato chips are not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": "water",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Drinking water in 1 gallon jugs is a listed need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": "diapers",
-   "needQty": 3,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Baby diapers size 3 are a listed need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Milk is not a listed need.",
+   "reasonEn": "AA batteries are one of the listed needs.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2490,
-   "tokensOut": 467,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000261
+   "tokensIn": 2506,
+   "tokensOut": 488,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.000267
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1236,
-   "tokensOut": 274,
-   "usdCeiling": 0.001252,
-   "usdActual": 0.00014
+   "tokensIn": 1232,
+   "tokensOut": 53,
+   "usdCeiling": 0.001254,
+   "usdActual": 0.000087
   }
  ],
  "errors": []

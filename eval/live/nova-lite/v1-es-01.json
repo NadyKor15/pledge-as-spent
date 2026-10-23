@@ -15,53 +15,53 @@
     "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "Water 1.5L pack 6",
     "qty": 6,
-    "unitPriceMinor": 548,
-    "amountMinor": 3288,
-    "taxRateBp": 1000
+    "unitPriceMinor": 55,
+    "amountMinor": 329,
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
     "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
-    "translationEn": "Water source clear bottle 1.5 L",
+    "translationEn": "Water spring clear bottle 1.5 L",
     "qty": 1,
-    "unitPriceMinor": 217,
-    "amountMinor": 217,
-    "taxRateBp": 1000
+    "unitPriceMinor": 216,
+    "amountMinor": 216,
+    "taxRateBp": 800
    },
    {
     "lineNo": 3,
     "rawText": "PANAL BEBÉ T3 44U",
     "translationEn": "Baby panel T3 44U",
     "qty": 2,
-    "unitPriceMinor": 4475,
-    "amountMinor": 8950,
-    "taxRateBp": 1000
+    "unitPriceMinor": 447,
+    "amountMinor": 895,
+    "taxRateBp": 800
    },
    {
     "lineNo": 4,
     "rawText": "PILAS AA LR6 8U",
     "translationEn": "Batteries AA LR6 8U",
     "qty": 2,
-    "unitPriceMinor": 5990,
-    "amountMinor": 11980,
-    "taxRateBp": 1000
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
+    "taxRateBp": 800
    },
    {
     "lineNo": 5,
     "rawText": "PAN BARRA",
     "translationEn": "Bar bread",
     "qty": 2,
-    "unitPriceMinor": 850,
-    "amountMinor": 1700,
+    "unitPriceMinor": 85,
+    "amountMinor": 170,
     "taxRateBp": 1000
    },
    {
     "lineNo": 6,
-    "rawText": "AGUA 5L GARRAFÁ",
-    "translationEn": "Water 5L bottle",
+    "rawText": "AGUA 5L GARRAFA",
+    "translationEn": "Water 5L can",
     "qty": 1,
-    "unitPriceMinor": 238,
-    "amountMinor": 238,
+    "unitPriceMinor": 119,
+    "amountMinor": 119,
     "taxRateBp": 1000
    },
    {
@@ -74,9 +74,9 @@
     "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 2835,
-  "taxMinor": 0,
-  "taxIncluded": true,
+  "subtotalMinor": 1630,
+  "taxMinor": 1225,
+  "taxIncluded": false,
   "totalMinor": 2835,
   "pii": [
    {
@@ -87,6 +87,16 @@
      "y": 0.82,
      "w": 0.66,
      "h": 0.03
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALB",
+    "bbox": {
+     "x": 0.16,
+     "y": 0.84,
+     "w": 0.23,
+     "h": 0.02
     }
    }
   ],
@@ -108,7 +118,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Water source clear bottle 1.5 L counts toward the water need.",
+   "reasonEn": "Water spring clear bottle 1.5 L counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -144,33 +154,33 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": null,
-   "reasonEn": "Water 5L bottle does not match the water need.",
+   "reasonEn": "Water 5L can is not a listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
+   "verdict": "review",
    "ruleCode": null,
-   "reasonEn": "Discount promotion is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Discount promotion line does not specify what it applies to.",
+   "confidence": 0.8
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2429,
-   "tokensOut": 501,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000266
+   "tokensIn": 2445,
+   "tokensOut": 528,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000273
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1233,
-   "tokensOut": 285,
+   "tokensIn": 1229,
+   "tokensOut": 301,
    "usdCeiling": 0.001256,
-   "usdActual": 0.000142
+   "usdActual": 0.000146
   }
  ],
  "errors": []

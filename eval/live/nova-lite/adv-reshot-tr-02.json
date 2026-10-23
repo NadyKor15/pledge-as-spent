@@ -3,8 +3,8 @@
  "set": "adversarial",
  "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
  "reading": {
-  "merchantName": "SUPER YILDIZ MARKET",
-  "merchantAddress": "Carşı Cd. No:12 Merkez / Yildizova",
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yildizova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-06-11T14:36:00",
@@ -31,7 +31,7 @@
    {
     "lineNo": 3,
     "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
-    "translationEn": "Lovely baby cloth 42 Jumbo",
+    "translationEn": "Lovely baby diaper NO:4 Jumbo 42's",
     "qty": 1,
     "unitPriceMinor": 34900,
     "amountMinor": 34900,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "KDV %10 MATRAH 16,92",
-    "translationEn": "VAT 10% Tax base 16,92",
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "VAT 10% Base",
     "qty": 1,
     "unitPriceMinor": 1692,
     "amountMinor": 1692,
@@ -48,11 +48,11 @@
    },
    {
     "lineNo": 5,
-    "rawText": "KDV %20 MATRAH 290,83",
-    "translationEn": "VAT 20% Tax base 290,83",
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "VAT 20% Base",
     "qty": 1,
     "unitPriceMinor": 29083,
-    "amountMinor": 5817,
+    "amountMinor": 29083,
     "taxRateBp": 2000
    },
    {
@@ -60,14 +60,23 @@
     "rawText": "TOPKDV",
     "translationEn": "Total VAT",
     "qty": 1,
-    "unitPriceMinor": 5986,
-    "amountMinor": 5986,
-    "taxRateBp": 1000
+    "unitPriceMinor": 5817,
+    "amountMinor": 5817,
+    "taxRateBp": 2000
    },
    {
     "lineNo": 7,
     "rawText": "TOPLAM",
     "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "Credit card",
     "qty": 1,
     "unitPriceMinor": 36761,
     "amountMinor": 36761,
@@ -77,15 +86,15 @@
   "subtotalMinor": 36761,
   "taxMinor": 5986,
   "taxIncluded": false,
-  "totalMinor": 42747,
+  "totalMinor": 36761,
   "pii": [
    {
     "kind": "card_number",
-    "text": "**** **** **** 7374",
+    "text": "7374",
     "bbox": {
-     "x": 0.15,
+     "x": 0.16,
      "y": 0.71,
-     "w": 0.3,
+     "w": 0.6,
      "h": 0.03
     }
    },
@@ -95,32 +104,102 @@
     "bbox": {
      "x": 0.66,
      "y": 0.76,
-     "w": 0.32,
+     "w": 0.3,
      "h": 0.03
     }
    }
   ],
   "readability": "good"
  },
- "classifications": null,
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L bottles count toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts do not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 42,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Lovely baby diaper NO:4 Jumbo 42's count toward the baby diapers size 4 need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "VAT 10% Base does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "VAT 20% Base does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total VAT does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total amount does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Credit card transactions are not funded.",
+   "confidence": 0.95
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2262,
-   "tokensOut": 568,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000272
+   "tokensIn": 2278,
+   "tokensOut": 590,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000278
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1240,
-   "tokensOut": 253,
-   "usdCeiling": 0.001254,
-   "usdActual": 0.000135
+   "tokensIn": 1253,
+   "tokensOut": 311,
+   "usdCeiling": 0.001259,
+   "usdActual": 0.00015
   }
  ],
- "errors": [
-  "classify: classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [1].ruleCode (stop reason: tool_use)",
-  "raw: {\"lines\":\"no=1; need=water; qty=1; verdict=eligible; conf=0.95; why=Mountain water 5 L bottles count toward the drinking water need.\\nno=2; verdict=rejected; rule=discount; conf=1; why=Discount lines do not contribute to the needs.\\nno=3; need=diapers; qty=42; verdict=eligible; conf=0.95; why=42 size 4 baby cloths count toward the baby diapers need.\\nno=4; verdict=rejected; rule=other_rule; conf=1; why=VAT lines do not contribute to the needs.\\nno=5; verdict=rejected; rule=other_rule; conf=1; why=VAT lines do not contribute to the needs.\\nno=6; verdict=rejected; rule=other_rule; conf=1; why=VAT lines do not contribute to the needs.\\nno=7; verdict=rejected; rule=other_rule; conf=1; why=Total lines do not contribute to the needs.\"}"
- ]
+ "errors": []
 }

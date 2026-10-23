@@ -3,17 +3,17 @@
  "set": "adversarial",
  "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
  "reading": {
-  "merchantName": "みずほ銀行",
-  "merchantAddress": "東京都千代田区大手町1-4",
+  "merchantName": "株式会社 山田",
+  "merchantAddress": "東京都千代田区1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-01-04",
+  "purchasedAt": "2026-11-04T19:56:00",
   "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "あさり 4個入り",
-    "translationEn": "Asari 4 pcs",
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
     "qty": 4,
     "unitPriceMinor": 458,
     "amountMinor": 1832,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "いか 12本入り",
-    "translationEn": "Squid 12 pcs",
+    "rawText": "12個 マスク",
+    "translationEn": "12 pcs Mask",
     "qty": 12,
     "unitPriceMinor": 188,
     "amountMinor": 2256,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "いか刺し 4本",
-    "translationEn": "Squid sashimi 4 pcs",
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
     "qty": 4,
     "unitPriceMinor": 238,
     "amountMinor": 952,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "いか刺し 2本",
-    "translationEn": "Squid sashimi 2 pcs",
+    "rawText": "2個 マスク",
+    "translationEn": "2 pcs Mask",
     "qty": 2,
     "unitPriceMinor": 238,
     "amountMinor": 476,
@@ -48,29 +48,29 @@
    },
    {
     "lineNo": 5,
-    "rawText": "いか刺し 4本",
-    "translationEn": "Squid sashimi 4 pcs",
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
     "qty": 4,
     "unitPriceMinor": 1415,
     "amountMinor": 5662,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 6,
-    "rawText": "税金",
-    "translationEn": "Tax",
-    "qty": 1,
-    "unitPriceMinor": 157,
-    "amountMinor": 157,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
-    "rawText": "消費税",
-    "translationEn": "Consumption tax",
+    "lineNo": 6,
+    "rawText": "消費税(8%)",
+    "translationEn": "Consumption tax (8%)",
     "qty": 1,
-    "unitPriceMinor": 1574,
-    "amountMinor": 1574,
+    "unitPriceMinor": 327,
+    "amountMinor": 327,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税(10%)",
+    "translationEn": "Consumption tax (10%)",
+    "qty": 1,
+    "unitPriceMinor": 157,
+    "amountMinor": 157,
     "taxRateBp": 1000
    }
   ],
@@ -88,8 +88,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Asari is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 2,
@@ -97,8 +97,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Squid is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 3,
@@ -106,8 +106,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Squid sashimi is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
@@ -115,8 +115,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Squid sashimi is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 5,
@@ -124,8 +124,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Squid sashimi is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
@@ -133,7 +133,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Tax is not a purchasable item.",
+   "reasonEn": "Consumption tax is not a purchasable item.",
    "confidence": 0.9
   },
   {
@@ -149,17 +149,17 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2526,
-   "tokensOut": 417,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000252
+   "tokensIn": 2542,
+   "tokensOut": 418,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000253
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1216,
-   "tokensOut": 322,
+   "tokensIn": 1212,
+   "tokensOut": 344,
    "usdCeiling": 0.00125,
-   "usdActual": 0.00015
+   "usdActual": 0.000155
   }
  ],
  "errors": []

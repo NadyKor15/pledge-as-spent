@@ -3,8 +3,8 @@
  "set": "v1",
  "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
  "reading": {
-  "merchantName": "はなまるうどん",
-  "merchantAddress": "東京都新宿区歌舞伎町1-4",
+  "merchantName": "山田商店",
+  "merchantAddress": "東京都新宿区新宿1-4",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-07T15:34:00",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "うどん 4人前",
-    "translationEn": "Udon 4 servings",
+    "rawText": "4号 豚バラ 44切",
+    "translationEn": "4th pork belly 44 slices",
     "qty": 1,
     "unitPriceMinor": 238,
     "amountMinor": 238,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "天ぷら 8人前",
-    "translationEn": "Tempura 8 servings",
+    "rawText": "豚バラ 80切",
+    "translationEn": "pork belly 80 slices",
     "qty": 1,
     "unitPriceMinor": 198,
     "amountMinor": 198,
@@ -30,143 +30,125 @@
    },
    {
     "lineNo": 3,
-    "rawText": "天ぷら定食",
-    "translationEn": "Tempura set",
-    "qty": 1,
-    "unitPriceMinor": 1128,
-    "amountMinor": 1128,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 4,
-    "rawText": "生ビール 6缶",
-    "translationEn": "Draft beer 6 cans",
+    "rawText": "豚バラ 6切 x #188",
+    "translationEn": "pork belly 6 slices x #188",
     "qty": 6,
     "unitPriceMinor": 188,
     "amountMinor": 1128,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
-    "lineNo": 5,
-    "rawText": "焼酎 720ml",
-    "translationEn": "Shochu 720ml",
+    "lineNo": 4,
+    "rawText": "豚バラ 720ml",
+    "translationEn": "pork belly 720ml",
     "qty": 1,
     "unitPriceMinor": 1480,
     "amountMinor": 1480,
     "taxRateBp": null
    },
    {
-    "lineNo": 6,
-    "rawText": "焼酎 1L",
-    "translationEn": "Shochu 1L",
+    "lineNo": 5,
+    "rawText": "豚バラ 1L",
+    "translationEn": "pork belly 1L",
     "qty": 1,
     "unitPriceMinor": 198,
     "amountMinor": 198,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
-    "lineNo": 7,
-    "rawText": "焼酎ロック 2L",
-    "translationEn": "Shochu rocks 2L",
+    "lineNo": 6,
+    "rawText": "豚バラ 2L",
+    "translationEn": "pork belly 2L",
     "qty": 2,
     "unitPriceMinor": 708,
     "amountMinor": 1416,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
-    "lineNo": 8,
-    "rawText": "焼酎ロック 6缶",
-    "translationEn": "Shochu rocks 6 cans",
+    "lineNo": 7,
+    "rawText": "豚バラ 6切 x #118",
+    "translationEn": "pork belly 6 slices x #118",
     "qty": 6,
     "unitPriceMinor": 118,
     "amountMinor": 708,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
-    "lineNo": 9,
-    "rawText": "焼酎ロック 瓶 M 4L",
-    "translationEn": "Shochu rocks bottle M 4L",
+    "lineNo": 8,
+    "rawText": "豚バラ 44切 豚バラ M 44切",
+    "translationEn": "pork belly 44 slices pork belly M 44 slices",
     "qty": 1,
     "unitPriceMinor": 1298,
     "amountMinor": 1298,
-    "taxRateBp": null
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "豚バラ 2L",
+    "translationEn": "pork belly 2L",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": 800
    },
    {
     "lineNo": 10,
-    "rawText": "焼酎ロック 6缶",
-    "translationEn": "Shochu rocks 6 cans",
-    "qty": 2,
-    "unitPriceMinor": 648,
-    "amountMinor": 1296,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 11,
-    "rawText": "合計 (税別)",
-    "translationEn": "Total (tax excl.)",
+    "rawText": "合計 (8%)",
+    "translationEn": "Total (8%)",
     "qty": 1,
     "unitPriceMinor": 5896,
     "amountMinor": 5896,
     "taxRateBp": null
    },
    {
-    "lineNo": 12,
-    "rawText": "消費税",
-    "translationEn": "Consumption tax",
-    "qty": 1,
-    "unitPriceMinor": 214,
-    "amountMinor": 214,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 13,
-    "rawText": "合計金額",
-    "translationEn": "Total amount",
+    "lineNo": 11,
+    "rawText": "税抜合計 ¥2,682",
+    "translationEn": "Subtotal ¥2,682",
     "qty": 1,
     "unitPriceMinor": 2682,
     "amountMinor": 2682,
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
-    "rawText": "おつり",
-    "translationEn": "Change",
+    "lineNo": 12,
+    "rawText": "税込合計 ¥321",
+    "translationEn": "Tax ¥321",
     "qty": 1,
     "unitPriceMinor": 321,
     "amountMinor": 321,
     "taxRateBp": null
    },
    {
-    "lineNo": 15,
-    "rawText": "お支払い金額",
-    "translationEn": "Payment amount",
+    "lineNo": 13,
+    "rawText": "税込合計 ¥3,214",
+    "translationEn": "Total ¥3,214",
     "qty": 1,
     "unitPriceMinor": 3214,
     "amountMinor": 3214,
     "taxRateBp": null
    },
    {
-    "lineNo": 16,
-    "rawText": "お会計",
-    "translationEn": "Checkout",
+    "lineNo": 14,
+    "rawText": "合計 ¥6,431",
+    "translationEn": "Total ¥6,431",
     "qty": 1,
     "unitPriceMinor": 6431,
     "amountMinor": 6431,
     "taxRateBp": null
    },
    {
-    "lineNo": 17,
-    "rawText": "お支払い",
-    "translationEn": "Payment",
+    "lineNo": 15,
+    "rawText": "おつり ¥7,000",
+    "translationEn": "Change ¥7,000",
     "qty": 1,
     "unitPriceMinor": 7000,
     "amountMinor": 7000,
     "taxRateBp": null
    },
    {
-    "lineNo": 18,
-    "rawText": "お預かり",
-    "translationEn": "Deposit",
+    "lineNo": 16,
+    "rawText": "お釣り ¥569",
+    "translationEn": "Change ¥569",
     "qty": 1,
     "unitPriceMinor": 569,
     "amountMinor": 569,
@@ -187,7 +169,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Udon is not a listed need.",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -196,7 +178,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Tempura is not a listed need.",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -205,7 +187,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Tempura set is not a listed need.",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -213,8 +195,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Draft beer is alcohol and is not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -222,8 +204,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu is alcohol and is not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -231,8 +213,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu is alcohol and is not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -240,8 +222,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -249,8 +231,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -258,8 +240,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
    "confidence": 0.95
   },
   {
@@ -267,9 +249,9 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
-   "confidence": 0.95
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 11,
@@ -277,8 +259,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Total (tax excl.) is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a subtotal line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 12,
@@ -286,8 +268,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Consumption tax is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a tax line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 13,
@@ -295,8 +277,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Total amount is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 14,
@@ -304,8 +286,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Change is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 15,
@@ -313,8 +295,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Payment amount is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a change line and not a purchase.",
+   "confidence": 0.9
   },
   {
    "lineNo": 16,
@@ -322,42 +304,24 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Checkout is not a purchasable item.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 17,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Payment is not a purchasable item.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 18,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Deposit is not a purchasable item.",
-   "confidence": 0.95
+   "reasonEn": "This is a change line and not a purchase.",
+   "confidence": 0.9
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2382,
-   "tokensOut": 839,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000344
+   "tokensIn": 2398,
+   "tokensOut": 855,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000349
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1613,
-   "tokensOut": 654,
-   "usdCeiling": 0.001329,
-   "usdActual": 0.000254
+   "tokensIn": 1607,
+   "tokensOut": 584,
+   "usdCeiling": 0.001323,
+   "usdActual": 0.000237
   }
  ],
  "errors": []

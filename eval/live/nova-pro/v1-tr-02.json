@@ -4,7 +4,7 @@
  "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
  "reading": {
   "merchantName": "SÜPER YILDIZ MARKET",
-  "merchantAddress": "Merkez / Yildizova",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-11-06T14:36:00",
@@ -13,7 +13,7 @@
    {
     "lineNo": 1,
     "rawText": "DAĞ SUYU 5 L",
-    "translationEn": "DAĞ SUYU 5 L",
+    "translationEn": "MOUNTAIN WATER 5 L",
     "qty": 5,
     "unitPriceMinor": 2190,
     "amountMinor": 10950,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "INDİRİM",
-    "translationEn": "INDİRİM",
+    "rawText": "INDIRİM",
+    "translationEn": "DISCOUNT",
     "qty": 1,
     "unitPriceMinor": 329,
     "amountMinor": 329,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "SEVİMLİ BEBEK BEZİ",
-    "translationEn": "SEVİMLİ BEBEK BEZİ",
+    "rawText": "SEVIMLI BEBEK BEZI NO:4 JUMBO 42'LI",
+    "translationEn": "CUTE BABY DIAPER NO:4 JUMBO 42'S",
     "qty": 1,
     "unitPriceMinor": 34900,
     "amountMinor": 34900,
@@ -40,7 +40,7 @@
    {
     "lineNo": 4,
     "rawText": "KDV %10",
-    "translationEn": "KDV %10",
+    "translationEn": "VAT 10%",
     "qty": 1,
     "unitPriceMinor": 169,
     "amountMinor": 169,
@@ -49,7 +49,7 @@
    {
     "lineNo": 5,
     "rawText": "KDV %20",
-    "translationEn": "KDV %20",
+    "translationEn": "VAT 20%",
     "qty": 1,
     "unitPriceMinor": 5817,
     "amountMinor": 5817,
@@ -58,16 +58,25 @@
    {
     "lineNo": 6,
     "rawText": "TOPKDV",
-    "translationEn": "TOPKDV",
+    "translationEn": "TOTAL VAT",
     "qty": 1,
     "unitPriceMinor": 5986,
     "amountMinor": 5986,
-    "taxRateBp": 1000
+    "taxRateBp": 2000
    },
    {
     "lineNo": 7,
     "rawText": "TOPLAM",
-    "translationEn": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "CREDIT CARD",
     "qty": 1,
     "unitPriceMinor": 36761,
     "amountMinor": 36761,
@@ -94,7 +103,7 @@
    "needQty": 5,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "reasonEn": "Mountain water in 5 L bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -103,7 +112,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Discount lines are not clearly defined in the rules.",
+   "reasonEn": "The discount line needs further review to determine its eligibility.",
    "confidence": 0.5
   },
   {
@@ -112,7 +121,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "reasonEn": "Cute baby diaper size 4 counts toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -121,7 +130,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Tax lines are not clearly defined in the rules.",
+   "reasonEn": "VAT lines need further review to determine their eligibility.",
    "confidence": 0.5
   },
   {
@@ -130,7 +139,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Tax lines are not clearly defined in the rules.",
+   "reasonEn": "VAT lines need further review to determine their eligibility.",
    "confidence": 0.5
   },
   {
@@ -139,7 +148,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Tax lines are not clearly defined in the rules.",
+   "reasonEn": "VAT lines need further review to determine their eligibility.",
    "confidence": 0.5
   },
   {
@@ -148,24 +157,33 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Total lines are not clearly defined in the rules.",
+   "reasonEn": "Total lines need further review to determine their eligibility.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Payment method lines need further review to determine their eligibility.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2262,
-   "tokensOut": 455,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003266
+   "tokensIn": 2278,
+   "tokensOut": 535,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003534
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1208,
-   "tokensOut": 259,
-   "usdCeiling": 0.016624,
-   "usdActual": 0.001795
+   "tokensIn": 1251,
+   "tokensOut": 297,
+   "usdCeiling": 0.016766,
+   "usdActual": 0.001951
   }
  ],
  "errors": []

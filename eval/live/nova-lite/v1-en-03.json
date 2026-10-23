@@ -17,7 +17,7 @@
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
-    "taxRateBp": 800
+    "taxRateBp": 700
    },
    {
     "lineNo": 2,
@@ -26,7 +26,7 @@
     "qty": null,
     "unitPriceMinor": 999,
     "amountMinor": 999,
-    "taxRateBp": 1000
+    "taxRateBp": 700
    },
    {
     "lineNo": 3,
@@ -35,16 +35,16 @@
     "qty": null,
     "unitPriceMinor": 1599,
     "amountMinor": 1599,
-    "taxRateBp": 1000
+    "taxRateBp": 700
    },
    {
     "lineNo": 4,
     "rawText": "COUPON",
     "translationEn": "Coupon",
     "qty": null,
-    "unitPriceMinor": null,
+    "unitPriceMinor": -240,
     "amountMinor": -240,
-    "taxRateBp": 1000
+    "taxRateBp": 700
    }
   ],
   "subtotalMinor": 2954,
@@ -53,12 +53,12 @@
   "totalMinor": 3125,
   "pii": [
    {
-    "kind": "member_id",
-    "text": "8646828725",
+    "kind": "card_number",
+    "text": "******1105",
     "bbox": {
-     "x": 0.69,
-     "y": 0.78,
-     "w": 0.16,
+     "x": 0.59,
+     "y": 0.64,
+     "w": 0.39,
      "h": 0.03
     }
    },
@@ -70,6 +70,16 @@
      "y": 0.76,
      "w": 0.19,
      "h": 0.02
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.19,
+     "y": 0.78,
+     "w": 0.64,
+     "h": 0.03
     }
    }
   ],
@@ -116,10 +126,10 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2358,
-   "tokensOut": 363,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000229
+   "tokensIn": 2374,
+   "tokensOut": 406,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.00024
   },
   {
    "model": "amazon.nova-lite-v1:0",

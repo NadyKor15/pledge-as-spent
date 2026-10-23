@@ -13,83 +13,74 @@
    {
     "lineNo": 1,
     "rawText": "6才以上 2L",
-    "translationEn": "2L for ages 6 and up",
+    "translationEn": "Over 6 years old 2L",
     "qty": 2,
     "unitPriceMinor": 798,
     "amountMinor": 1596,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 2,
-    "rawText": "7才以上 特大 L 34個",
-    "translationEn": "Large L 34 pcs for ages 7 and up",
-    "qty": 2,
-    "unitPriceMinor": 1298,
-    "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
+    "lineNo": 2,
+    "rawText": "7才以上 ビール L 34箱",
+    "translationEn": "Over 7 years old Beer L 34 boxes",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
     "lineNo": 3,
-    "rawText": "3才以上 10個",
-    "translationEn": "10 pcs for ages 3 and up",
+    "rawText": "3才以上 ビール M 44箱",
+    "translationEn": "Over 3 years old Beer M 44 boxes",
     "qty": 3,
     "unitPriceMinor": 398,
     "amountMinor": 1194,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "7才以上 特大 M 44個",
-    "translationEn": "Large M 44 pcs for ages 7 and up",
+    "rawText": "合計 (5)",
+    "translationEn": "Total (5)",
     "qty": 1,
-    "unitPriceMinor": 1298,
-    "amountMinor": 1298,
-    "taxRateBp": 1000
+    "unitPriceMinor": 8164,
+    "amountMinor": 8164,
+    "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "8才以上",
-    "translationEn": "for ages 8 and up",
-    "qty": 1,
-    "unitPriceMinor": 164,
-    "amountMinor": 164,
+    "rawText": "8%税込",
+    "translationEn": "8% tax included",
+    "qty": null,
+    "unitPriceMinor": 1596,
+    "amountMinor": 1596,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "10才以上",
-    "translationEn": "for ages 10 and up",
-    "qty": 1,
-    "unitPriceMinor": 596,
-    "amountMinor": 596,
+    "rawText": "10%税込",
+    "translationEn": "10% tax included",
+    "qty": null,
+    "unitPriceMinor": 568,
+    "amountMinor": 568,
     "taxRateBp": 1000
    },
    {
     "lineNo": 7,
-    "rawText": "割引(8才以上)",
-    "translationEn": "Discount (for ages 8 and up)",
-    "qty": 1,
-    "unitPriceMinor": 118,
-    "amountMinor": 118,
-    "taxRateBp": 1000
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": 597,
+    "amountMinor": 597,
+    "taxRateBp": 0
    },
    {
     "lineNo": 8,
-    "rawText": "割引(10才以上)",
-    "translationEn": "Discount (for ages 10 and up)",
-    "qty": 1,
-    "unitPriceMinor": 597,
-    "amountMinor": 597,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 9,
-    "rawText": "合計",
-    "translationEn": "Total",
-    "qty": 1,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
     "unitPriceMinor": 8164,
     "amountMinor": 8164,
-    "taxRateBp": 1000
+    "taxRateBp": 0
    }
   ],
   "subtotalMinor": 6048,
@@ -106,96 +97,87 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "reasonEn": "Drinking water 2 L bottles count toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "canned",
-   "needQty": 34,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "34 cans of canned food count toward the canned food need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is not a listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "canned",
-   "needQty": 30,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "30 cans of canned food count toward the canned food need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is not a listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": "diapers",
-   "needQty": 44,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "44 packs of size M diapers count toward the diapers need.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Total (5)' is unclear and cannot be classified.",
+   "confidence": 0.1
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line '8% tax included' is unclear and cannot be classified.",
+   "confidence": 0.1
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line '10% tax included' is unclear and cannot be classified.",
+   "confidence": 0.1
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount lines do not count toward any need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Discount' is unclear and cannot be classified.",
+   "confidence": 0.1
   },
   {
    "lineNo": 8,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount lines do not count toward any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total lines do not count toward any need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Total amount' is unclear and cannot be classified.",
+   "confidence": 0.1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2526,
-   "tokensOut": 555,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000285
+   "tokensIn": 2542,
+   "tokensOut": 453,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000261
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1318,
-   "tokensOut": 406,
-   "usdCeiling": 0.001272,
-   "usdActual": 0.000177
+   "tokensIn": 1255,
+   "tokensOut": 363,
+   "usdCeiling": 0.001261,
+   "usdActual": 0.000162
   }
  ],
  "errors": []

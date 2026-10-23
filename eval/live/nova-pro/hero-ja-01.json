@@ -4,7 +4,7 @@
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": {
   "merchantName": "株式会社 辻本",
-  "merchantAddress": "東京都千代田区神田小川町2-8-1",
+  "merchantAddress": "東京都千代田区神田駿河台2-8-1",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-05T14:32:00",
@@ -30,7 +30,7 @@
    },
    {
     "lineNo": 3,
-    "rawText": "レモンサワー-ノンアル- 2L",
+    "rawText": "レモンサワー-ノンアルコール 2L",
     "translationEn": "",
     "qty": 2,
     "unitPriceMinor": 108,
@@ -48,11 +48,11 @@
    },
    {
     "lineNo": 5,
-    "rawText": "ハイボール M",
+    "rawText": "ハイボール M 44杯",
     "translationEn": "",
     "qty": 2,
-    "unitPriceMinor": 1624,
-    "amountMinor": 3248,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
     "taxRateBp": null
    },
    {
@@ -60,22 +60,40 @@
     "rawText": "レモンサワー M 18杯",
     "translationEn": "",
     "qty": 3,
-    "unitPriceMinor": 198,
-    "amountMinor": 594,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
     "taxRateBp": null
    },
    {
     "lineNo": 7,
-    "rawText": "ハイボール M 20杯",
+    "rawText": "ハイボール M 18杯",
     "translationEn": "",
     "qty": 3,
-    "unitPriceMinor": 232,
-    "amountMinor": 696,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
-    "rawText": "ハイボール 10杯",
+    "rawText": "レモンサワー M 3 20杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "ハイボール M 3 20杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "レモンサワー 10杯",
     "translationEn": "",
     "qty": 2,
     "unitPriceMinor": 398,
@@ -83,17 +101,17 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 9,
-    "rawText": "ハイボール 15杯",
+    "lineNo": 11,
+    "rawText": "ハイボール 10杯",
     "translationEn": "",
-    "qty": 3,
-    "unitPriceMinor": 326,
+    "qty": 2,
+    "unitPriceMinor": 490,
     "amountMinor": 980,
     "taxRateBp": null
    },
    {
-    "lineNo": 10,
-    "rawText": "ハイボール 98",
+    "lineNo": 12,
+    "rawText": "レモンサワー 350ml 6杯",
     "translationEn": "",
     "qty": 10,
     "unitPriceMinor": 98,
@@ -101,25 +119,16 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 11,
-    "rawText": "レモンサワー 350ml 6杯",
+    "lineNo": 13,
+    "rawText": "レモンサワー-ノンアルコール 3,000円",
     "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 1198,
-    "amountMinor": 1198,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 12,
-    "rawText": "ハイボール-K 3,000円",
-    "translationEn": "",
-    "qty": 3,
-    "unitPriceMinor": 1000,
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 3000,
     "taxRateBp": null
    },
    {
-    "lineNo": 13,
+    "lineNo": 14,
     "rawText": "合計 (11品)",
     "translationEn": "",
     "qty": null,
@@ -128,7 +137,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
+    "lineNo": 15,
     "rawText": "8%税込",
     "translationEn": "",
     "qty": null,
@@ -137,7 +146,7 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 15,
+    "lineNo": 16,
     "rawText": "10%税込",
     "translationEn": "",
     "qty": null,
@@ -146,8 +155,8 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 16,
-    "rawText": "サービス料",
+    "lineNo": 17,
+    "rawText": "レモンサワー 10%割引",
     "translationEn": "",
     "qty": null,
     "unitPriceMinor": null,
@@ -155,8 +164,8 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 17,
-    "rawText": "(サービス料 8%",
+    "lineNo": 18,
+    "rawText": "(レモンサワー 8%)",
     "translationEn": "",
     "qty": null,
     "unitPriceMinor": null,
@@ -164,8 +173,8 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 18,
-    "rawText": "(サービス料 10%",
+    "lineNo": 19,
+    "rawText": "(レモンサワー 10%)",
     "translationEn": "",
     "qty": null,
     "unitPriceMinor": null,
@@ -173,17 +182,8 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 19,
-    "rawText": "合計",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": 14646,
-    "taxRateBp": null
-   },
-   {
     "lineNo": 20,
-    "rawText": "お支払い",
+    "rawText": "合計",
     "translationEn": "",
     "qty": null,
     "unitPriceMinor": null,
@@ -227,18 +227,18 @@
    "lineNo": 3,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Non-alcoholic beverages are not listed as a need.",
-   "confidence": 1
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item appears to be non-alcoholic, but the exact nature of the product is unclear.",
+   "confidence": 0.5
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -246,8 +246,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -255,8 +255,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -264,8 +264,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -273,8 +273,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -282,8 +282,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -291,8 +291,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -300,8 +300,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -309,8 +309,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This item is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
    "confidence": 1
   },
   {
@@ -319,7 +319,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a total line, its eligibility depends on the items it summarizes.",
+   "reasonEn": "The item appears to be non-alcoholic, but the exact nature of the product is unclear.",
    "confidence": 0.5
   },
   {
@@ -328,7 +328,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a tax line, its eligibility depends on the items it taxes.",
+   "reasonEn": "This line appears to be a subtotal, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -337,7 +337,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a tax line, its eligibility depends on the items it taxes.",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -346,7 +346,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -355,7 +355,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "reasonEn": "This line appears to be a discount, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -364,7 +364,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -373,7 +373,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a total line, its eligibility depends on the items it summarizes.",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
    "confidence": 0.5
   },
   {
@@ -382,24 +382,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "This is a payment line, its eligibility depends on the items paid for.",
+   "reasonEn": "This line appears to be a total, but its exact nature is unclear.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2990,
-   "tokensOut": 714,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.004677
+   "tokensIn": 3006,
+   "tokensOut": 752,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004811
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1543,
-   "tokensOut": 743,
-   "usdCeiling": 0.01758,
-   "usdActual": 0.003612
+   "tokensIn": 1578,
+   "tokensOut": 717,
+   "usdCeiling": 0.017622,
+   "usdActual": 0.003557
   }
  ],
  "errors": []

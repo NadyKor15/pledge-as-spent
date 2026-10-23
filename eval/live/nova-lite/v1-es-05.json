@@ -17,13 +17,13 @@
     "qty": 2,
     "unitPriceMinor": 329,
     "amountMinor": 658,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
     "rawText": "PAPEL HIGIÉNICO 12R",
     "translationEn": "Toilet paper 12R",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
     "taxRateBp": 1000
@@ -32,10 +32,10 @@
     "lineNo": 3,
     "rawText": "MANTA POLAR 130X160",
     "translationEn": "Polar blanket 130X160",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 1299,
     "amountMinor": 1299,
-    "taxRateBp": 2100
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
@@ -44,7 +44,7 @@
     "qty": 2,
     "unitPriceMinor": 349,
     "amountMinor": 698,
-    "taxRateBp": 2100
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
@@ -53,25 +53,23 @@
     "qty": null,
     "unitPriceMinor": -70,
     "amountMinor": -70,
-    "taxRateBp": 2100
-   }
-  ],
-  "subtotalMinor": 3412,
-  "taxMinor": 517,
-  "taxIncluded": true,
-  "totalMinor": 3929,
-  "pii": [
+    "taxRateBp": 1000
+   },
    {
-    "kind": "card_number",
-    "text": "***** **** **** 7289",
-    "bbox": {
-     "x": 0.15,
-     "y": 0.82,
-     "w": 0.68,
-     "h": 0.03
-    }
+    "lineNo": 6,
+    "rawText": "TOTAL (IVA INCLUIDO)",
+    "translationEn": "Total (VAT included)",
+    "qty": null,
+    "unitPriceMinor": 3929,
+    "amountMinor": 3929,
+    "taxRateBp": 1000
    }
   ],
+  "subtotalMinor": 3850,
+  "taxMinor": 129,
+  "taxIncluded": true,
+  "totalMinor": 3979,
+  "pii": [],
   "readability": "good"
  },
  "classifications": [
@@ -88,17 +86,17 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2360,
-   "tokensOut": 407,
-   "usdCeiling": 0.001343,
+   "tokensIn": 2376,
+   "tokensOut": 403,
+   "usdCeiling": 0.001346,
    "usdActual": 0.000239
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1163,
+   "tokensIn": 1198,
    "tokensOut": 58,
-   "usdCeiling": 0.001241,
-   "usdActual": 0.000084
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000086
   }
  ],
  "errors": []

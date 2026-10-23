@@ -2,19 +2,183 @@
  "receiptId": "v1-tr-03",
  "set": "v1",
  "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova TEL 0 555 000 00 42",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBEK BEZI 3 NO 44'LÜ",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 27900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANiYE TEK KiŞiLiK",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 44900,
+    "amountMinor": 44900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DEFTER A5",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 4200,
+    "amountMinor": 4200,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA KAEM PİL 4'LÜ",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "İNDİRİM",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": -799,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KAYNA SU 5 LT",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %1 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3564,
+    "amountMinor": 36,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 8909,
+    "amountMinor": 891,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 125134,
+    "amountMinor": 25027,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPKDV",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 25954,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "TOPLAM",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 213561,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 213561,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not eligible for funding.",
+   "confidence": 1
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2526,
-   "tokensOut": 580,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003877
+   "tokensIn": 2542,
+   "tokensOut": 740,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004402
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1441,
+   "tokensOut": 46,
+   "usdCeiling": 0.01731,
+   "usdActual": 0.0013
   }
  ],
- "errors": [
-  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor (stop reason: end_turn)",
-  "raw: \"RECEIPT: merchant=SPER YILDIZ MARKET; address=Merkez / Yldzova; country=TR; currency=TRY; purchased=2026-11-09T19:17:00; number=9609; subtotal=213561; tax=0; tax_included=true; total=213561; readability=good\\nLINE: no=1; qty=1; unit=500; amount=50000; text=HEDYE KARTI 500 TL\\nLINE: no=2; qty=3; unit=12; amount=3600; text=BEBEEK BEZI 3 NO 44'L\\nLINE: no=3; qty=3; unit=12; amount=44900; text=BATTANYIE TEK KISILIIK\\nLINE: no=4; qty=1; unit=42; amount=4200; text=DEFTER A5\\nLINE: no=5; qty=2; unit=289.9; amount=57980; text=MINI BEBEEK BEZI 4 NO\\nLINE: no=6; qty=2; unit=79.9; amount=15980; text=AA KAEM PIL 4'L\\nLINE: no=7; qty=1; unit=7.99; amount=-799; text=INDIRIIM\\nLINE: no=8; qty=4; unit=24.5; amount=9800; text=KAYNAAK SU 5 LT\\nLINE: no=9; qty=1; unit=35.64; amount=36; text=KDV %1 MATRAH 35,64\\nLINE: no=10; qty=1; unit=89.09; amount=891; text=KDV %10 MATRAH 89,09\\nLINE: no=11; qty=1; unit=1251.34; amount=25027; text=KDV %20 MATRAH 1.251,34\\nLINE: no=12; amount=25954; text=TOPKDV\\nLINE: no=13; amount=213561; text=TOPLAM\\nLINE: no=14; amount=213561; text=KREDI KARTI\""
- ]
+ "errors": []
 }

@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
  "reading": {
-  "merchantName": "はま寿司",
+  "merchantName": "山田電器",
   "merchantAddress": "東京都千代田区1-2-3",
   "country": "JP",
   "currency": "JPY",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "3個 x 128",
-    "translationEn": "3 x 128",
+    "rawText": "3個 x ￥128",
+    "translationEn": "3 x 128 yen",
     "qty": 3,
     "unitPriceMinor": 128,
     "amountMinor": 384,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "2個 x 1,298",
-    "translationEn": "2 x 1,298",
+    "rawText": "2個 x ￥1,298",
+    "translationEn": "2 x 1,298 yen",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
@@ -32,65 +32,128 @@
     "lineNo": 3,
     "rawText": "割引",
     "translationEn": "Discount",
-    "qty": 1,
+    "qty": null,
     "unitPriceMinor": -130,
     "amountMinor": -130,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "2個 x 158",
-    "translationEn": "2 x 158",
+    "rawText": "2個 x ￥158",
+    "translationEn": "2 x 158 yen",
     "qty": 2,
     "unitPriceMinor": 158,
     "amountMinor": 316,
-    "taxRateBp": 800
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "お茶",
-    "translationEn": "Tea",
-    "qty": 1,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
     "unitPriceMinor": 128,
     "amountMinor": 128,
-    "taxRateBp": 800
+    "taxRateBp": 1000
    },
    {
     "lineNo": 6,
-    "rawText": "合計 (4人)",
-    "translationEn": "Total (4 people)",
-    "qty": 1,
+    "rawText": "合計 (4個)",
+    "translationEn": "Total (4 items)",
+    "qty": 4,
+    "unitPriceMinor": 828,
+    "amountMinor": 3312,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "10%税込",
+    "translationEn": "10% tax included",
+    "qty": null,
+    "unitPriceMinor": 246,
+    "amountMinor": 246,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "(内8%税込 ￥61)",
+    "translationEn": "(including 8% tax 61 yen)",
+    "qty": null,
+    "unitPriceMinor": 61,
+    "amountMinor": 61,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "(内10%税込 ￥224)",
+    "translationEn": "(including 10% tax 224 yen)",
+    "qty": null,
+    "unitPriceMinor": 224,
+    "amountMinor": 224,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
     "unitPriceMinor": 3294,
     "amountMinor": 3294,
-    "taxRateBp": 0
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": null,
+    "unitPriceMinor": 3485,
+    "amountMinor": 3485,
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 3294,
   "taxMinor": 466,
   "taxIncluded": false,
   "totalMinor": 3760,
-  "pii": [],
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "************3485",
+    "bbox": {
+     "x": 0.6,
+     "y": 0.75,
+     "w": 0.23,
+     "h": 0.02
+    }
+   }
+  ],
   "readability": "good"
  },
- "classifications": null,
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": 3,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified, so it cannot be matched to any need.",
+   "confidence": 0.5
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2493,
-   "tokensOut": 367,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000238
+   "tokensIn": 2509,
+   "tokensOut": 605,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000296
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1169,
-   "tokensOut": 270,
-   "usdCeiling": 0.00124,
-   "usdActual": 0.000135
+   "tokensIn": 1362,
+   "tokensOut": 58,
+   "usdCeiling": 0.001281,
+   "usdActual": 0.000096
   }
  ],
- "errors": [
-  "classify: classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [2].ruleCode (stop reason: tool_use)",
-  "raw: {\"lines\":\"no=1; qty=3; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=2; qty=2; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=3; verdict=rejected; rule=discount; conf=1; why=Discount lines do not contribute to the needs.\\nno=4; qty=2; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=5; qty=1; verdict=eligible; need=water; qty=1; conf=0.95; why=Tea is a form of drinking water and counts toward the water need.\\nno=6; verdict=review; rule=unclear; conf=0.5; why=The total amount is not identified, so it's unclear if it's a need.\"}"
- ]
+ "errors": []
 }

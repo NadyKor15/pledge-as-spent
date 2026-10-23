@@ -4,7 +4,7 @@
  "imageSha256": "bc64dcf12265afc7041102e734a5e86c1cd4a5d9a8ca9fcdfc1509255d746a06",
  "reading": {
   "merchantName": "FERRETERÍA LA LLAVE",
-  "merchantAddress": "Plaza Nueva 3 00000 Villa Alborada",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alborrada",
   "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-07T08:08:00",
@@ -17,16 +17,16 @@
     "qty": 3,
     "unitPriceMinor": 599,
     "amountMinor": 1797,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
     "rawText": "PILAS AA LR6 8U",
     "translationEn": "AA BATTERIES LR6 8U",
-    "qty": 1,
+    "qty": 3,
     "unitPriceMinor": 130,
-    "amountMinor": 130,
-    "taxRateBp": 1000
+    "amountMinor": 390,
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
@@ -34,17 +34,17 @@
     "translationEn": "FUENTE CLARA WATER BOTTLE 1.5 L",
     "qty": 2,
     "unitPriceMinor": 65,
-    "amountMinor": 329,
-    "taxRateBp": 1000
+    "amountMinor": 130,
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
     "rawText": "PILAS AAA 4U",
     "translationEn": "AAA BATTERIES 4U",
-    "qty": 1,
-    "unitPriceMinor": 99,
-    "amountMinor": 99,
-    "taxRateBp": 1000
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
@@ -53,7 +53,7 @@
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -49,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 6,
@@ -62,7 +62,7 @@
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": 99,
-    "taxRateBp": 1000
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 2451,
@@ -81,67 +81,22 @@
    "ruleCode": "not_in_needs",
    "reasonEn": "MARIA COOKIES are not a listed need.",
    "confidence": 1
-  },
-  {
-   "lineNo": 2,
-   "needId": "batteries",
-   "needQty": 8,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA BATTERIES LR6 8U count toward the AA batteries need.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 3,
-   "needId": "water",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "FUENTE CLARA WATER BOTTLE 1.5 L counts toward the water need.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "AAA BATTERIES 4U are not a listed need.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "PROMOTION DISCOUNT needs review to determine its impact on the receipt.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "WHOLE MILK 1L is not a listed need.",
-   "confidence": 1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2393,
-   "tokensOut": 396,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003182
+   "tokensIn": 2409,
+   "tokensOut": 355,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003063
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1191,
-   "tokensOut": 255,
-   "usdCeiling": 0.016642,
-   "usdActual": 0.001769
+   "tokensIn": 1192,
+   "tokensOut": 282,
+   "usdCeiling": 0.016643,
+   "usdActual": 0.001856
   }
  ],
  "errors": []

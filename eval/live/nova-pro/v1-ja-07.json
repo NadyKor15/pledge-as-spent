@@ -12,163 +12,262 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "プレミアム 2L",
-    "translationEn": "",
+    "rawText": "スパークリングワイン 2L",
+    "translationEn": "Sparkling wine 2L",
     "qty": 2,
-    "unitPriceMinor": 3990,
-    "amountMinor": 7980,
-    "taxRateBp": null
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "ビール 330ml 3本",
-    "translationEn": "",
-    "qty": 3,
-    "unitPriceMinor": 1298,
-    "amountMinor": 3894,
-    "taxRateBp": null
+    "rawText": "ビール 5本",
+    "translationEn": "Beer 5 bottles",
+    "qty": 5,
+    "unitPriceMinor": 799,
+    "amountMinor": 3995,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
-    "rawText": "ビール 500ml M",
-    "translationEn": "",
+    "rawText": "サーロインステーキ 1皿",
+    "translationEn": "Sirloin steak 1 plate",
     "qty": 1,
     "unitPriceMinor": 3294,
     "amountMinor": 3294,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "ビール 330ml M",
-    "translationEn": "",
+    "rawText": "3本 x 1,698",
+    "translationEn": "3 bottles x 1,698",
     "qty": 3,
     "unitPriceMinor": 1698,
-    "amountMinor": 5094,
-    "taxRateBp": null
+    "amountMinor": 4584,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "ビール 330ml L 34本",
-    "translationEn": "",
+    "rawText": "スパークリングワイン L 34本",
+    "translationEn": "Sparkling wine L 34 bottles",
     "qty": 1,
     "unitPriceMinor": 2596,
     "amountMinor": 2596,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 6,
-    "rawText": "ビール M 18本",
-    "translationEn": "",
+    "rawText": "2本 x 1,298",
+    "translationEn": "2 bottles x 1,298",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 7,
-    "rawText": "ビール 1L",
-    "translationEn": "",
+    "rawText": "ミネラルウォーター 1L",
+    "translationEn": "Mineral water 1L",
     "qty": 1,
-    "unitPriceMinor": 1980,
-    "amountMinor": 1980,
-    "taxRateBp": null
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 8,
-    "rawText": "ワイン (7本)",
-    "translationEn": "",
+    "rawText": "ビール (7本)",
+    "translationEn": "Beer (7 bottles)",
     "qty": 7,
     "unitPriceMinor": 1454,
     "amountMinor": 10178,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 9,
-    "rawText": "ワイン 8本",
-    "translationEn": "",
+    "rawText": "8本",
+    "translationEn": "8 bottles",
     "qty": 8,
     "unitPriceMinor": 886,
     "amountMinor": 7088,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 10,
-    "rawText": "10%割引 8%",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 126,
-    "amountMinor": 126,
-    "taxRateBp": null
+    "rawText": "10% (サービス料 8% 消費税 10%)",
+    "translationEn": "10% (Service charge 8% Consumption tax 10%)",
+    "qty": null,
+    "unitPriceMinor": 107,
+    "amountMinor": 1070,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 11,
-    "rawText": "(割引金額 10%",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 626,
-    "amountMinor": 626,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 12,
     "rawText": "合計",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 8340,
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 8340,
     "taxRateBp": null
    },
    {
-    "lineNo": 13,
-    "rawText": "消費税",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 9000,
+    "lineNo": 12,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 9000,
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
-    "rawText": "サービス料",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 660,
+    "lineNo": 13,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 660,
     "taxRateBp": null
    }
   ],
   "subtotalMinor": 8340,
-  "taxMinor": 900,
+  "taxMinor": 834,
   "taxIncluded": false,
-  "totalMinor": 9240,
+  "totalMinor": 9174,
   "pii": [],
   "readability": "good"
  },
  "classifications": [
   {
-   "lineNo": 14,
+   "lineNo": 1,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Service charges are not funded.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is an alcoholic beverage and is not eligible for funding.",
    "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sirloin steak is not listed as a need for this disaster-relief drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 1L does not match the required 2L drinking water need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Service charge and consumption tax are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total amount is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The payment method is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The change amount is unclear and requires further review.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1418,
-   "tokensOut": 571,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.002962
+   "tokensIn": 1434,
+   "tokensOut": 685,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003339
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1397,
-   "tokensOut": 421,
-   "usdCeiling": 0.017178,
-   "usdActual": 0.002465
+   "tokensIn": 1458,
+   "tokensOut": 498,
+   "usdCeiling": 0.017341,
+   "usdActual": 0.00276
   }
  ],
  "errors": []

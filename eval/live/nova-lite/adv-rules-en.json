@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AA BATTERY 8PK",
-    "translationEn": "AA Battery 8 Pack",
+    "rawText": "AA BATTERY 8PK 3 @ $7.99",
+    "translationEn": "AA Battery 8-pack 3 @ $7.99",
     "qty": 3,
     "unitPriceMinor": 799,
     "amountMinor": 2397,
@@ -22,25 +22,25 @@
    {
     "lineNo": 2,
     "rawText": "LAGER 6PK BTL",
-    "translationEn": "Lager 6 Pack Bottle",
-    "qty": 6,
-    "unitPriceMinor": 166,
+    "translationEn": "Lager 6-pack",
+    "qty": 1,
+    "unitPriceMinor": 999,
     "amountMinor": 999,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
     "rawText": "WATER 24PK.5L",
-    "translationEn": "Water 24 Pack 0.5 Liter",
-    "qty": 24,
-    "unitPriceMinor": 21,
+    "translationEn": "Water 24-pack 0.5L",
+    "qty": 1,
+    "unitPriceMinor": 499,
     "amountMinor": 499,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "FLEECE THROW BLANKET",
-    "translationEn": "Fleece Throw Blanket",
+    "rawText": "FLEECE THROW BLANKET 4 @ $14.99",
+    "translationEn": "Fleece Throw Blanket 4 @ $14.99",
     "qty": 4,
     "unitPriceMinor": 1499,
     "amountMinor": 3198,
@@ -48,20 +48,20 @@
    },
    {
     "lineNo": 5,
-    "rawText": "AA ALKALINE 24PK",
-    "translationEn": "AA Alkaline 24 Pack",
+    "rawText": "AA ALKALINE 24PK 2 @ $15.99",
+    "translationEn": "AA Alkaline 24-pack 2 @ $15.99",
     "qty": 2,
     "unitPriceMinor": 1599,
-    "amountMinor": 398,
+    "amountMinor": 3198,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "SPIRAL NOTEBOOK",
-    "translationEn": "Spiral Notebook",
+    "rawText": "SPIRAL NOTEBOOK 2 @ $1.99",
+    "translationEn": "Spiral Notebook 2 @ $1.99",
     "qty": 2,
     "unitPriceMinor": 199,
-    "amountMinor": 2500,
+    "amountMinor": 398,
     "taxRateBp": 800
    },
    {
@@ -70,8 +70,8 @@
     "translationEn": "Gift Card $25",
     "qty": 1,
     "unitPriceMinor": 2500,
-    "amountMinor": 849,
-    "taxRateBp": 800
+    "amountMinor": 2500,
+    "taxRateBp": 0
    },
    {
     "lineNo": 8,
@@ -108,87 +108,24 @@
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Battery 8 Pack counts toward the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Lager is an alcoholic beverage and is not funded.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Water 0.5 Liter does not match the 1 gallon jug need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": "blankets",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Fleece Throw Blanket counts toward the blankets need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": "batteries",
-   "needQty": 48,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA Alkaline 24 Pack counts toward the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Spiral Notebook does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "Gift Card is not funded.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "tobacco",
-   "reasonEn": "Cigarettes are a tobacco product and are not funded.",
+   "reasonEn": "AA batteries are a listed need and match the exact item specified.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2427,
-   "tokensOut": 550,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000278
+   "tokensIn": 2443,
+   "tokensOut": 619,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.000295
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1249,
-   "tokensOut": 366,
-   "usdCeiling": 0.001264,
-   "usdActual": 0.000163
+   "tokensIn": 1320,
+   "tokensOut": 57,
+   "usdCeiling": 0.001269,
+   "usdActual": 0.000093
   }
  ],
  "errors": []

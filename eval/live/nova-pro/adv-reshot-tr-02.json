@@ -4,7 +4,7 @@
  "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
  "reading": {
   "merchantName": "SÜPER YILDIZ MARKET",
-  "merchantAddress": "Merkez / Yildizova",
+  "merchantAddress": "Merkez / Yıldızova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-11-06T14:36:00",
@@ -13,7 +13,7 @@
    {
     "lineNo": 1,
     "rawText": "DAĞ SUYU 5 L",
-    "translationEn": "",
+    "translationEn": "MOUNTAIN WATER 5 L",
     "qty": 5,
     "unitPriceMinor": 2190,
     "amountMinor": 10950,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "İNDİRİM",
-    "translationEn": "",
+    "rawText": "INDIRIM",
+    "translationEn": "DISCOUNT",
     "qty": 1,
     "unitPriceMinor": 329,
     "amountMinor": 329,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42\\'Lİ",
-    "translationEn": "",
+    "rawText": "SEVIMLI BEBEK BEZI NO:4 JUMBO 42'LI",
+    "translationEn": "CUTE BABY DIAPER NO:4 JUMBO 42'S",
     "qty": 4,
     "unitPriceMinor": 34900,
     "amountMinor": 139600,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "KDV %10 MATRAH 16,92",
-    "translationEn": "",
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "VAT 10% MATTRESS",
     "qty": 10,
     "unitPriceMinor": 1692,
     "amountMinor": 16920,
@@ -48,53 +48,53 @@
    },
    {
     "lineNo": 5,
-    "rawText": "KDV %20 MATRAH 290,83",
-    "translationEn": "",
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "VAT 20% MATTRESS",
     "qty": 20,
     "unitPriceMinor": 29083,
-    "amountMinor": 58166,
+    "amountMinor": 581660,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
     "rawText": "TOPKDV",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": null,
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 5986,
     "amountMinor": 5986,
     "taxRateBp": null
    },
    {
     "lineNo": 7,
     "rawText": "TOPLAM",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": null,
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 36761,
     "amountMinor": 36761,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
-    "rawText": "KREDİ KARTI",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": null,
+    "rawText": "KREDI KARTI",
+    "translationEn": "CREDIT CARD",
+    "qty": 1,
+    "unitPriceMinor": 36761,
     "amountMinor": 36761,
     "taxRateBp": null
    }
   ],
   "subtotalMinor": 36761,
-  "taxMinor": 0,
+  "taxMinor": null,
   "taxIncluded": true,
   "totalMinor": 36761,
   "pii": [
    {
     "kind": "card_number",
-    "text": "7374",
+    "text": "**********7374",
     "bbox": null
    },
    {
-    "kind": "other",
+    "kind": "member_id",
     "text": "7724103405",
     "bbox": null
    }
@@ -108,17 +108,17 @@
    "needQty": 5,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "reasonEn": "Mountain water in 5 L bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount lines are not eligible.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs further review to determine its eligibility.",
+   "confidence": 0.5
   },
   {
    "lineNo": 3,
@@ -126,7 +126,7 @@
    "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "reasonEn": "Cute baby diapers size 4 count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -135,7 +135,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Matrah is not a listed need.",
+   "reasonEn": "VAT 10% mattress does not match any listed need.",
    "confidence": 0.95
   },
   {
@@ -144,51 +144,51 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Matrah is not a listed need.",
+   "reasonEn": "VAT 20% mattress does not match any listed need.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Tax lines are not eligible.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total VAT line needs further review to determine its eligibility.",
+   "confidence": 0.5
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total lines are not eligible.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total line needs further review to determine its eligibility.",
+   "confidence": 0.5
   },
   {
    "lineNo": 8,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Payment method lines are not eligible.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The credit card line needs further review to determine its eligibility.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2262,
-   "tokensOut": 402,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003096
+   "tokensIn": 2278,
+   "tokensOut": 492,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003397
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1230,
-   "tokensOut": 289,
-   "usdCeiling": 0.01671,
-   "usdActual": 0.001909
+   "tokensIn": 1265,
+   "tokensOut": 315,
+   "usdCeiling": 0.016806,
+   "usdActual": 0.00202
   }
  ],
  "errors": []

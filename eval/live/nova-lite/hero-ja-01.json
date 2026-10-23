@@ -3,7 +3,7 @@
  "set": "hero",
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": {
-  "merchantName": "株式会社 エコライフ",
+  "merchantName": "株式会社 サンクス",
   "merchantAddress": "東京都千代田区神田2-8-1",
   "country": "JP",
   "currency": "JPY",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "エコライフ 2L",
-    "translationEn": "Eco Life 2L",
+    "rawText": "冷凍のり 2L",
+    "translationEn": "Frozen seaweed 2L",
     "qty": 1,
     "unitPriceMinor": 798,
     "amountMinor": 798,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "エコライフ 2L",
-    "translationEn": "Eco Life 2L",
+    "rawText": "焼きのり 2L",
+    "translationEn": "Roasted seaweed 2L",
     "qty": 1,
     "unitPriceMinor": 472,
     "amountMinor": 472,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "エコライフ 2L",
-    "translationEn": "Eco Life 2L",
+    "rawText": "焼きのり 2L入り",
+    "translationEn": "Roasted seaweed 2L pack",
     "qty": 1,
     "unitPriceMinor": 216,
     "amountMinor": 216,
@@ -39,78 +39,123 @@
    },
    {
     "lineNo": 4,
-    "rawText": "エコライフ 44L",
-    "translationEn": "Eco Life 44L",
-    "qty": 1,
-    "unitPriceMinor": 2596,
-    "amountMinor": 2596,
+    "rawText": "焼きのり 2L入り",
+    "translationEn": "Roasted seaweed 2L pack",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
     "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "エコライフ 44L",
-    "translationEn": "Eco Life 44L",
+    "rawText": "七味唐辛子 440g",
+    "translationEn": "Seven spice chili 440g",
     "qty": 1,
-    "unitPriceMinor": 3294,
-    "amountMinor": 3294,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "エコライフ 18L",
-    "translationEn": "Eco Life 18L",
-    "qty": 1,
-    "unitPriceMinor": 598,
-    "amountMinor": 598,
+    "rawText": "七味唐辛子 440g",
+    "translationEn": "Seven spice chili 440g",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
     "lineNo": 7,
-    "rawText": "エコライフ 3 20L",
-    "translationEn": "Eco Life 3 20L",
+    "rawText": "あさり M",
+    "translationEn": "Asari M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "あさり M",
+    "translationEn": "Asari M",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "あさり M 18個",
+    "translationEn": "Asari M 18 pcs",
+    "qty": 1,
+    "unitPriceMinor": 188,
+    "amountMinor": 188,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "あさり M 20個",
+    "translationEn": "Asari M 20 pcs",
     "qty": 1,
     "unitPriceMinor": 698,
     "amountMinor": 698,
     "taxRateBp": 800
    },
    {
-    "lineNo": 8,
-    "rawText": "エコライフ 10L",
-    "translationEn": "Eco Life 10L",
+    "lineNo": 11,
+    "rawText": "あさり 10個",
+    "translationEn": "Asari 10 pcs",
     "qty": 1,
     "unitPriceMinor": 796,
     "amountMinor": 796,
     "taxRateBp": 800
    },
    {
-    "lineNo": 9,
-    "rawText": "エコライフ 15",
-    "translationEn": "Eco Life 15",
+    "lineNo": 12,
+    "rawText": "あさり 10個",
+    "translationEn": "Asari 10 pcs",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "あさり 10個",
+    "translationEn": "Asari 10 pcs",
     "qty": 1,
     "unitPriceMinor": 980,
     "amountMinor": 980,
     "taxRateBp": 800
    },
    {
-    "lineNo": 10,
-    "rawText": "エコライフ 350ml 6本",
-    "translationEn": "Eco Life 350ml 6",
-    "qty": 1,
-    "unitPriceMinor": 1198,
-    "amountMinor": 1198,
+    "lineNo": 14,
+    "rawText": "あさり 10個",
+    "translationEn": "Asari 10 pcs",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 980,
     "taxRateBp": 800
    },
    {
-    "lineNo": 11,
-    "rawText": "エコライフ 3,000L",
-    "translationEn": "Eco Life 3,000L",
+    "lineNo": 15,
+    "rawText": "あさり 350ml 6缶",
+    "translationEn": "Asari 350ml 6 cans",
+    "qty": 1,
+    "unitPriceMinor": 350,
+    "amountMinor": 350,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 16,
+    "rawText": "あさり 3,000個",
+    "translationEn": "Asari 3,000 pcs",
     "qty": 1,
     "unitPriceMinor": 3000,
     "amountMinor": 3000,
     "taxRateBp": 800
    },
    {
-    "lineNo": 12,
+    "lineNo": 17,
     "rawText": "合計 (11)",
     "translationEn": "Total (11)",
     "qty": 1,
@@ -119,7 +164,7 @@
     "taxRateBp": 800
    },
    {
-    "lineNo": 13,
+    "lineNo": 18,
     "rawText": "8%税",
     "translationEn": "8% tax",
     "qty": 1,
@@ -128,7 +173,7 @@
     "taxRateBp": 800
    },
    {
-    "lineNo": 14,
+    "lineNo": 19,
     "rawText": "10%税",
     "translationEn": "10% tax",
     "qty": 1,
@@ -137,34 +182,34 @@
     "taxRateBp": 800
    },
    {
-    "lineNo": 15,
+    "lineNo": 20,
     "rawText": "消費税",
-    "translationEn": "consumption tax",
+    "translationEn": "Consumption tax",
     "qty": 1,
     "unitPriceMinor": 3000,
     "amountMinor": 3000,
     "taxRateBp": 800
    },
    {
-    "lineNo": 16,
-    "rawText": "消費税(8%)",
-    "translationEn": "consumption tax (8%)",
+    "lineNo": 21,
+    "rawText": "(消費税 8%",
+    "translationEn": "(Consumption tax 8%",
     "qty": 1,
     "unitPriceMinor": 110,
     "amountMinor": 110,
     "taxRateBp": 800
    },
    {
-    "lineNo": 17,
-    "rawText": "消費税(10%)",
-    "translationEn": "consumption tax (10%)",
+    "lineNo": 22,
+    "rawText": "(消費税 10%",
+    "translationEn": "(Consumption tax 10%",
     "qty": 1,
     "unitPriceMinor": 923,
     "amountMinor": 923,
     "taxRateBp": 800
    },
    {
-    "lineNo": 18,
+    "lineNo": 23,
     "rawText": "合計",
     "translationEn": "Total",
     "qty": 1,
@@ -174,16 +219,16 @@
    }
   ],
   "subtotalMinor": 14646,
-  "taxMinor": 1998,
+  "taxMinor": 110,
   "taxIncluded": false,
-  "totalMinor": 16644,
+  "totalMinor": 14646,
   "pii": [
    {
     "kind": "card_number",
-    "text": "***********9591",
+    "text": "**********5525",
     "bbox": {
      "x": 0.59,
-     "y": 0.79,
+     "y": 0.78,
      "w": 0.39,
      "h": 0.02
     }
@@ -194,92 +239,92 @@
  "classifications": [
   {
    "lineNo": 1,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen seaweed does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Roasted seaweed does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Roasted seaweed does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": "water",
-   "needQty": 1,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "44L bottles of drinking water do not match the need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Roasted seaweed does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": "water",
-   "needQty": 1,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "44L bottles of drinking water do not match the need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Seven spice chili does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": "water",
-   "needQty": 1,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "18L bottles of drinking water do not match the need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Seven spice chili does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 7,
-   "needId": "water",
+   "needId": "diapers",
    "needQty": 1,
-   "verdict": "rejected",
+   "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "20L bottles of drinking water do not match the need.",
+   "reasonEn": "Asari M matches the size M diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 8,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "rejected",
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "10L bottles of drinking water do not match the need.",
+   "reasonEn": "Asari M matches the size M diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
+   "needId": "diapers",
+   "needQty": 18,
+   "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "15 is not a valid quantity for any need.",
+   "reasonEn": "Asari M matches the size M diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
+   "needId": "diapers",
+   "needQty": 20,
+   "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "350ml bottles of drinking water do not match the need.",
+   "reasonEn": "Asari M matches the size M diapers need.",
    "confidence": 0.95
   },
   {
@@ -287,54 +332,54 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "3,000L bottles of drinking water do not match the need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 10 pcs does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 12,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Total line, not applicable.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 10 pcs does not match any of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 13,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Tax line, not applicable.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 10 pcs does not match any of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 14,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Tax line, not applicable.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 10 pcs does not match any of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 15,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Tax line, not applicable.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 350ml does not match any of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 16,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Tax line, not applicable.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari 3,000 pcs does not match any of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 17,
@@ -342,7 +387,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": null,
-   "reasonEn": "Tax line, not applicable.",
+   "reasonEn": "This is a total line and does not specify any items.",
    "confidence": 0.5
   },
   {
@@ -351,24 +396,69 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": null,
-   "reasonEn": "Total line, not applicable.",
+   "reasonEn": "This is a tax line and does not specify any items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 19,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "This is a tax line and does not specify any items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 20,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "This is a tax line and does not specify any items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 21,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "This is a tax line and does not specify any items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 22,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "This is a tax line and does not specify any items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 23,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "This is a total line and does not specify any items.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2990,
-   "tokensOut": 1000,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000419
+   "tokensIn": 3006,
+   "tokensOut": 1269,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000485
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1588,
-   "tokensOut": 704,
-   "usdCeiling": 0.00132,
-   "usdActual": 0.000264
+   "tokensIn": 1842,
+   "tokensOut": 893,
+   "usdCeiling": 0.001358,
+   "usdActual": 0.000325
   }
  ],
  "errors": []

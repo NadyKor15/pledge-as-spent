@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "2L",
-    "translationEn": "2L",
+    "rawText": "2ℓ x 128",
+    "translationEn": "2L x 128",
     "qty": 2,
     "unitPriceMinor": 128,
     "amountMinor": 256,
@@ -21,72 +21,99 @@
    },
    {
     "lineNo": 2,
-    "rawText": "2L",
-    "translationEn": "2L",
-    "qty": 2,
-    "unitPriceMinor": 128,
-    "amountMinor": 256,
+    "rawText": "5ℓ x 258",
+    "translationEn": "5L x 258",
+    "qty": 4,
+    "unitPriceMinor": 258,
+    "amountMinor": 1032,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
-    "rawText": "M 44L",
+    "rawText": "M 44ℓ",
     "translationEn": "M 44L",
-    "qty": 5,
-    "unitPriceMinor": 258,
-    "amountMinor": 1290,
+    "qty": 1,
+    "unitPriceMinor": 448,
+    "amountMinor": 448,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "M 38L",
-    "translationEn": "M 38L",
-    "qty": 5,
-    "unitPriceMinor": 258,
-    "amountMinor": 1290,
+    "rawText": "4ℓ x 298",
+    "translationEn": "4L x 298",
+    "qty": 4,
+    "unitPriceMinor": 298,
+    "amountMinor": 1192,
     "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "",
-    "translationEn": "Discount",
-    "qty": 4,
-    "unitPriceMinor": 256,
-    "amountMinor": 942,
+    "rawText": "38ℓ",
+    "translationEn": "38L",
+    "qty": 1,
+    "unitPriceMinor": 388,
+    "amountMinor": 388,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "",
-    "translationEn": "Discount",
-    "qty": 1,
+    "rawText": "税込",
+    "translationEn": "tax included",
+    "qty": null,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "合計(税込)",
+    "translationEn": "total (tax included)",
+    "qty": null,
+    "unitPriceMinor": 256,
+    "amountMinor": 3942,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "消費税",
+    "translationEn": "consumption tax",
+    "qty": null,
+    "unitPriceMinor": 20,
+    "amountMinor": 20,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "合計税額",
+    "translationEn": "total tax amount",
+    "qty": null,
     "unitPriceMinor": 368,
     "amountMinor": 368,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
-    "rawText": "",
-    "translationEn": "Subtotal",
-    "qty": 1,
+    "lineNo": 10,
+    "rawText": "お支払い金額",
+    "translationEn": "payment amount",
+    "qty": null,
     "unitPriceMinor": 4330,
     "amountMinor": 4330,
     "taxRateBp": 800
    },
    {
-    "lineNo": 8,
-    "rawText": "",
-    "translationEn": "Discount",
-    "qty": 1,
+    "lineNo": 11,
+    "rawText": "お預かり金額",
+    "translationEn": "amount held",
+    "qty": null,
     "unitPriceMinor": 5000,
     "amountMinor": 5000,
     "taxRateBp": 800
    },
    {
-    "lineNo": 9,
-    "rawText": "",
-    "translationEn": "Discount",
-    "qty": 1,
+    "lineNo": 12,
+    "rawText": "お釣り",
+    "translationEn": "change",
+    "qty": null,
     "unitPriceMinor": 670,
     "amountMinor": 670,
     "taxRateBp": 800
@@ -106,34 +133,34 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "reasonEn": "2L bottles count toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "water",
-   "needQty": 2,
+   "needQty": 20,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "reasonEn": "5L bottles count toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "diapers",
-   "needQty": 5,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "44L does not match any need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": "diapers",
-   "needQty": 5,
+   "needId": "water",
+   "needQty": 16,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "reasonEn": "4L bottles count toward the water need.",
    "confidence": 0.95
   },
   {
@@ -141,8 +168,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Discount lines do not count toward any need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "38L does not match any need.",
    "confidence": 0.95
   },
   {
@@ -150,8 +177,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Discount lines do not count toward any need.",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a tax description.",
    "confidence": 0.95
   },
   {
@@ -159,8 +186,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Subtotal lines do not count toward any need.",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a total amount description.",
    "confidence": 0.95
   },
   {
@@ -168,8 +195,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Discount lines do not count toward any need.",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a tax amount description.",
    "confidence": 0.95
   },
   {
@@ -177,25 +204,52 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Discount lines do not count toward any need.",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a total tax amount description.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a payment amount description.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is an amount held description.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This line is a change description.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2493,
-   "tokensOut": 452,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000258
+   "tokensIn": 2509,
+   "tokensOut": 595,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000293
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1215,
-   "tokensOut": 356,
-   "usdCeiling": 0.001256,
-   "usdActual": 0.000158
+   "tokensIn": 1366,
+   "tokensOut": 513,
+   "usdCeiling": 0.001284,
+   "usdActual": 0.000205
   }
  ],
  "errors": []

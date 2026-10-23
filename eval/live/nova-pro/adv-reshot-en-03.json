@@ -97,26 +97,26 @@
    "lineNo": 4,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Coupons are not eligible for funding.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon's impact on the receipt total is unclear.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2358,
-   "tokensOut": 304,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.002859
+   "tokensIn": 2374,
+   "tokensOut": 307,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.002882
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1096,
-   "tokensOut": 156,
+   "tokensOut": 158,
    "usdCeiling": 0.016383,
-   "usdActual": 0.001376
+   "usdActual": 0.001382
   }
  ],
  "errors": []

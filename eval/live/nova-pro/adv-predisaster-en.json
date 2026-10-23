@@ -51,13 +51,7 @@
   "taxMinor": 721,
   "taxIncluded": false,
   "totalMinor": 11558,
-  "pii": [
-   {
-    "kind": "card_number",
-    "text": "**********8720",
-    "bbox": null
-   }
-  ],
+  "pii": [],
   "readability": "good"
  },
  "classifications": [
@@ -81,11 +75,11 @@
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Fleece throw blankets do not match the listed need for blankets.",
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blankets count toward the blankets need.",
    "confidence": 0.95
   },
   {
@@ -94,24 +88,24 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Softies diapers size 3 count toward the diapers need.",
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2325,
-   "tokensOut": 329,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.002913
+   "tokensIn": 2341,
+   "tokensOut": 312,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.002871
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1118,
-   "tokensOut": 175,
+   "tokensOut": 174,
    "usdCeiling": 0.016435,
-   "usdActual": 0.001454
+   "usdActual": 0.001451
   }
  ],
  "errors": []

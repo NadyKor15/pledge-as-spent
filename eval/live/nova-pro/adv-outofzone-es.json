@@ -7,17 +7,17 @@
   "merchantAddress": "Paseo Maritimo 9 00000 Puerto Brisa",
   "country": "ES",
   "currency": "EUR",
-  "purchasedAt": "2026-06-11T12:03:00",
+  "purchasedAt": "2006-11-06T12:03:00",
   "receiptNumber": "8076",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "WATER 1.5L PACK 6",
-    "qty": 1,
+    "qty": 6,
     "unitPriceMinor": 329,
-    "amountMinor": 329,
-    "taxRateBp": 1000
+    "amountMinor": 1974,
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
@@ -26,16 +26,16 @@
     "qty": 2,
     "unitPriceMinor": 749,
     "amountMinor": 1498,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "PAPEL HIGIENICO 12R",
+    "rawText": "PAPEL HIGIÉNICO 12R",
     "translationEn": "TOILET PAPER 12R",
     "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
-    "taxRateBp": 1000
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 2276,
@@ -77,17 +77,17 @@
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1837,
-   "tokensOut": 267,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.002324
+   "tokensIn": 1853,
+   "tokensOut": 247,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.002273
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1090,
-   "tokensOut": 162,
-   "usdCeiling": 0.0163,
-   "usdActual": 0.00139
+   "tokensIn": 1091,
+   "tokensOut": 171,
+   "usdCeiling": 0.016301,
+   "usdActual": 0.00142
   }
  ],
  "errors": []

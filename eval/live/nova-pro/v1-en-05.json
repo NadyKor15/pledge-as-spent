@@ -26,7 +26,7 @@
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -20,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
@@ -59,13 +59,22 @@
     "lineNo": 6,
     "rawText": "FLEECE THROW BLANKET",
     "translationEn": "FLEECE THROW BLANKET",
+    "qty": 1,
+    "unitPriceMinor": 2998,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "FLEECE THROW BLANKET",
     "qty": 2,
     "unitPriceMinor": 1499,
     "amountMinor": 2998,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
+    "lineNo": 8,
     "rawText": "WATER 24PK.5L",
     "translationEn": "WATER 24PK.5L",
     "qty": 1,
@@ -94,7 +103,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Spiral notebooks are not listed as a need for the disaster-relief drive.",
+   "reasonEn": "Spiral notebooks are not a listed need.",
    "confidence": 1
   },
   {
@@ -103,7 +112,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The nature of the coupon is unclear, and it may or may not be related to the needs of the drive.",
+   "reasonEn": "Coupons are not clearly defined in the rules.",
    "confidence": 0.5
   },
   {
@@ -112,7 +121,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Deer Creek Water 1 Gallon Jug matches the need for drinking water.",
+   "reasonEn": "Deer Creek water 1 gallon jug matches the need for drinking water.",
    "confidence": 1
   },
   {
@@ -121,7 +130,7 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Deer Creek Water 1 Gallon Jug matches the need for drinking water.",
+   "reasonEn": "Deer Creek water 1 gallon jug matches the need for drinking water.",
    "confidence": 1
   },
   {
@@ -130,42 +139,51 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Little Lamb Diapers SZ3 66CT matches the need for baby diapers size 3.",
+   "reasonEn": "Little Lamb diapers size 3 match the need for baby diapers.",
    "confidence": 1
   },
   {
    "lineNo": 6,
    "needId": "blankets",
-   "needQty": 2,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Fleece Throw Blanket matches the need for blankets.",
+   "reasonEn": "Fleece throw blanket matches the need for blankets.",
    "confidence": 1
   },
   {
    "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blanket matches the need for blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Water 24PK.5L does not match the need for drinking water in 1 gallon jugs.",
+   "reasonEn": "Water 24PK.5L does not match the need for 1 gallon jugs of water.",
    "confidence": 1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2391,
-   "tokensOut": 474,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.00343
+   "tokensIn": 2407,
+   "tokensOut": 536,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.003641
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1240,
-   "tokensOut": 323,
-   "usdCeiling": 0.016787,
-   "usdActual": 0.002026
+   "tokensIn": 1281,
+   "tokensOut": 333,
+   "usdCeiling": 0.016904,
+   "usdActual": 0.00209
   }
  ],
  "errors": []

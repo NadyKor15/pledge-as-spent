@@ -128,10 +128,10 @@
    "lineNo": 3,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
   },
   {
    "lineNo": 4,
@@ -139,7 +139,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
+   "reasonEn": "Potato chips do not match any of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -148,7 +148,7 @@
    "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "1 gallon jugs of water count toward the water need.",
+   "reasonEn": "Pure water in 1-gallon jugs count toward the water need.",
    "confidence": 0.95
   },
   {
@@ -164,10 +164,10 @@
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
   },
   {
    "lineNo": 8,
@@ -175,33 +175,33 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
+   "reasonEn": "Milk does not match any of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 9,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2490,
+   "tokensIn": 2506,
    "tokensOut": 569,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.003813
+   "usdCeiling": 0.017936,
+   "usdActual": 0.003826
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1312,
-   "tokensOut": 372,
+   "tokensOut": 365,
    "usdCeiling": 0.016896,
-   "usdActual": 0.00224
+   "usdActual": 0.002218
   }
  ],
  "errors": []

@@ -1,26 +1,26 @@
 {
- "reader": "nova-lite",
+ "reader": "nova-pro",
  "set": "hero",
  "receipts": 1,
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.6111111111111112,
-  "recall": 1,
-  "f1": 0.7586206896551725,
-  "tp": 11,
-  "fp": 7,
-  "fn": 0
+  "precision": 0.4,
+  "recall": 0.7272727272727273,
+  "f1": 0.5161290322580645,
+  "tp": 8,
+  "fp": 12,
+  "fn": 3
  },
  "lineAmountExact": {
-  "num": 11,
+  "num": 4,
   "den": 11,
-  "rate": 1
+  "rate": 0.36363636363636365
  },
  "totalExact": {
-  "num": 0,
+  "num": 1,
   "den": 1,
-  "rate": 0
+  "rate": 1
  },
  "dateExact": {
   "num": 1,
@@ -28,9 +28,9 @@
   "rate": 1
  },
  "dateTimeExact": {
-  "num": 0,
+  "num": 1,
   "den": 1,
-  "rate": 0
+  "rate": 1
  },
  "merchant": {
   "meanSimilarity": 0,
@@ -41,19 +41,19 @@
   }
  },
  "lineClass": {
-  "num": 5,
+  "num": 0,
   "den": 11,
-  "rate": 0.45454545454545453
+  "rate": 0
  },
  "needQty": {
-  "num": 1,
+  "num": 0,
   "den": 9,
-  "rate": 0.1111111111111111
+  "rate": 0
  },
  "ruleLines": {
-  "num": 0,
+  "num": 1,
   "den": 2,
-  "rate": 0,
+  "rate": 0.5,
   "fundedByMistake": 0
  },
  "pii": {
@@ -62,7 +62,7 @@
    "den": 3,
    "rate": 0.3333333333333333
   },
-  "meanIou": 0
+  "meanIou": null
  },
  "flags": {
   "duplicate": {
@@ -103,23 +103,23 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.6111111111111112,
-   "recall": 1,
-   "f1": 0.7586206896551725,
+   "precision": 0.4,
+   "recall": 0.7272727272727273,
+   "f1": 0.5161290322580645,
    "totalExact": {
-    "num": 0,
+    "num": 1,
     "den": 1,
-    "rate": 0
+    "rate": 1
    }
   }
  },
  "spend": {
-  "ledgerDeltaUsd": 0.0006829999999999892,
+  "ledgerDeltaUsd": 0.008368000000000042,
   "calls": 2,
-  "tokensIn": 4578,
-  "tokensOut": 1704,
-  "usdActual": 0.000683,
-  "usdCeiling": 0.002663
+  "tokensIn": 4584,
+  "tokensOut": 1469,
+  "usdActual": 0.008368,
+  "usdCeiling": 0.035561999999999996
  },
  "perReceipt": [
   {
@@ -131,27 +131,27 @@
     "out_of_zone"
    ],
    "score": {
-    "tp": 11,
-    "fp": 7,
-    "fn": 0,
+    "tp": 8,
+    "fp": 12,
+    "fn": 3,
     "lineAmountExact": {
-     "num": 11,
+     "num": 4,
      "den": 11
     },
-    "totalExact": false,
+    "totalExact": true,
     "dateExact": true,
-    "dateTimeExact": false,
+    "dateTimeExact": true,
     "merchantSimilarity": 0,
     "lineClass": {
-     "num": 5,
+     "num": 0,
      "den": 11
     },
     "needQty": {
-     "num": 1,
+     "num": 0,
      "den": 9
     },
     "ruleLines": {
-     "num": 0,
+     "num": 1,
      "den": 2
     },
     "ruleLinesFunded": 0,
@@ -159,9 +159,7 @@
      "num": 1,
      "den": 3
     },
-    "piiIou": [
-     0
-    ]
+    "piiIou": []
    }
   }
  ]

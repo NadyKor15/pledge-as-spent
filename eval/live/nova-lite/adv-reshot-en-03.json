@@ -17,7 +17,7 @@
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
-    "taxRateBp": 725
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
@@ -25,33 +25,44 @@
     "translationEn": "Lagers 6PK BTL",
     "qty": null,
     "unitPriceMinor": 1663,
-    "amountMinor": 9978,
-    "taxRateBp": 725
+    "amountMinor": 999,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
     "rawText": "AA ALKALINE 24PK",
     "translationEn": "AA Alkaline 24PK",
     "qty": null,
-    "unitPriceMinor": 660,
-    "amountMinor": 15840,
-    "taxRateBp": 725
+    "unitPriceMinor": 625,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
     "rawText": "COUPON",
-    "translationEn": "COUPON",
+    "translationEn": "Coupon",
     "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": -2400,
-    "taxRateBp": 725
+    "unitPriceMinor": -600,
+    "amountMinor": -240,
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 2954,
   "taxMinor": 171,
   "taxIncluded": false,
   "totalMinor": 3125,
-  "pii": [],
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.68,
+     "y": 0.78,
+     "w": 0.29,
+     "h": 0.03
+    }
+   }
+  ],
   "readability": "good"
  },
  "classifications": [
@@ -70,8 +81,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Lagers are alcohol and are not funded.",
-   "confidence": 0.95
+   "reasonEn": "Lagers are a type of alcohol and are not funded.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
@@ -88,22 +99,22 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Coupons are not a need and cannot be funded.",
-   "confidence": 0.95
+   "reasonEn": "Coupons are not a physical item that can be donated.",
+   "confidence": 0.8
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2358,
-   "tokensOut": 287,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.00021
+   "tokensIn": 2374,
+   "tokensOut": 335,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.000223
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1115,
-   "tokensOut": 186,
+   "tokensIn": 1110,
+   "tokensOut": 188,
    "usdCeiling": 0.001231,
    "usdActual": 0.000112
   }

@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
  "reading": {
-  "merchantName": "株式会社 山本",
+  "merchantName": "株式会社 辻本",
   "merchantAddress": "東京都港区南青山2-8-1",
   "country": "JP",
   "currency": "JPY",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "ビール 2L",
-    "translationEn": "Beer 2L",
+    "rawText": "ビーフカレー 2L",
+    "translationEn": "Beef curry 2L",
     "qty": 2,
     "unitPriceMinor": 128,
     "amountMinor": 256,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ハイボール A5",
-    "translationEn": "Highball A5",
+    "rawText": "ビーフカレー A5",
+    "translationEn": "Beef curry A5",
     "qty": 2,
     "unitPriceMinor": 148,
     "amountMinor": 296,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "レモンサワー L 34杯",
-    "translationEn": "Lemon sour L 34 cups",
+    "rawText": "ビーフカレー 特大 L 34個",
+    "translationEn": "Beef curry special large L 34 pieces",
     "qty": 1,
     "unitPriceMinor": 1298,
     "amountMinor": 1298,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "ハイボール 10杯",
-    "translationEn": "Highball 10 cups",
+    "rawText": "ビーフカレー 10個",
+    "translationEn": "Beef curry 10 pieces",
     "qty": 3,
     "unitPriceMinor": 398,
     "amountMinor": 1194,
@@ -48,8 +48,8 @@
    },
    {
     "lineNo": 5,
-    "rawText": "ハイボール 4杯",
-    "translationEn": "Highball 4 cups",
+    "rawText": "ビーフカレー 4個",
+    "translationEn": "Beef curry 4 pieces",
     "qty": 3,
     "unitPriceMinor": 86,
     "amountMinor": 258,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "割引 (6杯)",
-    "translationEn": "Discount (6 cups)",
+    "rawText": "割引 (6個)",
+    "translationEn": "Discount (6 pieces)",
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": -40,
@@ -96,8 +96,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry 2L does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -105,8 +105,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry A5 does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -114,8 +114,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry special large L 34 pieces does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -123,8 +123,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry 10 pieces does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -132,8 +132,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef curry 4 pieces does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -141,8 +141,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discounts are not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount (6 pieces) does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -150,8 +150,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discounts are not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount 8% does not match any of the listed needs.",
    "confidence": 1
   },
   {
@@ -159,25 +159,25 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discounts are not funded.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount 10% does not match any of the listed needs.",
    "confidence": 1
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2478,
-   "tokensOut": 377,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003189
+   "tokensIn": 2494,
+   "tokensOut": 398,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003269
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1241,
-   "tokensOut": 239,
-   "usdCeiling": 0.016785,
-   "usdActual": 0.001758
+   "tokensIn": 1262,
+   "tokensOut": 326,
+   "usdCeiling": 0.016829,
+   "usdActual": 0.002053
   }
  ],
  "errors": []

@@ -4,7 +4,7 @@
  "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
  "reading": {
   "merchantName": "SÜPER YILDIZ MARKET",
-  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yldizova",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yildizova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-06-11T14:36:00",
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "INDİRİM",
-    "translationEn": "Discount",
+    "rawText": "INDIRIMLI",
+    "translationEn": "Discounted",
     "qty": 1,
     "unitPriceMinor": 329,
     "amountMinor": 329,
@@ -30,7 +30,7 @@
    },
    {
     "lineNo": 3,
-    "rawText": "SEVIMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
     "translationEn": "Lovely baby diaper NO:4 Jumbo 42's",
     "qty": 1,
     "unitPriceMinor": 34900,
@@ -40,54 +40,101 @@
    {
     "lineNo": 4,
     "rawText": "KDV %10 MATRAH 16,92",
-    "translationEn": "VAT %10 Base 16,92",
-    "qty": null,
+    "translationEn": "VAT 10% Base 16,92",
+    "qty": 1,
     "unitPriceMinor": 169,
     "amountMinor": 169,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
     "rawText": "KDV %20 MATRAH 290,83",
-    "translationEn": "VAT %20 Base 290,83",
-    "qty": null,
+    "translationEn": "VAT 20% Base 290,83",
+    "qty": 1,
     "unitPriceMinor": 29083,
-    "amountMinor": 5817,
-    "taxRateBp": null
+    "amountMinor": 29083,
+    "taxRateBp": 2000
    },
    {
     "lineNo": 6,
     "rawText": "TOPKDV",
     "translationEn": "Total VAT",
-    "qty": null,
-    "unitPriceMinor": 36761,
-    "amountMinor": 36761,
-    "taxRateBp": null
+    "qty": 1,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 7,
     "rawText": "TOPLAM",
     "translationEn": "Total",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 36761,
     "amountMinor": 36761,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 8,
-    "rawText": "***** ***** **** 7374",
-    "translationEn": "Credit card discount",
-    "qty": null,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "Credit card",
+    "qty": 1,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "**** **** **** 7374",
+    "translationEn": "**** **** **** 7374",
+    "qty": 1,
     "unitPriceMinor": 7374,
-    "amountMinor": -7374,
-    "taxRateBp": null
+    "amountMinor": 7374,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "MÜSTERI KARTI",
+    "translationEn": "Customer card",
+    "qty": 1,
+    "unitPriceMinor": 42747,
+    "amountMinor": 42747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "AYSE DEMIRKAN",
+    "translationEn": "AYSE DEMIRKAN",
+    "qty": 1,
+    "unitPriceMinor": 42747,
+    "amountMinor": 42747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TESEKKÜR EDE RIZ",
+    "translationEn": "THANK YOU",
+    "qty": 1,
+    "unitPriceMinor": 42747,
+    "amountMinor": 42747,
+    "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 34900,
+  "subtotalMinor": 36761,
   "taxMinor": 5986,
   "taxIncluded": false,
-  "totalMinor": 36761,
-  "pii": [],
+  "totalMinor": 42747,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7374",
+    "bbox": {
+     "x": 0.19,
+     "y": 0.71,
+     "w": 0.59,
+     "h": 0.03
+    }
+   }
+  ],
   "readability": "good"
  },
  "classifications": [
@@ -104,17 +151,17 @@
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 2262,
-   "tokensOut": 477,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.00025
+   "tokensIn": 2278,
+   "tokensOut": 787,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000326
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1279,
+   "tokensIn": 1435,
    "tokensOut": 53,
-   "usdCeiling": 0.001264,
-   "usdActual": 0.000089
+   "usdCeiling": 0.001294,
+   "usdActual": 0.000099
   }
  ],
  "errors": []

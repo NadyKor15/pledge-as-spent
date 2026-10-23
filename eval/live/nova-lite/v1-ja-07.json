@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
  "reading": {
-  "merchantName": "株式会社 エム・エム・シー",
+  "merchantName": "株式会社 エム・エム・エム",
   "merchantAddress": "東京都千代田区神田駿河台4-1-8",
   "country": "JP",
   "currency": "JPY",
@@ -12,132 +12,141 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "冷凍食品 2L",
-    "translationEn": "Frozen food 2L",
+    "rawText": "りんご 2L",
+    "translationEn": "Apple 2L",
     "qty": 2,
-    "unitPriceMinor": 3980,
-    "amountMinor": 7960,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
     "taxRateBp": 800
    },
    {
     "lineNo": 2,
-    "rawText": "冷凍食品 3L",
-    "translationEn": "Frozen food 3L",
+    "rawText": "りんご 1L",
+    "translationEn": "Apple 1L",
     "qty": 2,
-    "unitPriceMinor": 3990,
-    "amountMinor": 7980,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
-    "rawText": "冷凍食品 5L",
-    "translationEn": "Frozen food 5L",
+    "rawText": "りんご 500g",
+    "translationEn": "Apple 500g",
     "qty": 1,
-    "unitPriceMinor": 3990,
-    "amountMinor": 3990,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "3L×4入 M",
-    "translationEn": "3L x 4 pack M",
-    "qty": 1,
-    "unitPriceMinor": 1198,
-    "amountMinor": 1198,
+    "rawText": "りんご 3kg",
+    "translationEn": "Apple 3kg",
+    "qty": 3,
+    "unitPriceMinor": 1698,
+    "amountMinor": 5094,
     "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "3L×4入 M",
-    "translationEn": "3L x 4 pack M",
-    "qty": 1,
-    "unitPriceMinor": 4580,
-    "amountMinor": 4580,
+    "rawText": "りんご 2kg",
+    "translationEn": "Apple 2kg",
+    "qty": 2,
+    "unitPriceMinor": 2298,
+    "amountMinor": 4596,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "2L×4入 34L",
-    "translationEn": "2L x 4 pack 34L",
+    "rawText": "りんご 1kg 340g",
+    "translationEn": "Apple 1kg 340g",
     "qty": 1,
-    "unitPriceMinor": 2590,
-    "amountMinor": 2590,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
     "lineNo": 7,
-    "rawText": "2L×4入 M",
-    "translationEn": "2L x 4 pack M",
-    "qty": 1,
-    "unitPriceMinor": 1290,
-    "amountMinor": 1290,
+    "rawText": "りんご 1kg",
+    "translationEn": "Apple 1kg",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
     "lineNo": 8,
-    "rawText": "2L×4入 L",
-    "translationEn": "2L x 4 pack L",
+    "rawText": "りんご 180g",
+    "translationEn": "Apple 180g",
     "qty": 1,
-    "unitPriceMinor": 5980,
-    "amountMinor": 5980,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
     "taxRateBp": 800
    },
    {
     "lineNo": 9,
-    "rawText": "2L×4入 L",
-    "translationEn": "2L x 4 pack L",
+    "rawText": "りんご 100g",
+    "translationEn": "Apple 100g",
     "qty": 1,
-    "unitPriceMinor": 1980,
-    "amountMinor": 1980,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
     "taxRateBp": 800
    },
    {
     "lineNo": 10,
-    "rawText": "1L",
-    "translationEn": "1L",
+    "rawText": "りんご 1L",
+    "translationEn": "Apple 1L",
     "qty": 1,
-    "unitPriceMinor": 1100,
-    "amountMinor": 1100,
+    "unitPriceMinor": 1,
+    "amountMinor": 1,
     "taxRateBp": 800
    },
    {
     "lineNo": 11,
-    "rawText": "飲料 (7個)",
-    "translationEn": "Drinks (7)",
+    "rawText": "りんご (7kg)",
+    "translationEn": "Apple (7kg)",
     "qty": 7,
-    "unitPriceMinor": 1454,
-    "amountMinor": 10178,
+    "unitPriceMinor": 1340,
+    "amountMinor": 9380,
     "taxRateBp": 800
    },
    {
     "lineNo": 12,
-    "rawText": "お菓子",
-    "translationEn": "Snacks",
+    "rawText": "りんご",
+    "translationEn": "Apple",
     "qty": 8,
-    "unitPriceMinor": 886,
-    "amountMinor": 7088,
+    "unitPriceMinor": 1454,
+    "amountMinor": 11632,
     "taxRateBp": 800
    },
    {
     "lineNo": 13,
-    "rawText": "10%割引券 8%",
-    "translationEn": "10% discount coupon 8%",
+    "rawText": "(りんご) 8kg",
+    "translationEn": "(Apple) 8kg",
     "qty": 1,
-    "unitPriceMinor": 1070,
-    "amountMinor": 1070,
+    "unitPriceMinor": 6886,
+    "amountMinor": 6886,
     "taxRateBp": 800
    },
    {
     "lineNo": 14,
-    "rawText": "10%割引券 10%",
-    "translationEn": "10% discount coupon 10%",
+    "rawText": "(りんご) 10kg",
+    "translationEn": "(Apple) 10kg",
     "qty": 1,
-    "unitPriceMinor": 6260,
-    "amountMinor": 6260,
+    "unitPriceMinor": 107,
+    "amountMinor": 107,
     "taxRateBp": 800
    },
    {
     "lineNo": 15,
+    "rawText": "りんご 10kg",
+    "translationEn": "Apple 10kg",
+    "qty": 1,
+    "unitPriceMinor": 626,
+    "amountMinor": 626,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 16,
     "rawText": "合計",
     "translationEn": "Total",
     "qty": 1,
@@ -146,36 +155,36 @@
     "taxRateBp": 800
    },
    {
-    "lineNo": 16,
-    "rawText": "現金",
-    "translationEn": "Cash",
+    "lineNo": 17,
+    "rawText": "税込",
+    "translationEn": "Tax included",
     "qty": 1,
     "unitPriceMinor": 9000,
     "amountMinor": 9000,
     "taxRateBp": 800
    },
    {
-    "lineNo": 17,
-    "rawText": "おつり",
-    "translationEn": "Change",
+    "lineNo": 18,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
     "qty": 1,
     "unitPriceMinor": 660,
     "amountMinor": 660,
     "taxRateBp": 800
    }
   ],
-  "subtotalMinor": 14540,
-  "taxMinor": 1860,
+  "subtotalMinor": 8340,
+  "taxMinor": 1454,
   "taxIncluded": false,
-  "totalMinor": 16400,
+  "totalMinor": 9794,
   "pii": [
    {
     "kind": "card_number",
     "text": "9739 4221 0384",
     "bbox": {
-     "x": 0.63,
-     "y": 0.78,
-     "w": 0.35,
+     "x": 0.6,
+     "y": 0.75,
+     "w": 0.23,
      "h": 0.02
     }
    }
@@ -189,8 +198,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Frozen food is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 2,
@@ -198,8 +207,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Frozen food is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 3,
@@ -207,26 +216,26 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Frozen food is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The size of the pack is unclear.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The size of the pack is unclear.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
@@ -234,17 +243,17 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "The size of the pack is not listed as a need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 7,
-   "needId": "diapers",
-   "needQty": 4,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size M diapers are a listed need.",
-   "confidence": 0.9
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 8,
@@ -252,8 +261,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Size L diapers are not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 9,
@@ -261,8 +270,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Size L diapers are not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 10,
@@ -270,8 +279,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "1L is not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 11,
@@ -279,8 +288,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Drinks are not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 12,
@@ -288,69 +297,78 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Snacks are not a listed need.",
-   "confidence": 0.9
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 13,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount coupons are not funded.",
-   "confidence": 0.9
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 14,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Discount coupons are not funded.",
-   "confidence": 0.9
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 15,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total is not a purchasable item.",
-   "confidence": 0.9
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 16,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Cash is not a purchasable item.",
-   "confidence": 0.9
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The total line does not count as a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 17,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Change is not a purchasable item.",
-   "confidence": 0.9
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included line does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment line does not count as a need.",
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1418,
-   "tokensOut": 963,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000316
+   "tokensIn": 1434,
+   "tokensOut": 986,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000323
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1590,
-   "tokensOut": 596,
-   "usdCeiling": 0.001321,
-   "usdActual": 0.000238
+   "tokensIn": 1613,
+   "tokensOut": 748,
+   "usdCeiling": 0.001325,
+   "usdActual": 0.000276
   }
  ],
  "errors": []

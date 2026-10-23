@@ -77,20 +77,20 @@
     "lineNo": 8,
     "rawText": "DTO. PROMOCIÓN",
     "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 0,
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": -6,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 26755,
-  "taxMinor": 1595,
+  "subtotalMinor": 2835,
+  "taxMinor": 283,
   "taxIncluded": true,
   "totalMinor": 2835,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "6082753386",
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
     "bbox": null
    }
   ],
@@ -103,16 +103,16 @@
    "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "reasonEn": "This is a pack of 6 1.5 L water bottles, which matches the need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a 1.5 L water bottle, which is the only type of water accepted.",
    "confidence": 0.95
   },
   {
@@ -121,7 +121,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "reasonEn": "This is a pack of 2 1.5 L water bottles, which matches the need.",
    "confidence": 0.95
   },
   {
@@ -130,7 +130,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "reasonEn": "This is a pack of size 3 diapers, which matches the need.",
    "confidence": 0.95
   },
   {
@@ -139,7 +139,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "reasonEn": "This is a pack of 2 AA batteries, which matches the need.",
    "confidence": 0.95
   },
   {
@@ -148,7 +148,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Bread is not one of the listed needs.",
+   "reasonEn": "This is not one of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -157,7 +157,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "5L water bottles are not the listed need of 1.5 L bottles.",
+   "reasonEn": "This is not a 1.5 L water bottle, which is the only type of water accepted.",
    "confidence": 0.95
   },
   {
@@ -166,24 +166,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items only.",
+   "reasonEn": "This is a discount line, and its eligibility depends on the lines it applies to.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2429,
-   "tokensOut": 389,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.003188
+   "tokensIn": 2445,
+   "tokensOut": 380,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003172
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1202,
-   "tokensOut": 342,
-   "usdCeiling": 0.016686,
-   "usdActual": 0.002056
+   "tokensOut": 370,
+   "usdCeiling": 0.01669,
+   "usdActual": 0.002146
   }
  ],
  "errors": []

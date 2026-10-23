@@ -17,7 +17,7 @@
     "qty": 2,
     "unitPriceMinor": 749,
     "amountMinor": 1498,
-    "taxRateBp": 2100
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
@@ -33,27 +33,79 @@
     "rawText": "PAPEL HIGIÉNICO 12R",
     "translationEn": "Toilet Paper 12R",
     "qty": null,
-    "unitPriceMinor": 374,
-    "amountMinor": 449,
+    "unitPriceMinor": 748,
+    "amountMinor": 4488,
     "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUOTA 1,66",
+    "translationEn": "Quota 1,66",
+    "qty": null,
+    "unitPriceMinor": -166,
+    "amountMinor": -166,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "CUOTA 0,78",
+    "translationEn": "Quota 0,78",
+    "qty": null,
+    "unitPriceMinor": -78,
+    "amountMinor": -78,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "BASE 3,71",
+    "translationEn": "Base 3,71",
+    "qty": null,
+    "unitPriceMinor": -371,
+    "amountMinor": -371,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BASE 16,61",
+    "translationEn": "Base 16,61",
+    "qty": null,
+    "unitPriceMinor": -1661,
+    "amountMinor": -1661,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "IVA 10%",
+    "translationEn": "IVA 10%",
+    "qty": null,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "IVA 21%",
+    "translationEn": "IVA 21%",
+    "qty": null,
+    "unitPriceMinor": 771,
+    "amountMinor": 771,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "CAMBIO",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": 724,
+    "amountMinor": 724,
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 1661,
   "taxMinor": 600,
   "taxIncluded": true,
   "totalMinor": 2276,
-  "pii": [
-   {
-    "kind": "member_id",
-    "text": "CAJA 04",
-    "bbox": {
-     "x": 0.18,
-     "y": 0.39,
-     "w": 0.63,
-     "h": 0.03
-    }
-   }
-  ],
+  "pii": [],
   "readability": "good"
  },
  "classifications": [
@@ -63,42 +115,24 @@
    "needQty": 36,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size 3 diapers are listed as a need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 2,
-   "needId": "water",
-   "needQty": 6,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "1.5 L water bottles are listed as a need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Toilet paper is not listed as a need.",
+   "reasonEn": "Diapers T3 Pants 36U match the size 3 diapers need.",
    "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1837,
-   "tokensOut": 297,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000182
+   "tokensIn": 1853,
+   "tokensOut": 552,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000244
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1090,
-   "tokensOut": 150,
-   "usdCeiling": 0.001224,
-   "usdActual": 0.000101
+   "tokensIn": 1338,
+   "tokensOut": 61,
+   "usdCeiling": 0.001274,
+   "usdActual": 0.000095
   }
  ],
  "errors": []

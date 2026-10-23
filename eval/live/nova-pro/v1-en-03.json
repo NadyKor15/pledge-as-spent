@@ -7,7 +7,7 @@
   "merchantAddress": "210 Mill Street Brindlewood, Marlow Co.",
   "country": "US",
   "currency": "USD",
-  "purchasedAt": "2026-04-11T10:36:00",
+  "purchasedAt": "2026-11-04T10:36:00",
   "receiptNumber": "01",
   "lines": [
    {
@@ -50,8 +50,8 @@
     "lineNo": 5,
     "rawText": "COUPON",
     "translationEn": "COUPON",
-    "qty": 1,
-    "unitPriceMinor": -240,
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": -240,
     "taxRateBp": null
    }
@@ -90,7 +90,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The item is not clearly identified, so it needs further review.",
+   "reasonEn": "The item description is unclear and requires further review.",
    "confidence": 0.5
   },
   {
@@ -117,24 +117,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The coupon needs further review to determine its eligibility.",
+   "reasonEn": "The nature of the coupon is unclear and requires further review.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2358,
-   "tokensOut": 342,
-   "usdCeiling": 0.017902,
-   "usdActual": 0.002981
+   "tokensIn": 2374,
+   "tokensOut": 334,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.002968
   },
   {
    "model": "amazon.nova-pro-v1:0",
    "tokensIn": 1134,
-   "tokensOut": 196,
-   "usdCeiling": 0.016473,
-   "usdActual": 0.001534
+   "tokensOut": 195,
+   "usdCeiling": 0.016475,
+   "usdActual": 0.001531
   }
  ],
  "errors": []

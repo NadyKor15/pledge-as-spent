@@ -14,9 +14,9 @@
     "lineNo": 1,
     "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "WATER 1.5L PACK 6",
-    "qty": 3,
-    "unitPriceMinor": 329,
-    "amountMinor": 987,
+    "qty": 6,
+    "unitPriceMinor": 987,
+    "amountMinor": 5922,
     "taxRateBp": null
    },
    {
@@ -24,8 +24,8 @@
     "rawText": "PANAL BEBÉ T3 44U",
     "translationEn": "BABY WIPES T3 44U",
     "qty": 2,
-    "unitPriceMinor": 895,
-    "amountMinor": 1790,
+    "unitPriceMinor": 1790,
+    "amountMinor": 3580,
     "taxRateBp": null
    },
    {
@@ -67,10 +67,10 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 18,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "This is a pack of 6 1.5L water bottles, which matches the need for drinking water.",
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -79,7 +79,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Baby wipes are not listed as a need.",
+   "reasonEn": "Baby wipes are not a listed need.",
    "confidence": 0.95
   },
   {
@@ -88,7 +88,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "tobacco",
-   "reasonEn": "Tobacco products are not funded.",
+   "reasonEn": "Tobacco is not funded.",
    "confidence": 1
   },
   {
@@ -97,7 +97,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "This is a pack of size 3 diapers, which matches the need for baby diapers.",
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -106,24 +106,24 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The discount promotion needs further review to determine its eligibility.",
+   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items only.",
    "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2294,
-   "tokensOut": 326,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.002878
+   "tokensIn": 2310,
+   "tokensOut": 333,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.002914
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1164,
-   "tokensOut": 215,
-   "usdCeiling": 0.016532,
-   "usdActual": 0.001619
+   "tokensIn": 1165,
+   "tokensOut": 201,
+   "usdCeiling": 0.016533,
+   "usdActual": 0.001575
   }
  ],
  "errors": []

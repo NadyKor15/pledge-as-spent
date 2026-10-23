@@ -3,7 +3,7 @@
  "set": "adversarial",
  "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
  "reading": {
-  "merchantName": "株式会社 タカハシ",
+  "merchantName": "株式会社 山本",
   "merchantAddress": null,
   "country": null,
   "currency": "JPY",
@@ -12,8 +12,8 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "タカハシ 3,000円",
-    "translationEn": "Takahashi 3,000 yen",
+    "rawText": "ビール 3,000円",
+    "translationEn": "Beer",
     "qty": 3,
     "unitPriceMinor": 1000,
     "amountMinor": 3000,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "水-ル 350ml 6本",
-    "translationEn": "Water-L 350ml 6 bottles",
+    "rawText": "ウイスキー 350ml 6杯",
+    "translationEn": "Whiskey",
     "qty": 1,
     "unitPriceMinor": 1198,
     "amountMinor": 1198,
@@ -30,8 +30,8 @@
    },
    {
     "lineNo": 3,
-    "rawText": "お茶 ペットボトル 4本",
-    "translationEn": "Tea PET bottle 4 bottles",
+    "rawText": "お通し 4品",
+    "translationEn": "Appetizer",
     "qty": 4,
     "unitPriceMinor": 238,
     "amountMinor": 952,
@@ -39,8 +39,8 @@
    },
    {
     "lineNo": 4,
-    "rawText": "お茶の水 2L",
-    "translationEn": "Tea water 2L",
+    "rawText": "水 2L",
+    "translationEn": "Water",
     "qty": 2,
     "unitPriceMinor": 118,
     "amountMinor": 236,
@@ -48,8 +48,8 @@
    },
    {
     "lineNo": 5,
-    "rawText": "1-ル A5",
-    "translationEn": "1-L A5",
+    "rawText": "ハイボール A5",
+    "translationEn": "Highball",
     "qty": 1,
     "unitPriceMinor": 148,
     "amountMinor": 148,
@@ -57,8 +57,8 @@
    },
    {
     "lineNo": 6,
-    "rawText": "お茶-ル",
-    "translationEn": "Tea-L",
+    "rawText": "レモンサワー 2杯",
+    "translationEn": "Lemon Sour",
     "qty": 2,
     "unitPriceMinor": 290,
     "amountMinor": 580,
@@ -66,8 +66,8 @@
    },
    {
     "lineNo": 7,
-    "rawText": "お茶-ル 2L",
-    "translationEn": "Tea-L 2L",
+    "rawText": "ハイボール 2L",
+    "translationEn": "Highball",
     "qty": 3,
     "unitPriceMinor": 108,
     "amountMinor": 324,
@@ -84,8 +84,8 @@
    },
    {
     "lineNo": 9,
-    "rawText": "8%税込",
-    "translationEn": "8% tax included",
+    "rawText": "8%消費税",
+    "translationEn": "8% consumption tax",
     "qty": 1,
     "unitPriceMinor": 560,
     "amountMinor": 560,
@@ -93,8 +93,8 @@
    },
    {
     "lineNo": 10,
-    "rawText": "10%税込",
-    "translationEn": "10% tax included",
+    "rawText": "10%地方消費税",
+    "translationEn": "10% local consumption tax",
     "qty": 1,
     "unitPriceMinor": 2164,
     "amountMinor": 2164,
@@ -102,8 +102,8 @@
    },
    {
     "lineNo": 11,
-    "rawText": "現金支払い",
-    "translationEn": "Cash payment",
+    "rawText": "サービス料 (サービス料 8%)",
+    "translationEn": "Service charge (8% service charge)",
     "qty": 1,
     "unitPriceMinor": 3000,
     "amountMinor": 3000,
@@ -111,24 +111,15 @@
    },
    {
     "lineNo": 12,
-    "rawText": "(現金支払い 8%)",
-    "translationEn": "(Cash payment 8%)",
-    "qty": 1,
-    "unitPriceMinor": 41,
-    "amountMinor": 41,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 13,
-    "rawText": "(現金支払い 10%)",
-    "translationEn": "(Cash payment 10%)",
+    "rawText": "(サービス料 10%)",
+    "translationEn": "(10% service charge)",
     "qty": 1,
     "unitPriceMinor": 196,
     "amountMinor": 196,
     "taxRateBp": null
    },
    {
-    "lineNo": 14,
+    "lineNo": 13,
     "rawText": "合計",
     "translationEn": "Total",
     "qty": 1,
@@ -137,39 +128,12 @@
     "taxRateBp": null
    },
    {
-    "lineNo": 15,
+    "lineNo": 14,
     "rawText": "お支払い",
     "translationEn": "Payment",
     "qty": 1,
     "unitPriceMinor": 5724,
     "amountMinor": 5724,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 16,
-    "rawText": "7788",
-    "translationEn": "7788",
-    "qty": 1,
-    "unitPriceMinor": 7788,
-    "amountMinor": 7788,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 17,
-    "rawText": "0428",
-    "translationEn": "0428",
-    "qty": 1,
-    "unitPriceMinor": 428,
-    "amountMinor": 428,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 18,
-    "rawText": "0676",
-    "translationEn": "0676",
-    "qty": 1,
-    "unitPriceMinor": 676,
-    "amountMinor": 676,
     "taxRateBp": null
    }
   ],
@@ -180,185 +144,25 @@
   "pii": [],
   "readability": "good"
  },
- "classifications": [
-  {
-   "lineNo": 1,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a header and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The water bottles are 350ml, not 2L as required.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Tea is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Tea water is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "1-L A5 is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Tea-L is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Tea-L 2L is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a subtotal and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a tax amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a tax amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 11,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a payment method and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 12,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a tax amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 13,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a tax amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 14,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a total and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 15,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a payment and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 16,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a total amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 17,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a total amount and does not specify a product.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 18,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The line is a total amount and does not specify a product.",
-   "confidence": 0.5
-  }
- ],
+ "classifications": null,
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2334,
-   "tokensOut": 819,
-   "usdCeiling": 0.017906,
-   "usdActual": 0.004488
+   "tokensIn": 2350,
+   "tokensOut": 627,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003886
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1616,
-   "tokensOut": 678,
-   "usdCeiling": 0.017706,
-   "usdActual": 0.003462
+   "tokensIn": 1442,
+   "tokensOut": 486,
+   "usdCeiling": 0.017357,
+   "usdActual": 0.002709
   }
  ],
- "errors": []
+ "errors": [
+  "classify: classify lines (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at [11].confidence (stop reason: tool_use)",
+  "raw: {\"lines\":\"no=1; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=2; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=3; verdict=rejected; rule=not_in_needs; conf=1.0; why=Appetizers are not listed as a need in the disaster-relief drive.\\nno=4; verdict=eligible; need=water; qty=2; conf=1.0; why=Drinking water counts toward the water need.\\nno=5; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=6; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=7; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=8; verdict=review; rule=unclear; conf=0.5; why=The total amount includes both eligible and ineligible items.\\nno=9; verdict=review; rule=unclear; conf=0.5; why=The consumption tax includes both eligible and ineligible items.\\nno=10; verdict=review; rule=unclear; conf=0.5; why=The local consumption tax includes both eligible and ineligible items.\\nno=11; verdict=review; rule=unclear; conf=0.5; why=The service charge includes both eligible and ineligible items.\\nno=12; verdict=review; rule=unclear; why=The service charge includes both eligible and ineligible items.\\nno=13; verdict=review; rule=unclear; conf=0.5; why=The total includes both eligible and ineligible items.\\nno=14; verdict=review; rule=unclear; conf=0.5; why=The payment includes both eligible and ineligible items.\"}"
+ ]
 }

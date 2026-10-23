@@ -12,98 +12,107 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "BEBÉK BEZI 3 NO 44'LÜ",
+    "rawText": "BEBEK BEZI 3 NO 44'LÜ",
     "translationEn": "BABY WIPES 3 NO 44'S",
-    "qty": null,
-    "unitPriceMinor": 279,
-    "amountMinor": 558,
-    "taxRateBp": 800
+    "qty": 1,
+    "unitPriceMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": 20
    },
    {
     "lineNo": 2,
-    "rawText": "KAYNAKL SU 0,5L 12'Lİ",
+    "rawText": "KAYNAKSU 0,5L 12'Lİ",
     "translationEn": "BOILED WATER 0.5L 12'S",
-    "qty": null,
-    "unitPriceMinor": 54,
-    "amountMinor": 54,
-    "taxRateBp": 100
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 10
    },
    {
     "lineNo": 3,
-    "rawText": "MINI BEBÉK BEZI 4 NO 2 X 289,90",
-    "translationEn": "MINI BABY WIPES 4 NO 2 X 289.90",
-    "qty": null,
-    "unitPriceMinor": 579,
-    "amountMinor": 1158,
-    "taxRateBp": 800
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "MINI BABY WIPES 4'S",
+    "qty": 1,
+    "unitPriceMinor": 57980,
+    "amountMinor": 57980,
+    "taxRateBp": 20
    },
    {
     "lineNo": 4,
-    "rawText": "AA PİL 10'LU PAKET",
-    "translationEn": "AA BATTERIES 10'S PACK",
-    "qty": null,
-    "unitPriceMinor": 169,
-    "amountMinor": 338,
-    "taxRateBp": 800
+    "rawText": "2 X 289,90",
+    "translationEn": "2 X 289.90",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "KDV %10 MATRAH 49,91",
-    "translationEn": "VAT 10% BASE 49.91",
-    "qty": null,
-    "unitPriceMinor": 4,
-    "amountMinor": 16,
-    "taxRateBp": 100
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERIES 10'S PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 20
    },
    {
     "lineNo": 6,
-    "rawText": "KDV %20 MATRAH 857,25",
-    "translationEn": "VAT 20% BASE 857.25",
-    "qty": null,
-    "unitPriceMinor": 171,
-    "amountMinor": 342,
-    "taxRateBp": 200
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "VAT 10% BASE",
+    "qty": 1,
+    "unitPriceMinor": 4991,
+    "amountMinor": 4991,
+    "taxRateBp": 10
    },
    {
     "lineNo": 7,
-    "rawText": "TOPKDV",
-    "translationEn": "TOTAL VAT",
-    "qty": null,
-    "unitPriceMinor": 176,
-    "amountMinor": 352,
-    "taxRateBp": 200
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "VAT 20% BASE",
+    "qty": 1,
+    "unitPriceMinor": 85725,
+    "amountMinor": 85725,
+    "taxRateBp": 20
    },
    {
     "lineNo": 8,
-    "rawText": "TOPLAM",
-    "translationEn": "TOTAL",
-    "qty": null,
-    "unitPriceMinor": 1083,
-    "amountMinor": 1083,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 17644,
+    "amountMinor": 17644,
     "taxRateBp": null
    },
    {
     "lineNo": 9,
-    "rawText": "KREDİ KARTI **** **** **** 6869",
-    "translationEn": "CREDIT CARD",
-    "qty": null,
-    "unitPriceMinor": 1083,
-    "amountMinor": -1083,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 108360,
+    "amountMinor": 108360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "*176,44",
+    "translationEn": "*176.44",
+    "qty": 1,
+    "unitPriceMinor": 17644,
+    "amountMinor": 17644,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 1083,
-  "taxMinor": 176,
+  "subtotalMinor": 108360,
+  "taxMinor": 17644,
   "taxIncluded": false,
-  "totalMinor": 1259,
+  "totalMinor": 126004,
   "pii": [
    {
     "kind": "card_number",
     "text": "**** **** **** 6869",
     "bbox": {
      "x": 0.18,
-     "y": 0.79,
-     "w": 0.6,
+     "y": 0.78,
+     "w": 0.65,
      "h": 0.04
     }
    }
@@ -113,12 +122,12 @@
  "classifications": [
   {
    "lineNo": 1,
-   "needId": null,
-   "needQty": null,
+   "needId": "diapers",
+   "needQty": 44,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Baby wipes are not a listed need for the disaster-relief drive.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "The item is baby wipes, not baby diapers.",
+   "confidence": 0.95
   },
   {
    "lineNo": 2,
@@ -126,7 +135,7 @@
    "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Boiled water in 0.5L bottles counts toward the water need.",
+   "reasonEn": "Boiled water in 0.5L bottles counts toward the drinking water need.",
    "confidence": 0.95
   },
   {
@@ -135,78 +144,87 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Mini baby wipes are not a listed need for the disaster-relief drive.",
-   "confidence": 0.9
+   "reasonEn": "The item is mini baby wipes, which are not listed as a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": "batteries",
-   "needQty": 10,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a duplicate of line 3 and does not specify a need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "VAT line does not count as a need.",
-   "confidence": 0.9
+   "reasonEn": "AA batteries in a 10's pack count toward the AA batteries need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "VAT line does not count as a need.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a VAT base and does not specify a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Total VAT line does not count as a need.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a VAT base and does not specify a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 8,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Total line does not count as a need.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a total VAT and does not specify a need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 9,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Credit card information does not count as a need.",
-   "confidence": 0.9
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a total amount and does not specify a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "The line is a total VAT amount and does not specify a need.",
+   "confidence": 0.95
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1838,
-   "tokensOut": 594,
-   "usdCeiling": 0.001343,
-   "usdActual": 0.000253
+   "tokensIn": 1854,
+   "tokensOut": 689,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000277
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1368,
-   "tokensOut": 406,
+   "tokensIn": 1380,
+   "tokensOut": 499,
    "usdCeiling": 0.001276,
-   "usdActual": 0.00018
+   "usdActual": 0.000203
   }
  ],
  "errors": []
