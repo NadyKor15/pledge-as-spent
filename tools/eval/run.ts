@@ -8,6 +8,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { BedrockNovaClassifier, BedrockNovaReader, NOVA_MODELS, createBedrockClient } from "../../src/receipts/bedrock";
 import { OcrNovaReader, TesseractEngine } from "../../src/receipts/ocr";
+import { RefiningClassifier } from "../../src/receipts/quantity";
 import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { RecordedClassifier, RecordedReader, Recordings, receiptKey } from "../../src/receipts/recorded";
@@ -264,7 +265,9 @@ async function build(choice: Choice, ledger: SpendCap | null, recordings: Record
   const cap = ledger!;
   const client = createBedrockClient();
   const modelId = choice === "nova-lite" || choice === "nova-lite-2pass" || choice === "ocr-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
-  const classifier = new BedrockNovaClassifier({ client, cap, modelId });
+  const inner = new BedrockNovaClassifier({ client, cap, modelId });
+  // The OCR readers' classifier answers go through the deterministic quantity and forbidden-name checks.
+  const classifier = choice === "ocr-lite" || choice === "ocr-pro" ? new RefiningClassifier(inner) : inner;
   if (choice.endsWith("-2pass")) return { reader: new TwoPassReader({ client, cap, modelId }), classifier };
   if (choice === "ocr-lite" || choice === "ocr-pro") return { reader: new OcrNovaReader({ client, cap, modelId, engine }), classifier };
   return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier };

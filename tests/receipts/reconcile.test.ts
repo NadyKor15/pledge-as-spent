@@ -71,8 +71,9 @@ describe("reconcile", () => {
         expect(reconcile(receipt({ ...base, lines, totalMinor: expected })).ok).toBe(true);
         expect(reconcile(receipt({ ...base, lines, totalMinor: expected + tol })).ok).toBe(true);
         expect(reconcile(receipt({ ...base, lines, totalMinor: expected - tol })).ok).toBe(true);
-        expect(reconcile(receipt({ ...base, lines, totalMinor: expected + tol + off })).ok).toBe(false);
-        expect(reconcile(receipt({ ...base, lines, totalMinor: expected - tol - off })).ok).toBe(false);
+        // A total that equals the lines exactly reads as "tax inside" (the arithmetic outranks the label): not a mismatch.
+        if (expected + tol + off !== sum) expect(reconcile(receipt({ ...base, lines, totalMinor: expected + tol + off })).ok).toBe(false);
+        if (expected - tol - off !== sum) expect(reconcile(receipt({ ...base, lines, totalMinor: expected - tol - off })).ok).toBe(false);
       }),
     );
   });
@@ -122,5 +123,36 @@ describe("allocateTax", () => {
         expect(shares.every((s) => s >= 0)).toBe(true);
       }),
     );
+  });
+});
+
+describe("tax flag that contradicts the arithmetic (hero total_mismatch)", () => {
+  // The reader said "tax added on top" with tax 923, but the lines already add up to the printed total:
+  // 14,646 + 923 = 15,569 was compared with 14,646 and the receipt was held for review.
+  const lines = [line(1, 798, 800), line(2, 472, 800), line(3, 2596, 1000), line(4, 10780, 1000)];
+  const sum = 14646;
+
+  it("treats the tax as inside when the lines already equal the total", () => {
+    const r = receipt({ lines, taxIncluded: false, taxMinor: 923, totalMinor: sum });
+    expect(r.lines.reduce((s, l) => s + l.amountMinor, 0)).toBe(sum);
+    expect(isTaxOnTop(r)).toBe(false);
+    expect(reconcile(r)).toMatchObject({ ok: true, expectedTotalMinor: sum, deltaMinor: 0 });
+    expect(allocateTax(r)).toEqual([0, 0, 0, 0]);
+  });
+
+  it("treats the tax as on top when it is said to be inside but lines plus tax equal the total", () => {
+    const r = receipt({ lines, taxIncluded: true, taxMinor: 923, totalMinor: sum + 923 });
+    expect(isTaxOnTop(r)).toBe(true);
+    expect(reconcile(r).ok).toBe(true);
+  });
+
+  it("keeps what is said when neither reading fits, so a wrong total is still caught", () => {
+    expect(reconcile(receipt({ lines, taxIncluded: false, taxMinor: 923, totalMinor: sum + 5 })).ok).toBe(false);
+    expect(reconcile(receipt({ lines, taxIncluded: true, taxMinor: 923, totalMinor: sum + 5 })).ok).toBe(false);
+  });
+
+  it("leaves a correct flag alone", () => {
+    expect(isTaxOnTop(receipt({ lines, taxIncluded: false, taxMinor: 923, totalMinor: sum + 923 }))).toBe(true);
+    expect(isTaxOnTop(receipt({ lines, taxIncluded: true, taxMinor: 923, totalMinor: sum }))).toBe(false);
   });
 });
