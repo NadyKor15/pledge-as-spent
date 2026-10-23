@@ -49,6 +49,14 @@ export interface PayoutBatchResult {
   amount?: Money;
   fees?: Money;
   items: { payoutItemId: string; senderItemId?: string; transactionStatus: string; transactionId?: string }[];
+  /** Present when the batch currency differs from the sender's balance currency. */
+  currencyConversion?: { from: Money; to: Money };
+}
+
+export interface WebhookInfo {
+  id: string;
+  url: string;
+  eventTypes: string[];
 }
 
 export interface PayPalErrorInfo {
@@ -102,4 +110,11 @@ export interface PayPalGateway {
   getPayoutBatch(payoutBatchId: string): Promise<PayoutBatchResult>;
 
   verifyWebhookSignature(input: { headers: Record<string, string>; rawBody: string; webhookId: string }): Promise<boolean>;
+
+  listWebhooks(): Promise<WebhookInfo[]>;
+
+  createWebhook(input: { url: string; eventTypes: string[]; requestId: string }): Promise<WebhookInfo>;
+
+  /** Sandbox simulator: PayPal posts a sample event to the webhook's URL and returns the event. */
+  simulateWebhookEvent(input: { webhookId: string; eventType: string; requestId: string }): Promise<{ id: string; eventType: string }>;
 }
