@@ -1,0 +1,16 @@
+# App backend: decisions where SPEC-app-backend left room
+
+Readings taken while building the integration (23.10.2026). Each one is covered by a test in `tests/app/`.
+
+1. **Outbox.** `CaptureSubmitted` / `PayoutSubmitted` are committed (locked transaction) before PayPal is called, and PayPal's answer is recorded in a second short transaction per command. A crash in between leaves a pending batch; the lookup re-sends it under the same request id (`crash-recovery.test.ts`, live in the e2e run).
+2. **What counts as "captured" / "paid".** Only a verified webhook or a GET at PayPal after the grace period (10 min) records `CaptureConfirmed` / `PayoutConfirmed` (source `webhook` or `paypal_lookup`). The POST answer only records refusals. Void, reauthorize and authorize results are recorded from PayPal's answer (`paypal_response`): they move no money to anyone.
+3. **The lookup runs** on the daily job and whenever the coordinator presses capture-now or close, so the 10-minute fallback does not wait a day on Vercel Hobby.
+4. **Capture id for the lookup** comes from `paypal_calls` (the POST answer). The capture's `invoice_id` is the core's request id, so webhooks map to their batch even without our audit row. `getCapture` was added to the gateway for the GET.
+5. **Authorize request ids** are `authorize:{pledgeId}:{n}`: a timeout retry keeps `n` (PayPal replays), an attempt after PayPal refused (donor not approved yet) takes `n + 1`, because PayPal would replay the refusal.
+6. **Every flag** from `checkReceipt` sends the receipt to the coordinator, no money moves. A `block` flag (duplicate, unreadable) can only be rejected. An approval funds low-confidence lines (the coordinator looked); lines the classifier marked `review` stay refused. A rejection writes nothing to the book.
+7. **Readings, cheapest first:** the same photo already in the drive, the recorded answers shipped with the app, a stored live answer for the same photo (classification reused only for identical needs and rules), then live Nova under 30 readings / IP / day and the $5 cap. Live reading is off unless `LIVE_READING=on`.
+8. **Personal data** is blurred (three box-blur passes, margin of half the box height) in PNG and JPEG; WebP or a box-less region means the photo is not published. Only the blurred copy is served.
+9. **Concurrency.** Each drive's writes run under `pg_advisory_xact_lock(1, hashtext(driveId))`; the unique `(drive_id, seq)` index refuses a writer working from a stale book. PGlite runs one transaction at a time, so in tests the lock is never contended; the races there are real `Promise.all` interleavings outside the transactions.
+10. **FX** is a fixed snapshot (1 EUR = 162.35 JPY, 1 USD = 151.20 JPY, `demo snapshot (fixed for a reproducible demo)`, 2026-10-23) for demo and live pledges alike. Known limit for live pledges.
+11. **Per-share rounding.** The core converts each share to the donor's currency separately (half-up), so Mark's three diaper shares cost $21.45, while the agreed demo figure ($21.46) converts the ¥3,244 total at once. Reported; the agreed expectation is kept as an expected failure in `demo-replay.test.ts`.
+12. **Debug page** reads the drive through its own JSON API (`APP_BASE_URL` or loopback, never the request's Host header), so no database code runs in the page bundle.

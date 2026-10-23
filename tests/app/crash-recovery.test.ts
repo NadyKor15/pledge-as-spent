@@ -129,6 +129,25 @@ describe("crash around a capture", () => {
   });
 });
 
+describe("the webhook fallback without the daily job", () => {
+  it("capture-now looks up captures still pending after 10 minutes and confirms them", async () => {
+    const { pp, h } = await setup();
+    const { drive } = await h.svc.createDemoDrive({ driveId: "demo-fallback" });
+    await h.svc.submitReceipt({ driveId: drive.id, bytes: heroBytes() });
+    await h.svc.captureNow(drive.id); // sent; no webhook arrives
+    h.clock.advance(5 * 60_000);
+    await h.svc.captureNow(drive.id);
+    expect((await h.svc.getDriveView(drive.id)).holds.every((x) => x.captured === 0)).toBe(true);
+    h.clock.advance(6 * 60_000);
+    const reports = await h.svc.captureNow(drive.id);
+    expect(reports.filter((r) => r.detail === "lookup: COMPLETED")).toHaveLength(4);
+    const v = await h.svc.getDriveView(drive.id);
+    expect(v.holds.map((x) => x.captured)).toEqual([458, 2145, 1237, 5224]);
+    expect(v.payouts[0].attempts[0].status).toBe("confirmed");
+    expect(pp.captures).toHaveLength(4);
+  });
+});
+
 describe("crash around a void at close", () => {
   for (const when of ["before", "after"] as When[]) {
     it(`${when} the second void: closing again voids each hold once and the drive closes`, async () => {

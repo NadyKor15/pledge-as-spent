@@ -594,18 +594,24 @@ export class PledgeService {
 
   // ---- captures, close, maintenance -------------------------------------------
 
-  /** The coordinator's "capture now": every accrued share goes out, batched per hold. */
+  /**
+   * The coordinator's "capture now": every accrued share goes out, batched per hold.
+   * Pending ones past the grace period are looked up first (the webhook fallback,
+   * so it does not wait for the daily job).
+   */
   async captureNow(driveId: string): Promise<CommandReport[]> {
-    return this.planAndRun(driveId, (b) => planCaptures(b.state, this.now(), { force: true }));
+    const looked = await this.reconcile(driveId);
+    return [...looked, ...(await this.planAndRun(driveId, (b) => planCaptures(b.state, this.now(), { force: true })))];
   }
 
   /** Captures first; each hold is voided once its captures are confirmed; the drive closes when all are settled. */
   async closeDrive(driveId: string): Promise<CommandReport[]> {
+    const looked = await this.reconcile(driveId);
     await withDrive(this.db, driveId, async (b) => {
       if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
       if (b.state.drive.status === "open") await b.append({ id: `closing:${driveId}`, type: "DriveClosing", at: this.now(), driveId }, "app");
     });
-    return this.advance(driveId);
+    return [...looked, ...(await this.advance(driveId))];
   }
 
   /**

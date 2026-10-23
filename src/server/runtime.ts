@@ -1,9 +1,11 @@
+import path from "node:path";
 import { openDatabase } from "../db/client";
 import { createBedrockClient } from "../receipts/bedrock";
 import { Recordings } from "../receipts/recorded";
 import recordedJson from "../../eval/receipts/recorded.json";
 import { ServiceError } from "./errors";
 import { PledgeService } from "./service";
+import { fileLedgerTotal, seedCarryOver } from "./spend";
 
 // One service per server process, built on first use from the environment, so
 // `next build` needs no configuration at all.
@@ -28,8 +30,11 @@ async function build(): Promise<PledgeService> {
   const ipHashKey = env.CRON_SECRET ?? (production ? undefined : "local-development-only");
   if (!ipHashKey) throw new ServiceError(503, "not_configured", "CRON_SECRET is not set.");
   const handle = await openDatabase(url);
-  // A local PGlite database migrates itself; Neon is migrated with `npm run db:migrate`.
-  if (handle.kind === "pglite") await handle.migrate();
+  // A local PGlite database migrates itself and carries over the file spend ledger; Neon gets both from `npm run db:migrate`.
+  if (handle.kind === "pglite") {
+    await handle.migrate();
+    await seedCarryOver(handle.db, fileLedgerTotal(path.join(process.cwd(), "eval", "spend-ledger.jsonl")), new Date().toISOString());
+  }
   return new PledgeService({
     db: handle.db,
     recordings: Recordings.parse(recordedJson),
