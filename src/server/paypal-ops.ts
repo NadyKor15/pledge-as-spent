@@ -46,6 +46,8 @@ export function captureEvent(
   batch: { driveId: string; pledgeId: string; requestId: string },
   at: string,
   source: EventSource,
+  /** PayPal's status details for a refusal, passed on so the core can classify it. */
+  detail?: string | null,
 ): Recorded | null {
   const ids = captureEventIds(batch.requestId);
   const base = { driveId: batch.driveId, pledgeId: batch.pledgeId, requestId: batch.requestId };
@@ -64,7 +66,7 @@ export function captureEvent(
     };
   }
   if (["DECLINED", "FAILED"].includes(c.status)) {
-    return { source, event: { ...base, id: ids.failed, type: "CaptureFailed", at, reason: `capture ${c.id} ${c.status}` } };
+    return { source, event: { ...base, id: ids.failed, type: "CaptureFailed", at, reason: [`capture ${c.id} ${c.status}`, detail].filter(Boolean).join(": ") } };
   }
   return null;
 }

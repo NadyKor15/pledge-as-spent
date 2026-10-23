@@ -44,6 +44,8 @@ async function build(): Promise<PledgeService> {
     ...(env.DEMO_PAYOUT_EMAIL ? { demoPayoutEmail: env.DEMO_PAYOUT_EMAIL } : {}),
     ipHashKey,
     bedrock: env.LIVE_READING === "on" ? () => createBedrockClient() : undefined,
+    // The OCR-first pipelines need Tesseract traced into the function; until that is wired, live reading is Nova vision.
+    pipeline: "nova-lite",
   });
 }
 

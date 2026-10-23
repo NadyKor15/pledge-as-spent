@@ -1,12 +1,14 @@
 import { createHash, createHmac, randomBytes } from "node:crypto";
-import { and, asc, desc, eq, gt, inArray, like, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, like, or, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { drives, events, paypalCalls, receipts, webhookEvents } from "../db/schema";
 import {
   allocateLine,
   applyEvent,
   captureSubmittedEvent,
+  captureReversedEvent,
   CoreError,
+  DAY_MS,
   donorStatement,
   holdExpiredEvent,
   lookup,
@@ -33,6 +35,7 @@ import { isCurrencyCode } from "../paypal/money";
 import type { FetchLike } from "../paypal/recording";
 import type { PayPalGateway } from "../paypal/types";
 import type { ConverseClient } from "../receipts/bedrock";
+import type { OcrEngine } from "../receipts/ocr";
 import { allocateTax, checkReceipt, reconcile as reconcileTotals, toFundableLines, type CoordinatorApproval, type ReceiptFlag } from "../receipts/checks";
 import { dHash, semanticKey, sha256Hex } from "../receipts/hash";
 import type { Recordings } from "../receipts/recorded";
@@ -42,7 +45,7 @@ import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from
 import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive, demoPledgeId, fxFor } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
-import { ReceiptReading, type Reading, type StoredClassification } from "./reading";
+import { ReceiptReading, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
 import { redactImage } from "./redact";
 import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
@@ -69,7 +72,10 @@ export const DEFAULT_LIMITS: Limits = {
 
 export interface ServiceDeps {
   db: Db;
-  recordings: Recordings;
+  /** Saved answers of real pipeline runs (the sample receipt): served as "cached:<pipeline>". */
+  savedAnswers?: SavedAnswer[];
+  /** Tests only: truth readings served as "recorded". */
+  recordings?: Recordings;
   paypal: { clientId: string; clientSecret: string; fetch?: FetchLike; retryDelayMs?: number } | null;
   webhookId?: string | null;
   appBaseUrl?: string | null;
@@ -79,6 +85,9 @@ export interface ServiceDeps {
   ipHashKey: string;
   /** Bedrock client for live reading; absent: only cached readings. */
   bedrock?: () => ConverseClient;
+  /** Live pipeline (default ocr-lite) and the OCR engine it needs. */
+  pipeline?: Pipeline;
+  ocr?: () => OcrEngine;
   now?: () => string;
   limits?: Partial<Limits>;
   log?: (message: string, extra?: unknown) => void;
@@ -107,7 +116,12 @@ export class PledgeService {
 
   constructor(private readonly d: ServiceDeps) {
     this.limits = { ...DEFAULT_LIMITS, ...d.limits };
-    this.reading = new ReceiptReading(d.db, d.recordings, this.limits, d.bedrock);
+    this.reading = new ReceiptReading(
+      d.db,
+      { answers: d.savedAnswers, recordings: d.recordings },
+      this.limits,
+      d.bedrock ? { pipeline: d.pipeline ?? "ocr-lite", bedrock: d.bedrock, ocr: d.ocr } : undefined,
+    );
   }
 
   get db(): Db {
@@ -418,8 +432,11 @@ export class PledgeService {
       if (e instanceof PayPalError) throw new ServiceError(502, "paypal_unavailable", `PayPal did not answer (${describe(e)}). Try again.`);
       throw e;
     }
-    const ev = this.authorizationEvent(driveId, pledgeId, auth, "paypal");
+    // The PayPal window also takes cards: only a PayPal-account hold can be reauthorized later.
+    const ev = this.authorizationEvent(driveId, pledgeId, auth, auth.paymentSource === "card" ? "card" : "paypal");
     if (ev) await this.recordStrict(driveId, [ev]);
+    // Approved after the drive closed (or while closing): advance voids the new hold at once.
+    await this.advance(driveId);
     const after = await this.openBook(driveId);
     return { pledgeId, status: after.pledges[pledgeId].status, authorizationId: auth.id };
   }
@@ -641,9 +658,10 @@ export class PledgeService {
   }
 
   /**
-   * Moves a drive forward without new input: a closing drive through planClose,
-   * an open one through voids of revoked holds and expiries. Stops when a pass
-   * records nothing (waiting for PayPal).
+   * Moves a drive forward without new input: a closing or closed drive through
+   * planClose (on a closed drive it voids holds approved after the close), an
+   * open one through voids of revoked or refused holds and expiries. Stops when
+   * a pass records nothing (waiting for PayPal).
    */
   async advance(driveId: string): Promise<CommandReport[]> {
     const all: CommandReport[] = [];
@@ -654,7 +672,7 @@ export class PledgeService {
         if (!s.drive) return [];
         const now = this.now();
         const planned: Command[] =
-          s.drive.status === "closing" ? planClose(s, now) : s.drive.status === "open" ? planHoldMaintenance(s, now).filter((c) => c.kind === "void" || c.kind === "expire") : [];
+          s.drive.status === "open" ? planHoldMaintenance(s, now).filter((c) => c.kind === "void" || c.kind === "expire") : planClose(s, now);
         return this.submitPlanned(b, planned);
       });
       all.push(...(await this.execute(driveId, cmds)));
@@ -750,11 +768,21 @@ export class PledgeService {
 
   /** The daily job: lookups, due captures and hold maintenance on every open drive; old demo drives are closed. */
   async runDaily(): Promise<{ drives: number; commands: CommandReport[]; errors: { driveId: string; error: string }[] }> {
-    const list = await this.db.select({ id: drives.id, demo: drives.demo, createdAt: drives.createdAt }).from(drives).where(inArray(drives.status, ["open", "closing"])).orderBy(asc(drives.createdAt));
+    // Closed drives of the last 35 days too: a donor may approve after the close, and that hold needs a void.
+    const recent = new Date(parseTime(this.now()) - 35 * DAY_MS).toISOString();
+    const list = await this.db
+      .select({ id: drives.id, demo: drives.demo, createdAt: drives.createdAt, status: drives.status })
+      .from(drives)
+      .where(or(inArray(drives.status, ["open", "closing"]), and(eq(drives.status, "closed"), gt(drives.createdAt, recent))))
+      .orderBy(asc(drives.createdAt));
     const commands: CommandReport[] = [];
     const errors: { driveId: string; error: string }[] = [];
     for (const d of list) {
       try {
+        if (d.status === "closed") {
+          commands.push(...(await this.advance(d.id)));
+          continue;
+        }
         commands.push(...(await this.reconcile(d.id)));
         const state = await this.openBook(d.id);
         const ageMs = parseTime(this.now()) - Date.parse(toIso(d.createdAt));
@@ -868,8 +896,22 @@ export class PledgeService {
           sub = requestId ? await findEvent(this.db, "CaptureSubmitted", ["requestId"], requestId) : null;
         }
         if (!sub || sub.payload.type !== "CaptureSubmitted") return { driveId: null, item: null, note: `capture ${target.capture.id} is not one of ours` };
-        const ev = captureEvent(target.capture, { driveId: sub.driveId, pledgeId: sub.payload.pledgeId, requestId: sub.payload.requestId }, target.at, "webhook");
+        const ev = captureEvent(target.capture, { driveId: sub.driveId, pledgeId: sub.payload.pledgeId, requestId: sub.payload.requestId }, target.at, "webhook", target.detail);
         return { driveId: sub.driveId, item: ev, note: ev ? null : `capture status ${target.capture.status}: nothing to record` };
+      }
+      case "reversal": {
+        const confirmed = await findEvent(this.db, "CaptureConfirmed", ["captureId"], target.captureId);
+        if (!confirmed) return { driveId: null, item: null, note: `reversal of capture ${target.captureId}: not a confirmed capture of ours` };
+        const state = await this.openBook(confirmed.driveId);
+        const ev = captureReversedEvent(state, {
+          captureId: target.captureId,
+          amount: target.amount,
+          reason: target.reason,
+          at: target.at,
+          ...(target.reversalId ? { reversalId: target.reversalId } : {}),
+        });
+        if (!ev) return { driveId: confirmed.driveId, item: null, note: `reversal of capture ${target.captureId}: the book has no confirmed batch for it` };
+        return { driveId: confirmed.driveId, item: { event: ev, source: "webhook" }, note: null };
       }
       case "void": {
         const hit =

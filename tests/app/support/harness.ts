@@ -4,6 +4,7 @@ import { openPglite, type DatabaseHandle } from "../../../src/db/client";
 import type { FetchLike } from "../../../src/paypal/recording";
 import type { ConverseClient } from "../../../src/receipts/bedrock";
 import { Recordings } from "../../../src/receipts/recorded";
+import type { Pipeline } from "../../../src/server/reading";
 import { PledgeService, type Limits } from "../../../src/server/service";
 
 export const ROOT = path.resolve(__dirname, "../../..");
@@ -47,6 +48,7 @@ export async function harness(o: {
   start?: string;
   recordings?: Recordings;
   bedrock?: () => ConverseClient;
+  pipeline?: Pipeline;
   limits?: Partial<Limits>;
   webhookId?: string | null;
   demoPayoutEmail?: string | null;
@@ -63,6 +65,7 @@ export async function harness(o: {
       demoPayoutEmail: o.demoPayoutEmail === undefined ? "sb-pywsi53523660@personal.example.com" : o.demoPayoutEmail,
       ipHashKey: "test-key",
       bedrock: o.bedrock,
+      pipeline: o.pipeline,
       now: c.now,
       limits: o.limits,
       log: () => {},
