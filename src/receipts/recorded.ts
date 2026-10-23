@@ -33,7 +33,9 @@ const NO_COST = (model: string): ModelUsage => ({ model, tokensIn: 0, tokensOut:
 export class RecordedReader implements ReceiptReader {
   constructor(private readonly rec: Pick<Recordings, "readings">) {}
 
-  async read(image: ReceiptImage, _hint: { currency: CurrencyCode; languages: string[] }) {
+  // The hint is part of the reader interface; a recording does not need it.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async read(image: ReceiptImage, _hint?: { currency: CurrencyCode; languages: string[] }) {
     const key = sha256Hex(image.bytes);
     const receipt = this.rec.readings[key];
     if (!receipt) throw new Error(`no recorded reading for image sha256 ${key}`);

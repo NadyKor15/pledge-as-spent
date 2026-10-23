@@ -30,7 +30,8 @@ interface Options {
 }
 
 function toolSchema(schema: z.ZodType): Record<string, unknown> {
-  const { $schema: _drop, ...json } = z.toJSONSchema(schema) as Record<string, unknown>;
+  const json = z.toJSONSchema(schema) as Record<string, unknown>;
+  delete json.$schema;
   return json;
 }
 

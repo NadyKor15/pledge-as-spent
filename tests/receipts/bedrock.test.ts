@@ -25,8 +25,8 @@ function reply(content: unknown[], extra: Partial<ConverseCommandOutput> = {}): 
 const toolUse = (name: string, input: unknown) => ({ toolUse: { toolUseId: "t1", name, input } });
 
 async function setup(response: ConverseCommandOutput, maxUsd = 5) {
-  const send = vi.fn(async (_c: ConverseCommand) => response);
-  const client: ConverseClient = { send: send as ConverseClient["send"] };
+  const send = vi.fn<(c: ConverseCommand) => Promise<ConverseCommandOutput>>(async () => response);
+  const client: ConverseClient = { send };
   const ledger = new JsonlSpendLedger(path.join(await mkdtemp(path.join(tmpdir(), "bedrock-")), "l.jsonl"));
   return { client, send, ledger, cap: new SpendCap(ledger, maxUsd) };
 }
