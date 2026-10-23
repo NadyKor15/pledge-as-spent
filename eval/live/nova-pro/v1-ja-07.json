@@ -1,0 +1,274 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "ホテルニューオータニ",
+  "merchantAddress": "東京都千代田区紀尾井町4-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T20:57",
+  "receiptNumber": "7048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "スパークリングワイン 2L",
+    "translationEn": "Sparkling wine 2L",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ビール 5本",
+    "translationEn": "Beer 5 bottles",
+    "qty": 5,
+    "unitPriceMinor": 799,
+    "amountMinor": 3995,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "サーロインステーキ 1皿",
+    "translationEn": "Sirloin steak 1 plate",
+    "qty": 1,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3本 x 1,698",
+    "translationEn": "3 bottles x 1,698",
+    "qty": 3,
+    "unitPriceMinor": 1698,
+    "amountMinor": 4584,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "スパークリングワイン L 34本",
+    "translationEn": "Sparkling wine L 34 bottles",
+    "qty": 1,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2本 x 1,298",
+    "translationEn": "2 bottles x 1,298",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ミネラルウォーター 1L",
+    "translationEn": "Mineral water 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ビール (7本)",
+    "translationEn": "Beer (7 bottles)",
+    "qty": 7,
+    "unitPriceMinor": 1454,
+    "amountMinor": 10178,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "8本",
+    "translationEn": "8 bottles",
+    "qty": 8,
+    "unitPriceMinor": 886,
+    "amountMinor": 7088,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10% (サービス料 8% 消費税 10%)",
+    "translationEn": "10% (Service charge 8% Consumption tax 10%)",
+    "qty": null,
+    "unitPriceMinor": 107,
+    "amountMinor": 1070,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 8340,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 9000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 660,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8340,
+  "taxMinor": 834,
+  "taxIncluded": false,
+  "totalMinor": 9174,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sirloin steak is not listed as a need for this disaster-relief drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 1L does not match the required 2L drinking water need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is an alcoholic beverage and is not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Service charge and consumption tax are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total amount is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The payment method is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The change amount is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1434,
+   "tokensOut": 685,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003339
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1458,
+   "tokensOut": 498,
+   "usdCeiling": 0.017341,
+   "usdActual": 0.00276
+  }
+ ],
+ "errors": []
+}

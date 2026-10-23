@@ -1,0 +1,184 @@
+{
+ "receiptId": "v1-es-06",
+ "set": "v1",
+ "imageSha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alboraday",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:53:00",
+  "receiptNumber": "1578",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries LR6 8U",
+    "qty": 1,
+    "unitPriceMinor": 5990,
+    "amountMinor": 5990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GALLETAS MARIA",
+    "translationEn": "MARIA cookies",
+    "qty": 1,
+    "unitPriceMinor": 1450,
+    "amountMinor": 1450,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "VINO TINTO CRIANZA",
+    "translationEn": "RED WINE",
+    "qty": 1,
+    "unitPriceMinor": 6500,
+    "amountMinor": 6500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUADERNO A5",
+    "translationEn": "NOTEBOOK A5",
+    "qty": 1,
+    "unitPriceMinor": 3900,
+    "amountMinor": 3900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 X 1,95",
+    "translationEn": "2 X 1,95",
+    "qty": 2,
+    "unitPriceMinor": 1950,
+    "amountMinor": 3900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "TOILET PAPER 12R",
+    "qty": 1,
+    "unitPriceMinor": 4490,
+    "amountMinor": 4490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "MINERAL WATER 1,5L",
+    "qty": 1,
+    "unitPriceMinor": 7080,
+    "amountMinor": 7080,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "12 X 0,59",
+    "translationEn": "12 X 0,59",
+    "qty": 12,
+    "unitPriceMinor": 590,
+    "amountMinor": 7080,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 29410,
+  "taxMinor": 3620,
+  "taxIncluded": true,
+  "totalMinor": 29410,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries LR6 8U are eligible as they match the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "MARIA cookies do not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "RED WINE is not eligible as alcohol is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "NOTEBOOK A5 does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 2 X 1,95 is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "TOILET PAPER 12R does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "MINERAL WATER 1,5L is eligible as it matches the need for drinking water in 1.5 L bottles.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 12 X 0,59 is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2376,
+   "tokensOut": 460,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003373
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1267,
+   "tokensOut": 354,
+   "usdCeiling": 0.016797,
+   "usdActual": 0.002146
+  }
+ ],
+ "errors": []
+}

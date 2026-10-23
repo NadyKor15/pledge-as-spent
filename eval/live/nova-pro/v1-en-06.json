@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-en-06",
+ "set": "v1",
+ "imageSha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2491,
+   "tokensOut": 589,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.003878
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=CORNER PHARMACY #14; address=3 Elm Court Brindlewood, Marlow Co.; country=US; currency=USD; purchased=2026-11-03T13:41:00; number=06; subtotal=10927; tax=511; tax_included=false; total=11438; readability=good\\nLINE: no=1; qty=1; unit=7.99; amount=799; rate=1000; text=AA BATTERY 8PK; en=AA BATTERY 8PK\\nLINE: no=2; qty=5; unit=4.998; amount=2499; rate=1000; text=DIAPERS SZ 5 72CT; en=DIAPERS SZ 5 72CT\\nLINE: no=3; qty=3; unit=12.49; amount=3747; rate=1000; text=SOFTIES DIAPERS SZ 3 38CT; en=SOFTIES DIAPERS SZ 3 38CT\\nLINE: no=4; qty=1; unit=5.96; amount=596; rate=0; text=SPRING WATER 1GAL; en=SPRING WATER 1GAL\\nLINE: no=5; qty=4; unit=1.49; amount=596; rate=0; text=BREAD WHEAT; en=BREAD WHEAT\\nLINE: no=6; qty=1; unit=5.07; amount=507; rate=0; text=DEER CREEK WATER 1 GALLON JUG; en=DEER CREEK WATER 1 GALLON JUG\\nLINE: no=7; qty=3; unit=1.69; amount=507; rate=0; text=3 @ $1.69; en=3 @ $1.69\\nLINE: no=8; qty=1; unit=25; amount=2500; rate=0; text=GIFT CARD $25; en=GIFT CARD $25\\nPII: kind=name; box=0.16,0.78,0.19,0.02; text=JORDAN WELLS\\nPII: kind=member_id; box=0.65,0.82,0.16,0.03; text=3694265361\""
+ ]
+}

@@ -1,0 +1,202 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": {
+  "merchantName": "山田電機",
+  "merchantAddress": "東京都千代田区2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "冷蔵庫 2L",
+    "translationEn": "Refrigerator 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "割引 A5",
+    "translationEn": "Discount A5",
+    "qty": null,
+    "unitPriceMinor": -40,
+    "amountMinor": -40,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "冷蔵庫 冷凍 L 34L",
+    "translationEn": "Refrigerator freezer L 34L",
+    "qty": null,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "冷蔵庫 10L",
+    "translationEn": "Refrigerator 10L",
+    "qty": null,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "冷蔵庫 4L",
+    "translationEn": "Refrigerator 4L",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": 565,
+    "amountMinor": 3390,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税 10%",
+    "translationEn": "Consumption tax 10%",
+    "qty": null,
+    "unitPriceMinor": 344,
+    "amountMinor": 344,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "消費税 8%",
+    "translationEn": "Consumption tax 8%",
+    "qty": null,
+    "unitPriceMinor": -25,
+    "amountMinor": -25,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 276,
+    "amountMinor": 276,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 3046,
+  "taxMinor": 276,
+  "taxIncluded": false,
+  "totalMinor": 3390,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Refrigerators are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts do not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Refrigerators are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Refrigerators are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Refrigerators are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a total line and does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a tax line and does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a tax line and does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is a total line and does not count as a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2494,
+   "tokensOut": 470,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000262
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1285,
+   "tokensOut": 354,
+   "usdCeiling": 0.001268,
+   "usdActual": 0.000162
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,123 @@
+{
+ "receiptId": "adv-reshot-en-03",
+ "set": "adversarial",
+ "imageSha256": "903bbe6772f5d3674d86dbee3c73e4d780e2bd5043f8f2932c6e16b687426013",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-04-11T10:36:00",
+  "receiptNumber": "01",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "SPRING WATER 1GAL",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "LAGER 6PK BTL",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA ALKALINE 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "COUPON",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon's impact on the receipt total is unclear.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2374,
+   "tokensOut": 307,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.002882
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1096,
+   "tokensOut": 158,
+   "usdCeiling": 0.016383,
+   "usdActual": 0.001382
+  }
+ ],
+ "errors": []
+}

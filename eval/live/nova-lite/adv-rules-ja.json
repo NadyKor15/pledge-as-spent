@@ -1,0 +1,179 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": {
+  "merchantName": "はなみずき",
+  "merchantAddress": "東京都新宿区新宿3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "0777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "お茶 3,000円",
+    "translationEn": "Tea 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "缶コーヒー 350ml 6本",
+    "translationEn": "Canned coffee 350ml 6 cans",
+    "qty": 4,
+    "unitPriceMinor": 1198,
+    "amountMinor": 4792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "お菓子詰め合わせ 2L",
+    "translationEn": "Assorted snacks 2L",
+    "qty": 2,
+    "unitPriceMinor": 236,
+    "amountMinor": 472,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "お菓子詰め合わせ A5",
+    "translationEn": "Assorted snacks A5",
+    "qty": 3,
+    "unitPriceMinor": 148,
+    "amountMinor": 444,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "お菓子詰め合わせ 2L",
+    "translationEn": "Assorted snacks 2L",
+    "qty": 2,
+    "unitPriceMinor": 580,
+    "amountMinor": 1160,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "お菓子詰め合わせ 2L",
+    "translationEn": "Assorted snacks 2L",
+    "qty": 3,
+    "unitPriceMinor": 324,
+    "amountMinor": 972,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "合計 (7)",
+    "translationEn": "Total (7)",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "8%税",
+    "translationEn": "8% tax",
+    "qty": 1,
+    "unitPriceMinor": 560,
+    "amountMinor": 560,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "10%税",
+    "translationEn": "10% tax",
+    "qty": 1,
+    "unitPriceMinor": 2164,
+    "amountMinor": 2164,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "災害支援金 (ポイント還元 8%)",
+    "translationEn": "Disaster support fund (Point redemption 8%)",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "災害支援金 (ポイント還元 10%)",
+    "translationEn": "Disaster support fund (Point redemption 10%)",
+    "qty": 1,
+    "unitPriceMinor": 41,
+    "amountMinor": 41,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "お支払い金額",
+    "translationEn": "Payment amount",
+    "qty": 1,
+    "unitPriceMinor": 2050,
+    "amountMinor": 2050,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 196,
+  "taxIncluded": false,
+  "totalMinor": 5920,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "7788 0428 0676",
+    "bbox": {
+     "x": 0.6,
+     "y": 0.81,
+     "w": 0.3,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2350,
+   "tokensOut": 787,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.00033
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1496,
+   "tokensOut": 619,
+   "usdCeiling": 0.001308,
+   "usdActual": 0.000238
+  }
+ ],
+ "errors": [
+  "classify: classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [6].verdict\n✖ Invalid input: expected number, received null\n  → at [6].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [7].verdict\n✖ Invalid input: expected number, received null\n  → at [7].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [8].verdict\n✖ Invalid input: expected number, received null\n  → at [8].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [9].verdict\n✖ Invalid input: expected number, received null\n  → at [9].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [10].verdict\n✖ Invalid input: expected number, received null\n  → at [10].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [11].verdict\n✖ Invalid input: expected number, received null\n  → at [11].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [12].verdict\n✖ Invalid input: expected number, received null\n  → at [12].confidence\n✖ Invalid option: expected one of \"eligible\"|\"rejected\"|\"review\"\n  → at [13].verdict\n✖ Invalid input: expected number, received null\n  → at [13].confidence (stop reason: tool_use)",
+  "raw: {\"lines\":\"no=1; need=null; qty=null; verdict=rejected; rule=not_in_needs; conf=0.9; why=Tea is not a listed need for the disaster relief drive.\\nno=2; need=canned; qty=6; verdict=eligible; rule=null; conf=0.95; why=Canned coffee counts toward the canned food need.\\nno=3; need=null; qty=null; verdict=rejected; rule=not_in_needs; conf=0.9; why=Assorted snacks do not match any listed need.\\nno=4; need=null; qty=null; verdict=rejected; rule=not_in_needs; conf=0.9; why=Assorted snacks do not match any listed need.\\nno=5; need=null; qty=null; verdict=rejected; rule=not_in_needs; conf=0.9; why=Assorted snacks do not match any listed need.\\nno=6; need=null; qty=null; verdict=rejected; rule=not_in_needs; conf=0.9; why=Assorted snacks do not match any listed need.\\nno=7; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a total line and does not represent a purchase.\\nno=8; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a tax line and does not represent a purchase.\\nno=9; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a tax line and does not represent a purchase.\\nno=10; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a disaster support fund line and does not represent a purchase.\\nno=11; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a disaster support fund line and does not represent a purchase.\\nno=12; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is a total line and does not represent a purchase.\\nno=13; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is the payment amount and does not represent a purchase.\\nno=14; need=null; qty=null; verdict=null; rule=null; conf=null; why=This is the change and does not represent a purchase.\"}"
+ ]
+}

@@ -87,6 +87,20 @@ export interface ReceiptScore {
   piiIou: number[];
 }
 
+/** The predicted line that best stands for a truth line whose amount did not match: same text, else same position. */
+function findByTextOrPosition(t: Line, ti: number, pred: Line[]): number | undefined {
+  let best: number | undefined;
+  let bestSim = 0.5;
+  pred.forEach((p, pi) => {
+    const sim = similarity(t.rawText, p.rawText);
+    if (sim >= bestSim && (best === undefined || sim > bestSim || Math.abs(pi - ti) < Math.abs(best - ti))) {
+      best = pi;
+      bestSim = sim;
+    }
+  });
+  return best ?? (ti < pred.length ? ti : undefined);
+}
+
 const RULE_CODES = new Set(["alcohol", "tobacco", "gift_card"]);
 
 /** Scores one readable receipt. `labels` and `predLabels` are the truth and predicted classifications. */
@@ -123,8 +137,11 @@ export function scoreReceipt(truth: ParsedReceipt, labels: LineClassification[],
     add(s.lineClass, !!got && got.verdict === want.verdict && got.needId === want.needId);
     if (want.verdict === "eligible") add(s.needQty, !!got && got.needQty === want.needQty);
     if (want.ruleCode && RULE_CODES.has(want.ruleCode)) {
-      add(s.ruleLines, !!got && got.verdict === "rejected" && got.ruleCode === want.ruleCode);
-      if (got?.verdict === "eligible") s.ruleLinesFunded += 1;
+      // A forbidden line is found by amount, then by text, then by position: a misread amount must not hide it.
+      const at = pi ?? findByTextOrPosition(t, ti, pred.lines);
+      const hit = at === undefined ? undefined : predByNo.get(pred.lines[at].lineNo);
+      add(s.ruleLines, !!hit && hit.verdict === "rejected" && hit.ruleCode === want.ruleCode);
+      if (hit?.verdict === "eligible") s.ruleLinesFunded += 1;
     }
   });
 

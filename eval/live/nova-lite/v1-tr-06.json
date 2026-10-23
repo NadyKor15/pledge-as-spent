@@ -1,0 +1,168 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-04-11T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "MILK 1 L",
+    "qty": 1,
+    "unitPriceMinor": 7700,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "KAYNAKL SU 5 LT",
+    "translationEn": "BOILED WATER 5 L",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "EKMEK",
+    "translationEn": "BREAD",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "LOVELY BABY DIAPER NO:4 JUMBO 42'S",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "KDV %1 MATRAH 11,88",
+    "translationEn": "VAT %1 AMOUNT 11.88",
+    "qty": 1,
+    "unitPriceMinor": 1145,
+    "amountMinor": 1145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %10 MATRAH 114,55",
+    "translationEn": "VAT %10 AMOUNT 114.55",
+    "qty": 1,
+    "unitPriceMinor": 11455,
+    "amountMinor": 11455,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %20 MATRAH 723,25",
+    "translationEn": "VAT %20 AMOUNT 723.25",
+    "qty": 1,
+    "unitPriceMinor": 72325,
+    "amountMinor": 72325,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 150590,
+    "amountMinor": 150590,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 150590,
+    "amountMinor": 150590,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "NAKIT PARA ÜSTÜ",
+    "translationEn": "CASH CHANGE",
+    "qty": 1,
+    "unitPriceMinor": 410,
+    "amountMinor": 410,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 150590,
+  "taxMinor": 15622,
+  "taxIncluded": false,
+  "totalMinor": 151000,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.19,
+     "y": 0.81,
+     "w": 0.61,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need and match the exact item.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 826,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000351
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1472,
+   "tokensOut": 56,
+   "usdCeiling": 0.001295,
+   "usdActual": 0.000102
+  }
+ ],
+ "errors": []
+}

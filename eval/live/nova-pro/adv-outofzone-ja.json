@@ -1,0 +1,166 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "ホテルニューオータニ",
+  "merchantAddress": "東京都千代田区紀尾井町4-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "アフタヌーンティーセット 4名様",
+    "translationEn": "Afternoon tea set for 4 people",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "コーヒー 1杯",
+    "translationEn": "Coffee 1 cup",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "スパークリングワイン #3 2杯",
+    "translationEn": "Sparkling wine #3 2 cups",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "スパークリングワイン #108 2杯",
+    "translationEn": "Sparkling wine #108 2 cups",
+    "qty": 2,
+    "unitPriceMinor": 1108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "クーポン ¥2,482",
+    "translationEn": "Coupon 2,482 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -276,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "クーポン ¥1,794",
+    "translationEn": "Coupon 1,794 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -179,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "クーポン ¥1033",
+    "translationEn": "Coupon 1033 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -1033,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 198,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Afternoon tea set is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coffee is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is not allowed due to alcohol restriction.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine is not allowed due to alcohol restriction.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Coupons are not allowed due to gift card restriction.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Coupons are not allowed due to gift card restriction.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Coupons are not allowed due to gift card restriction.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2446,
+   "tokensOut": 386,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003192
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1250,
+   "tokensOut": 254,
+   "usdCeiling": 0.016777,
+   "usdActual": 0.001813
+  }
+ ],
+ "errors": []
+}

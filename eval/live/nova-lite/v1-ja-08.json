@@ -1,0 +1,285 @@
+{
+ "receiptId": "v1-ja-08",
+ "set": "v1",
+ "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+ "reading": {
+  "merchantName": "あいあい-やまもと",
+  "merchantAddress": "東京都新宿区新宿7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:25:00",
+  "receiptNumber": "5482",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "冷凍うどん 2L",
+    "translationEn": "Frozen Udon 2L",
+    "qty": 3,
+    "unitPriceMinor": 1128,
+    "amountMinor": 3384,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "冷凍餃子 CR2032",
+    "translationEn": "Frozen Gyoza CR2032",
+    "qty": 1,
+    "unitPriceMinor": 1398,
+    "amountMinor": 1398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "冷凍餃子 2L",
+    "translationEn": "Frozen Gyoza 2L",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "冷凍餃子 34個",
+    "translationEn": "Frozen Gyoza 34 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "冷凍餃子-冷凍餃子",
+    "translationEn": "Frozen Gyoza-Frozen Gyoza",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "冷凍餃子 350ml",
+    "translationEn": "Frozen Gyoza 350ml",
+    "qty": 350,
+    "unitPriceMinor": 8,
+    "amountMinor": 2800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "冷凍餃子 x #128",
+    "translationEn": "Frozen Gyoza x #128",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": 1,
+    "unitPriceMinor": 3712,
+    "amountMinor": 3712,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "消費税 8%",
+    "translationEn": "Consumption tax 8%",
+    "qty": null,
+    "unitPriceMinor": 718,
+    "amountMinor": 57,
+    "taxRateBp": 8
+   },
+   {
+    "lineNo": 10,
+    "rawText": "消費税 10%",
+    "translationEn": "Consumption tax 10%",
+    "qty": null,
+    "unitPriceMinor": 2994,
+    "amountMinor": 299,
+    "taxRateBp": 10
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
+    "unitPriceMinor": 4068,
+    "amountMinor": 4068,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "お支払い金額",
+    "translationEn": "Payment amount",
+    "qty": null,
+    "unitPriceMinor": 4464,
+    "amountMinor": 4464,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": 4068,
+    "amountMinor": 4068,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3712,
+  "taxMinor": 57,
+  "taxIncluded": false,
+  "totalMinor": 3769,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "8870 6740 4333",
+    "bbox": {
+     "x": 0.64,
+     "y": 0.8,
+     "w": 0.35,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Udon 2L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza CR2032 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza 2L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza 34 pieces is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza-Frozen Gyoza is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza 350ml is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen Gyoza x #128 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total (tax included) is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 8% is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 10% is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2446,
+   "tokensOut": 711,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000317
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1474,
+   "tokensOut": 522,
+   "usdCeiling": 0.0013,
+   "usdActual": 0.000214
+  }
+ ],
+ "errors": []
+}

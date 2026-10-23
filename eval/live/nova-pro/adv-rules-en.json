@@ -1,0 +1,249 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "05",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA BATTERY 8PK",
+    "qty": 1,
+    "unitPriceMinor": 2397,
+    "amountMinor": 2397,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3 @ $7.99",
+    "translationEn": "3 @ $7.99",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "LAGER 6PK BTL",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "WATER 24PK.5L",
+    "translationEn": "WATER 24PK.5L",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW",
+    "translationEn": "FLEECE THROW",
+    "qty": 1,
+    "unitPriceMinor": 5996,
+    "amountMinor": 5996,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "4 @ $14.99",
+    "translationEn": "4 @ $14.99",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA ALKALINE 24PK",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "SPIRAL NOTEBOOK",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "GIFT CARD $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 10,
+    "rawText": "CIGARETTES MENTHOL",
+    "translationEn": "CIGARETTES MENTHOL",
+    "qty": 1,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "SALES TAX 7.25%",
+    "translationEn": "SALES TAX 7.25%",
+    "qty": 1,
+    "unitPriceMinor": 1003,
+    "amountMinor": 1003,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1003,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": {
+     "x": 0.68,
+     "y": 0.8,
+     "w": 0.17,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 8-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in 24-pack 5L does not match the need for 1 gallon jugs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is not clearly identified.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 48,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries in 24-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebooks do not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Sales tax is not a purchase of goods.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2443,
+   "tokensOut": 716,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.004246
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1378,
+   "tokensOut": 402,
+   "usdCeiling": 0.017109,
+   "usdActual": 0.002389
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-rules-es",
+ "set": "adversarial",
+ "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2397,
+   "tokensOut": 589,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000285
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].amountMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=FERRETERIA LA LLAVE; address=Plaza Nueva 3 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-09-11T12:24:00; number=7948; subtotal=8268; tax=0; tax_included=true; total=8268; readability=good\\nLINE: no=1; qty=1; unit=0.99; amount=0.99; rate=0; text=LECHE ENTERA 1L; en=Whole milk 1L\\nLINE: no=2; qty=6; unit=0.55; amount=3.29; rate=0; text=AGUA 1,5L PACK 6; en=Water 1.5L pack 6\\nLINE: no=3; qty=1; unit=3.9; amount=3.9; rate=0; text=AGUA FUENTE CLARA; en=Spring water\\nLINE: no=4; qty=1; unit=0.65; amount=0.65; rate=0; text=BOTELLA 1,5 L; en=Bottle 1.5L\\nLINE: no=5; qty=6; unit=0.59; amount=3.54; rate=0; text=AGUA MINERAL 1,5L; en=Mineral water 1.5L\\nLINE: no=6; qty=1; unit=50; amount=50; rate=0; text=TARJETA REGALO 50; en=Gift card 50\\nLINE: no=7; qty=1; unit=4.49; amount=4.49; rate=0; text=PAPEL HIGIÉNICO 12R; en=Toilet paper 12R\\nLINE: no=8; qty=4; unit=1.75; amount=6.98; rate=0; text=PILA AA ALCALINAA 4U; en=Battery AA alkaline 4U\\nLINE: no=9; qty=2; unit=3.49; amount=6.98; rate=0; text=CERVEZA ALBORADA 6X33; en=Alborada beer 6X33\\nLINE: no=10; qty=1; unit=4.6; amount=4.6; rate=0; text=TABACO LIAR CAJETILLA; en=Liar tobacco pack\""
+ ]
+}

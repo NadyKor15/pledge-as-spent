@@ -1,0 +1,148 @@
+{
+ "receiptId": "v1-es-06",
+ "set": "v1",
+ "imageSha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-09-11T20:53",
+  "receiptNumber": "1578",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 8U batteries",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "MARÍA biscuits",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "VINO TINTO CRIANZA",
+    "translationEn": "CRIANZA red wine",
+    "qty": 1,
+    "unitPriceMinor": 650,
+    "amountMinor": 650,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUADERNO A5",
+    "translationEn": "A5 notebook",
+    "qty": 1,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 X 1,95 PAPEL HIGIÉNICO 12R",
+    "translationEn": "2 X 1.95 toilet paper 12R",
+    "qty": 2,
+    "unitPriceMinor": 195,
+    "amountMinor": 390,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "12 X 0,59 AGUA MINERAL 1,5L",
+    "translationEn": "12 X 0.59 mineral water 1.5L",
+    "qty": 12,
+    "unitPriceMinor": 59,
+    "amountMinor": 708,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 2941,
+  "taxMinor": 362,
+  "taxIncluded": true,
+  "totalMinor": 2941,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA LR6 8U batteries match the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "MARÍA biscuits do not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "CRIANZA red wine is alcohol and is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A5 notebook does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "toilet paper does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "12 X 0.59 mineral water 1.5L matches the drinking water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2376,
+   "tokensOut": 421,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000244
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1209,
+   "tokensOut": 284,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000141
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,148 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "ーななやー 本店",
+  "merchantAddress": "東京都港区南青山7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "鮑ステーキ 38g",
+    "translationEn": "Abalone steak 38g",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "焼き鳥盛り合わせ",
+    "translationEn": "Yakitori assortment",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "牛タン(2枚)",
+    "translationEn": "Beef tongue (2 pieces)",
+    "qty": 2,
+    "unitPriceMinor": 873,
+    "amountMinor": 1746,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "(クーポン割引 8%)",
+    "translationEn": "(Coupon discount 8%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -48,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "(クーポン割引 10%)",
+    "translationEn": "(Coupon discount 10%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -99,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "サービス料",
+    "translationEn": "Service charge",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1020,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 102,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Abalone steak is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Yakitori assortment is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Beef tongue is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupon discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupon discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Service charge is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2377,
+   "tokensOut": 341,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.002993
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1185,
+   "tokensOut": 222,
+   "usdCeiling": 0.016633,
+   "usdActual": 0.001658
+  }
+ ],
+ "errors": []
+}

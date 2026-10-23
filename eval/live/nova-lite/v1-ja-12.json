@@ -1,0 +1,274 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T19:48:00",
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "お刺身盛り合わせ 3,000円",
+    "translationEn": "Sashimi assortment 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "お造り盛り合わせ 5,000円",
+    "translationEn": "Sashimi assortment 5,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "刺身-2L 398円",
+    "translationEn": "Sashimi-2L 398 yen",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "6皿 x 刺身108円",
+    "translationEn": "6 plates x sashimi 108 yen",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "刺身 (4皿) 576円",
+    "translationEn": "Sashimi (4 plates) 576 yen",
+    "qty": 4,
+    "unitPriceMinor": 144,
+    "amountMinor": 576,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "刺身8%税込 648円",
+    "translationEn": "Sashimi 8% tax included 648 yen",
+    "qty": 1,
+    "unitPriceMinor": 648,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "刺身10%税込 1,496円",
+    "translationEn": "Sashimi 10% tax included 1,496 yen",
+    "qty": 1,
+    "unitPriceMinor": 1496,
+    "amountMinor": 1496,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "サービス料 149円",
+    "translationEn": "Service charge 149 yen",
+    "qty": 1,
+    "unitPriceMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "合計 3,000円",
+    "translationEn": "Total 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計 5,344円",
+    "translationEn": "Total 5,344 yen",
+    "qty": 1,
+    "unitPriceMinor": 5344,
+    "amountMinor": 5344,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計 6,000円",
+    "translationEn": "Total 6,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 6000,
+    "amountMinor": 6000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計 656円",
+    "translationEn": "Total 656 yen",
+    "qty": 1,
+    "unitPriceMinor": 656,
+    "amountMinor": 656,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 13,
+    "rawText": "合計 1,496円",
+    "translationEn": "Total 1,496 yen",
+    "qty": 1,
+    "unitPriceMinor": 1496,
+    "amountMinor": 1496,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 10000,
+  "taxMinor": 1496,
+  "taxIncluded": false,
+  "totalMinor": 11496,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Sashimi is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Service charge is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster relief drive.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2509,
+   "tokensOut": 830,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.00035
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1551,
+   "tokensOut": 540,
+   "usdCeiling": 0.001306,
+   "usdActual": 0.000223
+  }
+ ],
+ "errors": []
+}

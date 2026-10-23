@@ -1,10 +1,11 @@
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { RecordedClassifier, RecordedReader, Recordings } from "../../src/receipts/recorded";
 import type { LineClassifier, ParsedReceipt, ReceiptReader } from "../../src/receipts/types";
 import { iou, levenshtein, matchLines, similarity } from "../../tools/eval/metrics";
-import { loadTruths, runEval, toMarkdown, type EvalResult, type SetName } from "../../tools/eval/run";
+import { loadLiveRecordings, loadTruths, runEval, toMarkdown, type EvalResult, type SetName } from "../../tools/eval/run";
 import { line } from "./fixtures";
 
 const rec = Recordings.parse(JSON.parse(readFileSync(path.resolve(__dirname, "../../eval/receipts/recorded.json"), "utf8")));
@@ -141,5 +142,30 @@ describe("the benchmark notices a worse reader", () => {
     const r = await run("hero", recordedReader, swap);
     expect(r.needQty.num).toBeLessThan(r.needQty.den);
     expect(r.lineClass.num).toBe(r.lineClass.den - 3);
+  });
+});
+
+describe("live answers", () => {
+  it("counts a paid call that came back unusable and hands every receipt to onReceipt", async () => {
+    const usage = { model: "m", tokensIn: 100, tokensOut: 5, usdCeiling: 0.01, usdActual: 0.001 };
+    const broken: ReceiptReader = { read: async () => { throw Object.assign(new Error("bad answer"), { usage, raw: { lines: "x" } }); } };
+    const seen: { id: string; errors: string[]; calls: number }[] = [];
+    const truths = await loadTruths("hero");
+    const r = await runEval({ readerName: "t", set: "hero", reader: broken, classifier: recordedClassifier, truths, known: [], onReceipt: (x) => { seen.push({ id: x.truth.id, errors: x.errors, calls: x.usage.length }); } });
+    expect(r.spend).toMatchObject({ calls: 1, tokensIn: 100, usdActual: 0.001 });
+    expect(seen).toEqual([{ id: "hero-ja-01", errors: ["read: bad answer", 'raw: {"lines":"x"}'], calls: 1 }]);
+  });
+
+  it("rebuilds replayable recordings from saved live files, leaving out failures", async () => {
+    const t = (await loadTruths("hero"))[0];
+    const dir = mkdtempSync(path.join(tmpdir(), "live-"));
+    writeFileSync(path.join(dir, "a.json"), JSON.stringify({ receiptId: "a", imageSha256: t.image.sha256, reading: t.receipt, classifications: t.labels, usage: [], errors: [] }));
+    writeFileSync(path.join(dir, "b.json"), JSON.stringify({ receiptId: "b", imageSha256: "0".repeat(64), reading: null, classifications: null, usage: [], errors: ["read: x"] }));
+    const rec2 = await loadLiveRecordings(dir);
+    expect(Object.keys(rec2.readings)).toEqual([t.image.sha256]);
+    const bytes = new Uint8Array(readFileSync(path.resolve(__dirname, "../../eval/receipts/hero", t.image.file)));
+    const again = await new RecordedReader(rec2).read({ bytes, mediaType: "image/png" });
+    expect(again.receipt).toEqual(t.receipt);
+    expect((await new RecordedClassifier(rec2).classify({ receipt: again.receipt, needs: [], rules: "" })).lines).toEqual(t.labels);
   });
 });

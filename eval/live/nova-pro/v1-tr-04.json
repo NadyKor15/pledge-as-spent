@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-tr-04",
+ "set": "v1",
+ "imageSha256": "57525c6e67184d9fce7de878f407d7aadfdfa1ab18b7f8b1a9f735b25bbbb618",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1854,
+   "tokensOut": 615,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003451
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[1].qty (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=GÖLPINAR TOPTAN GIDA; address=Sanayi Sk. No:7 Yildizova; country=TR; currency=TRY; purchased=2026-11-09T08:26:00; number=8832; subtotal=1083; tax=60; tax_included=false; total=1083; readability=good\\nLINE: no=1; qty=3; unit=279,00; amount=837,00; rate=2000; text=BEBEK BEZI 3 NO 44'LÜ; en=BABY DIAPER 3 NO 44'S\\nLINE: no=2; qty=0,5; unit=54,90; amount=27,45; rate=1000; text=KAYNAKL SU 0,5L 12'Lİ; en=SOURCE WATER 0,5L 12'S\\nLINE: no=3; qty=4; unit=579,80; amount=2319,20; rate=2000; text=MINI BEBEK BEZI 4 NO; en=MINI BABY DIAPER 4 NO\\nLINE: no=4; qty=2; unit=289,90; amount=579,80; rate=2000; text=AA PİL 10'LU PAKET; en=AA BATTERY 10'S PACK\\nLINE: no=5; qty=1; unit=4,99; amount=4,99; rate=0; text=KDV %10; en=VAT 10%\\nLINE: no=6; qty=1; unit=171,45; amount=171,45; rate=0; text=MATRAH 49,91; en=MATTRESS 49,91\\nLINE: no=7; qty=1; unit=176,44; amount=176,44; rate=0; text=KDV %20; en=VAT 20%\\nLINE: no=8; qty=1; unit=1083,60; amount=1083,60; rate=0; text=TOPKDV; en=TOTAL VAT\\nLINE: no=9; qty=1; unit=1083,60; amount=1083,60; rate=0; text=TOPLAM; en=TOTAL\\nPII: kind=card_number; text=6869\""
+ ]
+}

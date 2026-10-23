@@ -1,0 +1,310 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "MILK 1 L",
+    "qty": 1,
+    "unitPriceMinor": 7700,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2 X 38,50",
+    "translationEn": "2 X 38.50",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "SPRING WATER 5 L",
+    "qty": 5,
+    "unitPriceMinor": 4900,
+    "amountMinor": 24500,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "EKMEK",
+    "translationEn": "BREAD",
+    "qty": 2,
+    "unitPriceMinor": 1200,
+    "amountMinor": 2400,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "SEVİMLİ BEBEK BEZİ",
+    "translationEn": "CUTE BABY DIAPER",
+    "qty": 1,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "NO:4 JUMBO 42'Lİ",
+    "translationEn": "NO:4 JUMBO 42'S",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %1 MATRAH 11,88",
+    "translationEn": "VAT 1% MATRAH 11.88",
+    "qty": 1,
+    "unitPriceMinor": 1145,
+    "amountMinor": 1145,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %10 MATRAH 114,55",
+    "translationEn": "VAT 10% MATRAH 114.55",
+    "qty": 10,
+    "unitPriceMinor": 14465,
+    "amountMinor": 144650,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %20 MATRAH 723,25",
+    "translationEn": "VAT 20% MATRAH 723.25",
+    "qty": 20,
+    "unitPriceMinor": 15622,
+    "amountMinor": 312440,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 150590,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 151000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "NAKİT",
+    "translationEn": "CASH",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "CHANGE",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 151000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 150590,
+  "taxMinor": 151000,
+  "taxIncluded": false,
+  "totalMinor": 151000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in a 10-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not specify the size of the baby diaper.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not specify the size of the baby diaper.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear and does not match any listed need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 824,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.00467
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1580,
+   "tokensOut": 575,
+   "usdCeiling": 0.017528,
+   "usdActual": 0.003104
+  }
+ ],
+ "errors": []
+}

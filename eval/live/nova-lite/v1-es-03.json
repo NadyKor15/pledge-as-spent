@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2310,
+   "tokensOut": 354,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000224
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=SUPERMERCADO EL FARO; address=Av. del Río 45 00000 Villa Alborada; country=ES; currency=EUR; purchased=2026-09-11T20:27:00; number=2894; subtotal=3104; tax=770; tax_included=true; total=3874; readability=good\\nLINE: no=1; qty=3; unit=3.29; amount=9.87; rate=800; text=AGUA 1,5L PACK 6; en=Water 1.5L pack 6\\nLINE: no=2; qty=2; unit=8.95; amount=17.9; rate=400; text=PANAL BEBÉ T3 44U; en=Baby food T3 44U\\nLINE: no=3; unit=4.6; amount=4.6; rate=1000; text=TABACO LIAR CAJETILLA; en=Tobacco Liar pack\\nLINE: no=4; unit=7.49; amount=7.49; rate=1000; text=PAÑALES T3 PANTS 36U; en=Diapers T3 pants 36U\\nLINE: no=5; unit=-1.12; amount=-1.12; rate=1000; text=DTO. PROMOCIÓN; en=Discount promotion\""
+ ]
+}

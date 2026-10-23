@@ -1,0 +1,184 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": {
+  "merchantName": "山田酒店",
+  "merchantAddress": "東京都千代田区1-2-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T13:23:00",
+  "receiptNumber": "5144",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "6才以上 2L",
+    "translationEn": "Over 6 years old 2L",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "7才以上 ビール L 34箱",
+    "translationEn": "Over 7 years old Beer L 34 boxes",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "3才以上 ビール M 44箱",
+    "translationEn": "Over 3 years old Beer M 44 boxes",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "合計 (5)",
+    "translationEn": "Total (5)",
+    "qty": 1,
+    "unitPriceMinor": 8164,
+    "amountMinor": 8164,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "8%税込",
+    "translationEn": "8% tax included",
+    "qty": null,
+    "unitPriceMinor": 1596,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "10%税込",
+    "translationEn": "10% tax included",
+    "qty": null,
+    "unitPriceMinor": 568,
+    "amountMinor": 568,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": 597,
+    "amountMinor": 597,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
+    "unitPriceMinor": 8164,
+    "amountMinor": 8164,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 6048,
+  "taxMinor": 118,
+  "taxIncluded": false,
+  "totalMinor": 8164,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 2 L bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Total (5)' is unclear and cannot be classified.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line '8% tax included' is unclear and cannot be classified.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line '10% tax included' is unclear and cannot be classified.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Discount' is unclear and cannot be classified.",
+   "confidence": 0.1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line 'Total amount' is unclear and cannot be classified.",
+   "confidence": 0.1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 453,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000261
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1255,
+   "tokensOut": 363,
+   "usdCeiling": 0.001261,
+   "usdActual": 0.000162
+  }
+ ],
+ "errors": []
+}

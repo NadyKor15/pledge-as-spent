@@ -1,0 +1,166 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "株式会社 山田",
+  "merchantAddress": "東京都千代田区1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "12個 マスク",
+    "translationEn": "12 pcs Mask",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2個 マスク",
+    "translationEn": "2 pcs Mask",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "4個 マスク",
+    "translationEn": "4 pcs Mask",
+    "qty": 4,
+    "unitPriceMinor": 1415,
+    "amountMinor": 5662,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "消費税(8%)",
+    "translationEn": "Consumption tax (8%)",
+    "qty": 1,
+    "unitPriceMinor": 327,
+    "amountMinor": 327,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税(10%)",
+    "translationEn": "Consumption tax (10%)",
+    "qty": 1,
+    "unitPriceMinor": 157,
+    "amountMinor": 157,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 157,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Masks are not listed as a need for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 418,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000253
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1212,
+   "tokensOut": 344,
+   "usdCeiling": 0.00125,
+   "usdActual": 0.000155
+  }
+ ],
+ "errors": []
+}

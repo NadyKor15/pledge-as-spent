@@ -1,0 +1,103 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-06-11T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MANTA POLAR 130X160",
+    "translationEn": "Polar blanket 130X160",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "Alkaline AA battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Discount promotion",
+    "qty": null,
+    "unitPriceMinor": -70,
+    "amountMinor": -70,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOTAL (IVA INCLUIDO)",
+    "translationEn": "Total (VAT included)",
+    "qty": null,
+    "unitPriceMinor": 3929,
+    "amountMinor": 3929,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3850,
+  "taxMinor": 129,
+  "taxIncluded": true,
+  "totalMinor": 3979,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2376,
+   "tokensOut": 403,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000239
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1198,
+   "tokensOut": 58,
+   "usdCeiling": 0.001249,
+   "usdActual": 0.000086
+  }
+ ],
+ "errors": []
+}

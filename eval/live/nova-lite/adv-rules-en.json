@@ -1,0 +1,132 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "05",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK 3 @ $7.99",
+    "translationEn": "AA Battery 8-pack 3 @ $7.99",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6-pack",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "WATER 24PK.5L",
+    "translationEn": "Water 24-pack 0.5L",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW BLANKET 4 @ $14.99",
+    "translationEn": "Fleece Throw Blanket 4 @ $14.99",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 3198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK 2 @ $15.99",
+    "translationEn": "AA Alkaline 24-pack 2 @ $15.99",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SPIRAL NOTEBOOK 2 @ $1.99",
+    "translationEn": "Spiral Notebook 2 @ $1.99",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift Card $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CIGARETTES MENTHOL",
+    "translationEn": "Cigarettes Menthol",
+    "qty": 1,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1003,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": {
+     "x": 0.22,
+     "y": 0.81,
+     "w": 0.61,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need and match the exact item specified.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2443,
+   "tokensOut": 619,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.000295
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1320,
+   "tokensOut": 57,
+   "usdCeiling": 0.001269,
+   "usdActual": 0.000093
+  }
+ ],
+ "errors": []
+}

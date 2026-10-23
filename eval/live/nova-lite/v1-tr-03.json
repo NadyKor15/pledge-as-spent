@@ -1,0 +1,274 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Gars1 Cd. No:12 Merkez / Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-09-11T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": 3,
+    "unitPriceMinor": 12,
+    "amountMinor": 36,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BATTIÑIYE TEK KISILIK",
+    "translationEn": "Single Bed Sheet",
+    "qty": 3,
+    "unitPriceMinor": 449,
+    "amountMinor": 1347,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEFTER A5",
+    "translationEn": "Notebook A5",
+    "qty": 1,
+    "unitPriceMinor": 42,
+    "amountMinor": 42,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "Baby Diaper 4 No",
+    "qty": 1,
+    "unitPriceMinor": 579,
+    "amountMinor": 579,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA KALEM PIL 4'LU",
+    "translationEn": "Pen 4 Pack",
+    "qty": 2,
+    "unitPriceMinor": 159,
+    "amountMinor": 318,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "INDIRI",
+    "translationEn": "Discount",
+    "qty": 2,
+    "unitPriceMinor": 79,
+    "amountMinor": 158,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Water 5 L",
+    "qty": 4,
+    "unitPriceMinor": 98,
+    "amountMinor": 392,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %1 MATRAH 35,64",
+    "translationEn": "VAT 1% Amount 35,64",
+    "qty": 1,
+    "unitPriceMinor": 35,
+    "amountMinor": 35,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %10 MATRAH 89,09",
+    "translationEn": "VAT 10% Amount 89,09",
+    "qty": 1,
+    "unitPriceMinor": 89,
+    "amountMinor": 89,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %20 MATRAH 1.251,34",
+    "translationEn": "VAT 20% Amount 1.251,34",
+    "qty": 1,
+    "unitPriceMinor": 1251,
+    "amountMinor": 1251,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 259,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2135,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "Credit Card",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2135,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2135,
+  "taxMinor": 259,
+  "taxIncluded": false,
+  "totalMinor": 2135,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Single Bed Sheet is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook A5 is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Diaper 4 No matches the baby diapers size 4 need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pen 4 Pack is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 5 L matches the drinking water 5 L need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 1% Amount 35,64 is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 10% Amount 89,09 is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 20% Amount 1.251,34 is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total VAT is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Credit Card is not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 676,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000315
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1435,
+   "tokensOut": 690,
+   "usdCeiling": 0.001297,
+   "usdActual": 0.000252
+  }
+ ],
+ "errors": []
+}

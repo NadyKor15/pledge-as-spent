@@ -1,0 +1,328 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "山田商店",
+  "merchantAddress": "東京都新宿区新宿1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "4号 豚バラ 44切",
+    "translationEn": "4th pork belly 44 slices",
+    "qty": 1,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "豚バラ 80切",
+    "translationEn": "pork belly 80 slices",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "豚バラ 6切 x #188",
+    "translationEn": "pork belly 6 slices x #188",
+    "qty": 6,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "豚バラ 720ml",
+    "translationEn": "pork belly 720ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "豚バラ 1L",
+    "translationEn": "pork belly 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "豚バラ 2L",
+    "translationEn": "pork belly 2L",
+    "qty": 2,
+    "unitPriceMinor": 708,
+    "amountMinor": 1416,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "豚バラ 6切 x #118",
+    "translationEn": "pork belly 6 slices x #118",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "豚バラ 44切 豚バラ M 44切",
+    "translationEn": "pork belly 44 slices pork belly M 44 slices",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "豚バラ 2L",
+    "translationEn": "pork belly 2L",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計 (8%)",
+    "translationEn": "Total (8%)",
+    "qty": 1,
+    "unitPriceMinor": 5896,
+    "amountMinor": 5896,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "税抜合計 ¥2,682",
+    "translationEn": "Subtotal ¥2,682",
+    "qty": 1,
+    "unitPriceMinor": 2682,
+    "amountMinor": 2682,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "税込合計 ¥321",
+    "translationEn": "Tax ¥321",
+    "qty": 1,
+    "unitPriceMinor": 321,
+    "amountMinor": 321,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "税込合計 ¥3,214",
+    "translationEn": "Total ¥3,214",
+    "qty": 1,
+    "unitPriceMinor": 3214,
+    "amountMinor": 3214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "合計 ¥6,431",
+    "translationEn": "Total ¥6,431",
+    "qty": 1,
+    "unitPriceMinor": 6431,
+    "amountMinor": 6431,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "おつり ¥7,000",
+    "translationEn": "Change ¥7,000",
+    "qty": 1,
+    "unitPriceMinor": 7000,
+    "amountMinor": 7000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "お釣り ¥569",
+    "translationEn": "Change ¥569",
+    "qty": 1,
+    "unitPriceMinor": 569,
+    "amountMinor": 569,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 214,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork belly is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a subtotal line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a tax line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a total line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a change line and not a purchase.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "This is a change line and not a purchase.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2398,
+   "tokensOut": 855,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000349
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1607,
+   "tokensOut": 584,
+   "usdCeiling": 0.001323,
+   "usdActual": 0.000237
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,94 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "2L×6本",
+    "translationEn": "2L x 6",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター (2)",
+    "translationEn": "Mineral water (2)",
+    "qty": 2,
+    "unitPriceMinor": 873,
+    "amountMinor": 1746,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 1746,
+    "amountMinor": 1746,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 48,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2L x 6 bottles of drinking water count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2 bottles of mineral water count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total lines are not eligible for classification.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2377,
+   "tokensOut": 209,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000193
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1060,
+   "tokensOut": 135,
+   "usdCeiling": 0.001221,
+   "usdActual": 0.000096
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,148 @@
+{
+ "receiptId": "adv-predisaster-ja",
+ "set": "adversarial",
+ "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+ "reading": {
+  "merchantName": "カフェ ド クリエ",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "アイス-ラテ アイス M",
+    "translationEn": "Iced Latte Iced M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミルクティー 10杯分",
+    "translationEn": "Milk Tea 10 servings",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "レーズンサンド CR2032",
+    "translationEn": "Raisin Sandwich CR2032",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "#4 ピスタチオサンド 4個",
+    "translationEn": "#4 Pistachio Sandwich 4 pieces",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "合計 (税込 10%)",
+    "translationEn": "Total (tax included 10%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": false,
+  "totalMinor": 2768,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Iced Latte is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk Tea is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Raisin Sandwich is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pistachio Sandwich is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The cash payment line is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2311,
+   "tokensOut": 323,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.002882
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1204,
+   "tokensOut": 221,
+   "usdCeiling": 0.016647,
+   "usdActual": 0.00167
+  }
+ ],
+ "errors": []
+}

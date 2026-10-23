@@ -1,0 +1,238 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "MINI BEBEK BEZI 4 NO",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "RAKI 70 CL",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 68900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YILDIZ ŞİGARA MAVI",
+    "translationEn": "YILDIZ ŞİGARA MAVI",
+    "qty": 1,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "HEDİYE KARTI 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA PİL 10'LU PAKET",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BATTANiYE TEK KİŞİLİK",
+    "translationEn": "BATTANiYE TEK KİŞİLİK",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %20 MATRAH 2.608,08",
+    "translationEn": "KDV %20 MATRAH 2.608,08",
+    "qty": 1,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TOPKDV",
+    "translationEn": "TOPKDV",
+    "qty": 1,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "TOPLAM",
+    "translationEn": "TOPLAM",
+    "qty": 1,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "KREDİ KARTI",
+    "qty": 1,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 52162,
+  "taxMinor": 362970,
+  "taxIncluded": false,
+  "totalMinor": 362970,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 are eligible for the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Cute baby diapers size 4 are eligible for the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are eligible for the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single blankets are eligible for the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2410,
+   "tokensOut": 767,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004382
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1472,
+   "tokensOut": 394,
+   "usdCeiling": 0.017198,
+   "usdActual": 0.002438
+  }
+ ],
+ "errors": []
+}

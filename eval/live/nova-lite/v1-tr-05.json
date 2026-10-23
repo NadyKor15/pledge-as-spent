@@ -1,0 +1,321 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-08-11T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Water 5 L",
+    "qty": 5,
+    "unitPriceMinor": 4900,
+    "amountMinor": 24500,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA Battery 10 pack",
+    "qty": 10,
+    "unitPriceMinor": 16900,
+    "amountMinor": 169000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANiYE TEK KiSiLiK",
+    "translationEn": "Single Bedsheet",
+    "qty": 1,
+    "unitPriceMinor": 89800,
+    "amountMinor": 89800,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 x 449,00",
+    "translationEn": "2 x 449",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KAYNAK SU 0,5L 12'Li",
+    "translationEn": "Water 0.5 L 12 pack",
+    "qty": 5,
+    "unitPriceMinor": 9980,
+    "amountMinor": 49900,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Bottled Water 5 L",
+    "qty": 5,
+    "unitPriceMinor": 8760,
+    "amountMinor": 43800,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 x 21,90",
+    "translationEn": "2 x 21.90",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "iNDiRiM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": -657,
+    "amountMinor": -657,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %10 MATRAH 141,03",
+    "translationEn": "VAT 10% 141.03",
+    "qty": 1,
+    "unitPriceMinor": 14103,
+    "amountMinor": 14103,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %20 MATRAH 889,92",
+    "translationEn": "VAT 20% 889.92",
+    "qty": 1,
+    "unitPriceMinor": 17798,
+    "amountMinor": 17798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": 1,
+    "unitPriceMinor": 19208,
+    "amountMinor": 19208,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 122303,
+    "amountMinor": 122303,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 14,
+    "rawText": "NAKiT",
+    "translationEn": "Cash",
+    "qty": 1,
+    "unitPriceMinor": 123000,
+    "amountMinor": 123000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 15,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "Change",
+    "qty": 1,
+    "unitPriceMinor": 697,
+    "amountMinor": 697,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 122303,
+  "taxMinor": 19208,
+  "taxIncluded": false,
+  "totalMinor": 123000,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "0000000057",
+    "bbox": {
+     "x": 0.44,
+     "y": 0.25,
+     "w": 0.1,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 5 L bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Battery 10 pack counts toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Single Bedsheet does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This line does not specify a product.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water 0.5 L bottles do not count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Bottled Water 5 L bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This line does not specify a product.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total VAT does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cash does not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change does not count toward any need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2377,
+   "tokensOut": 928,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000365
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1548,
+   "tokensOut": 681,
+   "usdCeiling": 0.001311,
+   "usdActual": 0.000256
+  }
+ ],
+ "errors": []
+}

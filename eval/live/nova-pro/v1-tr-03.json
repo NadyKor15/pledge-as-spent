@@ -1,0 +1,184 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova TEL 0 555 000 00 42",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBEK BEZI 3 NO 44'LÜ",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 27900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANiYE TEK KiŞiLiK",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 44900,
+    "amountMinor": 44900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DEFTER A5",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 4200,
+    "amountMinor": 4200,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA KAEM PİL 4'LÜ",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "İNDİRİM",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": -799,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KAYNA SU 5 LT",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %1 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3564,
+    "amountMinor": 36,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 8909,
+    "amountMinor": 891,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 125134,
+    "amountMinor": 25027,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPKDV",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 25954,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "TOPLAM",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 213561,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 213561,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 213561,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not eligible for funding.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 740,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004402
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1441,
+   "tokensOut": 46,
+   "usdCeiling": 0.01731,
+   "usdActual": 0.0013
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,205 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Lovely baby diaper NO:4 Jumbo 42's",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %10 MATRAH",
+    "translationEn": "VAT 10% Base",
+    "qty": 1,
+    "unitPriceMinor": 1692,
+    "amountMinor": 1692,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %20 MATRAH",
+    "translationEn": "VAT 20% Base",
+    "qty": 1,
+    "unitPriceMinor": 29083,
+    "amountMinor": 29083,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": 1,
+    "unitPriceMinor": 5817,
+    "amountMinor": 5817,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 5986,
+    "amountMinor": 5986,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "Credit card",
+    "qty": 1,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 36761,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "7374",
+    "bbox": {
+     "x": 0.16,
+     "y": 0.71,
+     "w": 0.6,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.66,
+     "y": 0.76,
+     "w": 0.3,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L bottles count toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts do not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 42,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Lovely baby diaper NO:4 Jumbo 42's count toward the baby diapers size 4 need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "VAT 10% Base does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "VAT 20% Base does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total VAT does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total amount does not count toward any need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Credit card transactions are not funded.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2278,
+   "tokensOut": 590,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000278
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1253,
+   "tokensOut": 311,
+   "usdCeiling": 0.001259,
+   "usdActual": 0.00015
+  }
+ ],
+ "errors": []
+}

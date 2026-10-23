@@ -1,0 +1,168 @@
+{
+ "reader": "nova-lite",
+ "set": "hero",
+ "receipts": 1,
+ "scoredReceipts": 1,
+ "errors": [],
+ "lines": {
+  "precision": 0.391304347826087,
+  "recall": 0.8181818181818182,
+  "f1": 0.5294117647058824,
+  "tp": 9,
+  "fp": 14,
+  "fn": 2
+ },
+ "lineAmountExact": {
+  "num": 3,
+  "den": 11,
+  "rate": 0.2727272727272727
+ },
+ "totalExact": {
+  "num": 1,
+  "den": 1,
+  "rate": 1
+ },
+ "dateExact": {
+  "num": 1,
+  "den": 1,
+  "rate": 1
+ },
+ "dateTimeExact": {
+  "num": 0,
+  "den": 1,
+  "rate": 0
+ },
+ "merchant": {
+  "meanSimilarity": 0,
+  "atLeast80": {
+   "num": 0,
+   "den": 1,
+   "rate": 0
+  }
+ },
+ "lineClass": {
+  "num": 2,
+  "den": 11,
+  "rate": 0.18181818181818182
+ },
+ "needQty": {
+  "num": 2,
+  "den": 9,
+  "rate": 0.2222222222222222
+ },
+ "ruleLines": {
+  "num": 0,
+  "den": 2,
+  "rate": 0,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 1,
+   "den": 3,
+   "rate": 0.3333333333333333
+  },
+  "meanIou": 0
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 1,
+   "tn": 0,
+   "recall": null,
+   "falseAlarmRate": 1
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 1
+ },
+ "byLanguage": {
+  "ja": {
+   "precision": 0.391304347826087,
+   "recall": 0.8181818181818182,
+   "f1": 0.5294117647058824,
+   "totalExact": {
+    "num": 1,
+    "den": 1,
+    "rate": 1
+   }
+  }
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.0008100000000000329,
+  "calls": 2,
+  "tokensIn": 4848,
+  "tokensOut": 2162,
+  "usdActual": 0.00081,
+  "usdCeiling": 0.002704
+ },
+ "perReceipt": [
+  {
+   "id": "hero-ja-01",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 9,
+    "fp": 14,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 11
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 2,
+     "den": 11
+    },
+    "needQty": {
+     "num": 2,
+     "den": 9
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0
+    ]
+   }
+  }
+ ]
+}

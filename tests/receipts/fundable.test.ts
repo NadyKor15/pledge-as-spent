@@ -33,10 +33,10 @@ describe("toFundableLines", () => {
     expect(run(undefined, [cls(1, { confidence: 0.8 }), cls(2, { confidence: 0.8 })], {}, drive, 0.9).fundable).toEqual([]);
   });
 
-  it("refuses conflicting classifications of one line", () => {
+  it("refuses conflicting classifications of one line, and with them the whole receipt", () => {
     const out = run(undefined, [cls(1), cls(1, { needId: "diapers" }), cls(2)]);
-    expect(out.rejected).toMatchObject([{ lineNo: 1, code: "review" }]);
-    expect(out.fundable.map((f) => f.lineNo)).toEqual([2]);
+    expect(out.rejected).toMatchObject([{ lineNo: 1, code: "review" }, { lineNo: 2, code: "review" }]);
+    expect(out.fundable).toEqual([]);
   });
 
   it("rejects unknown needs, needs of another drive and bad quantities", () => {
@@ -92,7 +92,8 @@ describe("toFundableLines", () => {
 
   it("rejects a need that is already covered, and a sliver that rounds to nothing", () => {
     expect(run(undefined, [cls(1, { needQty: 1 }), cls(2, { needId: "diapers", needQty: 1 })], { water: 40, diapers: 6 }).rejected.map((x) => x.code)).toEqual(["need_full", "need_full"]);
-    const r = receipt({ lines: [line(1, 1)], totalMinor: 1 });
+    const r = receipt({ lines: [{ ...line(1, 1), qty: 1000 }], totalMinor: 1 });
+    // 1000 printed units, 1000 claimed: plausible; only one unit of the need is still open, worth 1/1000 of a yen.
     expect(run(r, [cls(1, { needQty: 1000 })], { water: 39 }).rejected[0].code).toBe("need_full");
   });
 

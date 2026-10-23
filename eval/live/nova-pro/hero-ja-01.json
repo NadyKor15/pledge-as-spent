@@ -1,0 +1,406 @@
+{
+ "receiptId": "hero-ja-01",
+ "set": "hero",
+ "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+ "reading": {
+  "merchantName": "株式会社 辻本",
+  "merchantAddress": "東京都千代田区神田駿河台2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T14:32:00",
+  "receiptNumber": "8258",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "レモンサワー 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ハイボール 2L",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "レモンサワー-ノンアルコール 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "レモンサワー M 44杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ハイボール M 44杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "レモンサワー M 18杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ハイボール M 18杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "レモンサワー M 3 20杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "ハイボール M 3 20杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "レモンサワー 10杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "ハイボール 10杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 490,
+    "amountMinor": 980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "レモンサワー 350ml 6杯",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "レモンサワー-ノンアルコール 3,000円",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "合計 (11品)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "8%税込",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1486,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "10%税込",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 10160,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "レモンサワー 10%割引",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "(レモンサワー 8%)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 110,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 19,
+    "rawText": "(レモンサワー 10%)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 923,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 20,
+    "rawText": "合計",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 14646,
+  "taxMinor": 1486,
+  "taxIncluded": false,
+  "totalMinor": 14646,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "3216 2141 5525",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item appears to be non-alcoholic, but the exact nature of the product is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item appears to be non-alcoholic, but the exact nature of the product is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a subtotal, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a discount, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 19,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a tax, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 20,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This line appears to be a total, but its exact nature is unclear.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3006,
+   "tokensOut": 752,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.004811
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1578,
+   "tokensOut": 717,
+   "usdCeiling": 0.017622,
+   "usdActual": 0.003557
+  }
+ ],
+ "errors": []
+}

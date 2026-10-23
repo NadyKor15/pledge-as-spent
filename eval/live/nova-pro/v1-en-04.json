@@ -1,0 +1,208 @@
+{
+ "receiptId": "v1-en-04",
+ "set": "v1",
+ "imageSha256": "9f725aa0562828c4824eb34aba8ea7fba76d77d2e0f75f74a71d0f698b183352",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:18:00",
+  "receiptNumber": "01",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA ALKALINE 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA BATTERY 8PK",
+    "qty": 1,
+    "unitPriceMinor": 1598,
+    "amountMinor": 1598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2 @ $7.99",
+    "translationEn": "2 @ $7.99",
+    "qty": 2,
+    "unitPriceMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "POTATO CHIPS",
+    "translationEn": "POTATO CHIPS",
+    "qty": 1,
+    "unitPriceMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PURE WTR 1GAL 4CT",
+    "translationEn": "PURE WTR 1GAL 4CT",
+    "qty": 1,
+    "unitPriceMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "3 @ $12.49",
+    "translationEn": "3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "MILK 1GAL",
+    "translationEn": "MILK 1GAL",
+    "qty": 1,
+    "unitPriceMinor": 778,
+    "amountMinor": 778,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 9,
+    "rawText": "2 @ $3.89",
+    "translationEn": "2 @ $3.89",
+    "qty": 2,
+    "unitPriceMinor": 389,
+    "amountMinor": 778,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 8620,
+  "taxMinor": 529,
+  "taxIncluded": false,
+  "totalMinor": 9149,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries in 24-pack count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 8-pack count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Potato chips do not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pure water in 1-gallon jugs count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, so it requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2506,
+   "tokensOut": 569,
+   "usdCeiling": 0.017936,
+   "usdActual": 0.003826
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1312,
+   "tokensOut": 365,
+   "usdCeiling": 0.016896,
+   "usdActual": 0.002218
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,375 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "株式会社 エム・エム・エム",
+  "merchantAddress": "東京都千代田区神田駿河台4-1-8",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04",
+  "receiptNumber": "7048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "りんご 2L",
+    "translationEn": "Apple 2L",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "りんご 1L",
+    "translationEn": "Apple 1L",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "りんご 500g",
+    "translationEn": "Apple 500g",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "りんご 3kg",
+    "translationEn": "Apple 3kg",
+    "qty": 3,
+    "unitPriceMinor": 1698,
+    "amountMinor": 5094,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "りんご 2kg",
+    "translationEn": "Apple 2kg",
+    "qty": 2,
+    "unitPriceMinor": 2298,
+    "amountMinor": 4596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "りんご 1kg 340g",
+    "translationEn": "Apple 1kg 340g",
+    "qty": 1,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "りんご 1kg",
+    "translationEn": "Apple 1kg",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "りんご 180g",
+    "translationEn": "Apple 180g",
+    "qty": 1,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "りんご 100g",
+    "translationEn": "Apple 100g",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 10,
+    "rawText": "りんご 1L",
+    "translationEn": "Apple 1L",
+    "qty": 1,
+    "unitPriceMinor": 1,
+    "amountMinor": 1,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "りんご (7kg)",
+    "translationEn": "Apple (7kg)",
+    "qty": 7,
+    "unitPriceMinor": 1340,
+    "amountMinor": 9380,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "りんご",
+    "translationEn": "Apple",
+    "qty": 8,
+    "unitPriceMinor": 1454,
+    "amountMinor": 11632,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "(りんご) 8kg",
+    "translationEn": "(Apple) 8kg",
+    "qty": 1,
+    "unitPriceMinor": 6886,
+    "amountMinor": 6886,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 14,
+    "rawText": "(りんご) 10kg",
+    "translationEn": "(Apple) 10kg",
+    "qty": 1,
+    "unitPriceMinor": 107,
+    "amountMinor": 107,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 15,
+    "rawText": "りんご 10kg",
+    "translationEn": "Apple 10kg",
+    "qty": 1,
+    "unitPriceMinor": 626,
+    "amountMinor": 626,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 16,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 8340,
+    "amountMinor": 8340,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 17,
+    "rawText": "税込",
+    "translationEn": "Tax included",
+    "qty": 1,
+    "unitPriceMinor": 9000,
+    "amountMinor": 9000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 18,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": 1,
+    "unitPriceMinor": 660,
+    "amountMinor": 660,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 8340,
+  "taxMinor": 1454,
+  "taxIncluded": false,
+  "totalMinor": 9794,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "9739 4221 0384",
+    "bbox": {
+     "x": 0.6,
+     "y": 0.75,
+     "w": 0.23,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Apples are not a listed need for the disaster-relief drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The total line does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included line does not count as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment line does not count as a need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1434,
+   "tokensOut": 986,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000323
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1613,
+   "tokensOut": 748,
+   "usdCeiling": 0.001325,
+   "usdActual": 0.000276
+  }
+ ],
+ "errors": []
+}

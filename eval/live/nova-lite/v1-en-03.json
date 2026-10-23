@@ -1,0 +1,143 @@
+{
+ "receiptId": "v1-en-03",
+ "set": "v1",
+ "imageSha256": "4344c0502147d37457b0aaa396fdc6e979b840bec40af506f29fd797e6b534da",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "01",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL 4 @ $1.49",
+    "translationEn": "Spring Water 1 GAL 4 @ $1.49",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lagers 6PK BTL",
+    "qty": null,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA Alkaline 24PK",
+    "qty": null,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": -240,
+    "amountMinor": -240,
+    "taxRateBp": 700
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "******1105",
+    "bbox": {
+     "x": 0.59,
+     "y": 0.64,
+     "w": 0.39,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.19,
+     "y": 0.76,
+     "w": 0.19,
+     "h": 0.02
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.19,
+     "y": 0.78,
+     "w": 0.64,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1 GAL matches the need for drinking water 1 gallon.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lagers are a type of alcohol and are not funded.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Alkaline batteries match the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Coupons do not count as a need.",
+   "confidence": 0.8
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2374,
+   "tokensOut": 406,
+   "usdCeiling": 0.001345,
+   "usdActual": 0.00024
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1110,
+   "tokensOut": 185,
+   "usdCeiling": 0.001231,
+   "usdActual": 0.000111
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,166 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": {
+  "merchantName": "カフェ・ド・クリエ",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カフェラテ 10杯",
+    "translationEn": "Cafe latte 10 cups",
+    "qty": 10,
+    "unitPriceMinor": 398,
+    "amountMinor": 2360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "カフェオレ 2L",
+    "translationEn": "Cafe au lait 2L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "カフェ・ド・クリエM 38杯",
+    "translationEn": "Cafe de Crie M 38 cups",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "8%消費税",
+    "translationEn": "8% consumption tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "地方消費税 10%",
+    "translationEn": "Local consumption tax 10%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 17,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "おつり",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 176,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 236,
+  "taxIncluded": false,
+  "totalMinor": 5060,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe latte is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe au lait is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe de Crie M is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Local consumption tax is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cash is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2443,
+   "tokensOut": 333,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.00302
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1219,
+   "tokensOut": 258,
+   "usdCeiling": 0.016703,
+   "usdActual": 0.001801
+  }
+ ],
+ "errors": []
+}

@@ -70,9 +70,14 @@ function fold(s: string): string {
   return s.normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
-/** Same store, same minute, same total: the receipt, however it was photographed. Null when the date is unread. */
+/**
+ * Same store, same minute, same total: the receipt, however it was photographed. Needs a date and a time
+ * (a date alone would block a second receipt of the same day), accepts `T` or a space between them and
+ * ignores seconds, and needs a store name that was actually read. Null otherwise.
+ */
 export function semanticKey(r: Pick<ParsedReceipt, "merchantName" | "purchasedAt" | "totalMinor">): string | null {
-  if (!r.purchasedAt) return null;
-  const minute = r.purchasedAt.slice(0, 16);
-  return `${fold(r.merchantName)}|${minute}|${r.totalMinor}`;
+  const m = r.purchasedAt?.trim().match(/^(\d{4}-\d{2}-\d{2})[T ](\d{2}):(\d{2})/);
+  const store = fold(r.merchantName);
+  if (!m || !store) return null;
+  return `${store}|${m[1]}T${m[2]}:${m[3]}|${r.totalMinor}`;
 }

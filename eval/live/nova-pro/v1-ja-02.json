@@ -1,0 +1,220 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "麺屋武蔵",
+  "merchantAddress": "東京都港区芝公園2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:19:00",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "辛味噌ラーメン 4辛",
+    "translationEn": "Spicy miso ramen 4 spicy",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "豚丼",
+    "translationEn": "Pork bowl",
+    "qty": null,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ライス",
+    "translationEn": "Rice",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ライス割引",
+    "translationEn": "Rice discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -100,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "消費税8% ¥1,832",
+    "translationEn": "Consumption tax 8% ¥1,832",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 146,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税10% ¥2,578",
+    "translationEn": "Consumption tax 10% ¥2,578",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2578,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4813,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 187,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4813,
+  "taxMinor": 500,
+  "taxIncluded": false,
+  "totalMinor": 5313,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spicy miso ramen is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pork bowl is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Rice is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Rice discount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total (tax included) is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 8% is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 10% is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total amount is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cash is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2344,
+   "tokensOut": 409,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003184
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1324,
+   "tokensOut": 372,
+   "usdCeiling": 0.01699,
+   "usdActual": 0.00225
+  }
+ ],
+ "errors": []
+}

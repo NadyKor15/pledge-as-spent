@@ -1,0 +1,139 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Maritimo 9 00000 Puerto Brisa",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-06-11T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PANALES T3 PANTS 36U",
+    "translationEn": "Diapers T3 Pants 36U",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1,5L Pack 6",
+    "qty": null,
+    "unitPriceMinor": 1645,
+    "amountMinor": 3290,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet Paper 12R",
+    "qty": null,
+    "unitPriceMinor": 748,
+    "amountMinor": 4488,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUOTA 1,66",
+    "translationEn": "Quota 1,66",
+    "qty": null,
+    "unitPriceMinor": -166,
+    "amountMinor": -166,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "CUOTA 0,78",
+    "translationEn": "Quota 0,78",
+    "qty": null,
+    "unitPriceMinor": -78,
+    "amountMinor": -78,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "BASE 3,71",
+    "translationEn": "Base 3,71",
+    "qty": null,
+    "unitPriceMinor": -371,
+    "amountMinor": -371,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BASE 16,61",
+    "translationEn": "Base 16,61",
+    "qty": null,
+    "unitPriceMinor": -1661,
+    "amountMinor": -1661,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "IVA 10%",
+    "translationEn": "IVA 10%",
+    "qty": null,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "IVA 21%",
+    "translationEn": "IVA 21%",
+    "qty": null,
+    "unitPriceMinor": 771,
+    "amountMinor": 771,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "CAMBIO",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": 724,
+    "amountMinor": 724,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 1661,
+  "taxMinor": 600,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 36,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers T3 Pants 36U match the size 3 diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1853,
+   "tokensOut": 552,
+   "usdCeiling": 0.001346,
+   "usdActual": 0.000244
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1338,
+   "tokensOut": 61,
+   "usdCeiling": 0.001274,
+   "usdActual": 0.000095
+  }
+ ],
+ "errors": []
+}

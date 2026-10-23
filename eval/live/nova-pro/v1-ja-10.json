@@ -1,0 +1,262 @@
+{
+ "receiptId": "v1-ja-10",
+ "set": "v1",
+ "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+ "reading": {
+  "merchantName": "カフェ ド クリエ",
+  "merchantAddress": "東京都千代田区3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:25:05",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カフェラテ 2L",
+    "translationEn": "Cafe Latte 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "チーズケーキ マロン M 44㎝",
+    "translationEn": "Cheese cake Marron M 44cm",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "カフェオレ M 38㎝",
+    "translationEn": "Cafe au lait M 38cm",
+    "qty": 5,
+    "unitPriceMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "カフェオレ (4杯)",
+    "translationEn": "Cafe au lait (4 cups)",
+    "qty": 4,
+    "unitPriceMinor": 985,
+    "amountMinor": 3942,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "サービス料 ￥256",
+    "translationEn": "Service charge 256",
+    "qty": 1,
+    "unitPriceMinor": 256,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "消費税10% ￥3,686",
+    "translationEn": "Consumption tax 10% 3686",
+    "qty": 1,
+    "unitPriceMinor": 3686,
+    "amountMinor": 3686,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "クーポン ￥20",
+    "translationEn": "Coupon 20",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ポイント ￥368",
+    "translationEn": "Points 368",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 368,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "合計",
+    "translationEn": "Subtotal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4330,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 670,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "おつり",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 670,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4330,
+  "taxMinor": 670,
+  "taxIncluded": false,
+  "totalMinor": 5000,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "1606 3023 4322",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe Latte 2L is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cheese cake Marron M 44cm is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe au lait M 38cm is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe au lait (4 cups) is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Service charge 256 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 10% 3686 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coupon 20 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Points 368 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Subtotal is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Payment is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2509,
+   "tokensOut": 565,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003815
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1415,
+   "tokensOut": 468,
+   "usdCeiling": 0.017206,
+   "usdActual": 0.00263
+  }
+ ],
+ "errors": []
+}

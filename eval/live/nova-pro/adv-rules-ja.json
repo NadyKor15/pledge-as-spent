@@ -1,0 +1,168 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": {
+  "merchantName": "株式会社 山本",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "0777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ビール 3,000円",
+    "translationEn": "Beer",
+    "qty": 3,
+    "unitPriceMinor": 1000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ウイスキー 350ml 6杯",
+    "translationEn": "Whiskey",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "お通し 4品",
+    "translationEn": "Appetizer",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "水 2L",
+    "translationEn": "Water",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ハイボール A5",
+    "translationEn": "Highball",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "レモンサワー 2杯",
+    "translationEn": "Lemon Sour",
+    "qty": 2,
+    "unitPriceMinor": 290,
+    "amountMinor": 580,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ハイボール 2L",
+    "translationEn": "Highball",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "8%消費税",
+    "translationEn": "8% consumption tax",
+    "qty": 1,
+    "unitPriceMinor": 560,
+    "amountMinor": 560,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10%地方消費税",
+    "translationEn": "10% local consumption tax",
+    "qty": 1,
+    "unitPriceMinor": 2164,
+    "amountMinor": 2164,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "サービス料 (サービス料 8%)",
+    "translationEn": "Service charge (8% service charge)",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "(サービス料 10%)",
+    "translationEn": "(10% service charge)",
+    "qty": 1,
+    "unitPriceMinor": 196,
+    "amountMinor": 196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 2050,
+  "taxIncluded": false,
+  "totalMinor": 5724,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2350,
+   "tokensOut": 627,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003886
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1442,
+   "tokensOut": 486,
+   "usdCeiling": 0.017357,
+   "usdActual": 0.002709
+  }
+ ],
+ "errors": [
+  "classify: classify lines (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at [11].confidence (stop reason: tool_use)",
+  "raw: {\"lines\":\"no=1; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=2; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=3; verdict=rejected; rule=not_in_needs; conf=1.0; why=Appetizers are not listed as a need in the disaster-relief drive.\\nno=4; verdict=eligible; need=water; qty=2; conf=1.0; why=Drinking water counts toward the water need.\\nno=5; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=6; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=7; verdict=rejected; rule=alcohol; conf=1.0; why=Alcohol is not funded in the disaster-relief drive.\\nno=8; verdict=review; rule=unclear; conf=0.5; why=The total amount includes both eligible and ineligible items.\\nno=9; verdict=review; rule=unclear; conf=0.5; why=The consumption tax includes both eligible and ineligible items.\\nno=10; verdict=review; rule=unclear; conf=0.5; why=The local consumption tax includes both eligible and ineligible items.\\nno=11; verdict=review; rule=unclear; conf=0.5; why=The service charge includes both eligible and ineligible items.\\nno=12; verdict=review; rule=unclear; why=The service charge includes both eligible and ineligible items.\\nno=13; verdict=review; rule=unclear; conf=0.5; why=The total includes both eligible and ineligible items.\\nno=14; verdict=review; rule=unclear; conf=0.5; why=The payment includes both eligible and ineligible items.\"}"
+ ]
+}

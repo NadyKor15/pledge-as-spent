@@ -136,16 +136,20 @@ export class SpendCap {
   /**
    * Prices the call at its worst case, reserves that in the ledger (throwing before
    * `run` if it does not fit), runs it, then corrects the entry with the real tokens.
-   * If `run` throws the reservation stays: the call may have been billed.
+   * If `run` throws the reservation stays: the call may have been billed. The same when the provider's
+   * answer carries no token counts (null): the call was billed, so the worst case stays charged.
    */
   async call<T>(
     args: { model: string; what: string; estimate: CallEstimate },
-    run: () => Promise<{ value: T; tokensIn: number; tokensOut: number }>,
+    run: () => Promise<{ value: T; tokensIn: number | null; tokensOut: number | null }>,
   ): Promise<{ value: T; usage: ModelUsage }> {
     const ceiling = worstCaseUsd(args.model, args.estimate);
     const id = randomUUID();
     await this.ledger.reserve({ ts: this.now().toISOString(), id, kind: "reserve", what: args.what, usd: round6(ceiling) }, this.maxUsd);
     const { value, tokensIn, tokensOut } = await run();
+    if (tokensIn === null || tokensOut === null) {
+      return { value, usage: { model: args.model, tokensIn: 0, tokensOut: 0, usdCeiling: round6(ceiling), usdActual: null } };
+    }
     const actual = novaUsd(args.model, tokensIn, tokensOut);
     await this.ledger.settle({ ts: this.now().toISOString(), id: randomUUID(), kind: "settle", ref: id, what: args.what, usd: round6(actual - round6(ceiling)) });
     return { value, usage: { model: args.model, tokensIn, tokensOut, usdCeiling: round6(ceiling), usdActual: round6(actual) } };

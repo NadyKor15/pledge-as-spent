@@ -1,0 +1,177 @@
+{
+ "receiptId": "v1-tr-01",
+ "set": "v1",
+ "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+ "reading": {
+  "merchantName": "EVIM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101 Yıldızova TEL 0 555 000 00 63 VKN: 0000000063",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 10,
+    "unitPriceMinor": 16990,
+    "amountMinor": 169900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "*20 *-16,99",
+    "translationEn": "*20 *-16,99",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": -16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "MINI BABY DIAPER 4 NO",
+    "qty": 4,
+    "unitPriceMinor": 28990,
+    "amountMinor": 115960,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %20 MATRAH 369,01",
+    "translationEn": "VAT %20 MATRAH 369,01",
+    "qty": 1,
+    "unitPriceMinor": 7380,
+    "amountMinor": 7380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 7380,
+    "amountMinor": 7380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 44281,
+    "amountMinor": 44281,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "CREDIT CARD",
+    "qty": 1,
+    "unitPriceMinor": 44281,
+    "amountMinor": 44281,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 44281,
+  "taxMinor": null,
+  "taxIncluded": true,
+  "totalMinor": 44281,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0229",
+    "bbox": null
+   },
+   {
+    "kind": "card_number",
+    "text": "9309880230",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in a 10 pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line appears to be a discount or adjustment, but its exact nature is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The item does not match any of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1854,
+   "tokensOut": 503,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003093
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1237,
+   "tokensOut": 290,
+   "usdCeiling": 0.016695,
+   "usdActual": 0.001918
+  }
+ ],
+ "errors": []
+}

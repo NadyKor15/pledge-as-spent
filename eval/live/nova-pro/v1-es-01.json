@@ -1,0 +1,190 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alboradá",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T10:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 1974,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 130,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BOTELLA 1,5 L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL BEBÉ T3 44U",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAN BARRA",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 85,
+    "amountMinor": 170,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA 5L GARRAFÁ",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 119,
+    "amountMinor": 119,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -6,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2835,
+  "taxMinor": 283,
+  "taxIncluded": true,
+  "totalMinor": 2835,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 6 1.5 L water bottles, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a 1.5 L water bottle, which is the only type of water accepted.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 2 1.5 L water bottles, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of size 3 diapers, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 2 AA batteries, which matches the need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This is not a 1.5 L water bottle, which is the only type of water accepted.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a discount line, and its eligibility depends on the lines it applies to.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2445,
+   "tokensOut": 380,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003172
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1202,
+   "tokensOut": 370,
+   "usdCeiling": 0.01669,
+   "usdActual": 0.002146
+  }
+ ],
+ "errors": []
+}

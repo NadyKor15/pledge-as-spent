@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 541,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.003765
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[0].qty (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=カフェ・ド・クリエ; address=東京都千代田区神田錦町1-4; country=JP; currency=JPY; purchased=2026-11-06T13:23:00; number=5144; subtotal=6048; tax=816; tax_included=false; total=6864; readability=good\\nLINE: no=1; qty=2L; unit=720; amount=1480; text=水 720mL; en=Water 720mL\\nLINE: no=2; qty=6; unit=798; amount=1596; text=カフェラテ 2L; en=Cafe Latte 2L\\nLINE: no=3; qty=2; unit=1298; amount=2596; text=カフェラテ L 34杯; en=Cafe Latte L 34 cups\\nLINE: no=4; qty=3; unit=398; amount=1194; text=カフェラテ 10杯; en=Cafe Latte 10 cups\\nLINE: no=5; qty=3; unit=398; amount=1298; text=カフェラテ L 44杯; en=Cafe Latte L 44 cups\\nLINE: no=6; qty=5; unit=164; amount=816; text=割引 (5枚); en=Discount (5 coupons)\\nLINE: no=7; qty=8; unit=196; amount=1596; text=8%割引; en=8% discount\\nLINE: no=8; qty=10; unit=568; amount=6568; text=10%割引; en=10% discount\\nLINE: no=9; qty=118; unit=118; amount=118; text=(ポイント 8%); en=(Points 8%)\\nLINE: no=10; qty=597; unit=597; amount=597; text=(ポイント 10%); en=(Points 10%)\\nLINE: no=11; amount=8164; text=合計; en=Total\""
+ ]
+}

@@ -1,0 +1,94 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Maritimo 9 00000 Puerto Brisa",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2006-11-06T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 1974,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PANALES T3 PANTS 36U",
+    "translationEn": "T3 PANTS 36U",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "TOILET PAPER 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2276,
+  "taxMinor": 300,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 6 1.5L water bottles, which matches the need for drinking water.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 36 size 3 diapers, which matches the need for baby diapers size 3.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not listed as a need for this disaster-relief drive.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1853,
+   "tokensOut": 247,
+   "usdCeiling": 0.01794,
+   "usdActual": 0.002273
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1091,
+   "tokensOut": 171,
+   "usdCeiling": 0.016301,
+   "usdActual": 0.00142
+  }
+ ],
+ "errors": []
+}
