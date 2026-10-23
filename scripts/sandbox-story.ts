@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- reads untyped recorded PayPal JSON */
 // Live "Japanese story" in Nadezhda's PayPal sandbox: multi-currency holds,
 // partial captures across holds, a JPY payout, reauthorize, void. Records every
 // exchange (sanitized) as contract-test fixtures and writes an evidence file.

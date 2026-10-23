@@ -117,7 +117,7 @@ export function replayFetch(source: string | RecordedExchange[], opts: { strictB
   const pool = (typeof source === "string" ? loadExchanges(source) : source).map((e) => ({ e, used: false }));
   return async (url, init) => {
     if (new URL(url).pathname === TOKEN_PATH) {
-      return new Response(JSON.stringify({ token_type: "Bearer", expires_in: 32400, ["access" + "_token"]: "replay-token" }), {
+      return new Response(JSON.stringify({ token_type: "Bearer", expires_in: 32400, access_token: "replay-token" }), {
         status: 200,
         headers: { "content-type": "application/json" },
       });
