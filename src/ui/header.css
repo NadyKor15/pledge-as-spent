@@ -1,0 +1,51 @@
+/* Desktop header: two metric sets taken from the coordinator (c) and donor (d) references. */
+.hd-top { position: relative; z-index: 2; display: flex; align-items: center; background: var(--surface); white-space: nowrap; }
+.hd-top > * { flex: none; }
+.hd-brand { font-weight: 700; color: var(--primary); text-decoration: none; }
+.hd-vr { background: #D0D3D8; }
+.hd-drive { color: var(--hdr-ink); }
+.hd-drive b { font-weight: 700; }
+.hd-chip { display: inline-flex; align-items: center; background: #EDF1F4; color: #445168; }
+.hd-nav { margin-left: auto; display: flex; align-items: center; }
+.hd-nav a { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+
+/* d: donor reference (59.32 px) */
+.hd-d { height: 59.32px; border-bottom: 1px solid #E6E6E5; box-shadow: 0 1px 2px rgba(0, 0, 0, .035); letter-spacing: -0.02em; --hdr-ink: #0E1325; }
+.hd-d .hd-brand { margin-left: 40.19px; font-size: 25.54px; line-height: 36.32px; position: relative; top: -1.21px; }
+.hd-d .hd-vr { width: 1.94px; height: 26.63px; margin-left: 33.41px; }
+.hd-d .hd-drive { margin-left: 27.36px; font-size: 21.79px; line-height: 31.48px; font-weight: 500; position: relative; top: -0.97px; }
+.hd-d .hd-drive b { font-weight: 600; }
+.hd-d .hd-chip { margin-left: 22.4px; height: 36.32px; padding: 0 16.95px 0 16.59px; border-radius: 8.47px; font-size: 15.07px; position: relative; top: 0.61px; }
+.hd-d .hd-nav { margin-right: 37.53px; position: relative; top: 1.21px; }
+.hd-d .hd-nav a { height: 42.37px; padding: 0 25.42px; border-radius: 8.47px; font-size: 16.52px; font-weight: 500; color: #434D61; }
+.hd-d .hd-nav a.hd-on { background: #046C7E; color: var(--surface); }
+
+/* c: coordinator reference (62 px) */
+.hd-c { height: 62px; align-items: flex-start; background: #FEFEFC; border-bottom: 1px solid #EAEAE7; --hdr-ink: #17191E; }
+.hd-c .hd-brand { margin: 12px 0 0 39px; width: 240.5px; height: 30px; font-size: 24.8px; line-height: 30px; }
+.hd-c .hd-vr { width: 1.5px; height: 28px; margin-top: 17px; background: #DFE0E0; }
+.hd-c .hd-drive { margin-top: 13.7px; padding-left: 28.5px; padding-right: 28.5px; height: 26px; font-size: 21.04px; line-height: 26px; font-weight: 500; }
+.hd-c .hd-chip { margin-top: 14.5px; height: 33px; padding: 0 14.5px; border-radius: 10px; background: #EAEDF0; color: #4B535D; font-size: 14.1px; }
+.hd-c .hd-nav { margin-right: 35.5px; height: 61px; }
+.hd-c .hd-nav a { height: 20px; margin-right: 40px; font-size: 15.9px; color: #5B606B; }
+.hd-c .hd-nav a.hd-on { width: 138px; height: 44px; margin-right: 0; border-radius: 7px; background: #00727A; color: var(--surface); font-size: 15.5px; font-weight: 500; }
+.hd-c .hd-nav a.hd-on:not(:last-child) { margin-right: 40px; }
+.hd-c .hd-nav a:has(+ a.hd-on) { margin-right: 31px; }
+
+/* Mobile header: statement (e) and volunteer (f) references. */
+.hd-mtop { position: relative; z-index: 1; display: flex; align-items: flex-start; white-space: nowrap; }
+.hd-mbrand { font-weight: 700; color: var(--primary); text-decoration: none; }
+.hd-e { height: 43px; justify-content: space-between; padding: 0 14.6px 0 19.4px; background: #FCFCFA; border-bottom: 1px solid #EBEDEE; }
+.hd-e .hd-mbrand { margin-top: 11px; font-size: 18px; line-height: 22px; letter-spacing: -0.8px; }
+.hd-ebadge { margin-top: 12.8px; height: 20.6px; padding: 0.3px 9px 0; border-radius: 10.3px; background: #EEF0F4; color: #444D5C; font-size: 10.4px; line-height: 20.6px; letter-spacing: -0.46px; }
+.hd-f { height: 40px; background: #FBFAF8; box-shadow: 0 1px 3px rgba(60, 45, 30, .05); }
+.hd-f .hd-mbrand { margin: 7.64px 0 0 18.6px; width: 144.2px; font-size: 16.8px; line-height: 20px; letter-spacing: -.05em; }
+.hd-fsep { margin-top: 9.6px; width: 1px; height: 17.8px; background: #D8DADC; }
+
+/* Role menu on phones: the role chip opens the list of roles. */
+.hd-roles { position: relative; margin: 8.2px 0 0 13.6px; }
+.hd-roles summary { list-style: none; cursor: pointer; min-width: 64.5px; height: 20.6px; padding: 0 9px; border-radius: 9px; background: #E9EEEF; color: #03696B; font-size: 10px; font-weight: 500; line-height: 22px; letter-spacing: -.02em; text-align: center; }
+.hd-roles summary::-webkit-details-marker { display: none; }
+.hd-roles ul { position: absolute; top: 26px; left: 0; z-index: 5; list-style: none; padding: 4px; border: 1px solid #EAEBEC; border-radius: 8px; background: var(--surface); box-shadow: 0 6px 18px rgba(0, 0, 0, .08); }
+.hd-roles li a { display: block; padding: 6px 12px; font-size: 13px; color: #0B1222; text-decoration: none; border-radius: 6px; }
+.hd-roles li a[aria-current="page"] { background: #E9EEEF; color: #03696B; font-weight: 600; }
