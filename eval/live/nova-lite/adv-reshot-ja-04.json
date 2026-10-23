@@ -1,0 +1,166 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "みずほ銀行",
+  "merchantAddress": "東京都千代田区大手町1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-01-04",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "あさり 4個入り",
+    "translationEn": "Asari 4 pcs",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "いか 12本入り",
+    "translationEn": "Squid 12 pcs",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "いか刺し 4本",
+    "translationEn": "Squid sashimi 4 pcs",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いか刺し 2本",
+    "translationEn": "Squid sashimi 2 pcs",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "いか刺し 4本",
+    "translationEn": "Squid sashimi 4 pcs",
+    "qty": 4,
+    "unitPriceMinor": 1415,
+    "amountMinor": 5662,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "税金",
+    "translationEn": "Tax",
+    "qty": 1,
+    "unitPriceMinor": 157,
+    "amountMinor": 157,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
+    "qty": 1,
+    "unitPriceMinor": 1574,
+    "amountMinor": 1574,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 157,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Asari is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Squid is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Squid sashimi is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Squid sashimi is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Squid sashimi is not a listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax is not a purchasable item.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2526,
+   "tokensOut": 417,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000252
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1216,
+   "tokensOut": 322,
+   "usdCeiling": 0.00125,
+   "usdActual": 0.00015
+  }
+ ],
+ "errors": []
+}

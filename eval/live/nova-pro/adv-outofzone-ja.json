@@ -1,0 +1,262 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "ホテルニューオータニ",
+  "merchantAddress": "東京都千代田区紀尾井町4-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "アフタヌーンティー 3名様",
+    "translationEn": "Afternoon tea for 3 people",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "コーヒー",
+    "translationEn": "Coffee",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "紅茶",
+    "translationEn": "Tea",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "スパークリングワイン #3 2杯付",
+    "translationEn": "Sparkling wine #3 with 2 glasses",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "スパークリングワイン",
+    "translationEn": "Sparkling wine",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "合計 (税抜) ¥4,276",
+    "translationEn": "Total (tax excluded) 4,276",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4276,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税8% ¥2,482",
+    "translationEn": "Consumption tax 8% 2,482",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2482,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "サービス料10% ¥1,794",
+    "translationEn": "Service charge 10% 1,794",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "小計 ¥179",
+    "translationEn": "Subtotal 179",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 179,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計 ¥4,653",
+    "translationEn": "Total 4,653",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4653,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "内税額***********1033",
+    "translationEn": "Tax amount 1033",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1033,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "¥4,653",
+    "translationEn": "4,653",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4653,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4653,
+  "taxMinor": 1033,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "5449 1448 4664",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Afternoon tea for 3 people includes alcohol, which is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coffee is not one of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea is not one of the listed needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine #3 with 2 glasses contains alcohol, which is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sparkling wine contains alcohol, which is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total (tax excluded) is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Consumption tax 8% is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Service charge 10% is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Subtotal is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Tax amount is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "4,653 is unclear if it includes any of the listed needs.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2430,
+   "tokensOut": 578,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003794
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1440,
+   "tokensOut": 462,
+   "usdCeiling": 0.017266,
+   "usdActual": 0.00263
+  }
+ ],
+ "errors": []
+}

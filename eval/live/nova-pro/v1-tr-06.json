@@ -1,0 +1,328 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PÄ°L 10'LU PAKET",
+    "translationEn": "AA PIL 10'LU PAKET",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "SÜT 1 LT",
+    "qty": 1,
+    "unitPriceMinor": 7700,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "2 X 38,50",
+    "translationEn": "2 X 38,50",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "KAYNAK SU 5 LT",
+    "qty": 5,
+    "unitPriceMinor": 4900,
+    "amountMinor": 24500,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 X 24,50",
+    "translationEn": "2 X 24,50",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "EKMEK",
+    "translationEn": "EKMEK",
+    "qty": null,
+    "unitPriceMinor": 1200,
+    "amountMinor": 1200,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "HEDÄ°YE KARTI 500 TL",
+    "translationEn": "HEDÄ°YE KARTI 500 TL",
+    "qty": null,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "SEVÄ°MLÄ° BEBEK BEZÄ°",
+    "translationEn": "SEVÄ°MLÄ° BEBEK BEZÄ°",
+    "qty": null,
+    "unitPriceMinor": 69800,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "NO:4 JUMBO 42'LÄ°",
+    "translationEn": "NO:4 JUMBO 42'LÄ°",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %1 MATRAH 11,88",
+    "translationEn": "KDV %1 MATRAH 11,88",
+    "qty": 1,
+    "unitPriceMinor": 1145,
+    "amountMinor": 1145,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %10 MATRAH 114,55",
+    "translationEn": "KDV %10 MATRAH 114,55",
+    "qty": 10,
+    "unitPriceMinor": 14465,
+    "amountMinor": 144650,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "KDV %20 MATRAH 723,25",
+    "translationEn": "KDV %20 MATRAH 723,25",
+    "qty": 20,
+    "unitPriceMinor": 15622,
+    "amountMinor": 312440,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPKDV",
+    "translationEn": "TOPKDV",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 150590,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "TOPLAM",
+    "translationEn": "TOPLAM",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 151000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "NAKÄ°T",
+    "translationEn": "NAKÄ°T",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "PARA ÜSTÜ",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 151000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 150590,
+  "taxMinor": 151000,
+  "taxIncluded": false,
+  "totalMinor": 151000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in 10-pack count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "5 L water bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Taxes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Taxes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Taxes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Taxes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cash is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2526,
+   "tokensOut": 919,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004962
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1656,
+   "tokensOut": 582,
+   "usdCeiling": 0.01765,
+   "usdActual": 0.003187
+  }
+ ],
+ "errors": []
+}

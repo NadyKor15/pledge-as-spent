@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-unreadable-ja",
+ "set": "adversarial",
+ "imageSha256": "c24ba8cf0487e2da48f9eaead5c6c52223ef3f10e06d090706c044a43b0ac7a7",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2394,
+   "tokensOut": 10,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.001947
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected string, received null\n  → at currency\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: readability=unreadable\""
+ ]
+}

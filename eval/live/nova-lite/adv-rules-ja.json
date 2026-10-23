@@ -1,0 +1,375 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": {
+  "merchantName": "はなみずき",
+  "merchantAddress": "東京都新宿区新宿3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11",
+  "receiptNumber": "0777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おつり 3,000円",
+    "translationEn": "Change 3,000 yen",
+    "qty": null,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "サントリー クラフトビール 350ml 6本",
+    "translationEn": "Suntory Craft Beer 350ml 6 bottles",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "カルピス 4箱",
+    "translationEn": "Calpis 4 boxes",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "カルピス 2L",
+    "translationEn": "Calpis 2L",
+    "qty": 2,
+    "unitPriceMinor": 236,
+    "amountMinor": 472,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "カルピス 2L x #118",
+    "translationEn": "Calpis 2L x #118",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "カルピス A5",
+    "translationEn": "Calpis A5",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "カルピス カルピス-レモン",
+    "translationEn": "Calpis Calpis-Lemon",
+    "qty": 1,
+    "unitPriceMinor": 580,
+    "amountMinor": 580,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "カルピス 2L",
+    "translationEn": "Calpis 2L",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "カルピス 2L x #108",
+    "translationEn": "Calpis 2L x #108",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計 (7)",
+    "translationEn": "Total (7)",
+    "qty": null,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "8%税",
+    "translationEn": "8% tax",
+    "qty": null,
+    "unitPriceMinor": 560,
+    "amountMinor": 560,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "10%税",
+    "translationEn": "10% tax",
+    "qty": null,
+    "unitPriceMinor": 2164,
+    "amountMinor": 2164,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "消費税(8%)",
+    "translationEn": "Consumption tax (8%)",
+    "qty": null,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "(消費税8%)",
+    "translationEn": "(Consumption tax 8%)",
+    "qty": null,
+    "unitPriceMinor": 41,
+    "amountMinor": 41,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "(消費税10%)",
+    "translationEn": "(Consumption tax 10%)",
+    "qty": null,
+    "unitPriceMinor": 196,
+    "amountMinor": 196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "お支払い金額",
+    "translationEn": "Payment amount",
+    "qty": null,
+    "unitPriceMinor": 2050,
+    "amountMinor": 2050,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "お支払い金額",
+    "translationEn": "Payment amount",
+    "qty": null,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 196,
+  "taxIncluded": false,
+  "totalMinor": 5920,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "7788 0428 0676",
+    "bbox": {
+     "x": 0.6,
+     "y": 0.81,
+     "w": 0.3,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Change is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Craft beer is an alcohol product and is not funded by the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Calpis 4 boxes count as 4 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Calpis 2L counts as 2 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "canned",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Calpis 2L x #118 counts as 2 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Calpis A5 does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Calpis Calpis-Lemon does not match any listed need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 8,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Calpis 2L counts as 3 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 9,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Calpis 2L x #108 counts as 3 cans toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment amount is not a purchasable item for the drive.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment amount is not a purchasable item for the drive.",
+   "confidence": 0.9
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2334,
+   "tokensOut": 858,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000346
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1644,
+   "tokensOut": 737,
+   "usdCeiling": 0.001335,
+   "usdActual": 0.000276
+  }
+ ],
+ "errors": []
+}

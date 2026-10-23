@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-en-02",
+ "set": "v1",
+ "imageSha256": "483b7ca5b81bf1ac30d65662e5139d49a0e4b719ba669b7aa616555fedfb147a",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2490,
+   "tokensOut": 509,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000272
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=CORNER PHARMACY #14; address=3 Elm Court, Brindlewood, Marlow Co.; country=US; currency=USD; purchased=2026-11-04T15:58:00; number=2718; subtotal=49.18; tax=2.23; tax_included=false; total=51.41; readability=good\\nLINE: no=1; qty=6; unit=1.49; amount=8.94; rate=800; text=SPRING WATER 1GAL 6 @ $1.49; en=Spring Water 1gal 6 @ $1.49\\nLINE: no=2; unit=7.99; amount=7.99; rate=1000; text=AAA BATTERY 8PK COUPON; en=AAA Battery 8pk Coupon\\nLINE: no=3; unit=-1.2; amount=-1.2; rate=1000; text=-$1.20; en=-$1.20\\nLINE: no=4; qty=1; unit=15.99; amount=15.99; rate=1000; text=AA ALKALINE 24PK BREAD WHEAT; en=AA Alkaline 24pk Bread Wheat\\nLINE: no=5; qty=2; unit=2.79; amount=5.58; rate=800; text=2 @ $2.79; en=2 @ $2.79\\nLINE: no=6; unit=7.99; amount=7.99; rate=1000; text=AA BATTERY 8PK MILK 1GAL; en=AA Battery 8pk Milk 1gal\\nLINE: no=7; unit=3.89; amount=3.89; rate=800; text=$3.89 F; en=$3.89 F\\nPII: kind=member_id; box=0.17,0.79,0.6,0.03; text=2899736096\""
+ ]
+}

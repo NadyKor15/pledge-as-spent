@@ -4,7 +4,7 @@
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": {
   "merchantName": "株式会社 辻本",
-  "merchantAddress": "東京都港区南青山2-8-1",
+  "merchantAddress": "東京都千代田区神田小川町2-8-1",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-05T14:32:00",
@@ -12,89 +12,89 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "雪解けの水 2L",
-    "translationEn": "Snowmelt water 2L",
-    "qty": 1,
-    "unitPriceMinor": 798,
+    "rawText": "レモンサワー 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 399,
     "amountMinor": 798,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "雪解けの水 2L",
-    "translationEn": "Snowmelt water 2L",
-    "qty": 1,
-    "unitPriceMinor": 472,
+    "rawText": "ハイボール 2L",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 118,
     "amountMinor": 472,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "レモン水",
-    "translationEn": "Lemon water",
-    "qty": 1,
-    "unitPriceMinor": 216,
+    "rawText": "レモンサワー-ノンアル- 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 108,
     "amountMinor": 216,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "レモン水 M 44本",
-    "translationEn": "Lemon water M 44 bottles",
-    "qty": 1,
-    "unitPriceMinor": 2596,
+    "rawText": "レモンサワー M 44杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1298,
     "amountMinor": 2596,
     "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "レモン水 M 44本",
-    "translationEn": "Lemon water M 44 bottles",
-    "qty": 1,
-    "unitPriceMinor": 3294,
-    "amountMinor": 3294,
+    "rawText": "ハイボール M",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1624,
+    "amountMinor": 3248,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
-    "rawText": "レモン水 M 18本",
-    "translationEn": "Lemon water M 18 bottles",
-    "qty": 1,
-    "unitPriceMinor": 598,
-    "amountMinor": 598,
+    "rawText": "レモンサワー M 18杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 198,
+    "amountMinor": 594,
     "taxRateBp": null
    },
    {
     "lineNo": 7,
-    "rawText": "レモン水 M 18本",
-    "translationEn": "Lemon water M 18 bottles",
+    "rawText": "ハイボール M 20杯",
+    "translationEn": "",
     "qty": 3,
-    "unitPriceMinor": 698,
-    "amountMinor": 2094,
+    "unitPriceMinor": 232,
+    "amountMinor": 696,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
-    "rawText": "レモン水 M 18本",
-    "translationEn": "Lemon water M 18 bottles",
-    "qty": 1,
-    "unitPriceMinor": 796,
+    "rawText": "ハイボール 10杯",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 398,
     "amountMinor": 796,
     "taxRateBp": null
    },
    {
     "lineNo": 9,
-    "rawText": "レモン水 M 18本",
-    "translationEn": "Lemon water M 18 bottles",
-    "qty": 2,
-    "unitPriceMinor": 980,
-    "amountMinor": 1960,
+    "rawText": "ハイボール 15杯",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 326,
+    "amountMinor": 980,
     "taxRateBp": null
    },
    {
     "lineNo": 10,
-    "rawText": "レモン水 M 18本",
-    "translationEn": "Lemon water M 18 bottles",
+    "rawText": "ハイボール 98",
+    "translationEn": "",
     "qty": 10,
     "unitPriceMinor": 98,
     "amountMinor": 980,
@@ -102,8 +102,8 @@
    },
    {
     "lineNo": 11,
-    "rawText": "レモン水 350ml 6本",
-    "translationEn": "Lemon water 350ml 6 bottles",
+    "rawText": "レモンサワー 350ml 6杯",
+    "translationEn": "",
     "qty": 1,
     "unitPriceMinor": 1198,
     "amountMinor": 1198,
@@ -111,8 +111,8 @@
    },
    {
     "lineNo": 12,
-    "rawText": "レモン水 3,000本",
-    "translationEn": "Lemon water 3,000 bottles",
+    "rawText": "ハイボール-K 3,000円",
+    "translationEn": "",
     "qty": 3,
     "unitPriceMinor": 1000,
     "amountMinor": 3000,
@@ -120,37 +120,73 @@
    },
    {
     "lineNo": 13,
-    "rawText": "消費税 (11%)",
-    "translationEn": "Consumption tax (11%)",
-    "qty": 11,
-    "unitPriceMinor": 1486,
-    "amountMinor": 1486,
+    "rawText": "合計 (11品)",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
     "taxRateBp": null
    },
    {
     "lineNo": 14,
-    "rawText": "ポイント還元 8%",
-    "translationEn": "Point rebate 8%",
-    "qty": 8,
-    "unitPriceMinor": 110,
-    "amountMinor": 880,
+    "rawText": "8%税込",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1486,
     "taxRateBp": null
    },
    {
     "lineNo": 15,
-    "rawText": "ポイント還元 10%",
-    "translationEn": "Point rebate 10%",
-    "qty": 10,
-    "unitPriceMinor": 923,
-    "amountMinor": 9230,
+    "rawText": "10%税込",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 10160,
     "taxRateBp": null
    },
    {
     "lineNo": 16,
+    "rawText": "サービス料",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "(サービス料 8%",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 110,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "(サービス料 10%",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 923,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 19,
     "rawText": "合計",
-    "translationEn": "Total",
-    "qty": 1,
-    "unitPriceMinor": 14646,
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 20,
+    "rawText": "お支払い",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
     "amountMinor": 14646,
     "taxRateBp": null
    }
@@ -162,7 +198,7 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "9591",
+    "text": "3216 2141 5525",
     "bbox": null
    }
   ],
@@ -171,21 +207,21 @@
  "classifications": [
   {
    "lineNo": 1,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Snowmelt water 2L counts toward the water need.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Snowmelt water 2L counts toward the water need.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcoholic beverages are not eligible for funding.",
+   "confidence": 1
   },
   {
    "lineNo": 3,
@@ -193,8 +229,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "Non-alcoholic beverages are not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 4,
@@ -202,8 +238,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 44 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 5,
@@ -211,8 +247,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 44 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 6,
@@ -220,8 +256,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 18 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 7,
@@ -229,8 +265,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 18 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 8,
@@ -238,8 +274,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 18 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 9,
@@ -247,8 +283,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 18 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 10,
@@ -256,8 +292,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water M 18 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 11,
@@ -265,8 +301,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water 350ml 6 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 12,
@@ -274,60 +310,96 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Lemon water 3,000 bottles does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "This item is not listed as a need.",
+   "confidence": 1
   },
   {
    "lineNo": 13,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Consumption tax is not a need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a total line, its eligibility depends on the items it summarizes.",
+   "confidence": 0.5
   },
   {
    "lineNo": 14,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Point rebate is not a need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a tax line, its eligibility depends on the items it taxes.",
+   "confidence": 0.5
   },
   {
    "lineNo": 15,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Point rebate is not a need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a tax line, its eligibility depends on the items it taxes.",
+   "confidence": 0.5
   },
   {
    "lineNo": 16,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total is not a need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a service charge line, its eligibility depends on the service provided.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 19,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a total line, its eligibility depends on the items it summarizes.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 20,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "This is a payment line, its eligibility depends on the items paid for.",
+   "confidence": 0.5
   }
  ],
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 2988,
-   "tokensOut": 821,
-   "usdCeiling": 0.017875,
-   "usdActual": 0.005018
+   "tokensIn": 2990,
+   "tokensOut": 714,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004677
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1553,
-   "tokensOut": 640,
-   "usdCeiling": 0.017555,
-   "usdActual": 0.00329
+   "tokensIn": 1543,
+   "tokensOut": 743,
+   "usdCeiling": 0.01758,
+   "usdActual": 0.003612
   }
  ],
  "errors": []

@@ -1,0 +1,231 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": {
+  "merchantName": "エコライフ",
+  "merchantAddress": "東京都新宿区西新宿2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "2L 2缶 x ¥128",
+    "translationEn": "2L 2 cans x 128 yen",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "割引 A5",
+    "translationEn": "Discount A5",
+    "qty": null,
+    "unitPriceMinor": 296,
+    "amountMinor": 296,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "3缶 x ¥398",
+    "translationEn": "3 cans x 398 yen",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3缶 4缶",
+    "translationEn": "3 cans 4 cans",
+    "qty": null,
+    "unitPriceMinor": 398,
+    "amountMinor": 258,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "8缶",
+    "translationEn": "8 cans",
+    "qty": null,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "10缶(税込)",
+    "translationEn": "10 cans (tax included)",
+    "qty": null,
+    "unitPriceMinor": 344,
+    "amountMinor": 344,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "合計(税抜)",
+    "translationEn": "Total (tax excluded)",
+    "qty": null,
+    "unitPriceMinor": 3046,
+    "amountMinor": 3046,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "(免税対象 8%)",
+    "translationEn": "(exempt target 8%)",
+    "qty": null,
+    "unitPriceMinor": 25,
+    "amountMinor": 25,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "(免税対象 10%)",
+    "translationEn": "(exempt target 10%)",
+    "qty": null,
+    "unitPriceMinor": 276,
+    "amountMinor": 276,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
+    "unitPriceMinor": 3390,
+    "amountMinor": 3390,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3046,
+  "taxMinor": 276,
+  "taxIncluded": false,
+  "totalMinor": 3390,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "*****************8031",
+    "bbox": {
+     "x": 0.56,
+     "y": 0.79,
+     "w": 0.43,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2L water bottles count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discount line, cannot determine its effect.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "3 cans of canned food count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 7,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "7 cans of canned food count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "canned",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "8 cans of canned food count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "canned",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "10 cans of canned food count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line, cannot determine its effect.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Tax line, cannot determine its effect.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Tax line, cannot determine its effect.",
+   "confidence": 0.7
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total amount line, cannot determine its effect.",
+   "confidence": 0.7
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2478,
+   "tokensOut": 572,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000286
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1339,
+   "tokensOut": 375,
+   "usdCeiling": 0.001276,
+   "usdActual": 0.00017
+  }
+ ],
+ "errors": []
+}

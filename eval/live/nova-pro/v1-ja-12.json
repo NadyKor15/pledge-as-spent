@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2493,
+   "tokensOut": 471,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003502
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=-; address=-; country=JP; currency=JPY; purchased=2026-11-07T19:48:00; number=2816; subtotal=5344; tax=656; tax_included=false; total=6000; readability=good\\nLINE: no=1; qty=1; unit=1098; amount=1098; text=; en=M\\nLINE: no=2; qty=5; unit=600; amount=3000; text=; en=\\nLINE: no=3; qty=2; unit=199; amount=398; text=; en=2L\\nLINE: no=4; qty=6; unit=108; amount=648; text=; en=x108\\nLINE: no=5; qty=4; unit=1235; amount=5144; text=; en=(4)\\nLINE: no=6; qty=1; unit=648; amount=648; text=; en=\\nLINE: no=7; qty=1; unit=1496; amount=1496; text=; en=\\nLINE: no=8; qty=1; unit=149; amount=149; text=; en=\\nLINE: no=9; qty=1; unit=3000; amount=3000; text=; en=\\nLINE: no=10; qty=1; unit=5344; amount=5344; text=; en=\\nLINE: no=11; qty=1; unit=6000; amount=6000; text=; en=\\nLINE: no=12; qty=1; unit=656; amount=656; text=; en=\\nPII: kind=card_number; text=1081 2345 8996\""
+ ]
+}

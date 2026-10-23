@@ -1,0 +1,184 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": {
+  "merchantName": "株式会社 山本",
+  "merchantAddress": "東京都港区南青山2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ビール 2L",
+    "translationEn": "Beer 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ハイボール A5",
+    "translationEn": "Highball A5",
+    "qty": 2,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "レモンサワー L 34杯",
+    "translationEn": "Lemon sour L 34 cups",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ハイボール 10杯",
+    "translationEn": "Highball 10 cups",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ハイボール 4杯",
+    "translationEn": "Highball 4 cups",
+    "qty": 3,
+    "unitPriceMinor": 86,
+    "amountMinor": 258,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "割引 (6杯)",
+    "translationEn": "Discount (6 cups)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "割引 8%",
+    "translationEn": "Discount 8%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -25,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "割引 10%",
+    "translationEn": "Discount 10%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -276,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3046,
+  "taxMinor": 344,
+  "taxIncluded": false,
+  "totalMinor": 3390,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts are not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2478,
+   "tokensOut": 377,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003189
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1241,
+   "tokensOut": 239,
+   "usdCeiling": 0.016785,
+   "usdActual": 0.001758
+  }
+ ],
+ "errors": []
+}

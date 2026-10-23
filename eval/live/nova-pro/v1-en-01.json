@@ -1,0 +1,130 @@
+{
+ "receiptId": "v1-en-01",
+ "set": "v1",
+ "imageSha256": "2b460202a354f484f9de4a10ed7d11b4ddc77666b6667c2dcd22f6b7a20130dd",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "05",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON",
+    "translationEn": "COUPON",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "SPRING WATER 1GAL",
+    "qty": 2,
+    "unitPriceMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "DEER CREEK WATER 1 GALLON JUG",
+    "qty": 1,
+    "unitPriceMinor": 1690,
+    "amountMinor": 1690,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "10 @ $1.69",
+    "translationEn": "10 @ $1.69",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 4361,
+  "taxMinor": 172,
+  "taxIncluded": false,
+  "totalMinor": 4533,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3 are eligible for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The coupon's eligibility is unclear without knowing its value or what it was applied to.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs is eligible for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water in 1 gallon jugs is eligible for the drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item description is unclear, and the quantity and price suggest it may not be a need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2325,
+   "tokensOut": 346,
+   "usdCeiling": 0.017902,
+   "usdActual": 0.002967
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1157,
+   "tokensOut": 224,
+   "usdCeiling": 0.016533,
+   "usdActual": 0.001642
+  }
+ ],
+ "errors": []
+}

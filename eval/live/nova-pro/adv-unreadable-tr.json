@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-unreadable-tr",
+ "set": "adversarial",
+ "imageSha256": "798cd879017d6474026a58f307a0351b4d928aa00610e517bde8ea571b7c085c",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1838,
+   "tokensOut": 14,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.001515
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)",
+  "raw: \"RECEIPT: currency=TRY; readability=unreadable\""
+ ]
+}

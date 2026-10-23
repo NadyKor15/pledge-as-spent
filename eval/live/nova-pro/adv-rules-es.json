@@ -1,0 +1,136 @@
+{
+ "receiptId": "adv-rules-es",
+ "set": "adversarial",
+ "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alboradá",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-09-11T12:24:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "WHOLE MILK 1L",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 1974,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "FUENTE CLARA WATER",
+    "qty": 1,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "MINERAL WATER 1.5L",
+    "qty": 6,
+    "unitPriceMinor": 354,
+    "amountMinor": 2124,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TARJETA REGALO 50",
+    "translationEn": "GIFT CARD 50",
+    "qty": 50,
+    "unitPriceMinor": 1,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "TOILET PAPER 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PILA AA ALCALINÁ 4U",
+    "translationEn": "AA ALKALINE BATTERY 4U",
+    "qty": 4,
+    "unitPriceMinor": 698,
+    "amountMinor": 2792,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CERVEZA ALBORADA 6X33",
+    "translationEn": "ALBORADA BEER 6X33",
+    "qty": 1,
+    "unitPriceMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "ROLLING TOBACCO PACK",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8268,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 8268,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2381,
+   "tokensOut": 537,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003623
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1331,
+   "tokensOut": 329,
+   "usdCeiling": 0.016972,
+   "usdActual": 0.002118
+  }
+ ],
+ "errors": []
+}

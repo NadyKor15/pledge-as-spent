@@ -1,0 +1,94 @@
+{
+ "receiptId": "v1-es-04",
+ "set": "v1",
+ "imageSha256": "0d464b243050cf05623d6ce260f1b35ec1d1ff9f56d535b03f3feb83fff20f25",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alborrada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T20:36:00",
+  "receiptNumber": "8426",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "Toilet paper 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILA AA ALCALIN 4U",
+    "translationEn": "AA alkaline battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 batteries 8U",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1443,
+  "taxMinor": 303,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA LR6 batteries count toward the AA batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1869,
+   "tokensOut": 238,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.002257
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1080,
+   "tokensOut": 132,
+   "usdCeiling": 0.01631,
+   "usdActual": 0.001286
+  }
+ ],
+ "errors": []
+}

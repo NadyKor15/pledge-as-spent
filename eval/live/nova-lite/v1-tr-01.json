@@ -1,0 +1,103 @@
+{
+ "receiptId": "v1-tr-01",
+ "set": "v1",
+ "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+ "reading": {
+  "merchantName": "EVİM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-04-11T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10 PACK",
+    "qty": 1,
+    "unitPriceMinor": 169,
+    "amountMinor": 169,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "DISCOUNT",
+    "qty": 1,
+    "unitPriceMinor": 16,
+    "amountMinor": 16,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MINI BEBEK BEZT 4 NO",
+    "translationEn": "MINI BABY BLANKET 4 NO",
+    "qty": 1,
+    "unitPriceMinor": 289,
+    "amountMinor": 289,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %20",
+    "translationEn": "VAT 20%",
+    "qty": 1,
+    "unitPriceMinor": 73,
+    "amountMinor": 73,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 73,
+    "amountMinor": 73,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": null,
+    "unitPriceMinor": 442,
+    "amountMinor": 442,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 342,
+  "taxMinor": 73,
+  "taxIncluded": false,
+  "totalMinor": 442,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1838,
+   "tokensOut": 360,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000197
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1159,
+   "tokensOut": 53,
+   "usdCeiling": 0.001241,
+   "usdActual": 0.000082
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,285 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "大和屋",
+  "merchantAddress": "東京都新宿区西新宿5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "4枚 x #458",
+    "translationEn": "4 sheets of #458",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "1枚 5号",
+    "translationEn": "1 sheet of 5号",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "4枚 1L",
+    "translationEn": "4 sheets of 1L",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "1枚 印刷用紙 #3 20枚",
+    "translationEn": "1 sheet of printing paper #3 20 sheets",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2枚 x #698",
+    "translationEn": "2 sheets of #698",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "2枚 ラベル",
+    "translationEn": "2 sheets of label",
+    "qty": 2,
+    "unitPriceMinor": 324,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "3枚 x #108",
+    "translationEn": "3 sheets of #108",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "1枚 8号",
+    "translationEn": "1 sheet of 8号",
+    "qty": 1,
+    "unitPriceMinor": 2482,
+    "amountMinor": 2482,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "1枚 10号",
+    "translationEn": "1 sheet of 10号",
+    "qty": 1,
+    "unitPriceMinor": 1794,
+    "amountMinor": 1794,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "消費税",
+    "translationEn": "consumption tax",
+    "qty": null,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 11,
+    "rawText": "割引",
+    "translationEn": "discount",
+    "qty": null,
+    "unitPriceMinor": 179,
+    "amountMinor": 179,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計",
+    "translationEn": "total",
+    "qty": null,
+    "unitPriceMinor": 4653,
+    "amountMinor": 4653,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 13,
+    "rawText": "税込合計",
+    "translationEn": "total with tax",
+    "qty": null,
+    "unitPriceMinor": 1033,
+    "amountMinor": 1033,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 1033,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.34,
+     "y": 0.81,
+     "w": 0.32,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item #458 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 5号 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 1L is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item printing paper #3 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item #698 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item label is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item #108 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 8号 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item 10号 is not clearly identified as a need.",
+   "confidence": 0.8
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discount is not a purchasable item.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total is not a purchasable item.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total with tax is not a purchasable item.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2430,
+   "tokensOut": 730,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000321
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1426,
+   "tokensOut": 474,
+   "usdCeiling": 0.001296,
+   "usdActual": 0.000199
+  }
+ ],
+ "errors": []
+}

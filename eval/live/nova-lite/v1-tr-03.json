@@ -1,0 +1,267 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Gars1 Cd. No:12 Merkez / Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-09-11T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": 3,
+    "unitPriceMinor": 12,
+    "amountMinor": 36,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BATTIÑYE TEK KISILIK",
+    "translationEn": "Single Bed Sheet",
+    "qty": 3,
+    "unitPriceMinor": 449,
+    "amountMinor": 1347,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEFTER A5",
+    "translationEn": "A5 Notebook",
+    "qty": 1,
+    "unitPriceMinor": 42,
+    "amountMinor": 42,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "Mini Baby Diaper 4",
+    "qty": 1,
+    "unitPriceMinor": 579,
+    "amountMinor": 579,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA KALEM PIL 4'LÜ",
+    "translationEn": "AA Pen 4",
+    "qty": 2,
+    "unitPriceMinor": 159,
+    "amountMinor": 318,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 6,
+    "rawText": "INDIRIÑ",
+    "translationEn": "Discount",
+    "qty": 2,
+    "unitPriceMinor": 79,
+    "amountMinor": 158,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 7,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Water 5 LT",
+    "qty": 4,
+    "unitPriceMinor": 98,
+    "amountMinor": 392,
+    "taxRateBp": 10
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %1 MATRAH 35,64",
+    "translationEn": "VAT 1% Amount 35,64",
+    "qty": null,
+    "unitPriceMinor": 36,
+    "amountMinor": 36,
+    "taxRateBp": 1
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %10 MATRAH 89,09",
+    "translationEn": "VAT 10% Amount 89,09",
+    "qty": null,
+    "unitPriceMinor": 91,
+    "amountMinor": 91,
+    "taxRateBp": 10
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %20 MATRAH 1.251,34",
+    "translationEn": "VAT 20% Amount 1.251,34",
+    "qty": null,
+    "unitPriceMinor": 250,
+    "amountMinor": 250,
+    "taxRateBp": 20
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": 259,
+    "amountMinor": 259,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 2135,
+    "amountMinor": 2135,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2135,
+  "taxMinor": 259,
+  "taxIncluded": false,
+  "totalMinor": 2135,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 9366",
+    "bbox": {
+     "x": 0.18,
+     "y": 0.83,
+     "w": 0.3,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Single Bed Sheet is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A5 Notebook is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini Baby Diaper 4 matches the size 4 diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA Pen 4 matches the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 5 LT matches the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 1% Amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 10% Amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "VAT 20% Amount is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total VAT is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2526,
+   "tokensOut": 668,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000312
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1401,
+   "tokensOut": 556,
+   "usdCeiling": 0.00129,
+   "usdActual": 0.000218
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2361,
+   "tokensOut": 207,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000191
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=-; address=; country=JP; currency=JPY; purchased=2026-11-08T16:52:00; number=04086; subtotal=1098; tax=48; tax_included=false; total=1746; readability=good\\nLINE: no=1; qty=6; unit=108; amount=648; rate=800; text=2L×6本; en=2L x 6 bottles\\nLINE: no=2; qty=2; unit=874; amount=1746; rate=1000; text=ジュース (2); en=Juice (2)\\nLINE: no=3; unit=1746; amount=1746; rate=1000; text=合計; en=Total\""
+ ]
+}

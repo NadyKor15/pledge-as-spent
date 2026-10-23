@@ -5,22 +5,22 @@
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.3181818181818182,
-  "recall": 0.6363636363636364,
-  "f1": 0.4242424242424242,
-  "tp": 7,
-  "fp": 15,
-  "fn": 4
+  "precision": 0.6111111111111112,
+  "recall": 1,
+  "f1": 0.7586206896551725,
+  "tp": 11,
+  "fp": 7,
+  "fn": 0
  },
  "lineAmountExact": {
-  "num": 3,
+  "num": 11,
   "den": 11,
-  "rate": 0.2727272727272727
+  "rate": 1
  },
  "totalExact": {
-  "num": 1,
+  "num": 0,
   "den": 1,
-  "rate": 1
+  "rate": 0
  },
  "dateExact": {
   "num": 1,
@@ -28,12 +28,12 @@
   "rate": 1
  },
  "dateTimeExact": {
-  "num": 1,
+  "num": 0,
   "den": 1,
-  "rate": 1
+  "rate": 0
  },
  "merchant": {
-  "meanSimilarity": 0.11111111111111116,
+  "meanSimilarity": 0,
   "atLeast80": {
    "num": 0,
    "den": 1,
@@ -41,9 +41,9 @@
   }
  },
  "lineClass": {
-  "num": 3,
+  "num": 5,
   "den": 11,
-  "rate": 0.2727272727272727
+  "rate": 0.45454545454545453
  },
  "needQty": {
   "num": 1,
@@ -54,7 +54,7 @@
   "num": 0,
   "den": 2,
   "rate": 0,
-  "fundedByMistake": 1
+  "fundedByMistake": 0
  },
  "pii": {
   "found": {
@@ -103,23 +103,23 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.3181818181818182,
-   "recall": 0.6363636363636364,
-   "f1": 0.4242424242424242,
+   "precision": 0.6111111111111112,
+   "recall": 1,
+   "f1": 0.7586206896551725,
    "totalExact": {
-    "num": 1,
+    "num": 0,
     "den": 1,
-    "rate": 1
+    "rate": 0
    }
   }
  },
  "spend": {
-  "ledgerDeltaUsd": 0.0007909999999999862,
+  "ledgerDeltaUsd": 0.0006829999999999892,
   "calls": 2,
-  "tokensIn": 4746,
-  "tokensOut": 2107,
-  "usdActual": 0.000791,
-  "usdCeiling": 0.002699
+  "tokensIn": 4578,
+  "tokensOut": 1704,
+  "usdActual": 0.000683,
+  "usdCeiling": 0.002663
  },
  "perReceipt": [
   {
@@ -131,19 +131,19 @@
     "out_of_zone"
    ],
    "score": {
-    "tp": 7,
-    "fp": 15,
-    "fn": 4,
+    "tp": 11,
+    "fp": 7,
+    "fn": 0,
     "lineAmountExact": {
-     "num": 3,
+     "num": 11,
      "den": 11
     },
-    "totalExact": true,
+    "totalExact": false,
     "dateExact": true,
-    "dateTimeExact": true,
-    "merchantSimilarity": 0.11111111111111116,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
     "lineClass": {
-     "num": 3,
+     "num": 5,
      "den": 11
     },
     "needQty": {
@@ -154,7 +154,7 @@
      "num": 0,
      "den": 2
     },
-    "ruleLinesFunded": 1,
+    "ruleLinesFunded": 0,
     "pii": {
      "num": 1,
      "den": 3

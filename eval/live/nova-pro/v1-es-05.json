@@ -1,0 +1,103 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alboradá",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-06-11T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PANALES T4 40U",
+    "translationEn": "PANALES T4 40U",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "AGUA 1,5L PACK 6",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "PAPEL HIGIÉNICO 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MANTA POLAR 130X160",
+    "translationEn": "MANTA POLAR 130X160",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILA AA ALCALINÁ 4U",
+    "translationEn": "PILA AA ALCALINÁ 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "DTO. PROMOCIÓN",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -70,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3929,
+  "taxMinor": 70,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of the discount is unclear, and it may or may not be related to the listed needs.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2360,
+   "tokensOut": 424,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003245
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1215,
+   "tokensOut": 259,
+   "usdCeiling": 0.016631,
+   "usdActual": 0.001801
+  }
+ ],
+ "errors": []
+}

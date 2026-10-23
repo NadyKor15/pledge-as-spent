@@ -1,0 +1,220 @@
+{
+ "receiptId": "v1-ja-08",
+ "set": "v1",
+ "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+ "reading": {
+  "merchantName": "スーパーマーケット まるいち",
+  "merchantAddress": "東京都千代田区7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:25:00",
+  "receiptNumber": "5482",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "冷凍食品 2L",
+    "translationEn": "Frozen food 2L",
+    "qty": 3,
+    "unitPriceMinor": 1128,
+    "amountMinor": 3384,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "冷凍食品",
+    "translationEn": "Frozen food",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "冷凍食品 CR2032",
+    "translationEn": "Frozen food CR2032",
+    "qty": 1,
+    "unitPriceMinor": 118,
+    "amountMinor": 118,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "冷凍食品 2L",
+    "translationEn": "Frozen food 2L",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "冷凍食品 34L",
+    "translationEn": "Frozen food 34L",
+    "qty": 2,
+    "unitPriceMinor": 256,
+    "amountMinor": 512,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "冷凍食品 350ml",
+    "translationEn": "Frozen food 350ml",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "冷凍食品 (5)",
+    "translationEn": "Frozen food (5)",
+    "qty": 1,
+    "unitPriceMinor": 718,
+    "amountMinor": 718,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "税込合計",
+    "translationEn": "Tax included total",
+    "qty": 1,
+    "unitPriceMinor": 299,
+    "amountMinor": 299,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "税抜合計",
+    "translationEn": "Tax excluded total",
+    "qty": 1,
+    "unitPriceMinor": 2994,
+    "amountMinor": 2994,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 4068,
+    "amountMinor": 4068,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3712,
+  "taxMinor": 299,
+  "taxIncluded": false,
+  "totalMinor": 4068,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food 2L does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food CR2032 does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food 2L does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food 34L does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food 350ml does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Frozen food (5) does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax included total is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tax excluded total is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a purchasable item.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2430,
+   "tokensOut": 497,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000265
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1318,
+   "tokensOut": 402,
+   "usdCeiling": 0.001273,
+   "usdActual": 0.000176
+  }
+ ],
+ "errors": []
+}

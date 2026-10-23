@@ -1,0 +1,256 @@
+{
+ "receiptId": "v1-ja-03",
+ "set": "v1",
+ "imageSha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+ "reading": {
+  "merchantName": "レストラン-た",
+  "merchantAddress": "東京都港区南青山1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T13:23:00",
+  "receiptNumber": "5144",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ビール 720ml",
+    "translationEn": "Beer 720ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ステーキセット 2L",
+    "translationEn": "Steak set 2L",
+    "qty": 2,
+    "unitPriceMinor": 1596,
+    "amountMinor": 3192,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "パスタ L 34cm",
+    "translationEn": "Pasta L 34cm",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "サラダ 10個",
+    "translationEn": "Salad 10pcs",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "パスタ M 44cm",
+    "translationEn": "Pasta M 44cm",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "サービス (5個)",
+    "translationEn": "Service (5pcs)",
+    "qty": 5,
+    "unitPriceMinor": 163,
+    "amountMinor": 816,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "8%割引",
+    "translationEn": "8% discount",
+    "qty": 8,
+    "unitPriceMinor": 1596,
+    "amountMinor": 12768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "10%割引",
+    "translationEn": "10% discount",
+    "qty": 10,
+    "unitPriceMinor": 6568,
+    "amountMinor": 65680,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 597,
+    "amountMinor": 597,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "小計",
+    "translationEn": "Subtotal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 6048,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 816,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 6864,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 6048,
+  "taxMinor": 816,
+  "taxIncluded": false,
+  "totalMinor": 6864,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded in the disaster-relief drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The steak set might contain canned food, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The pasta might be a canned food, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The salad might be a canned food, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The pasta might be a canned food, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The service might be a canned food, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount might apply to a need, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount might apply to a need, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total might include needs, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The subtotal might include needs, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The consumption tax might apply to a need, but it is not clear from the description.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The total amount might include needs, but it is not clear from the description.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2526,
+   "tokensOut": 539,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003746
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1381,
+   "tokensOut": 487,
+   "usdCeiling": 0.017135,
+   "usdActual": 0.002663
+  }
+ ],
+ "errors": []
+}

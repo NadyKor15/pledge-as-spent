@@ -1,0 +1,130 @@
+{
+ "receiptId": "v1-es-03",
+ "set": "v1",
+ "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45 00000 Villa Alboradá",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:27:00",
+  "receiptNumber": "2894",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "WATER 1.5L PACK 6",
+    "qty": 3,
+    "unitPriceMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PANAL BEBÉ T3 44U",
+    "translationEn": "BABY WIPES T3 44U",
+    "qty": 2,
+    "unitPriceMinor": 895,
+    "amountMinor": 1790,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "ROLLING TOBACCO",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANALES T3 PANTS 36U",
+    "translationEn": "DIAPERS T3 PANTS 36U",
+    "qty": 1,
+    "unitPriceMinor": 749,
+    "amountMinor": 749,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "DISCOUNT PROMOTION",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3874,
+  "taxMinor": 390,
+  "taxIncluded": true,
+  "totalMinor": 3874,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 18,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of 6 1.5L water bottles, which matches the need for drinking water.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes are not listed as a need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco products are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This is a pack of size 3 diapers, which matches the need for baby diapers.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount promotion needs further review to determine its eligibility.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2294,
+   "tokensOut": 326,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.002878
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1164,
+   "tokensOut": 215,
+   "usdCeiling": 0.016532,
+   "usdActual": 0.001619
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,148 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "株式会社アール・エフ・ワン",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T19:56",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "鶏の唐揚げ 3個入り",
+    "translationEn": "Chicken karaage 3 pieces",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "鶏のからあげ 4個入り",
+    "translationEn": "Chicken karaage 4 pieces",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "4種チーズのピザ 4枚",
+    "translationEn": "4 kinds of cheese pizza 4 pieces",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "鶏の唐揚げ 8個入り ¥4,088",
+    "translationEn": "Chicken karaage 8 pieces",
+    "qty": 4,
+    "unitPriceMinor": 1088,
+    "amountMinor": 4352,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "鶏の唐揚げ 10個入り ¥1,574",
+    "translationEn": "Chicken karaage 10 pieces",
+    "qty": 1,
+    "unitPriceMinor": 1574,
+    "amountMinor": 1574,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "クーポン",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4414,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 327,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken karaage is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken karaage is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "4 kinds of cheese pizza is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken karaage is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken karaage is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Coupons are not eligible for funding.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2526,
+   "tokensOut": 351,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003144
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1222,
+   "tokensOut": 225,
+   "usdCeiling": 0.016678,
+   "usdActual": 0.001698
+  }
+ ],
+ "errors": []
+}

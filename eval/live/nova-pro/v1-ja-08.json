@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-08",
+ "set": "v1",
+ "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2430,
+   "tokensOut": 448,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003378
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=-; address=-; country=JP; currency=JPY; purchased=2026-11-04T09:25:00; number=5482; subtotal=3712; tax=446; tax_included=false; total=4068; readability=good\\nLINE: no=1; qty=2; unit=192; amount=384; text=2L; en=2L\\nLINE: no=2; qty=3; unit=128; amount=398; text=CR2032; en=CR2032\\nLINE: no=3; qty=2; unit=118; amount=236; text=2L; en=2L\\nLINE: no=4; qty=2; unit=128; amount=256; text=; en=350ml\\nLINE: no=5; amount=3712; text= (5); en= (5)\\nLINE: no=6; amount=57; text=57; en=57\\nLINE: no=7; amount=718; text=8% 718; en=8% 718\\nLINE: no=8; amount=299; text=299; en=299\\nLINE: no=9; amount=2994; text=10% 2,994; en=10% 2,994\\nLINE: no=10; amount=4068; text=; en=\\nLINE: no=11; amount=4464; text=**********4464; en=**********4464\\nLINE: no=12; amount=4068; text=; en=\\nPII: kind=card_number; text=8870 6740 4333\""
+ ]
+}

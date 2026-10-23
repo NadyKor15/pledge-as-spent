@@ -1,0 +1,114 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "株式会社 山田",
+  "merchantAddress": "東京都千代田区2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:19",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "4個 x 458",
+    "translationEn": "4 x 458",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "3号 20個",
+    "translationEn": "3# 20",
+    "qty": null,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": -100,
+    "amountMinor": -100,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "3個 8% 1,832",
+    "translationEn": "3 x 8% 1,832",
+    "qty": 3,
+    "unitPriceMinor": 1470,
+    "amountMinor": 4410,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "1個 10% 2,578",
+    "translationEn": "1 x 10% 2,578",
+    "qty": 1,
+    "unitPriceMinor": 2578,
+    "amountMinor": 2578,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "小計",
+    "translationEn": "Subtotal",
+    "qty": null,
+    "unitPriceMinor": 4813,
+    "amountMinor": 4813,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税",
+    "translationEn": "Tax",
+    "qty": null,
+    "unitPriceMinor": 187,
+    "amountMinor": 187,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4832,
+  "taxMinor": 146,
+  "taxIncluded": false,
+  "totalMinor": 5000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2328,
+   "tokensOut": 420,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.00024
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1247,
+   "tokensOut": 317,
+   "usdCeiling": 0.001255,
+   "usdActual": 0.000151
+  }
+ ],
+ "errors": [
+  "classify: classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [2].ruleCode\n✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [5].ruleCode\n✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [6].ruleCode\n✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [7].ruleCode (stop reason: tool_use)",
+  "raw: {\"lines\":\"no=1; qty=4; verdict=eligible; need=water; qty=4; conf=0.95; why=4 bottles of water count toward the water need.\\nno=2; qty=null; verdict=review; rule=unclear; conf=0.5; why=The item description is unclear and does not specify if it is a need.\\nno=3; qty=null; verdict=rejected; rule=discount; conf=1; why=Discount lines do not contribute to the needs.\\nno=4; qty=3; verdict=eligible; need=blankets; qty=3; conf=0.9; why=3 blankets count toward the blankets need.\\nno=5; qty=1; verdict=rejected; rule=other_rule; conf=0.9; why=The item is not listed as a need.\\nno=6; qty=null; verdict=rejected; rule=subtotal; conf=1; why=Subtotal lines do not contribute to the needs.\\nno=7; qty=null; verdict=rejected; rule=tax; conf=1; why=Tax lines do not contribute to the needs.\\nno=8; qty=null; verdict=rejected; rule=total; conf=1; why=Total lines do not contribute to the needs.\"}"
+ ]
+}

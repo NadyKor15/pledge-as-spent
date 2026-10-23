@@ -1,0 +1,85 @@
+{
+ "receiptId": "adv-predisaster-en",
+ "set": "adversarial",
+ "imageSha256": "7da867d498098aa77c76cd6909c66973ebfa3424916c6547d54621479bcc0f0c",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-10-18T16:05:00",
+  "receiptNumber": "3936",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL 6 @ $1.49",
+    "translationEn": "Spring Water 1 gal 6 @ $1.49",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA ALKALINE 24PK 2 @ $15.99",
+    "translationEn": "AA Alkaline 24 pk 2 @ $15.99",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "FLEECE THROW BLANKET 2 @ $14.99",
+    "translationEn": "Fleece Throw Blanket 2 @ $14.99",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT 3 @ $12.49",
+    "translationEn": "Softies Diapers Size 3 38 ct 3 @ $12.49",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 10837,
+  "taxMinor": 721,
+  "taxIncluded": false,
+  "totalMinor": 11558,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring Water 1 gal matches the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2325,
+   "tokensOut": 383,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000231
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1185,
+   "tokensOut": 52,
+   "usdCeiling": 0.00124,
+   "usdActual": 0.000084
+  }
+ ],
+ "errors": []
+}

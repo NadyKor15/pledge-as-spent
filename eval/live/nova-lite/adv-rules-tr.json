@@ -1,0 +1,202 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MINI BEBÉK BEZI 4 NO",
+    "translationEn": "MINI BABY DIAPER 4 NO",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "YILDIZ SIGARA MAVI",
+    "translationEn": "YILDIZ CIGARETTE BLUE",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "HEDÍYE KARTI 500 TL",
+    "translationEn": "GIFT CARD 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA PÍL 10'LU PAKET",
+    "translationEn": "AA CIGARETTE 10'S PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BATTIÑYE TEK KISILIK",
+    "translationEn": "SINGLE SHEET",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KDV %20 MATRAH 2.608,08",
+    "translationEn": "VAT 20% TAXABLE AMOUNT 2.608,08",
+    "qty": null,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": null,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": null,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KREDÍ KARTI",
+    "translationEn": "CREDIT CARD",
+    "qty": null,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5798,
+  "taxMinor": 521,
+  "taxIncluded": false,
+  "totalMinor": 6319,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "AA cigarettes are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "It is unclear if a single sheet counts toward the blankets need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "It is unclear if VAT is a listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "It is unclear if total VAT is a listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "It is unclear if the total amount is a listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "It is unclear if a credit card is a listed need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2394,
+   "tokensOut": 560,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000278
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1330,
+   "tokensOut": 326,
+   "usdCeiling": 0.001273,
+   "usdActual": 0.000158
+  }
+ ],
+ "errors": []
+}

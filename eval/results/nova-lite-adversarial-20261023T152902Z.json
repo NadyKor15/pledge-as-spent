@@ -1,0 +1,639 @@
+{
+ "reader": "nova-lite",
+ "set": "adversarial",
+ "receipts": 13,
+ "scoredReceipts": 11,
+ "errors": [
+  {
+   "id": "adv-reshot-tr-02",
+   "stage": "classify",
+   "message": "classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [1].ruleCode (stop reason: tool_use)"
+  },
+  {
+   "id": "adv-unreadable-ja",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)"
+  },
+  {
+   "id": "adv-unreadable-tr",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName\n✖ Invalid input: expected string, received null\n  → at currency\n✖ Invalid input: expected number, received null\n  → at totalMinor (stop reason: end_turn)"
+  }
+ ],
+ "lines": {
+  "precision": 0.45555555555555555,
+  "recall": 0.6949152542372882,
+  "f1": 0.5503355704697986,
+  "tp": 41,
+  "fp": 49,
+  "fn": 18
+ },
+ "lineAmountExact": {
+  "num": 21,
+  "den": 59,
+  "rate": 0.3559322033898305
+ },
+ "totalExact": {
+  "num": 8,
+  "den": 11,
+  "rate": 0.7272727272727273
+ },
+ "dateExact": {
+  "num": 7,
+  "den": 11,
+  "rate": 0.6363636363636364
+ },
+ "dateTimeExact": {
+  "num": 6,
+  "den": 11,
+  "rate": 0.5454545454545454
+ },
+ "merchant": {
+  "meanSimilarity": 0.625668449197861,
+  "atLeast80": {
+   "num": 7,
+   "den": 11,
+   "rate": 0.6363636363636364
+  }
+ },
+ "lineClass": {
+  "num": 18,
+  "den": 57,
+  "rate": 0.3157894736842105
+ },
+ "needQty": {
+  "num": 6,
+  "den": 31,
+  "rate": 0.1935483870967742
+ },
+ "ruleLines": {
+  "num": 5,
+  "den": 13,
+  "rate": 0.38461538461538464,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 6,
+   "den": 24,
+   "rate": 0.25
+  },
+  "meanIou": 0.34064958649999993
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 1,
+   "fn": 2,
+   "fp": 0,
+   "tn": 10,
+   "recall": 0.3333333333333333,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 2,
+   "fn": 0,
+   "fp": 4,
+   "tn": 7,
+   "recall": 1,
+   "falseAlarmRate": 0.36363636363636365
+  },
+  "out_of_zone": {
+   "tp": 2,
+   "fn": 0,
+   "fp": 5,
+   "tn": 6,
+   "recall": 1,
+   "falseAlarmRate": 0.45454545454545453
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 2,
+   "fp": 0,
+   "tn": 11,
+   "recall": 0,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 10
+ },
+ "byLanguage": {
+  "es": {
+   "precision": 0.2857142857142857,
+   "recall": 0.3333333333333333,
+   "f1": 0.30769230769230765,
+   "totalExact": {
+    "num": 2,
+    "den": 2,
+    "rate": 1
+   }
+  },
+  "ja": {
+   "precision": 0.4090909090909091,
+   "recall": 0.8571428571428571,
+   "f1": 0.5538461538461539,
+   "totalExact": {
+    "num": 3,
+    "den": 4,
+    "rate": 0.75
+   }
+  },
+  "en": {
+   "precision": 0.75,
+   "recall": 0.75,
+   "f1": 0.75,
+   "totalExact": {
+    "num": 3,
+    "den": 3,
+    "rate": 1
+   }
+  },
+  "tr": {
+   "precision": 0.4375,
+   "recall": 0.7,
+   "f1": 0.5384615384615384,
+   "totalExact": {
+    "num": 0,
+    "den": 2,
+    "rate": 0
+   }
+  }
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.004826000000000136,
+  "calls": 24,
+  "tokensIn": 43869,
+  "tokensOut": 9137,
+  "usdActual": 0.004825999999999999,
+  "usdCeiling": 0.031355
+ },
+ "perReceipt": [
+  {
+   "id": "adv-outofzone-es",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 1,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-outofzone-ja",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 7,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.081249004
+    ]
+   }
+  },
+  {
+   "id": "adv-predisaster-en",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-predisaster-ja",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 3,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-reshot-en-03",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "duplicate",
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 1,
+    "fp": 3,
+    "fn": 3,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 3
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-reshot-ja-04",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 4,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 1,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-reshot-tr-02",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 5,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 3
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.9411764705882353,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 3
+    },
+    "piiIou": [
+     0.379889285,
+     0.346582511
+    ]
+   }
+  },
+  {
+   "id": "adv-rules-en",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 1,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 8
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 8
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 2,
+     "den": 3
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.167373891
+    ]
+   }
+  },
+  {
+   "id": "adv-rules-es",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster"
+   ],
+   "score": {
+    "tp": 2,
+    "fp": 9,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 9
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.9411764705882353,
+    "lineClass": {
+     "num": 2,
+     "den": 9
+    },
+    "needQty": {
+     "num": 1,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.513037026
+    ]
+   }
+  },
+  {
+   "id": "adv-rules-ja",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 12,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 4,
+     "den": 7
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.555765802
+    ]
+   }
+  },
+  {
+   "id": "adv-rules-tr",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "out_of_zone"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 4,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 1,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 7
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "adv-unreadable-ja",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": null
+  },
+  {
+   "id": "adv-unreadable-tr",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": null
+  }
+ ]
+}

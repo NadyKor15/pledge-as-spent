@@ -1,0 +1,190 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alboradá",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T10:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 329,
+    "amountMinor": 1974,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA FUENTE CLARA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 130,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BOTELLA 1,5 L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL BEBÉ T3 44U",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAN BARRA",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 85,
+    "amountMinor": 170,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA 5L GARRAFÁ",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 119,
+    "amountMinor": 119,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 0,
+    "amountMinor": -6,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 26755,
+  "taxMinor": 1595,
+  "taxIncluded": true,
+  "totalMinor": 2835,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "6082753386",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "5L water bottles are not the listed need of 1.5 L bottles.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items only.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2429,
+   "tokensOut": 389,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003188
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1202,
+   "tokensOut": 342,
+   "usdCeiling": 0.016686,
+   "usdActual": 0.002056
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,175 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "ホテルニューオータニ",
+  "merchantAddress": "東京都千代田区紀尾井町4-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T20:57",
+  "receiptNumber": "7048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "プレミアム 2L",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ビール 330ml 3本",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1298,
+    "amountMinor": 3894,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ビール 500ml M",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ビール 330ml M",
+    "translationEn": "",
+    "qty": 3,
+    "unitPriceMinor": 1698,
+    "amountMinor": 5094,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ビール 330ml L 34本",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 2596,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ビール M 18本",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ビール 1L",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ワイン (7本)",
+    "translationEn": "",
+    "qty": 7,
+    "unitPriceMinor": 1454,
+    "amountMinor": 10178,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "ワイン 8本",
+    "translationEn": "",
+    "qty": 8,
+    "unitPriceMinor": 886,
+    "amountMinor": 7088,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10%割引 8%",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 126,
+    "amountMinor": 126,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "(割引金額 10%",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 626,
+    "amountMinor": 626,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "合計",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 8340,
+    "amountMinor": 8340,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "消費税",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 9000,
+    "amountMinor": 9000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "サービス料",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 660,
+    "amountMinor": 660,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8340,
+  "taxMinor": 900,
+  "taxIncluded": false,
+  "totalMinor": 9240,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Service charges are not funded.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1418,
+   "tokensOut": 571,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.002962
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1397,
+   "tokensOut": 421,
+   "usdCeiling": 0.017178,
+   "usdActual": 0.002465
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,220 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": {
+  "merchantName": "ローソン-新宿",
+  "merchantAddress": "東京都新宿区新宿7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おにぎり 10個",
+    "translationEn": "Onigiri 10 pieces",
+    "qty": 10,
+    "unitPriceMinor": 398,
+    "amountMinor": 2360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "お茶 2L",
+    "translationEn": "Tea 2L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "水-ペット 350ml 6本",
+    "translationEn": "Water-pet 350ml 6 bottles",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4824,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "消費税 8% (内税)",
+    "translationEn": "Consumption tax 8% (included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4588,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "消費税 10% (内税)",
+    "translationEn": "Consumption tax 10% (included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 17,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4824,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "おつり",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 176,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 236,
+  "taxIncluded": false,
+  "totalMinor": 5060,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Onigiri is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Water-pet 350ml is not the exact item listed (2L bottles are needed).",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line, unclear if it includes eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Consumption tax line, unclear if it applies to eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line, unclear if it includes eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Consumption tax line, unclear if it applies to eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total line, unclear if it includes eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Cash payment line, unclear if it was used for eligible items.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Change line, unclear if it is related to eligible items.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2427,
+   "tokensOut": 433,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003327
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1333,
+   "tokensOut": 371,
+   "usdCeiling": 0.017036,
+   "usdActual": 0.002254
+  }
+ ],
+ "errors": []
+}

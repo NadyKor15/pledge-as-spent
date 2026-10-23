@@ -1,0 +1,121 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yldizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 5,
+    "unitPriceMinor": 2190,
+    "amountMinor": 10950,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVIMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Lovely baby diaper NO:4 Jumbo 42's",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %10 MATRAH 16,92",
+    "translationEn": "VAT %10 Base 16,92",
+    "qty": null,
+    "unitPriceMinor": 169,
+    "amountMinor": 169,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %20 MATRAH 290,83",
+    "translationEn": "VAT %20 Base 290,83",
+    "qty": null,
+    "unitPriceMinor": 29083,
+    "amountMinor": 5817,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": 36761,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "***** ***** **** 7374",
+    "translationEn": "Credit card discount",
+    "qty": null,
+    "unitPriceMinor": 7374,
+    "amountMinor": -7374,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 34900,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L bottles match the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2262,
+   "tokensOut": 477,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.00025
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1279,
+   "tokensOut": 53,
+   "usdCeiling": 0.001264,
+   "usdActual": 0.000089
+  }
+ ],
+ "errors": []
+}

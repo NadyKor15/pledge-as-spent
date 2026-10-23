@@ -1,0 +1,352 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "サンクス",
+  "merchantAddress": "東京都港区芝浦1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "4 スティックチーズ 4本",
+    "translationEn": "4 stick cheese 4 pieces",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "スティック 80g",
+    "translationEn": "stick 80g",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "スティック 6本",
+    "translationEn": "stick 6 pieces",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "6本 x 188",
+    "translationEn": "6 pieces x 188",
+    "qty": 1,
+    "unitPriceMinor": 188,
+    "amountMinor": 188,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "4本 1L",
+    "translationEn": "4 pieces 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "スティック 2L",
+    "translationEn": "stick 2L",
+    "qty": 2,
+    "unitPriceMinor": 708,
+    "amountMinor": 1416,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "6本 x 118",
+    "translationEn": "6 pieces x 118",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "スティック M 4本",
+    "translationEn": "stick M 4 pieces",
+    "qty": 1,
+    "unitPriceMinor": 298,
+    "amountMinor": 298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "スティック 2L",
+    "translationEn": "stick 2L",
+    "qty": 2,
+    "unitPriceMinor": 648,
+    "amountMinor": 1296,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "6本 x 108",
+    "translationEn": "6 pieces x 108",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計 (8本)",
+    "translationEn": "total (8 pieces)",
+    "qty": 8,
+    "unitPriceMinor": 730,
+    "amountMinor": 5896,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "消費税 14",
+    "translationEn": "consumption tax 14",
+    "qty": 1,
+    "unitPriceMinor": 214,
+    "amountMinor": 214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "消費税 8% 計 2,682",
+    "translationEn": "consumption tax 8% total 2,682",
+    "qty": 1,
+    "unitPriceMinor": 321,
+    "amountMinor": 321,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "消費税10% 計 3,214",
+    "translationEn": "consumption tax 10% total 3,214",
+    "qty": 1,
+    "unitPriceMinor": 3214,
+    "amountMinor": 3214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "合計",
+    "translationEn": "total",
+    "qty": 1,
+    "unitPriceMinor": 6431,
+    "amountMinor": 6431,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "現金",
+    "translationEn": "cash",
+    "qty": 1,
+    "unitPriceMinor": 7000,
+    "amountMinor": 7000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "お釣り",
+    "translationEn": "change",
+    "qty": 1,
+    "unitPriceMinor": 569,
+    "amountMinor": 569,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 631,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "9648 0870 8321",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick cheese is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick 80g is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick 6 pieces is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "6 pieces x 188 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "4 pieces 1L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick 2L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "6 pieces x 118 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick M 4 pieces is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Stick 2L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "6 pieces x 108 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total (8 pieces) is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 14 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 8% total 2,682 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax 10% total 3,214 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Total is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cash is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Change is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2382,
+   "tokensOut": 824,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004542
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1586,
+   "tokensOut": 677,
+   "usdCeiling": 0.017662,
+   "usdActual": 0.003435
+  }
+ ],
+ "errors": []
+}

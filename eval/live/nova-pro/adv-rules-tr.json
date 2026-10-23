@@ -1,0 +1,238 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "M\\u0130N\\u0130 BE\\u015eek BEZI 4 NO",
+    "translationEn": "MINI BEB\\u0130K BEZI 4 NO",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "RAKI 70 CL",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEV\\u0130ML\\u0130 BEB\\u015eEK BEZ\\u0130 NO:4 JUMBO 42\\'L\\u0130",
+    "translationEn": "SEV\\u0130ML\\u0130 BEB\\u0130K BEZ\\u0130 NO:4 JUMBO 42\\'L\\u0130",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YILDIZ \\u015e\\u0130GARA MAVI",
+    "translationEn": "YILDIZ \\u015e\\u0130GARA MAVI",
+    "qty": 1,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HED\\u0130YE KARTI 500 TL",
+    "translationEn": "HED\\u0130YE KARTI 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA P\\u0130L 10\\'LU PAKET",
+    "translationEn": "AA P\\u0130L 10\\'LU PAKET",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BATTANiYE TEK K\\u0130\\u015e\\u0130L\\u0130K",
+    "translationEn": "BATTANiYE TEK K\\u0130\\u015e\\u0130L\\u0130K",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %20 MATRAH 2.608,08",
+    "translationEn": "KDV %20 MATRAH 2.608,08",
+    "qty": 1,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TOPKDV",
+    "translationEn": "TOPKDV",
+    "qty": 1,
+    "unitPriceMinor": 52162,
+    "amountMinor": 52162,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "TOPLAM",
+    "translationEn": "TOPLAM",
+    "qty": 1,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KRED\\u0130 KARTI",
+    "translationEn": "KRED\\u0130 KARTI",
+    "qty": 1,
+    "unitPriceMinor": 362970,
+    "amountMinor": 362970,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 362970,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 362970,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of this line is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of this line is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of this line is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of this line is unclear.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2394,
+   "tokensOut": 903,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004805
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1637,
+   "tokensOut": 383,
+   "usdCeiling": 0.017407,
+   "usdActual": 0.002535
+  }
+ ],
+ "errors": []
+}

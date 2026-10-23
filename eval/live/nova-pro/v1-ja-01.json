@@ -1,0 +1,112 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "ーななやー 本店",
+  "merchantAddress": "東京都港区南青山7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カレーうどん 38杯",
+    "translationEn": "Curry Udon 38 servings",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "おにぎり (2個)",
+    "translationEn": "Onigiri (2 pieces)",
+    "qty": 2,
+    "unitPriceMinor": 874,
+    "amountMinor": 1746,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "10%割引 (おにぎり 10%)",
+    "translationEn": "10% discount (Onigiri 10%)",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
+    "qty": 1,
+    "unitPriceMinor": 102,
+    "amountMinor": 102,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 102,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Curry Udon is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Onigiri is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Discounts are not eligible for funding.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Consumption tax is not a listed need.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2361,
+   "tokensOut": 281,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.002788
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1131,
+   "tokensOut": 155,
+   "usdCeiling": 0.016428,
+   "usdActual": 0.001401
+  }
+ ],
+ "errors": []
+}

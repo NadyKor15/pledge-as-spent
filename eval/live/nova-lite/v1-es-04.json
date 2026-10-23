@@ -1,0 +1,87 @@
+{
+ "receiptId": "v1-es-04",
+ "set": "v1",
+ "imageSha256": "0d464b243050cf05623d6ce260f1b35ec1d1ff9f56d535b03f3feb83fff20f25",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-04-11T20:36:00",
+  "receiptNumber": "8426",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "Hygienic paper 12R",
+    "qty": null,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "Alkaline AA battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 batteries 8U",
+    "qty": 2,
+    "unitPriceMinor": 299,
+    "amountMinor": 598,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 1443,
+  "taxMinor": 303,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5572",
+    "bbox": {
+     "x": 0.15,
+     "y": 0.78,
+     "w": 0.28,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Hygienic paper is not a listed need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1869,
+   "tokensOut": 294,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000183
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1082,
+   "tokensOut": 55,
+   "usdCeiling": 0.001224,
+   "usdActual": 0.000078
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,364 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "はなまるうどん",
+  "merchantAddress": "東京都新宿区歌舞伎町1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "うどん 4人前",
+    "translationEn": "Udon 4 servings",
+    "qty": 1,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "天ぷら 8人前",
+    "translationEn": "Tempura 8 servings",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "天ぷら定食",
+    "translationEn": "Tempura set",
+    "qty": 1,
+    "unitPriceMinor": 1128,
+    "amountMinor": 1128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "生ビール 6缶",
+    "translationEn": "Draft beer 6 cans",
+    "qty": 6,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "焼酎 720ml",
+    "translationEn": "Shochu 720ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "焼酎 1L",
+    "translationEn": "Shochu 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "焼酎ロック 2L",
+    "translationEn": "Shochu rocks 2L",
+    "qty": 2,
+    "unitPriceMinor": 708,
+    "amountMinor": 1416,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "焼酎ロック 6缶",
+    "translationEn": "Shochu rocks 6 cans",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "焼酎ロック 瓶 M 4L",
+    "translationEn": "Shochu rocks bottle M 4L",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "焼酎ロック 6缶",
+    "translationEn": "Shochu rocks 6 cans",
+    "qty": 2,
+    "unitPriceMinor": 648,
+    "amountMinor": 1296,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計 (税別)",
+    "translationEn": "Total (tax excl.)",
+    "qty": 1,
+    "unitPriceMinor": 5896,
+    "amountMinor": 5896,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "消費税",
+    "translationEn": "Consumption tax",
+    "qty": 1,
+    "unitPriceMinor": 214,
+    "amountMinor": 214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "合計金額",
+    "translationEn": "Total amount",
+    "qty": 1,
+    "unitPriceMinor": 2682,
+    "amountMinor": 2682,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "おつり",
+    "translationEn": "Change",
+    "qty": 1,
+    "unitPriceMinor": 321,
+    "amountMinor": 321,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "お支払い金額",
+    "translationEn": "Payment amount",
+    "qty": 1,
+    "unitPriceMinor": 3214,
+    "amountMinor": 3214,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "お会計",
+    "translationEn": "Checkout",
+    "qty": 1,
+    "unitPriceMinor": 6431,
+    "amountMinor": 6431,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": 1,
+    "unitPriceMinor": 7000,
+    "amountMinor": 7000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "お預かり",
+    "translationEn": "Deposit",
+    "qty": 1,
+    "unitPriceMinor": 569,
+    "amountMinor": 569,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 214,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Udon is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tempura is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tempura set is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Draft beer is alcohol and is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu is alcohol and is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu is alcohol and is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Shochu rocks are alcohol and are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total (tax excl.) is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Consumption tax is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total amount is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Change is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment amount is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Checkout is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment is not a purchasable item.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Deposit is not a purchasable item.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2382,
+   "tokensOut": 839,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000344
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1613,
+   "tokensOut": 654,
+   "usdCeiling": 0.001329,
+   "usdActual": 0.000254
+  }
+ ],
+ "errors": []
+}

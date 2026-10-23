@@ -1,0 +1,195 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Merkez / Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "",
+    "qty": 5,
+    "unitPriceMinor": 2190,
+    "amountMinor": 10950,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42\\'Lİ",
+    "translationEn": "",
+    "qty": 4,
+    "unitPriceMinor": 34900,
+    "amountMinor": 139600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %10 MATRAH 16,92",
+    "translationEn": "",
+    "qty": 10,
+    "unitPriceMinor": 1692,
+    "amountMinor": 16920,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %20 MATRAH 290,83",
+    "translationEn": "",
+    "qty": 20,
+    "unitPriceMinor": 29083,
+    "amountMinor": 58166,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5986,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KREDİ KARTI",
+    "translationEn": "",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 36761,
+  "taxMinor": 0,
+  "taxIncluded": true,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "7374",
+    "bbox": null
+   },
+   {
+    "kind": "other",
+    "text": "7724103405",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 5 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discount lines are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Matrah is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Matrah is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax lines are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total lines are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment method lines are not eligible.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2262,
+   "tokensOut": 402,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003096
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1230,
+   "tokensOut": 289,
+   "usdCeiling": 0.01671,
+   "usdActual": 0.001909
+  }
+ ],
+ "errors": []
+}

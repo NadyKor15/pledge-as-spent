@@ -1,0 +1,190 @@
+{
+ "receiptId": "v1-tr-04",
+ "set": "v1",
+ "imageSha256": "57525c6e67184d9fce7de878f407d7aadfdfa1ab18b7f8b1a9f735b25bbbb618",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T08:26:00",
+  "receiptNumber": "8832",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZI 3 NO 44'LÜ",
+    "translationEn": "BABY DIAPER 3 NO 44'S",
+    "qty": 3,
+    "unitPriceMinor": 27900,
+    "amountMinor": 83700,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "KAYNAK SU 0,5L 12'LI",
+    "translationEn": "SOURCE WATER 0,5L 12'S",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MINI BEBEK BEZI 4 NO",
+    "translationEn": "MINI BABY DIAPER 4 NO",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "AA BATTERY 10'S PACK",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %10",
+    "translationEn": "VAT %10",
+    "qty": 1,
+    "unitPriceMinor": 4991,
+    "amountMinor": 499,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KDV %20",
+    "translationEn": "VAT %20",
+    "qty": 1,
+    "unitPriceMinor": 17145,
+    "amountMinor": 17145,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPKDV",
+    "translationEn": "TOTAL VAT",
+    "qty": 1,
+    "unitPriceMinor": 17644,
+    "amountMinor": 17644,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "TOPLAM",
+    "translationEn": "TOTAL",
+    "qty": 1,
+    "unitPriceMinor": 108360,
+    "amountMinor": 108360,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 108360,
+  "taxMinor": 10836,
+  "taxIncluded": false,
+  "totalMinor": 108360,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "6869",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 4 are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Source water 0.5L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines are not directly related to the needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines are not directly related to the needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "VAT lines are not directly related to the needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total lines are not directly related to the needs.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1838,
+   "tokensOut": 554,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003243
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1278,
+   "tokensOut": 302,
+   "usdCeiling": 0.0168,
+   "usdActual": 0.001989
+  }
+ ],
+ "errors": []
+}

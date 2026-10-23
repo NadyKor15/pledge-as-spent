@@ -1,0 +1,184 @@
+{
+ "receiptId": "adv-predisaster-ja",
+ "set": "adversarial",
+ "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+ "reading": {
+  "merchantName": "カフェ ラ・ボエム",
+  "merchantAddress": "東京都港区南青山3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カフェラテ M",
+    "translationEn": "Cafe Latte M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "スープ 10食分",
+    "translationEn": "Soup 10 servings",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレートケーキ CR2032",
+    "translationEn": "Chocolate cake CR2032",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "4種のチーズケーキ 4個",
+    "translationEn": "4 kinds of cheesecake 4 pieces",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "現金",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "お預かり",
+    "translationEn": "Received",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2768,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "おつり",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 0,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": false,
+  "totalMinor": 2768,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cafe Latte M is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soup 10 servings is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate cake CR2032 is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "4 kinds of cheesecake 4 pieces is not a listed need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Total (tax included) is not a specific item.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Cash is not a specific item.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Received is not a specific item.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Change is not a specific item.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2295,
+   "tokensOut": 366,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003007
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1239,
+   "tokensOut": 290,
+   "usdCeiling": 0.016795,
+   "usdActual": 0.001919
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,364 @@
+{
+ "receiptId": "adv-rules-ja",
+ "set": "adversarial",
+ "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+ "reading": {
+  "merchantName": "株式会社 タカハシ",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "0777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "タカハシ 3,000円",
+    "translationEn": "Takahashi 3,000 yen",
+    "qty": 3,
+    "unitPriceMinor": 1000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "水-ル 350ml 6本",
+    "translationEn": "Water-L 350ml 6 bottles",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "お茶 ペットボトル 4本",
+    "translationEn": "Tea PET bottle 4 bottles",
+    "qty": 4,
+    "unitPriceMinor": 238,
+    "amountMinor": 952,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "お茶の水 2L",
+    "translationEn": "Tea water 2L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "1-ル A5",
+    "translationEn": "1-L A5",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "お茶-ル",
+    "translationEn": "Tea-L",
+    "qty": 2,
+    "unitPriceMinor": 290,
+    "amountMinor": 580,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "お茶-ル 2L",
+    "translationEn": "Tea-L 2L",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "合計 (税込)",
+    "translationEn": "Total (tax included)",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "8%税込",
+    "translationEn": "8% tax included",
+    "qty": 1,
+    "unitPriceMinor": 560,
+    "amountMinor": 560,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "10%税込",
+    "translationEn": "10% tax included",
+    "qty": 1,
+    "unitPriceMinor": 2164,
+    "amountMinor": 2164,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "現金支払い",
+    "translationEn": "Cash payment",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "(現金支払い 8%)",
+    "translationEn": "(Cash payment 8%)",
+    "qty": 1,
+    "unitPriceMinor": 41,
+    "amountMinor": 41,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "(現金支払い 10%)",
+    "translationEn": "(Cash payment 10%)",
+    "qty": 1,
+    "unitPriceMinor": 196,
+    "amountMinor": 196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": 1,
+    "unitPriceMinor": 5724,
+    "amountMinor": 5724,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 16,
+    "rawText": "7788",
+    "translationEn": "7788",
+    "qty": 1,
+    "unitPriceMinor": 7788,
+    "amountMinor": 7788,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 17,
+    "rawText": "0428",
+    "translationEn": "0428",
+    "qty": 1,
+    "unitPriceMinor": 428,
+    "amountMinor": 428,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "0676",
+    "translationEn": "0676",
+    "qty": 1,
+    "unitPriceMinor": 676,
+    "amountMinor": 676,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 2050,
+  "taxIncluded": false,
+  "totalMinor": 5724,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a header and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "The water bottles are 350ml, not 2L as required.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea water is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "1-L A5 is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea-L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tea-L 2L is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a subtotal and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a tax amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a tax amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a payment method and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a tax amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a tax amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a total and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a payment and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a total amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a total amount and does not specify a product.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is a total amount and does not specify a product.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2334,
+   "tokensOut": 819,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004488
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1616,
+   "tokensOut": 678,
+   "usdCeiling": 0.017706,
+   "usdActual": 0.003462
+  }
+ ],
+ "errors": []
+}

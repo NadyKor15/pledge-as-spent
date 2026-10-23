@@ -1,0 +1,184 @@
+{
+ "receiptId": "v1-es-06",
+ "set": "v1",
+ "imageSha256": "61e6e6e363a1c2433699f8e59def8075f944fc142a2491efd93d34fd1a1e2ba7",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alborrada",
+  "country": null,
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:53:00",
+  "receiptNumber": "1578",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GALLETAS MARIA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 145,
+    "amountMinor": 145,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "VINO TINTO CRIANZA",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 650,
+    "amountMinor": 650,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CUADERNO A5",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 390,
+    "amountMinor": 390,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 X 1,95",
+    "translationEn": "",
+    "qty": 2,
+    "unitPriceMinor": 195,
+    "amountMinor": 390,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIENICO 12R",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 708,
+    "amountMinor": 708,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "12 X 0,59",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": 59,
+    "amountMinor": 708,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2941,
+  "taxMinor": 362,
+  "taxIncluded": true,
+  "totalMinor": 2941,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cookies are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and may or may not be a listed need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1.5 L water bottles are a listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The item is unclear and may or may not be a listed need.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2360,
+   "tokensOut": 365,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.003056
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1203,
+   "tokensOut": 297,
+   "usdCeiling": 0.016682,
+   "usdActual": 0.001913
+  }
+ ],
+ "errors": []
+}

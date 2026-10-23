@@ -1,0 +1,96 @@
+{
+ "receiptId": "v1-ja-11",
+ "set": "v1",
+ "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+ "reading": {
+  "merchantName": "はま寿司",
+  "merchantAddress": "東京都千代田区1-2-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "3個 x 128",
+    "translationEn": "3 x 128",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2個 x 1,298",
+    "translationEn": "2 x 1,298",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": -130,
+    "amountMinor": -130,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "2個 x 158",
+    "translationEn": "2 x 158",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "お茶",
+    "translationEn": "Tea",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "合計 (4人)",
+    "translationEn": "Total (4 people)",
+    "qty": 1,
+    "unitPriceMinor": 3294,
+    "amountMinor": 3294,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 466,
+  "taxIncluded": false,
+  "totalMinor": 3760,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2493,
+   "tokensOut": 367,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000238
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1169,
+   "tokensOut": 270,
+   "usdCeiling": 0.00124,
+   "usdActual": 0.000135
+  }
+ ],
+ "errors": [
+  "classify: classify lines (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid option: expected one of \"alcohol\"|\"tobacco\"|\"gift_card\"|\"not_in_needs\"|\"other_rule\"|\"unclear\"\n  → at [2].ruleCode (stop reason: tool_use)",
+  "raw: {\"lines\":\"no=1; qty=3; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=2; qty=2; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=3; verdict=rejected; rule=discount; conf=1; why=Discount lines do not contribute to the needs.\\nno=4; qty=2; verdict=review; rule=unclear; conf=0.5; why=The item is not identified, so it's unclear if it's a need.\\nno=5; qty=1; verdict=eligible; need=water; qty=1; conf=0.95; why=Tea is a form of drinking water and counts toward the water need.\\nno=6; verdict=review; rule=unclear; conf=0.5; why=The total amount is not identified, so it's unclear if it's a need.\"}"
+ ]
+}

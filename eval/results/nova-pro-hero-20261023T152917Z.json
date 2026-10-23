@@ -5,17 +5,17 @@
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.625,
-  "recall": 0.9090909090909091,
-  "f1": 0.7407407407407406,
-  "tp": 10,
-  "fp": 6,
-  "fn": 1
+  "precision": 0.4,
+  "recall": 0.7272727272727273,
+  "f1": 0.5161290322580645,
+  "tp": 8,
+  "fp": 12,
+  "fn": 3
  },
  "lineAmountExact": {
-  "num": 7,
+  "num": 6,
   "den": 11,
-  "rate": 0.6363636363636364
+  "rate": 0.5454545454545454
  },
  "totalExact": {
   "num": 1,
@@ -41,9 +41,9 @@
   }
  },
  "lineClass": {
-  "num": 4,
+  "num": 2,
   "den": 11,
-  "rate": 0.36363636363636365
+  "rate": 0.18181818181818182
  },
  "needQty": {
   "num": 0,
@@ -103,9 +103,9 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.625,
-   "recall": 0.9090909090909091,
-   "f1": 0.7407407407407406,
+   "precision": 0.4,
+   "recall": 0.7272727272727273,
+   "f1": 0.5161290322580645,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -114,12 +114,12 @@
   }
  },
  "spend": {
-  "ledgerDeltaUsd": 0.008307999999999982,
+  "ledgerDeltaUsd": 0.008289000000000019,
   "calls": 2,
-  "tokensIn": 4541,
-  "tokensOut": 1461,
-  "usdActual": 0.008308,
-  "usdCeiling": 0.03543
+  "tokensIn": 4533,
+  "tokensOut": 1457,
+  "usdActual": 0.008289,
+  "usdCeiling": 0.035486
  },
  "perReceipt": [
   {
@@ -131,11 +131,11 @@
     "out_of_zone"
    ],
    "score": {
-    "tp": 10,
-    "fp": 6,
-    "fn": 1,
+    "tp": 8,
+    "fp": 12,
+    "fn": 3,
     "lineAmountExact": {
-     "num": 7,
+     "num": 6,
      "den": 11
     },
     "totalExact": true,
@@ -143,7 +143,7 @@
     "dateTimeExact": true,
     "merchantSimilarity": 0,
     "lineClass": {
-     "num": 4,
+     "num": 2,
      "den": 11
     },
     "needQty": {

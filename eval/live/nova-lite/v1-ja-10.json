@@ -1,0 +1,202 @@
+{
+ "receiptId": "v1-ja-10",
+ "set": "v1",
+ "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+ "reading": {
+  "merchantName": "はなみずき",
+  "merchantAddress": "東京都新宿区新宿3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:25:00",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "2L",
+    "translationEn": "2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "2L",
+    "translationEn": "2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "M 44L",
+    "translationEn": "M 44L",
+    "qty": 5,
+    "unitPriceMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "M 38L",
+    "translationEn": "M 38L",
+    "qty": 5,
+    "unitPriceMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "",
+    "translationEn": "Discount",
+    "qty": 4,
+    "unitPriceMinor": 256,
+    "amountMinor": 942,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": 368,
+    "amountMinor": 368,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "",
+    "translationEn": "Subtotal",
+    "qty": 1,
+    "unitPriceMinor": 4330,
+    "amountMinor": 4330,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": 670,
+    "amountMinor": 670,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3942,
+  "taxMinor": 368,
+  "taxIncluded": false,
+  "totalMinor": 4310,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "2L bottles of drinking water count toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Subtotal lines do not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not count toward any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not count toward any need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2493,
+   "tokensOut": 452,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000258
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1215,
+   "tokensOut": 356,
+   "usdCeiling": 0.001256,
+   "usdActual": 0.000158
+  }
+ ],
+ "errors": []
+}

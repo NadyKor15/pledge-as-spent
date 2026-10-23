@@ -1,0 +1,310 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNA SU 5 LT",
+    "translationEn": "KAYNA SU 5 LT",
+    "qty": 5,
+    "unitPriceMinor": 2450,
+    "amountMinor": 12250,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA PİL 10'LU PAKET",
+    "qty": 10,
+    "unitPriceMinor": 16990,
+    "amountMinor": 169990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "SÜT 1 LT",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANiYE TEK KiŞiLiK",
+    "translationEn": "BATTANiYE TEK KiŞiLiK",
+    "qty": 2,
+    "unitPriceMinor": 89800,
+    "amountMinor": 179600,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "2 x 449,00",
+    "translationEn": "2 x 449,00",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "KAYNA SU 0,5L 12'Li",
+    "translationEn": "KAYNA SU 0,5L 12'Li",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "DAĞ SUYU 5 L",
+    "qty": 5,
+    "unitPriceMinor": 4380,
+    "amountMinor": 21900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "2 x 21,90",
+    "translationEn": "2 x 21,90",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "İNDİRİM",
+    "translationEn": "İNDİRİM",
+    "qty": 1,
+    "unitPriceMinor": 657,
+    "amountMinor": 657,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %10 MATRAH 141,03",
+    "translationEn": "KDV %10 MATRAH 141,03",
+    "qty": 1,
+    "unitPriceMinor": 1410,
+    "amountMinor": 1410,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "KDV %20 MATRAH 889,92",
+    "translationEn": "KDV %20 MATRAH 889,92",
+    "qty": 1,
+    "unitPriceMinor": 17798,
+    "amountMinor": 17798,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPKDV",
+    "translationEn": "TOPKDV",
+    "qty": 1,
+    "unitPriceMinor": 19208,
+    "amountMinor": 19208,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "TOPLAM",
+    "translationEn": "TOPLAM",
+    "qty": 1,
+    "unitPriceMinor": 122303,
+    "amountMinor": 122303,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "NAKİT",
+    "translationEn": "NAKİT",
+    "qty": 1,
+    "unitPriceMinor": 123000,
+    "amountMinor": 123000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "PARA ÜSTÜ",
+    "qty": 1,
+    "unitPriceMinor": 697,
+    "amountMinor": 697,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 122303,
+  "taxMinor": 23000,
+  "taxIncluded": false,
+  "totalMinor": 122303,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "KAYNA SU 5 LT matches the need for 5 L water bottles.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 100,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA PİL 10'LU PAKET matches the need for AA batteries.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "SÜT 1 LT does not match any listed need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "BATTANiYE TEK KiŞiLiK matches the need for blankets.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "2 x 449,00 is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "KAYNA SU 0,5L 12'Li does not match the need for 5 L water bottles.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "DAĞ SUYU 5 L matches the need for 5 L water bottles.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "2 x 21,90 is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "İNDİRİM is a discount and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "KDV %10 MATRAH 141,03 is a tax entry and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "KDV %20 MATRAH 889,92 is a tax entry and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "TOPKDV is a total tax entry and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "TOPLAM is a total amount and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "NAKİT is a cash payment and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "PARA ÜSTÜ is change given and requires further review.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2361,
+   "tokensOut": 936,
+   "usdCeiling": 0.017906,
+   "usdActual": 0.004884
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1595,
+   "tokensOut": 746,
+   "usdCeiling": 0.017498,
+   "usdActual": 0.003663
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2493,
+   "tokensOut": 835,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.00035
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at merchantName (stop reason: end_turn)",
+  "raw: \"RECEIPT: merchant=-; address=; country=JP; currency=JPY; purchased=2026-11-07T19:48:00; number=2816; subtotal=10000; tax=656; tax_included=false; total=10656; readability=good\\nLINE: no=1; qty=1; unit=3000; amount=3000; rate=1000; text=お刺身盛り合わせ 3,000円; en=Sashimi assortment 3,000 yen\\nLINE: no=2; qty=5; unit=1000; amount=5000; rate=1000; text=刺身-中 5人前; en=Sashimi-medium 5 servings\\nLINE: no=3; qty=2; unit=398; amount=796; rate=800; text=刺身-小 2人前; en=Sashimi-small 2 servings\\nLINE: no=4; qty=6; unit=108; amount=648; rate=1000; text=6人 x 刺身108; en=6 people x sashimi 108\\nLINE: no=5; qty=4; unit=1386; amount=5544; rate=800; text=刺身 (4人前); en=Sashimi (4 servings)\\nLINE: no=6; qty=8; unit=648; amount=5184; rate=800; text=刺身8% 刺身 ¥648; en=Sashimi 8% sashimi ¥648\\nLINE: no=7; qty=10; unit=1496; amount=14960; rate=1000; text=刺身10% 刺身 ¥1,496; en=Sashimi 10% sashimi ¥1,496\\nLINE: no=8; qty=1; unit=149; amount=149; rate=1000; text=刺身割引; en=Sashimi discount\\nLINE: no=9; qty=1; unit=3000; amount=3000; rate=1000; text=刺身; en=Sashimi\\nLINE: no=10; qty=1; unit=5344; amount=5344; rate=1000; text=刺身; en=Sashimi\\nLINE: no=11; qty=1; unit=6000; amount=6000; rate=1000; text=刺身; en=Sashimi\\nLINE: no=12; qty=1; unit=656; amount=656; rate=1000; text=消費税; en=consumption tax\\nLINE: no=13; qty=1; unit=1081; amount=1081; rate=1000; text=合計金額; en=total amount\\nLINE: no=14; qty=1; unit=2345; amount=2345; rate=1000; text=お支払い金額; en=payment amount\\nLINE: no=15; qty=1; unit=8996; amount=8996; rate=1000; text=お釣り; en=change\""
+ ]
+}

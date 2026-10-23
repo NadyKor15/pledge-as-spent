@@ -1,0 +1,166 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Water 5 L",
+    "qty": 5,
+    "unitPriceMinor": 2450,
+    "amountMinor": 12250,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA Battery 10 pack",
+    "qty": 10,
+    "unitPriceMinor": 16990,
+    "amountMinor": 169900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANiYE TEK KiSiLiK",
+    "translationEn": "Single Bedsheet",
+    "qty": 2,
+    "unitPriceMinor": 89800,
+    "amountMinor": 179600,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KAYNAK SU 0,5L 12'Li",
+    "translationEn": "Water 0.5 L 12 pack",
+    "qty": 5,
+    "unitPriceMinor": 5490,
+    "amountMinor": 27450,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain Water 5 L",
+    "qty": 5,
+    "unitPriceMinor": 4380,
+    "amountMinor": 21900,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "iNDiRiM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": -657,
+    "amountMinor": -657,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %10 MATRAH 141,03",
+    "translationEn": "VAT 10% 141.03",
+    "qty": 1,
+    "unitPriceMinor": 1410,
+    "amountMinor": 1410,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %20 MATRAH 889,92",
+    "translationEn": "VAT 20% 889.92",
+    "qty": 1,
+    "unitPriceMinor": 17798,
+    "amountMinor": 17798,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": 1,
+    "unitPriceMinor": 19208,
+    "amountMinor": 19208,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 122303,
+    "amountMinor": 122303,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 12,
+    "rawText": "NAKiT",
+    "translationEn": "Cash",
+    "qty": 1,
+    "unitPriceMinor": 1230,
+    "amountMinor": 1230,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 13,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "Change",
+    "qty": 1,
+    "unitPriceMinor": 697,
+    "amountMinor": 697,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 122303,
+  "taxMinor": 19208,
+  "taxIncluded": false,
+  "totalMinor": 123000,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 5 L bottles count toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2361,
+   "tokensOut": 768,
+   "usdCeiling": 0.001343,
+   "usdActual": 0.000326
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1461,
+   "tokensOut": 53,
+   "usdCeiling": 0.001297,
+   "usdActual": 0.0001
+  }
+ ],
+ "errors": []
+}
