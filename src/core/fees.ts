@@ -8,7 +8,7 @@ export interface FixedFee {
   minor: number;
   source: string;
   asOf: string;
-  /** true until checked against PayPal's published US fee page or a real capture. */
+  /** true until checked against PayPal's published US fee page or real sandbox captures. */
   estimate: boolean;
 }
 
@@ -19,15 +19,25 @@ export const FIXED_FEES: Readonly<Record<string, FixedFee>> = {
   USD: {
     minor: 49,
     source:
-      "Sandbox captures 2026-10-20: seller_receivable_breakdown.paypal_fee $1.58 on $31.20 and $1.14 on $18.72 = 3.49% + $0.49",
-    asOf: "2026-10-20",
+      "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): USD 11.10 -> 0.78, 6.00 -> 0.65, 12.90 -> 0.82 = 2.59% + USD 0.49",
+    asOf: "2026-10-23",
     estimate: false,
   },
-  EUR: { minor: 39, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
+  EUR: {
+    minor: 39,
+    source: "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): EUR 7.40 -> 0.58, 5.00 -> 0.52 = 2.59% + EUR 0.39",
+    asOf: "2026-10-23",
+    estimate: false,
+  },
   GBP: { minor: 39, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
   CAD: { minor: 59, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
   AUD: { minor: 59, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
-  JPY: { minor: 49, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
+  JPY: {
+    minor: 49,
+    source: "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): JPY 1110 -> 78, 500 -> 62, 12000 -> 360, 8000 -> 256 = 2.59% + JPY 49",
+    asOf: "2026-10-23",
+    estimate: false,
+  },
   HUF: { minor: 149, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
   TWD: { minor: 14, source: UNVERIFIED, asOf: "2026-10-23", estimate: true },
 };

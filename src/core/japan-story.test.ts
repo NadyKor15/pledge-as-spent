@@ -145,9 +145,9 @@ describe("Japanese story: one receipt, three donors, three currencies, a 1:1 com
 
   it("shows what batching saved", () => {
     const rows = Object.fromEntries(feeSavings(book.state).map((r) => [r.currency, r]));
-    expect(rows.EUR).toMatchObject({ batches: 1, shares: 3, savedMinor: 78, estimate: true });
+    expect(rows.EUR).toMatchObject({ batches: 1, shares: 3, savedMinor: 78, estimate: false });
     expect(rows.USD).toMatchObject({ batches: 1, shares: 2, savedMinor: 49, estimate: false, paypalFeeMinor: 109 });
-    expect(rows.JPY).toMatchObject({ batches: 2, shares: 13, savedMinor: (3 + 8) * 49, estimate: true });
+    expect(rows.JPY).toMatchObject({ batches: 2, shares: 13, savedMinor: (3 + 8) * 49, estimate: false });
   });
 
   it("gives Anna her statement in euros with the match her money unlocked", () => {
