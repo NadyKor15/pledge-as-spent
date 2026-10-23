@@ -1,0 +1,3 @@
+{"ts":"2026-10-23T14:50:00Z","id":"probe-key-20261023","kind":"reserve","what":"bedrock amazon.nova-lite-v1:0 key probe before the cap code (7 in / 3 out tokens), recorded at its ceiling","usd":0.00001}
+{"ts":"2026-10-23T14:56:04.606Z","id":"abd1a663-6a8d-42bc-a85d-ad0c76a0e118","kind":"reserve","what":"read receipt (amazon.nova-lite-v1:0)","usd":0.001493}
+{"ts":"2026-10-23T14:56:22.706Z","id":"9954f338-f4f3-4c62-9966-a7d2d8a73fc8","kind":"settle","ref":"abd1a663-6a8d-42bc-a85d-ad0c76a0e118","what":"read receipt (amazon.nova-lite-v1:0)","usd":-0.000795}

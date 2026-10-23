@@ -14,7 +14,7 @@ export const NOVA_PRICES: Record<string, { inPerMTok: number; outPerMTok: number
   "amazon.nova-lite-v1:0": { inPerMTok: 0.06, outPerMTok: 0.24 },
   "amazon.nova-pro-v1:0": { inPerMTok: 0.8, outPerMTok: 3.2 },
 };
-export const PRICE_SOURCE = "AWS Price List us-east-1 as read for the N8 build on 2026-10-20 (eval/cost.md there); re-read before the first call here";
+export const PRICE_SOURCE = "AWS Price List API, us-east-1, on-demand USE1-NovaLite/NovaPro input/output tokens, re-read 2026-10-23";
 
 export const CHARS_PER_TOKEN = 1.0; // Japanese: one character can be one token
 export const IMAGE_TOKENS = 3000;
