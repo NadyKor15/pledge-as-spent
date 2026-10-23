@@ -1,21 +1,21 @@
 {
- "reader": "nova-lite",
+ "reader": "nova-pro",
  "set": "hero",
  "receipts": 1,
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.5,
+  "precision": 0.625,
   "recall": 0.9090909090909091,
-  "f1": 0.6451612903225806,
+  "f1": 0.7407407407407406,
   "tp": 10,
-  "fp": 10,
+  "fp": 6,
   "fn": 1
  },
  "lineAmountExact": {
-  "num": 10,
+  "num": 7,
   "den": 11,
-  "rate": 0.9090909090909091
+  "rate": 0.6363636363636364
  },
  "totalExact": {
   "num": 1,
@@ -41,9 +41,9 @@
   }
  },
  "lineClass": {
-  "num": 0,
+  "num": 4,
   "den": 11,
-  "rate": 0
+  "rate": 0.36363636363636365
  },
  "needQty": {
   "num": 0,
@@ -58,9 +58,9 @@
  },
  "pii": {
   "found": {
-   "num": 0,
+   "num": 1,
    "den": 3,
-   "rate": 0
+   "rate": 0.3333333333333333
   },
   "meanIou": null
  },
@@ -103,9 +103,9 @@
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.5,
+   "precision": 0.625,
    "recall": 0.9090909090909091,
-   "f1": 0.6451612903225806,
+   "f1": 0.7407407407407406,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -114,11 +114,12 @@
   }
  },
  "spend": {
+  "ledgerDeltaUsd": 0.008307999999999982,
   "calls": 2,
-  "tokensIn": 5336,
-  "tokensOut": 762,
-  "usdActual": 0.000503,
-  "usdCeiling": 0.00279
+  "tokensIn": 4541,
+  "tokensOut": 1461,
+  "usdActual": 0.008308,
+  "usdCeiling": 0.03543
  },
  "perReceipt": [
   {
@@ -131,10 +132,10 @@
    ],
    "score": {
     "tp": 10,
-    "fp": 10,
+    "fp": 6,
     "fn": 1,
     "lineAmountExact": {
-     "num": 10,
+     "num": 7,
      "den": 11
     },
     "totalExact": true,
@@ -142,7 +143,7 @@
     "dateTimeExact": true,
     "merchantSimilarity": 0,
     "lineClass": {
-     "num": 0,
+     "num": 4,
      "den": 11
     },
     "needQty": {
@@ -155,7 +156,7 @@
     },
     "ruleLinesFunded": 0,
     "pii": {
-     "num": 0,
+     "num": 1,
      "den": 3
     },
     "piiIou": []

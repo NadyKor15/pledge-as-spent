@@ -240,11 +240,11 @@ Rules:
 - rate is 800 for 8 %, 1000 for 10 %; leave it out when the line shows no rate. tax_included is true when prices already contain tax, false when tax is added at the end.
 - PII rows are personal data printed on the receipt (card numbers, personal names, phones, member ids, home addresses); leave box out when you cannot place it.
 - readability is unreadable when you cannot read the lines, poor when parts are doubtful, otherwise good.
-Example:
-RECEIPT: merchant=ミナト生活館 北空店; address=空川県北空市港町2-8-1; country=JP; currency=JPY; purchased=2026-11-05T14:32:00; number=8258; subtotal=1700; tax=124; tax_included=true; total=1700; readability=good
-LINE: no=1; qty=2; unit=128; amount=256; rate=800; text=雪解けの水 2L; en=Snowmelt water 2 L
-LINE: no=2; unit=1444; amount=1444; rate=1000; text=毛布; en=Blanket
-PII: kind=card_number; box=0.6,0.75,0.23,0.02; text=************1234`;
+Example (a made-up receipt; do not copy its words):
+RECEIPT: merchant=たいよう商店; address=月見市本町1-2-3; country=JP; currency=JPY; purchased=2026-03-14T10:05:00; number=0042; subtotal=1700; tax=124; tax_included=true; total=1700; readability=good
+LINE: no=1; qty=2; unit=128; amount=256; rate=800; text=りんご; en=Apple
+LINE: no=2; unit=1444; amount=1444; rate=1000; text=電球 40W; en=Light bulb 40 W
+PII: kind=card_number; box=0.6,0.75,0.23,0.02; text=************0000`;
 
 export class BedrockNovaReader implements ReceiptReader {
   private readonly o: Required<Options>;

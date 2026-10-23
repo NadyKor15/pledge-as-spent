@@ -5,12 +5,12 @@
  "scoredReceipts": 1,
  "errors": [],
  "lines": {
-  "precision": 0.5238095238095238,
-  "recall": 1,
-  "f1": 0.6875000000000001,
-  "tp": 11,
-  "fp": 10,
-  "fn": 0
+  "precision": 0.3181818181818182,
+  "recall": 0.6363636363636364,
+  "f1": 0.4242424242424242,
+  "tp": 7,
+  "fp": 15,
+  "fn": 4
  },
  "lineAmountExact": {
   "num": 3,
@@ -23,17 +23,17 @@
   "rate": 1
  },
  "dateExact": {
-  "num": 0,
+  "num": 1,
   "den": 1,
-  "rate": 0
+  "rate": 1
  },
  "dateTimeExact": {
-  "num": 0,
+  "num": 1,
   "den": 1,
-  "rate": 0
+  "rate": 1
  },
  "merchant": {
-  "meanSimilarity": 0,
+  "meanSimilarity": 0.11111111111111116,
   "atLeast80": {
    "num": 0,
    "den": 1,
@@ -41,9 +41,9 @@
   }
  },
  "lineClass": {
-  "num": 4,
+  "num": 3,
   "den": 11,
-  "rate": 0.36363636363636365
+  "rate": 0.2727272727272727
  },
  "needQty": {
   "num": 1,
@@ -54,15 +54,15 @@
   "num": 0,
   "den": 2,
   "rate": 0,
-  "fundedByMistake": 0
+  "fundedByMistake": 1
  },
  "pii": {
   "found": {
-   "num": 0,
+   "num": 1,
    "den": 3,
-   "rate": 0
+   "rate": 0.3333333333333333
   },
-  "meanIou": null
+  "meanIou": 0
  },
  "flags": {
   "duplicate": {
@@ -84,10 +84,10 @@
   "out_of_zone": {
    "tp": 0,
    "fn": 0,
-   "fp": 0,
-   "tn": 1,
+   "fp": 1,
+   "tn": 0,
    "recall": null,
-   "falseAlarmRate": 0
+   "falseAlarmRate": 1
   },
   "unreadable": {
    "tp": 0,
@@ -99,15 +99,13 @@
   }
  },
  "otherFlagsRaised": {
-  "total_mismatch": 1,
-  "date_unknown": 1,
-  "zone_unknown": 1
+  "total_mismatch": 1
  },
  "byLanguage": {
   "ja": {
-   "precision": 0.5238095238095238,
-   "recall": 1,
-   "f1": 0.6875000000000001,
+   "precision": 0.3181818181818182,
+   "recall": 0.6363636363636364,
+   "f1": 0.4242424242424242,
    "totalExact": {
     "num": 1,
     "den": 1,
@@ -116,12 +114,12 @@
   }
  },
  "spend": {
-  "ledgerDeltaUsd": 0.0007920000000000149,
+  "ledgerDeltaUsd": 0.0007909999999999862,
   "calls": 2,
-  "tokensIn": 5402,
-  "tokensOut": 1949,
-  "usdActual": 0.000792,
-  "usdCeiling": 0.002809
+  "tokensIn": 4746,
+  "tokensOut": 2107,
+  "usdActual": 0.000791,
+  "usdCeiling": 0.002699
  },
  "perReceipt": [
   {
@@ -130,23 +128,22 @@
    "readability": "good",
    "flags": [
     "total_mismatch",
-    "date_unknown",
-    "zone_unknown"
+    "out_of_zone"
    ],
    "score": {
-    "tp": 11,
-    "fp": 10,
-    "fn": 0,
+    "tp": 7,
+    "fp": 15,
+    "fn": 4,
     "lineAmountExact": {
      "num": 3,
      "den": 11
     },
     "totalExact": true,
-    "dateExact": false,
-    "dateTimeExact": false,
-    "merchantSimilarity": 0,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.11111111111111116,
     "lineClass": {
-     "num": 4,
+     "num": 3,
      "den": 11
     },
     "needQty": {
@@ -157,12 +154,14 @@
      "num": 0,
      "den": 2
     },
-    "ruleLinesFunded": 0,
+    "ruleLinesFunded": 1,
     "pii": {
-     "num": 0,
+     "num": 1,
      "den": 3
     },
-    "piiIou": []
+    "piiIou": [
+     0
+    ]
    }
   }
  ]
