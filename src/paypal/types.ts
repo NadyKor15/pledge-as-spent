@@ -76,6 +76,8 @@ export interface PayPalGateway {
     requestId: string;
     returnUrl?: string;
     cancelUrl?: string;
+    /** Defaults to PAY_NOW: the donor sees exactly the pledged amount. */
+    userAction?: "PAY_NOW" | "CONTINUE";
   }): Promise<OrderResult>;
 
   /** Sandbox only: create and authorize in one call with a PayPal test card (scripted runs, tests). */

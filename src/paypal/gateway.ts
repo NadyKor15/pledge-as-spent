@@ -29,6 +29,8 @@ export interface GatewayOptions {
   /** Pause before retry n is n * retryDelayMs. */
   retryDelayMs?: number;
   maxRetries?: number;
+  /** Per-request timeout; a timed-out request is retried with the same PayPal-Request-Id. */
+  timeoutMs?: number;
   now?: () => number;
 }
 
@@ -51,8 +53,12 @@ function isTransportError(e: unknown): boolean {
   return e instanceof TypeError || (e instanceof Error && (e.name === "AbortError" || e.name === "TimeoutError"));
 }
 
+// Visible ASCII only: anything else cannot travel as a header and would fail as a "network" error.
+const REQUEST_ID = /^[\x21-\x7e]{1,108}$/;
+
 function requireId(requestId: string | undefined, op: string): string {
   if (!requestId || !requestId.trim()) throw new GuardError(`${op}: PayPal-Request-Id is required`);
+  if (!REQUEST_ID.test(requestId)) throw new GuardError(`${op}: PayPal-Request-Id must be 1-108 visible ASCII characters`);
   return requestId;
 }
 
@@ -65,6 +71,7 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
   const innerFetch: FetchLike = opts.fetch ?? ((url, init) => fetch(url, init));
   const maxRetries = opts.maxRetries ?? 3;
   const retryDelayMs = opts.retryDelayMs ?? 500;
+  const timeoutMs = opts.timeoutMs ?? 30_000;
   const now = opts.now ?? Date.now;
 
   // Every request, SDK or REST, passes here.
@@ -106,7 +113,7 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
   }
 
   async function fetchRaw(url: string, init: Parameters<FetchLike>[1]): Promise<Raw> {
-    const res = await send(url, init);
+    const res = await send(url, { ...init, signal: AbortSignal.timeout(timeoutMs) });
     return { status: res.status, text: await res.text(), debugId: res.headers.get("paypal-debug-id") ?? undefined };
   }
 
@@ -134,12 +141,25 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
     return inflight;
   }
 
-  async function rest(method: "GET" | "POST", path: string, o: { body?: unknown; rawBody?: string; requestId?: string } = {}): Promise<unknown> {
-    const { token: t } = await token();
-    const headers: Record<string, string> = { Authorization: `Bearer ${t}`, "Content-Type": "application/json", Accept: "application/json" };
-    if (o.requestId) headers["PayPal-Request-Id"] = o.requestId;
+  // A 401 means the cached token is no longer good (revoked, clock skew): drop it and try once more.
+  function dropToken(sent: string | undefined) {
+    if (cached && (sent === undefined || cached.token === sent)) cached = undefined;
+  }
+
+  async function rest(method: "GET" | "POST" | "DELETE", path: string, o: { body?: unknown; rawBody?: string; requestId?: string } = {}): Promise<unknown> {
     const body = o.rawBody ?? (o.body === undefined ? undefined : JSON.stringify(o.body));
-    return ok(await withRetry(() => fetchRaw(baseUrl + path, { method, headers, body })));
+    const run = async () => {
+      const { token: t } = await token();
+      const headers: Record<string, string> = { Authorization: `Bearer ${t}`, "Content-Type": "application/json", Accept: "application/json" };
+      if (o.requestId) headers["PayPal-Request-Id"] = o.requestId;
+      return { t, raw: await withRetry(() => fetchRaw(baseUrl + path, { method, headers, body })) };
+    };
+    let r = await run();
+    if (r.raw.status === 401) {
+      dropToken(r.t);
+      r = await run();
+    }
+    return ok(r.raw);
   }
 
   // The SDK talks axios; route it through `send` so guards, recording and replay see it too.
@@ -148,35 +168,41 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
     const headers: Record<string, string> = {};
     for (const [k, v] of Object.entries(h)) if (v !== undefined && v !== null && v !== false) headers[k] = String(v);
     const body = config.data === undefined || config.data === null ? undefined : typeof config.data === "string" ? config.data : JSON.stringify(config.data);
-    const res = await send(String(config.url), { method: (config.method ?? "get").toUpperCase(), headers, body });
+    const res = await send(String(config.url), { method: (config.method ?? "get").toUpperCase(), headers, body, signal: AbortSignal.timeout(timeoutMs) });
     const text = await res.text();
     return { data: text, status: res.status, statusText: res.statusText, headers: Object.fromEntries(res.headers.entries()), config, request: {} };
   };
 
-  const client = new Client({
-    environment: Environment.Sandbox,
-    timeout: 30_000,
-    clientCredentialsAuthCredentials: {
-      oAuthClientId: opts.clientId,
-      oAuthClientSecret: opts.clientSecret,
-      oAuthTokenProvider: async () => {
-        const t = await token();
-        // The SDK checks expiry against the wall clock; hand it the remaining lifetime of our cached token.
-        const expiry = Math.floor((Date.now() + (t.expiresAt - now())) / 1000);
-        return { accessToken: t.token, tokenType: "Bearer", expiry: BigInt(expiry) };
+  // The SDK keeps the token it was handed, so after a 401 the client is rebuilt to make it ask again.
+  let orders!: OrdersController;
+  let payments!: PaymentsController;
+  function buildSdk() {
+    const client = new Client({
+      environment: Environment.Sandbox,
+      timeout: timeoutMs,
+      clientCredentialsAuthCredentials: {
+        oAuthClientId: opts.clientId,
+        oAuthClientSecret: opts.clientSecret,
+        oAuthTokenProvider: async () => {
+          const t = await token();
+          // The SDK checks expiry against the wall clock; hand it the remaining lifetime of our cached token.
+          const expiry = Math.floor((Date.now() + (t.expiresAt - now())) / 1000);
+          return { accessToken: t.token, tokenType: "Bearer", expiry: BigInt(expiry) };
+        },
       },
-    },
-    httpClientOptions: { retryConfig: { maxNumberOfRetries: 0 } },
-    unstable_httpClientOptions: { adapter: axiosAdapter },
-  });
-  const orders = new OrdersController(client);
-  const payments = new PaymentsController(client);
+      httpClientOptions: { retryConfig: { maxNumberOfRetries: 0 } },
+      unstable_httpClientOptions: { adapter: axiosAdapter },
+    });
+    orders = new OrdersController(client);
+    payments = new PaymentsController(client);
+  }
+  buildSdk();
 
   // We read PayPal's raw JSON rather than the SDK's mapped result: the SDK's strict enums
   // would turn an unexpected status value into a ResponseValidationError.
   async function sdk(call: () => Promise<{ statusCode: number; body: unknown; headers: Record<string, string> }>): Promise<unknown> {
-    return ok(
-      await withRetry(async () => {
+    const attempt = () =>
+      withRetry(async () => {
         try {
           const r = await call();
           return { status: r.statusCode, text: typeof r.body === "string" ? r.body : "", debugId: r.headers["paypal-debug-id"] };
@@ -186,8 +212,14 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
           }
           throw e;
         }
-      }),
-    );
+      });
+    let raw = await attempt();
+    if (raw.status === 401) {
+      dropToken(undefined);
+      buildSdk();
+      raw = await attempt();
+    }
+    return ok(raw);
   }
 
   const purchaseUnit = (i: { pledgeId: string; driveId: string; amount: Money; description: string }) => ({
@@ -207,7 +239,8 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
           paypal: {
             experienceContext: {
               shippingPreference: PaypalWalletContextShippingPreference.NoShipping,
-              userAction: PaypalExperienceUserAction.Continue,
+              // PAY_NOW shows the donor the exact pledge; with CONTINUE PayPal tells them "up to" a higher amount.
+              userAction: i.userAction === "CONTINUE" ? PaypalExperienceUserAction.Continue : PaypalExperienceUserAction.PayNow,
               returnUrl: i.returnUrl,
               cancelUrl: i.cancelUrl,
             },
@@ -243,8 +276,12 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
     async reauthorize(i) {
       const requestId = requireId(i.requestId, "reauthorize");
       const body = i.amount ? { amount: sdkMoney(i.amount) } : {};
-      // The response may carry a NEW authorization id; it is returned as is.
-      return parseAuthorization(await sdk(() => payments.reauthorizePayment({ authorizationId: i.authorizationId, paypalRequestId: requestId, prefer: PREFER, body })));
+      // The response may carry a NEW authorization id; it is returned as is. An idempotent replay (200)
+      // can come back without the amount, so the authorization is then read by its id.
+      const res = await sdk(() => payments.reauthorizePayment({ authorizationId: i.authorizationId, paypalRequestId: requestId, prefer: PREFER, body }));
+      const o = res as { id?: unknown; amount?: unknown };
+      if (o.amount === undefined && typeof o.id === "string") return this.getAuthorization(o.id);
+      return parseAuthorization(res);
     },
 
     async voidAuthorization(i) {
@@ -283,7 +320,11 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
         webhook_id: webhookId,
       };
       if (Object.values(fields).some((v) => !v)) return false; // not a PayPal delivery
-      JSON.parse(rawBody); // must be JSON; throws otherwise
+      try {
+        JSON.parse(rawBody);
+      } catch {
+        return false; // not a PayPal event body
+      }
       // The event is spliced in byte for byte: re-serializing it can break the signature check.
       const body = `${JSON.stringify(fields).slice(0, -1)},"webhook_event":${rawBody}}`;
       const res = (await rest("POST", "/v1/notifications/verify-webhook-signature", { rawBody: body })) as { verification_status?: string };
