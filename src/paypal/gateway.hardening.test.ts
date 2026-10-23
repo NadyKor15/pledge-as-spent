@@ -63,6 +63,18 @@ describe("timeouts", () => {
   });
 });
 
+describe("timeouts on the REST path", () => {
+  it("a payout lookup that times out is retried", async () => {
+    const f = fake((c, n, signal) =>
+      n === 1
+        ? new Promise<Response>((_, reject) => signal?.addEventListener("abort", () => reject(signal.reason)))
+        : json(200, { batch_header: { payout_batch_id: "B1", batch_status: "SUCCESS" }, items: [] }),
+    );
+    await expect(f.pp.getPayoutBatch("B1")).resolves.toMatchObject({ batchStatus: "SUCCESS" });
+    expect(f.calls.filter((c) => c.url.includes("/v1/payments/payouts/B1"))).toHaveLength(2);
+  });
+});
+
 describe("request id shape", () => {
   for (const bad of ["cap d p 1", "заказ-1", "x".repeat(109)]) {
     it(`refuses ${JSON.stringify(bad.slice(0, 12))} before sending`, async () => {
