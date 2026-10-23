@@ -40,23 +40,27 @@ export function dHash(image: ReceiptImage): string | null {
       count[cy * cols + cx] += 1;
     }
   }
-  let bits = 0n;
+  let bits = "";
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols - 1; x++) {
       const left = sum[y * cols + x] / count[y * cols + x];
       const right = sum[y * cols + x + 1] / count[y * cols + x + 1];
-      bits = (bits << 1n) | (left > right ? 1n : 0n);
+      bits += left > right ? "1" : "0";
     }
   }
-  return bits.toString(16).padStart(16, "0");
+  let hex = "";
+  for (let i = 0; i < 64; i += 4) hex += parseInt(bits.slice(i, i + 4), 2).toString(16);
+  return hex;
 }
 
 export function hammingHex(a: string, b: string): number {
-  let x = BigInt("0x" + a) ^ BigInt("0x" + b);
   let n = 0;
-  while (x) {
-    n += Number(x & 1n);
-    x >>= 1n;
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    let x = parseInt(a[i] ?? "0", 16) ^ parseInt(b[i] ?? "0", 16);
+    while (x) {
+      n += x & 1;
+      x >>= 1;
+    }
   }
   return n;
 }

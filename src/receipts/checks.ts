@@ -74,13 +74,14 @@ export function allocateTax(r: ParsedReceipt): number[] | null {
   const zeros = r.lines.map(() => 0);
   if (!isTaxOnTop(r) || !r.taxMinor) return zeros;
   const anyRate = r.lines.some((l) => l.taxRateBp !== null);
+  const zero = BigInt(0);
   const weights = r.lines.map((l) => BigInt(l.amountMinor) * BigInt(anyRate ? (l.taxRateBp ?? 0) : 1));
-  const total = weights.reduce((s, w) => s + w, 0n);
-  if (total <= 0n) return null;
+  const total = weights.reduce((s, w) => s + w, zero);
+  if (total <= zero) return null;
   const tax = BigInt(r.taxMinor);
-  const floors = weights.map((w) => (tax * w) / total - (tax * w < 0n && (tax * w) % total !== 0n ? 1n : 0n));
+  const floors = weights.map((w) => (tax * w) / total - (tax * w < zero && (tax * w) % total !== zero ? BigInt(1) : zero));
   const rems = weights.map((w, i) => tax * w - floors[i] * total);
-  let left = Number(tax - floors.reduce((s, f) => s + f, 0n));
+  let left = Number(tax - floors.reduce((s, f) => s + f, zero));
   const order = rems.map((rem, i) => ({ rem, i })).sort((a, b) => (a.rem === b.rem ? a.i - b.i : a.rem > b.rem ? -1 : 1));
   const shares = floors.map(Number);
   for (const { i } of order) {
