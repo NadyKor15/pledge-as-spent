@@ -1,0 +1,14 @@
+/* Shared page states and the phone/desktop switch for column screens. */
+.sc-state { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px 16px; text-align: center; color: #3E4A5C; font-size: 16px; line-height: 23px; }
+.sc-state h1 { font-size: 22px; color: #0B1222; }
+.sc-state a, .sc-state button { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 8px; background: var(--primary); color: #FFFFFF; font-weight: 600; text-decoration: none; }
+.sc-desktopOnly { display: block; }
+.sc-phoneOnly { display: none; }
+@media (max-width: 700px) {
+  .sc-desktopOnly { display: none; }
+  .sc-phoneOnly { display: block; }
+}
+.sc-column { width: 100%; max-width: 480px; margin: 0 auto; }
+@media (min-width: 701px) {
+  .sc-column { padding-top: 24px; }
+}

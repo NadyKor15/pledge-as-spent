@@ -23,6 +23,7 @@
     "@electric-sql/pglite": "0.5.10",
     "@neondatabase/serverless": "1.2.0",
     "@paypal/paypal-server-sdk": "2.5.0",
+    "@paypal/react-paypal-js": "10.6.0",
     "ag-grid-community": "36.2.0",
     "ag-grid-react": "36.2.0",
     "drizzle-orm": "0.45.4",

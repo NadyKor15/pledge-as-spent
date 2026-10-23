@@ -1,26 +1,20 @@
-@import "tailwindcss";
-
+/* Product tokens, verbatim from the design brief. Screen-specific values live on each screen's root class. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #F6F4F0; --surface: #FFFFFF; --border: #E4E0D8; --primary: #0E6E6A; --held: #B7791F; --spent: #2F855A;
+  --released: #64748B; --rejected: #C2410C; --text: #1C1B19; --text-2: rgba(28, 27, 25, .55); --text-3: rgba(28, 27, 25, .34);
+  --radius: 12px;
+  --sans: var(--font-inter), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --icon-on: #FFFFFF;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); }
+body { font-family: var(--sans); color: var(--text); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+button:disabled { cursor: default; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.mono { font-family: var(--mono); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
