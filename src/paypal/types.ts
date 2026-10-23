@@ -9,6 +9,8 @@ export interface AuthorizationResult {
   amount: Money;
   createTime?: string;
   expirationTime?: string;
+  /** From the order's payment_source when the authorization came with its order: "paypal" (account) or "card". */
+  paymentSource?: string;
 }
 
 export interface SellerReceivable {

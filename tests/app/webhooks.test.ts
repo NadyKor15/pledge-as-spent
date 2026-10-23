@@ -115,6 +115,31 @@ describe("PayPal webhooks", () => {
     expect((await journal()).filter((e) => e.type === "CaptureFailed").map((e) => e.source)).toEqual(["webhook"]);
   });
 
+  it("PAYMENT.CAPTURE.REFUNDED on a confirmed capture is a reversal, counted once; on an unknown capture it is ignored", async () => {
+    await send(captureEvent("PAYMENT.CAPTURE.COMPLETED", 0));
+    const c = pp.captures[0];
+    const refund = (id: string, captureId = c.id) => ({
+      id,
+      event_type: "PAYMENT.CAPTURE.REFUNDED",
+      resource_type: "refund",
+      create_time: "2026-10-23T17:00:00Z",
+      resource: { id: "REF0001", amount: { currency_code: "EUR", value: "2.00" }, status: "COMPLETED", create_time: "2026-10-23T16:59:59Z", links: [{ rel: "up", href: `https://api.sandbox.paypal.com/v2/payments/captures/${captureId}`, method: "GET" }] },
+    });
+    expect((await send(refund("WH-REF-1"))).body).toMatchObject({ applied: true });
+    expect((await send(refund("WH-REF-1-again"))).body).toMatchObject({ applied: false, note: "already in the book" });
+    const reversed = (await journal()).filter((e) => e.type === "CaptureReversed");
+    expect(reversed.map((e) => [e.source, (e.payload as { amount: { minor: number } }).amount.minor])).toEqual([["webhook", 200]]);
+    expect((await send(refund("WH-REF-2", "9XX00000000000000"))).body).toMatchObject({ applied: false });
+  });
+
+  it("PAYMENT.CAPTURE.DENIED passes PayPal's status and reason to the core", async () => {
+    const ev = captureEvent("PAYMENT.CAPTURE.DENIED", 3, "WH-DENIED-REASON");
+    ev.resource.status_details = { reason: "DECLINED_BY_RISK_FRAUD_FILTERS" } as never;
+    await send(ev);
+    const failed = (await journal()).filter((e) => e.type === "CaptureFailed").map((e) => (e.payload as { reason: string }).reason);
+    expect(failed).toEqual([expect.stringContaining("PAYMENT.CAPTURE.DENIED status=DECLINED DECLINED_BY_RISK_FRAUD_FILTERS")]);
+  });
+
   it("a capture that is not ours is recorded and ignored", async () => {
     const ev = captureEvent("PAYMENT.CAPTURE.COMPLETED", 0, "WH-STRANGER");
     ev.resource.id = "9XX00000000000000";

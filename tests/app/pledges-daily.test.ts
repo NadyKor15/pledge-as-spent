@@ -78,6 +78,20 @@ describe("pledges", () => {
     expect(v.needs.find((n) => n.needId === "water")!.donorCapacityBase).toBe(0);
   });
 
+  it("a donor who approves after the drive closed: the new hold is voided at once and the drive stays settled", async () => {
+    const s = await setup("demo-late");
+    const p = await s.h.svc.createPledge({ driveId: s.driveId, needId: "water", donorName: "Late (Kyoto)", amount: { currency: "EUR", minor: 1000 } });
+    await s.h.svc.closeDrive(s.driveId);
+    expect((await s.h.svc.getDriveView(s.driveId)).drive.status).toBe("closed");
+    expect(s.pp.voids).toHaveLength(4);
+    s.pp.approve(p.orderId);
+    expect(await s.h.svc.approvePledge(p.pledgeId, p.orderId)).toMatchObject({ status: "voided" });
+    expect(s.pp.voids).toHaveLength(5);
+    const end = await s.h.svc.getDriveView(s.driveId);
+    expect(end.drive.status).toBe("closed");
+    expect(end.closeReport.every((c) => c.settled)).toBe(true);
+  });
+
   it("the demo endpoint allows 5 new drives per IP per hour", async () => {
     const pp = fakeSandbox();
     const h = await harness({ fetch: pp.fetch });

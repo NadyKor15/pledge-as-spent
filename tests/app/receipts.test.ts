@@ -51,7 +51,8 @@ function fakeBedrock(answer: { reader: string; lines: LineClassification[] }) {
 async function setup(o: { bedrock?: () => ConverseClient; spent?: number } = {}) {
   const pp = fakeSandbox();
   const rec = loadRecordings();
-  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock });
+  // The test double speaks the one-step vision reader's protocol.
+  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock, pipeline: "nova-lite" });
   if (o.spent !== undefined) await h.db.db.insert(spendLedger).values({ id: "seed", ts: h.clock.now(), kind: "reserve", what: "seed", usd: o.spent.toFixed(6), ref: null });
   const driveId = (await h.svc.createDemoDrive({ driveId: "demo-receipts" })).drive.id;
   return { pp, h, rec, driveId };
@@ -87,7 +88,7 @@ describe("live reading limits: refused before any model call", () => {
     const { h, driveId } = await setup({ bedrock: () => live.client });
     const ipHash = h.svc.hashIp("203.0.113.9");
     await h.db.db.insert(receipts).values(
-      Array.from({ length: 30 }, (_, i) => ({ id: `seed.r${i}`, driveId: "other", sha256: `s${i}`, image: new Uint8Array([1]), mediaType: "image/png", status: "funded", channel: "web", reader: "nova", ipHash, uploadedAt: h.clock.now() })),
+      Array.from({ length: 30 }, (_, i) => ({ id: `seed.r${i}`, driveId: "other", sha256: `s${i}`, image: new Uint8Array([1]), mediaType: "image/png", status: "funded", channel: "web", reader: "live:nova-lite", ipHash, uploadedAt: h.clock.now() })),
     );
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "203.0.113.9" }));
     expect(e).toMatchObject({ status: 429, code: "live_limit" });
@@ -112,7 +113,7 @@ describe("live reading limits: refused before any model call", () => {
     const { h, driveId } = await setup({ bedrock: () => live.client });
     const bytes = noisePng(80); // not in this service's recordings: read live
     const r = await h.svc.submitReceipt({ driveId, bytes, ip: "203.0.113.20" });
-    expect(r.receipt).toMatchObject({ status: "funded", reader: "nova" });
+    expect(r.receipt).toMatchObject({ status: "funded", reader: "live:nova-lite" });
     expect(live.sent).toEqual(["read_text", "submit_classifications"]);
     const ledger = await h.db.db.select().from(spendLedger);
     expect(ledger.map((x) => x.kind).sort()).toEqual(["reserve", "reserve", "settle", "settle"]);

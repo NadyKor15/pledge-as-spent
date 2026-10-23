@@ -7,7 +7,10 @@ import type { Money } from "../core/types";
 // drive and a ledger event needs the database and happens in the service.
 
 export type WebhookTarget =
-  | { kind: "capture"; capture: CaptureResult; invoiceId: string | null; at: string }
+  /** COMPLETED, or DENIED/DECLINED with `detail` (PayPal's status and reason) for the core's classifier. */
+  | { kind: "capture"; capture: CaptureResult; invoiceId: string | null; detail: string | null; at: string }
+  /** REVERSED / REFUNDED: money taken back after a confirmed capture. */
+  | { kind: "reversal"; captureId: string; amount: Money; reversalId: string | null; reason: string; at: string }
   | { kind: "void"; authorizationId: string; at: string }
   | {
       kind: "payout";
@@ -25,7 +28,26 @@ type Json = Record<string, unknown>;
 const obj = (v: unknown): Json => (v && typeof v === "object" && !Array.isArray(v) ? (v as Json) : {});
 const str = (v: unknown): string | null => (typeof v === "string" && v ? v : null);
 
-const CAPTURE_TYPES = new Set(["PAYMENT.CAPTURE.COMPLETED", "PAYMENT.CAPTURE.DENIED", "PAYMENT.CAPTURE.DECLINED", "PAYMENT.CAPTURE.REVERSED"]);
+const CAPTURE_TYPES = new Set(["PAYMENT.CAPTURE.COMPLETED", "PAYMENT.CAPTURE.DENIED", "PAYMENT.CAPTURE.DECLINED"]);
+const REVERSAL_TYPES = new Set(["PAYMENT.CAPTURE.REVERSED", "PAYMENT.CAPTURE.REFUNDED"]);
+
+const CAPTURE_HREF = /\/v2\/payments\/captures\/([A-Z0-9]+)(?:$|[/?])/;
+
+/**
+ * The capture a REVERSED/REFUNDED resource belongs to. Refund-shaped resources (a refund id, the capture
+ * in related ids or in the "up" link) and capture-shaped ones (the capture itself) both occur.
+ */
+function reversalOf(r: Json): { captureId: string; reversalId: string | null } | null {
+  const id = str(r.id);
+  const related = str(obj(obj(r.supplementary_data).related_ids).capture_id);
+  const links = (Array.isArray(r.links) ? r.links : []).map(obj);
+  const up = links.map((l) => (l.rel === "up" ? CAPTURE_HREF.exec(String(l.href ?? ""))?.[1] : undefined)).find(Boolean);
+  const captureId = related ?? up ?? null;
+  if (captureId && captureId !== id) return { captureId, reversalId: id };
+  const self = links.map((l) => (l.rel === "self" ? CAPTURE_HREF.exec(String(l.href ?? ""))?.[1] : undefined)).find(Boolean);
+  if (id && (self === id || !links.length)) return { captureId: id, reversalId: null };
+  return null;
+}
 const PAYOUT_FAILED_TYPES = new Set([
   "PAYMENT.PAYOUTS-ITEM.FAILED",
   "PAYMENT.PAYOUTS-ITEM.BLOCKED",
@@ -41,9 +63,16 @@ export function webhookTarget(event: unknown): WebhookTarget {
   try {
     if (CAPTURE_TYPES.has(type)) {
       const parsed = parseCapture(r);
-      // DENIED/DECLINED/REVERSED events can carry a status that still reads COMPLETED; the event type decides.
-      const capture = type === "PAYMENT.CAPTURE.COMPLETED" ? parsed : { ...parsed, status: type === "PAYMENT.CAPTURE.REVERSED" ? "FAILED" : "DECLINED" };
-      return { kind: "capture", capture, invoiceId: str(r.invoice_id), at };
+      if (type === "PAYMENT.CAPTURE.COMPLETED") return { kind: "capture", capture: parsed, invoiceId: str(r.invoice_id), detail: null, at };
+      // The event type decides; PayPal's own status and reason go along so the core can tell terminal from retryable.
+      const detail = [type, `status=${parsed.status}`, str(obj(r.status_details).reason)].filter(Boolean).join(" ");
+      return { kind: "capture", capture: { ...parsed, status: "DECLINED" }, invoiceId: str(r.invoice_id), detail, at };
+    }
+    if (REVERSAL_TYPES.has(type)) {
+      const of = reversalOf(r);
+      if (!of) return { kind: "ignore", note: `${type}: no capture id in the resource` };
+      const reason = [type, str(r.status) && `status=${str(r.status)}`, str(obj(r.status_details).reason), str(r.note_to_payer)].filter(Boolean).join(" ");
+      return { kind: "reversal", ...of, amount: parsePayPalMoney(r.amount), reason, at };
     }
     if (type === "PAYMENT.AUTHORIZATION.VOIDED") {
       const id = str(r.id);

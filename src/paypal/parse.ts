@@ -81,11 +81,13 @@ export function parseOrder(raw: unknown): OrderResult {
   const approve = links.find((l) => l.rel === "payer-action") ?? links.find((l) => l.rel === "approve");
   const unit = obj(arr(o.purchase_units)[0]);
   const auth = arr(obj(unit.payments).authorizations)[0];
+  // payment_source has one key naming how the payer paid: paypal (account), card, venmo...
+  const source = Object.keys(obj(o.payment_source))[0];
   return {
     id: need(o, "id", "order"),
     status: need(o, "status", "order"),
     approveUrl: str(approve?.href),
-    authorization: auth === undefined ? undefined : parseAuthorization(auth),
+    authorization: auth === undefined ? undefined : { ...parseAuthorization(auth), ...(source ? { paymentSource: source } : {}) },
   };
 }
 
