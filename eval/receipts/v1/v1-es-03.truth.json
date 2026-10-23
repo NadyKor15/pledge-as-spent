@@ -1,0 +1,368 @@
+{
+ "id": "v1-es-03",
+ "set": "v1",
+ "locale": "es",
+ "seed": 3002,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "v1-es-03.png",
+  "sha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
+  "mediaType": "image/png",
+  "width": 610,
+  "height": 788
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T20:27:00",
+  "receiptNumber": "2894",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 3,
+    "unitPriceMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑAL BEBÉ T3 44U",
+    "translationEn": "Baby diapers size 3, 44 count",
+    "qty": 2,
+    "unitPriceMinor": 895,
+    "amountMinor": 1790,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Rolling tobacco pouch",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Diaper pants size 3, 36 count",
+    "qty": 1,
+    "unitPriceMinor": 749,
+    "amountMinor": 749,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Discount on Diaper pants size 3, 36 count",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 390,
+  "taxIncluded": true,
+  "totalMinor": 3874,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 2040",
+    "bbox": {
+     "x": 0.1651,
+     "y": 0.7907,
+     "w": 0.2829,
+     "h": 0.0262
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 18,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3, 44 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-es-03",
+  "set": "v1",
+  "locale": "es",
+  "seed": 3002,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-09T20:27:00",
+  "receiptNumber": "2894",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "AGUA 1,5L PACK 6"
+    ],
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 3,
+    "unitMinor": 329,
+    "amountMinor": 987,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 18,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑAL BEBÉ T3 44U"
+    ],
+    "translationEn": "Baby diapers size 3, 44 count",
+    "qty": 2,
+    "unitMinor": 895,
+    "amountMinor": 1790,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby diapers size 3, 44 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TABACO LIAR CAJETILLA"
+    ],
+    "translationEn": "Rolling tobacco pouch",
+    "qty": 1,
+    "unitMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑALES T3 PANTS 36U"
+    ],
+    "translationEn": "Diaper pants size 3, 36 count",
+    "qty": 1,
+    "unitMinor": 749,
+    "amountMinor": 749,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DTO. PROMOCIÓN"
+    ],
+    "translationEn": "Discount on Diaper pants size 3, 36 count",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -112,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Diaper pants size 3, 36 count counts toward Baby diapers size 3."
+    },
+    "discount": true
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 3414,
+    "taxMinor": 310
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 460,
+    "taxMinor": 80
+   }
+  ],
+  "taxMinor": 390,
+  "subtotalMinor": null,
+  "totalMinor": 3874,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2040"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 2040"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.854,
+   "rotX": -2.214,
+   "rotY": 4.976,
+   "perspective": 1623,
+   "blurPx": 0.714,
+   "noise": 0.063,
+   "lightAngle": 261,
+   "lightStrength": 0.343,
+   "glare": {
+    "x": 0.528,
+    "y": 0.187,
+    "strength": 0.217
+   },
+   "creases": [
+    {
+     "x": 0.459,
+     "y": 0.335,
+     "angle": 39,
+     "width": 56,
+     "length": 423,
+     "strength": 0.07
+    },
+    {
+     "x": 0.205,
+     "y": 0.202,
+     "angle": 21,
+     "width": 62,
+     "length": 300,
+     "strength": 0.113
+    },
+    {
+     "x": 0.666,
+     "y": 0.75,
+     "angle": -38,
+     "width": 48,
+     "length": 457,
+     "strength": 0.093
+    },
+    {
+     "x": 0.754,
+     "y": 0.879,
+     "angle": 18,
+     "width": 47,
+     "length": 500,
+     "strength": 0.1
+    },
+    {
+     "x": 0.928,
+     "y": 0.366,
+     "angle": 38,
+     "width": 55,
+     "length": 613,
+     "strength": 0.09
+    },
+    {
+     "x": 0.483,
+     "y": 0.679,
+     "angle": -43,
+     "width": 36,
+     "length": 580,
+     "strength": 0.065
+    },
+    {
+     "x": 0.283,
+     "y": 0.126,
+     "angle": -15,
+     "width": 52,
+     "length": 307,
+     "strength": 0.091
+    },
+    {
+     "x": 0.326,
+     "y": 0.644,
+     "angle": 2,
+     "width": 37,
+     "length": 640,
+     "strength": 0.11
+    }
+   ],
+   "desk": "slate",
+   "seed": 3009
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -1,0 +1,623 @@
+{
+ "id": "hero-ja-01",
+ "set": "hero",
+ "locale": "ja",
+ "seed": 9001,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "hero-ja-01.png",
+  "sha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+  "mediaType": "image/png",
+  "width": 630,
+  "height": 1292
+ },
+ "receipt": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T14:32:00",
+  "receiptNumber": "8258",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ミネラルウォーター 2Lペット",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18枚 お試しパック",
+    "translationEn": "Diapers M, 18 count trial pack",
+    "qty": 1,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "アルカリ乾電池 単3 20本入",
+    "translationEn": "Alkaline AA batteries, pack of 20",
+    "qty": 1,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "単3 ばら",
+    "translationEn": "AA battery, single",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 10,
+    "rawText": "缶ビール 350ml 6缶",
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 11,
+    "rawText": "ギフトカード 3,000円",
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 14646,
+  "taxMinor": 1033,
+  "taxIncluded": true,
+  "totalMinor": 14646,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9591",
+    "bbox": {
+     "x": 0.6008,
+     "y": 0.7532,
+     "w": 0.2337,
+     "h": 0.0171
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.2119,
+     "y": 0.8323,
+     "w": 0.0746,
+     "h": 0.0149
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3216 2141 5525",
+    "bbox": {
+     "x": 0.6366,
+     "y": 0.8451,
+     "w": 0.2054,
+     "h": 0.0165
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers M, 18 count trial pack counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA battery, single counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "hero-ja-01",
+  "set": "hero",
+  "locale": "ja",
+  "seed": 9001,
+  "store": {
+   "name": "ミナト生活館",
+   "branch": "北空店",
+   "address": [
+    "空川県北空市港町2-8-1"
+   ],
+   "city": "北空",
+   "phone": "0123-45-6789",
+   "taxId": "T0000100000427"
+  },
+  "purchasedAt": "2026-11-05T14:32:00",
+  "receiptNumber": "8258",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L",
+     "6本ケース"
+    ],
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 4,
+    "unitMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ミネラルウォーター",
+     "2Lペット"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 2,
+    "unitMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ M 44枚"
+    ],
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 2,
+    "unitMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 3,
+    "unitMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "紙おむつ M 18枚",
+     "お試しパック"
+    ],
+    "translationEn": "Diapers M, 18 count trial pack",
+    "qty": 1,
+    "unitMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Diapers M, 18 count trial pack counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "アルカリ乾電池 単3 20本入"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 20",
+    "qty": 1,
+    "unitMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 20,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 2,
+    "unitMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 20,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3 ばら"
+    ],
+    "translationEn": "AA battery, single",
+    "qty": 10,
+    "unitMinor": 98,
+    "amountMinor": 980,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA battery, single counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "缶ビール 350ml 6缶"
+    ],
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ギフトカード 3,000円"
+    ],
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1486,
+    "taxMinor": 110
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 10160,
+    "taxMinor": 923
+   }
+  ],
+  "taxMinor": 1033,
+  "subtotalMinor": 14646,
+  "totalMinor": 14646,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9591"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9591"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "3216 2141 5525"
+   }
+  ],
+  "photo": {
+   "rotZ": -2,
+   "rotX": 2,
+   "rotY": -3,
+   "perspective": 1604,
+   "blurPx": 0.35,
+   "noise": 0.035,
+   "lightAngle": 336,
+   "lightStrength": 0.278,
+   "glare": {
+    "x": 0.499,
+    "y": 0.249,
+    "strength": 0.143
+   },
+   "creases": [
+    {
+     "x": 0.328,
+     "y": 0.345,
+     "angle": -18,
+     "width": 46,
+     "length": 488,
+     "strength": 0.104
+    },
+    {
+     "x": 0.165,
+     "y": 0.142,
+     "angle": -49,
+     "width": 63,
+     "length": 439,
+     "strength": 0.071
+    },
+    {
+     "x": 0.144,
+     "y": 0.586,
+     "angle": -24,
+     "width": 35,
+     "length": 338,
+     "strength": 0.1
+    },
+    {
+     "x": 0.63,
+     "y": 0.81,
+     "angle": -60,
+     "width": 56,
+     "length": 402,
+     "strength": 0.118
+    },
+    {
+     "x": 0.458,
+     "y": 0.243,
+     "angle": 16,
+     "width": 29,
+     "length": 279,
+     "strength": 0.117
+    },
+    {
+     "x": 0.502,
+     "y": 0.691,
+     "angle": -65,
+     "width": 29,
+     "length": 613,
+     "strength": 0.055
+    },
+    {
+     "x": 0.793,
+     "y": 0.338,
+     "angle": -46,
+     "width": 44,
+     "length": 353,
+     "strength": 0.06
+    },
+    {
+     "x": 0.543,
+     "y": 0.261,
+     "angle": -29,
+     "width": 62,
+     "length": 328,
+     "strength": 0.073
+    },
+    {
+     "x": 0.112,
+     "y": 0.72,
+     "angle": -29,
+     "width": 43,
+     "length": 302,
+     "strength": 0.119
+    }
+   ],
+   "desk": "wood",
+   "seed": 9008
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

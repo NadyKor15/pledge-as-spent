@@ -28,7 +28,7 @@ describe("hashes", () => {
 
   it("dHash is stable, survives light noise and recompression, and differs for another picture", () => {
     const a = dHash(png(raster(180, 160, page)))!;
-    expect(a).toMatch(/^[0-9a-f]{16}$/);
+    expect(a).toMatch(/^[0-9a-f]{64}$/);
     expect(dHash(png(raster(180, 160, page)))).toBe(a);
     const noisy = dHash(png(raster(180, 160, (x, y) => Math.max(0, Math.min(255, page(x, y) + ((x * 31 + y * 17) % 9) - 4)))))!;
     expect(hammingHex(a, noisy)).toBeLessThanOrEqual(DHASH_MAX_DISTANCE);
@@ -45,8 +45,8 @@ describe("hashes", () => {
   });
 
   it("hammingHex counts differing bits", () => {
-    expect(hammingHex("0000000000000000", "ffffffffffffffff")).toBe(64);
-    expect(hammingHex("00000000000000f0", "000000000000000f")).toBe(8);
+    expect(hammingHex("0".repeat(64), "f".repeat(64))).toBe(256);
+    expect(hammingHex("00f0", "000f")).toBe(8);
   });
 
   it("semantic key ignores spacing, case and width of the store name; needs a date", () => {
@@ -78,7 +78,7 @@ describe("findDuplicate", () => {
   it("matches nothing unrelated, and never on a missing key", () => {
     const nokeys = { ...fp, dHash: null, semanticKey: null };
     expect(findDuplicate(nokeys, [known({})])).toBeNull();
-    expect(findDuplicate(fp, [known({ dHash: "ffffffffffffffff", semanticKey: "other|2026|1" })])).toBeNull();
+    expect(findDuplicate(fp, [known({ dHash: "f".repeat(64), semanticKey: "other|2026|1" })])).toBeNull();
   });
   it("prefers the strongest key and then the earliest upload", () => {
     const hit = findDuplicate(fp, [
@@ -91,7 +91,8 @@ describe("findDuplicate", () => {
     expect(findDuplicate(fp, [known({ receiptId: "b", uploadedAt: "2026-11-06T00:00:00Z", semanticKey: fp.semanticKey }), known({ receiptId: "a", uploadedAt: "2026-11-05T00:00:00Z", semanticKey: fp.semanticKey })])?.of.receiptId).toBe("a");
   });
   it("respects the distance limit", () => {
-    const near = (fp.dHash as string).slice(0, 15) + ((parseInt((fp.dHash as string)[15], 16) ^ 1).toString(16));
+    const h = fp.dHash as string;
+    const near = h.slice(0, -1) + (parseInt(h.slice(-1), 16) ^ 1).toString(16);
     expect(findDuplicate(fp, [known({ dHash: near })], 0)).toBeNull();
     expect(findDuplicate(fp, [known({ dHash: near })], 1)?.kind).toBe("phash");
   });

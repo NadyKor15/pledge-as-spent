@@ -1,0 +1,425 @@
+{
+ "id": "v1-ja-08",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1007,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-08.png",
+  "sha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
+  "mediaType": "image/png",
+  "width": 635,
+  "height": 1011
+ },
+ "receipt": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:25:00",
+  "receiptNumber": "5482",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "値引",
+    "translationEn": "Discount on Kitasora natural water 2 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ボタン電池 CR2032",
+    "translationEn": "Coin cell battery CR2032",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 1,
+    "unitPriceMinor": 118,
+    "amountMinor": 118,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズ おむつ L 34枚",
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ノンアルコールビール 350ml",
+    "translationEn": "Non-alcoholic beer 350 ml",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3712,
+  "taxMinor": 356,
+  "taxIncluded": false,
+  "totalMinor": 4068,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4464",
+    "bbox": {
+     "x": 0.597,
+     "y": 0.673,
+     "w": 0.2269,
+     "h": 0.0265
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.2075,
+     "y": 0.7874,
+     "w": 0.0772,
+     "h": 0.0217
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8870 6740 4333",
+    "bbox": {
+     "x": 0.6361,
+     "y": 0.7889,
+     "w": 0.1998,
+     "h": 0.0267
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Coin cell battery CR2032 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Non-alcoholic beer 350 ml is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-08",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1007,
+  "store": {
+   "name": "ホームセンター ツバメ",
+   "branch": "北空東店",
+   "address": [
+    "空川県北空市東町7-20"
+   ],
+   "city": "北空",
+   "phone": "0123-55-1100",
+   "taxId": "T0000100000712"
+  },
+  "purchasedAt": "2026-11-04T09:25:00",
+  "receiptNumber": "5482",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L"
+    ],
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 3,
+    "unitMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Kitasora natural water 2 L",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "ボタン電池 CR2032"
+    ],
+    "translationEn": "Coin cell battery CR2032",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Coin cell battery CR2032 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 1,
+    "unitMinor": 118,
+    "amountMinor": 118,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ L 34枚"
+    ],
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ノンアルコールビール",
+     "350ml"
+    ],
+    "translationEn": "Non-alcoholic beer 350 ml",
+    "qty": 2,
+    "unitMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Non-alcoholic beer 350 ml is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 718,
+    "taxMinor": 57
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2994,
+    "taxMinor": 299
+   }
+  ],
+  "taxMinor": 356,
+  "subtotalMinor": 3712,
+  "totalMinor": 4068,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "4464"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4464"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "8870 6740 4333"
+   }
+  ],
+  "photo": {
+   "rotZ": -3.071,
+   "rotX": 4.747,
+   "rotY": 4.828,
+   "perspective": 1313,
+   "blurPx": 0.574,
+   "noise": 0.057,
+   "lightAngle": 233,
+   "lightStrength": 0.157,
+   "glare": {
+    "x": 0.376,
+    "y": 0.496,
+    "strength": 0.213
+   },
+   "creases": [
+    {
+     "x": 0.484,
+     "y": 0.676,
+     "angle": -58,
+     "width": 31,
+     "length": 631,
+     "strength": 0.11
+    },
+    {
+     "x": 0.341,
+     "y": 0.068,
+     "angle": 23,
+     "width": 35,
+     "length": 400,
+     "strength": 0.099
+    },
+    {
+     "x": 0.843,
+     "y": 0.661,
+     "angle": 56,
+     "width": 40,
+     "length": 474,
+     "strength": 0.074
+    },
+    {
+     "x": 0.443,
+     "y": 0.47,
+     "angle": -10,
+     "width": 57,
+     "length": 387,
+     "strength": 0.079
+    },
+    {
+     "x": 0.678,
+     "y": 0.291,
+     "angle": 41,
+     "width": 30,
+     "length": 574,
+     "strength": 0.098
+    },
+    {
+     "x": 0.936,
+     "y": 0.419,
+     "angle": 55,
+     "width": 45,
+     "length": 571,
+     "strength": 0.082
+    },
+    {
+     "x": 0.267,
+     "y": 0.61,
+     "angle": 29,
+     "width": 46,
+     "length": 516,
+     "strength": 0.119
+    }
+   ],
+   "desk": "wood",
+   "seed": 1014
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

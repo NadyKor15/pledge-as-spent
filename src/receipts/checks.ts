@@ -106,8 +106,13 @@ export interface KnownReceipt extends ReceiptFingerprint {
   uploadedAt: string;
 }
 
-/** Hamming distance (of 64) at or under which two photos count as the same picture. */
-export const DHASH_MAX_DISTANCE = 6;
+/**
+ * Hamming distance (of 256) at or under which two images count as the same picture.
+ * Measured on the synthetic sets: a picture re-saved as JPEG moves at most 5 bits, two different
+ * receipts photographed on the same desk are at least 35 apart. A receipt photographed again
+ * (new angle) is 60+ apart, so only the semantic key can catch that one.
+ */
+export const DHASH_MAX_DISTANCE = 16;
 
 export function fingerprint(image: ReceiptImage, receipt: ParsedReceipt): ReceiptFingerprint {
   return { sha256: sha256Hex(image.bytes), dHash: dHash(image), semanticKey: semanticKey(receipt) };

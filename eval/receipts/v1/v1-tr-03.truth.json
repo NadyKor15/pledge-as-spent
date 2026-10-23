@@ -1,0 +1,517 @@
+{
+ "id": "v1-tr-03",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2002,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-03.png",
+  "sha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+  "mediaType": "image/png",
+  "width": 610,
+  "height": 927
+ },
+ "receipt": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diapers no. 3 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Blanket, single",
+    "qty": 1,
+    "unitPriceMinor": 44900,
+    "amountMinor": 44900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DEFTER A5",
+    "translationEn": "Notebook A5",
+    "qty": 1,
+    "unitPriceMinor": 4200,
+    "amountMinor": 4200,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA KALEM PİL 4'LÜ",
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 2,
+    "unitPriceMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount on AA batteries, pack of 4",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -799,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 25954,
+  "taxIncluded": true,
+  "totalMinor": 213561,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 9366",
+    "bbox": {
+     "x": 0.1891,
+     "y": 0.8339,
+     "w": 0.2838,
+     "h": 0.0228
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby diapers no. 3 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blanket, single counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook A5 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-03",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2002,
+  "store": {
+   "name": "SÜPER YILDIZ MARKET",
+   "address": [
+    "Çarşı Cd. No:12",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 42",
+   "taxId": "VKN: 0000000042"
+  },
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "HEDİYE KARTI 500 TL"
+    ],
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BEBEK BEZİ 3 NO 44'LÜ"
+    ],
+    "translationEn": "Baby diapers no. 3 (wrong size)",
+    "qty": 1,
+    "unitMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Baby diapers no. 3 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "EKMEK"
+    ],
+    "translationEn": "Bread",
+    "qty": 3,
+    "unitMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": 100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Bread is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BATTANİYE TEK KİŞİLİK"
+    ],
+    "translationEn": "Blanket, single",
+    "qty": 1,
+    "unitMinor": 44900,
+    "amountMinor": 44900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blanket, single counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DEFTER A5"
+    ],
+    "translationEn": "Notebook A5",
+    "qty": 1,
+    "unitMinor": 4200,
+    "amountMinor": 4200,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Notebook A5 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MİNİ BEBEK BEZİ 4 NO"
+    ],
+    "translationEn": "Mini baby diapers no. 4",
+    "qty": 2,
+    "unitMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mini baby diapers no. 4 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA KALEM PİL 4'LÜ"
+    ],
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 2,
+    "unitMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNDİRİM"
+    ],
+    "translationEn": "Discount on AA batteries, pack of 4",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -799,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "KAYNAK SU 5 LT"
+    ],
+    "translationEn": "Spring water 5 L",
+    "qty": 4,
+    "unitMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 100,
+    "baseMinor": 3600,
+    "taxMinor": 36
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 9800,
+    "taxMinor": 891
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 150161,
+    "taxMinor": 25027
+   }
+  ],
+  "taxMinor": 25954,
+  "subtotalMinor": null,
+  "totalMinor": 213561,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9366"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 9366"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.448,
+   "rotX": 4.328,
+   "rotY": -3.576,
+   "perspective": 1263,
+   "blurPx": 0.52,
+   "noise": 0.05,
+   "lightAngle": 96,
+   "lightStrength": 0.22,
+   "glare": {
+    "x": 0.24,
+    "y": 0.23,
+    "strength": 0.166
+   },
+   "creases": [
+    {
+     "x": 0.149,
+     "y": 0.224,
+     "angle": 27,
+     "width": 32,
+     "length": 441,
+     "strength": 0.083
+    },
+    {
+     "x": 0.402,
+     "y": 0.064,
+     "angle": 3,
+     "width": 36,
+     "length": 625,
+     "strength": 0.076
+    },
+    {
+     "x": 0.597,
+     "y": 0.695,
+     "angle": 12,
+     "width": 45,
+     "length": 369,
+     "strength": 0.055
+    },
+    {
+     "x": 0.271,
+     "y": 0.388,
+     "angle": -48,
+     "width": 46,
+     "length": 450,
+     "strength": 0.104
+    },
+    {
+     "x": 0.528,
+     "y": 0.8,
+     "angle": 6,
+     "width": 58,
+     "length": 457,
+     "strength": 0.076
+    },
+    {
+     "x": 0.569,
+     "y": 0.341,
+     "angle": -27,
+     "width": 65,
+     "length": 240,
+     "strength": 0.093
+    },
+    {
+     "x": 0.544,
+     "y": 0.27,
+     "angle": 18,
+     "width": 27,
+     "length": 266,
+     "strength": 0.113
+    },
+    {
+     "x": 0.659,
+     "y": 0.117,
+     "angle": 36,
+     "width": 61,
+     "length": 298,
+     "strength": 0.115
+    }
+   ],
+   "desk": "cloth",
+   "seed": 2009
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

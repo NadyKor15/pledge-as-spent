@@ -1,0 +1,522 @@
+{
+ "id": "adv-rules-es",
+ "set": "adversarial",
+ "locale": "es",
+ "seed": 6009,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "adv-rules-es.png",
+  "sha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+  "mediaType": "image/png",
+  "width": 616,
+  "height": 1013
+ },
+ "receipt": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T12:24:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "Whole milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 1,
+    "unitPriceMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "Fuente Clara water 1.5 L",
+    "qty": 6,
+    "unitPriceMinor": 65,
+    "amountMinor": 390,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "Mineral water 1.5 L",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TARJETA REGALO 50",
+    "translationEn": "Gift card 50 EUR",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CERVEZA ALBORADA 6X33",
+    "translationEn": "Alborada beer 6 x 33 cl",
+    "qty": 1,
+    "unitPriceMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Rolling tobacco pouch",
+    "qty": 1,
+    "unitPriceMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 466,
+  "taxIncluded": true,
+  "totalMinor": 8268,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0888",
+    "bbox": {
+     "x": 0.2025,
+     "y": 0.7705,
+     "w": 0.273,
+     "h": 0.0205
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.207,
+     "y": 0.8357,
+     "w": 0.2005,
+     "h": 0.0193
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9618947969",
+    "bbox": {
+     "x": 0.6841,
+     "y": 0.8078,
+     "w": 0.1452,
+     "h": 0.0188
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Whole milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fuente Clara water 1.5 L counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 1.5 L counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-rules-es",
+  "set": "adversarial",
+  "locale": "es",
+  "seed": 6009,
+  "store": {
+   "name": "FERRETERÍA LA LLAVE",
+   "address": [
+    "Plaza Nueva 3",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 063",
+   "taxId": "CIF B00000063"
+  },
+  "purchasedAt": "2026-11-09T12:24:00",
+  "receiptNumber": "7948",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "LECHE ENTERA 1L"
+    ],
+    "translationEn": "Whole milk 1 L",
+    "qty": 1,
+    "unitMinor": 99,
+    "amountMinor": 99,
+    "taxRateBp": 400,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Whole milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA 1,5L PACK 6"
+    ],
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 1,
+    "unitMinor": 329,
+    "amountMinor": 329,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA FUENTE CLARA",
+     "BOTELLA 1,5 L"
+    ],
+    "translationEn": "Fuente Clara water 1.5 L",
+    "qty": 6,
+    "unitMinor": 65,
+    "amountMinor": 390,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fuente Clara water 1.5 L counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA MINERAL 1,5L"
+    ],
+    "translationEn": "Mineral water 1.5 L",
+    "qty": 6,
+    "unitMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 1.5 L counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TARJETA REGALO 50"
+    ],
+    "translationEn": "Gift card 50 EUR",
+    "qty": 1,
+    "unitMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAPEL HIGIÉNICO 12R"
+    ],
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILA AA ALCALINA 4U"
+    ],
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "CERVEZA ALBORADA 6X33"
+    ],
+    "translationEn": "Alborada beer 6 x 33 cl",
+    "qty": 1,
+    "unitMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TABACO LIAR CAJETILLA"
+    ],
+    "translationEn": "Rolling tobacco pouch",
+    "qty": 1,
+    "unitMinor": 460,
+    "amountMinor": 460,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 400,
+    "baseMinor": 99,
+    "taxMinor": 4
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1073,
+    "taxMinor": 98
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 2096,
+    "taxMinor": 364
+   }
+  ],
+  "taxMinor": 466,
+  "subtotalMinor": null,
+  "totalMinor": 8268,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "0888"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0888"
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI"
+   },
+   {
+    "kind": "member_id",
+    "text": "9618947969"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.738,
+   "rotX": -4.342,
+   "rotY": -1.568,
+   "perspective": 1194,
+   "blurPx": 0.788,
+   "noise": 0.036,
+   "lightAngle": 119,
+   "lightStrength": 0.175,
+   "glare": {
+    "x": 0.554,
+    "y": 0.255,
+    "strength": 0.112
+   },
+   "creases": [
+    {
+     "x": 0.938,
+     "y": 0.088,
+     "angle": -30,
+     "width": 33,
+     "length": 426,
+     "strength": 0.06
+    },
+    {
+     "x": 0.054,
+     "y": 0.61,
+     "angle": 39,
+     "width": 45,
+     "length": 350,
+     "strength": 0.104
+    },
+    {
+     "x": 0.734,
+     "y": 0.897,
+     "angle": -26,
+     "width": 61,
+     "length": 292,
+     "strength": 0.053
+    },
+    {
+     "x": 0.513,
+     "y": 0.641,
+     "angle": 23,
+     "width": 37,
+     "length": 534,
+     "strength": 0.11
+    },
+    {
+     "x": 0.802,
+     "y": 0.855,
+     "angle": -58,
+     "width": 66,
+     "length": 423,
+     "strength": 0.074
+    }
+   ],
+   "desk": "cloth",
+   "seed": 6016
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

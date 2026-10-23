@@ -1,0 +1,316 @@
+{
+ "id": "v1-ja-09",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1008,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-09.png",
+  "sha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+  "mediaType": "image/png",
+  "width": 632,
+  "height": 893
+ },
+ "receipt": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ベビーラブ パンツM 38枚",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 2,
+    "unitPriceMinor": 1098,
+    "amountMinor": 2196,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "缶ビール 350ml 6缶",
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 4824,
+  "taxMinor": 434,
+  "taxIncluded": true,
+  "totalMinor": 4824,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 30,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-09",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1008,
+  "store": {
+   "name": "ホームセンター ツバメ",
+   "branch": "北空東店",
+   "address": [
+    "空川県北空市東町7-20"
+   ],
+   "city": "北空",
+   "phone": "0123-55-1100",
+   "taxId": "T0000100000712"
+  },
+  "purchasedAt": "2026-11-08T14:51:00",
+  "receiptNumber": "1930",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 30,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 2,
+    "unitMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ベビーラブ パンツM 38枚"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 2,
+    "unitMinor": 1098,
+    "amountMinor": 2196,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "缶ビール 350ml 6缶"
+    ],
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 236,
+    "taxMinor": 17
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 4588,
+    "taxMinor": 417
+   }
+  ],
+  "taxMinor": 434,
+  "subtotalMinor": 4824,
+  "totalMinor": 4824,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 5000,
+   "changeMinor": 176,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -3.383,
+   "rotX": -4.271,
+   "rotY": -3.924,
+   "perspective": 1300,
+   "blurPx": 0.43,
+   "noise": 0.061,
+   "lightAngle": 58,
+   "lightStrength": 0.201,
+   "glare": {
+    "x": 0.177,
+    "y": 0.14,
+    "strength": 0.165
+   },
+   "creases": [
+    {
+     "x": 0.929,
+     "y": 0.507,
+     "angle": -53,
+     "width": 48,
+     "length": 319,
+     "strength": 0.073
+    },
+    {
+     "x": 0.545,
+     "y": 0.865,
+     "angle": 41,
+     "width": 44,
+     "length": 453,
+     "strength": 0.098
+    },
+    {
+     "x": 0.498,
+     "y": 0.166,
+     "angle": -47,
+     "width": 36,
+     "length": 286,
+     "strength": 0.119
+    },
+    {
+     "x": 0.446,
+     "y": 0.302,
+     "angle": 0,
+     "width": 41,
+     "length": 577,
+     "strength": 0.116
+    },
+    {
+     "x": 0.624,
+     "y": 0.877,
+     "angle": -48,
+     "width": 37,
+     "length": 496,
+     "strength": 0.054
+    },
+    {
+     "x": 0.24,
+     "y": 0.333,
+     "angle": -2,
+     "width": 39,
+     "length": 509,
+     "strength": 0.055
+    },
+    {
+     "x": 0.247,
+     "y": 0.83,
+     "angle": -18,
+     "width": 65,
+     "length": 281,
+     "strength": 0.061
+    },
+    {
+     "x": 0.231,
+     "y": 0.313,
+     "angle": 30,
+     "width": 51,
+     "length": 319,
+     "strength": 0.096
+    }
+   ],
+   "desk": "wood",
+   "seed": 1015
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

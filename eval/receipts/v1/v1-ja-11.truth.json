@@ -1,0 +1,360 @@
+{
+ "id": "v1-ja-11",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1010,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-11.png",
+  "sha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+  "mediaType": "image/png",
+  "width": 611,
+  "height": 905
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "値引",
+    "translationEn": "Discount on Soft Kids diapers M, 44 count",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "カップ麺",
+    "translationEn": "Instant noodle cup",
+    "qty": 2,
+    "unitPriceMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3294,
+  "taxMinor": 285,
+  "taxIncluded": true,
+  "totalMinor": 3294,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3485",
+    "bbox": {
+     "x": 0.5937,
+     "y": 0.7484,
+     "w": 0.2367,
+     "h": 0.0204
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Instant noodle cup is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate bar is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-11",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1010,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L"
+    ],
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 3,
+    "unitMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ M 44枚"
+    ],
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 2,
+    "unitMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Soft Kids diapers M, 44 count",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "カップ麺"
+    ],
+    "translationEn": "Instant noodle cup",
+    "qty": 2,
+    "unitMinor": 158,
+    "amountMinor": 316,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Instant noodle cup is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "チョコレート"
+    ],
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Chocolate bar is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 828,
+    "taxMinor": 61
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2466,
+    "taxMinor": 224
+   }
+  ],
+  "taxMinor": 285,
+  "subtotalMinor": 3294,
+  "totalMinor": 3294,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "3485"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3485"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.633,
+   "rotX": -4.717,
+   "rotY": -4.903,
+   "perspective": 1361,
+   "blurPx": 0.754,
+   "noise": 0.044,
+   "lightAngle": 320,
+   "lightStrength": 0.159,
+   "glare": {
+    "x": 0.638,
+    "y": 0.372,
+    "strength": 0.126
+   },
+   "creases": [
+    {
+     "x": 0.092,
+     "y": 0.078,
+     "angle": 42,
+     "width": 43,
+     "length": 461,
+     "strength": 0.054
+    },
+    {
+     "x": 0.642,
+     "y": 0.408,
+     "angle": 10,
+     "width": 68,
+     "length": 263,
+     "strength": 0.064
+    },
+    {
+     "x": 0.817,
+     "y": 0.408,
+     "angle": 60,
+     "width": 32,
+     "length": 507,
+     "strength": 0.076
+    },
+    {
+     "x": 0.739,
+     "y": 0.305,
+     "angle": 29,
+     "width": 33,
+     "length": 372,
+     "strength": 0.104
+    },
+    {
+     "x": 0.545,
+     "y": 0.064,
+     "angle": -40,
+     "width": 65,
+     "length": 255,
+     "strength": 0.1
+    },
+    {
+     "x": 0.199,
+     "y": 0.386,
+     "angle": -55,
+     "width": 30,
+     "length": 486,
+     "strength": 0.116
+    },
+    {
+     "x": 0.918,
+     "y": 0.939,
+     "angle": -17,
+     "width": 64,
+     "length": 324,
+     "strength": 0.093
+    }
+   ],
+   "desk": "slate",
+   "seed": 1017
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

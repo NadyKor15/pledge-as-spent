@@ -1,0 +1,413 @@
+{
+ "id": "v1-es-05",
+ "set": "v1",
+ "locale": "es",
+ "seed": 3004,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "v1-es-05.png",
+  "sha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+  "mediaType": "image/png",
+  "width": 620,
+  "height": 838
+ },
+ "receipt": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAÑALES T4 40U",
+    "translationEn": "Diapers size 4 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MANTA POLAR 130X160",
+    "translationEn": "Fleece blanket 130x160",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Discount on AA alkaline batteries, 4 count",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -70,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 553,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7289",
+    "bbox": {
+     "x": 0.1667,
+     "y": 0.7948,
+     "w": 0.2765,
+     "h": 0.0264
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Diapers size 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blanket 130x160 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-es-05",
+  "set": "v1",
+  "locale": "es",
+  "seed": 3004,
+  "store": {
+   "name": "FERRETERÍA LA LLAVE",
+   "address": [
+    "Plaza Nueva 3",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 063",
+   "taxId": "CIF B00000063"
+  },
+  "purchasedAt": "2026-11-06T08:53:00",
+  "receiptNumber": "2571",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "PAÑALES T4 40U"
+    ],
+    "translationEn": "Diapers size 4 (wrong size)",
+    "qty": 1,
+    "unitMinor": 895,
+    "amountMinor": 895,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Diapers size 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA 1,5L PACK 6"
+    ],
+    "translationEn": "Water 1.5 L, pack of 6",
+    "qty": 2,
+    "unitMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Water 1.5 L, pack of 6 counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAPEL HIGIÉNICO 12R"
+    ],
+    "translationEn": "Toilet paper, 12 rolls",
+    "qty": 1,
+    "unitMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toilet paper, 12 rolls is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MANTA POLAR",
+     "130X160"
+    ],
+    "translationEn": "Fleece blanket 130x160",
+    "qty": 1,
+    "unitMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece blanket 130x160 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILA AA ALCALINA 4U"
+    ],
+    "translationEn": "AA alkaline batteries, 4 count",
+    "qty": 2,
+    "unitMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DTO. PROMOCIÓN"
+    ],
+    "translationEn": "Discount on AA alkaline batteries, 4 count",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -70,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 4 count counts toward AA batteries."
+    },
+    "discount": true
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 1553,
+    "taxMinor": 141
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 2376,
+    "taxMinor": 412
+   }
+  ],
+  "taxMinor": 553,
+  "subtotalMinor": null,
+  "totalMinor": 3929,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "7289"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7289"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.524,
+   "rotX": -4.444,
+   "rotY": 4.173,
+   "perspective": 1683,
+   "blurPx": 0.536,
+   "noise": 0.048,
+   "lightAngle": 326,
+   "lightStrength": 0.267,
+   "glare": {
+    "x": 0.877,
+    "y": 0.357,
+    "strength": 0.107
+   },
+   "creases": [
+    {
+     "x": 0.941,
+     "y": 0.338,
+     "angle": 14,
+     "width": 57,
+     "length": 350,
+     "strength": 0.087
+    },
+    {
+     "x": 0.484,
+     "y": 0.602,
+     "angle": -8,
+     "width": 37,
+     "length": 229,
+     "strength": 0.089
+    },
+    {
+     "x": 0.9,
+     "y": 0.856,
+     "angle": -44,
+     "width": 50,
+     "length": 560,
+     "strength": 0.051
+    },
+    {
+     "x": 0.283,
+     "y": 0.271,
+     "angle": 54,
+     "width": 51,
+     "length": 267,
+     "strength": 0.072
+    },
+    {
+     "x": 0.721,
+     "y": 0.44,
+     "angle": 2,
+     "width": 37,
+     "length": 510,
+     "strength": 0.054
+    },
+    {
+     "x": 0.438,
+     "y": 0.864,
+     "angle": 35,
+     "width": 61,
+     "length": 627,
+     "strength": 0.079
+    },
+    {
+     "x": 0.11,
+     "y": 0.927,
+     "angle": 69,
+     "width": 53,
+     "length": 239,
+     "strength": 0.093
+    },
+    {
+     "x": 0.494,
+     "y": 0.051,
+     "angle": -20,
+     "width": 69,
+     "length": 563,
+     "strength": 0.055
+    },
+    {
+     "x": 0.693,
+     "y": 0.543,
+     "angle": 69,
+     "width": 26,
+     "length": 579,
+     "strength": 0.119
+    }
+   ],
+   "desk": "cloth",
+   "seed": 3011
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

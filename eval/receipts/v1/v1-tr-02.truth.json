@@ -1,0 +1,325 @@
+{
+ "id": "v1-tr-02",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2001,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-02.png",
+  "sha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 779
+ },
+ "receipt": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount on Mountain water 5 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 5986,
+  "taxIncluded": true,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7374",
+    "bbox": {
+     "x": 0.2025,
+     "y": 0.7021,
+     "w": 0.2733,
+     "h": 0.0324
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.2087,
+     "y": 0.7913,
+     "w": 0.1869,
+     "h": 0.0289
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6864,
+     "y": 0.7459,
+     "w": 0.1473,
+     "h": 0.0279
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-02",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2001,
+  "store": {
+   "name": "SÜPER YILDIZ MARKET",
+   "address": [
+    "Çarşı Cd. No:12",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 42",
+   "taxId": "VKN: 0000000042"
+  },
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "DAĞ SUYU 5 L"
+    ],
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNDİRİM"
+    ],
+    "translationEn": "Discount on Mountain water 5 L",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -329,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "SEVİMLİ BEBEK BEZİ",
+     "NO:4 JUMBO 42'Lİ"
+    ],
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 1,
+    "unitMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 1861,
+    "taxMinor": 169
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 34900,
+    "taxMinor": 5817
+   }
+  ],
+  "taxMinor": 5986,
+  "subtotalMinor": null,
+  "totalMinor": 36761,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "7374"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7374"
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN"
+   },
+   {
+    "kind": "member_id",
+    "text": "7724103405"
+   }
+  ],
+  "photo": {
+   "rotZ": -3.033,
+   "rotX": -2.096,
+   "rotY": -3.415,
+   "perspective": 1543,
+   "blurPx": 0.595,
+   "noise": 0.048,
+   "lightAngle": 130,
+   "lightStrength": 0.339,
+   "glare": {
+    "x": 0.796,
+    "y": 0.541,
+    "strength": 0.165
+   },
+   "creases": [
+    {
+     "x": 0.717,
+     "y": 0.398,
+     "angle": 30,
+     "width": 56,
+     "length": 604,
+     "strength": 0.096
+    },
+    {
+     "x": 0.601,
+     "y": 0.47,
+     "angle": 42,
+     "width": 53,
+     "length": 379,
+     "strength": 0.111
+    },
+    {
+     "x": 0.92,
+     "y": 0.191,
+     "angle": 15,
+     "width": 37,
+     "length": 550,
+     "strength": 0.108
+    },
+    {
+     "x": 0.448,
+     "y": 0.077,
+     "angle": 34,
+     "width": 49,
+     "length": 388,
+     "strength": 0.077
+    },
+    {
+     "x": 0.193,
+     "y": 0.067,
+     "angle": 12,
+     "width": 37,
+     "length": 588,
+     "strength": 0.055
+    },
+    {
+     "x": 0.25,
+     "y": 0.75,
+     "angle": 36,
+     "width": 48,
+     "length": 409,
+     "strength": 0.077
+    },
+    {
+     "x": 0.063,
+     "y": 0.581,
+     "angle": 59,
+     "width": 47,
+     "length": 456,
+     "strength": 0.05
+    },
+    {
+     "x": 0.445,
+     "y": 0.749,
+     "angle": -61,
+     "width": 43,
+     "length": 406,
+     "strength": 0.091
+    }
+   ],
+   "desk": "cloth",
+   "seed": 2008
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

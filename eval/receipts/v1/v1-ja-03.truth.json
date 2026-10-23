@@ -1,0 +1,345 @@
+{
+ "id": "v1-ja-03",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1002,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-03.png",
+  "sha256": "35da329d188ad29adcf7b9cab22e968417f7f920fbe21f69911b0a51b8e1dec4",
+  "mediaType": "image/png",
+  "width": 625,
+  "height": 933
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T13:23:00",
+  "receiptNumber": "5144",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "日本酒 720ml",
+    "translationEn": "Sake 720 ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ソフトキッズ おむつ L 34枚",
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 8164,
+  "taxMinor": 715,
+  "taxIncluded": true,
+  "totalMinor": 8164,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************6048",
+    "bbox": {
+     "x": 0.5625,
+     "y": 0.7568,
+     "w": 0.2285,
+     "h": 0.0243
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 30,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-03",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1002,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-06T13:23:00",
+  "receiptNumber": "5144",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "日本酒 720ml"
+    ],
+    "translationEn": "Sake 720 ml",
+    "qty": 1,
+    "unitMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "北空の天然水 2L",
+     "6本ケース"
+    ],
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 2,
+    "unitMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ L 34枚"
+    ],
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 30,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ M 44枚"
+    ],
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1596,
+    "taxMinor": 118
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 6568,
+    "taxMinor": 597
+   }
+  ],
+  "taxMinor": 715,
+  "subtotalMinor": 8164,
+  "totalMinor": 8164,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "6048"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************6048"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.648,
+   "rotX": -2.989,
+   "rotY": 2.544,
+   "perspective": 1475,
+   "blurPx": 0.482,
+   "noise": 0.036,
+   "lightAngle": 109,
+   "lightStrength": 0.385,
+   "glare": {
+    "x": 0.277,
+    "y": 0.448,
+    "strength": 0.126
+   },
+   "creases": [
+    {
+     "x": 0.706,
+     "y": 0.613,
+     "angle": -44,
+     "width": 63,
+     "length": 567,
+     "strength": 0.096
+    },
+    {
+     "x": 0.654,
+     "y": 0.548,
+     "angle": -25,
+     "width": 37,
+     "length": 605,
+     "strength": 0.112
+    },
+    {
+     "x": 0.348,
+     "y": 0.576,
+     "angle": 24,
+     "width": 41,
+     "length": 590,
+     "strength": 0.075
+    },
+    {
+     "x": 0.704,
+     "y": 0.864,
+     "angle": -63,
+     "width": 47,
+     "length": 607,
+     "strength": 0.086
+    },
+    {
+     "x": 0.618,
+     "y": 0.556,
+     "angle": 6,
+     "width": 53,
+     "length": 336,
+     "strength": 0.091
+    }
+   ],
+   "desk": "wood",
+   "seed": 1009
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

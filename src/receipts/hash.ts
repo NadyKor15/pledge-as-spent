@@ -7,6 +7,9 @@ export function sha256Hex(bytes: Uint8Array): string {
   return createHash("sha256").update(bytes).digest("hex");
 }
 
+const cols = 17;
+const rows = 16;
+
 type Raster = { width: number; height: number; data: Uint8Array | Buffer };
 
 function decode(image: ReceiptImage): Raster | null {
@@ -16,16 +19,14 @@ function decode(image: ReceiptImage): Raster | null {
 }
 
 /**
- * 64-bit difference hash (9x8 grey grid, left pixel brighter than right), hex.
+ * 256-bit difference hash (17x16 grey grid, left cell brighter than right), hex.
  * Returns null for formats we cannot decode; the caller then relies on the other keys.
  */
 export function dHash(image: ReceiptImage): string | null {
   const raster = decode(image);
   if (!raster) return null;
   const { width, height, data } = raster;
-  if (width < 9 || height < 8) throw new Error(`image too small for dHash: ${width}x${height}`);
-  const cols = 9;
-  const rows = 8;
+  if (width < cols || height < rows) throw new Error(`image too small for dHash: ${width}x${height}`);
   const sum = new Float64Array(cols * rows);
   const count = new Float64Array(cols * rows);
   for (let y = 0; y < height; y++) {
@@ -49,7 +50,7 @@ export function dHash(image: ReceiptImage): string | null {
     }
   }
   let hex = "";
-  for (let i = 0; i < 64; i += 4) hex += parseInt(bits.slice(i, i + 4), 2).toString(16);
+  for (let i = 0; i < bits.length; i += 4) hex += parseInt(bits.slice(i, i + 4), 2).toString(16);
   return hex;
 }
 

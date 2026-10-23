@@ -1,0 +1,338 @@
+{
+ "id": "v1-ja-10",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1009,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-10.png",
+  "sha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+  "mediaType": "image/png",
+  "width": 635,
+  "height": 924
+ },
+ "receipt": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:25:00",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単3形 4本入",
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 5,
+    "unitPriceMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ベビーラブ パンツM 38枚",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3942,
+  "taxMinor": 388,
+  "taxIncluded": false,
+  "totalMinor": 4330,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1752,
+     "y": 0.7331,
+     "w": 0.0724,
+     "h": 0.0228
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "1606 3023 4322",
+    "bbox": {
+     "x": 0.5823,
+     "y": 0.7805,
+     "w": 0.2009,
+     "h": 0.0301
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-10",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1009,
+  "store": {
+   "name": "ドラッグ ヒカリ",
+   "branch": "北空中央店",
+   "address": [
+    "空川県北空市中央3-5-12"
+   ],
+   "city": "北空",
+   "phone": "0123-33-7788",
+   "taxId": "T0000100000634"
+  },
+  "purchasedAt": "2026-11-07T13:25:00",
+  "receiptNumber": "4599",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L"
+    ],
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 2,
+    "unitMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ M 44枚"
+    ],
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3形 4本入"
+    ],
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 5,
+    "unitMinor": 258,
+    "amountMinor": 1290,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 20,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ベビーラブ パンツM 38枚"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 256,
+    "taxMinor": 20
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 3686,
+    "taxMinor": 368
+   }
+  ],
+  "taxMinor": 388,
+  "subtotalMinor": 3942,
+  "totalMinor": 4330,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 5000,
+   "changeMinor": 670,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "1606 3023 4322"
+   }
+  ],
+  "photo": {
+   "rotZ": 3.487,
+   "rotX": -2.421,
+   "rotY": -4.976,
+   "perspective": 1516,
+   "blurPx": 0.766,
+   "noise": 0.057,
+   "lightAngle": 43,
+   "lightStrength": 0.3,
+   "glare": {
+    "x": 0.299,
+    "y": 0.283,
+    "strength": 0.108
+   },
+   "creases": [
+    {
+     "x": 0.681,
+     "y": 0.276,
+     "angle": 64,
+     "width": 57,
+     "length": 392,
+     "strength": 0.085
+    },
+    {
+     "x": 0.771,
+     "y": 0.328,
+     "angle": -4,
+     "width": 26,
+     "length": 435,
+     "strength": 0.055
+    },
+    {
+     "x": 0.874,
+     "y": 0.446,
+     "angle": 46,
+     "width": 48,
+     "length": 593,
+     "strength": 0.094
+    },
+    {
+     "x": 0.793,
+     "y": 0.775,
+     "angle": 26,
+     "width": 36,
+     "length": 557,
+     "strength": 0.075
+    },
+    {
+     "x": 0.666,
+     "y": 0.781,
+     "angle": -54,
+     "width": 40,
+     "length": 439,
+     "strength": 0.053
+    },
+    {
+     "x": 0.277,
+     "y": 0.739,
+     "angle": -23,
+     "width": 60,
+     "length": 481,
+     "strength": 0.079
+    },
+    {
+     "x": 0.731,
+     "y": 0.711,
+     "angle": 9,
+     "width": 45,
+     "length": 246,
+     "strength": 0.087
+    }
+   ],
+   "desk": "wood",
+   "seed": 1016
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

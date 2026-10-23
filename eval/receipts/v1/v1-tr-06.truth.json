@@ -1,0 +1,416 @@
+{
+ "id": "v1-tr-06",
+ "set": "v1",
+ "locale": "tr",
+ "seed": 2005,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "v1-tr-06.png",
+  "sha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+  "mediaType": "image/png",
+  "width": 621,
+  "height": 930
+ },
+ "receipt": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": 1,
+    "unitPriceMinor": 1200,
+    "amountMinor": 1200,
+    "taxRateBp": 100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 15622,
+  "taxIncluded": true,
+  "totalMinor": 150590,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "EMRE KARAGÖZ",
+    "bbox": {
+     "x": 0.2068,
+     "y": 0.8245,
+     "w": 0.1746,
+     "h": 0.0256
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.6842,
+     "y": 0.7824,
+     "w": 0.142,
+     "h": 0.0241
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 5 L counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-tr-06",
+  "set": "v1",
+  "locale": "tr",
+  "seed": 2005,
+  "store": {
+   "name": "GÖLPINAR TOPTAN GIDA",
+   "address": [
+    "Sanayi Sk. No:7",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 57",
+   "taxId": "VKN: 0000000057"
+  },
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "AA PİL 10'LU PAKET"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SÜT 1 LT"
+    ],
+    "translationEn": "Milk 1 L",
+    "qty": 2,
+    "unitMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "KAYNAK SU 5 LT"
+    ],
+    "translationEn": "Spring water 5 L",
+    "qty": 2,
+    "unitMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 5 L counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "EKMEK"
+    ],
+    "translationEn": "Bread",
+    "qty": 1,
+    "unitMinor": 1200,
+    "amountMinor": 1200,
+    "taxRateBp": 100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Bread is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "HEDİYE KARTI 500 TL"
+    ],
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SEVİMLİ BEBEK BEZİ",
+     "NO:4 JUMBO 42'Lİ"
+    ],
+    "translationEn": "Sevimli baby diapers no. 4, jumbo 42",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sevimli baby diapers no. 4, jumbo 42 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 100,
+    "baseMinor": 1200,
+    "taxMinor": 12
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 12600,
+    "taxMinor": 1145
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 86790,
+    "taxMinor": 14465
+   }
+  ],
+  "taxMinor": 15622,
+  "subtotalMinor": null,
+  "totalMinor": 150590,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 151000,
+   "changeMinor": 410,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "EMRE KARAGÖZ"
+   },
+   {
+    "kind": "member_id",
+    "text": "5207652834"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.299,
+   "rotX": -4.288,
+   "rotY": 4.035,
+   "perspective": 1570,
+   "blurPx": 0.635,
+   "noise": 0.053,
+   "lightAngle": 149,
+   "lightStrength": 0.182,
+   "glare": {
+    "x": 0.738,
+    "y": 0.243,
+    "strength": 0.157
+   },
+   "creases": [
+    {
+     "x": 0.521,
+     "y": 0.305,
+     "angle": -11,
+     "width": 31,
+     "length": 593,
+     "strength": 0.054
+    },
+    {
+     "x": 0.869,
+     "y": 0.645,
+     "angle": -17,
+     "width": 50,
+     "length": 593,
+     "strength": 0.113
+    },
+    {
+     "x": 0.866,
+     "y": 0.454,
+     "angle": -36,
+     "width": 41,
+     "length": 266,
+     "strength": 0.093
+    },
+    {
+     "x": 0.183,
+     "y": 0.947,
+     "angle": 12,
+     "width": 48,
+     "length": 481,
+     "strength": 0.1
+    },
+    {
+     "x": 0.724,
+     "y": 0.536,
+     "angle": 59,
+     "width": 66,
+     "length": 454,
+     "strength": 0.1
+    },
+    {
+     "x": 0.131,
+     "y": 0.503,
+     "angle": 17,
+     "width": 34,
+     "length": 364,
+     "strength": 0.117
+    },
+    {
+     "x": 0.589,
+     "y": 0.051,
+     "angle": -2,
+     "width": 39,
+     "length": 342,
+     "strength": 0.081
+    }
+   ],
+   "desk": "wood",
+   "seed": 2012
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

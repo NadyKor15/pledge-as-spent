@@ -1,0 +1,457 @@
+{
+ "id": "v1-en-06",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4005,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-06.png",
+  "sha256": "5dd5562da2de038350b00221eac89caf64f539c74fe391c518b854ccc69ef101",
+  "mediaType": "image/png",
+  "width": 620,
+  "height": 957
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T13:41:00",
+  "receiptNumber": "2492",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 1,
+    "unitPriceMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DIAPERS SZ 5 72CT",
+    "translationEn": "Diapers size 5 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitPriceMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Wheat bread",
+    "qty": 1,
+    "unitPriceMinor": 279,
+    "amountMinor": 279,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 10927,
+  "taxMinor": 511,
+  "taxIncluded": false,
+  "totalMinor": 11438,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.165,
+     "y": 0.7796,
+     "w": 0.1758,
+     "h": 0.0245
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3694265361",
+    "bbox": {
+     "x": 0.6538,
+     "y": 0.8204,
+     "w": 0.1503,
+     "h": 0.0241
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Diapers size 5 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wheat bread is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-06",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4005,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-03T13:41:00",
+  "receiptNumber": "2492",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "AA BATTERY 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 1,
+    "unitMinor": 799,
+    "amountMinor": 799,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DIAPERS SZ 5 72CT"
+    ],
+    "translationEn": "Diapers size 5 (wrong size)",
+    "qty": 1,
+    "unitMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Diapers size 5 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SOFTIES DIAPERS SZ 3 38CT"
+    ],
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 3,
+    "unitMinor": 1249,
+    "amountMinor": 3747,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 4,
+    "unitMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BREAD WHEAT"
+    ],
+    "translationEn": "Wheat bread",
+    "qty": 1,
+    "unitMinor": 279,
+    "amountMinor": 279,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Wheat bread is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DEER CREEK WATER",
+     "1 GALLON JUG"
+    ],
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 3,
+    "unitMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GIFT CARD $25"
+    ],
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 7045,
+    "taxMinor": 511
+   }
+  ],
+  "taxMinor": 511,
+  "subtotalMinor": 10927,
+  "totalMinor": 11438,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 12000,
+   "changeMinor": 562,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "3694265361"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.176,
+   "rotX": 3.295,
+   "rotY": -2.859,
+   "perspective": 1202,
+   "blurPx": 0.684,
+   "noise": 0.048,
+   "lightAngle": 273,
+   "lightStrength": 0.266,
+   "glare": {
+    "x": 0.778,
+    "y": 0.254,
+    "strength": 0.179
+   },
+   "creases": [
+    {
+     "x": 0.328,
+     "y": 0.293,
+     "angle": -22,
+     "width": 53,
+     "length": 537,
+     "strength": 0.072
+    },
+    {
+     "x": 0.204,
+     "y": 0.464,
+     "angle": -7,
+     "width": 67,
+     "length": 636,
+     "strength": 0.118
+    },
+    {
+     "x": 0.473,
+     "y": 0.064,
+     "angle": 37,
+     "width": 67,
+     "length": 608,
+     "strength": 0.066
+    },
+    {
+     "x": 0.596,
+     "y": 0.156,
+     "angle": 69,
+     "width": 47,
+     "length": 394,
+     "strength": 0.098
+    },
+    {
+     "x": 0.612,
+     "y": 0.932,
+     "angle": 61,
+     "width": 61,
+     "length": 448,
+     "strength": 0.113
+    },
+    {
+     "x": 0.232,
+     "y": 0.099,
+     "angle": -27,
+     "width": 27,
+     "length": 598,
+     "strength": 0.104
+    },
+    {
+     "x": 0.15,
+     "y": 0.38,
+     "angle": 14,
+     "width": 46,
+     "length": 464,
+     "strength": 0.051
+    },
+    {
+     "x": 0.895,
+     "y": 0.811,
+     "angle": -46,
+     "width": 39,
+     "length": 309,
+     "strength": 0.057
+    },
+    {
+     "x": 0.725,
+     "y": 0.72,
+     "angle": -65,
+     "width": 53,
+     "length": 426,
+     "strength": 0.094
+    }
+   ],
+   "desk": "slate",
+   "seed": 4012
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

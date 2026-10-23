@@ -1,0 +1,253 @@
+{
+ "id": "v1-ja-01",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1000,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-01.png",
+  "sha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+  "mediaType": "image/png",
+  "width": 610,
+  "height": 814
+ },
+ "receipt": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ベビーラブ パンツM 38枚",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター 2Lペット",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 1746,
+  "taxMinor": 147,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1020",
+    "bbox": {
+     "x": 0.5736,
+     "y": 0.725,
+     "w": 0.237,
+     "h": 0.0283
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-01",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1000,
+  "store": {
+   "name": "ホームセンター ツバメ",
+   "branch": "北空東店",
+   "address": [
+    "空川県北空市東町7-20"
+   ],
+   "city": "北空",
+   "phone": "0123-55-1100",
+   "taxId": "T0000100000712"
+  },
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "ベビーラブ パンツM 38枚"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ミネラルウォーター",
+     "2Lペット"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 648,
+    "taxMinor": 48
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1098,
+    "taxMinor": 99
+   }
+  ],
+  "taxMinor": 147,
+  "subtotalMinor": 1746,
+  "totalMinor": 1746,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1020"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1020"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.759,
+   "rotX": -2.992,
+   "rotY": -1.661,
+   "perspective": 1116,
+   "blurPx": 0.592,
+   "noise": 0.035,
+   "lightAngle": 283,
+   "lightStrength": 0.171,
+   "glare": {
+    "x": 0.23,
+    "y": 0.567,
+    "strength": 0.193
+   },
+   "creases": [
+    {
+     "x": 0.831,
+     "y": 0.864,
+     "angle": 6,
+     "width": 48,
+     "length": 610,
+     "strength": 0.06
+    },
+    {
+     "x": 0.517,
+     "y": 0.949,
+     "angle": 23,
+     "width": 65,
+     "length": 239,
+     "strength": 0.094
+    },
+    {
+     "x": 0.715,
+     "y": 0.113,
+     "angle": 28,
+     "width": 67,
+     "length": 283,
+     "strength": 0.098
+    },
+    {
+     "x": 0.947,
+     "y": 0.451,
+     "angle": -66,
+     "width": 43,
+     "length": 593,
+     "strength": 0.101
+    },
+    {
+     "x": 0.154,
+     "y": 0.769,
+     "angle": -69,
+     "width": 48,
+     "length": 422,
+     "strength": 0.073
+    },
+    {
+     "x": 0.647,
+     "y": 0.511,
+     "angle": -7,
+     "width": 53,
+     "length": 364,
+     "strength": 0.068
+    },
+    {
+     "x": 0.524,
+     "y": 0.239,
+     "angle": 56,
+     "width": 63,
+     "length": 436,
+     "strength": 0.082
+    }
+   ],
+   "desk": "wood",
+   "seed": 1007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

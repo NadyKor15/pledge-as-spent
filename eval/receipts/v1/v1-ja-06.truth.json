@@ -1,0 +1,466 @@
+{
+ "id": "v1-ja-06",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1005,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-06.png",
+  "sha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+  "mediaType": "image/png",
+  "width": 627,
+  "height": 1034
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単4 アルカリ乾電池 4本入",
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 1,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "おしりふき 80枚",
+    "translationEn": "Baby wipes, 80 count",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮 缶詰",
+    "translationEn": "Mackerel in miso, canned",
+    "qty": 6,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "日本酒 720ml",
+    "translationEn": "Sake 720 ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ﾐﾈﾗﾙｳｫｰﾀｰ 2L",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 535,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.2105,
+     "y": 0.7841,
+     "w": 0.0752,
+     "h": 0.0194
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9648 0870 8321",
+    "bbox": {
+     "x": 0.6297,
+     "y": 0.7878,
+     "w": 0.1968,
+     "h": 0.0235
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes, 80 count is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mackerel in miso, canned counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-06",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1005,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "単4 アルカリ乾電池 4本入"
+    ],
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 1,
+    "unitMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "おしりふき 80枚"
+    ],
+    "translationEn": "Baby wipes, 80 count",
+    "qty": 1,
+    "unitMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Baby wipes, 80 count is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば味噌煮 缶詰"
+    ],
+    "translationEn": "Mackerel in miso, canned",
+    "qty": 6,
+    "unitMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mackerel in miso, canned counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "日本酒 720ml"
+    ],
+    "translationEn": "Sake 720 ml",
+    "qty": 1,
+    "unitMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "牛乳 1L"
+    ],
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 6,
+    "unitMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ M 44枚"
+    ],
+    "translationEn": "Soft Kids diapers M, 44 count",
+    "qty": 1,
+    "unitMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾐﾈﾗﾙｳｫｰﾀｰ 2L"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 6,
+    "unitMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 2682,
+    "taxMinor": 214
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 3214,
+    "taxMinor": 321
+   }
+  ],
+  "taxMinor": 535,
+  "subtotalMinor": 5896,
+  "totalMinor": 6431,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 7000,
+   "changeMinor": 569,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "9648 0870 8321"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.462,
+   "rotX": -3.843,
+   "rotY": 2.794,
+   "perspective": 1273,
+   "blurPx": 0.374,
+   "noise": 0.064,
+   "lightAngle": 84,
+   "lightStrength": 0.29,
+   "glare": {
+    "x": 0.712,
+    "y": 0.296,
+    "strength": 0.083
+   },
+   "creases": [
+    {
+     "x": 0.934,
+     "y": 0.133,
+     "angle": 26,
+     "width": 43,
+     "length": 494,
+     "strength": 0.113
+    },
+    {
+     "x": 0.147,
+     "y": 0.439,
+     "angle": 69,
+     "width": 28,
+     "length": 284,
+     "strength": 0.072
+    },
+    {
+     "x": 0.181,
+     "y": 0.764,
+     "angle": -59,
+     "width": 61,
+     "length": 566,
+     "strength": 0.069
+    },
+    {
+     "x": 0.799,
+     "y": 0.286,
+     "angle": -4,
+     "width": 64,
+     "length": 433,
+     "strength": 0.098
+    },
+    {
+     "x": 0.427,
+     "y": 0.108,
+     "angle": 8,
+     "width": 52,
+     "length": 496,
+     "strength": 0.109
+    }
+   ],
+   "desk": "slate",
+   "seed": 1012
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

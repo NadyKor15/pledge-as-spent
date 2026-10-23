@@ -1,0 +1,444 @@
+{
+ "id": "adv-rules-ja",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 6007,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "adv-rules-ja.png",
+  "sha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+  "mediaType": "image/png",
+  "width": 613,
+  "height": 1047
+ },
+ "receipt": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "0777",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ギフトカード 3,000円",
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "缶ビール 350ml 6缶",
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitPriceMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単4 アルカリ乾電池 4本入",
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 1,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ノート A5",
+    "translationEn": "Notebook A5",
+    "qty": 1,
+    "unitPriceMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ホシノ メンソール",
+    "translationEn": "Hoshino menthol cigarettes",
+    "qty": 1,
+    "unitPriceMinor": 580,
+    "amountMinor": 580,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ﾐﾈﾗﾙｳｫｰﾀｰ 2L",
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5724,
+  "taxMinor": 237,
+  "taxIncluded": true,
+  "totalMinor": 5724,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2050",
+    "bbox": {
+     "x": 0.5739,
+     "y": 0.6995,
+     "w": 0.233,
+     "h": 0.0191
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1675,
+     "y": 0.7833,
+     "w": 0.0769,
+     "h": 0.0176
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7788 0428 0676",
+    "bbox": {
+     "x": 0.5981,
+     "y": 0.809,
+     "w": 0.2034,
+     "h": 0.0182
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook A5 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "adv-rules-ja",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 6007,
+  "store": {
+   "name": "ドラッグ ヒカリ",
+   "branch": "北空中央店",
+   "address": [
+    "空川県北空市中央3-5-12"
+   ],
+   "city": "北空",
+   "phone": "0123-33-7788",
+   "taxId": "T0000100000634"
+  },
+  "purchasedAt": "2026-11-03T20:11:00",
+  "receiptNumber": "0777",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "ギフトカード 3,000円"
+    ],
+    "translationEn": "Gift card 3,000 yen",
+    "qty": 1,
+    "unitMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "缶ビール 350ml 6缶"
+    ],
+    "translationEn": "Canned beer 350 ml, 6 cans",
+    "qty": 1,
+    "unitMinor": 1198,
+    "amountMinor": 1198,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単4 アルカリ乾電池 4本入"
+    ],
+    "translationEn": "Alkaline AAA batteries, pack of 4",
+    "qty": 1,
+    "unitMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 2,
+    "unitMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ノート A5"
+    ],
+    "translationEn": "Notebook A5",
+    "qty": 1,
+    "unitMinor": 148,
+    "amountMinor": 148,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Notebook A5 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ホシノ メンソール"
+    ],
+    "translationEn": "Hoshino menthol cigarettes",
+    "qty": 1,
+    "unitMinor": 580,
+    "amountMinor": 580,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾐﾈﾗﾙｳｫｰﾀｰ 2L"
+    ],
+    "translationEn": "Mineral water 2 L bottle",
+    "qty": 3,
+    "unitMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 560,
+    "taxMinor": 41
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2164,
+    "taxMinor": 196
+   }
+  ],
+  "taxMinor": 237,
+  "subtotalMinor": 5724,
+  "totalMinor": 5724,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2050"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2050"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "7788 0428 0676"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.458,
+   "rotX": -2.023,
+   "rotY": 3.414,
+   "perspective": 1665,
+   "blurPx": 0.567,
+   "noise": 0.058,
+   "lightAngle": 17,
+   "lightStrength": 0.345,
+   "glare": {
+    "x": 0.523,
+    "y": 0.059,
+    "strength": 0.131
+   },
+   "creases": [
+    {
+     "x": 0.447,
+     "y": 0.877,
+     "angle": -60,
+     "width": 65,
+     "length": 329,
+     "strength": 0.057
+    },
+    {
+     "x": 0.146,
+     "y": 0.075,
+     "angle": 40,
+     "width": 59,
+     "length": 515,
+     "strength": 0.055
+    },
+    {
+     "x": 0.725,
+     "y": 0.674,
+     "angle": -4,
+     "width": 59,
+     "length": 409,
+     "strength": 0.111
+    },
+    {
+     "x": 0.688,
+     "y": 0.913,
+     "angle": 10,
+     "width": 67,
+     "length": 553,
+     "strength": 0.073
+    },
+    {
+     "x": 0.895,
+     "y": 0.333,
+     "angle": -40,
+     "width": 62,
+     "length": 295,
+     "strength": 0.103
+    }
+   ],
+   "desk": "slate",
+   "seed": 6014
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

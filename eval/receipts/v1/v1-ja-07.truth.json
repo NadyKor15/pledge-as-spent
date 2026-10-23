@@ -1,0 +1,456 @@
+{
+ "id": "v1-ja-07",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1006,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-07.png",
+  "sha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+  "mediaType": "image/png",
+  "width": 616,
+  "height": 1066
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T20:57:00",
+  "receiptNumber": "7048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5箱",
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ツナ缶 3缶パック",
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 1,
+    "unitPriceMinor": 458,
+    "amountMinor": 458,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズ おむつ L 34枚",
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18枚 お試しパック",
+    "translationEn": "Diapers M, 18 count trial pack",
+    "qty": 1,
+    "unitPriceMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 8340,
+  "taxMinor": 733,
+  "taxIncluded": true,
+  "totalMinor": 8340,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1957,
+     "y": 0.7975,
+     "w": 0.0757,
+     "h": 0.0179
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9739 4221 0384",
+    "bbox": {
+     "x": 0.6311,
+     "y": 0.8157,
+     "w": 0.2131,
+     "h": 0.0194
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues, 5 boxes is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans, pack of 3 counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers M, 18 count trial pack counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk 1 L is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-07",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1006,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-04T20:57:00",
+  "receiptNumber": "7048",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L",
+     "6本ケース"
+    ],
+    "translationEn": "Kitasora natural water 2 L, case of 6",
+    "qty": 1,
+    "unitMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ティッシュ 5箱"
+    ],
+    "translationEn": "Tissues, 5 boxes",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tissues, 5 boxes is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 3,
+    "unitMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ツナ缶 3缶パック"
+    ],
+    "translationEn": "Tuna cans, pack of 3",
+    "qty": 1,
+    "unitMinor": 458,
+    "amountMinor": 458,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tuna cans, pack of 3 counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ L 34枚"
+    ],
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 2,
+    "unitMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "紙おむつ M 18枚",
+     "お試しパック"
+    ],
+    "translationEn": "Diapers M, 18 count trial pack",
+    "qty": 1,
+    "unitMinor": 598,
+    "amountMinor": 598,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Diapers M, 18 count trial pack counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "牛乳 1L"
+    ],
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Milk 1 L is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1454,
+    "taxMinor": 107
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 6886,
+    "taxMinor": 626
+   }
+  ],
+  "taxMinor": 733,
+  "subtotalMinor": 8340,
+  "totalMinor": 8340,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 9000,
+   "changeMinor": 660,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "9739 4221 0384"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.653,
+   "rotX": 4.142,
+   "rotY": -4.653,
+   "perspective": 1343,
+   "blurPx": 0.59,
+   "noise": 0.06,
+   "lightAngle": 244,
+   "lightStrength": 0.334,
+   "glare": {
+    "x": 0.654,
+    "y": 0.196,
+    "strength": 0.17
+   },
+   "creases": [
+    {
+     "x": 0.153,
+     "y": 0.25,
+     "angle": -46,
+     "width": 40,
+     "length": 390,
+     "strength": 0.101
+    },
+    {
+     "x": 0.645,
+     "y": 0.861,
+     "angle": 65,
+     "width": 34,
+     "length": 253,
+     "strength": 0.097
+    },
+    {
+     "x": 0.183,
+     "y": 0.428,
+     "angle": -25,
+     "width": 42,
+     "length": 392,
+     "strength": 0.114
+    },
+    {
+     "x": 0.593,
+     "y": 0.664,
+     "angle": 32,
+     "width": 27,
+     "length": 458,
+     "strength": 0.076
+    },
+    {
+     "x": 0.127,
+     "y": 0.696,
+     "angle": -12,
+     "width": 52,
+     "length": 629,
+     "strength": 0.068
+    },
+    {
+     "x": 0.601,
+     "y": 0.233,
+     "angle": -45,
+     "width": 31,
+     "length": 228,
+     "strength": 0.072
+    },
+    {
+     "x": 0.87,
+     "y": 0.442,
+     "angle": -21,
+     "width": 67,
+     "length": 502,
+     "strength": 0.094
+    },
+    {
+     "x": 0.1,
+     "y": 0.428,
+     "angle": -26,
+     "width": 26,
+     "length": 274,
+     "strength": 0.108
+    }
+   ],
+   "desk": "cloth",
+   "seed": 1013
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

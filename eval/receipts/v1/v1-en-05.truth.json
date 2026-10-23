@@ -1,0 +1,401 @@
+{
+ "id": "v1-en-05",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4004,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-05.png",
+  "sha256": "09360b22a2707e0482455be16dfb1115d4961a40e81c6ec326e0b1ad3a8f2990",
+  "mediaType": "image/png",
+  "width": 626,
+  "height": 867
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:05:00",
+  "receiptNumber": "2075",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "Spiral notebook",
+    "qty": 1,
+    "unitPriceMinor": 199,
+    "amountMinor": 199,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON",
+    "translationEn": "Discount on Spiral notebook",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 3,
+    "unitPriceMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "LITTLE LAMB DIAPERS SZ3 66CT",
+    "translationEn": "Little Lamb diapers size 3, 66 count",
+    "qty": 1,
+    "unitPriceMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 6,
+    "rawText": "WATER 24PK .5L",
+    "translationEn": "Bottled water 0.5 L, 24 pack (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 6682,
+  "taxMinor": 412,
+  "taxIncluded": false,
+  "totalMinor": 7094,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2719",
+    "bbox": {
+     "x": 0.6001,
+     "y": 0.7505,
+     "w": 0.2328,
+     "h": 0.0265
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebook is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spiral notebook is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Little Lamb diapers size 3, 66 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blanket counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bottled water 0.5 L, 24 pack (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-05",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4004,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-06T10:05:00",
+  "receiptNumber": "2075",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "SPIRAL NOTEBOOK"
+    ],
+    "translationEn": "Spiral notebook",
+    "qty": 1,
+    "unitMinor": 199,
+    "amountMinor": 199,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Spiral notebook is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on Spiral notebook",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Spiral notebook is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "DEER CREEK WATER",
+     "1 GALLON JUG"
+    ],
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 3,
+    "unitMinor": 169,
+    "amountMinor": 507,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "LITTLE LAMB DIAPERS",
+     "SZ3 66CT"
+    ],
+    "translationEn": "Little Lamb diapers size 3, 66 count",
+    "qty": 1,
+    "unitMinor": 2499,
+    "amountMinor": 2499,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Little Lamb diapers size 3, 66 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW",
+     "BLANKET"
+    ],
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw blanket counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "WATER 24PK .5L"
+    ],
+    "translationEn": "Bottled water 0.5 L, 24 pack (wrong size)",
+    "qty": 1,
+    "unitMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Bottled water 0.5 L, 24 pack (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 5676,
+    "taxMinor": 412
+   }
+  ],
+  "taxMinor": 412,
+  "subtotalMinor": 6682,
+  "totalMinor": 7094,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2719"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2719"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.958,
+   "rotX": -2.762,
+   "rotY": -4.475,
+   "perspective": 1524,
+   "blurPx": 0.745,
+   "noise": 0.066,
+   "lightAngle": 61,
+   "lightStrength": 0.298,
+   "glare": {
+    "x": 0.108,
+    "y": 0.315,
+    "strength": 0.211
+   },
+   "creases": [
+    {
+     "x": 0.513,
+     "y": 0.073,
+     "angle": 10,
+     "width": 68,
+     "length": 508,
+     "strength": 0.098
+    },
+    {
+     "x": 0.651,
+     "y": 0.429,
+     "angle": -8,
+     "width": 33,
+     "length": 471,
+     "strength": 0.091
+    },
+    {
+     "x": 0.376,
+     "y": 0.543,
+     "angle": -17,
+     "width": 26,
+     "length": 333,
+     "strength": 0.055
+    },
+    {
+     "x": 0.139,
+     "y": 0.519,
+     "angle": 38,
+     "width": 41,
+     "length": 405,
+     "strength": 0.066
+    },
+    {
+     "x": 0.114,
+     "y": 0.938,
+     "angle": -50,
+     "width": 45,
+     "length": 340,
+     "strength": 0.1
+    },
+    {
+     "x": 0.324,
+     "y": 0.546,
+     "angle": -41,
+     "width": 51,
+     "length": 394,
+     "strength": 0.106
+    },
+    {
+     "x": 0.802,
+     "y": 0.391,
+     "angle": 8,
+     "width": 27,
+     "length": 505,
+     "strength": 0.102
+    },
+    {
+     "x": 0.689,
+     "y": 0.768,
+     "angle": 35,
+     "width": 37,
+     "length": 641,
+     "strength": 0.065
+    }
+   ],
+   "desk": "wood",
+   "seed": 4011
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

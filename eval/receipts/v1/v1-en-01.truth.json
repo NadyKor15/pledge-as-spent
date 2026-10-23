@@ -1,0 +1,295 @@
+{
+ "id": "v1-en-01",
+ "set": "v1",
+ "locale": "en",
+ "seed": 4000,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "v1-en-01.png",
+  "sha256": "2b460202a354f484f9de4a10ed7d11b4ddc77666b6667c2dcd22f6b7a20130dd",
+  "mediaType": "image/png",
+  "width": 604,
+  "height": 786
+ },
+ "receipt": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "8713",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON",
+    "translationEn": "Discount on Softies diapers size 3, 38 count",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 2,
+    "unitPriceMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4361,
+  "taxMinor": 172,
+  "taxIncluded": false,
+  "totalMinor": 4533,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-en-01",
+  "set": "v1",
+  "locale": "en",
+  "seed": 4000,
+  "store": {
+   "name": "BRINDLEWOOD GROCERY",
+   "address": [
+    "210 Mill Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0042"
+  },
+  "purchasedAt": "2026-11-08T19:34:00",
+  "receiptNumber": "8713",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "SOFTIES DIAPERS SZ 3 38CT"
+    ],
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 2,
+    "unitMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on Softies diapers size 3, 38 count",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -125,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 2,
+    "unitMinor": 149,
+    "amountMinor": 298,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DEER CREEK WATER",
+     "1 GALLON JUG"
+    ],
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 10,
+    "unitMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 2373,
+    "taxMinor": 172
+   }
+  ],
+  "taxMinor": 172,
+  "subtotalMinor": 4361,
+  "totalMinor": 4533,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 5000,
+   "changeMinor": 467,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": 1.204,
+   "rotX": 1.998,
+   "rotY": -4.248,
+   "perspective": 1439,
+   "blurPx": 0.736,
+   "noise": 0.043,
+   "lightAngle": 18,
+   "lightStrength": 0.243,
+   "glare": {
+    "x": 0.615,
+    "y": 0.218,
+    "strength": 0.174
+   },
+   "creases": [
+    {
+     "x": 0.601,
+     "y": 0.464,
+     "angle": -62,
+     "width": 28,
+     "length": 350,
+     "strength": 0.079
+    },
+    {
+     "x": 0.54,
+     "y": 0.838,
+     "angle": 65,
+     "width": 55,
+     "length": 301,
+     "strength": 0.088
+    },
+    {
+     "x": 0.912,
+     "y": 0.496,
+     "angle": -62,
+     "width": 66,
+     "length": 553,
+     "strength": 0.066
+    },
+    {
+     "x": 0.862,
+     "y": 0.582,
+     "angle": -61,
+     "width": 55,
+     "length": 626,
+     "strength": 0.099
+    },
+    {
+     "x": 0.516,
+     "y": 0.266,
+     "angle": -24,
+     "width": 28,
+     "length": 518,
+     "strength": 0.072
+    },
+    {
+     "x": 0.057,
+     "y": 0.927,
+     "angle": -23,
+     "width": 37,
+     "length": 437,
+     "strength": 0.107
+    }
+   ],
+   "desk": "wood",
+   "seed": 4007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

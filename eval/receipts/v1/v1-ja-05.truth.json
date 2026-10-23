@@ -1,0 +1,440 @@
+{
+ "id": "v1-ja-05",
+ "set": "v1",
+ "locale": "ja",
+ "seed": 1004,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "v1-ja-05.png",
+  "sha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+  "mediaType": "image/png",
+  "width": 628,
+  "height": 961
+ },
+ "receipt": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "値引",
+    "translationEn": "Discount on Kitasora natural water 2 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ノート A5",
+    "translationEn": "Notebook A5",
+    "qty": 2,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ソフトキッズ おむつ L 34枚",
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitPriceMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "単3形 4本入",
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 1,
+    "unitPriceMinor": 258,
+    "amountMinor": 258,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3390,
+  "taxMinor": 301,
+  "taxIncluded": true,
+  "totalMinor": 3390,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8031",
+    "bbox": {
+     "x": 0.5622,
+     "y": 0.7703,
+     "w": 0.2368,
+     "h": 0.028
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebook A5 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate bar is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 30,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "v1-ja-05",
+  "set": "v1",
+  "locale": "ja",
+  "seed": 1004,
+  "store": {
+   "name": "ミナト生活館",
+   "branch": "北空店",
+   "address": [
+    "空川県北空市港町2-8-1"
+   ],
+   "city": "北空",
+   "phone": "0123-45-6789",
+   "taxId": "T0000100000427"
+  },
+  "purchasedAt": "2026-11-04T14:38:00",
+  "receiptNumber": "4174",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "北空の天然水 2L"
+    ],
+    "translationEn": "Kitasora natural water 2 L",
+    "qty": 2,
+    "unitMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Kitasora natural water 2 L",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Kitasora natural water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "ノート A5"
+    ],
+    "translationEn": "Notebook A5",
+    "qty": 2,
+    "unitMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Notebook A5 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ソフトキッズ おむつ L 34枚"
+    ],
+    "translationEn": "Soft Kids diapers L, 34 count (wrong size)",
+    "qty": 1,
+    "unitMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Soft Kids diapers L, 34 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "チョコレート"
+    ],
+    "translationEn": "Chocolate bar",
+    "qty": 1,
+    "unitMinor": 128,
+    "amountMinor": 128,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Chocolate bar is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 3,
+    "unitMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 30,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3形 4本入"
+    ],
+    "translationEn": "AA batteries, pack of 4",
+    "qty": 1,
+    "unitMinor": 258,
+    "amountMinor": 258,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 344,
+    "taxMinor": 25
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 3046,
+    "taxMinor": 276
+   }
+  ],
+  "taxMinor": 301,
+  "subtotalMinor": 3390,
+  "totalMinor": 3390,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "8031"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8031"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.748,
+   "rotX": 4.336,
+   "rotY": -2.984,
+   "perspective": 1246,
+   "blurPx": 0.307,
+   "noise": 0.035,
+   "lightAngle": 308,
+   "lightStrength": 0.266,
+   "glare": {
+    "x": 0.453,
+    "y": 0.438,
+    "strength": 0.106
+   },
+   "creases": [
+    {
+     "x": 0.355,
+     "y": 0.944,
+     "angle": 67,
+     "width": 51,
+     "length": 560,
+     "strength": 0.054
+    },
+    {
+     "x": 0.875,
+     "y": 0.511,
+     "angle": -69,
+     "width": 43,
+     "length": 246,
+     "strength": 0.111
+    },
+    {
+     "x": 0.719,
+     "y": 0.344,
+     "angle": -58,
+     "width": 40,
+     "length": 398,
+     "strength": 0.114
+    },
+    {
+     "x": 0.362,
+     "y": 0.698,
+     "angle": 44,
+     "width": 56,
+     "length": 586,
+     "strength": 0.104
+    },
+    {
+     "x": 0.578,
+     "y": 0.294,
+     "angle": -22,
+     "width": 64,
+     "length": 441,
+     "strength": 0.104
+    },
+    {
+     "x": 0.28,
+     "y": 0.765,
+     "angle": -52,
+     "width": 69,
+     "length": 626,
+     "strength": 0.116
+    },
+    {
+     "x": 0.099,
+     "y": 0.221,
+     "angle": 8,
+     "width": 67,
+     "length": 336,
+     "strength": 0.088
+    },
+    {
+     "x": 0.833,
+     "y": 0.631,
+     "angle": 41,
+     "width": 38,
+     "length": 376,
+     "strength": 0.06
+    }
+   ],
+   "desk": "cloth",
+   "seed": 1011
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}
