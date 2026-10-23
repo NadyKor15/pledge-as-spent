@@ -66,6 +66,8 @@ const arbApproval = fc.constantFrom<Approval>("paypal", "paypal", "card", "card"
 
 const arbOp: fc.Arbitrary<Op> = fc.oneof(
   { weight: 4, arbitrary: fc.record({ k: fc.constant("advance" as const), hours: fc.double({ min: 0, max: 48, noNaN: true }) }) },
+  // jumps of days, so holds reach reauthorize (day 4), renewal (day 26) and expiry (day 29)
+  { weight: 2, arbitrary: fc.record({ k: fc.constant("advance" as const), hours: fc.double({ min: 24, max: 240, noNaN: true }) }) },
   { weight: 3, arbitrary: fc.record({ k: fc.constant("capture" as const), force: fc.boolean() }) },
   { weight: 4, arbitrary: fc.record({ k: fc.constant("resolve" as const), pick: fc.nat(), ok: fc.boolean() }) },
   { weight: 2, arbitrary: fc.record({ k: fc.constant("maintain" as const), newAuthId: fc.boolean() }) },
@@ -93,7 +95,7 @@ const arbScenario = fc.record({
   needs: fc.array(fc.integer({ min: 1, max: 60 }), { minLength: 1, maxLength: 8 }),
   holds: fc.array(
     fc.record({ needIdx: fc.nat(), curIdx: fc.nat(), minor: fc.integer({ min: 1, max: 300_000 }), approval: arbApproval }),
-    { minLength: 1, maxLength: 30 },
+    { minLength: 1, maxLength: 30, size: "max" },
   ),
   match: fc.option(
     fc.record({
@@ -107,9 +109,9 @@ const arbScenario = fc.record({
   ),
   lines: fc.array(
     fc.record({ needIdx: fc.nat(), qty: fc.integer({ min: 1, max: 25 }), amount: fc.integer({ min: 0, max: 100_000 }), receipt: fc.integer({ min: 0, max: 7 }) }),
-    { minLength: 1, maxLength: 60 },
+    { minLength: 1, maxLength: 60, size: "max" },
   ),
-  ops: fc.array(fc.record({ op: arbOp, slot: fc.nat() }), { maxLength: 60 }),
+  ops: fc.array(fc.record({ op: arbOp, slot: fc.nat() }), { maxLength: 60, size: "max" }),
   threshold: fc.option(fc.integer({ min: 1, max: 50_000 }), { nil: null }),
   maxAgeHours: fc.integer({ min: 1, max: 72 }),
 });
@@ -120,27 +122,41 @@ type Scenario = typeof arbScenario extends fc.Arbitrary<infer T> ? T : never;
 
 const abs = (n: bigint) => (n < 0n ? -n : n);
 
+/** Plain throw instead of expect(): this runs after every event of every run. */
+function must(ok: boolean, what: string, ctx: unknown): void {
+  if (!ok) throw new Error(`invariant broken: ${what} ${JSON.stringify(ctx)}`);
+}
+
 function checkState(s: LedgerState): void {
   for (const id of s.pledgeIds) {
     const p = s.pledges[id];
     const h = s.holds[id];
+    const ctx = { id, status: p.status, h: { ...h, accruals: h.accruals.length, batches: h.batches.length } };
     for (const v of [h.authorized, h.captured, h.capturePending, h.accrued, h.released, h.uncollected]) {
-      expect(Number.isSafeInteger(v) && v >= 0).toBe(true);
+      must(Number.isSafeInteger(v) && v >= 0, "buckets are non-negative integers", ctx);
     }
     // captured + capturePending + accrued (+ released) never exceed the hold
-    expect(uncommitted(h)).toBeGreaterThanOrEqual(0);
-    expect(h.uncollected).toBeLessThanOrEqual(h.released);
-    expect(h.accrued).toBe(h.accruals.reduce((a, x) => a + x.minor, 0));
-    expect(h.capturePending).toBe(h.batches.filter((b) => b.status === "pending").reduce((a, b) => a + b.amount, 0));
-    expect(h.captured).toBe(h.batches.filter((b) => b.status === "confirmed").reduce((a, b) => a + b.amount, 0));
-    expect(h.batches.filter((b) => b.status === "pending").length).toBeLessThanOrEqual(1);
-    expect(availableMinor(p, h)).toBeLessThanOrEqual(uncommitted(h));
-    if (p.status === "voided" || p.status === "expired") {
-      expect(h.accrued).toBe(0);
-      expect(uncommitted(h)).toBe(0);
+    must(uncommitted(h) >= 0, "captured + pending + accrued + released <= authorized", ctx);
+    must(h.uncollected <= h.released, "uncollected is part of released", ctx);
+    must(h.accrued === h.accruals.reduce((a, x) => a + x.minor, 0), "accrued = sum of accruals", ctx);
+    let pending = 0;
+    let pendingCount = 0;
+    let confirmed = 0;
+    for (const b of h.batches) {
+      if (b.status === "pending") {
+        pending += b.amount;
+        pendingCount += 1;
+      } else if (b.status === "confirmed") confirmed += b.amount;
     }
-    if (p.status === "captured") expect(h.captured).toBe(h.authorized);
-    if (p.status === "pending_approval" || p.status === "denied") expect(h.authorized).toBe(0);
+    must(h.capturePending === pending, "capturePending = pending batches", ctx);
+    must(h.captured === confirmed, "captured = confirmed batches", ctx);
+    must(pendingCount <= 1, "one capture in flight per hold", ctx);
+    must(availableMinor(p, h) <= uncommitted(h), "available <= uncommitted", ctx);
+    if (p.status === "voided" || p.status === "expired") {
+      must(h.accrued === 0 && uncommitted(h) === 0, "an ended hold keeps nothing", ctx);
+    }
+    if (p.status === "captured") must(h.captured === h.authorized, "captured status means fully captured", ctx);
+    if (p.status === "pending_approval" || p.status === "denied") must(h.authorized === 0, "no hold before approval", ctx);
     if (p.kind === "match" && p.fx.base === p.fx.quote) {
       // same-currency match: the ceiling holds exactly in base too
       let usedBase = 0;
@@ -148,10 +164,10 @@ function checkState(s: LedgerState): void {
         const ev = s.lines[key].event;
         if (ev.type === "LineFunded") usedBase += ev.shares.find((x) => x.pledgeId === id)?.base ?? 0;
       }
-      expect(usedBase).toBeLessThanOrEqual(h.authorized);
+      must(usedBase <= h.authorized, "match never above its ceiling", { ...ctx, usedBase });
     }
   }
-  for (const id of s.needIds) expect(s.qtyCovered[id]).toBeLessThanOrEqual(s.needs[id].qtyNeeded);
+  for (const id of s.needIds) must(s.qtyCovered[id] <= s.needs[id].qtyNeeded, "need never over-covered", id);
 }
 
 function checkLine(pre: LedgerState, line: FundableLineInput, ev: LedgerEvent, now: string): void {
