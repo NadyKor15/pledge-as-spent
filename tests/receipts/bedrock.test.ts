@@ -10,16 +10,16 @@ import { JsonlSpendLedger, SpendCap, SpendCapExceeded } from "../../src/receipts
 import { cls, needs, receipt } from "./fixtures";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 
-const nul = (v: unknown) => (v === null ? "" : String(v));
-/** The receipt as the model sends it: lines and personal data as delimited strings. */
+const kvs = (o: Record<string, unknown>) => Object.entries(o).filter(([, v]) => v !== null && v !== "").map(([k, v]) => `${k}=${v}`).join("; ");
+/** The receipt as the model sends it: lines and personal data as key=value strings. */
 function wire(r: ParsedReceipt) {
   return {
     ...r,
-    lines: r.lines.map((l) => [l.lineNo, nul(l.qty), nul(l.unitPriceMinor), l.amountMinor, nul(l.taxRateBp), l.rawText, l.translationEn].join("|")),
-    pii: r.pii.map((p) => [p.kind, p.bbox ? [p.bbox.x, p.bbox.y, p.bbox.w, p.bbox.h].join(",") : "", p.text].join("|")),
+    lines: r.lines.map((l) => kvs({ no: l.lineNo, qty: l.qty, unit: l.unitPriceMinor, amount: l.amountMinor, rate: l.taxRateBp, text: l.rawText, en: l.translationEn })).join("\n"),
+    pii: r.pii.map((p) => kvs({ kind: p.kind, box: p.bbox ? [p.bbox.x, p.bbox.y, p.bbox.w, p.bbox.h].join(",") : null, text: p.text })).join("\n"),
   };
 }
-const wireCls = (ls: LineClassification[]) => ({ lines: ls.map((l) => [l.lineNo, nul(l.needId), nul(l.needQty), l.verdict, nul(l.ruleCode), l.confidence, l.reasonEn].join("|")) });
+const wireCls = (ls: LineClassification[]) => ({ lines: ls.map((l) => kvs({ no: l.lineNo, need: l.needId, qty: l.needQty, verdict: l.verdict, rule: l.ruleCode, conf: l.confidence, why: l.reasonEn })).join("\n") });
 
 const IMG = { bytes: new Uint8Array([1, 2, 3, 4]), mediaType: "image/png" as const };
 const hint = { currency: "JPY" as const, languages: ["ja"] };
@@ -62,7 +62,7 @@ describe("BedrockNovaReader", () => {
     const schema = input.toolConfig?.tools?.[0].toolSpec?.inputSchema?.json as { type: string; properties: Record<string, unknown>; $schema?: string };
     expect(schema.type).toBe("object");
     expect(Object.keys(schema.properties)).toContain("lines");
-    expect((schema.properties.lines as { items: { type: string } }).items.type).toBe("string"); // lines travel as strings
+    expect((schema.properties.lines as { type: string }).type).toBe("string"); // lines travel as text, not as objects
     expect(schema.$schema).toBeUndefined();
     const blocks = input.messages?.[0].content ?? [];
     expect(blocks.find((b) => b.image)?.image).toMatchObject({ format: "png", source: { bytes: IMG.bytes } });
@@ -89,16 +89,16 @@ describe("BedrockNovaReader", () => {
     expect(await ledger.total()).toBeGreaterThan(0); // the call was made and is paid for
   });
 
-  it("reads the model's habits: null spelled out, bars inside the printed text, a box on personal data", async () => {
+  it("reads the model's habits: null spelled out, colons, odd order, ';' and '=' inside the printed text, a box on personal data", async () => {
     const w = {
       ...wire(receipt()),
-      lines: ["1|null|-|1000|null|牛乳 | 1L|Milk 1 L", "2||| 500 |none|Bread|Bread"],
-      pii: ["card_number|0.1,0.2,0.3,0.04|************1234", "name||A | B"],
+      lines: "no=1; qty=null; unit=-; amount=1000; rate=null; text=牛乳; 1L = 2 pack; en=Milk 1 L\n\n  amount: 500; no: 2; text=Bread; en=Bread; rate=none\r\n",
+      pii: "kind=card_number; box=0.1,0.2,0.3,0.04; text=************1234\nkind=name; text=A | B",
     };
     const { client, cap } = await setup(reply([toolUse("submit_receipt", w)]));
     const out = await new BedrockNovaReader({ client, cap }).read(IMG, hint);
     expect(out.receipt.lines).toEqual([
-      { lineNo: 1, qty: null, unitPriceMinor: null, amountMinor: 1000, taxRateBp: null, rawText: "牛乳 | 1L", translationEn: "Milk 1 L" },
+      { lineNo: 1, qty: null, unitPriceMinor: null, amountMinor: 1000, taxRateBp: null, rawText: "牛乳; 1L = 2 pack", translationEn: "Milk 1 L" },
       { lineNo: 2, qty: null, unitPriceMinor: null, amountMinor: 500, taxRateBp: null, rawText: "Bread", translationEn: "Bread" },
     ]);
     expect(out.receipt.pii).toEqual([
@@ -107,13 +107,13 @@ describe("BedrockNovaReader", () => {
     ]);
   });
 
-  it("still refuses what the full schema refuses: a missing amount, a non-number, a wrong field count", async () => {
-    for (const bad of ["1|1|10||null|x|y", "1|1|10|abc|null|x|y", "1|1|10|100|null|only-six-fields"]) {
-      const { client, cap } = await setup(reply([toolUse("submit_receipt", { ...wire(receipt()), lines: [bad] })]));
+  it("still refuses what the full schema refuses: a missing amount or line number, a non-number, no fields at all", async () => {
+    for (const bad of ["no=1; qty=1; text=x; en=y", "no=1; amount=abc; text=x; en=y", "amount=100; text=x; en=y", "just some words"]) {
+      const { client, cap } = await setup(reply([toolUse("submit_receipt", { ...wire(receipt()), lines: bad })]));
       const err = await new BedrockNovaReader({ client, cap }).read(IMG, hint).catch((e) => e);
       expect(err).toBeInstanceOf(ModelOutputError);
       expect(err.usage.tokensIn).toBe(1800); // the paid call is reported with the error
-      expect(err.raw.lines).toEqual([bad]);
+      expect(err.raw.lines).toBe(bad);
     }
   });
 

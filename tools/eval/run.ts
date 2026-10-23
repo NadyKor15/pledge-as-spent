@@ -262,7 +262,7 @@ async function main() {
   }
   const recordings = Recordings.parse(JSON.parse(await readFile(path.join(RECEIPTS, "recorded.json"), "utf8")));
   const live = readerChoice !== "recorded" || classifierChoice !== "recorded";
-  const cap = live ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl"))) : null;
+  const cap = live ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
   const r = await build(readerChoice, cap, recordings);
   const c = classifierChoice === readerChoice ? r : await build(classifierChoice!, cap, recordings);
 

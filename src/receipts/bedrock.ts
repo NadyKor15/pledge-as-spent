@@ -39,26 +39,32 @@ function toolSchema(schema: z.ZodType): Record<string, unknown> {
   return json;
 }
 
-// Nova Lite fills a tool's array of objects unreliably (live runs: a leading `{}`, a list made only of
-// `{}`, or "invalid sequence" errors, all at temperature 0 on the same image). Lists of strings come out
-// reliably, so the model sends lines, personal data and classifications as one delimited string each.
-// The strings are parsed here and the result goes through the full zod schemas, which are unchanged.
+// Nova fills a tool's array of objects unreliably (live runs: a leading `{}`, a list made only of
+// `{}`, "invalid sequence" errors, all at temperature 0 on the same image), and Nova Pro scrambled a
+// positional `a|b|c` format. Lists of strings in `key=value; key=value` form come out reliably, so the
+// model sends lines, personal data and classifications as text with one `key=value` entry per line. (An array
+// of such strings was still emptied now and then by Nova Lite; one multi-line string was reliable.) The text is parsed
+// here and the result goes through the full zod schemas, which are unchanged.
 
-const ReceiptWire = ParsedReceipt.omit({ lines: true, pii: true }).extend({
-  lines: z.array(z.string()).describe(
-    'One string per printed line, in print order: lineNo|qty|unitPriceMinor|amountMinor|taxRateBp|rawText|translationEn. Leave qty, unitPriceMinor and taxRateBp empty (nothing between the bars) when not printed; taxRateBp is basis points, 800 for 8 %. Discounts have a negative amountMinor. Example: "1|2|128|256|800|雪解けの水 2L|Snowmelt water 2 L"',
+// Nova Pro leaves out nullable top-level fields it has no value for; those arrive as null.
+const OPTIONAL_TOP = { merchantAddress: true, country: true, purchasedAt: true, receiptNumber: true, subtotalMinor: true, taxMinor: true, taxIncluded: true } as const;
+
+const ReceiptWire = ParsedReceipt.omit({ lines: true, pii: true }).partial(OPTIONAL_TOP).extend({
+  lines: z.string().describe(
+    'One line of text per printed receipt line, in print order (separate them with a newline), as "no=1; qty=2; unit=128; amount=256; rate=800; text=<line as printed>; en=<short English name>". Leave out qty, unit and rate when not printed (rate is basis points: 800 for 8 %). amount is negative for a discount. Example: "no=1; qty=2; unit=128; amount=256; rate=800; text=雪解けの水 2L; en=Snowmelt water 2 L"',
   ),
-  pii: z.array(z.string()).describe('One string per piece of personal data: kind|x,y,w,h|text. kind is card_number, name, phone, address, member_id or other; x,y,w,h are fractions 0..1 of the image, empty when unknown. Example: "card_number|0.6,0.75,0.23,0.02|************1234"'),
+  pii: z.string().describe('One line of text per piece of personal data (separate them with a newline; empty when there is none), as "kind=<card_number|name|phone|address|member_id|other>; box=<x,y,w,h as fractions 0..1 of the image, or leave out>; text=<as printed>". Example: "kind=card_number; box=0.6,0.75,0.23,0.02; text=************1234"'),
 });
 
 const ClassificationWire = z.object({
-  lines: z.array(z.string()).describe(
-    'One string per receipt line: lineNo|needId|needQty|verdict|ruleCode|confidence|reasonEn. needId, needQty and ruleCode are empty when they do not apply. verdict is eligible, rejected or review. Example: "1|water|6|eligible||0.95|Drinking water counts toward the water need."',
+  lines: z.string().min(1).describe(
+    'One line of text per receipt line (separate them with a newline), as "no=<lineNo>; need=<needId>; qty=<quantity in the need unit>; verdict=<eligible|rejected|review>; rule=<ruleCode>; conf=<0..1>; why=<one sentence>". Leave out need, qty and rule when they do not apply. Example: "no=1; need=water; qty=6; verdict=eligible; conf=0.95; why=Drinking water counts toward the water need."',
   ),
 });
 
 // The model writes "null" or "-" for an empty field more often than nothing at all.
 const EMPTY = new Set(["", "null", "none", "n/a", "-"]);
+const entries = (t: string) => t.split(/\r?\n/).filter((e) => e.trim() !== "");
 const isEmpty = (s: string | undefined) => EMPTY.has((s ?? "").trim().toLowerCase());
 
 const num = (s: string | undefined): number | string | null => {
@@ -69,31 +75,36 @@ const num = (s: string | undefined): number | string | null => {
 };
 const text = (s: string | undefined): string | null => (isEmpty(s) ? null : s!.trim());
 
-function fields(entry: string, min: number, what: string): string[] {
-  const p = entry.split("|");
-  if (p.length < min) throw new ModelOutputError(`${what} "${entry}" has ${p.length} fields, expected ${min}`);
-  return p;
+/** Splits "key=value; key=value" on the known keys, so a value may itself contain ";" or "=". */
+function kv(entry: string, keys: string[], what: string): Record<string, string> {
+  const marks = [...entry.matchAll(new RegExp(`(?:^|;)\\s*(${keys.join("|")})\\s*[=:]`, "g"))];
+  if (marks.length === 0) throw new ModelOutputError(`${what} "${entry}" has no key=value fields`);
+  const out: Record<string, string> = {};
+  marks.forEach((m, i) => {
+    const end = i + 1 < marks.length ? marks[i + 1].index! : entry.length;
+    out[m[1]] = entry.slice(m.index! + m[0].length, end).trim();
+  });
+  return out;
 }
 
 export function receiptFromWire(w: z.infer<typeof ReceiptWire>): unknown {
-  const lines = w.lines.map((e) => {
-    const p = fields(e, 7, "line");
-    const rest = p.slice(5).join("|");
-    const cut = rest.lastIndexOf("|"); // translationEn is the last field and has no bar
-    return { lineNo: num(p[0]), qty: num(p[1]), unitPriceMinor: num(p[2]), amountMinor: num(p[3]), taxRateBp: num(p[4]), rawText: rest.slice(0, cut).trim(), translationEn: rest.slice(cut + 1).trim() };
+  const lines = entries(w.lines).map((e) => {
+    const f = kv(e, ["no", "qty", "unit", "amount", "rate", "text", "en"], "line");
+    return { lineNo: num(f.no), qty: num(f.qty), unitPriceMinor: num(f.unit), amountMinor: num(f.amount), taxRateBp: num(f.rate), rawText: f.text ?? "", translationEn: f.en ?? "" };
   });
-  const pii = w.pii.map((e) => {
-    const p = fields(e, 3, "personal data");
-    const b = isEmpty(p[1]) ? null : p[1].split(",").map((x) => num(x));
-    return { kind: p[0].trim(), bbox: b === null ? null : { x: b[0], y: b[1], w: b[2], h: b[3] }, text: p.slice(2).join("|") };
+  const pii = entries(w.pii).map((e) => {
+    const f = kv(e, ["kind", "box", "text"], "personal data");
+    const b = isEmpty(f.box) ? null : f.box.split(",").map((x) => num(x));
+    return { kind: f.kind, bbox: b === null ? null : { x: b[0], y: b[1], w: b[2], h: b[3] }, text: f.text ?? "" };
   });
-  return { ...w, lines, pii };
+  const defaults = Object.fromEntries(Object.keys(OPTIONAL_TOP).map((k) => [k, null]));
+  return { ...defaults, ...w, lines, pii };
 }
 
 export function classificationsFromWire(w: z.infer<typeof ClassificationWire>): unknown {
-  return w.lines.map((e) => {
-    const p = fields(e, 7, "classification");
-    return { lineNo: num(p[0]), needId: text(p[1]), needQty: num(p[2]), verdict: p[3].trim(), ruleCode: text(p[4]), confidence: num(p[5]), reasonEn: p.slice(6).join("|").trim() };
+  return entries(w.lines).map((e) => {
+    const f = kv(e, ["no", "need", "qty", "verdict", "rule", "conf", "why"], "classification");
+    return { lineNo: num(f.no), needId: text(f.need), needQty: num(f.qty), verdict: f.verdict, ruleCode: text(f.rule), confidence: num(f.conf), reasonEn: f.why ?? "" };
   });
 }
 
@@ -224,7 +235,7 @@ export class BedrockNovaClassifier implements LineClassifier {
       system: CLASSIFIER_SYSTEM,
       content: [
         {
-          text: `Drive rules:\n${input.rules}\n\nNeeds (JSON):\n${JSON.stringify(needs)}\n\nReceipt from ${input.receipt.merchantName} (${input.receipt.currency}). Lines (JSON):\n${JSON.stringify(lines)}`,
+          text: `Drive rules:\n${input.rules}\n\nNeeds (JSON):\n${JSON.stringify(needs)}\n\nReceipt from ${input.receipt.merchantName} (${input.receipt.currency}). Lines (JSON):\n${JSON.stringify(lines)}\n\nAnswer for every one of the ${lines.length} lines: ${lines.length} entries, one per lineNo.`,
         },
       ],
       toolName: "submit_classifications",

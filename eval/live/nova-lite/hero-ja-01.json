@@ -4,8 +4,17 @@
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": null,
  "classifications": null,
- "usage": [],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3676,
+   "tokensOut": 1649,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000616
+  }
+ ],
  "errors": [
-  "read: Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[17].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":\"Japan\",\"pii\":\"kind=member_id; box=0.82,0.88,0.18,0.02; text=T00001000000427\\nkind=card_number; box=0.61,0.92,0.38,0.02; text=3216 2141 5525\",\"readability\":\"good\",\"totalMinor\":14646,\"currency\":\"JPY\",\"lines\":\"no=1; qty=6; unit=118; amount=472; text=生ビール 2L 6缶入り; en=Draft beer 2L 6 cans\\nno=2; qty=4; unit=118; amount=216; text=生ビール 2L 4缶入り; en=Draft beer 2L 4 cans\\nno=3; qty=2; unit=108; amount=2596; text=りちっちりなす M 44缶; en=Ritchi-naasu M 44 cans\\nno=4; qty=2; unit=1298; amount=3294; text=すだっち おいめ M; en=Sudachi orange M\\nno=5; qty=3; unit=1098; amount=598; text=すだっちめや M 18缶; en=Sudachi orange M 18 cans\\nno=6; qty=null; unit=null; amount=698; text=すだっちめやののらにがりがり; en=Sudachi orange juice\\nno=7; qty=3; unit=204; amount=796; text=すだっちめやののらにがりがり #3 20缶; en=Sudachi orange juice #3 20 cans\\nno=8; qty=2; unit=398; amount=980; text=すだっちめやののらにがりがり #3 12缶; en=Sudachi orange juice #3 12 cans\\nno=9; qty=10; unit=98; amount=1198; text=おいじなれり 350ml 6缶; en=Oizumi 350ml 6 cans\\nno=10; qty=2; unit=3000; amount=3000; text=おいじなれり 3,000ml; en=Oizumi 3,000ml\\nno=11; qty=null; unit=null; amount=14646; text=すだっちめやののらにがりがり (11缶); en=Sudachi orange juice (11 cans)\\nno=12; qty=null; unit=null; amount=1486; text=8%税; en=8% tax\\nno=13; qty=null; unit=null; amount=10160; text=10%税; en=10% tax\\nno=14; qty=null; unit=null; amount=3000; text=すだっちめやののらにがりがりと; en=Sudachi orange juice and\\nno=15; qty=null; unit=null; amount=110; text=(税込 8%); en=(tax included 8%)\\nno=16; qty=null; unit=null; amount=923; text=(税込 10%); en=(tax included 10%)\\nno=17; qty=null; unit=null; amount=14646; text=すだっちめやののらにがりがり; en=Sudachi orange juice\\nno=18; qty=null; unit=null; amount=null; text=すだっちめやののらにがりがり; en=Sudachi orange juice\",\"merchantName\":\"株式会社 山田商店\"}"
  ]
 }
