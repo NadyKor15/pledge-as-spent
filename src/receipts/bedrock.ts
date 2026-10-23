@@ -5,6 +5,7 @@
 import { BedrockRuntimeClient, ConverseCommand, type ContentBlock, type ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import { z } from "zod";
 import type { CurrencyCode, Need } from "../core/types";
+import { normalizeCurrency } from "./checks";
 import type { SpendCap } from "./spend";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "./types";
 
@@ -91,6 +92,7 @@ function kv(entry: string, keys: string[]): Record<string, string> | null {
   return out;
 }
 
+const RULE_CODES = new Set(["alcohol", "tobacco", "gift_card", "not_in_needs", "other_rule", "unclear"]);
 const PII_KINDS = new Set(["card_number", "name", "phone", "address", "member_id", "other"]);
 const bool = (s: string | undefined) => (isEmpty(s) ? null : /^(true|yes)$/i.test(s!.trim()) ? true : /^(false|no)$/i.test(s!.trim()) ? false : s!.trim());
 
@@ -104,7 +106,8 @@ export function receiptFromText(answer: string): unknown {
   const head = rows.map((r) => r.match(/^RECEIPT\s*:\s*(.*)$/i)?.[1]).find((r) => r !== undefined);
   if (head === undefined) throw new ModelOutputError("the answer has no RECEIPT row");
   const top = kv(head, ["merchant", "address", "country", "currency", "purchased", "number", "subtotal", "tax", "tax_included", "total", "readability"]) ?? {};
-  const exp = (top.currency ?? "").trim().toUpperCase() === "JPY" ? 0 : 2;
+  const currency = isEmpty(top.currency) ? null : normalizeCurrency(top.currency);
+  const exp = currency === "JPY" ? 0 : 2;
   const lines = rows
     .map((r) => r.match(/^LINE\s*:\s*(.*)$/i)?.[1])
     .filter((r): r is string => r !== undefined)
@@ -122,10 +125,10 @@ export function receiptFromText(answer: string): unknown {
       return { kind: PII_KINDS.has(kind) ? kind : "other", bbox: b === null ? null : { x: b[0], y: b[1], w: b[2], h: b[3] }, text: f.text };
     });
   return {
-    merchantName: text(top.merchant),
+    merchantName: text(top.merchant) ?? "", // an unread store name is empty, not an error
     merchantAddress: text(top.address),
     country: text(top.country),
-    currency: text(top.currency)?.toUpperCase() ?? null,
+    currency,
     purchasedAt: text(top.purchased),
     receiptNumber: text(top.number),
     lines,
@@ -148,7 +151,9 @@ export function classificationsFromWire(w: z.infer<typeof ClassificationWire>): 
   return entries(w.lines).map((e) => {
     const f = kv(e, ["no", "need", "qty", "verdict", "rule", "conf", "why"]);
     if (!f) throw new ModelOutputError(`classification "${e}" has no key=value fields`);
-    return { lineNo: num(f.no), needId: text(f.need), needQty: num(f.qty), verdict: f.verdict, ruleCode: text(f.rule), confidence: num(f.conf), reasonEn: f.why ?? "" };
+    const rule = text(f.rule)?.toLowerCase() ?? null;
+    // A rule label the schema does not know is still a rule: the stricter reading is "other_rule".
+    return { lineNo: num(f.no), needId: text(f.need), needQty: num(f.qty), verdict: f.verdict, ruleCode: rule === null ? null : RULE_CODES.has(rule) ? rule : "other_rule", confidence: num(f.conf), reasonEn: f.why ?? "" };
   });
 }
 
@@ -184,7 +189,8 @@ async function converse(o: Required<Options>, args: { what: string; system: stri
               }),
             }),
           );
-          return { value: res, tokensIn: res.usage?.inputTokens ?? 0, tokensOut: res.usage?.outputTokens ?? 0 };
+          const known = res.usage?.inputTokens !== undefined && res.usage?.outputTokens !== undefined;
+          return { value: res, tokensIn: known ? res.usage!.inputTokens! : null, tokensOut: known ? res.usage!.outputTokens! : null };
         },
       );
       return { out, usage };
@@ -231,7 +237,7 @@ const IMAGE_FORMAT = { "image/png": "png", "image/jpeg": "jpeg", "image/webp": "
 
 export const READER_SYSTEM = `You read photos of store receipts for a disaster-relief fundraiser and report exactly what is printed.
 Answer in plain text only, nothing else, in this form (one row per line; leave a key out when it is not printed; never guess):
-RECEIPT: merchant=<store name>; address=<store address>; country=<2-letter code>; currency=<ISO code>; purchased=<YYYY-MM-DDTHH:MM:SS>; number=<receipt number>; subtotal=<amount>; tax=<tax amount>; tax_included=<true or false>; total=<final amount due>; readability=<good, poor or unreadable>
+RECEIPT: merchant=<store name>; address=<store address>; country=<2-letter code>; currency=<ISO 4217 code such as JPY, USD, EUR, TRY>; purchased=<YYYY-MM-DDTHH:MM:SS>; number=<receipt number>; subtotal=<amount>; tax=<tax amount>; tax_included=<true or false>; total=<final amount due>; readability=<good, poor or unreadable>
 LINE: no=<n>; qty=<quantity>; unit=<unit price>; amount=<line total>; rate=<tax rate in basis points>; text=<line as printed>; en=<short English name>
 PII: kind=<card_number, name, phone, address, member_id or other>; box=<x,y,w,h as fractions 0..1 of the image>; text=<as printed>
 Rules:

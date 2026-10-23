@@ -66,16 +66,23 @@ export function reconcile(r: ParsedReceipt): Reconciliation {
 
 /**
  * Splits `taxMinor` over the lines by the largest-remainder method, weighted by
- * amount x line rate (when any line has a rate, lines without one carry none;
+ * amount x line rate (a discount line without a rate takes the rate of the line above; when any line has a rate, lines without one carry none;
  * when no line has a rate, by amount). The shares always add up to `taxMinor`.
  * Tax already inside the prices is not split: all zeros. Null when no split exists.
  */
 export function allocateTax(r: ParsedReceipt): number[] | null {
   const zeros = r.lines.map(() => 0);
   if (!isTaxOnTop(r) || !r.taxMinor) return zeros;
-  const anyRate = r.lines.some((l) => l.taxRateBp !== null);
+  // A discount line printed without a rate belongs to the line above it and takes that line's rate,
+  // so a discounted line carries tax on its net amount, not on its gross.
+  let above: number | null = null;
+  const rates = r.lines.map((l) => {
+    if (l.amountMinor >= 0) above = l.taxRateBp;
+    return l.amountMinor < 0 && l.taxRateBp === null ? above : l.taxRateBp;
+  });
+  const anyRate = rates.some((x) => x !== null);
   const zero = BigInt(0);
-  const weights = r.lines.map((l) => BigInt(l.amountMinor) * BigInt(anyRate ? (l.taxRateBp ?? 0) : 1));
+  const weights = r.lines.map((l, i) => BigInt(l.amountMinor) * BigInt(anyRate ? (rates[i] ?? 0) : 1));
   const total = weights.reduce((s, w) => s + w, zero);
   if (total <= zero) return null;
   const tax = BigInt(r.taxMinor);
@@ -207,6 +214,20 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
 
 // -------------------------------------------------------------- funding
 
+const CURRENCY_ALIASES: Record<string, string> = {
+  "¥": "JPY", "￥": "JPY", "円": "JPY", "YEN": "JPY",
+  "€": "EUR", "EURO": "EUR", "EUROS": "EUR",
+  "$": "USD", "US$": "USD", "USDOLLAR": "USD",
+  "£": "GBP",
+  "₺": "TRY", "TL": "TRY",
+};
+
+/** An ISO 4217 code from what a reader may print: a symbol, a name or a code in any case. Unknown text is returned upper-cased. */
+export function normalizeCurrency(s: string): string {
+  const t = s.normalize("NFKC").trim().toUpperCase();
+  return CURRENCY_ALIASES[t] ?? t;
+}
+
 export type RejectCode =
   | "alcohol"
   | "tobacco"
@@ -222,6 +243,7 @@ export type RejectCode =
   | "non_positive_amount"
   | "need_full"
   | "orphan_discount"
+  | "duplicate_line_no"
   | "drive_closed"
   | "currency_mismatch"
   | "total_mismatch"
@@ -233,9 +255,20 @@ export interface RejectedLine {
   reasonEn: string;
 }
 
+export interface CoordinatorApproval {
+  by: string;
+  reason: string;
+  /** Fund a receipt whose lines do not add up to its total; only the read line amounts are funded. */
+  acceptTotalMismatch?: boolean;
+  /** Lines held for review that may be funded; omitted means every line held for review. */
+  lineNos?: number[];
+}
+
 export interface FundableResult {
   fundable: FundableLine[];
   rejected: RejectedLine[];
+  /** Present only when a coordinator's approval changed the outcome. */
+  overrides?: { by: string; reason: string; acceptTotalMismatch: boolean; lineNos: number[] };
 }
 
 const WHOLE_RECEIPT_REASON: Partial<Record<RejectCode, string>> = {
@@ -243,14 +276,36 @@ const WHOLE_RECEIPT_REASON: Partial<Record<RejectCode, string>> = {
   currency_mismatch: "The receipt currency is not the drive currency.",
   total_mismatch: "The receipt lines do not add up to its total.",
   tax_unallocatable: "The tax could not be split over the lines.",
+  duplicate_line_no: "Two lines of the receipt have the same line number.",
+  review: "The classifier's answers do not match the receipt's lines.",
 };
+
+/** Rule codes that forbid funding even when the classifier said "eligible". */
+const FORBIDDEN_RULES = new Set<string>(["alcohol", "tobacco", "gift_card", "other_rule"]);
+
+/**
+ * The largest number of need-units one printed unit may be worth (a case of 24 bottles, a pack of 24
+ * batteries). A bigger claim is held for review: one printed bottle must not close a 40-bottle need.
+ */
+export const MAX_PACK_SIZE = 24;
 
 /**
  * Turns approved lines into amounts for needs. Callers run `checkReceipt` first
  * for duplicate, date and zone flags; this function still refuses a receipt that
- * does not reconcile. A discount line (negative amount) is netted into the line
- * above it. A line larger than what the need still lacks is funded pro rata,
- * rounded down. Lines are handled in order, so earlier lines fill a need first.
+ * does not reconcile. The classifier's word is not enough on its own:
+ * - an "eligible" line with a forbidden rule code (alcohol, tobacco, gift card, other rule) is rejected, and one
+ *   with any other rule code is held for review;
+ * - line numbers must be unique, and every classification must name a line of the receipt;
+ * - the quantity credited to the need must be a safe positive integer and must fit the printed quantity:
+ *   a whole multiple of it (1..MAX_PACK_SIZE need-units per printed unit; an unprinted quantity counts as 1).
+ * A discount line (negative amount) is netted into the line above it. A line larger than what
+ * the need still lacks is funded pro rata, rounded down. Lines are handled in order, so earlier
+ * lines fill a need first.
+ *
+ * A coordinator's approval (`coordinatorApproved`) can fund a receipt with a mismatching total and lines held
+ * for review (review verdict, low confidence, a quantity that does not fit, a soft rule code). It never
+ * overrides a forbidden item, a closed drive, a wrong currency, duplicate line numbers or a bad quantity,
+ * it only ever funds the read line amounts, and it is recorded in `overrides`.
  */
 export function toFundableLines(
   receipt: ParsedReceipt,
@@ -258,7 +313,7 @@ export function toFundableLines(
   needs: Need[],
   drive: Drive,
   progress: NeedProgress,
-  opts: { receiptId: string; minConfidence?: number },
+  opts: { receiptId: string; minConfidence?: number; maxPackSize?: number; coordinatorApproved?: CoordinatorApproval },
 ): FundableResult {
   const fundable: FundableLine[] = [];
   const rejected: RejectedLine[] = [];
@@ -266,18 +321,29 @@ export function toFundableLines(
     for (const l of receipt.lines) rejected.push({ lineNo: l.lineNo, code, reasonEn: WHOLE_RECEIPT_REASON[code] ?? code });
     return { fundable, rejected };
   };
+  const approval = opts.coordinatorApproved;
+  if (approval && !approval.by.trim()) throw new Error("coordinatorApproved.by is required");
+  if (approval && !approval.reason.trim()) throw new Error("coordinatorApproved.reason is required");
 
   if (drive.status === "closed") return rejectAll("drive_closed");
-  if (receipt.currency !== drive.baseCurrency) return rejectAll("currency_mismatch");
-  if (!reconcile(receipt).ok) return rejectAll("total_mismatch");
+  if (normalizeCurrency(receipt.currency) !== normalizeCurrency(drive.baseCurrency)) return rejectAll("currency_mismatch");
+  const lineNos = new Set(receipt.lines.map((l) => l.lineNo));
+  if (lineNos.size !== receipt.lines.length) return rejectAll("duplicate_line_no");
+  const totalMismatchAccepted = !reconcile(receipt).ok && !!approval?.acceptTotalMismatch;
+  if (!reconcile(receipt).ok && !totalMismatchAccepted) return rejectAll("total_mismatch");
   const taxShares = allocateTax(receipt);
   if (!taxShares) return rejectAll("tax_unallocatable");
 
   const min = opts.minConfidence ?? DEFAULT_MIN_CONFIDENCE;
   const byLine = new Map<number, LineClassification[]>();
   for (const c of classifications) byLine.set(c.lineNo, [...(byLine.get(c.lineNo) ?? []), c]);
+  // A classification of a line that is not there, or two answers for one line: the classifier and the receipt disagree.
+  if ([...byLine].some(([no, list]) => !lineNos.has(no) || list.length > 1)) return rejectAll("review");
   const needById = new Map(needs.filter((n) => n.driveId === drive.id).map((n) => [n.id, n]));
+  const lineByNo = new Map(receipt.lines.map((l) => [l.lineNo, l]));
+  const maxPack = opts.maxPackSize ?? MAX_PACK_SIZE;
   const used: NeedProgress = {};
+  const overridden: number[] = [];
 
   // A head line with the discount lines that follow it.
   const heads: { lineNo: number; net: number }[] = [];
@@ -290,40 +356,50 @@ export function toFundableLines(
 
   for (const { lineNo, net } of heads) {
     const reject = (code: RejectCode, reasonEn: string) => rejected.push({ lineNo, code, reasonEn });
-    const found = byLine.get(lineNo) ?? [];
-    if (found.length === 0) {
+    const c = (byLine.get(lineNo) ?? [])[0];
+    if (!c) {
       reject("unclassified", "This line was not classified.");
       continue;
     }
-    if (found.length > 1) {
-      reject("review", "The line was classified more than once with different answers.");
-      continue;
-    }
-    const c = found[0];
     if (c.verdict === "rejected") {
       reject(c.ruleCode ?? "other_rule", c.reasonEn);
       continue;
     }
-    if (c.verdict === "review") {
-      reject("review", c.reasonEn);
+    if (c.verdict === "eligible" && c.ruleCode && FORBIDDEN_RULES.has(c.ruleCode)) {
+      reject(c.ruleCode, `Marked eligible but carries the rule ${c.ruleCode}: ${c.reasonEn}`);
       continue;
     }
-    if (c.confidence < min) {
-      reject("low_confidence", `Classification confidence ${c.confidence} is below ${min}.`);
-      continue;
-    }
+    // Reasons to hold the line for a person; a coordinator may release these, nothing else.
+    let held: { code: RejectCode; reasonEn: string } | null = null;
+    if (c.verdict === "review") held = { code: "review", reasonEn: c.reasonEn };
+    else if (c.ruleCode) held = { code: "review", reasonEn: `Marked eligible but carries the rule ${c.ruleCode}: ${c.reasonEn}` };
+    else if (c.confidence < min) held = { code: "low_confidence", reasonEn: `Classification confidence ${c.confidence} is below ${min}.` };
     const need = c.needId ? needById.get(c.needId) : undefined;
     if (!need) {
       reject("unknown_need", "The line points to a need this drive does not have.");
       continue;
     }
-    if (c.needQty === null || !(c.needQty > 0)) {
-      reject("bad_qty", "No usable quantity for the need.");
+    if (c.needQty === null || !Number.isSafeInteger(c.needQty) || c.needQty <= 0) {
+      reject("bad_qty", "No usable whole quantity for the need.");
       continue;
     }
     if (!(net > 0)) {
       reject("non_positive_amount", "The line amount after discounts is not positive.");
       continue;
+    }
+    if (!held) {
+      const printed = lineByNo.get(lineNo)!.qty ?? 1;
+      const per = c.needQty / printed;
+      if (!Number.isInteger(per) || per < 1 || per > maxPack) {
+        held = { code: "review", reasonEn: `The quantity ${c.needQty} does not fit the printed quantity ${printed} (a whole multiple, at most ${maxPack} per unit).` };
+      }
+    }
+    if (held) {
+      if (approval && (approval.lineNos === undefined || approval.lineNos.includes(lineNo))) overridden.push(lineNo);
+      else {
+        reject(held.code, held.reasonEn);
+        continue;
+      }
     }
     const remaining = need.qtyNeeded - (progress[need.id] ?? 0) - (used[need.id] ?? 0);
     if (!(remaining > 0)) {
@@ -333,7 +409,7 @@ export function toFundableLines(
     let qty = c.needQty;
     let amount = net;
     if (qty > remaining) {
-      amount = Number((BigInt(net) * BigInt(Math.round(remaining * 1e6))) / BigInt(Math.round(qty * 1e6)));
+      amount = Number((BigInt(net) * BigInt(remaining)) / BigInt(qty));
       qty = remaining;
       if (amount <= 0) {
         reject("need_full", `${need.label} is already fully covered.`);
@@ -344,5 +420,10 @@ export function toFundableLines(
     fundable.push({ receiptId: opts.receiptId, lineNo, needId: need.id, needQty: qty, amountBase: amount });
   }
   rejected.sort((a, b) => a.lineNo - b.lineNo);
+  const funded = new Set(fundable.map((f) => f.lineNo));
+  const used2 = overridden.filter((n) => funded.has(n));
+  if (approval && (totalMismatchAccepted || used2.length)) {
+    return { fundable, rejected, overrides: { by: approval.by.trim(), reason: approval.reason.trim(), acceptTotalMismatch: totalMismatchAccepted, lineNos: used2 } };
+  }
   return { fundable, rejected };
 }
