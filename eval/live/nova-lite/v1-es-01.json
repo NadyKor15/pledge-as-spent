@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-es-01",
+ "set": "v1",
+ "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3115,
+   "tokensOut": 386,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.00028
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo (stop reason: tool_use)",
+  "raw: {\"country\":\"ES\",\"pii\":\"kind=name; box=0.16,0.82,0.3,0.02; text=MARCOS ALBERDI\",\"readability\":\"good\",\"totalMinor\":2835,\"currency\":\"EUR\",\"lines\":\"no=1; text=AGUA 1,5L PACK 6; amount=3290; en=Water 1.5L pack 6\\nn=2; text=AGUA FUENTE CLARA BOTELLA 1,5 L; amount=1300; en=Natural spring water 1.5L bottle\\nn=3; qty=2; amount=-6; en=Discount\\nn=4; text=PANAL BEBÉ T3 44U; amount=8950; en=Baby diaper T3 44U\\nn=5; text=PILAS AA LR6 8U; amount=11980; en=AA batteries LR6 8U\\nn=6; qty=2; amount=-599; en=Discount\\nn=7; text=PAN BARRA; amount=1700; en=Bread loaf\\nn=8; qty=2; amount=-85; en=Discount\\nn=9; text=AGUA 5L GARRAFA DTO. PROMOCIÓN; amount=1190; en=5L water jug PROMO\\nn=10; amount=-60; en=Discount\\nn=11; text=TOTAL (IVA INCLUIDO); amount=2835; en=Total (VAT included)\",\"merchantName\":\"FERRETERIA LA LLAVE\"}"
+ ]
+}

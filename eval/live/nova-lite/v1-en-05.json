@@ -1,0 +1,130 @@
+{
+ "receiptId": "v1-en-05",
+ "set": "v1",
+ "imageSha256": "09360b22a2707e0482455be16dfb1115d4961a40e81c6ec326e0b1ad3a8f2990",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": null,
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T10:05:00",
+  "receiptNumber": null,
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "Spiral notebook",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 199,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -20,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG 3 @ $1.69",
+    "translationEn": "Deer Creek water 1 gallon jug 3 @ $1.69",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 507,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "LITTLE LAMB DIAPERS S23 66CT",
+    "translationEn": "Little Lamb diapers S23 66CT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2499,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "FLEECE THROW BLANKET 2 @ $14.99",
+    "translationEn": "Fleece throw blanket 2 @ $14.99",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2998,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "WATER 24PK.5L",
+    "translationEn": "Water 24PK.5L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 499,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "SUBTOTAL",
+    "translationEn": "Subtotal",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 6682,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "SALES TAX 7.25%",
+    "translationEn": "Sales tax 7.25%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 412,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TOTAL",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 7094,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 412,
+  "taxIncluded": false,
+  "totalMinor": 7094,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A spiral notebook is not a listed need for the disaster relief drive.",
+   "confidence": 1
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3077,
+   "tokensOut": 381,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000276
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1311,
+   "tokensOut": 61,
+   "usdCeiling": 0.001275,
+   "usdActual": 0.000093
+  }
+ ],
+ "errors": []
+}

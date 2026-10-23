@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
-import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../../src/receipts/bedrock";
+import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, minorUnits, type ConverseClient } from "../../src/receipts/bedrock";
 import { RecordedClassifier, RecordedReader, receiptKey } from "../../src/receipts/recorded";
 import { sha256Hex } from "../../src/receipts/hash";
 import { JsonlSpendLedger, SpendCap, SpendCapExceeded } from "../../src/receipts/spend";
@@ -11,14 +11,15 @@ import { cls, needs, receipt } from "./fixtures";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 
 const kvs = (o: Record<string, unknown>) => Object.entries(o).filter(([, v]) => v !== null && v !== "").map(([k, v]) => `${k}=${v}`).join("; ");
-/** The receipt as the model sends it: lines and personal data as key=value strings. */
-function wire(r: ParsedReceipt) {
-  return {
-    ...r,
-    lines: r.lines.map((l) => kvs({ no: l.lineNo, qty: l.qty, unit: l.unitPriceMinor, amount: l.amountMinor, rate: l.taxRateBp, text: l.rawText, en: l.translationEn })).join("\n"),
-    pii: r.pii.map((p) => kvs({ kind: p.kind, box: p.bbox ? [p.bbox.x, p.bbox.y, p.bbox.w, p.bbox.h].join(",") : null, text: p.text })).join("\n"),
-  };
+/** The receipt as the reader model answers: plain text, one row per line. */
+function answer(r: ParsedReceipt): string {
+  return [
+    `RECEIPT: ${kvs({ merchant: r.merchantName, address: r.merchantAddress, country: r.country, currency: r.currency, purchased: r.purchasedAt, number: r.receiptNumber, subtotal: r.subtotalMinor, tax: r.taxMinor, tax_included: r.taxIncluded, total: r.totalMinor, readability: r.readability })}`,
+    ...r.lines.map((l) => `LINE: ${kvs({ no: l.lineNo, qty: l.qty, unit: l.unitPriceMinor, amount: l.amountMinor, rate: l.taxRateBp, text: l.rawText, en: l.translationEn })}`),
+    ...r.pii.map((p) => `PII: ${kvs({ kind: p.kind, box: p.bbox ? [p.bbox.x, p.bbox.y, p.bbox.w, p.bbox.h].join(",") : null, text: p.text })}`),
+  ].join("\n");
 }
+const say = (t: string) => reply([{ text: t }], { stopReason: "end_turn" });
 const wireCls = (ls: LineClassification[]) => ({ lines: ls.map((l) => kvs({ no: l.lineNo, need: l.needId, qty: l.needQty, verdict: l.verdict, rule: l.ruleCode, conf: l.confidence, why: l.reasonEn })).join("\n") });
 
 const IMG = { bytes: new Uint8Array([1, 2, 3, 4]), mediaType: "image/png" as const };
@@ -44,9 +45,10 @@ async function setup(response: ConverseCommandOutput, maxUsd = 5) {
 }
 
 describe("BedrockNovaReader", () => {
-  it("sends the image with a forced tool in-Region and returns the parsed receipt with usage", async () => {
-    const r = receipt();
-    const { client, send, cap, ledger } = await setup(reply([toolUse("submit_receipt", wire(r))]));
+  const r = receipt({ pii: [{ kind: "card_number", text: "************1234", bbox: { x: 0.1, y: 0.2, w: 0.3, h: 0.04 } }, { kind: "name", text: "A B", bbox: null }], subtotalMinor: 1500 });
+
+  it("sends the image as plain text request in-Region and returns the parsed receipt with usage", async () => {
+    const { client, send, cap, ledger } = await setup(say(answer(r)));
     const out = await new BedrockNovaReader({ client, cap }).read(IMG, hint);
     expect(out.receipt).toEqual(r);
     expect(out.usage).toMatchObject({ model: NOVA_MODELS.lite, tokensIn: 1800, tokensOut: 400 });
@@ -57,69 +59,91 @@ describe("BedrockNovaReader", () => {
     const input = send.mock.calls[0][0].input;
     expect(input.modelId).toBe("amazon.nova-lite-v1:0");
     expect(input.modelId).not.toMatch(/^us\./);
-    expect(input.toolConfig?.toolChoice).toEqual({ tool: { name: "submit_receipt" } });
-    expect(input.toolConfig?.tools?.[0].toolSpec?.name).toBe("submit_receipt");
-    const schema = input.toolConfig?.tools?.[0].toolSpec?.inputSchema?.json as { type: string; properties: Record<string, unknown>; $schema?: string };
-    expect(schema.type).toBe("object");
-    expect(Object.keys(schema.properties)).toContain("lines");
-    expect((schema.properties.lines as { type: string }).type).toBe("string"); // lines travel as text, not as objects
-    expect(schema.$schema).toBeUndefined();
+    expect(input.toolConfig).toBeUndefined(); // no tool: Nova breaks tool calls on Japanese text
     const blocks = input.messages?.[0].content ?? [];
     expect(blocks.find((b) => b.image)?.image).toMatchObject({ format: "png", source: { bytes: IMG.bytes } });
     expect(blocks.find((b) => b.text)?.text).toContain("JPY");
     expect(input.inferenceConfig?.temperature).toBe(0);
+    expect(input.system?.[0].text).toContain("RECEIPT:");
   });
 
   it("maps jpeg media type and honours the model override", async () => {
-    const { client, send, cap } = await setup(reply([toolUse("submit_receipt", wire(receipt()))]));
+    const { client, send, cap } = await setup(say(answer(receipt())));
     await new BedrockNovaReader({ client, cap, modelId: NOVA_MODELS.pro }).read({ ...IMG, mediaType: "image/jpeg" }, hint);
     const input = send.mock.calls[0][0].input;
     expect(input.modelId).toBe("amazon.nova-pro-v1:0");
     expect(input.messages?.[0].content?.find((b) => b.image)?.image?.format).toBe("jpeg");
   });
 
-  it("accepts tool input delivered as a JSON string", async () => {
-    const { client, cap } = await setup(reply([toolUse("submit_receipt", JSON.stringify(wire(receipt())))]));
-    expect((await new BedrockNovaReader({ client, cap }).read(IMG, hint)).receipt.merchantName).toBe("Test Store");
-  });
-
-  it("refuses output that does not match the schema, without inventing a receipt", async () => {
-    const { client, cap, ledger } = await setup(reply([toolUse("submit_receipt", { merchantName: "X" })]));
-    await expect(new BedrockNovaReader({ client, cap }).read(IMG, hint)).rejects.toThrow(ModelOutputError);
-    expect(await ledger.total()).toBeGreaterThan(0); // the call was made and is paid for
-  });
-
-  it("reads the model's habits: null spelled out, colons, odd order, ';' and '=' inside the printed text, a box on personal data", async () => {
-    const w = {
-      ...wire(receipt()),
-      lines: "no=1; qty=null; unit=-; amount=1000; rate=null; text=牛乳; 1L = 2 pack; en=Milk 1 L\n\n  amount: 500; no: 2; text=Bread; en=Bread; rate=none\r\n",
-      pii: "kind=card_number; box=0.1,0.2,0.3,0.04; text=************1234\nkind=name; text=A | B",
-    };
-    const { client, cap } = await setup(reply([toolUse("submit_receipt", w)]));
-    const out = await new BedrockNovaReader({ client, cap }).read(IMG, hint);
-    expect(out.receipt.lines).toEqual([
-      { lineNo: 1, qty: null, unitPriceMinor: null, amountMinor: 1000, taxRateBp: null, rawText: "牛乳; 1L = 2 pack", translationEn: "Milk 1 L" },
-      { lineNo: 2, qty: null, unitPriceMinor: null, amountMinor: 500, taxRateBp: null, rawText: "Bread", translationEn: "Bread" },
+  it("reads the model's habits: chatter and code fences around the rows, bullets, null spelled out, amounts with symbols, decimals, odd key order and case", async () => {
+    const text = [
+      "Here is the receipt:",
+      "```",
+      "RECEIPT: merchant=Corner Shop; currency=usd; purchased=2026-11-04T15:58:00; total=$51.41; subtotal=49.18; tax=2.23; tax_included=false; readability=Good; country=null",
+      "- LINE: no=1; qty=6; unit=1.49; amount=8.94; rate=null; text=SPRING WATER 1GAL; en=Spring water",
+      "LINE: amount: -1,20; text=COUPON; en=Coupon; no=2",
+      "LINE: text=SUBTOTAL; en=Subtotal; amount=null",
+      "line: no=9; amount=799; text=AA 8PK; ok; en=AA batteries; rate=725",
+      "PII: kind=card; box=0.1,0.2,0.3,0.04; text=****1234",
+      "PII: (illegible)",
+      "PII: kind=name; text=null",
+      "```",
+    ].join("\n");
+    const { client, cap } = await setup(say(text));
+    const out = (await new BedrockNovaReader({ client, cap }).read(IMG, hint)).receipt;
+    expect(out).toMatchObject({ merchantName: "Corner Shop", currency: "USD", totalMinor: 5141, subtotalMinor: 4918, taxMinor: 223, taxIncluded: false, readability: "good", country: null, merchantAddress: null });
+    expect(out.lines).toEqual([
+      { lineNo: 1, qty: 6, unitPriceMinor: 149, amountMinor: 894, taxRateBp: null, rawText: "SPRING WATER 1GAL", translationEn: "Spring water" },
+      { lineNo: 2, qty: null, unitPriceMinor: null, amountMinor: -120, taxRateBp: null, rawText: "COUPON", translationEn: "Coupon" },
+      { lineNo: 3, qty: null, unitPriceMinor: null, amountMinor: 799, taxRateBp: 725, rawText: "AA 8PK; ok", translationEn: "AA batteries" },
     ]);
-    expect(out.receipt.pii).toEqual([
-      { kind: "card_number", bbox: { x: 0.1, y: 0.2, w: 0.3, h: 0.04 }, text: "************1234" },
-      { kind: "name", bbox: null, text: "A | B" },
-    ]);
+    expect(out.pii).toEqual([{ kind: "other", bbox: { x: 0.1, y: 0.2, w: 0.3, h: 0.04 }, text: "****1234" }]);
   });
 
-  it("still refuses what the full schema refuses: a missing amount or line number, a non-number, no fields at all", async () => {
-    for (const bad of ["no=1; qty=1; text=x; en=y", "no=1; amount=abc; text=x; en=y", "amount=100; text=x; en=y", "just some words"]) {
-      const { client, cap } = await setup(reply([toolUse("submit_receipt", { ...wire(receipt()), lines: bad })]));
+  it("converts amounts by the printed currency: yen are whole, thousands separators go, other currencies take decimals", () => {
+    expect(minorUnits("¥1,298", 0)).toBe(1298);
+    expect(minorUnits("1.298", 0)).toBe(1298);
+    expect(minorUnits("798", 0)).toBe(798);
+    expect(minorUnits("1.49", 0)).toBe(1.49); // not an integer yen: left for the schema to refuse
+    expect(minorUnits("x1", 2)).toBe("x1"); // letters are not symbols to drop
+    expect(minorUnits("1.234,50", 2)).toBe(123450);
+    expect(minorUnits("-0,06", 2)).toBe(-6);
+    expect(minorUnits("€ 12.50", 2)).toBe(1250);
+    expect(minorUnits("1250", 2)).toBe(1250);
+    expect(minorUnits("1,298", 2)).toBe("1,298"); // thousands or decimals? not guessed
+    expect(minorUnits("abc", 2)).toBe("abc");
+    expect(minorUnits("-", 2)).toBeNull();
+    expect(minorUnits(undefined, 2)).toBeNull();
+  });
+
+  it("still refuses what the full schema refuses, and says what the call cost", async () => {
+    const bad = [
+      ["RECEIPT: currency=JPY; total=100; readability=good\nLINE: no=1; amount=x1; text=a; en=b", /lines\.0\.amountMinor|amountMinor/],
+      ["RECEIPT: merchant=X; total=100; readability=good", /currency/],
+      ["RECEIPT: merchant=X; currency=JPY; readability=good", /totalMinor/],
+      ["RECEIPT: merchant=X; currency=JPY; total=100; readability=fine", /readability/],
+      ["RECEIPT: merchant=X; currency=JPY; total=1.5; readability=good", /totalMinor/],
+    ] as const;
+    for (const [t, why] of bad) {
+      const { client, cap } = await setup(say(t));
       const err = await new BedrockNovaReader({ client, cap }).read(IMG, hint).catch((e) => e);
-      expect(err).toBeInstanceOf(ModelOutputError);
-      expect(err.usage.tokensIn).toBe(1800); // the paid call is reported with the error
-      expect(err.raw.lines).toBe(bad);
+      expect(err, t).toBeInstanceOf(ModelOutputError);
+      expect(err.message).toMatch(why);
+      expect(err.usage.tokensIn).toBe(1800);
+      expect(err.raw).toBe(t);
     }
   });
 
-  it("tries once more after the model's own broken tool call, and no more than once", async () => {
+  it("refuses an answer without a RECEIPT row, or one that was cut off", async () => {
+    const a = await setup(say("Sorry, I cannot read this."));
+    await expect(new BedrockNovaReader({ client: a.client, cap: a.cap }).read(IMG, hint)).rejects.toThrow(/no RECEIPT row/);
+    const b = await setup(reply([{ text: answer(receipt()) }], { stopReason: "max_tokens" }));
+    await expect(new BedrockNovaReader({ client: b.client, cap: b.cap }).read(IMG, hint)).rejects.toThrow(/cut off.*max_tokens/);
+  });
+
+  it("tries once more after the model's own broken call, and no more than once", async () => {
     const broken = Object.assign(new Error("invalid sequence"), { name: "ModelErrorException" });
-    const ok = reply([toolUse("submit_receipt", wire(receipt()))]);
+    const ok = say(answer(receipt()));
     const a = await setup(ok);
     let n = 0;
     a.client.send = async () => { n++; if (n === 1) throw broken; return ok; };
@@ -137,23 +161,16 @@ describe("BedrockNovaReader", () => {
     expect(n).toBe(1);
   });
 
-  it("refuses an answer without the tool call, and non-JSON tool input", async () => {
-    const a = await setup(reply([{ text: "sorry" }], { stopReason: "max_tokens" }));
-    await expect(new BedrockNovaReader({ client: a.client, cap: a.cap }).read(IMG, hint)).rejects.toThrow(/did not call submit_receipt.*max_tokens/);
-    const b = await setup(reply([toolUse("submit_receipt", "{not json")]));
-    await expect(new BedrockNovaReader({ client: b.client, cap: b.cap }).read(IMG, hint)).rejects.toThrow(/not JSON/);
-  });
-
   it("does not send anything when the cap would be passed", async () => {
-    const { client, send, cap } = await setup(reply([toolUse("submit_receipt", wire(receipt()))]), 0.001);
+    const { client, send, cap } = await setup(say(answer(receipt())), 0.001);
     await expect(new BedrockNovaReader({ client, cap }).read(IMG, hint)).rejects.toThrow(SpendCapExceeded);
     expect(send).not.toHaveBeenCalled();
   });
 
   it("lets a client error through and keeps the reservation", async () => {
     const { cap, ledger } = await setup(reply([]));
-    const client: ConverseClient = { send: async () => { throw new Error("ThrottlingException"); } };
-    await expect(new BedrockNovaReader({ client, cap }).read(IMG, hint)).rejects.toThrow("ThrottlingException");
+    const client: ConverseClient = { send: async () => { throw new Error("AccessDenied"); } };
+    await expect(new BedrockNovaReader({ client, cap }).read(IMG, hint)).rejects.toThrow("AccessDenied");
     expect(await ledger.total()).toBeGreaterThan(0);
   });
 });
@@ -173,6 +190,23 @@ describe("BedrockNovaClassifier", () => {
     expect(text).toContain('"id":"water"');
     expect(text).toContain("item 1");
     expect(input.messages?.[0].content?.some((b) => b.image)).toBe(false);
+  });
+
+  it("accepts tool input delivered as a JSON string, one text row per line, tolerant of key case and order", async () => {
+    const text = "NO=1; need=water; qty=6; verdict=eligible; conf=0.95; why=Water; fine\n\nverdict=rejected; no=2; rule=alcohol; conf=0.9; why=Beer.";
+    const { client, cap } = await setup(reply([toolUse("submit_classifications", JSON.stringify({ lines: text }))]));
+    const out = await new BedrockNovaClassifier({ client, cap }).classify({ receipt: receipt(), needs, rules: "" });
+    expect(out.lines).toEqual([
+      { lineNo: 1, needId: "water", needQty: 6, verdict: "eligible", ruleCode: null, confidence: 0.95, reasonEn: "Water; fine" },
+      { lineNo: 2, needId: null, needQty: null, verdict: "rejected", ruleCode: "alcohol", confidence: 0.9, reasonEn: "Beer." },
+    ]);
+  });
+
+  it("refuses an empty answer, and a row with no fields", async () => {
+    for (const lines of ["", "just words"]) {
+      const { client, cap } = await setup(reply([toolUse("submit_classifications", { lines })]));
+      await expect(new BedrockNovaClassifier({ client, cap }).classify({ receipt: receipt(), needs, rules: "" })).rejects.toThrow(ModelOutputError);
+    }
   });
 
   it("refuses a classification that breaks the schema", async () => {

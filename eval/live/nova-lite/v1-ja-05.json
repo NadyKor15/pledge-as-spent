@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-05",
+ "set": "v1",
+ "imageSha256": "cfa28fca85235900e805bb41a0ae2c45f5dea49165666864381493eff2831c4a",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3164,
+   "tokensOut": 772,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000375
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[14].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":\"Japan\",\"pii\":\"kind=member_id; box=0.72,0.79,0.28,0.02; text=**********8031\",\"readability\":\"good\",\"totalMinor\":3390,\"purchasedAt\":\"2026-11-04T14:38:00\",\"currency\":\"JPY\",\"lines\":\"no=1; qty=2; unit=128; amount=256; rate=null; text=雪解けの水 2L; en=Snowmelt water 2 L\\nno=2; qty=null; unit=null; amount=-40; rate=null; text=割引 A5; en=Discount A5\\nno=3; qty=null; unit=null; amount=-440; rate=null; text=割引 2本; en=Discount 2 bottles\\nno=4; qty=null; unit=null; amount=296; rate=null; text=割引 2本; en=Discount 2 bottles\\nno=5; qty=null; unit=null; amount=1298; rate=null; text=おやつ りんご L 34個; en=Snack apple L 34 pcs\\nno=6; qty=null; unit=null; amount=128; rate=null; text=おやつ 10個; en=Snack 10 pcs\\nno=7; qty=null; unit=null; amount=1194; rate=null; text=おやつ 3個; en=Snack 3 pcs\\nno=8; qty=null; unit=null; amount=258; rate=null; text=おやつ 4個; en=Snack 4 pcs\\nno=9; qty=null; unit=null; amount=3390; rate=null; text=合計 (税込); en=Total (tax included)\\nno=10; qty=null; unit=null; amount=344; rate=null; text=8%税; en=8% tax\\nno=11; qty=null; unit=null; amount=3046; rate=null; text=10%税; en=10% tax\\nno=12; qty=null; unit=null; amount=-25; rate=null; text=(消費税 8%); en=(Consumption tax 8%)\\nno=13; qty=null; unit=null; amount=-276; rate=null; text=(消費税 10%); en=(Consumption tax 10%)\\nno=14; qty=null; unit=null; amount=3390; rate=null; text=合計; en=Total\\nno=15; qty=null; unit=null; amount=null; rate=null; text=お支払い金額; en=Amount paid\\nno=16; qty=null; unit=null; amount=3390; rate=null; text=¥3,390; en=¥3,390\",\"merchantName\":\"株式会社 山田商店\"}"
+ ]
+}

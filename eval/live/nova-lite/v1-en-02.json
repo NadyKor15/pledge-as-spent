@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-en-02",
+ "set": "v1",
+ "imageSha256": "483b7ca5b81bf1ac30d65662e5139d49a0e4b719ba669b7aa616555fedfb147a",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3176,
+   "tokensOut": 561,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000325
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received string\n  → at lines[6].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received string\n  → at lines[8].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":null,\"totalMinor\":5141,\"taxIncluded\":false,\"purchasedAt\":\"2026-11-04T15:58:00\",\"merchantName\":\"CORNER PHARMACY #14\",\"pii\":\"kind=member_id; box=0.17,0.81,0.6,0.03; text=2899736096\\nkind=name; box=0.17,0.84,0.26,0.03; text=AVA PRESCOTT\",\"readability\":\"good\",\"taxMinor\":223,\"merchantAddress\":\"3 Elm Court, Brindlewood, Marlow Co.\",\"currency\":\"USD\",\"subtotalMinor\":4918,\"lines\":\"no=1; qty=6; unit=149; amount=894; rate=null; text=SPRING WATER 1GAL 6 @ $1.49; en=Spring water 1 gal\\nn=2; qty=null; unit=null; amount=-120; rate=null; text=AAA BATTERY 8PK COUPON; en=AAA battery 8 pack coupon\\nn=3; qty=null; unit=null; amount=1599; rate=null; text=AA ALKALINE 24PK; en=AA alkaline 24 pack\\nn=4; qty=2; unit=279; amount=558; rate=null; text=BREAD WHEAT 2 @ $2.79; en=Bread wheat 2\\nn=5; qty=null; unit=null; amount=799; rate=null; text=AA BATTERY 8PK; en=AA battery 8 pack\\nn=6; qty=null; unit=null; amount=389; rate=null; text=MILK 1GAL; en=Milk 1 gal\\nn=7; qty=null; unit=null; amount=-null; rate=null; text=SUBTOTAL; en=Subtotal\\nn=8; qty=null; unit=null; amount=223; rate=725; text=SALES TAX 7.25%; en=Sales tax 7.25%\\nn=9; qty=null; unit=null; amount=-null; rate=null; text=TOTAL; en=Total\",\"receiptNumber\":null}"
+ ]
+}

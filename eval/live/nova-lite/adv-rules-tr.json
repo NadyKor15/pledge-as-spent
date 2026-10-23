@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3080,
+   "tokensOut": 875,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000395
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[11].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[12].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":\"Turkey\",\"pii\":\"kind=card_number; box=0.16,0.78,0.32,0.03; text=**** **** **** 2115\\nkind=name; box=0.39,0.82,0.2,0.03; text=TESEKKÜR EDERIZ\",\"readability\":\"good\",\"totalMinor\":362970,\"currency\":\"TRY\",\"lines\":\"no=1; qty=2; unit=28990; amount=57980; rate=2000; text=MINI BEBÜK BEZI 4 NO; en=Mini baby diaper 4 pieces\\nno=2; qty=2; unit=34900; amount=68900; rate=2000; text=RAKI 70 CL; en=Raki 70 cl\\nno=3; qty=4; unit=42000; amount=69800; rate=2000; text=SEVİMLİ BEBÜK BEZI NO:4 JUMBO 42'Lİ; en=Disposable baby diaper Jumbo 42 pieces\\nno=4; qty=1; unit=50000; amount=95000; rate=2000; text=YILDIZ ŞİGARA MAVI; en=Yildiz cigarette blue\\nno=5; qty=1; unit=50000; amount=500000; rate=null; text=HEDIYE KARTI 500 TL; en=Gift card 500 TL\\nno=6; qty=1; unit=10000; amount=169900; rate=2000; text=AA PİL 10'LU PAKET; en=AA battery 10 pieces\\nno=7; qty=2; unit=44900; amount=898000; rate=2000; text=BATTIİYE TEK KIŞİLİK; en=Lighting bulb 2 pieces\\nno=8; qty=null; unit=null; amount=52162; rate=2000; text=KDV %20 MATRAH 2.608,08; en=VAT 20% amount 2.608,08\\nno=9; qty=null; unit=null; amount=52162; rate=null; text=TOPKDV; en=Total VAT\\nno=10; qty=null; unit=null; amount=362970; rate=null; text=TOPLAM; en=Total\\nno=11; qty=null; unit=null; amount=-362970; rate=null; text=*KREDİ KARTİ; en=Credit card\\nno=12; qty=null; unit=null; amount=null; rate=null; text=**** **** **** 2115; en=**** **** **** 2115\\nno=13; qty=null; unit=null; amount=null; rate=null; text=TESEKKÜR EDERIZ; en=Thank you\",\"merchantName\":\"GöLPINAR TOPTAN GIDA\"}"
+ ]
+}

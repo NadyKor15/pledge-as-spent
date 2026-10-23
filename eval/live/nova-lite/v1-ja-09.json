@@ -1,0 +1,11 @@
+{
+ "receiptId": "v1-ja-09",
+ "set": "v1",
+ "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
+ "reading": null,
+ "classifications": null,
+ "usage": [],
+ "errors": [
+  "read: Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+ ]
+}

@@ -1,0 +1,1417 @@
+{
+ "reader": "nova-lite",
+ "set": "v1",
+ "receipts": 30,
+ "scoredReceipts": 30,
+ "errors": [
+  {
+   "id": "v1-en-01",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-en-02",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received string\n  → at lines[6].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received string\n  → at lines[8].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-en-04",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[0].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[6].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[6].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-en-06",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[7].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-es-01",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-es-02",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-es-03",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[5].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[6].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[7].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[8].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[9].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[10].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-es-06",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at lines[6].unitPriceMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-ja-01",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-02",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-03",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-05",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[14].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-ja-06",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-07",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[19].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[20].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[21].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[22].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-ja-09",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-10",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-ja-12",
+   "stage": "read",
+   "message": "Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+  },
+  {
+   "id": "v1-tr-01",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[7].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[8].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[9].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[10].amountMinor (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-tr-02",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[11].lineNo (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-tr-03",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[11].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[12].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[13].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[14].lineNo (stop reason: tool_use)"
+  },
+  {
+   "id": "v1-tr-05",
+   "stage": "read",
+   "message": "read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[6].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[10].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[12].unitPriceMinor (stop reason: tool_use)"
+  }
+ ],
+ "lines": {
+  "precision": 0.44680851063829785,
+  "recall": 0.2641509433962264,
+  "f1": 0.3320158102766798,
+  "tp": 42,
+  "fp": 52,
+  "fn": 117
+ },
+ "lineAmountExact": {
+  "num": 38,
+  "den": 159,
+  "rate": 0.2389937106918239
+ },
+ "totalExact": {
+  "num": 8,
+  "den": 30,
+  "rate": 0.26666666666666666
+ },
+ "dateExact": {
+  "num": 6,
+  "den": 30,
+  "rate": 0.2
+ },
+ "dateTimeExact": {
+  "num": 6,
+  "den": 30,
+  "rate": 0.2
+ },
+ "merchant": {
+  "meanSimilarity": 0.20557889822595707,
+  "atLeast80": {
+   "num": 6,
+   "den": 30,
+   "rate": 0.2
+  }
+ },
+ "lineClass": {
+  "num": 14,
+  "den": 143,
+  "rate": 0.0979020979020979
+ },
+ "needQty": {
+  "num": 7,
+  "den": 87,
+  "rate": 0.08045977011494253
+ },
+ "ruleLines": {
+  "num": 1,
+  "den": 10,
+  "rate": 0.1,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 8,
+   "den": 46,
+   "rate": 0.17391304347826086
+  },
+  "meanIou": 0.231913691
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 2,
+   "tn": 28,
+   "recall": null,
+   "falseAlarmRate": 0.06666666666666667
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 30,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 9,
+  "zone_unknown": 8,
+  "date_unknown": 1
+ },
+ "byLanguage": {
+  "en": {
+   "precision": 0.625,
+   "recall": 0.29411764705882354,
+   "f1": 0.4,
+   "totalExact": {
+    "num": 2,
+    "den": 6,
+    "rate": 0.3333333333333333
+   }
+  },
+  "es": {
+   "precision": 0.5625,
+   "recall": 0.2727272727272727,
+   "f1": 0.36734693877551017,
+   "totalExact": {
+    "num": 2,
+    "den": 6,
+    "rate": 0.3333333333333333
+   }
+  },
+  "ja": {
+   "precision": 0.34210526315789475,
+   "recall": 0.21666666666666667,
+   "f1": 0.2653061224489796,
+   "totalExact": {
+    "num": 3,
+    "den": 12,
+    "rate": 0.25
+   }
+  },
+  "tr": {
+   "precision": 0.4166666666666667,
+   "recall": 0.3125,
+   "f1": 0.35714285714285715,
+   "totalExact": {
+    "num": 1,
+    "den": 6,
+    "rate": 0.16666666666666666
+   }
+  }
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.031428000000000025,
+  "calls": 31,
+  "tokensIn": 77864,
+  "tokensOut": 14351,
+  "usdActual": 0.008116,
+  "usdCeiling": 0.043573999999999995
+ },
+ "perReceipt": [
+  {
+   "id": "v1-en-01",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-02",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-03",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 3,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiIou": [
+     0.408671053,
+     0.729159649,
+     0.111947533
+    ]
+   }
+  },
+  {
+   "id": "v1-en-04",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-05",
+   "locale": "en",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 3,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-en-06",
+   "locale": "en",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 7
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-01",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-02",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-03",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 5,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 5
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-04",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 6,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "v1-es-05",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "pre_disaster",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 1,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0.9411764705882353,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-es-06",
+   "locale": "es",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 6,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-01",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 2,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 2
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-02",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 3
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-03",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 5,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 5
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 5
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-04",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "date_unknown",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 3,
+    "fp": 7,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 1,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.140025974
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-05",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-06",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 8,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 8
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 8
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-07",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 7
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-08",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 10,
+    "fn": 1,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.1428571428571429,
+    "lineClass": {
+     "num": 4,
+     "den": 5
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiIou": [
+     0.465505319
+    ]
+   }
+  },
+  {
+   "id": "v1-ja-09",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-10",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-11",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 8,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.08333333333333337,
+    "lineClass": {
+     "num": 1,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-ja-12",
+   "locale": "ja",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 4,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 4
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 4
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-01",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 3,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 3
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-02",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 3,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 3
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 2
+    },
+    "needQty": {
+     "num": 0,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-03",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 9,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 9
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 8
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-04",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 6,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiIou": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "v1-tr-05",
+   "locale": "tr",
+   "readability": null,
+   "flags": [],
+   "score": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 7,
+    "lineAmountExact": {
+     "num": 0,
+     "den": 7
+    },
+    "totalExact": false,
+    "dateExact": false,
+    "dateTimeExact": false,
+    "merchantSimilarity": 0,
+    "lineClass": {
+     "num": 0,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   }
+  },
+  {
+   "id": "v1-tr-06",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "zone_unknown"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 8,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": false,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 1,
+     "den": 6
+    },
+    "needQty": {
+     "num": 1,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiIou": [
+     0
+    ]
+   }
+  }
+ ]
+}

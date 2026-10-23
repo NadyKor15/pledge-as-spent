@@ -1,0 +1,177 @@
+{
+ "receiptId": "v1-ja-11",
+ "set": "v1",
+ "imageSha256": "2b9d6038381516af7c114d35a279a0a7a682c7a78397ddabc95624e00f03c2f7",
+ "reading": {
+  "merchantName": "株式会社 山田商店",
+  "merchantAddress": null,
+  "country": "Japan",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "冷凍の水 2L",
+    "translationEn": "Frozen water 2 L",
+    "qty": 3,
+    "unitPriceMinor": 128,
+    "amountMinor": 384,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "冷凍の水 M 44個",
+    "translationEn": "Frozen water M 44 pcs",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -130,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "冷凍の水 2L",
+    "translationEn": "Frozen water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 1158,
+    "amountMinor": 316,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "合計 (4人)",
+    "translationEn": "Total (4 people)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "8%税",
+    "translationEn": "8% tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 828,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "10%税",
+    "translationEn": "10% tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2466,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "(8%税 8%)",
+    "translationEn": "(8% tax 8%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -61,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "(10%税 10%)",
+    "translationEn": "(10% tax 10%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 224,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "割引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -3485,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "支払い",
+    "translationEn": "Payment",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": null,
+  "taxIncluded": null,
+  "totalMinor": 3294,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "T0000100000551",
+    "bbox": {
+     "x": 0.16,
+     "y": 0.29,
+     "w": 0.68,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Frozen water 2 L counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3179,
+   "tokensOut": 640,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000344
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1402,
+   "tokensOut": 53,
+   "usdCeiling": 0.001292,
+   "usdActual": 0.000097
+  }
+ ],
+ "errors": []
+}

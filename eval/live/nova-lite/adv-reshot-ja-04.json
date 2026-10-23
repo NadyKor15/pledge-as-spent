@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3212,
+   "tokensOut": 933,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000417
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo (stop reason: tool_use)",
+  "raw: {\"country\":\"Japan\",\"pii\":\"kind=member_id; box=0.6,0.82,0.4,0.02; text=3846 7326 4188\",\"readability\":\"good\",\"totalMinor\":6146,\"currency\":\"JPY\",\"lines\":\"no=1; qty=4; unit=458; amount=1832; text=すての気 おおこよる おおこよる; en=Snowmelt water 4 L\\non=2; qty=12; unit=188; amount=2256; text=すての気 おおこよる 12フート; en=Snowmelt water 12 ft\\non=3; qty=2; unit=238; amount=476; text=すての気 おおこよる 4フート; en=Snowmelt water 4 ft\\nno=4; qty=4; unit=1; amount=5662; text=すての気 (4フート); en=Snowmelt water (4 ft)\\nno=5; qty=1; unit=4088; amount=4088; text=すての気 8フート おおこよ; en=Snowmelt water 8 ft\\nno=6; qty=1; unit=1574; amount=1574; text=すての気 10フート おおこよ; en=Snowmelt water 10 ft\\nno=7; qty=1; unit=1; amount=157; text=単史; en=Discount\\nno=8; qty=1; unit=327; amount=327; text=単史; en=Discount\\nno=9; qty=1; unit=1; amount=157; text=単史; en=Discount\\nno=10; qty=1; unit=1; amount=4414; text=***にとりって; en=Discount\\nno=11; qty=1; unit=1; amount=6146; text=との候は; en=Total\\n\",\"merchantName\":\"株式会社 山田商店\"}"
+ ]
+}

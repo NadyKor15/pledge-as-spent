@@ -2,19 +2,417 @@
  "receiptId": "hero-ja-01",
  "set": "hero",
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
- "reading": null,
- "classifications": null,
+ "reading": {
+  "merchantName": "株式会社 サンクス",
+  "merchantAddress": null,
+  "country": "Japan",
+  "currency": "JPY",
+  "purchasedAt": null,
+  "receiptNumber": null,
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ミネラルウォーター 2L",
+    "translationEn": "Mineral water 2 L",
+    "qty": 1,
+    "unitPriceMinor": 216,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター 2L",
+    "translationEn": "Mineral water 2 L",
+    "qty": 1,
+    "unitPriceMinor": 472,
+    "amountMinor": 472,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ミネラルウォーター 4L",
+    "translationEn": "Mineral water 4 L",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 216,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ミネラルウォーター 2L",
+    "translationEn": "Mineral water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ミネラルウォーター 2L",
+    "translationEn": "Mineral water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター 2L",
+    "translationEn": "Mineral water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ミネラルウォーター 3L",
+    "translationEn": "Mineral water 3 L",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 598,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ミネラルウォーター 18L",
+    "translationEn": "Mineral water 18 L",
+    "qty": 1,
+    "unitPriceMinor": 18,
+    "amountMinor": 18,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "ミネラルウォーター #3 20L",
+    "translationEn": "Mineral water #3 20 L",
+    "qty": 1,
+    "unitPriceMinor": 204,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "ミネラルウォーター #3 10L",
+    "translationEn": "Mineral water #3 10 L",
+    "qty": 1,
+    "unitPriceMinor": 796,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "ミネラルウォーター #3 15L",
+    "translationEn": "Mineral water #3 15 L",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "ミネラルウォーター 10L",
+    "translationEn": "Mineral water 10 L",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "ミネラルウォーター 6L",
+    "translationEn": "Mineral water 6 L",
+    "qty": 1,
+    "unitPriceMinor": 350,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "税抜(11)",
+    "translationEn": "Tax-excluded (11)",
+    "qty": 2,
+    "unitPriceMinor": 198,
+    "amountMinor": 1466,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 15,
+    "rawText": "8%税",
+    "translationEn": "8% tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1486,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 16,
+    "rawText": "10%税",
+    "translationEn": "10% tax",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 10160,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 17,
+    "rawText": "消費税(8%)",
+    "translationEn": "Consumption tax (8%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 110,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 18,
+    "rawText": "消費税(10%)",
+    "translationEn": "Consumption tax (10%)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 923,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 19,
+    "rawText": "合計",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 20,
+    "rawText": "お支払い",
+    "translationEn": "Payment",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 9591,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 21,
+    "rawText": "お釣り",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 14646,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": null,
+  "taxIncluded": null,
+  "totalMinor": 14646,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 4 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2 L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 3 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 18 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water #3 20 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water #3 10 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water #3 15 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 10 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 13,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Mineral water 6 L does not match any need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 14,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax-excluded items are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 15,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax items are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 16,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax items are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 17,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax items are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 18,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Tax items are not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 19,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Total amount is not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 20,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Payment information is not eligible.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 21,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Change information is not eligible.",
+   "confidence": 0.95
+  }
+ ],
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
    "tokensIn": 3676,
-   "tokensOut": 1649,
+   "tokensOut": 1005,
    "usdCeiling": 0.001457,
-   "usdActual": 0.000616
+   "usdActual": 0.000462
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1726,
+   "tokensOut": 944,
+   "usdCeiling": 0.001352,
+   "usdActual": 0.00033
   }
  ],
- "errors": [
-  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[17].amountMinor (stop reason: tool_use)",
-  "raw: {\"country\":\"Japan\",\"pii\":\"kind=member_id; box=0.82,0.88,0.18,0.02; text=T00001000000427\\nkind=card_number; box=0.61,0.92,0.38,0.02; text=3216 2141 5525\",\"readability\":\"good\",\"totalMinor\":14646,\"currency\":\"JPY\",\"lines\":\"no=1; qty=6; unit=118; amount=472; text=生ビール 2L 6缶入り; en=Draft beer 2L 6 cans\\nno=2; qty=4; unit=118; amount=216; text=生ビール 2L 4缶入り; en=Draft beer 2L 4 cans\\nno=3; qty=2; unit=108; amount=2596; text=りちっちりなす M 44缶; en=Ritchi-naasu M 44 cans\\nno=4; qty=2; unit=1298; amount=3294; text=すだっち おいめ M; en=Sudachi orange M\\nno=5; qty=3; unit=1098; amount=598; text=すだっちめや M 18缶; en=Sudachi orange M 18 cans\\nno=6; qty=null; unit=null; amount=698; text=すだっちめやののらにがりがり; en=Sudachi orange juice\\nno=7; qty=3; unit=204; amount=796; text=すだっちめやののらにがりがり #3 20缶; en=Sudachi orange juice #3 20 cans\\nno=8; qty=2; unit=398; amount=980; text=すだっちめやののらにがりがり #3 12缶; en=Sudachi orange juice #3 12 cans\\nno=9; qty=10; unit=98; amount=1198; text=おいじなれり 350ml 6缶; en=Oizumi 350ml 6 cans\\nno=10; qty=2; unit=3000; amount=3000; text=おいじなれり 3,000ml; en=Oizumi 3,000ml\\nno=11; qty=null; unit=null; amount=14646; text=すだっちめやののらにがりがり (11缶); en=Sudachi orange juice (11 cans)\\nno=12; qty=null; unit=null; amount=1486; text=8%税; en=8% tax\\nno=13; qty=null; unit=null; amount=10160; text=10%税; en=10% tax\\nno=14; qty=null; unit=null; amount=3000; text=すだっちめやののらにがりがりと; en=Sudachi orange juice and\\nno=15; qty=null; unit=null; amount=110; text=(税込 8%); en=(tax included 8%)\\nno=16; qty=null; unit=null; amount=923; text=(税込 10%); en=(tax included 10%)\\nno=17; qty=null; unit=null; amount=14646; text=すだっちめやののらにがりがり; en=Sudachi orange juice\\nno=18; qty=null; unit=null; amount=null; text=すだっちめやののらにがりがり; en=Sudachi orange juice\",\"merchantName\":\"株式会社 山田商店\"}"
- ]
+ "errors": []
 }

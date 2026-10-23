@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-en-04",
+ "set": "v1",
+ "imageSha256": "9f725aa0562828c4824eb34aba8ea7fba76d77d2e0f75f74a71d0f698b183352",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3176,
+   "tokensOut": 645,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000345
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[0].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[6].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[6].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":null,\"pii\":\"kind=name; box=0.16,0.76,0.29,0.03; text=AVA PRESCOTT\\nkind=member_id; box=0.66,0.81,0.29,0.03; text=2356750201\",\"readability\":\"good\",\"taxMinor\":529,\"taxIncluded\":false,\"totalMinor\":9149,\"purchasedAt\":\"2026-11-06T10:18:00\",\"currency\":\"USD\",\"subtotalMinor\":8620,\"lines\":\"no=1; qty=2; unit=7.99; amount=15.98; rate=800; text=AA ALKALINE 24PK; en=AA Alkaline 24PK\\nno=2; qty=1; unit=15.99; amount=15.99; rate=800; text=AA BATTERY 8PK; en=AA Battery 8PK\\nno=3; qty=1; unit=3.49; amount=3.49; rate=800; text=POTATO CHIPS; en=Potato Chips\\nno=4; qty=1; unit=5.49; amount=5.49; rate=800; text=PURE WTR 1GAL 4CT; en=Pure Water 1 Gal 4CT\\nno=5; qty=3; unit=12.49; amount=37.47; rate=800; text=SOFTIES DIAPERS SZ 3 38CT; en=Softies Diapers Size 3 38CT\\nno=6; qty=2; unit=3.89; amount=7.78; rate=800; text=MILK 1GAL; en=Milk 1 Gal\\nno=7; qty=1; unit=-5.29; amount=-5.29; rate=800; text=SUBTOTAL; en=Subtotal\\nno=8; qty=1; unit=-8.51; amount=-8.51; rate=800; text=TOTAL; en=Total\\nno=9; qty=1; unit=-8.51; amount=-8.51; rate=800; text=CASH; en=Cash\\nno=10; qty=1; unit=-8.51; amount=-8.51; rate=800; text=CHANGE; en=Change\",\"receiptNumber\":\"REG 01\",\"merchantName\":\"CORNER PHARMACY #14\"}"
+ ]
+}

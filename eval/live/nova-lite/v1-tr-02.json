@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2948,
+   "tokensOut": 651,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000333
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[11].lineNo (stop reason: tool_use)",
+  "raw: {\"country\":\"tr\",\"totalMinor\":36761,\"taxIncluded\":false,\"purchasedAt\":\"2026-11-06T14:36:00\",\"merchantName\":\"SÜPER YILDIZ MARKET\",\"pii\":\"kind=name; box=0.2,0.79,0.4,0.03; text=AYŞe DEMiRKAİN\",\"readability\":\"good\",\"taxMinor\":5986,\"merchantAddress\":\"Carşi Cd. No:12\\nMerkez / Yildizova\\nTEL 0 555 000 00 42\\nVKN: 0000000042\",\"currency\":\"TRY\",\"subtotalMinor\":30775,\"lines\":\"no=1; text=DAĞ SUYU 5 L; amount=34900; en=Snowmelt water 5 L\\nn=2; text=İNDİRİM; amount=-329; en=Indirim\\nn=3; text=SEVİMLİ BEBEK BEZİ; amount=34900; en=Baby blanket\\nn=4; text=NO:4 JUMBO 42'Lİ; amount=0; en=NO:4 JUMBO 42'LI\\nn=5; text=KDV %10 MATRAH 16,92; amount=169; en=VAT 10% on 16.92\\nn=6; text=KDV %20 MATRAH 290,83; amount=5817; en=VAT 20% on 290.83\\nn=7; text=TOPKDV; amount=5986; en=Total VAT\\nn=8; text=TOPLAM; amount=36761; en=Total\\nn=9; text=KREDİ KARTI; amount=36761; en=Credit card\\nn=10; text=MÜSTERİ KARTI; amount=0; en=Customer card\\nn=11; text=AYŞe DEMiRKAİN; amount=0; en=Ayşe Demirkan\\nn=12; text=TESEKKÜR EDEİRİZ; amount=0; en=Thank you\",\"receiptNumber\":\"9824\"}"
+ ]
+}

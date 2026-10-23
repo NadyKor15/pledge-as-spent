@@ -1,0 +1,11 @@
+{
+ "receiptId": "adv-unreadable-ja",
+ "set": "adversarial",
+ "imageSha256": "c24ba8cf0487e2da48f9eaead5c6c52223ef3f10e06d090706c044a43b0ac7a7",
+ "reading": null,
+ "classifications": null,
+ "usage": [],
+ "errors": [
+  "read: Model produced invalid sequence as part of ToolUse. Please refer to the model tool use troubleshooting guide."
+ ]
+}

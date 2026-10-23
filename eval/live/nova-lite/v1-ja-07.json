@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2104,
+   "tokensOut": 1136,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000399
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[19].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[20].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[21].amountMinor\n✖ Invalid input: expected number, received null\n  → at lines[22].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":null,\"pii\":\"kind=name; box=0.33,0.91,0.33,0.02; text=株式会社 三井住友銀行\",\"readability\":\"good\",\"taxMinor\":1454,\"totalMinor\":9660,\"taxIncluded\":true,\"purchasedAt\":\"2026-11-04T20:57:00\",\"currency\":\"JPY\",\"subtotalMinor\":8486,\"lines\":\"no=1; qty=1; unit=1; amount=798; rate=null; text=2026年11月4日(金) 20:57; en=2026-11-04 20:57\\nno=2; qty=null; unit=null; amount=null; rate=null; text=受付番号: 7048; en=Receipt number: 7048\\nno=3; qty=2; unit=1; amount=398; rate=null; text=雪解けの水 2L; en=Snowmelt water 2 L\\nno=4; qty=2; unit=1; amount=294; rate=null; text=6ヶ月分 5L; en=6 months 5 L\\nno=5; qty=1; unit=1; amount=398; rate=null; text=「え～すと」 1L; en=E-st 1 L\\nno=6; qty=3; unit=1; amount=1098; rate=null; text=3ヶ月分 1L; en=3 months 1 L\\nno=7; qty=3; unit=1; amount=294; rate=null; text=3ヶ月分 1L; en=3 months 1 L\\nno=8; qty=1; unit=1; amount=296; rate=null; text=「ゆたぴあ」 34L; en=Yutapia 34 L\\nno=9; qty=2; unit=1; amount=298; rate=null; text=2ヶ月分 1L; en=2 months 1 L\\nno=10; qty=1; unit=1; amount=598; rate=null; text=「みずのいろ」 18L; en=Mizunoiro 18 L\\nno=11; qty=null; unit=null; amount=198; rate=null; text=税込; en=Incl. tax\\nno=12; qty=1; unit=1; amount=1454; rate=null; text=合計(7点); en=Total (7 items)\\nno=13; qty=null; unit=null; amount=8; rate=null; text=税込; en=Incl. tax\\nno=14; qty=null; unit=null; amount=1454; rate=null; text=合計; en=Total\\nno=15; qty=null; unit=null; amount=-107; rate=null; text=10%割引 8%; en=10% discount 8%\\nno=16; qty=null; unit=null; amount=-626; rate=null; text=(ポイント利用) 10%; en=(Point use) 10%\\nno=17; qty=null; unit=null; amount=340; rate=null; text=合計; en=Total\\nno=18; qty=null; unit=null; amount=9000; rate=null; text=お支払い; en=Payment\\nno=19; qty=null; unit=null; amount=660; rate=null; text=お釣り; en=Change\\nno=20; qty=null; unit=null; amount=null; rate=null; text=お支払い方法: 現金; en=Payment method: Cash\\nno=21; qty=null; unit=null; amount=null; rate=null; text=お支払い金額: 9739円; en=Payment amount: 9739 yen\\nno=22; qty=null; unit=null; amount=null; rate=null; text=お釣り金額: 4221円; en=Change amount: 4221 yen\\nno=23; qty=null; unit=null; amount=null; rate=null; text=お預かり金額: 384円; en=Deposit amount: 384 yen\",\"receiptNumber\":\"7048\",\"merchantName\":\"株式会社 三井住友銀行\"}"
+ ]
+}

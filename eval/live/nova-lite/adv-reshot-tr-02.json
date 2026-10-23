@@ -1,0 +1,223 @@
+{
+ "receiptId": "adv-reshot-tr-02",
+ "set": "adversarial",
+ "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "TRY",
+  "purchasedAt": "2026-06-11T14:36",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Snowmelt water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 10,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "INDIİRIM",
+    "translationEn": "Indirim",
+    "qty": 1,
+    "unitPriceMinor": 10,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lı",
+    "translationEn": "Baby wipes Jumbo 42'L",
+    "qty": 4,
+    "unitPriceMinor": 20,
+    "amountMinor": 34900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KDV %10 MATRAH 16,92",
+    "translationEn": "VAT 10% 16.92",
+    "qty": 1,
+    "unitPriceMinor": 10,
+    "amountMinor": 169,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KDV %20 MATRAH 290,83",
+    "translationEn": "VAT 20% 290.83",
+    "qty": 1,
+    "unitPriceMinor": 20,
+    "amountMinor": 29083,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": 1,
+    "unitPriceMinor": 1,
+    "amountMinor": 5817,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": 1,
+    "unitPriceMinor": 1,
+    "amountMinor": 5986,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "*367,61",
+    "translationEn": "*367.61",
+    "qty": 1,
+    "unitPriceMinor": 1,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "*** *** *** 7374",
+    "translationEn": "*** *** *** 7374",
+    "qty": 1,
+    "unitPriceMinor": 1,
+    "amountMinor": 36761,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 30871,
+  "taxMinor": 5817,
+  "taxIncluded": true,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 7374",
+    "bbox": {
+     "x": 0.15,
+     "y": 0.72,
+     "w": 0.65,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.15,
+     "y": 0.76,
+     "w": 0.65,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 5 L counts toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of 'Indirim' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 42,
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Baby wipes are not a need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of 'KDV %10 MATRAH 16,92' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of 'KDV %20 MATRAH 290,83' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of 'TOPKDV' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of 'TOPLAM' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of '*367,61' is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The meaning of '*** *** *** 7374' is unclear.",
+   "confidence": 0.5
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2948,
+   "tokensOut": 655,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000334
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1322,
+   "tokensOut": 363,
+   "usdCeiling": 0.001267,
+   "usdActual": 0.000166
+  }
+ ],
+ "errors": []
+}

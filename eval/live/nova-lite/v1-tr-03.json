@@ -1,0 +1,20 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3212,
+   "tokensOut": 486,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000309
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at lines[1].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[2].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[3].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[4].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[5].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[6].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[7].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[8].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[9].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[10].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[11].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[12].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[13].lineNo\n✖ Invalid input: expected number, received null\n  → at lines[14].lineNo (stop reason: tool_use)",
+  "raw: {\"country\":\"Turkey\",\"pii\":\"kind=card_number; box=0.18,0.83,0.63,0.03; text=**** **** **** 9366\",\"readability\":\"good\",\"totalMinor\":213561,\"purchasedAt\":\"2026-11-09T19:17:00\",\"currency\":\"TRY\",\"lines\":\"no=1; text=HEDIYE KARTI 500 TL; amount=50000\\nn=2; text=BEBÉK BEZI 3 NO 44'LÜ; amount=27900\\nn=3; text=EKMEK; amount=3600\\nn=4; text=3 x 12,00 BATTANİYE TEK KISILIK; amount=44900\\nn=5; text=DEFTER A5; amount=4200\\nn=6; text=MİNİ BEBÉK BEZI 4 NO; amount=57980\\nn=7; text=2 x 289,90 AA KALENM PİL 4'LÜ; amount=15980\\nn=8; text=İNDİRİM; amount=-799\\nn=9; text=KAYNAK SU 5 LT; amount=9800\\nn=10; text=4 x 24,50; amount=9800\\nn=11; text=KDV %1 MATRAH 35,64; amount=36\\nn=12; text=KDV %10 MATRAH 89,09; amount=891\\nn=13; text=KDV %20 MATRAH 1.251,34; amount=25027\\nn=14; text=TOPKDV; amount=25954\\nn=15; text=TOPLAM; amount=213561\",\"merchantName\":\"SÜPER YILDIZ MARKET\"}"
+ ]
+}

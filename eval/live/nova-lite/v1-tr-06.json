@@ -1,0 +1,186 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": null,
+  "country": "Turkey",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": null,
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA battery 10 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1 LT",
+    "translationEn": "Milk 1 L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 7700,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "KAYNAKL SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 4900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "EKMEK",
+    "translationEn": "Bread",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 1200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SEVIMLİ BEBEK BEZI",
+    "translationEn": "Cute baby diaper",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "NO:4 JUMBO 42'Lİ",
+    "translationEn": "NO:4 JUMBO 42'L",
+    "qty": 2,
+    "unitPriceMinor": null,
+    "amountMinor": 34900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "KDV %1",
+    "translationEn": "VAT 1%",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1145,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KDV %10",
+    "translationEn": "VAT 10%",
+    "qty": 10,
+    "unitPriceMinor": null,
+    "amountMinor": 14465,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "KDV %20",
+    "translationEn": "VAT 20%",
+    "qty": 20,
+    "unitPriceMinor": null,
+    "amountMinor": 15622,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "TOPKDV",
+    "translationEn": "Total VAT",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 150590,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "TOPLAM",
+    "translationEn": "Total",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1510000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 13,
+    "rawText": "NAKIT",
+    "translationEn": "Cash",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -410,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 14,
+    "rawText": "PARA ÜSTÜ",
+    "translationEn": "Change",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5207652834,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 1359410,
+  "taxMinor": 150590,
+  "taxIncluded": true,
+  "totalMinor": 5207652834,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.2,
+     "y": 0.82,
+     "w": 0.6,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries are one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3212,
+   "tokensOut": 589,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.000334
+  },
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 1476,
+   "tokensOut": 53,
+   "usdCeiling": 0.001303,
+   "usdActual": 0.000101
+  }
+ ],
+ "errors": []
+}

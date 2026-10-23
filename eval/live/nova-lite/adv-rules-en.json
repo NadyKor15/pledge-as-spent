@@ -1,0 +1,20 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": null,
+ "classifications": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3113,
+   "tokensOut": 678,
+   "usdCeiling": 0.001457,
+   "usdActual": 0.00035
+  }
+ ],
+ "errors": [
+  "read: read receipt (amazon.nova-lite-v1:0): output does not match the schema: ✖ Invalid input: expected int, received number\n  → at lines[0].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[0].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[1].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[2].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[3].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[4].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].unitPriceMinor\n✖ Invalid input: expected int, received number\n  → at lines[5].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[7].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[8].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[9].amountMinor\n✖ Invalid input: expected int, received number\n  → at lines[10].amountMinor (stop reason: tool_use)",
+  "raw: {\"country\":\"USA\",\"pii\":\"kind=member_id; box=0.22,0.81,0.6,0.03; text=8224286873\\nkind=name; box=0.22,0.78,0.58,0.03; text=AVA PRESCOTT\",\"readability\":\"good\",\"taxMinor\":1003,\"totalMinor\":17839,\"taxIncluded\":false,\"purchasedAt\":\"2026-11-06T12:58:00\",\"currency\":\"USD\",\"subtotalMinor\":16836,\"lines\":\"no=1; qty=3; unit=7.99; amount=23.97; rate=null; text=AA BATTERY 8PK; en=AA BATTERY 8PK\\nno=2; qty=6; unit=null; amount=9.99; rate=null; text=LAGER 6PK BTL; en=LAGER 6PK BTL\\nno=3; qty=24; unit=null; amount=4.99; rate=null; text=WATER 24PK.5L; en=WATER 24PK.5L\\nno=4; qty=4; unit=14.99; amount=59.96; rate=null; text=FLEECE THROW BLANKET; en=FLEECE THROW BLANKET\\nno=5; qty=2; unit=15.99; amount=31.98; rate=null; text=AA ALKALINE 24PK; en=AA ALKALINE 24PK\\nno=6; qty=2; unit=1.99; amount=3.98; rate=null; text=SPIRAL NOTEBOOK; en=SPIRAL NOTEBOOK\\nno=7; qty=2; unit=null; amount=25.00; rate=null; text=GIFT CARD $25; en=GIFT CARD $25\\nno=8; qty=null; unit=null; amount=8.49; rate=null; text=CIGARETTES MENTHOL; en=CIGARETTES MENTHOL\\nno=9; qty=null; unit=null; amount=168.36; rate=null; text=SUBTOTAL; en=SUBTOTAL\\nno=10; qty=null; unit=null; amount=10.03; rate=725; text=SALES TAX 7.25%; en=SALES TAX 7.25%\\nno=11; qty=null; unit=null; amount=178.39; rate=null; text=TOTAL; en=TOTAL\",\"receiptNumber\":\"REG 05\",\"merchantName\":\"HARBOR HARDWARE & HOME\"}"
+ ]
+}
