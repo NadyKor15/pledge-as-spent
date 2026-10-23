@@ -1,5 +1,5 @@
 import { createHash, createHmac, randomBytes } from "node:crypto";
-import { and, asc, desc, eq, gt, inArray, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, like, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { drives, events, paypalCalls, receipts, webhookEvents } from "../db/schema";
 import {
@@ -407,7 +407,8 @@ export class PledgeService {
     if (pledge.status !== "pending_approval") return { pledgeId, status: pledge.status, authorizationId: pledge.paypal.authorizationId ?? null };
     let auth;
     try {
-      auth = await this.paypal(driveId, (gw) => gw.authorizeOrder({ orderId: pledge.paypal.orderId, requestId: `authorize:${pledgeId}` }));
+      const requestId = await this.authorizeRequestId(pledgeId);
+      auth = await this.paypal(driveId, (gw) => gw.authorizeOrder({ orderId: pledge.paypal.orderId, requestId }));
     } catch (e) {
       if (e instanceof PayPalError && e.issue === "ORDER_NOT_APPROVED") throw new ServiceError(409, "not_approved", "The donor has not approved this pledge in PayPal yet.");
       if (e instanceof PayPalError && e.httpStatus === 422) {
@@ -421,6 +422,19 @@ export class PledgeService {
     if (ev) await this.recordStrict(driveId, [ev]);
     const after = await this.openBook(driveId);
     return { pledgeId, status: after.pledges[pledgeId].status, authorizationId: auth.id };
+  }
+
+  /**
+   * `authorize:{pledgeId}:{n}`: a retry after a timeout keeps n (PayPal replays the result), an attempt
+   * after PayPal refused (donor not approved yet) takes n + 1, since PayPal would replay the refusal.
+   */
+  private async authorizeRequestId(pledgeId: string): Promise<string> {
+    const prefix = `authorize:${pledgeId}:`;
+    const refused = await this.db
+      .selectDistinct({ id: paypalCalls.requestId })
+      .from(paypalCalls)
+      .where(and(like(paypalCalls.requestId, `${prefix}%`), sql`${paypalCalls.httpStatus} between 400 and 499`));
+    return `${prefix}${refused.length + 1}`;
   }
 
   /** The donor withdraws: nothing new is funded; accrued shares are captured, then the hold is voided. */

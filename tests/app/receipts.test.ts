@@ -1,0 +1,218 @@
+import { eq } from "drizzle-orm";
+import jpeg from "jpeg-js";
+import { PNG } from "pngjs";
+import { describe, expect, it } from "vitest";
+import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
+import { events, receipts, spendLedger } from "../../src/db/schema";
+import type { ConverseClient } from "../../src/receipts/bedrock";
+import { sha256Hex } from "../../src/receipts/hash";
+import { NOT_BLURRED_NOTE, redactImage } from "../../src/server/redact";
+import { ServiceError } from "../../src/server/errors";
+import { fakeSandbox } from "./support/fake-sandbox";
+import { harness, heroBytes, loadRecordings, receiptBytes } from "./support/harness";
+import { noisePng, syntheticReceipt } from "./support/synthetic";
+
+/** A Bedrock client that answers the forced tool call with fixed JSON and counts calls. */
+function fakeBedrock(answer: { receipt: unknown; lines: unknown }) {
+  const sent: string[] = [];
+  const client: ConverseClient = {
+    async send(cmd: ConverseCommand): Promise<ConverseCommandOutput> {
+      const name = cmd.input.toolConfig!.tools![0].toolSpec!.name!;
+      sent.push(name);
+      const input = name === "submit_receipt" ? answer.receipt : { lines: answer.lines };
+      return { output: { message: { role: "assistant", content: [{ toolUse: { toolUseId: "t1", name, input: input as never } }] } }, stopReason: "tool_use", usage: { inputTokens: 1200, outputTokens: 300, totalTokens: 1500 }, metrics: { latencyMs: 1 }, $metadata: {} };
+    },
+  };
+  return { client, sent };
+}
+
+async function setup(o: { bedrock?: () => ConverseClient; spent?: number } = {}) {
+  const pp = fakeSandbox();
+  const rec = loadRecordings();
+  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock });
+  if (o.spent !== undefined) await h.db.db.insert(spendLedger).values({ id: "seed", ts: h.clock.now(), kind: "reserve", what: "seed", usd: o.spent.toFixed(6), ref: null });
+  const driveId = (await h.svc.createDemoDrive({ driveId: "demo-receipts" })).drive.id;
+  return { pp, h, rec, driveId };
+}
+
+const reject = async (p: Promise<unknown>) => {
+  try {
+    await p;
+  } catch (e) {
+    if (e instanceof ServiceError) return e;
+    throw e;
+  }
+  throw new Error("expected a ServiceError");
+};
+
+const moneyEvents = async (h: Awaited<ReturnType<typeof setup>>["h"], driveId: string) =>
+  (await h.db.db.select().from(events).where(eq(events.driveId, driveId))).filter((e) => ["LineFunded", "CaptureSubmitted", "PayoutSubmitted"].includes(e.type));
+
+describe("live reading limits: refused before any model call", () => {
+  it("the $5 spend cap refuses the call and offers the cached sample", async () => {
+    const live = fakeBedrock({ receipt: {}, lines: [] });
+    const { h, driveId } = await setup({ bedrock: () => live.client, spent: 4.999 });
+    const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(77) }));
+    expect(e).toMatchObject({ status: 429, code: "spend_cap" });
+    expect(e.extra).toMatchObject({ sample: { field: "sample", value: "hero" } });
+    expect(live.sent).toEqual([]);
+    expect(await h.db.db.select().from(receipts)).toHaveLength(0);
+    expect(await h.db.db.select().from(spendLedger)).toHaveLength(1);
+  });
+
+  it("30 live readings a day per IP; the 31st is refused without a call", async () => {
+    const live = fakeBedrock({ receipt: {}, lines: [] });
+    const { h, driveId } = await setup({ bedrock: () => live.client });
+    const ipHash = h.svc.hashIp("203.0.113.9");
+    await h.db.db.insert(receipts).values(
+      Array.from({ length: 30 }, (_, i) => ({ id: `seed.r${i}`, driveId: "other", sha256: `s${i}`, image: new Uint8Array([1]), mediaType: "image/png", status: "funded", channel: "web", reader: "nova", ipHash, uploadedAt: h.clock.now() })),
+    );
+    const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "203.0.113.9" }));
+    expect(e).toMatchObject({ status: 429, code: "live_limit" });
+    expect(live.sent).toEqual([]);
+    // Another network still gets its readings.
+    const r = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "198.51.100.1" }));
+    expect(r.code).not.toBe("live_limit");
+  });
+
+  it("with live reading off, an unknown photo gets a plain answer and the sample hint", async () => {
+    const { h, driveId } = await setup();
+    const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(79) }));
+    expect(e).toMatchObject({ status: 503, code: "live_reading_off" });
+  });
+
+  it("a live reading goes through the cap, is stored, and the same photo later costs nothing", async () => {
+    const recTmp = loadRecordings();
+    const { parsed } = syntheticReceipt(recTmp, 80, [{ needId: "water", qty: 6, amount: 798 }]);
+    const lines = Object.values(recTmp.classifications).at(-1);
+    const live = fakeBedrock({ receipt: parsed, lines });
+    const { h, driveId } = await setup({ bedrock: () => live.client });
+    const bytes = noisePng(80); // not in this service's recordings: read live
+    const r = await h.svc.submitReceipt({ driveId, bytes, ip: "203.0.113.20" });
+    expect(r.receipt).toMatchObject({ status: "funded", reader: "nova" });
+    expect(live.sent).toEqual(["submit_receipt", "submit_classifications"]);
+    const ledger = await h.db.db.select().from(spendLedger);
+    expect(ledger.map((x) => x.kind).sort()).toEqual(["reserve", "reserve", "settle", "settle"]);
+    // Another demo drive, same photo: the stored answer is reused, no model call.
+    const other = (await h.svc.createDemoDrive({ driveId: "demo-receipts-2" })).drive.id;
+    const again = await h.svc.submitReceipt({ driveId: other, bytes, ip: "203.0.113.20" });
+    expect(again.receipt).toMatchObject({ status: "funded", reader: "copy" });
+    expect(live.sent).toHaveLength(2);
+  });
+});
+
+describe("receipt checks", () => {
+  it("rejects an empty upload, a non-image, and a photo over 4 MB before reading", async () => {
+    const { h, driveId } = await setup();
+    expect(await reject(h.svc.submitReceipt({ driveId, bytes: new Uint8Array() }))).toMatchObject({ status: 400 });
+    expect(await reject(h.svc.submitReceipt({ driveId, bytes: new TextEncoder().encode("%PDF-1.7 not a photo") }))).toMatchObject({ status: 415 });
+    const big = new Uint8Array(4 * 1024 * 1024 + 1);
+    big.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    expect(await reject(h.svc.submitReceipt({ driveId, bytes: big }))).toMatchObject({ status: 413, code: "too_large" });
+  });
+
+  it("a receipt for a closed drive is refused", async () => {
+    const { h, driveId } = await setup();
+    await h.svc.closeDrive(driveId);
+    expect(await reject(h.svc.submitReceipt({ driveId, bytes: heroBytes() }))).toMatchObject({ status: 409 });
+  });
+
+  it("a pre-disaster receipt moves no money until the coordinator approves it", async () => {
+    const { pp, h, driveId } = await setup();
+    const r = await h.svc.submitReceipt({ driveId, bytes: receiptBytes("eval/receipts/adversarial/adv-predisaster-ja.png") });
+    expect(r.receipt.status).toBe("review");
+    expect(r.receipt.flags.map((f) => f.code)).toContain("pre_disaster");
+    expect(await moneyEvents(h, driveId)).toEqual([]);
+    expect(pp.payouts).toHaveLength(0);
+    const d = await h.svc.coordinatorDecision(r.receipt.id, "approve", "Bought for the shelter the night before the flood, confirmed by phone");
+    expect(d.receipt).toMatchObject({ status: "funded", decision: expect.objectContaining({ decision: "approve" }) });
+    expect((await moneyEvents(h, driveId)).some((e) => e.type === "LineFunded")).toBe(true);
+    expect(pp.payouts).toHaveLength(1);
+    expect(await reject(h.svc.coordinatorDecision(r.receipt.id, "reject", "changed my mind"))).toMatchObject({ status: 409, code: "already_decided" });
+  });
+
+  it("a duplicate can only be rejected, and rejecting moves no money", async () => {
+    const { h, driveId } = await setup();
+    await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    const before = await moneyEvents(h, driveId);
+    const dup = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    expect(dup.receipt.flags.map((f) => f.code)).toEqual(["duplicate"]);
+    expect(await reject(h.svc.coordinatorDecision(dup.receipt.id, "approve", "looks fine"))).toMatchObject({ status: 409, code: "blocked" });
+    expect(await reject(h.svc.coordinatorDecision(dup.receipt.id, "reject", ""))).toMatchObject({ status: 400, code: "reason_required" });
+    const done = await h.svc.coordinatorDecision(dup.receipt.id, "reject", "Same photo as r1");
+    expect(done.receipt.status).toBe("rejected");
+    expect(await moneyEvents(h, driveId)).toHaveLength(before.length);
+  });
+
+  it("a re-photographed receipt is caught by its meaning (store, minute, total), not its bytes", async () => {
+    const rec = loadRecordings();
+    const first = syntheticReceipt(rec, 81, [{ needId: "water", qty: 2, amount: 216 }]);
+    const reshot = syntheticReceipt(rec, 82, [{ needId: "water", qty: 2, amount: 216 }], { merchantName: first.parsed.merchantName, purchasedAt: first.parsed.purchasedAt });
+    const svc = (await harness({ fetch: fakeSandbox().fetch, recordings: rec })).svc;
+    const id = (await svc.createDemoDrive({ driveId: "demo-reshot" })).drive.id;
+    expect((await svc.submitReceipt({ driveId: id, bytes: first.bytes })).receipt.status).toBe("funded");
+    const second = await svc.submitReceipt({ driveId: id, bytes: reshot.bytes });
+    expect(second.receipt.flags.map((f) => f.code)).toEqual(["duplicate"]);
+  });
+
+  it("low-confidence lines wait for the coordinator; approval funds them, 'review' lines stay refused", async () => {
+    const rec = loadRecordings();
+    const x = syntheticReceipt(rec, 83, [
+      { needId: "water", qty: 2, amount: 216, confidence: 0.5 },
+      { needId: "batteries", qty: 10, amount: 980, verdict: "review", ruleCode: "unclear" },
+    ]);
+    const svc = (await harness({ fetch: fakeSandbox().fetch, recordings: rec })).svc;
+    const id = (await svc.createDemoDrive({ driveId: "demo-lowconf" })).drive.id;
+    const r = await svc.submitReceipt({ driveId: id, bytes: x.bytes });
+    expect(r.receipt.flags.map((f) => f.code)).toEqual(["low_confidence"]);
+    await svc.coordinatorDecision(r.receipt.id, "approve", "Checked the photo: two bottles of water");
+    const v = await svc.getDriveView(id);
+    expect(v.needs.find((n) => n.needId === "water")!.qtyCovered).toBe(2);
+    expect(v.ledger.filter((l) => l.receiptId === r.receipt.id && l.kind === "rejected").map((l) => [l.lineNo, l.code])).toEqual([[2, "review"]]);
+  });
+});
+
+describe("personal data", () => {
+  it("blurs the three boxes on the hero receipt and nothing else", () => {
+    const bytes = heroBytes();
+    const truth = loadRecordings().readings[sha256Hex(bytes)];
+    const out = redactImage({ bytes, mediaType: "image/png" }, truth.pii);
+    expect(out.regions).toBe(3);
+    const a = PNG.sync.read(Buffer.from(bytes));
+    const b = PNG.sync.read(Buffer.from(out.bytes!));
+    const inBox = (x: number, y: number) =>
+      truth.pii.some((p) => {
+        const m = Math.max(4, p.bbox!.h * a.height * 0.5);
+        return x >= p.bbox!.x * a.width - m - 1 && x <= (p.bbox!.x + p.bbox!.w) * a.width + m + 1 && y >= p.bbox!.y * a.height - m - 1 && y <= (p.bbox!.y + p.bbox!.h) * a.height + m + 1;
+      });
+    let changedOutside = 0;
+    let changedInside = 0;
+    for (let y = 0; y < a.height; y++) {
+      for (let x = 0; x < a.width; x++) {
+        const i = (y * a.width + x) * 4;
+        const diff = Math.abs(a.data[i] - b.data[i]) + Math.abs(a.data[i + 1] - b.data[i + 1]) + Math.abs(a.data[i + 2] - b.data[i + 2]);
+        if (diff === 0) continue;
+        if (inBox(x, y)) changedInside += 1;
+        else changedOutside += 1;
+      }
+    }
+    expect(changedOutside).toBe(0);
+    expect(changedInside).toBeGreaterThan(2000);
+  });
+
+  it("blurs JPEG too; publishes nothing when a box is missing or the format cannot be decoded", () => {
+    const raw = jpeg.encode({ width: 100, height: 60, data: Buffer.alloc(100 * 60 * 4, 120) }, 90).data;
+    const pii = [{ kind: "name" as const, text: "X", bbox: { x: 0.1, y: 0.1, w: 0.3, h: 0.1 } }];
+    expect(redactImage({ bytes: new Uint8Array(raw), mediaType: "image/jpeg" }, pii).bytes).not.toBeNull();
+    expect(redactImage({ bytes: heroBytes(), mediaType: "image/png" }, [{ kind: "phone", text: "0123", bbox: null }])).toEqual({ bytes: null, regions: 0, note: NOT_BLURRED_NOTE });
+    expect(redactImage({ bytes: new Uint8Array([1, 2, 3]), mediaType: "image/webp" }, pii)).toEqual({ bytes: null, regions: 0, note: NOT_BLURRED_NOTE });
+  });
+
+  it("the API serves only the blurred copy", async () => {
+    const { h, driveId } = await setup();
+    const r = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    const img = await h.svc.getReceiptImage(r.receipt.id);
+    expect(img!.mediaType).toBe("image/png");
+    expect(sha256Hex(img!.bytes)).not.toBe(sha256Hex(heroBytes()));
+  });
+});

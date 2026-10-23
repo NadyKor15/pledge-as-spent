@@ -47,13 +47,60 @@ describe("demo drive replayed from the live sandbox run", () => {
 
   it("ends closed, every hold settled: pledged = spent + released", () => {
     expect(r.final.drive.status).toBe("closed");
-    const rows = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
-    expect(rows.water).toMatchObject({ currency: "EUR", pledged: 2000, spent: 458, released: 1542, settled: true });
-    expect(rows.diapers).toMatchObject({ currency: "USD", pledged: 3000, spent: 2145, released: 855, settled: true });
-    expect(rows.batteries).toMatchObject({ currency: "JPY", pledged: 3000, spent: 1237, released: 1763, settled: true });
-    expect(rows.match).toMatchObject({ currency: "JPY", pledged: 50000, spent: 5224, released: 44776, settled: true });
+    for (const c of r.final.closeReport) expect(c.pledged).toBe(c.spent + c.released);
+    expect(r.final.closeReport.every((c) => c.settled)).toBe(true);
     // The wallet pledge was never approved: no hold, nothing to settle.
     expect(r.final.holds.find((x) => x.pledgeId === r.walletPledgeId)).toMatchObject({ status: "pending_approval", authorized: 0 });
+  });
+
+  // The numbers agreed for the demo, the video and the README (orchestrator, 23.10).
+  it("matches the agreed demo numbers: funded ¥10,448, refused ¥4,198, payout ¥10,448, match ¥5,224", () => {
+    const holds = Object.fromEntries(r.final.holds.map((x) => [x.pledgeId.split(".").pop(), x]));
+    expect(holds.water).toMatchObject({ donorName: "Lena (Berlin)", donorCountry: "DE", currency: "EUR", pledged: 2000 });
+    expect(holds.diapers).toMatchObject({ donorName: "Mark (Columbus)", donorCountry: "US", currency: "USD", pledged: 3000 });
+    expect(holds.batteries).toMatchObject({ donorName: "Yuki (Osaka)", donorCountry: "JP", currency: "JPY", pledged: 3000 });
+    expect(holds.match).toMatchObject({ donorName: "Kitasora Logistics", kind: "match", currency: "JPY", pledged: 500_000 });
+    for (const x of [holds.water, holds.diapers]) {
+      expect(x.fx).toEqual({ base: "JPY", quote: x.currency, rate: x.currency === "EUR" ? "162.35" : "151.20", source: "demo snapshot (fixed for a reproducible demo)", asOf: "2026-10-23" });
+    }
+    expect(r.final.match.ratio).toEqual({ num: 1, den: 1 });
+    expect(r.final.match.usedBase).toBe(5224);
+
+    const need = Object.fromEntries(r.final.needs.map((n) => [n.needId, n]));
+    expect([need.water.qtyNeeded, need.diapers.qtyNeeded, need.batteries.qtyNeeded]).toEqual([40, 6, 50]);
+    expect(need.water).toMatchObject({ fundedBase: 1486, donorBase: 743, matchBase: 743 });
+    expect(need.diapers).toMatchObject({ fundedBase: 6488, donorBase: 3244, matchBase: 3244 });
+    expect(need.batteries).toMatchObject({ fundedBase: 2474, donorBase: 1237, matchBase: 1237 });
+    expect(need.water.fundedBase + need.diapers.fundedBase + need.batteries.fundedBase).toBe(10448);
+
+    const refused = of("LineRejected").filter((e) => e.receiptId === r.hero.receipt.id);
+    expect(refused.reduce((a, e) => a + e.amountBase, 0)).toBe(4198);
+    expect(r.final.payouts[0].attempts[0]).toMatchObject({ amount: 10448, status: "confirmed" });
+
+    // Lena €20.00 / €4.58 spent / €15.42 released; Yuki ¥3,000 / ¥1,237 / ¥1,763.
+    const close = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
+    expect(close.water).toMatchObject({ pledged: 2000, spent: 458, released: 1542 });
+    expect(close.batteries).toMatchObject({ pledged: 3000, spent: 1237, released: 1763 });
+    expect(close.match).toMatchObject({ pledged: 500_000, spent: 5224, released: 494_776 });
+  });
+
+  // KNOWN DIFFERENCE, reported, expectation kept: Mark's ¥3,244 is three shares (¥1,298 + ¥1,647 + ¥299),
+  // each converted half-up as the core spec says ($8.58 + $10.89 + $1.98 = $21.45). Converting the
+  // ¥3,244 total at once gives $21.455... -> $21.46, which is what the agreed numbers assume.
+  it.fails("matches the agreed Mark figures: $30.00 pledged / $21.46 spent / $8.54 released", () => {
+    const close = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
+    expect(close.diapers).toMatchObject({ pledged: 3000, spent: 2146, released: 854 });
+  });
+
+  it("charges Mark $21.45 and releases $8.55 (the engine's per-share rounding, see the known difference above)", () => {
+    const close = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
+    expect(close.diapers).toMatchObject({ pledged: 3000, spent: 2145, released: 855 });
+    const shares = of("LineFunded").flatMap((e) => e.shares.filter((x) => x.pledgeId.endsWith(".diapers")).map((x) => [x.base, x.quote.minor]));
+    expect(shares).toEqual([
+      [1298, 858],
+      [1647, 1089],
+      [299, 198],
+    ]);
   });
 
   it("funds the hero receipt's 9 lines and refuses the beer and the gift card, to the yen of the README", () => {

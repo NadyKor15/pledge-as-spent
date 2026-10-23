@@ -57,7 +57,8 @@ export const str = (v: unknown): string | undefined => (typeof v === "string" &&
 /** JSON answer, or a 303 back to a debug page when the form asked for it. */
 export function respond(fields: Fields, data: unknown, status = 200): Response {
   const back = str(fields.back);
-  if (back && /^\/debug(\/[\w.\-/%]*)?$/.test(back) && status < 400) return new Response(null, { status: 303, headers: { location: back } });
+  // Same-origin debug pages only: no scheme, no "//host", no "..".
+  if (back && /^\/debug(\/[\w.-]+)*$/.test(back) && !back.includes("..") && status < 400) return new Response(null, { status: 303, headers: { location: back } });
   return Response.json(data, { status });
 }
 

@@ -1,0 +1,137 @@
+{
+  "seq": 1,
+  "label": "demo-drive",
+  "recordedAt": "2026-10-23T15:49:14.021Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders",
+    "headers": {
+      "paypal-request-id": "hold:demo-deedc05de3.water",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "intent": "AUTHORIZE",
+      "purchase_units": [
+        {
+          "reference_id": "demo-deedc05de3:demo-deedc05de3.water",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "20.00"
+          },
+          "description": "Pledge: Drinking water 2 L - Kitasora flood relief (demo)",
+          "custom_id": "demo-deedc05de3.water"
+        }
+      ],
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "number": "4012888888881881",
+          "expiry": "2030-12",
+          "security_code": "123"
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f86338709cb7d",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "46B57490943089630",
+      "intent": "AUTHORIZE",
+      "status": "COMPLETED",
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "last_digits": "1881",
+          "expiry": "2030-12",
+          "brand": "VISA",
+          "type": "UNKNOWN",
+          "bin_details": {}
+        }
+      },
+      "purchase_units": [
+        {
+          "reference_id": "demo-deedc05de3:demo-deedc05de3.water",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "20.00"
+          },
+          "payee": {
+            "email_address": "sb-l1j1d53505233@business.example.com",
+            "merchant_id": "R3AUNAFRP94H8"
+          },
+          "description": "Pledge: Drinking water 2 L - Kitasora flood relief (demo)",
+          "custom_id": "demo-deedc05de3.water",
+          "soft_descriptor": "TEST STORE",
+          "payments": {
+            "authorizations": [
+              {
+                "status": "CREATED",
+                "id": "4NU570054U695994N",
+                "amount": {
+                  "currency_code": "EUR",
+                  "value": "20.00"
+                },
+                "custom_id": "demo-deedc05de3.water",
+                "seller_protection": {
+                  "status": "NOT_ELIGIBLE"
+                },
+                "processor_response": {
+                  "cvv_code": "M",
+                  "response_code": "0000"
+                },
+                "expiration_time": "2026-11-21T15:49:13Z",
+                "links": [
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N",
+                    "rel": "self",
+                    "method": "GET"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N/capture",
+                    "rel": "capture",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N/void",
+                    "rel": "void",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N/reauthorize",
+                    "rel": "reauthorize",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/checkout/orders/46B57490943089630",
+                    "rel": "up",
+                    "method": "GET"
+                  }
+                ],
+                "create_time": "2026-10-23T15:49:13Z",
+                "update_time": "2026-10-23T15:49:13Z",
+                "network_transaction_reference": {
+                  "id": "247743212613214",
+                  "network": "VISA"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "create_time": "2026-10-23T15:49:13Z",
+      "update_time": "2026-10-23T15:49:13Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/46B57490943089630",
+          "rel": "self",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

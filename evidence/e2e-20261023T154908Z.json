@@ -1,0 +1,831 @@
+{
+  "runId": "20261023T154908Z",
+  "startedAt": "2026-10-23T15:49:08.816Z",
+  "finishedAt": "2026-10-23T15:49:49.609Z",
+  "sandbox": "Nadezhda Korchagina's PayPal sandbox (Default Application APP-6EH18596R9530124Y), test card holds",
+  "driveId": "demo-deedc05de3",
+  "paypalCalls": 21,
+  "steps": [
+    {
+      "step": "demo-drive",
+      "at": "2026-10-23T15:49:10.989Z",
+      "note": "fresh demo drive: three donor holds and a 1:1 company match, sandbox test card"
+    },
+    {
+      "step": "wallet-pledge",
+      "at": "2026-10-23T15:49:21.344Z",
+      "note": "a donor pledge through the PayPal window: AUTHORIZE order with user_action PAY_NOW"
+    },
+    {
+      "step": "wallet-authorize-unapproved",
+      "at": "2026-10-23T15:49:22.135Z",
+      "note": "authorize before the donor approved: PayPal refuses, the book does not change"
+    },
+    {
+      "step": "hero-receipt",
+      "at": "2026-10-23T15:49:22.694Z",
+      "note": "the hero receipt: 9 lines funded, 2 refused, volunteer payout"
+    },
+    {
+      "step": "duplicate-receipt",
+      "at": "2026-10-23T15:49:23.615Z",
+      "note": "the same photo again: flagged as a duplicate, no money moves"
+    },
+    {
+      "step": "pre-disaster-receipt",
+      "at": "2026-10-23T15:49:24.010Z",
+      "note": "a receipt dated before the disaster: flagged, no money moves"
+    },
+    {
+      "step": "capture-now-crash",
+      "at": "2026-10-23T15:49:24.221Z",
+      "note": "capture now; the process dies right before the second capture request leaves"
+    },
+    {
+      "step": "restart-lookup",
+      "at": "2026-10-23T15:49:25.993Z",
+      "note": "new process: captures PayPal never answered go out again under the same request ids; GET each capture and the payout"
+    },
+    {
+      "step": "payout-lookup-1",
+      "at": "2026-10-23T15:49:45.364Z",
+      "note": "the payout is still in progress at PayPal: look again"
+    },
+    {
+      "step": "close",
+      "at": "2026-10-23T15:49:45.825Z",
+      "note": "close: everything is captured, so each hold's remainder is voided and the drive closes"
+    }
+  ],
+  "results": {
+    "walletPledge": {
+      "pledgeId": "demo-deedc05de3.wallet",
+      "orderId": "9KG53879596936812",
+      "approveUrl": "https://www.sandbox.paypal.com/checkoutnow?token=9KG53879596936812",
+      "status": "PAYER_ACTION_REQUIRED"
+    },
+    "authorizeBeforeApproval": "409 not_approved",
+    "heroReceipt": {
+      "id": "demo-deedc05de3.r1",
+      "status": "funded",
+      "commands": [
+        {
+          "kind": "payout",
+          "receiptId": "demo-deedc05de3.r1",
+          "requestId": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "outcome": "sent",
+          "ids": {
+            "payoutBatchId": "58J9C38J3PQWA",
+            "batchStatus": "PENDING"
+          }
+        }
+      ]
+    },
+    "duplicateReceipt": {
+      "id": "demo-deedc05de3.r2",
+      "status": "review",
+      "flags": [
+        "duplicate"
+      ]
+    },
+    "preDisasterReceipt": {
+      "id": "demo-deedc05de3.r3",
+      "status": "review",
+      "flags": [
+        "pre_disaster"
+      ]
+    },
+    "crash": "simulated crash before the capture request was sent",
+    "capturesBeforeCrash": 1,
+    "lookups": [
+      [
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.water",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+          "outcome": "done",
+          "detail": "lookup: COMPLETED",
+          "ids": {
+            "captureId": "23U39065DA3435005"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.diapers",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+          "outcome": "sent",
+          "ids": {
+            "captureId": "3BM27705RC859420P",
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.diapers",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+          "outcome": "done",
+          "detail": "lookup: COMPLETED",
+          "ids": {
+            "captureId": "3BM27705RC859420P"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.batteries",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1",
+          "outcome": "sent",
+          "ids": {
+            "captureId": "2DK2532081818610M",
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.batteries",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1",
+          "outcome": "done",
+          "detail": "lookup: COMPLETED",
+          "ids": {
+            "captureId": "2DK2532081818610M"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.match",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.match:1",
+          "outcome": "sent",
+          "ids": {
+            "captureId": "3XH0249552955151C",
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "kind": "capture",
+          "pledgeId": "demo-deedc05de3.match",
+          "requestId": "cap:demo-deedc05de3:demo-deedc05de3.match:1",
+          "outcome": "done",
+          "detail": "lookup: COMPLETED",
+          "ids": {
+            "captureId": "3XH0249552955151C"
+          }
+        },
+        {
+          "kind": "payout",
+          "receiptId": "demo-deedc05de3.r1",
+          "requestId": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "outcome": "sent",
+          "detail": "lookup: PENDING",
+          "ids": {
+            "payoutBatchId": "58J9C38J3PQWA"
+          }
+        }
+      ],
+      [
+        {
+          "kind": "payout",
+          "receiptId": "demo-deedc05de3.r1",
+          "requestId": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "outcome": "done",
+          "detail": "lookup: SUCCESS",
+          "ids": {
+            "payoutBatchId": "58J9C38J3PQWA"
+          }
+        }
+      ]
+    ],
+    "close": [
+      {
+        "kind": "void",
+        "pledgeId": "demo-deedc05de3.water",
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.water",
+        "outcome": "done"
+      },
+      {
+        "kind": "void",
+        "pledgeId": "demo-deedc05de3.diapers",
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.diapers",
+        "outcome": "done"
+      },
+      {
+        "kind": "void",
+        "pledgeId": "demo-deedc05de3.batteries",
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.batteries",
+        "outcome": "done"
+      },
+      {
+        "kind": "void",
+        "pledgeId": "demo-deedc05de3.match",
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.match",
+        "outcome": "done"
+      }
+    ]
+  },
+  "ids": {
+    "holds": [
+      {
+        "pledgeId": "demo-deedc05de3.water",
+        "orderId": "46B57490943089630",
+        "authorizationId": "4NU570054U695994N",
+        "status": "voided",
+        "captured": 458,
+        "released": 1542,
+        "currency": "EUR"
+      },
+      {
+        "pledgeId": "demo-deedc05de3.diapers",
+        "orderId": "9NU18810WU3743749",
+        "authorizationId": "4BD44583JM488111B",
+        "status": "voided",
+        "captured": 2145,
+        "released": 855,
+        "currency": "USD"
+      },
+      {
+        "pledgeId": "demo-deedc05de3.batteries",
+        "orderId": "9MK251473Y685683A",
+        "authorizationId": "2RA55308JN808934C",
+        "status": "voided",
+        "captured": 1237,
+        "released": 1763,
+        "currency": "JPY"
+      },
+      {
+        "pledgeId": "demo-deedc05de3.match",
+        "orderId": "9R801163BE0281634",
+        "authorizationId": "5LJ60939C6988804E",
+        "status": "voided",
+        "captured": 5224,
+        "released": 494776,
+        "currency": "JPY"
+      },
+      {
+        "pledgeId": "demo-deedc05de3.wallet",
+        "orderId": "9KG53879596936812",
+        "authorizationId": null,
+        "status": "pending_approval",
+        "captured": 0,
+        "released": 0,
+        "currency": "EUR"
+      }
+    ],
+    "captures": [
+      {
+        "requestId": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+        "captureId": "23U39065DA3435005",
+        "status": "COMPLETED",
+        "httpStatus": 201
+      },
+      {
+        "requestId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+        "captureId": "3BM27705RC859420P",
+        "status": "COMPLETED",
+        "httpStatus": 201
+      },
+      {
+        "requestId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1",
+        "captureId": "2DK2532081818610M",
+        "status": "COMPLETED",
+        "httpStatus": 201
+      },
+      {
+        "requestId": "cap:demo-deedc05de3:demo-deedc05de3.match:1",
+        "captureId": "3XH0249552955151C",
+        "status": "COMPLETED",
+        "httpStatus": 201
+      }
+    ],
+    "captureLookups": [
+      {
+        "captureId": "23U39065DA3435005",
+        "status": "COMPLETED"
+      },
+      {
+        "captureId": "3BM27705RC859420P",
+        "status": "COMPLETED"
+      },
+      {
+        "captureId": "2DK2532081818610M",
+        "status": "COMPLETED"
+      },
+      {
+        "captureId": "3XH0249552955151C",
+        "status": "COMPLETED"
+      }
+    ],
+    "payouts": [
+      {
+        "receiptId": "demo-deedc05de3.r1",
+        "attempts": [
+          {
+            "senderBatchId": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+            "amount": 10448,
+            "status": "confirmed",
+            "submittedAt": "2026-10-23T15:49:23.001Z",
+            "payoutBatchId": "58J9C38J3PQWA",
+            "fee": {
+              "minor": 209,
+              "currency": "JPY"
+            }
+          }
+        ]
+      }
+    ],
+    "payoutLookups": [
+      {
+        "batchStatus": "PROCESSING",
+        "payoutItemId": "98XMHLFZLRXAA",
+        "payoutBatchId": "58J9C38J3PQWA",
+        "transactionStatus": "PENDING"
+      },
+      {
+        "batchStatus": "PROCESSING",
+        "payoutItemId": "98XMHLFZLRXAA",
+        "payoutBatchId": "58J9C38J3PQWA",
+        "transactionId": "4FW744737P499932J",
+        "transactionStatus": "SUCCESS"
+      }
+    ],
+    "voids": [
+      {
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.water",
+        "authorizationId": "4NU570054U695994N",
+        "status": "VOIDED",
+        "httpStatus": 200
+      },
+      {
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.diapers",
+        "authorizationId": "4BD44583JM488111B",
+        "status": "VOIDED",
+        "httpStatus": 200
+      },
+      {
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.batteries",
+        "authorizationId": "2RA55308JN808934C",
+        "status": "VOIDED",
+        "httpStatus": 200
+      },
+      {
+        "requestId": "void:demo-deedc05de3:demo-deedc05de3.match",
+        "authorizationId": "5LJ60939C6988804E",
+        "status": "VOIDED",
+        "httpStatus": 200
+      }
+    ]
+  },
+  "final": {
+    "driveStatus": "closed",
+    "needs": [
+      {
+        "needId": "water",
+        "label": "Drinking water 2 L",
+        "unit": "bottle 2 L",
+        "qtyNeeded": 40,
+        "qtyCovered": 12,
+        "remainingQty": 28,
+        "covered": false,
+        "fundedBase": 1486,
+        "donorBase": 743,
+        "matchBase": 743,
+        "unfundedBase": 0,
+        "rejectedBase": 0,
+        "donorCapacityBase": 0
+      },
+      {
+        "needId": "diapers",
+        "label": "Baby diapers size M",
+        "unit": "pack",
+        "qtyNeeded": 6,
+        "qtyCovered": 6,
+        "remainingQty": 0,
+        "covered": true,
+        "fundedBase": 6488,
+        "donorBase": 3244,
+        "matchBase": 3244,
+        "unfundedBase": 0,
+        "rejectedBase": 0,
+        "donorCapacityBase": 0
+      },
+      {
+        "needId": "batteries",
+        "label": "AA batteries",
+        "unit": "piece",
+        "qtyNeeded": 50,
+        "qtyCovered": 50,
+        "remainingQty": 0,
+        "covered": true,
+        "fundedBase": 2474,
+        "donorBase": 1237,
+        "matchBase": 1237,
+        "unfundedBase": 0,
+        "rejectedBase": 0,
+        "donorCapacityBase": 0
+      }
+    ],
+    "closeReport": [
+      {
+        "pledgeId": "demo-deedc05de3.water",
+        "donorName": "Lena (Berlin)",
+        "kind": "donor",
+        "currency": "EUR",
+        "pledged": 2000,
+        "spent": 458,
+        "released": 1542,
+        "settled": true
+      },
+      {
+        "pledgeId": "demo-deedc05de3.diapers",
+        "donorName": "Mark (Columbus)",
+        "kind": "donor",
+        "currency": "USD",
+        "pledged": 3000,
+        "spent": 2145,
+        "released": 855,
+        "settled": true
+      },
+      {
+        "pledgeId": "demo-deedc05de3.batteries",
+        "donorName": "Yuki (Osaka)",
+        "kind": "donor",
+        "currency": "JPY",
+        "pledged": 3000,
+        "spent": 1237,
+        "released": 1763,
+        "settled": true
+      },
+      {
+        "pledgeId": "demo-deedc05de3.match",
+        "donorName": "Kitasora Logistics",
+        "kind": "match",
+        "currency": "JPY",
+        "pledged": 500000,
+        "spent": 5224,
+        "released": 494776,
+        "settled": true
+      }
+    ],
+    "feeSavings": [
+      {
+        "currency": "EUR",
+        "batches": 1,
+        "shares": 3,
+        "savedMinor": 78,
+        "estimate": false,
+        "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): EUR 7.40 -> 0.58, 5.00 -> 0.52 = 2.59% + EUR 0.39",
+        "paypalFeeMinor": 51,
+        "batchesWithReportedFee": 1
+      },
+      {
+        "currency": "JPY",
+        "batches": 2,
+        "shares": 12,
+        "savedMinor": 490,
+        "estimate": false,
+        "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): JPY 1110 -> 78, 500 -> 62, 12000 -> 360, 8000 -> 256 = 2.59% + JPY 49",
+        "paypalFeeMinor": 265,
+        "batchesWithReportedFee": 2
+      },
+      {
+        "currency": "USD",
+        "batches": 1,
+        "shares": 3,
+        "savedMinor": 98,
+        "estimate": false,
+        "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): USD 11.10 -> 0.78, 6.00 -> 0.65, 12.90 -> 0.82 = 2.59% + USD 0.49",
+        "paypalFeeMinor": 105,
+        "batchesWithReportedFee": 1
+      }
+    ],
+    "receipts": [
+      {
+        "id": "demo-deedc05de3.r1",
+        "status": "funded",
+        "flags": [],
+        "image": {
+          "published": true,
+          "url": "/api/receipts/demo-deedc05de3.r1/image",
+          "blurredRegions": 3
+        }
+      },
+      {
+        "id": "demo-deedc05de3.r2",
+        "status": "review",
+        "flags": [
+          "duplicate"
+        ],
+        "image": {
+          "published": true,
+          "url": "/api/receipts/demo-deedc05de3.r2/image",
+          "blurredRegions": 3
+        }
+      },
+      {
+        "id": "demo-deedc05de3.r3",
+        "status": "review",
+        "flags": [
+          "pre_disaster"
+        ],
+        "image": {
+          "published": true,
+          "url": "/api/receipts/demo-deedc05de3.r3/image",
+          "blurredRegions": 1
+        }
+      }
+    ],
+    "eventCount": 37
+  },
+  "calls": [
+    {
+      "ts": "2026-10-23 10:49:11.551-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "requestId": "hold:demo-deedc05de3.water",
+      "httpStatus": 201,
+      "debugId": "f86338709cb7d",
+      "ids": {
+        "id": "46B57490943089630",
+        "status": "COMPLETED",
+        "authorizationId": "4NU570054U695994N",
+        "authorizationStatus": "CREATED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:14.027-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "requestId": "hold:demo-deedc05de3.diapers",
+      "httpStatus": 201,
+      "debugId": "f71694197adf8",
+      "ids": {
+        "id": "9NU18810WU3743749",
+        "status": "COMPLETED",
+        "authorizationId": "4BD44583JM488111B",
+        "authorizationStatus": "CREATED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:16.325-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "requestId": "hold:demo-deedc05de3.batteries",
+      "httpStatus": 201,
+      "debugId": "f299538a2ec2e",
+      "ids": {
+        "id": "9MK251473Y685683A",
+        "status": "COMPLETED",
+        "authorizationId": "2RA55308JN808934C",
+        "authorizationStatus": "CREATED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:18.82-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "requestId": "hold:demo-deedc05de3.match",
+      "httpStatus": 201,
+      "debugId": "f796949073b60",
+      "ids": {
+        "id": "9R801163BE0281634",
+        "status": "COMPLETED",
+        "authorizationId": "5LJ60939C6988804E",
+        "authorizationStatus": "CREATED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:21.345-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "requestId": "order:demo-deedc05de3.wallet",
+      "httpStatus": 200,
+      "debugId": "f585972aa18eb",
+      "ids": {
+        "id": "9KG53879596936812",
+        "status": "PAYER_ACTION_REQUIRED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:22.136-05",
+      "method": "POST",
+      "path": "/v2/checkout/orders/9KG53879596936812/authorize",
+      "requestId": "authorize:demo-deedc05de3.wallet",
+      "httpStatus": 422,
+      "debugId": "f291088079e9a",
+      "ids": {
+        "issue": "ORDER_NOT_APPROVED",
+        "debugId": "f291088079e9a",
+        "errorName": "UNPROCESSABLE_ENTITY"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:23.002-05",
+      "method": "POST",
+      "path": "/v1/payments/payouts",
+      "requestId": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+      "httpStatus": 201,
+      "debugId": "f3456976b52f4",
+      "ids": {
+        "batchStatus": "PENDING",
+        "payoutBatchId": "58J9C38J3PQWA"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:24.224-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/4NU570054U695994N/capture",
+      "requestId": "cap:demo-deedc05de3:demo-deedc05de3.water:1",
+      "httpStatus": 201,
+      "debugId": "f698495020cee",
+      "ids": {
+        "id": "23U39065DA3435005",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.water",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.water:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:25.991-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/4BD44583JM488111B/capture",
+      "requestId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+      "httpStatus": 0,
+      "debugId": null,
+      "ids": {
+        "error": "Error"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:27.445-05",
+      "method": "GET",
+      "path": "/v2/payments/captures/23U39065DA3435005",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f201836381752",
+      "ids": {
+        "id": "23U39065DA3435005",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.water",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.water:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:28.101-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/4BD44583JM488111B/capture",
+      "requestId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1",
+      "httpStatus": 201,
+      "debugId": "f566406da2a94",
+      "ids": {
+        "id": "3BM27705RC859420P",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.diapers",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:29.583-05",
+      "method": "GET",
+      "path": "/v2/payments/captures/3BM27705RC859420P",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f387346383540",
+      "ids": {
+        "id": "3BM27705RC859420P",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.diapers",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.diapers:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:30.188-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/2RA55308JN808934C/capture",
+      "requestId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1",
+      "httpStatus": 201,
+      "debugId": "f387346c198ce",
+      "ids": {
+        "id": "2DK2532081818610M",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.batteries",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:32.086-05",
+      "method": "GET",
+      "path": "/v2/payments/captures/2DK2532081818610M",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f941436f585cf",
+      "ids": {
+        "id": "2DK2532081818610M",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.batteries",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.batteries:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:32.69-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5LJ60939C6988804E/capture",
+      "requestId": "cap:demo-deedc05de3:demo-deedc05de3.match:1",
+      "httpStatus": 201,
+      "debugId": "f182613dff455",
+      "ids": {
+        "id": "3XH0249552955151C",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.match",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.match:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:34.389-05",
+      "method": "GET",
+      "path": "/v2/payments/captures/3XH0249552955151C",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f74611549b46e",
+      "ids": {
+        "id": "3XH0249552955151C",
+        "status": "COMPLETED",
+        "customId": "demo-deedc05de3.match",
+        "invoiceId": "cap:demo-deedc05de3:demo-deedc05de3.match:1"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:34.909-05",
+      "method": "GET",
+      "path": "/v1/payments/payouts/58J9C38J3PQWA",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f874256a50412",
+      "ids": {
+        "batchStatus": "PROCESSING",
+        "payoutItemId": "98XMHLFZLRXAA",
+        "payoutBatchId": "58J9C38J3PQWA",
+        "transactionStatus": "PENDING"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:45.366-05",
+      "method": "GET",
+      "path": "/v1/payments/payouts/58J9C38J3PQWA",
+      "requestId": null,
+      "httpStatus": 200,
+      "debugId": "f698127a3ae97",
+      "ids": {
+        "batchStatus": "PROCESSING",
+        "payoutItemId": "98XMHLFZLRXAA",
+        "payoutBatchId": "58J9C38J3PQWA",
+        "transactionId": "4FW744737P499932J",
+        "transactionStatus": "SUCCESS"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:45.829-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/4NU570054U695994N/void",
+      "requestId": "void:demo-deedc05de3:demo-deedc05de3.water",
+      "httpStatus": 200,
+      "debugId": "f7454931e0c11",
+      "ids": {
+        "id": "4NU570054U695994N",
+        "status": "VOIDED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:46.731-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/4BD44583JM488111B/void",
+      "requestId": "void:demo-deedc05de3:demo-deedc05de3.diapers",
+      "httpStatus": 200,
+      "debugId": "f206609d47a38",
+      "ids": {
+        "id": "4BD44583JM488111B",
+        "status": "VOIDED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:47.615-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/2RA55308JN808934C/void",
+      "requestId": "void:demo-deedc05de3:demo-deedc05de3.batteries",
+      "httpStatus": 200,
+      "debugId": "f386974b9df87",
+      "ids": {
+        "id": "2RA55308JN808934C",
+        "status": "VOIDED"
+      }
+    },
+    {
+      "ts": "2026-10-23 10:49:48.607-05",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5LJ60939C6988804E/void",
+      "requestId": "void:demo-deedc05de3:demo-deedc05de3.match",
+      "httpStatus": 200,
+      "debugId": "f221032d46abd",
+      "ids": {
+        "id": "5LJ60939C6988804E",
+        "status": "VOIDED"
+      }
+    }
+  ]
+}

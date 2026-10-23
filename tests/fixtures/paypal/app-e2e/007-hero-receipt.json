@@ -1,0 +1,56 @@
+{
+  "seq": 7,
+  "label": "hero-receipt",
+  "recordedAt": "2026-10-23T15:49:23.526Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v1/payments/payouts",
+    "headers": {
+      "paypal-request-id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+      "content-type": "application/json"
+    },
+    "body": {
+      "sender_batch_header": {
+        "sender_batch_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+        "email_subject": "Reimbursement for your receipt: Kitasora flood relief (demo)"
+      },
+      "items": [
+        {
+          "recipient_type": "EMAIL",
+          "receiver": "sb-pywsi53523660@personal.example.com",
+          "amount": {
+            "currency": "JPY",
+            "value": "10448"
+          },
+          "sender_item_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "note": "Receipt demo-deedc05de3.r1: the approved lines, paid from donors' holds."
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f3456976b52f4",
+      "content-type": "application/json"
+    },
+    "body": {
+      "batch_header": {
+        "payout_batch_id": "58J9C38J3PQWA",
+        "batch_status": "PENDING",
+        "sender_batch_header": {
+          "sender_batch_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
+          "email_subject": "Reimbursement for your receipt: Kitasora flood relief (demo)"
+        }
+      },
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v1/payments/payouts/58J9C38J3PQWA",
+          "rel": "self",
+          "method": "GET",
+          "encType": "application/json"
+        }
+      ]
+    }
+  }
+}
