@@ -179,7 +179,7 @@ describe("K3: a confirmed capture can be reversed", () => {
       ["partly_reversed", 100],
     ]);
     // the same refund reported under another event id is not counted twice
-    const again = core.captureReversedEvent(b.state, { captureId: "CAP-1", amount: yen(250), reason: "lookup", at: hoursAfter(41), reversalId: "REF-1" })!;
+    const again = core.captureReversedEvent(b.state, { captureId: "CAP-1", amount: yen(250), reason: "lookup", at: hoursAfter(41), reversalId: "REF-1", id: "webhook-2" })!;
     const s = b.state;
     b.apply(again);
     expect(b.state).toBe(s);
