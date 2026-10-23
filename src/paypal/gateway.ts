@@ -46,6 +46,11 @@ const TOKEN_PATH = "/v1/oauth2/token";
 const NO_REQUEST_ID = new Set([TOKEN_PATH, "/v1/notifications/verify-webhook-signature"]);
 const PREFER = "return=representation";
 
+// fetch rejects with TypeError on network failure; timeouts surface as AbortError/TimeoutError.
+function isTransportError(e: unknown): boolean {
+  return e instanceof TypeError || (e instanceof Error && (e.name === "AbortError" || e.name === "TimeoutError"));
+}
+
 function requireId(requestId: string | undefined, op: string): string {
   if (!requestId || !requestId.trim()) throw new GuardError(`${op}: PayPal-Request-Id is required`);
   return requestId;
@@ -82,7 +87,7 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
       try {
         raw = await attempt();
       } catch (e) {
-        if (e instanceof GuardError || e instanceof PayPalError) throw e;
+        if (!isTransportError(e)) throw e;
         if (i >= maxRetries) throw new PayPalError({ httpStatus: 0, name: "NETWORK_ERROR", message: String((e as Error)?.message ?? e) });
         await sleep(retryDelayMs * (i + 1));
         continue;
@@ -156,7 +161,9 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
       oAuthClientSecret: opts.clientSecret,
       oAuthTokenProvider: async () => {
         const t = await token();
-        return { accessToken: t.token, tokenType: "Bearer", expiry: BigInt(Math.floor(t.expiresAt / 1000)) };
+        // The SDK checks expiry against the wall clock; hand it the remaining lifetime of our cached token.
+        const expiry = Math.floor((Date.now() + (t.expiresAt - now())) / 1000);
+        return { accessToken: t.token, tokenType: "Bearer", expiry: BigInt(expiry) };
       },
     },
     httpClientOptions: { retryConfig: { maxNumberOfRetries: 0 } },
