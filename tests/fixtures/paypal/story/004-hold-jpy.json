@@ -1,0 +1,137 @@
+{
+  "seq": 4,
+  "label": "hold-jpy",
+  "recordedAt": "2026-10-23T14:34:07.121Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-hold-jpy",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "intent": "AUTHORIZE",
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-jp-yuki",
+          "amount": {
+            "currency_code": "JPY",
+            "value": "3000"
+          },
+          "description": "Pledge JPY 3000 — rice",
+          "custom_id": "pledge-jp-yuki"
+        }
+      ],
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "number": "4012888888881881",
+          "expiry": "2030-12",
+          "security_code": "123"
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f27211411a963",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "6P41941591694863U",
+      "intent": "AUTHORIZE",
+      "status": "COMPLETED",
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "last_digits": "1881",
+          "expiry": "2030-12",
+          "brand": "VISA",
+          "type": "UNKNOWN",
+          "bin_details": {}
+        }
+      },
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-jp-yuki",
+          "amount": {
+            "currency_code": "JPY",
+            "value": "3000"
+          },
+          "payee": {
+            "email_address": "sb-l1j1d53505233@business.example.com",
+            "merchant_id": "R3AUNAFRP94H8"
+          },
+          "description": "Pledge JPY 3000 — rice",
+          "custom_id": "pledge-jp-yuki",
+          "soft_descriptor": "TEST STORE",
+          "payments": {
+            "authorizations": [
+              {
+                "status": "CREATED",
+                "id": "8F879076X5921473F",
+                "amount": {
+                  "currency_code": "JPY",
+                  "value": "3000"
+                },
+                "custom_id": "pledge-jp-yuki",
+                "seller_protection": {
+                  "status": "NOT_ELIGIBLE"
+                },
+                "processor_response": {
+                  "cvv_code": "M",
+                  "response_code": "0000"
+                },
+                "expiration_time": "2026-11-21T14:34:06Z",
+                "links": [
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F",
+                    "rel": "self",
+                    "method": "GET"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/capture",
+                    "rel": "capture",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/void",
+                    "rel": "void",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/reauthorize",
+                    "rel": "reauthorize",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/checkout/orders/6P41941591694863U",
+                    "rel": "up",
+                    "method": "GET"
+                  }
+                ],
+                "create_time": "2026-10-23T14:34:06Z",
+                "update_time": "2026-10-23T14:34:06Z",
+                "network_transaction_reference": {
+                  "id": "261217659678375",
+                  "network": "VISA"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "create_time": "2026-10-23T14:34:06Z",
+      "update_time": "2026-10-23T14:34:06Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/6P41941591694863U",
+          "rel": "self",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

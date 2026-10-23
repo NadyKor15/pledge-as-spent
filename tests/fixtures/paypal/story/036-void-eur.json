@@ -1,0 +1,43 @@
+{
+  "seq": 36,
+  "label": "void-eur",
+  "recordedAt": "2026-10-23T14:35:02.392Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U/void",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-void-eur",
+      "prefer": "return=representation",
+      "content-type": "application/x-www-form-urlencoded"
+    },
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f63736048054a",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "5W814775VF839481U",
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "expiration_time": "2026-11-21T06:34:00-08:00",
+      "create_time": "2026-10-23T07:34:00-07:00",
+      "update_time": "2026-10-23T07:35:02-07:00",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U",
+          "rel": "self",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

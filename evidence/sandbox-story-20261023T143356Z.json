@@ -1,0 +1,1000 @@
+{
+  "run": "20261023T143356Z",
+  "startedAt": "2026-10-23T14:33:56.890Z",
+  "finishedAt": "2026-10-23T14:35:07.474Z",
+  "sandbox": {
+    "app": "APP-6EH18596R9530124Y (Default Application, Nadezhda's sandbox)",
+    "baseUrl": "https://api-m.sandbox.paypal.com"
+  },
+  "httpCalls": 46,
+  "oauthCalls": 1,
+  "fixtures": "tests/fixtures/paypal/story",
+  "notes": [
+    "wallet-authorize-unapproved: 422 UNPROCESSABLE_ENTITY/ORDER_NOT_APPROVED debug_id=f679819637911",
+    "reauthorize-day0: 422 UNPROCESSABLE_ENTITY/REAUTHORIZATION_TOO_SOON debug_id=f817919f50230",
+    "capture-after-final: 422 UNPROCESSABLE_ENTITY/AUTHORIZATION_ALREADY_CAPTURED debug_id=f565729a50b2d",
+    "webhook-verify-forged: verified=false"
+  ],
+  "calls": [
+    {
+      "seq": 1,
+      "step": "hold-eur",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-hold-eur",
+      "ids": {
+        "order": "5V773555UA869851U",
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "COMPLETED/CREATED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f731907d79c2f"
+    },
+    {
+      "seq": 2,
+      "step": "hold-usd",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 500,
+      "requestId": "pas-20261023T143356Z-hold-usd",
+      "mockResponse": "{\"mock_application_codes\":\"INTERNAL_SERVER_ERROR\"}",
+      "ids": {},
+      "error": {
+        "name": "INTERNAL_SERVER_ERROR",
+        "message": "An internal service error has occurred",
+        "debugId": "f57660131db35"
+      },
+      "debugId": "f57660131db35"
+    },
+    {
+      "seq": 3,
+      "step": "hold-usd",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-hold-usd",
+      "ids": {
+        "order": "2PB17398T09392841",
+        "authorization": "9TH62202MC542812T"
+      },
+      "status": "COMPLETED/CREATED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "debugId": "f994113bd1101"
+    },
+    {
+      "seq": 4,
+      "step": "hold-jpy",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-hold-jpy",
+      "ids": {
+        "order": "6P41941591694863U",
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "COMPLETED/CREATED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f27211411a963"
+    },
+    {
+      "seq": 5,
+      "step": "hold-match",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-hold-match",
+      "ids": {
+        "order": "17Y731998P3336014",
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "COMPLETED/CREATED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f6428413854d3"
+    },
+    {
+      "seq": 6,
+      "step": "holds-get-eur",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/5W814775VF839481U",
+      "http": 200,
+      "ids": {
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "CREATED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f398984802d47"
+    },
+    {
+      "seq": 7,
+      "step": "holds-get-usd",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T",
+      "http": 200,
+      "ids": {
+        "authorization": "9TH62202MC542812T"
+      },
+      "status": "CREATED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "debugId": "f3989848ab89f"
+    },
+    {
+      "seq": 8,
+      "step": "holds-get-jpy",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/8F879076X5921473F",
+      "http": 200,
+      "ids": {
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "CREATED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f9214582dc421"
+    },
+    {
+      "seq": 9,
+      "step": "holds-get-match",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y",
+      "http": 200,
+      "ids": {
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "CREATED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f92145846729d"
+    },
+    {
+      "seq": 10,
+      "step": "wallet-order",
+      "method": "POST",
+      "path": "/v2/checkout/orders",
+      "http": 200,
+      "requestId": "pas-20261023T143356Z-wallet-order",
+      "ids": {
+        "order": "4US85101FK2929442"
+      },
+      "status": "PAYER_ACTION_REQUIRED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "10.00"
+      },
+      "debugId": "f51256184d739"
+    },
+    {
+      "seq": 11,
+      "step": "wallet-authorize-unapproved",
+      "method": "POST",
+      "path": "/v2/checkout/orders/4US85101FK2929442/authorize",
+      "http": 422,
+      "requestId": "pas-20261023T143356Z-wallet-authorize",
+      "ids": {},
+      "error": {
+        "name": "UNPROCESSABLE_ENTITY",
+        "issue": "ORDER_NOT_APPROVED",
+        "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+        "debugId": "f679819637911"
+      },
+      "debugId": "f679819637911"
+    },
+    {
+      "seq": 12,
+      "step": "capture1-eur",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5W814775VF839481U/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap1-eur",
+      "ids": {
+        "authorization": "5W814775VF839481U",
+        "capture": "2G6844552K932674R"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "7.40"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "EUR",
+          "value": "7.40"
+        },
+        "paypal_fee": {
+          "currency_code": "EUR",
+          "value": "0.58"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "exchange_rate": {
+          "source_currency": "EUR",
+          "target_currency": "USD",
+          "value": "1.090842204431814"
+        }
+      },
+      "debugId": "f679819715e40"
+    },
+    {
+      "seq": 13,
+      "step": "capture1-usd",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap1-usd",
+      "ids": {
+        "authorization": "9TH62202MC542812T",
+        "capture": "89339878SU120480L"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "11.10"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "11.10"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.78"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "10.32"
+        },
+        "exchange_rate": {}
+      },
+      "debugId": "f92272685228c"
+    },
+    {
+      "seq": 14,
+      "step": "capture1-jpy",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/8F879076X5921473F/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap1-jpy",
+      "ids": {
+        "authorization": "8F879076X5921473F",
+        "capture": "8FP40424M6623961P"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "1110"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "JPY",
+          "value": "1110"
+        },
+        "paypal_fee": {
+          "currency_code": "JPY",
+          "value": "78"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "6.36"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "6.36"
+        },
+        "exchange_rate": {
+          "source_currency": "JPY",
+          "target_currency": "USD",
+          "value": "0.006160397803739"
+        }
+      },
+      "debugId": "f3895363e0cb4"
+    },
+    {
+      "seq": 15,
+      "step": "capture1-match",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap1-match",
+      "ids": {
+        "authorization": "7S477023ER227382Y",
+        "capture": "897320406Y7448609"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "12000"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "JPY",
+          "value": "12000"
+        },
+        "paypal_fee": {
+          "currency_code": "JPY",
+          "value": "360"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "71.71"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "71.71"
+        },
+        "exchange_rate": {
+          "source_currency": "JPY",
+          "target_currency": "USD",
+          "value": "0.006160397803739"
+        }
+      },
+      "debugId": "f821882a1797e"
+    },
+    {
+      "seq": 16,
+      "step": "capture1-get-eur",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/5W814775VF839481U",
+      "http": 200,
+      "ids": {
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f803573e07ba9"
+    },
+    {
+      "seq": 17,
+      "step": "capture1-get-usd",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T",
+      "http": 200,
+      "ids": {
+        "authorization": "9TH62202MC542812T"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "debugId": "f803573a4aa9c"
+    },
+    {
+      "seq": 18,
+      "step": "capture1-get-jpy",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/8F879076X5921473F",
+      "http": 200,
+      "ids": {
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f25405638b893"
+    },
+    {
+      "seq": 19,
+      "step": "capture1-get-match",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y",
+      "http": 200,
+      "ids": {
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f2540567ec102"
+    },
+    {
+      "seq": 20,
+      "step": "capture1-eur-repeat",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5W814775VF839481U/capture",
+      "http": 200,
+      "requestId": "pas-20261023T143356Z-cap1-eur",
+      "ids": {
+        "authorization": "5W814775VF839481U",
+        "capture": "2G6844552K932674R"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "7.40"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "EUR",
+          "value": "7.40"
+        },
+        "paypal_fee": {
+          "currency_code": "EUR",
+          "value": "0.58"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "exchange_rate": {
+          "source_currency": "EUR",
+          "target_currency": "USD",
+          "value": "1.090842204431814"
+        }
+      },
+      "debugId": "f3888499620b8"
+    },
+    {
+      "seq": 21,
+      "step": "capture2-eur",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5W814775VF839481U/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap2-eur",
+      "ids": {
+        "authorization": "5W814775VF839481U",
+        "capture": "6NT607590J364631S"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "5.00"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "EUR",
+          "value": "5.00"
+        },
+        "paypal_fee": {
+          "currency_code": "EUR",
+          "value": "0.52"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "4.89"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "4.89"
+        },
+        "exchange_rate": {
+          "source_currency": "EUR",
+          "target_currency": "USD",
+          "value": "1.090842204431814"
+        }
+      },
+      "debugId": "f78798507669d"
+    },
+    {
+      "seq": 22,
+      "step": "capture2-usd",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap2-usd",
+      "ids": {
+        "authorization": "9TH62202MC542812T",
+        "capture": "8GD48371GX1440711"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "6.00"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "6.00"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.65"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "5.35"
+        },
+        "exchange_rate": {}
+      },
+      "debugId": "f158451f31ae9"
+    },
+    {
+      "seq": 23,
+      "step": "capture2-jpy",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/8F879076X5921473F/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap2-jpy",
+      "ids": {
+        "authorization": "8F879076X5921473F",
+        "capture": "76722611N30208534"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "500"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "JPY",
+          "value": "500"
+        },
+        "paypal_fee": {
+          "currency_code": "JPY",
+          "value": "62"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "2.70"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "2.70"
+        },
+        "exchange_rate": {
+          "source_currency": "JPY",
+          "target_currency": "USD",
+          "value": "0.006160397803739"
+        }
+      },
+      "debugId": "f116499cacc1e"
+    },
+    {
+      "seq": 24,
+      "step": "capture2-match",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap2-match",
+      "ids": {
+        "authorization": "7S477023ER227382Y",
+        "capture": "4TD507263Y842871G"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "8000"
+      },
+      "finalCapture": false,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "JPY",
+          "value": "8000"
+        },
+        "paypal_fee": {
+          "currency_code": "JPY",
+          "value": "256"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "47.71"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "47.71"
+        },
+        "exchange_rate": {
+          "source_currency": "JPY",
+          "target_currency": "USD",
+          "value": "0.006160397803739"
+        }
+      },
+      "debugId": "f464214d0b055"
+    },
+    {
+      "seq": 25,
+      "step": "capture2-get-eur",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/5W814775VF839481U",
+      "http": 200,
+      "ids": {
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f948726d82014"
+    },
+    {
+      "seq": 26,
+      "step": "capture2-get-usd",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T",
+      "http": 200,
+      "ids": {
+        "authorization": "9TH62202MC542812T"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "debugId": "f9487269db0c9"
+    },
+    {
+      "seq": 27,
+      "step": "capture2-get-jpy",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/8F879076X5921473F",
+      "http": 200,
+      "ids": {
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f983315bc6b52"
+    },
+    {
+      "seq": 28,
+      "step": "capture2-get-match",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y",
+      "http": 200,
+      "ids": {
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f9833157f751b"
+    },
+    {
+      "seq": 29,
+      "step": "reauthorize-day0",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y/reauthorize",
+      "http": 422,
+      "requestId": "pas-20261023T143356Z-reauth-match",
+      "ids": {
+        "authorizationBefore": "7S477023ER227382Y"
+      },
+      "error": {
+        "name": "UNPROCESSABLE_ENTITY",
+        "issue": "REAUTHORIZATION_TOO_SOON",
+        "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+        "debugId": "f817919f50230"
+      },
+      "debugId": "f817919f50230"
+    },
+    {
+      "seq": 30,
+      "step": "capture3-usd-final",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T/capture",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-cap3-usd",
+      "ids": {
+        "authorization": "9TH62202MC542812T",
+        "capture": "3FG67492G07488248"
+      },
+      "status": "COMPLETED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "12.90"
+      },
+      "finalCapture": true,
+      "sellerReceivableBreakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "12.90"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.82"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "12.08"
+        },
+        "exchange_rate": {}
+      },
+      "debugId": "f817919ccf5e2"
+    },
+    {
+      "seq": 31,
+      "step": "capture-after-final",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T/capture",
+      "http": 422,
+      "requestId": "pas-20261023T143356Z-cap4-usd",
+      "ids": {
+        "authorization": "9TH62202MC542812T"
+      },
+      "error": {
+        "name": "UNPROCESSABLE_ENTITY",
+        "issue": "AUTHORIZATION_ALREADY_CAPTURED",
+        "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+        "debugId": "f565729a50b2d"
+      },
+      "debugId": "f565729a50b2d"
+    },
+    {
+      "seq": 32,
+      "step": "final-get-usd",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/9TH62202MC542812T",
+      "http": 200,
+      "ids": {
+        "authorization": "9TH62202MC542812T"
+      },
+      "status": "CAPTURED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "debugId": "f242035c37483"
+    },
+    {
+      "seq": 33,
+      "step": "payout-create",
+      "method": "POST",
+      "path": "/v1/payments/payouts",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-payout",
+      "ids": {
+        "payoutBatch": "UPCMZN6KJZYAU"
+      },
+      "status": "PENDING",
+      "debugId": "f38223518a0b1"
+    },
+    {
+      "seq": 34,
+      "step": "payout-get-1",
+      "method": "GET",
+      "path": "/v1/payments/payouts/UPCMZN6KJZYAU",
+      "http": 200,
+      "ids": {
+        "payoutBatch": "UPCMZN6KJZYAU",
+        "payoutItem": "5ZVQDJCY4UJ8J"
+      },
+      "status": "PROCESSING",
+      "amount": {
+        "currency": "JPY",
+        "value": "2220"
+      },
+      "payoutFees": {
+        "currency": "JPY",
+        "value": "44"
+      },
+      "currencyConversion": {
+        "from_amount": {
+          "currency": "USD",
+          "value": "14.82"
+        },
+        "to_amount": {
+          "currency": "JPY",
+          "value": "2264"
+        }
+      },
+      "debugId": "f740702e33232"
+    },
+    {
+      "seq": 35,
+      "step": "payout-get-2",
+      "method": "GET",
+      "path": "/v1/payments/payouts/UPCMZN6KJZYAU",
+      "http": 200,
+      "ids": {
+        "payoutBatch": "UPCMZN6KJZYAU",
+        "payoutItem": "5ZVQDJCY4UJ8J",
+        "transaction": "0VM16039XE3293503"
+      },
+      "status": "SUCCESS",
+      "amount": {
+        "currency": "JPY",
+        "value": "2220"
+      },
+      "payoutFees": {
+        "currency": "JPY",
+        "value": "44"
+      },
+      "currencyConversion": {
+        "from_amount": {
+          "currency": "USD",
+          "value": "14.82"
+        },
+        "to_amount": {
+          "currency": "JPY",
+          "value": "2264"
+        }
+      },
+      "debugId": "f6373601303be"
+    },
+    {
+      "seq": 36,
+      "step": "void-eur",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/5W814775VF839481U/void",
+      "http": 200,
+      "requestId": "pas-20261023T143356Z-void-eur",
+      "ids": {
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f63736048054a"
+    },
+    {
+      "seq": 37,
+      "step": "void-jpy",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/8F879076X5921473F/void",
+      "http": 200,
+      "requestId": "pas-20261023T143356Z-void-jpy",
+      "ids": {
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f54252919af55"
+    },
+    {
+      "seq": 38,
+      "step": "void-match",
+      "method": "POST",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y/void",
+      "http": 200,
+      "requestId": "pas-20261023T143356Z-void-match",
+      "ids": {
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f45262788335a"
+    },
+    {
+      "seq": 39,
+      "step": "void-get-eur",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/5W814775VF839481U",
+      "http": 200,
+      "ids": {
+        "authorization": "5W814775VF839481U"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "debugId": "f336509e05f48"
+    },
+    {
+      "seq": 40,
+      "step": "void-get-jpy",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/8F879076X5921473F",
+      "http": 200,
+      "ids": {
+        "authorization": "8F879076X5921473F"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "debugId": "f689228e7de25"
+    },
+    {
+      "seq": 41,
+      "step": "void-get-match",
+      "method": "GET",
+      "path": "/v2/payments/authorizations/7S477023ER227382Y",
+      "http": 200,
+      "ids": {
+        "authorization": "7S477023ER227382Y"
+      },
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "debugId": "f5472532974d3"
+    },
+    {
+      "seq": 42,
+      "step": "webhooks-list",
+      "method": "GET",
+      "path": "/v1/notifications/webhooks",
+      "http": 200,
+      "ids": {},
+      "debugId": "f5472530ce9d4"
+    },
+    {
+      "seq": 43,
+      "step": "webhook-create",
+      "method": "POST",
+      "path": "/v1/notifications/webhooks",
+      "http": 201,
+      "requestId": "pas-20261023T143356Z-webhook",
+      "ids": {
+        "webhookOrEvent": "36C3609962307950H"
+      },
+      "debugId": "f5472534385b1"
+    },
+    {
+      "seq": 44,
+      "step": "webhook-simulate",
+      "method": "POST",
+      "path": "/v1/notifications/simulate-event",
+      "http": 202,
+      "requestId": "pas-20261023T143356Z-simulate",
+      "ids": {
+        "webhookOrEvent": "WH-7Y7254563A4550640-11V2185806837105M"
+      },
+      "status": "PAYMENT.CAPTURE.COMPLETED",
+      "debugId": "f391370c688e4"
+    },
+    {
+      "seq": 45,
+      "step": "webhook-verify-forged",
+      "method": "POST",
+      "path": "/v1/notifications/verify-webhook-signature",
+      "http": 200,
+      "ids": {},
+      "status": "FAILURE",
+      "debugId": "f3913706557aa"
+    }
+  ]
+}

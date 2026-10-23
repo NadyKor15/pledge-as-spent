@@ -1,0 +1,39 @@
+{
+  "seq": 29,
+  "label": "reauthorize-day0",
+  "recordedAt": "2026-10-23T14:34:32.387Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y/reauthorize",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-reauth-match",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 422,
+    "headers": {
+      "paypal-debug-id": "f817919f50230",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "name": "UNPROCESSABLE_ENTITY",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+      "debug_id": "f817919f50230",
+      "details": [
+        {
+          "issue": "REAUTHORIZATION_TOO_SOON",
+          "description": "A reauthorization is only allowed once from Day 4 to Day 29 since the date of the original authorization."
+        }
+      ],
+      "links": [
+        {
+          "href": "https://developer.paypal.com/docs/api/payments/v2/#error-REAUTHORIZATION_TOO_SOON",
+          "rel": "information_link"
+        }
+      ]
+    }
+  }
+}

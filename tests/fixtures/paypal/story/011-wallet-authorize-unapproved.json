@@ -1,0 +1,40 @@
+{
+  "seq": 11,
+  "label": "wallet-authorize-unapproved",
+  "recordedAt": "2026-10-23T14:34:13.108Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders/4US85101FK2929442/authorize",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-wallet-authorize",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 422,
+    "headers": {
+      "paypal-debug-id": "f679819637911",
+      "content-type": "application/json"
+    },
+    "body": {
+      "name": "UNPROCESSABLE_ENTITY",
+      "details": [
+        {
+          "issue": "ORDER_NOT_APPROVED",
+          "description": "Payer has not yet approved the Order for payment. Please redirect the payer to the 'rel':'approve' url returned as part of the HATEOAS links within the Create Order call or provide a valid payment_source in the request."
+        }
+      ],
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+      "debug_id": "f679819637911",
+      "links": [
+        {
+          "href": "https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_NOT_APPROVED",
+          "rel": "information_link",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

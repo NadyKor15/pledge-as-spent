@@ -1,0 +1,78 @@
+{
+  "seq": 28,
+  "label": "capture2-get-match",
+  "recordedAt": "2026-10-23T14:34:31.880Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f9833157f751b",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "7S477023ER227382Y",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "50000"
+      },
+      "custom_id": "pledge-match-company",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "processor_response": {
+        "avs_code": "",
+        "cvv_code": "M",
+        "response_code": "0000"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "17Y731998P3336014"
+        }
+      },
+      "payee": {
+        "email_address": "sb-l1j1d53505233@business.example.com",
+        "merchant_id": "R3AUNAFRP94H8"
+      },
+      "expiration_time": "2026-11-21T14:34:08Z",
+      "create_time": "2026-10-23T14:34:08Z",
+      "update_time": "2026-10-23T14:34:29Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y/capture",
+          "rel": "capture",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y/void",
+          "rel": "void",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y/reauthorize",
+          "rel": "reauthorize",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/17Y731998P3336014",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "259467920243842",
+        "network": "VISA"
+      }
+    }
+  }
+}

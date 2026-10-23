@@ -1,0 +1,89 @@
+{
+  "seq": 24,
+  "label": "capture2-match",
+  "recordedAt": "2026-10-23T14:34:29.936Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap2-match",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "JPY",
+        "value": "8000"
+      },
+      "invoice_id": "20261023T143356Z-r2-match",
+      "final_capture": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f464214d0b055",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "4TD507263Y842871G",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "8000"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "JPY",
+          "value": "8000"
+        },
+        "paypal_fee": {
+          "currency_code": "JPY",
+          "value": "256"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "47.71"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "47.71"
+        },
+        "exchange_rate": {
+          "source_currency": "JPY",
+          "target_currency": "USD",
+          "value": "0.006160397803739"
+        }
+      },
+      "invoice_id": "20261023T143356Z-r2-match",
+      "custom_id": "pledge-match-company",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T14:34:29Z",
+      "update_time": "2026-10-23T14:34:29Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/4TD507263Y842871G",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/4TD507263Y842871G/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/7S477023ER227382Y",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "637905640022642",
+        "network": "VISA"
+      }
+    }
+  }
+}

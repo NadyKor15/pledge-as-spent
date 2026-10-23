@@ -1,0 +1,90 @@
+{
+  "seq": 12,
+  "label": "capture1-eur",
+  "recordedAt": "2026-10-23T14:34:14.773Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap1-eur",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "EUR",
+        "value": "7.40"
+      },
+      "invoice_id": "20261023T143356Z-r1-eur",
+      "final_capture": false,
+      "note_to_payer": "Receipt line 1 approved"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f679819715e40",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "2G6844552K932674R",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "7.40"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "EUR",
+          "value": "7.40"
+        },
+        "paypal_fee": {
+          "currency_code": "EUR",
+          "value": "0.58"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "receivable_amount": {
+          "currency_code": "USD",
+          "value": "7.44"
+        },
+        "exchange_rate": {
+          "source_currency": "EUR",
+          "target_currency": "USD",
+          "value": "1.090842204431814"
+        }
+      },
+      "invoice_id": "20261023T143356Z-r1-eur",
+      "custom_id": "pledge-de-anna",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T14:34:14Z",
+      "update_time": "2026-10-23T14:34:14Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/2G6844552K932674R",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/2G6844552K932674R/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "330703061182250",
+        "network": "VISA"
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "seq": 30,
+  "label": "capture3-usd-final",
+  "recordedAt": "2026-10-23T14:34:34.289Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap3-usd",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "USD",
+        "value": "12.90"
+      },
+      "final_capture": true
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f817919ccf5e2",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "3FG67492G07488248",
+      "amount": {
+        "currency_code": "USD",
+        "value": "12.90"
+      },
+      "final_capture": true,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "12.90"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.82"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "12.08"
+        },
+        "exchange_rate": {}
+      },
+      "custom_id": "pledge-us-mark",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T14:34:33Z",
+      "update_time": "2026-10-23T14:34:33Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/3FG67492G07488248",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/3FG67492G07488248/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "464607417568534",
+        "network": "VISA"
+      }
+    }
+  }
+}

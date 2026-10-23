@@ -1,0 +1,81 @@
+{
+  "seq": 22,
+  "label": "capture2-usd",
+  "recordedAt": "2026-10-23T14:34:26.341Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap2-usd",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "USD",
+        "value": "6.00"
+      },
+      "invoice_id": "20261023T143356Z-r2-usd",
+      "final_capture": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f158451f31ae9",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "8GD48371GX1440711",
+      "amount": {
+        "currency_code": "USD",
+        "value": "6.00"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "6.00"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.65"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "5.35"
+        },
+        "exchange_rate": {}
+      },
+      "invoice_id": "20261023T143356Z-r2-usd",
+      "custom_id": "pledge-us-mark",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T14:34:25Z",
+      "update_time": "2026-10-23T14:34:25Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/8GD48371GX1440711",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/8GD48371GX1440711/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "361783206388033",
+        "network": "VISA"
+      }
+    }
+  }
+}

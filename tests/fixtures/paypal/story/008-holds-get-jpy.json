@@ -1,0 +1,78 @@
+{
+  "seq": 8,
+  "label": "holds-get-jpy",
+  "recordedAt": "2026-10-23T14:34:11.129Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f9214582dc421",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "8F879076X5921473F",
+      "status": "CREATED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "custom_id": "pledge-jp-yuki",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "processor_response": {
+        "avs_code": "",
+        "cvv_code": "M",
+        "response_code": "0000"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "6P41941591694863U"
+        }
+      },
+      "payee": {
+        "email_address": "sb-l1j1d53505233@business.example.com",
+        "merchant_id": "R3AUNAFRP94H8"
+      },
+      "expiration_time": "2026-11-21T14:34:06Z",
+      "create_time": "2026-10-23T14:34:06Z",
+      "update_time": "2026-10-23T14:34:06Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/capture",
+          "rel": "capture",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/void",
+          "rel": "void",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/8F879076X5921473F/reauthorize",
+          "rel": "reauthorize",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/6P41941591694863U",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "261217659678375",
+        "network": "VISA"
+      }
+    }
+  }
+}

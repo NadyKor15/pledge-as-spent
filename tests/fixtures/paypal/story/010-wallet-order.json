@@ -1,0 +1,80 @@
+{
+  "seq": 10,
+  "label": "wallet-order",
+  "recordedAt": "2026-10-23T14:34:12.513Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-wallet-order",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "intent": "AUTHORIZE",
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-fr-claire",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "10.00"
+          },
+          "description": "Pledge EUR 10.00 — wallet approval path",
+          "custom_id": "pledge-fr-claire"
+        }
+      ],
+      "payment_source": {
+        "paypal": {
+          "experience_context": {
+            "shipping_preference": "NO_SHIPPING",
+            "return_url": "https://example.com/pledge-as-spent/return",
+            "cancel_url": "https://example.com/pledge-as-spent/cancel",
+            "user_action": "CONTINUE"
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f51256184d739",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "4US85101FK2929442",
+      "intent": "AUTHORIZE",
+      "status": "PAYER_ACTION_REQUIRED",
+      "payment_source": {
+        "paypal": {}
+      },
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-fr-claire",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "10.00"
+          },
+          "payee": {
+            "email_address": "sb-l1j1d53505233@business.example.com",
+            "merchant_id": "R3AUNAFRP94H8"
+          },
+          "description": "Pledge EUR 10.00 — wallet approval path",
+          "custom_id": "pledge-fr-claire"
+        }
+      ],
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/4US85101FK2929442",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://www.sandbox.paypal.com/checkoutnow?token=4US85101FK2929442",
+          "rel": "payer-action",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "seq": 33,
+  "label": "payout-create",
+  "recordedAt": "2026-10-23T14:34:36.269Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v1/payments/payouts",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-payout",
+      "content-type": "application/json"
+    },
+    "body": {
+      "sender_batch_header": {
+        "sender_batch_id": "pas-20261023T143356Z-payout",
+        "email_subject": "Reimbursement for approved receipt"
+      },
+      "items": [
+        {
+          "recipient_type": "EMAIL",
+          "receiver": "sb-pywsi53523660@personal.example.com",
+          "amount": {
+            "currency": "JPY",
+            "value": "2220"
+          },
+          "sender_item_id": "20261023T143356Z-vol-1",
+          "note": "Receipt 1 — water and rice"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f38223518a0b1",
+      "content-type": "application/json"
+    },
+    "body": {
+      "batch_header": {
+        "payout_batch_id": "UPCMZN6KJZYAU",
+        "batch_status": "PENDING",
+        "sender_batch_header": {
+          "sender_batch_id": "pas-20261023T143356Z-payout",
+          "email_subject": "Reimbursement for approved receipt"
+        }
+      },
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v1/payments/payouts/UPCMZN6KJZYAU",
+          "rel": "self",
+          "method": "GET",
+          "encType": "application/json"
+        }
+      ]
+    }
+  }
+}

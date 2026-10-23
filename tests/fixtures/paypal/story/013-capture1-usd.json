@@ -1,0 +1,82 @@
+{
+  "seq": 13,
+  "label": "capture1-usd",
+  "recordedAt": "2026-10-23T14:34:16.464Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap1-usd",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "USD",
+        "value": "11.10"
+      },
+      "invoice_id": "20261023T143356Z-r1-usd",
+      "final_capture": false,
+      "note_to_payer": "Receipt line 1 approved"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f92272685228c",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "89339878SU120480L",
+      "amount": {
+        "currency_code": "USD",
+        "value": "11.10"
+      },
+      "final_capture": false,
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "seller_receivable_breakdown": {
+        "gross_amount": {
+          "currency_code": "USD",
+          "value": "11.10"
+        },
+        "paypal_fee": {
+          "currency_code": "USD",
+          "value": "0.78"
+        },
+        "net_amount": {
+          "currency_code": "USD",
+          "value": "10.32"
+        },
+        "exchange_rate": {}
+      },
+      "invoice_id": "20261023T143356Z-r1-usd",
+      "custom_id": "pledge-us-mark",
+      "status": "COMPLETED",
+      "create_time": "2026-10-23T14:34:15Z",
+      "update_time": "2026-10-23T14:34:15Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/89339878SU120480L",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/captures/89339878SU120480L/refund",
+          "rel": "refund",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "938827590825589",
+        "network": "VISA"
+      }
+    }
+  }
+}

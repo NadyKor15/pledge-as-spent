@@ -1,0 +1,137 @@
+{
+  "seq": 1,
+  "label": "hold-eur",
+  "recordedAt": "2026-10-23T14:34:01.143Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/checkout/orders",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-hold-eur",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "intent": "AUTHORIZE",
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-de-anna",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "20.00"
+          },
+          "description": "Pledge EUR 20.00 — water",
+          "custom_id": "pledge-de-anna"
+        }
+      ],
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "number": "4012888888881881",
+          "expiry": "2030-12",
+          "security_code": "123"
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "paypal-debug-id": "f731907d79c2f",
+      "content-type": "application/json"
+    },
+    "body": {
+      "id": "5V773555UA869851U",
+      "intent": "AUTHORIZE",
+      "status": "COMPLETED",
+      "payment_source": {
+        "card": {
+          "name": "Sandbox Donor",
+          "last_digits": "1881",
+          "expiry": "2030-12",
+          "brand": "VISA",
+          "type": "UNKNOWN",
+          "bin_details": {}
+        }
+      },
+      "purchase_units": [
+        {
+          "reference_id": "drive-tohoku-2026:pledge-de-anna",
+          "amount": {
+            "currency_code": "EUR",
+            "value": "20.00"
+          },
+          "payee": {
+            "email_address": "sb-l1j1d53505233@business.example.com",
+            "merchant_id": "R3AUNAFRP94H8"
+          },
+          "description": "Pledge EUR 20.00 — water",
+          "custom_id": "pledge-de-anna",
+          "soft_descriptor": "TEST STORE",
+          "payments": {
+            "authorizations": [
+              {
+                "status": "CREATED",
+                "id": "5W814775VF839481U",
+                "amount": {
+                  "currency_code": "EUR",
+                  "value": "20.00"
+                },
+                "custom_id": "pledge-de-anna",
+                "seller_protection": {
+                  "status": "NOT_ELIGIBLE"
+                },
+                "processor_response": {
+                  "cvv_code": "M",
+                  "response_code": "0000"
+                },
+                "expiration_time": "2026-11-21T14:34:00Z",
+                "links": [
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U",
+                    "rel": "self",
+                    "method": "GET"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U/capture",
+                    "rel": "capture",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U/void",
+                    "rel": "void",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5W814775VF839481U/reauthorize",
+                    "rel": "reauthorize",
+                    "method": "POST"
+                  },
+                  {
+                    "href": "https://api.sandbox.paypal.com/v2/checkout/orders/5V773555UA869851U",
+                    "rel": "up",
+                    "method": "GET"
+                  }
+                ],
+                "create_time": "2026-10-23T14:34:00Z",
+                "update_time": "2026-10-23T14:34:00Z",
+                "network_transaction_reference": {
+                  "id": "330703061182250",
+                  "network": "VISA"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "create_time": "2026-10-23T14:34:00Z",
+      "update_time": "2026-10-23T14:34:00Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/5V773555UA869851U",
+          "rel": "self",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "seq": 31,
+  "label": "capture-after-final",
+  "recordedAt": "2026-10-23T14:34:35.064Z",
+  "request": {
+    "method": "POST",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/capture",
+    "headers": {
+      "paypal-request-id": "pas-20261023T143356Z-cap4-usd",
+      "prefer": "return=representation",
+      "content-type": "application/json"
+    },
+    "body": {
+      "amount": {
+        "currency_code": "USD",
+        "value": "1.00"
+      },
+      "final_capture": false
+    }
+  },
+  "response": {
+    "status": 422,
+    "headers": {
+      "paypal-debug-id": "f565729a50b2d",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "name": "UNPROCESSABLE_ENTITY",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+      "debug_id": "f565729a50b2d",
+      "details": [
+        {
+          "issue": "AUTHORIZATION_ALREADY_CAPTURED",
+          "description": "Authorization has already been captured."
+        }
+      ],
+      "links": [
+        {
+          "href": "https://developer.paypal.com/docs/api/payments/v2/#error-AUTHORIZATION_ALREADY_CAPTURED",
+          "rel": "information_link",
+          "encType": "application/json"
+        }
+      ]
+    }
+  }
+}

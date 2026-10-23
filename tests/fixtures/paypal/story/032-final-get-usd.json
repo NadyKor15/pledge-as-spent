@@ -1,0 +1,78 @@
+{
+  "seq": 32,
+  "label": "final-get-usd",
+  "recordedAt": "2026-10-23T14:34:35.599Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f242035c37483",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "9TH62202MC542812T",
+      "status": "CAPTURED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "custom_id": "pledge-us-mark",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "processor_response": {
+        "avs_code": "",
+        "cvv_code": "M",
+        "response_code": "0000"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "2PB17398T09392841"
+        }
+      },
+      "payee": {
+        "email_address": "sb-l1j1d53505233@business.example.com",
+        "merchant_id": "R3AUNAFRP94H8"
+      },
+      "expiration_time": "2026-11-21T14:34:03Z",
+      "create_time": "2026-10-23T14:34:03Z",
+      "update_time": "2026-10-23T14:34:33Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/capture",
+          "rel": "capture",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/void",
+          "rel": "void",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9TH62202MC542812T/reauthorize",
+          "rel": "reauthorize",
+          "method": "POST"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/2PB17398T09392841",
+          "rel": "up",
+          "method": "GET"
+        }
+      ],
+      "network_transaction_reference": {
+        "id": "938827590825589",
+        "network": "VISA"
+      }
+    }
+  }
+}

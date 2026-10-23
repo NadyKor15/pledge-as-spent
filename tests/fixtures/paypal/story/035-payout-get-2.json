@@ -1,0 +1,105 @@
+{
+  "seq": 35,
+  "label": "payout-get-2",
+  "recordedAt": "2026-10-23T14:35:01.305Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v1/payments/payouts/UPCMZN6KJZYAU",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f6373601303be",
+      "content-type": "application/json"
+    },
+    "body": {
+      "batch_header": {
+        "payout_batch_id": "UPCMZN6KJZYAU",
+        "batch_status": "SUCCESS",
+        "time_created": "2026-10-23T14:34:36Z",
+        "time_completed": "2026-10-23T14:35:00Z",
+        "time_closed": "2026-10-23T14:35:00Z",
+        "sender_batch_header": {
+          "sender_batch_id": "pas-20261023T143356Z-payout",
+          "email_subject": "Reimbursement for approved receipt"
+        },
+        "funding_source": "BALANCE",
+        "amount": {
+          "currency": "JPY",
+          "value": "2220"
+        },
+        "fees": {
+          "currency": "JPY",
+          "value": "44"
+        },
+        "currency_conversion": {
+          "from_amount": {
+            "currency": "USD",
+            "value": "14.82"
+          },
+          "to_amount": {
+            "currency": "JPY",
+            "value": "2264"
+          }
+        }
+      },
+      "items": [
+        {
+          "payout_item_id": "5ZVQDJCY4UJ8J",
+          "transaction_id": "0VM16039XE3293503",
+          "activity_id": "94355126K03361454",
+          "transaction_status": "SUCCESS",
+          "payout_item_fee": {
+            "currency": "JPY",
+            "value": "44"
+          },
+          "payout_batch_id": "UPCMZN6KJZYAU",
+          "payout_item": {
+            "recipient_type": "EMAIL",
+            "amount": {
+              "currency": "JPY",
+              "value": "2220"
+            },
+            "note": "Receipt 1 — water and rice",
+            "receiver": "sb-pywsi53523660@personal.example.com",
+            "sender_item_id": "20261023T143356Z-vol-1",
+            "recipient_wallet": "PAYPAL",
+            "purpose": "GOODS"
+          },
+          "currency_conversion": {
+            "from_amount": {
+              "currency": "USD",
+              "value": "14.82"
+            },
+            "to_amount": {
+              "currency": "JPY",
+              "value": "2264"
+            },
+            "exchange_rate": "152.754225"
+          },
+          "time_processed": "2026-10-23T14:34:53Z",
+          "links": [
+            {
+              "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/5ZVQDJCY4UJ8J",
+              "rel": "item",
+              "method": "GET",
+              "encType": "application/json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v1/payments/payouts/UPCMZN6KJZYAU?page_size=1000&page=1",
+          "rel": "self",
+          "method": "GET",
+          "encType": "application/json"
+        }
+      ]
+    }
+  }
+}

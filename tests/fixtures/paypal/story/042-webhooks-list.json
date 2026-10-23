@@ -1,0 +1,23 @@
+{
+  "seq": 42,
+  "label": "webhooks-list",
+  "recordedAt": "2026-10-23T14:35:06.395Z",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v1/notifications/webhooks",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f5472530ce9d4",
+      "content-type": "application/json"
+    },
+    "body": {
+      "webhooks": []
+    }
+  }
+}
