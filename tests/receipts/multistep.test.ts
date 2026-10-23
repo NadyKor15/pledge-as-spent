@@ -153,7 +153,20 @@ describe("OCR helpers", () => {
   it("drops a unit price and a quantity the text does not support", () => {
     const ocr = [line([w("AA", 0.1, 0.1), w("$23.97", 0.8, 0.1)]), line([w("3", 0.1, 0.12), w("@", 0.2, 0.12), w("$7.99", 0.8, 0.12)])];
     const out = groundNumbers([{ rawText: "AA", amountMinor: 2397, unitPriceMinor: 2997, qty: 8 }, { rawText: "AA", amountMinor: 2397, unitPriceMinor: 799, qty: 0 }], ocr, 2);
-    expect(out.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[null, 8], [799, null]]);
+    // A quantity of 0 is replaced by amount / unit price when that divides evenly (2397 / 799 = 3).
+    expect(out.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[null, 8], [799, 3]]);
+  });
+
+  it("takes the amount from the product's own row, not from a unit price or a quantity row, and uses each row once", () => {
+    const ocr = [line([w("AGUA", 0.1, 0.1), w("MINERAL", 0.3, 0.1), w("3,54", 0.8, 0.1), w("B", 0.9, 0.1)]), line([w("6", 0.1, 0.12), w("x", 0.2, 0.12), w("0,59", 0.8, 0.12)]), line([w("AGUA", 0.1, 0.2), w("MINERAL", 0.3, 0.2), w("7,08", 0.8, 0.2)])];
+    const out = groundNumbers([{ rawText: "AGUA MINERAL 1,5L", amountMinor: 59, unitPriceMinor: 59, qty: 6 }, { rawText: "AGUA MINERAL 1,5L", amountMinor: 354, unitPriceMinor: null, qty: 1 }], ocr, 2);
+    expect(out.map((l) => l.amountMinor)).toEqual([354, 708]);
+    expect(out[0].qty).toBe(6); // 354 / 59 = 6
+  });
+
+  it("repairs a quantity OCR misread against amount and unit price", () => {
+    const ocr = [line([w("単3", 0.1, 0.1), w("ばら", 0.2, 0.1), w("¥980", 0.8, 0.1)]), line([w("10点", 0.1, 0.12), w("x", 0.2, 0.12), w("単98", 0.8, 0.12)])];
+    expect(groundNumbers([{ rawText: "単3 ばら", amountMinor: 980, unitPriceMinor: 98, qty: 104 }], ocr, 0)[0].qty).toBe(10);
   });
 
   it("does not read 3, 000 as 0", () => {

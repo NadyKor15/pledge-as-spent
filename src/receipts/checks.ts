@@ -28,6 +28,15 @@ function taxLineCount(r: ParsedReceipt): number {
 
 /** True when the printed total is lines plus a separate tax amount. */
 export function isTaxOnTop(r: ParsedReceipt): boolean {
+  // The arithmetic outranks the label: a reader that says "tax on top" while the lines already add up to the
+  // total (or "tax inside" while lines plus tax add up to it) has misread the tax rows, not the lines.
+  if (r.taxMinor !== null && r.taxMinor !== 0) {
+    const sum = linesSum(r);
+    const fitsTop = Math.abs(sum + r.taxMinor - r.totalMinor) <= taxLineCount(r);
+    const fitsInside = sum === r.totalMinor;
+    if (r.taxIncluded === false && !fitsTop && fitsInside) return false;
+    if (r.taxIncluded === true && !fitsInside && fitsTop) return true;
+  }
   if (r.taxIncluded === false) return true;
   if (r.taxIncluded === true || r.taxMinor === null || r.taxMinor === 0) return false;
   // Not printed which way: pick the reading that is closer to the printed total.
