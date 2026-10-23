@@ -94,6 +94,9 @@ export interface PayPalGateway {
 
   getAuthorization(authorizationId: string): Promise<AuthorizationResult>;
 
+  /** Current state of one capture: the lookup when no webhook arrived. */
+  getCapture(captureId: string): Promise<CaptureResult>;
+
   captureAuthorization(input: {
     authorizationId: string;
     amount: Money;

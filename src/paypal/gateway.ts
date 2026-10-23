@@ -267,6 +267,10 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
       return parseAuthorization(await sdk(() => payments.getAuthorizedPayment({ authorizationId })));
     },
 
+    async getCapture(captureId) {
+      return parseCapture(await sdk(() => payments.getCapturedPayment({ captureId })));
+    },
+
     async captureAuthorization(i) {
       const requestId = requireId(i.requestId, "captureAuthorization");
       const body = { amount: sdkMoney(i.amount), finalCapture: i.finalCapture, invoiceId: i.invoiceId, noteToPayer: i.noteToPayer };
