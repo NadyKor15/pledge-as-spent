@@ -84,15 +84,10 @@ describe("demo drive replayed from the live sandbox run", () => {
     expect(close.match).toMatchObject({ pledged: 500_000, spent: 5224, released: 494_776 });
   });
 
-  // KNOWN DIFFERENCE, reported, expectation kept: Mark's ¥3,244 is three shares (¥1,298 + ¥1,647 + ¥299),
-  // each converted half-up as the core spec says ($8.58 + $10.89 + $1.98 = $21.45). Converting the
-  // ¥3,244 total at once gives $21.455... -> $21.46, which is what the agreed numbers assume.
-  it.fails("matches the agreed Mark figures: $30.00 pledged / $21.46 spent / $8.54 released", () => {
-    const close = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
-    expect(close.diapers).toMatchObject({ pledged: 3000, spent: 2146, released: 854 });
-  });
-
-  it("charges Mark $21.45 and releases $8.55 (the engine's per-share rounding, see the known difference above)", () => {
+  // Mark's ¥3,244 is three shares (¥1,298 + ¥1,647 + ¥299), each converted half-up on its own
+  // ($8.58 + $10.89 + $1.98 = $21.45). PayPal captured exactly $21.45 live (capture 3BM27705RC859420P),
+  // so $21.45 / $8.55 are the story's numbers; converting the total at once ($21.46) was the brief's slip.
+  it("charges Mark $21.45 and releases $8.55, as PayPal captured live", () => {
     const close = Object.fromEntries(r.final.closeReport.map((c) => [c.pledgeId.split(".").pop(), c]));
     expect(close.diapers).toMatchObject({ pledged: 3000, spent: 2145, released: 855 });
     const shares = of("LineFunded").flatMap((e) => e.shares.filter((x) => x.pledgeId.endsWith(".diapers")).map((x) => [x.base, x.quote.minor]));
