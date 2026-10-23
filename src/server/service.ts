@@ -243,6 +243,7 @@ export class PledgeService {
 
   /** A fresh demo drive: the hero needs, three donor holds and the company match, authorized with the sandbox test card. */
   async createDemoDrive(input: { ip?: string | null; driveId?: string; payoutEmail?: string | null } = {}): Promise<DriveView> {
+    this.gateway(); // no PayPal, no demo drive: refuse before anything is written
     const now = this.now();
     const ipHash = this.hashIp(input.ip);
     if (!input.driveId) {
@@ -281,7 +282,7 @@ export class PledgeService {
       const state = await this.openBook(driveId);
       if (lookup(state.pledges, pledgeId)) continue;
       const drive = state.drive!;
-      const fx = fxFor(p.amount.currency, drive.baseCurrency, now)!;
+      const fx = fxFor(p.amount.currency, drive.baseCurrency)!;
       const label = p.needId ? state.needs[p.needId].label : `company match ${p.match!.ratioNum}:${p.match!.ratioDen}`;
       const order = await this.paypal(driveId, (gw) =>
         gw.createAuthorizeOrderWithTestCard({ pledgeId, driveId, amount: p.amount, description: `Pledge: ${label} - ${drive.title}`, requestId: `hold:${pledgeId}` }),
@@ -347,7 +348,7 @@ export class PledgeService {
     const max = MAX_PLEDGE_MAJOR * (currency === "JPY" ? 1 : 100);
     if (!Number.isSafeInteger(minor) || minor <= 0 || minor > max) throw new ServiceError(400, "invalid_amount", `amount.minor must be a whole number of minor units, 1 to ${max}.`);
     const now = this.now();
-    const fx = fxFor(currency as CurrencyCode, drive.baseCurrency, now);
+    const fx = fxFor(currency as CurrencyCode, drive.baseCurrency);
     if (!fx) throw new ServiceError(400, "no_rate", `No exchange rate ${currency} -> ${drive.baseCurrency} on this server.`);
     const pledgeId = input.pledgeId ?? `${input.driveId}.p-${randomSuffix()}`;
     const isMatch = Boolean(input.match);

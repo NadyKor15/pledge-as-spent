@@ -1,5 +1,5 @@
 import type { CurrencyCode, Drive, FxRate, Money, Need } from "../core/types";
-import { HERO_RATES, SCENARIOS } from "../../tools/receipts/scenario";
+import { SCENARIOS } from "../../tools/receipts/scenario";
 
 // The judges' demo drive: the Kitasora flood relief drive of the hero receipt
 // (eval/receipts/hero/README.md): three needs, three donor holds in EUR, USD
@@ -8,18 +8,18 @@ import { HERO_RATES, SCENARIOS } from "../../tools/receipts/scenario";
 const KITASORA = SCENARIOS.ja;
 const HERO_NEED_IDS = ["water", "diapers", "batteries"];
 
-/** Fixed scenario rates, recorded on each pledge. Not market rates. */
-const RATE_SOURCE = "Fixed demo scenario rate (eval/receipts/hero/README.md), not a market rate";
-const RATES: Record<string, string> = {
-  "EUR>JPY": String(HERO_RATES.EUR_JPY),
-  "USD>JPY": HERO_RATES.USD_JPY.toFixed(2),
-};
+/**
+ * Fixed snapshot rates so the demo, the video and the README show the same
+ * numbers on any day. Live pledges use the same snapshot for now (known limit).
+ */
+export const FX_SNAPSHOT = { source: "demo snapshot (fixed for a reproducible demo)", asOf: "2026-10-23" } as const;
+const RATES: Record<string, string> = { "EUR>JPY": "162.35", "USD>JPY": "151.20" };
 
 /** 1 `quote` = rate `base`; null when the app has no rate for the pair. */
-export function fxFor(quote: CurrencyCode, base: CurrencyCode, asOf: string): FxRate | null {
-  if (quote === base) return { base, quote, rate: "1", source: "same currency", asOf };
+export function fxFor(quote: CurrencyCode, base: CurrencyCode): FxRate | null {
+  if (quote === base) return { base, quote, rate: "1", ...FX_SNAPSHOT };
   const rate = RATES[`${quote}>${base}`];
-  return rate ? { base, quote, rate, source: RATE_SOURCE, asOf: "2026-10-23" } : null;
+  return rate ? { base, quote, rate, ...FX_SNAPSHOT } : null;
 }
 
 export function demoDrive(id: string, createdAt: string): { drive: Drive; needs: Need[] } {
@@ -44,15 +44,15 @@ export interface DemoPledge {
 }
 
 export const DEMO_PLEDGES: DemoPledge[] = [
-  { key: "water", needId: "water", donorName: "Anna (Berlin)", donorCountry: "DE", amount: { currency: "EUR", minor: 2000 } },
-  { key: "diapers", needId: "diapers", donorName: "Mark (Ohio)", donorCountry: "US", amount: { currency: "USD", minor: 3000 } },
+  { key: "water", needId: "water", donorName: "Lena (Berlin)", donorCountry: "DE", amount: { currency: "EUR", minor: 2000 } },
+  { key: "diapers", needId: "diapers", donorName: "Mark (Columbus)", donorCountry: "US", amount: { currency: "USD", minor: 3000 } },
   { key: "batteries", needId: "batteries", donorName: "Yuki (Osaka)", donorCountry: "JP", amount: { currency: "JPY", minor: 3000 } },
   {
     key: "match",
     needId: null,
-    donorName: "Kitasora Works (company match 1:1)",
+    donorName: "Kitasora Logistics",
     donorCountry: "JP",
-    amount: { currency: "JPY", minor: 50000 },
+    amount: { currency: "JPY", minor: 500_000 },
     match: { ratioNum: 1, ratioDen: 1 },
   },
 ];

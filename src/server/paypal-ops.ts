@@ -139,7 +139,7 @@ export async function perform(gw: PayPalGateway, cmd: PayPalCommand, ctx: Perfor
       try {
         const b = await gw.createPayout({
           senderBatchId: cmd.senderBatchId,
-          emailSubject: `Reimbursement for your receipt (${ctx.driveTitle})`,
+          emailSubject: `Reimbursement for your receipt: ${ctx.driveTitle}`,
           items: [{ senderItemId: cmd.senderBatchId, receiverEmail: ctx.payoutEmail, amount: cmd.amount, note: `Receipt ${cmd.receiptId}: the approved lines, paid from donors' holds.` }],
         });
         report.ids = { payoutBatchId: b.payoutBatchId, batchStatus: b.batchStatus };

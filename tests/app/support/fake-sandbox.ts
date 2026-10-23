@@ -40,6 +40,9 @@ export interface FakeSandbox {
   payoutGetsUntilSuccess: number;
   /** Capture status reported for new captures. */
   captureStatus: string;
+  /** "new_id": reauthorize returns a new authorization id; "too_soon": 422 REAUTHORIZATION_TOO_SOON. */
+  reauthorize: "new_id" | "too_soon";
+  reauthorizations: { from: string; to: string; minor: number }[];
 }
 
 export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
@@ -64,6 +67,8 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
     failNext: (pathPart, status, body) => failures.push({ pathPart, status, body }),
     payoutGetsUntilSuccess: 1,
     captureStatus: "COMPLETED",
+    reauthorize: "new_id",
+    reauthorizations: [],
   };
 
   const json = (status: number, body: unknown) =>
@@ -119,7 +124,15 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
         state.voids.push(a.id);
         return json(200, authJson(a));
       }
-      if (m[2] === "/reauthorize") return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_TOO_SOON");
+      if (m[2] === "/reauthorize") {
+        if (state.reauthorize === "too_soon") return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_TOO_SOON");
+        const minor = body.amount ? toMinor(body.amount) : a.amount - a.captured;
+        const b: Auth = { ...a, id: id("AUTH"), amount: a.captured + minor, status: "CREATED" };
+        a.status = "VOIDED";
+        auths.set(b.id, b);
+        state.reauthorizations.push({ from: a.id, to: b.id, minor });
+        return json(201, authJson(b));
+      }
       if (m[2] === "/capture") {
         if (a.status === "VOIDED") return error(422, "UNPROCESSABLE_ENTITY", "AUTHORIZATION_VOIDED");
         const minor = toMinor(body.amount);
