@@ -43,6 +43,8 @@ describe("metric helpers", () => {
     expect(matchLines(t, [line(1, 100), line(2, 200), line(3, 100)])).toEqual([[0, 0], [1, 1], [2, 2]]);
     // A missing first line shifts the rest by one: still all matched by amount.
     expect(matchLines(t, [line(1, 200), line(2, 100)])).toEqual([[0, 1], [1, 0]]);
+    // Two predicted lines with the same amount: the one nearest to the truth position wins.
+    expect(matchLines([line(1, 200), line(2, 100)], [line(1, 100), line(2, 100)])).toEqual([[1, 1]]);
     expect(matchLines([line(1, 100)], [line(1, 101)])).toEqual([]);
     expect(matchLines([line(1, 100), line(2, 100)], [line(1, 100)])).toEqual([[0, 0]]);
   });

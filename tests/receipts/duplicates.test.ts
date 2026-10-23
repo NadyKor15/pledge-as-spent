@@ -88,7 +88,9 @@ describe("findDuplicate", () => {
     ]);
     expect(hit?.kind).toBe("sha256");
     expect(hit?.of.receiptId).toBe("c");
-    expect(findDuplicate(fp, [known({ receiptId: "b", uploadedAt: "2026-11-06T00:00:00Z", semanticKey: fp.semanticKey }), known({ receiptId: "a", uploadedAt: "2026-11-05T00:00:00Z", semanticKey: fp.semanticKey })])?.of.receiptId).toBe("a");
+    const same = (receiptId: string, uploadedAt: string) => known({ receiptId, uploadedAt, semanticKey: fp.semanticKey });
+    // The earliest upload is neither first nor last in the list.
+    expect(findDuplicate(fp, [same("b", "2026-11-06T00:00:00Z"), same("a", "2026-11-05T00:00:00Z"), same("c", "2026-11-07T00:00:00Z")])?.of.receiptId).toBe("a");
   });
   it("respects the distance limit", () => {
     const h = fp.dHash as string;
