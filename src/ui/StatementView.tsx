@@ -239,7 +239,7 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
         })}
 
         {receipts.map((r) => (
-          <ReceiptFrame key={r.id} receipt={r} />
+          <ReceiptFrame key={r.id} receipt={r} firstLine={Math.min(...items.filter((i) => i.receipt?.id === r.id).flatMap((i) => i.lineNos))} />
         ))}
 
         <div className={s.hr} />
@@ -304,15 +304,20 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
   );
 }
 
-/** Two windows on the same photo: the first printed lines and the payment block, as on the reference. */
-function ReceiptFrame({ receipt: r }: { receipt: Receipt }) {
+/**
+ * Two windows on the same photo, as on the reference: this donor's lines and the
+ * payment block. There are no line positions in the reading, so the first window
+ * follows the line's place in the list across the part of a receipt that holds lines.
+ */
+function ReceiptFrame({ receipt: r, firstLine }: { receipt: Receipt; firstLine: number }) {
   if (!r.image.published || !r.image.url) return <p className={s.empty}>{r.image.note}</p>;
-  const alt = `Receipt photo from ${r.merchant ?? "the store"}, personal data blurred`;
+  const alt = `Receipt photo from ${r.merchant ?? "the store"}, lines from ${firstLine} on and the total; personal data blurred`;
+  const along = (firstLine - 1) / Math.max(1, r.lines.length - 1);
   return (
     <>
       <div className={s.frame}>
         <div className={`${s.win} ${s.winA}`}>
-          <Image src={r.image.url} alt={alt} width={630} height={1292} unoptimized />
+          <Image src={r.image.url} alt={alt} width={630} height={1292} unoptimized style={{ transform: `translateY(-${(24.69 + along * 38.5).toFixed(2)}%)` }} />
         </div>
         <div className={`${s.win} ${s.winB}`}>
           <Image src={r.image.url} alt="" width={630} height={1292} unoptimized />
