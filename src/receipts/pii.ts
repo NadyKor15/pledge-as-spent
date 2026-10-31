@@ -13,8 +13,11 @@ export type FoundPii = z.infer<typeof PiiRegion>;
 export const TOTAL_ROW = /合計|(?<![\p{L}])total(?![\p{L}])|toplam|importe/iu;
 const SUBTOTAL_ROW = /小計|sub\s*total|ara\s*toplam/i;
 const MEMBER_LABEL = /会員|member|socio|m[üu][şs]ter[iİ]/i;
-/** A payment label on the card's row: a card brand, or katakana (OCR splits クレジット into pieces). */
-const PAY_WORD = /^(?:visa|mastercard|master|amex|tarjeta|[\p{Script=Katakana}ー]+)$/iu;
+/** A payment label on the card's row: a card brand, or クレジット, which OCR splits into pieces. */
+const PAY_WORD = /^(?:visa|mastercard|master|amex|tarjeta|クレジット|クレ|ジッ|ジット|レジット|ト)$/i;
+/** A row that starts with a card brand holds the masked number whatever OCR made of its digits. */
+const CARD_ROW = /^(?:visa|mastercard|master|amex)\b/i;
+const NAME_ROW = /^[\p{L}\s.'’・ー-]+$/u;
 const MONEY = /[¥￥$€₺]|\d[.,]\d{2}\b|\d,\d{3}/;
 
 const span = (words: OcrWord[]): Box => {
@@ -53,7 +56,7 @@ export function anchorPii(lines: OcrLine[]): FoundPii[] {
     if (member.has(i)) continue;
     const l = lines[i];
     // A masked card number: noise or stars ending in the last digits, with no amount on the row.
-    if (/\d{3,}\D*$/.test(l.text) && !MONEY.test(l.text) && !/\b(?:tel|no|fi[şs])\b/i.test(l.text)) {
+    if ((/\d{3,}\D*$/.test(l.text) || CARD_ROW.test(l.text)) && !MONEY.test(l.text) && !/\b(?:tel|no|fi[şs])\b/i.test(l.text)) {
       const words = l.words.filter((w) => !PAY_WORD.test(w.text));
       if (words.length) found.push({ kind: "card_number", text: words.map((w) => w.text).join(" "), bbox: span(words) });
     }
@@ -66,7 +69,9 @@ export function anchorPii(lines: OcrLine[]): FoundPii[] {
     if (!honorific && !nextToMember) continue;
     if (/\d{3,}/.test(l.text) || isNonProductRow(l.text)) continue;
     const words = l.words.filter((w) => !/^様$/.test(w.text.trim()));
-    if (words.length) found.push({ kind: "name", text: words.map((w) => w.text).join(" ").replace(/\s*様\s*$/, ""), bbox: span(words) });
+    const text = words.map((w) => w.text).join(" ").replace(/\s*様\s*$/, "");
+    if (!NAME_ROW.test(text)) continue;
+    if (words.length) found.push({ kind: "name", text, bbox: span(words) });
   }
   return found;
 }

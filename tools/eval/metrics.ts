@@ -69,6 +69,9 @@ export function iou(a: { x: number; y: number; w: number; h: number }, b: { x: n
   return Math.round((inter / (a.w * a.h + b.w * b.h - inter)) * 1e9) / 1e9; // identical boxes score exactly 1
 }
 
+/** The box the blur really covers: src/server/redact.ts adds half the box height around it. */
+const blurred = (b: { x: number; y: number; w: number; h: number }) => ({ x: b.x - b.h / 2, y: b.y - b.h / 2, w: b.w + b.h, h: b.h * 2 });
+
 /** The share of box `a` that lies under box `b`. */
 export function overlapShare(a: { x: number; y: number; w: number; h: number }, b: { x: number; y: number; w: number; h: number }): number {
   const w = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
@@ -92,7 +95,7 @@ export interface ReceiptScore {
   /** Rule lines (alcohol, tobacco, gift card) the system would have funded. */
   ruleLinesFunded: number;
   pii: Tally;
-  /** Truth regions at least 70 % under a predicted box: what the blur needs, whatever text the reader made of them. */
+  /** Truth regions at least 70 % under the blur of a predicted box: what privacy needs, whatever text the reader made of them. */
   piiCovered: Tally;
   piiIou: number[];
 }
@@ -165,7 +168,7 @@ export function scoreReceipt(truth: ParsedReceipt, labels: LineClassification[],
     add(s.pii, !!hit);
     if (hit && hit.bbox && t.bbox) s.piiIou.push(iou(t.bbox, hit.bbox));
     const tb = t.bbox;
-    if (tb) add(s.piiCovered, pred.pii.some((p) => !!p.bbox && overlapShare(tb, p.bbox) >= 0.7));
+    if (tb) add(s.piiCovered, pred.pii.some((p) => !!p.bbox && overlapShare(tb, blurred(p.bbox)) >= 0.7));
   }
   return s;
 }

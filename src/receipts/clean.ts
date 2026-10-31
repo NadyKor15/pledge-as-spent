@@ -31,13 +31,15 @@ export function qtyRow(text: string): { qty: number; unit: string } | null {
   return m ? { qty: Number(m[1]), unit: m[2] } : null;
 }
 
+const hasTotalsWord = (t: string) => CJK_TERMS.some((w) => t.includes(w)) || latin.test(t);
+
 export function isNonProductRow(text: string): boolean {
   const t = norm(text).trim();
   if (t === "") return true;
   if (isQtyRow(t)) return true;
   // Only digits, symbols and punctuation: a number or a rule line, not a product name.
   if (!/\p{L}/u.test(t.replace(/[x×]/g, ""))) return true;
-  return CJK_TERMS.some((w) => t.includes(w)) || latin.test(t);
+  return hasTotalsWord(t);
 }
 
 const DISCOUNT = /値引|割引|coupon|discount|dto\b|dto\.|descuento|promoci|indirim|iskonto|desc\./i;
@@ -47,8 +49,8 @@ const DISCOUNT = /値引|割引|coupon|discount|dto\b|dto\.|descuento|promoci|in
  * minus sign), and renumbers. Returns the input unchanged when every row would be dropped.
  */
 export function cleanLines<T extends { rawText: string; amountMinor: unknown; lineNo?: unknown }>(lines: T[]): T[] {
-  // A negative row is a discount even without a word for it, but "TOPKDV" with a sign a model gave it is not.
-  const kept = lines.filter((l) => !isNonProductRow(l.rawText) || (typeof l.amountMinor === "number" && l.amountMinor < 0 && DISCOUNT.test(norm(l.rawText))));
+  // A negative row is a discount even when OCR lost its word, but "TOPKDV" with a sign a model gave it is not.
+  const kept = lines.filter((l) => !isNonProductRow(l.rawText) || (typeof l.amountMinor === "number" && l.amountMinor < 0 && (DISCOUNT.test(norm(l.rawText)) || !hasTotalsWord(norm(l.rawText)))));
   if (kept.length === 0) return lines;
   return kept.map((l, i) => ({
     ...l,

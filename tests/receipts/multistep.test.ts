@@ -125,6 +125,7 @@ describe("OCR helpers", () => {
     expect(tidyOcrText("北空 の 天然水 2L \\798※")).toBe("北空の天然水 2L ¥798※");
     expect(tidyOcrText("¥3, 000  ")).toBe("¥3,000");
     expect(tidyOcrText("合計 ¥6 , 431")).toBe("合計 ¥6,431");
+    expect(tidyOcrText("TOTAL 39,29 EUR |")).toBe("TOTAL 39,29 EUR");
     expect(tidyOcrText("2 点 x 単 1.298")).toBe("2 点 x 単 1.298"); // a digit next to a character keeps its space
   });
 
@@ -357,6 +358,7 @@ describe("dates and totals from the printed rows", () => {
     expect(printedDate(["11/04/2026 03:58 PM REG 05"], ["en"])).toBe("2026-11-04T15:58:00");
     expect(printedDate(["11/04/2026 12:05 AM"], ["en"])).toBe("2026-11-04T00:05:00");
     expect(printedDate(["13/04/2026 10:00"], ["en"])).toBe("2026-04-13T10:00:00"); // 13 cannot be the month
+    expect(printedDate(["20261108() 14:51"], ["ja", "en"])).toBe("2026-11-08T14:51:00"); // the copy without 年月日
   });
 
   it("finds no date where there is none or it cannot be real", () => {
@@ -385,6 +387,19 @@ describe("dates and totals from the printed rows", () => {
   it("forgets a translation made from a garbled row", () => {
     const out = groundReceipt({ currency: "JPY", lines: [{ rawText: "ベビーラプ", amountMinor: 1098, translationEn: "Baby lap", lineNo: 1 }] }, [{ text: "ベビーラプがッツ M ¥1,098", reread: true }, { text: "合計 ¥1,098" }]);
     expect(out.lines).toMatchObject([{ rawText: "ベビーラプがッツ M", translationEn: "" }]);
+  });
+
+  it("stops at a subtotal OCR could not read: a doubtful row with the sum of the rows above it", () => {
+    const out = groundReceipt({ currency: "JPY", lines: [] }, [{ text: "AA ¥100" }, { text: "BB ¥200" }, { text: "att (7m) ¥300", confidence: 62 }, { text: "ee ¥30", confidence: 40 }, { text: "合計 ¥300" }]);
+    expect((out.lines as { amountMinor: number }[]).map((l) => l.amountMinor)).toEqual([100, 200]);
+    const sure = groundReceipt({ currency: "JPY", lines: [] }, [{ text: "AA ¥100" }, { text: "BB ¥200" }, { text: "CC ¥300", confidence: 95 }, { text: "合計 ¥600" }]);
+    expect((sure.lines as unknown[])).toHaveLength(3); // a clean row may simply cost the same
+  });
+
+  it("keeps a discount whose word OCR lost, and drops a totals row a model made negative", () => {
+    const out = groundReceipt({ currency: "JPY", lines: [{ rawText: "TOPKDV", amountMinor: -5986, lineNo: 1 }] }, [{ text: "AA ¥500" }, { text: "65) -¥130" }, { text: "BB ¥100" }, { text: "合計 ¥470" }]);
+    expect((out.lines as { amountMinor: number }[]).map((l) => l.amountMinor)).toEqual([500, -130, 100]);
+    expect(out.totalMinor).toBe(470);
   });
 
   it("does not take a store or register number for an amount", () => {

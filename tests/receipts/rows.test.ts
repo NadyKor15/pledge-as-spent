@@ -152,6 +152,18 @@ describe("personal data by position", () => {
     expect(anchorPii(tr).map((p) => [p.kind, p.text]).sort()).toEqual([["card_number", "eK aplik 7374"], ["member_id", "7724103405"], ["name", "AYŞE DEMİRKAN"]]);
   });
 
+  it("keeps the mask in the box when OCR glued it to the label, and a brand's row even with its digits misread", () => {
+    const glued = [row(0.5, [["合計", 0.1], ["¥5", 0.8]]), row(0.55, [["クレジットキキ本キキネネ", 0.2, 0.6], ["1020", 0.8]])];
+    expect(anchorPii(glued)[0]).toMatchObject({ kind: "card_number", bbox: { x: 0.2 } });
+    const letters = [row(0.5, [["TOTAL", 0.1], ["$5.00", 0.8]]), row(0.55, [["VISA", 0.1], ["pec", 0.5], ["AL1OS", 0.7]])];
+    expect(anchorPii(letters).map((p) => [p.kind, p.text])).toEqual([["card_number", "pec AL1OS"]]);
+  });
+
+  it("takes a legend next to the member row for no name", () => {
+    const r = [row(0.5, [["TOTAL", 0.1], ["$5.00", 0.8]]), row(0.6, [["AVA", 0.1], ["PRESCOTT", 0.2]]), row(0.65, [["MEMBER", 0.1], ["#", 0.2], ["2899736096", 0.3]]), row(0.7, [["T", 0.1], ["=", 0.15], ["TAXABLE", 0.2]])];
+    expect(anchorPii(r).filter((p) => p.kind === "name").map((p) => p.text)).toEqual(["AVA PRESCOTT"]);
+  });
+
   it("finds nothing without a total row, and takes an amount or a phone for neither card nor name", () => {
     expect(anchorPii(ja.slice(1).map((l) => (l.text.startsWith("合計") ? row(0.5, [["x", 0.1]]) : l)))).toEqual([]);
     const r = [row(0.5, [["TOTAL", 0.1], ["$5.00", 0.8]]), row(0.55, [["CHANGE", 0.1], ["$5.00", 0.8]]), row(0.6, [["TEL", 0.1], ["555", 0.3], ["0100", 0.4]]), row(0.65, [["THANK", 0.1], ["YOU", 0.2]])];

@@ -210,19 +210,21 @@ export const fails = (what: string, stop: unknown, usage: ModelUsage, raw: unkno
 
 async function converseStructured<T>(
   o: Required<Options>,
-  args: { what: string; system: string; content: ContentBlock[]; toolName: string; toolDescription: string; wire: z.ZodType; convert: (wire: never) => unknown; schema: z.ZodType<T> },
+  args: { what: string; system: string; content: ContentBlock[]; toolName: string; toolDescription: string; wire: z.ZodType; convert: (wire: never) => unknown; schema: z.ZodType<T>; merge?: (inputs: unknown[]) => unknown },
 ): Promise<{ value: T; usage: ModelUsage }> {
   const { out, usage } = await converse(o, { ...args, tool: { name: args.toolName, description: args.toolDescription, inputSchema: toolSchema(args.wire) } });
-  const use = out.output?.message?.content?.find((b) => b.toolUse?.name === args.toolName)?.toolUse;
-  if (!use) throw fails(args.what, out.stopReason, usage, undefined)(`the model did not call ${args.toolName}`);
-  let input: unknown = use.input;
-  if (typeof input === "string") {
+  const uses = (out.output?.message?.content ?? []).filter((b) => b.toolUse?.name === args.toolName).map((b) => b.toolUse!);
+  if (uses.length === 0) throw fails(args.what, out.stopReason, usage, undefined)(`the model did not call ${args.toolName}`);
+  const inputs = uses.map((use) => {
+    if (typeof use.input !== "string") return use.input as unknown;
     try {
-      input = JSON.parse(input);
+      return JSON.parse(use.input) as unknown;
     } catch {
-      throw fails(args.what, out.stopReason, usage, input)("tool input is not JSON");
+      throw fails(args.what, out.stopReason, usage, use.input)("tool input is not JSON");
     }
-  }
+  });
+  // Nova Pro now and then calls the tool once per receipt line instead of once with every line.
+  const input = args.merge && inputs.length > 1 ? args.merge(inputs) : inputs[0];
   const fail = fails(args.what, out.stopReason, usage, input);
   const wire = args.wire.safeParse(input);
   if (!wire.success) throw fail(`output does not match the tool schema: ${z.prettifyError(wire.error)}`);
@@ -332,6 +334,7 @@ export class BedrockNovaClassifier implements LineClassifier {
       toolName: "submit_classifications",
       toolDescription: "Submit one classification per receipt line.",
       wire: ClassificationWire,
+      merge: (inputs) => ({ lines: inputs.map((i) => (i as { lines?: unknown }).lines).join("\n") }),
       convert: classificationsFromWire,
       schema: z.array(LineClassification),
     });

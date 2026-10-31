@@ -9,7 +9,7 @@ import { cleanLines, isNonProductRow, isQtyRow, qtyRow } from "./clean";
 import { readNumbers } from "./numbers";
 import { anchorPii, totalRow } from "./pii";
 import { prepImage, type Box, type PrepOptions } from "./prep";
-import { repairDigits, rereadDoubtfulRows } from "./rows";
+import { REREAD_BELOW_CONFIDENCE, repairDigits, rereadDoubtfulRows } from "./rows";
 import { structureText, sumUsage, validateReceipt } from "./structure";
 import { foldText, similarity } from "./text";
 import type { ModelUsage, ReceiptImage, ReceiptReader } from "./types";
@@ -52,6 +52,8 @@ export const tidyOcrText = (s: string) =>
     .replace(/\\(?=\d)/g, "¥")
     // "3, 000" and "6 , 431" are how a thousands separator comes out of OCR.
     .replace(/(?<=\d) ?([,.]) ?(?=\d{3}\b)/g, "$1")
+    // The edge of the paper comes out as a stray bar or bracket after the last word.
+    .replace(/\s+[|\][>~]+\s*$/, "")
     .replace(/\s+$/, "");
 
 /** The engine used in production and in the benchmark. Data files come from `langPath` (vendored traineddata). */
@@ -153,6 +155,8 @@ function ocrNumbers(text: string, exponent: number): number[] {
 const letters = (s: string) => foldText(s.replace(/\d+/g, ""));
 
 type ModelLine = { rawText: string; amountMinor: unknown; unitPriceMinor?: unknown; qty?: unknown; translationEn?: unknown };
+
+const lastNumber = (text: string, exponent: number) => ocrNumbers(text, exponent).at(-1) ?? null;
 
 /** A row ending in an amount: a currency sign or two decimals, then at most one tax mark. */
 // The yen sign, also as OCR reads it, makes any number an amount; other currencies print decimals. ("#14" is a store number.)
@@ -265,19 +269,28 @@ function rowsBelow(rows: { text: string }[], at: number): { names: string[]; qty
  * The rows that are products: from the first row that ends in an amount down to the first totals row. A model
  * drops a row now and then and turns a continuation or a quantity row into a line of its own; the rows do neither.
  */
-function productRows(rows: { text: string }[]): number[] {
+function productRows(rows: { text: string; confidence?: number }[], exponent: number): number[] {
   const texts = rows.map((r) => r.text);
   const amount = (t: string) => AMOUNT_ROW.test(t) && !isQtyRow(t);
-  const end = texts.findIndex((t) => amount(t) && isNonProductRow(t));
+  const negative = (t: string) => /-\s*[¥￥$€₺*]|[¥￥$€₺*]\s*-/.test(t);
   const total = totalRow(rows);
-  const stop = Math.min(end >= 0 ? end : texts.length, total >= 0 ? total : texts.length);
-  return texts.flatMap((t, i) => (i < stop && amount(t) ? [i] : []));
+  const out: number[] = [];
+  let sum = 0;
+  for (const [i, t] of texts.entries()) {
+    if (i === total) break;
+    if (!amount(t)) continue;
+    if (isNonProductRow(t) && !negative(t)) break;
+    const n = lastNumber(t, exponent) ?? 0;
+    // A subtotal whose label OCR could not read: a doubtful row with exactly the sum of the rows above it.
+    if (out.length >= 2 && n === sum && (rows[i].confidence ?? 100) < REREAD_BELOW_CONFIDENCE) break;
+    sum += negative(t) ? -Math.abs(n) : n;
+    out.push(i);
+  }
+  return out;
 }
 
 const SUBTOTAL_LABEL = /小計|sub\s*total|ara\s*toplam|subtotal/i;
 const TAX_ROW = /外税|消費税|sales\s*tax/i;
-
-const lastNumber = (text: string, exponent: number) => ocrNumbers(text, exponent).at(-1) ?? null;
 
 /**
  * Totals as printed, against the lines: a model mixes up the rows of a tax table, and the arithmetic is what decides.
@@ -306,11 +319,11 @@ function printedTotals(rows: { text: string }[], lines: { amountMinor: number }[
  * of rows that are not products, every product row present once, and totals taken from their rows.
  * `rows` is the OCR text or transcription.
  */
-export function groundReceipt(obj: Record<string, unknown>, rows: { text: string; reread?: boolean }[]): Record<string, unknown> {
+export function groundReceipt(obj: Record<string, unknown>, rows: { text: string; reread?: boolean; confidence?: number }[]): Record<string, unknown> {
   const exp = String(obj.currency) === "JPY" ? 0 : 2;
   const out = { ...obj };
   if (!Array.isArray(obj.lines)) return out;
-  const products = productRows(rows);
+  const products = productRows(rows, exp);
   if (products.length === 0) {
     out.lines = cleanLines(groundNumbers(obj.lines as ModelLine[], rows, exp));
     if (out.subtotalMinor !== null && out.subtotalMinor !== undefined && !rows.some((r) => SUBTOTAL_LABEL.test(r.text))) out.subtotalMinor = null;
@@ -353,6 +366,11 @@ export function printedDate(rows: string[], languages: string[]): string | null 
       const r = iso(Number(ja[1]), Number(ja[2]), Number(ja[3]), time);
       if (r) return r;
       continue;
+    }
+    const compact = t.match(/(?<!\d)(20\d{2})(\d{2})(\d{2})(?!\d)/);
+    if (compact) {
+      const r = iso(Number(compact[1]), Number(compact[2]), Number(compact[3]), time);
+      if (r) return r;
     }
     const m = t.match(/(?<!\d)(\d{1,2})[/.\-](\d{1,2})[/.\-](20\d{2})(?!\d)/);
     if (!m) continue;
@@ -430,12 +448,13 @@ export class OcrNovaReader implements ReceiptReader {
 
       const anchors = anchorPii(lines).map((p) => ({ ...p, bbox: p.bbox && prepared.toOriginal(p.bbox) }));
       const piiRows = Array.isArray(s.obj.pii) ? (s.obj.pii as { kind: string; text: string }[]) : [];
+      // Rows the position rules did not place. One standing above the total is the store's own phone or tax number.
+      const totalY = total >= 0 ? lines[total].box.y : 0;
       const fromModel = piiRows
         .filter((p) => !anchors.some((a) => a.kind === p.kind))
-        .map((p) => {
-          const box = locateText(lines, p.text);
-          return { ...p, bbox: box ? prepared.toOriginal(box) : null };
-        });
+        .map((p) => ({ p, box: locateText(lines, p.text) }))
+        .filter(({ box }) => !box || box.y >= totalY)
+        .map(({ p, box }) => ({ ...p, bbox: box ? prepared.toOriginal(box) : null }));
       candidate = { ...grounded, pii: [...anchors, ...fromModel] };
     } catch (e) {
       // Whatever failed, the calls already made were paid for.
