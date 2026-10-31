@@ -70,6 +70,8 @@ export function halfWidthMarks(text: string): string {
       const kata = kana.replace(/[\u3041-\u3096]/, (c) => String.fromCharCode(c.charCodeAt(0) + 0x60));
       return `${kata}\u3099`.normalize("NFC");
     })
+    // A size letter comes back with a stray N in front of it.
+    .replace(/\s*N([SML])$/, " $1")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -105,7 +107,7 @@ export async function rereadDoubtfulRows(img: Rgba, lines: OcrLine[], engine: Oc
       continue;
     }
     const size = line.words.map((w) => w.text).find((w) => SIZE_WORD.test(w) && !text.includes(w));
-    out.push({ ...line, text: [text, size, named?.amount].filter(Boolean).join(" "), confidence: again.confidence });
+    out.push({ ...line, text: [text, size, named?.amount].filter(Boolean).join(" "), confidence: again.confidence, reread: true });
   }
   return out;
 }

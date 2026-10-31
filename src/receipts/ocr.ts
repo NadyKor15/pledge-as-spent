@@ -25,6 +25,8 @@ export interface OcrLine {
   words: OcrWord[];
   /** The engine's own confidence in this row, 0..100, when it gives one. */
   confidence?: number;
+  /** The text comes from a second, stretched reading: a garbled row, so a translation made from it is only a guess. */
+  reread?: boolean;
 }
 export interface OcrEngine {
   recognize(png: Uint8Array, languages: string[]): Promise<OcrLine[]>;
@@ -48,8 +50,8 @@ export const tidyOcrText = (s: string) =>
     .replace(new RegExp(`(?<=[${CJK}]) +(?=[${CJK}])`, "g"), "")
     // Tesseract reads the yen sign as a backslash (the old Japanese code page put the yen sign there).
     .replace(/\\(?=\d)/g, "¥")
-    // "3, 000" is how a thousands separator comes out of OCR.
-    .replace(/(?<=\d[,.]) (?=\d{3}\b)/g, "")
+    // "3, 000" and "6 , 431" are how a thousands separator comes out of OCR.
+    .replace(/(?<=\d) ?([,.]) ?(?=\d{3}\b)/g, "$1")
     .replace(/\s+$/, "");
 
 /** The engine used in production and in the benchmark. Data files come from `langPath` (vendored traineddata). */
@@ -150,10 +152,11 @@ function ocrNumbers(text: string, exponent: number): number[] {
 
 const letters = (s: string) => foldText(s.replace(/\d+/g, ""));
 
-type ModelLine = { rawText: string; amountMinor: unknown; unitPriceMinor?: unknown; qty?: unknown };
+type ModelLine = { rawText: string; amountMinor: unknown; unitPriceMinor?: unknown; qty?: unknown; translationEn?: unknown };
 
 /** A row ending in an amount: a currency sign or two decimals, then at most one tax mark. */
-const AMOUNT_ROW = /(?:[¥￥$€₺*Y\\#]\s*-?\s*\d[\d.,]*|\d[.,]\d{2})\s*\S?\s*\)?\s*(?:EUR)?\s*$/;
+// The yen sign, also as OCR reads it, makes any number an amount; other currencies print decimals. ("#14" is a store number.)
+const AMOUNT_ROW = /(?:[¥￥\\]\s*-?\s*\d[\d.,]*|(?<![A-Z])Y\d[\d.,]*|\d[.,]\d{2})\s*\S?\s*\)?\s*(?:EUR)?\s*$/;
 const TRAILING_AMOUNT = /\s*[¥￥$€₺*Y\\#]*\s*-?\s*\d[\d.,]*\s*\S?\s*(?:EUR)?\s*$/;
 
 /** A Turkish row prints its tax rate before the amount; OCR makes %20 into "«20" or "420". */
@@ -189,7 +192,7 @@ export function groundNumbers<T extends ModelLine>(lines: T[], rows: { text: str
   return groundLines(lines, rows, exponent).lines;
 }
 
-function groundLines<T extends ModelLine>(lines: T[], rows: { text: string }[], exponent: number, only?: Set<number>): { lines: T[]; rowOf: number[] } {
+function groundLines<T extends ModelLine>(lines: T[], rows: { text: string; reread?: boolean }[], exponent: number, only?: Set<number>): { lines: T[]; rowOf: number[] } {
   const nums = rows.map((r) => ocrNumbers(r.text, exponent));
   const printed = new Set(nums.flat().flatMap((n) => [n, Math.abs(n)]));
   const rowLetters = rows.map((r) => letters(r.text));
@@ -219,6 +222,8 @@ function groundLines<T extends ModelLine>(lines: T[], rows: { text: string }[], 
         out.rawText = fromRow.rawText || l.rawText;
         out.qty = fromRow.qty;
         if (fromRow.unitPriceMinor !== null) out.unitPriceMinor = fromRow.unitPriceMinor;
+        // A confident English name made from a garbled row misleads the classifier more than none at all.
+        if (rows[best].reread) out.translationEn = "";
       }
     }
     rowOf.push(best);
@@ -264,7 +269,9 @@ function productRows(rows: { text: string }[]): number[] {
   const texts = rows.map((r) => r.text);
   const amount = (t: string) => AMOUNT_ROW.test(t) && !isQtyRow(t);
   const end = texts.findIndex((t) => amount(t) && isNonProductRow(t));
-  return texts.flatMap((t, i) => (i < (end >= 0 ? end : texts.length) && amount(t) ? [i] : []));
+  const total = totalRow(rows);
+  const stop = Math.min(end >= 0 ? end : texts.length, total >= 0 ? total : texts.length);
+  return texts.flatMap((t, i) => (i < stop && amount(t) ? [i] : []));
 }
 
 const SUBTOTAL_LABEL = /小計|sub\s*total|ara\s*toplam|subtotal/i;
@@ -299,7 +306,7 @@ function printedTotals(rows: { text: string }[], lines: { amountMinor: number }[
  * of rows that are not products, every product row present once, and totals taken from their rows.
  * `rows` is the OCR text or transcription.
  */
-export function groundReceipt(obj: Record<string, unknown>, rows: { text: string }[]): Record<string, unknown> {
+export function groundReceipt(obj: Record<string, unknown>, rows: { text: string; reread?: boolean }[]): Record<string, unknown> {
   const exp = String(obj.currency) === "JPY" ? 0 : 2;
   const out = { ...obj };
   if (!Array.isArray(obj.lines)) return out;

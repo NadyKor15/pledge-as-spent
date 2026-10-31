@@ -87,6 +87,7 @@ describe("rereadDoubtfulRows", () => {
     const e = engine({ "1": { text: 'へ"ビーラブパンツ M', confidence: 58 }, "2": { text: "さば味噌看千誌", confidence: 46 }, "3": { text: "ミシマレン", confidence: 76 } });
     const out = await rereadDoubtfulRows(white, rows(), e, ["ja", "en"]);
     expect(out[1].text).toBe("ベビーラブパンツ M ¥3,294");
+    expect(out[1].reread).toBe(true);
     expect(out[2].text).toBe("さば味噌者缶詰 ¥2,256※"); // kanji at a lower confidence: the first reading stays
     expect(out[4].text).toBe("ミシマレン");
     expect(e.calls).toHaveLength(3); // not the store's name, the total or a row with digits below the total
@@ -117,6 +118,7 @@ describe("rereadDoubtfulRows", () => {
     expect(halfWidthMarks('へ"ビーラプ')).toBe("ベビーラプ");
     expect(halfWidthMarks('"ビーラプ  がッツ M')).toBe("ビーラプ がッツ M");
     expect(halfWidthMarks("^ビー")).toBe("ビー");
+    expect(halfWidthMarks("ビーラプがッツ NM")).toBe("ビーラプがッツ M");
   });
 });
 

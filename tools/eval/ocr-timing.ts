@@ -1,5 +1,6 @@
-// What one receipt costs the OCR step on a single worker, as it would run in one serverless function:
-// cold start (traineddata load) and per-photo CPU seconds, wall time and peak memory. No model calls.
+// What one receipt costs the local steps on a single page worker, as they would run in one serverless function:
+// preparation, OCR, re-reading doubtful rows and cutting the tiles for the model, with cold start (traineddata
+// load), CPU seconds, wall time and peak memory. No model calls.
 //   npx tsx tools/eval/ocr-timing.ts [--set hero|v1|adversarial ...] [--dump <dir>]
 // One worker and one process, so the CPU seconds are what a single core has to deliver.
 // --dump writes each photo's OCR rows to <dir>/<id>.txt for reading by eye.
@@ -8,6 +9,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { TesseractEngine } from "../../src/receipts/ocr";
 import { prepImage } from "../../src/receipts/prep";
+import { rereadDoubtfulRows } from "../../src/receipts/rows";
 import { SCENARIOS } from "../receipts/scenario";
 import { loadTruths, type SetName } from "./run";
 
@@ -47,7 +49,9 @@ async function main() {
       const png = prepared.png();
       const t1 = performance.now();
       const c0 = cpuSeconds();
-      const lines = await engine.recognize(png, langs);
+      const pageRows = await engine.recognize(png, langs);
+      const lines = await rereadDoubtfulRows(prepared.image, pageRows, engine, langs);
+      prepImage({ bytes, mediaType: t.image.mediaType }, { scale: 2 }).tiles();
       const t2 = performance.now();
       const rss = process.memoryUsage().rss / 1024 / 1024;
       peakRss = Math.max(peakRss, rss);

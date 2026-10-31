@@ -124,6 +124,7 @@ describe("OCR helpers", () => {
   it("tidies what OCR does to Japanese text, the yen sign and thousands", () => {
     expect(tidyOcrText("北空 の 天然水 2L \\798※")).toBe("北空の天然水 2L ¥798※");
     expect(tidyOcrText("¥3, 000  ")).toBe("¥3,000");
+    expect(tidyOcrText("合計 ¥6 , 431")).toBe("合計 ¥6,431");
     expect(tidyOcrText("2 点 x 単 1.298")).toBe("2 点 x 単 1.298"); // a digit next to a character keeps its space
   });
 
@@ -379,6 +380,17 @@ describe("dates and totals from the printed rows", () => {
 
   it("a misread total: the payment row that the lines add up to wins; a misread subtotal is dropped", () => {
     expect(groundReceipt(obj, rows("AA ¥1,000", "BB ¥500", "小計 ¥1,590", "合計 ¥1,599", "お支払い ¥1,500"))).toMatchObject({ totalMinor: 1500, subtotalMinor: null });
+  });
+
+  it("forgets a translation made from a garbled row", () => {
+    const out = groundReceipt({ currency: "JPY", lines: [{ rawText: "ベビーラプ", amountMinor: 1098, translationEn: "Baby lap", lineNo: 1 }] }, [{ text: "ベビーラプがッツ M ¥1,098", reread: true }, { text: "合計 ¥1,098" }]);
+    expect(out.lines).toMatchObject([{ rawText: "ベビーラプがッツ M", translationEn: "" }]);
+  });
+
+  it("does not take a store or register number for an amount", () => {
+    const out = groundReceipt({ currency: "USD", lines: [{ rawText: "AA BATTERY", amountMinor: 799, lineNo: 1 }] }, rows("CORNER PHARMACY #14", "Brindlewood, NY 12345", "TRANS #2718", "AA BATTERY $7.99 T", "SUBTOTAL $7.99", "TOTAL $7.99"));
+    expect((out.lines as { rawText: string }[]).map((l) => l.rawText)).toEqual(["AA BATTERY"]);
+    expect(out.totalMinor).toBe(799);
   });
 
   it("when nothing adds up the total row stands, so the check flags it", () => {
