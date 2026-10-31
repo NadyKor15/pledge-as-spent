@@ -51,7 +51,11 @@ function toolSchema(schema: z.ZodType): Record<string, unknown> {
 // The model writes "null" or "-" for an empty field more often than nothing at all.
 const EMPTY = new Set(["", "null", "none", "n/a", "-"]);
 const isEmpty = (s: string | undefined) => EMPTY.has((s ?? "").trim().toLowerCase());
-const entries = (t: string) => t.split(/\r?\n/).filter((e) => e.trim() !== "");
+/**
+ * The rows of a one-string answer. Besides real newlines Nova Pro writes a literal backslash-n, or runs the rows
+ * together with semicolons: read as one row, that kept one classification and left the other lines unclassified.
+ */
+const entries = (t: string) => t.split(/\r?\n|\\n|(?<=why\s*=[^\n]*)[;\s]+(?=no\s*=\s*\d+\s*;)/i).filter((e) => e.trim() !== "");
 
 const num = (s: string | undefined): number | string | null => {
   if (isEmpty(s)) return null;
@@ -288,7 +292,25 @@ For every line (including discount lines, which follow the line they reduce) giv
 - verdict "eligible": the product is one of the listed needs and no rule forbids it. needId is that need's id; needQty is how many of the need's unit this line brings (a case of 6 bottles for a "bottle" need counts 6; 2 packs of diapers count 2).
 - verdict "rejected": a rule forbids it. needId null, needQty null; ruleCode "alcohol", "tobacco" or "gift_card" for those, "not_in_needs" when it matches no need, "other_rule" for any other rule of the drive.
 - verdict "review": you cannot tell. ruleCode "unclear". Prefer review to a guess.
-reasonEn is one plain sentence a donor can read. confidence is your own 0..1 certainty.`;
+reasonEn is one plain sentence a donor can read. confidence is your own 0..1 certainty.
+How to match:
+- Go by what the product is, not by the exact words; brands do not matter. Natural water, spring water, mineral water and any other drinking water of the need's size are that need. Pants-type and tape diapers are both diapers. Loose single cells (ばら) are batteries. 単3 means AA and 単4 means AAA. A throw is a blanket.
+- The size of a pack does not matter: a trial pack, a case or a multipack of the right product counts.
+- Line text comes from OCR and may be abbreviated or garbled, half-width katakana most of all (パンツ can come out as がッツ, ルツ or アツ, and a stray N or 1 can stand next to a size). Read it together with the translation, which may itself be a guess from garbled text; a row you can recognise despite the noise is not "unclear". Sizes print as a bare letter or number.
+- A size or type the rules ask for must match what is printed. Another size or another battery type is "not_in_needs", even though the product family is right. A product with no size printed, of a family with no size in its need, simply counts.
+- Anything that is not one of the listed needs is "not_in_needs": food, milk, paper goods, stationery. Non-alcoholic beer is "not_in_needs", not "alcohol".
+- Alcohol, tobacco and gift cards are rejected with their own code in any language, also by brand or misspelt: beer, wine, sake, spirits, cigarettes, rolling tobacco, a brand of cigarettes (a name with menthol), gift cards and vouchers.
+Example (a made-up drive; do not copy its words):
+Rules: Size L gloves only. No alcohol, tobacco or gift cards.
+Needs: [{"id":"juice","label":"Apple juice 1 L","unit":"carton 1 L","qtyNeeded":30},{"id":"gloves","label":"Work gloves size L","unit":"pair","qtyNeeded":10},{"id":"cells","label":"C cells","unit":"piece","qtyNeeded":40}]
+Lines: 1 "りんごジュース 1L" 2 "HANDSCHUH GR L" 3 "MANUSI M" 4 "ﾀﾝ2 ﾊﾞﾗ" 5 "ワイン白 750ml" 6 "PIRINC 1KG"
+Answer:
+no=1; need=juice; qty=1; verdict=eligible; conf=0.95; why=Apple juice in the 1 L size counts toward the juice need.
+no=2; need=gloves; qty=1; verdict=eligible; conf=0.9; why=Size L work gloves count toward the gloves need.
+no=3; verdict=rejected; rule=not_in_needs; conf=0.9; why=Size M gloves are not the size this drive needs.
+no=4; need=cells; qty=1; verdict=eligible; conf=0.8; why=A loose C cell counts toward the cells need.
+no=5; verdict=rejected; rule=alcohol; conf=0.98; why=Wine is alcohol, which this drive does not fund.
+no=6; verdict=rejected; rule=not_in_needs; conf=0.9; why=Rice is not one of the needs.`;
 
 export class BedrockNovaClassifier implements LineClassifier {
   private readonly o: Required<Options>;

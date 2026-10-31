@@ -5,7 +5,7 @@ import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import type { ConverseClient } from "../../src/receipts/bedrock";
-import { OcrNovaReader, TesseractEngine, groundNumbers, locateText, tesseractLanguages, tidyOcrText, type OcrEngine, type OcrLine } from "../../src/receipts/ocr";
+import { OcrNovaReader, TesseractEngine, groundNumbers, groundReceipt, locateText, printedDate, tesseractLanguages, tidyOcrText, type OcrEngine, type OcrLine } from "../../src/receipts/ocr";
 import { findPaper, prepImage } from "../../src/receipts/prep";
 import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
 import { foldText, mergeRows, similarity } from "../../src/receipts/text";
@@ -153,8 +153,32 @@ describe("OCR helpers", () => {
   it("drops a unit price and a quantity the text does not support", () => {
     const ocr = [line([w("AA", 0.1, 0.1), w("$23.97", 0.8, 0.1)]), line([w("3", 0.1, 0.12), w("@", 0.2, 0.12), w("$7.99", 0.8, 0.12)])];
     const out = groundNumbers([{ rawText: "AA", amountMinor: 2397, unitPriceMinor: 2997, qty: 8 }, { rawText: "AA", amountMinor: 2397, unitPriceMinor: 799, qty: 0 }], ocr, 2);
-    // A quantity of 0 is replaced by amount / unit price when that divides evenly (2397 / 799 = 3).
-    expect(out.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[null, 8], [799, 3]]);
+    // The row below the product decides; the second line has no row of its own: a quantity of 0 is replaced by amount / unit price when that divides evenly (2397 / 799 = 3).
+    expect(out.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[799, 3], [799, 3]]);
+    const none = groundNumbers([{ rawText: "AA", amountMinor: 2397, unitPriceMinor: 2997, qty: 0 }], [line([w("BB", 0.1, 0.1), w("$1.00", 0.8, 0.1)])], 2);
+    expect(none.map((l) => [l.unitPriceMinor, l.qty])).toEqual([[null, null]]);
+  });
+
+  it("takes the text from the product's row with the rows that continue its name, and a quantity only from a quantity row", () => {
+    const ocr = [line([w("ミネラルウォーター", 0.1, 0.1), w("¥216※", 0.8, 0.1)]), line([w("2L", 0.1, 0.12), w("ペット", 0.2, 0.12)]), line([w("2", 0.1, 0.14), w("点", 0.15, 0.14), w("x", 0.2, 0.14), w("単", 0.25, 0.14), w("108", 0.3, 0.14)]), line([w("北空の天然水", 0.1, 0.2), w("2L", 0.3, 0.2), w("¥798※", 0.8, 0.2)]), line([w("6", 0.1, 0.22), w("本ケース", 0.15, 0.22)]), line([w("単3", 0.1, 0.3), w("¥980", 0.8, 0.3)]), line([w("小計", 0.1, 0.4), w("¥1,994", 0.8, 0.4)]), line([w("お試し", 0.1, 0.42)])];
+    const out = groundNumbers(
+      [
+        { rawText: "ミネラルウォーター", amountMinor: 216, unitPriceMinor: 216, qty: 1 },
+        { rawText: "北空の天然水 2L", amountMinor: 798, unitPriceMinor: null, qty: 6 }, // a model takes the 6 from the pack
+        { rawText: "単3", amountMinor: 980, unitPriceMinor: null, qty: 1 },
+      ],
+      ocr,
+      0,
+    );
+    expect(out.map((l) => l.rawText)).toEqual(["ミネラルウォーター 2L ペット", "北空の天然水 2L 6 本ケース", "単3"]);
+    expect(out.map((l) => [l.qty, l.unitPriceMinor])).toEqual([[2, 108], [1, null], [1, null]]);
+  });
+
+  it("puts back a product row the model left out, at its place, and not a quantity, subtotal or footer row", () => {
+    const ocr = [line([w("店", 0.1, 0.05)]), line([w("牛乳", 0.1, 0.1), w("¥200", 0.8, 0.1)]), line([w("単3電池", 0.1, 0.2), w("¥796", 0.8, 0.2)]), line([w("2", 0.1, 0.22), w("点", 0.15, 0.22), w("x", 0.2, 0.22), w("単398", 0.3, 0.22)]), line([w("ギフトカード", 0.1, 0.3), w("¥3,000", 0.8, 0.3)]), line([w("小計", 0.1, 0.4), w("¥3,996", 0.8, 0.4)]), line([w("合計", 0.1, 0.5), w("¥3,996", 0.8, 0.5)])];
+    const obj = { currency: "JPY", subtotalMinor: 3996, lines: [{ rawText: "牛乳", amountMinor: 200, lineNo: 1 }, { rawText: "ギフトカード", amountMinor: 3000, lineNo: 2 }] };
+    const out = groundReceipt(obj, ocr).lines as { rawText: string; amountMinor: number; lineNo: number; qty: number }[];
+    expect(out.map((l) => [l.lineNo, l.rawText, l.amountMinor, l.qty])).toEqual([[1, "牛乳", 200, 1], [2, "単3電池", 796, 2], [3, "ギフトカード", 3000, 1]]);
   });
 
   it("takes the amount from the product's own row, not from a unit price or a quantity row, and uses each row once", () => {
@@ -181,6 +205,7 @@ describe("OcrNovaReader", () => {
     { text: "ミナト生活館", box: { x: 0.2, y: 0.05, w: 0.5, h: 0.02 }, words: [w("ミナト生活館", 0.2, 0.05)] },
     { text: "雪解けの水 2L ¥472", box: { x: 0.1, y: 0.3, w: 0.8, h: 0.02 }, words: [w("雪解けの水", 0.1, 0.3), w("2L", 0.4, 0.3), w("¥472", 0.8, 0.3)] },
     { text: "会員番号 3216 2141", box: { x: 0.1, y: 0.8, w: 0.8, h: 0.02 }, words: [w("会員番号", 0.1, 0.8), w("3216", 0.5, 0.8), w("2141", 0.65, 0.8)] },
+    ...["北空店", "空川県北空市", "レジ"].map((t, i) => ({ text: t, box: { x: 0.2, y: 0.06 + i / 100, w: 0.5, h: 0.01 }, words: [w(t, 0.2, 0.06 + i / 100)] })),
   ];
   const engine = (): OcrEngine & { calls: string[][] } => {
     const e = { calls: [] as string[][], recognize: async (_: Uint8Array, l: string[]) => (e.calls.push(l), lines), close: async () => {} };
@@ -189,26 +214,70 @@ describe("OcrNovaReader", () => {
   const answer = "RECEIPT: merchant=ミナト生活館; currency=JPY; purchased=2026-11-05T14:32:00; total=472; readability=good\nLINE: no=1; qty=4; unit=118; amount=472; text=雪解けの水 2L\nPII: kind=member_id; text=会員番号 3216 2141\nPII: kind=name; text=nobody here";
 
   it("OCRs the prepared photo, structures the text with the model, places personal data and maps boxes to the photo", async () => {
-    const { client, cap, sent } = scripted([answer]);
+    const { client, cap, sent } = scripted(["• 2L ¥472", "• 2L ¥472", answer]);
     const e = engine();
     const reader = new OcrNovaReader({ client, cap, engine: e });
     const out = await reader.read(image("hero", "hero-ja-01"), hint);
     expect(e.calls).toEqual([["ja", "en"]]);
-    expect(sent).toHaveLength(1);
-    expect(textOf(sent[0])).toContain("雪解けの水 2L ¥472");
-    expect(sent[0].input.messages?.[0].content?.some((b) => b.image)).toBe(false); // text only
+    expect(sent).toHaveLength(3); // the numbers of two tiles, then the text
+    expect(sent[0].input.messages?.[0].content?.some((b) => b.image)).toBe(true);
+    expect(textOf(sent[2])).toContain("雪解けの水 2L ¥472");
+    expect(sent[2].input.messages?.[0].content?.some((b) => b.image)).toBe(false); // text only
     expect(out.receipt.lines).toHaveLength(1);
     expect(out.receipt.pii.map((p) => [p.kind, p.bbox !== null])).toEqual([["member_id", true], ["name", false]]);
     const b = out.receipt.pii[0].bbox!;
     expect(b.x + b.w).toBeLessThanOrEqual(1);
-    expect(out.usage.tokensIn).toBe(100);
+    expect(out.usage.tokensIn).toBe(300);
   });
 
-  it("carries the cost of the call when the structured answer is refused", async () => {
-    const { client, cap } = scripted(["RECEIPT: merchant=X; readability=good"]);
+  it("carries the cost of every call when the structured answer is refused", async () => {
+    const { client, cap } = scripted(["¥472", "¥472", "RECEIPT: merchant=X; readability=good"]);
     const err = await new OcrNovaReader({ client, cap, engine: engine() }).read(image("hero", "hero-ja-01"), hint).catch((e) => e);
     expect(err.message).toMatch(/currency|totalMinor/);
-    expect(err.usage.tokensIn).toBe(100);
+    expect(err.usage.tokensIn).toBe(300);
+  });
+
+  it("a page OCR cannot read is unreadable, at no cost", async () => {
+    const { client, cap, sent } = scripted([]);
+    const e: OcrEngine = { recognize: async () => lines.slice(0, 3), close: async () => {} };
+    const out = await new OcrNovaReader({ client, cap, engine: e }).read(image("hero", "hero-ja-01"), hint);
+    expect(out.receipt.readability).toBe("unreadable");
+    expect(out.usage).toMatchObject({ tokensIn: 0, usdActual: 0 });
+    expect(sent).toHaveLength(0);
+  });
+
+  it("sends only the photo down to the total: the tiles end above the card rows", async () => {
+    const withTotal: OcrLine[] = [...lines.slice(3), ...lines.slice(0, 2), { text: "合計 ¥472", box: { x: 0.1, y: 0.5, w: 0.8, h: 0.02 }, words: [w("合計", 0.1, 0.5), w("¥472", 0.8, 0.5)] }, lines[2], lines[2]];
+    const e: OcrEngine = { recognize: async () => withTotal, close: async () => {} };
+    const { client, cap, sent } = scripted(["¥472", answer]);
+    await new OcrNovaReader({ client, cap, engine: e }).read(image("hero", "hero-ja-01"), hint);
+    expect(sent).toHaveLength(2); // half the paper is short enough for one tile
+  });
+
+  it("with no copy of the numbers the date is left to a person, and personal data comes from the rows", async () => {
+    const withCard: OcrLine[] = [
+      ...lines.slice(3),
+      ...lines.slice(0, 2),
+      { text: "合計 ¥472", box: { x: 0.1, y: 0.5, w: 0.8, h: 0.02 }, words: [w("合計", 0.1, 0.5), w("¥472", 0.8, 0.5)] },
+      lines[2],
+      { text: "クレジット abc 9591", box: { x: 0.1, y: 0.6, w: 0.8, h: 0.02 }, words: [w("クレジット", 0.1, 0.6), w("abc", 0.6, 0.6), w("9591", 0.8, 0.6)] },
+      { text: "ご来店ありがとうございました", box: { x: 0.1, y: 0.7, w: 0.8, h: 0.02 }, words: [w("ご来店ありがとうございました", 0.1, 0.7)] },
+    ];
+    const e: OcrEngine = { recognize: async () => withCard, close: async () => {} };
+    const sent: ConverseCommand[] = [];
+    const filtered = { ...reply(""), stopReason: "content_filtered" } as ConverseCommandOutput;
+    const client: ConverseClient = { send: async (c) => (sent.push(c), sent.length === 1 ? filtered : reply(answer)) };
+    const cap = new SpendCap(new JsonlSpendLedger(path.join(mkdtempSync(path.join(tmpdir(), "ms-")), "l.jsonl")));
+    const out = await new OcrNovaReader({ client, cap, engine: e }).read(image("hero", "hero-ja-01"), hint);
+    expect(out.receipt.purchasedAt).toBeNull();
+    expect(out.receipt.pii.map((p) => p.kind).sort()).toEqual(["card_number", "member_id", "name"]);
+    expect(out.receipt.pii.every((p) => p.kind === "name" || p.bbox !== null)).toBe(true);
+  });
+
+  it("takes the numbers from a cheaper model when told to", async () => {
+    const { client, cap, sent } = scripted(["¥472", "¥472", answer]);
+    await new OcrNovaReader({ client, cap, engine: engine(), modelId: "amazon.nova-pro-v1:0", numbersModelId: "amazon.nova-lite-v1:0" }).read(image("hero", "hero-ja-01"), hint);
+    expect(sent.map((c) => c.input.modelId)).toEqual(["amazon.nova-lite-v1:0", "amazon.nova-lite-v1:0", "amazon.nova-pro-v1:0"]);
   });
 });
 
@@ -274,5 +343,45 @@ describe("TwoPassReader", () => {
     const cap = new SpendCap(new JsonlSpendLedger(path.join(mkdtempSync(path.join(tmpdir(), "ms-")), "l.jsonl")));
     await expect(new TwoPassReader({ client, cap }).read(image("v1", "v1-en-01"), { currency: "USD", languages: ["en"] })).rejects.toThrow(/cut off/);
     expect(sent).toHaveLength(1);
+  });
+});
+
+describe("dates and totals from the printed rows", () => {
+  const rows = (...t: string[]) => t.map((text) => ({ text }));
+
+  it("reads the date in each format, day first outside the US", () => {
+    expect(printedDate(["2026 年 11 月 05 日 ( 木 ) 14:32"], ["ja", "en"])).toBe("2026-11-05T14:32:00");
+    expect(printedDate(["05/11/2026 10:09 CAJA 03"], ["es", "en"])).toBe("2026-11-05T10:09:00");
+    expect(printedDate(["TARİH: 06.11.2026 14:36 FİŞ NO: 9824"], ["tr", "en"])).toBe("2026-11-06T14:36:00");
+    expect(printedDate(["11/04/2026 03:58 PM REG 05"], ["en"])).toBe("2026-11-04T15:58:00");
+    expect(printedDate(["11/04/2026 12:05 AM"], ["en"])).toBe("2026-11-04T00:05:00");
+    expect(printedDate(["13/04/2026 10:00"], ["en"])).toBe("2026-04-13T10:00:00"); // 13 cannot be the month
+  });
+
+  it("finds no date where there is none or it cannot be real", () => {
+    expect(printedDate(["TEL 0123-45-6789", "2026 年 13 月 95 日"], ["ja"])).toBeNull();
+    expect(printedDate([], ["en"])).toBeNull();
+    expect(printedDate(["31/02/2026"], ["es"])).toBeNull();
+  });
+
+  const lines = [{ rawText: "AA", amountMinor: 1000, lineNo: 1 }, { rawText: "BB", amountMinor: 500, lineNo: 2 }];
+  const obj = { currency: "JPY", lines, subtotalMinor: 9, taxMinor: 7, taxIncluded: true, totalMinor: 3 };
+
+  it("tax inside: the total row decides, and a subtotal row is kept when it agrees", () => {
+    const out = groundReceipt(obj, rows("AA ¥1,000", "BB ¥500", "小計 ¥1,500", "合計 ¥1,500", "お支払い ¥1,500"));
+    expect(out).toMatchObject({ totalMinor: 1500, subtotalMinor: 1500, taxMinor: 7, taxIncluded: true });
+  });
+
+  it("tax on top: believed when the printed tax rows close the gap", () => {
+    const out = groundReceipt(obj, rows("AA ¥1,000", "BB ¥500", "小計 ¥1,500", "外税 8% 対象 ¥1,000 消費税 ¥80", "外税 10% 対象 ¥500 消費税 ¥50", "合計 ¥1,630"));
+    expect(out).toMatchObject({ totalMinor: 1630, taxMinor: 130, taxIncluded: false, subtotalMinor: 1500 });
+  });
+
+  it("a misread total: the payment row that the lines add up to wins; a misread subtotal is dropped", () => {
+    expect(groundReceipt(obj, rows("AA ¥1,000", "BB ¥500", "小計 ¥1,590", "合計 ¥1,599", "お支払い ¥1,500"))).toMatchObject({ totalMinor: 1500, subtotalMinor: null });
+  });
+
+  it("when nothing adds up the total row stands, so the check flags it", () => {
+    expect(groundReceipt(obj, rows("AA ¥1,000", "BB ¥500", "小計 ¥1,700", "合計 ¥1,700", "お支払い ¥1,700"))).toMatchObject({ totalMinor: 1700, subtotalMinor: 1700 });
   });
 });

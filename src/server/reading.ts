@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { z } from "zod";
 import { and, asc, eq, gt, isNotNull, like, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
@@ -6,7 +5,7 @@ import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
-import { receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
+import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
 import { ServiceError } from "./errors";
@@ -86,14 +85,7 @@ export const SAMPLE_HINT = {
 
 const LANGUAGES: Partial<Record<CurrencyCode, string[]>> = { JPY: ["ja", "en"], EUR: ["es", "en"], USD: ["en"] };
 
-export function classificationKey(parsed: ParsedReceipt, needs: Need[], rules: string): string {
-  const basis = JSON.stringify({
-    receipt: receiptKey(parsed),
-    needs: needs.map((n) => [n.id, n.label, n.unit, n.qtyNeeded]),
-    rules,
-  });
-  return createHash("sha256").update(basis).digest("hex");
-}
+export { classificationKey };
 
 export class ReceiptReading {
   private readonly answers: Map<string, SavedAnswer>;

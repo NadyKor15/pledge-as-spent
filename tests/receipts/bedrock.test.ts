@@ -193,6 +193,15 @@ describe("BedrockNovaClassifier", () => {
     expect(input.messages?.[0].content?.some((b) => b.image)).toBe(false);
   });
 
+  it("reads every row when the model writes a literal backslash-n or runs the rows together with semicolons", async () => {
+    for (const glue of ["\\n", "; "]) {
+      const text = ["no=1; need=water; qty=6; verdict=eligible; conf=0.95; why=Water.", "no=2; verdict=rejected; rule=alcohol; conf=0.9; why=Beer."].join(glue);
+      const { client, cap } = await setup(reply([toolUse("submit_classifications", { lines: text })]));
+      const out = await new BedrockNovaClassifier({ client, cap }).classify({ receipt: receipt(), needs, rules: "" });
+      expect(out.lines.map((l) => [l.lineNo, l.verdict])).toEqual([[1, "eligible"], [2, "rejected"]]);
+    }
+  });
+
   it("accepts tool input delivered as a JSON string, one text row per line, tolerant of key case and order", async () => {
     const text = "NO=1; need=water; qty=6; verdict=eligible; conf=0.95; why=Water; fine\n\nverdict=rejected; no=2; rule=alcohol; conf=0.9; why=Beer.";
     const { client, cap } = await setup(reply([toolUse("submit_classifications", JSON.stringify({ lines: text }))]));
