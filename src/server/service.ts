@@ -501,11 +501,13 @@ export class PledgeService {
     const { receiptId, cmds } = await withDrive(this.db, driveId, async (b) => {
       const drive = b.state.drive!;
       if (drive.status !== "open") throw new ServiceError(409, "drive_not_open", `The drive is ${drive.status}; it takes no new receipts.`);
+      // A real drive also looks at the other real drives: one purchase is reimbursed once.
+      // Demo drives stay apart, every judge's drive takes the same sample receipt.
       const known = await b.tx
-        .select({ id: receipts.id, sha256: receipts.sha256, dhash: receipts.dhash, semanticKey: receipts.semanticKey, uploadedAt: receipts.uploadedAt })
+        .select({ id: receipts.id, driveId: receipts.driveId, sha256: receipts.sha256, dhash: receipts.dhash, semanticKey: receipts.semanticKey, uploadedAt: receipts.uploadedAt })
         .from(receipts)
-        .where(eq(receipts.driveId, driveId));
-      const receiptId = `${driveId}.r${known.length + 1}`;
+        .where(row.demo ? eq(receipts.driveId, driveId) : inArray(receipts.driveId, b.tx.select({ id: drives.id }).from(drives).where(eq(drives.demo, false))));
+      const receiptId = `${driveId}.r${known.filter((k) => k.driveId === driveId).length + 1}`;
       const fingerprint = { sha256: sha, dHash: dh, semanticKey: semanticKey(reading.parsed) };
       const flags = checkReceipt({
         receipt: reading.parsed,
@@ -571,6 +573,8 @@ export class PledgeService {
       );
       if (ev) await b.append(ev, "app");
     }
+    // Every line refused: the receipt must not read as funded.
+    if (receiptFundedBase(b.state, receiptId) === 0) await b.tx.update(receipts).set({ status: "rejected" }).where(eq(receipts.id, receiptId));
     const planned: Command[] = [];
     if (payoutEmail && b.state.lineKeys.some((k) => k.startsWith(`${receiptId}:`)) && receiptFundedBase(b.state, receiptId) > 0) {
       const p = planPayout(b.state, receiptId);
