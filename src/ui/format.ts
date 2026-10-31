@@ -83,6 +83,12 @@ export function ago(iso: string, now = Date.now()): string {
   return `${d} day${d === 1 ? "" : "s"} ago`;
 }
 
+/** "Kitasora Community Shelter — Earthquake relief" -> its two parts. */
+export function titleParts(title: string): { head: string; tail: string | null } {
+  const i = title.indexOf(" — ");
+  return i < 0 ? { head: title, tail: null } : { head: title.slice(0, i), tail: title.slice(i + 3) };
+}
+
 const UPPER = (s: string) => s.replace(/_/g, " ").toUpperCase();
 export const statusLabel = UPPER;
 

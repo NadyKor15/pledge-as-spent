@@ -1,19 +1,21 @@
 import Link from "next/link";
 import "./header.css";
 import { classes } from "./cls";
+import { titleParts } from "./format";
+import { useStacked } from "./stage";
 import { ROLES, type Role } from "./types";
 
 const s = classes("hd");
 
 /** "Kitasora Community Shelter — Earthquake relief": the part before the dash is bold. */
 export function DriveTitle({ title }: { title: string }) {
-  const i = title.indexOf(" — ");
-  return i < 0 ? (
-    <b>{title}</b>
+  const { head, tail } = titleParts(title);
+  return tail === null ? (
+    <b>{head}</b>
   ) : (
     <>
-      <b>{title.slice(0, i)}</b>
-      <span>{title.slice(i)}</span>
+      <b>{head}</b>
+      <span> — {tail}</span>
     </>
   );
 }
@@ -23,6 +25,8 @@ export const driveBadge = (demo: boolean) => (demo ? "Fictional drive · PayPal 
 export const roleHref = (driveId: string, role: Role) => `/drive/${encodeURIComponent(driveId)}?as=${role}`;
 
 export function DesktopHeader({ driveId, title, demo, role, variant }: { driveId: string; title: string; demo: boolean; role: Role; variant: "c" | "d" }) {
+  const stacked = useStacked();
+  if (stacked) return <MobileHeader driveId={driveId} role={role} />;
   return (
     <header className={`${s.top} ${s[variant]}`}>
       <Link className={s.brand} href="/">

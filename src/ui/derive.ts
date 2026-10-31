@@ -5,11 +5,11 @@ import type { DriveView, Hold, JournalCall, LedgerRow, Need, Receipt, ReceiptLin
 // everything is a sum, a grouping or a lookup of what the API returned.
 
 /** spent = captured or on its way to capture; held = what the hold can still pay; released = voided back to the donor. */
-export function holdAmounts(h: Pick<Hold, "pledged" | "authorized" | "captured" | "capturePending" | "accrued" | "released">) {
+export function holdAmounts(h: Pick<Hold, "pledged" | "authorized" | "captured" | "capturePending" | "accrued" | "released" | "uncollected" | "reversed">) {
   const spent = h.captured + h.capturePending + h.accrued;
   const total = h.authorized > 0 ? h.authorized : h.pledged;
   const released = h.released;
-  const held = h.authorized > 0 ? Math.max(0, h.authorized - spent - released) : 0;
+  const held = h.authorized > 0 ? Math.max(0, h.authorized - spent - released - h.uncollected - h.reversed) : 0;
   return { total, spent, held, released };
 }
 
@@ -194,13 +194,14 @@ export function paypalActivity(v: DriveView): Activity[] {
       const attempt = v.payouts.find((p) => p.receiptId === rest[1])?.attempts.find((a) => a.senderBatchId === rid);
       const amount = attempt ? money(v.drive.baseCurrency, attempt.amount) : "";
       if (c.ids.payoutBatchId) byPayPalId.set(c.ids.payoutBatchId, key);
-      build = (s) => ({ parts: ["Payout to volunteer", amount, s].filter(Boolean), short: `Payout to volunteer — ${s}` });
+      const volunteer = v.drive.volunteerName ?? "volunteer";
+      build = (s) => ({ parts: [`Payout to ${volunteer}`, amount, s].filter(Boolean), short: `Payout to ${volunteer} — ${s}` });
     } else if (kind === "void") {
       const pledgeId = rest[1];
       build = (s) => ({ parts: ["Unspent hold released", who(pledgeId), s], short: `${who(pledgeId)} hold released — ${s}` });
     } else if (kind === "reauth") {
       const pledgeId = rest[1];
-      build = (s) => ({ parts: ["Hold renewed", who(pledgeId), s], short: `${who(pledgeId)} hold renewed — ${s}` });
+      build = (s) => ({ parts: ["Hold re-authorized", who(pledgeId), s], short: `${who(pledgeId)} hold re-authorized — ${s}` });
     }
     if (!build) continue;
     const status = failed(c) ? failText(c) : (c.ids.authorizationStatus ?? c.ids.transactionStatus ?? c.ids.status ?? c.ids.batchStatus ?? `HTTP ${c.httpStatus}`);
@@ -232,6 +233,18 @@ export function liveFeed(v: DriveView, n: number): { key: string; ok: boolean | 
   }
   return items.sort((a, b) => a.at.localeCompare(b.at)).slice(-n);
 }
+
+/** How the receipt was read. A saved reading is not presented as one made just now. */
+export function readLabel(r: Receipt): string {
+  const lines = `${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
+  if (r.reader.startsWith("live:")) return `Read by AI · ${lines}`;
+  if (r.reader === "copy") return `Same photo as before · ${lines}`;
+  return `Saved AI reading · ${lines}`;
+}
+
+/** PayPal accepted a reauthorization of this hold. It refreshes the honor period, not the 29 days. */
+export const reauthorized = (v: DriveView, pledgeId: string) =>
+  v.paypal.some((c) => c.requestId?.startsWith("reauth:") && c.requestId.split(":")[2] === pledgeId && c.httpStatus > 0 && c.httpStatus < 400);
 
 export const holdStatusLabel = (h: Hold) => (h.revoked && h.status !== "voided" ? "WITHDRAWN" : statusLabel(h.status));
 
