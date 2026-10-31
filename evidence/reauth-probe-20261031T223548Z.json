@@ -1,0 +1,216 @@
+{
+  "run": "4adb396c",
+  "steps": [
+    {
+      "label": "GET A parent before",
+      "at": "2026-10-31T22:35:39.895Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "reauthorize A",
+      "at": "2026-10-31T22:35:40.687Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "GET A child",
+      "at": "2026-10-31T22:35:42.181Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "GET A parent after reauthorize",
+      "at": "2026-10-31T22:35:42.700Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "capture A child",
+      "at": "2026-10-31T22:35:43.228Z",
+      "ok": false,
+      "error": "Error: captureAuthorization: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "GET A child after capture",
+      "at": "2026-10-31T22:35:43.228Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "GET A parent after capture on child",
+      "at": "2026-10-31T22:35:43.674Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "void A child",
+      "at": "2026-10-31T22:35:44.119Z",
+      "ok": false,
+      "error": "Error: voidAuthorization: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "GET A child after refused void",
+      "at": "2026-10-31T22:35:44.119Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "void A parent",
+      "at": "2026-10-31T22:35:44.552Z",
+      "ok": false,
+      "error": "Error: voidAuthorization: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "GET A parent after void",
+      "at": "2026-10-31T22:35:44.552Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "GET A child after parent void",
+      "at": "2026-10-31T22:35:45.062Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "capture A child after parent void",
+      "at": "2026-10-31T22:35:45.575Z",
+      "ok": false,
+      "error": "Error: captureAuthorization: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "capture B parent before reauthorize",
+      "at": "2026-10-31T22:35:45.575Z",
+      "ok": false,
+      "error": "Error: captureAuthorization: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "GET B parent partly captured",
+      "at": "2026-10-31T22:35:45.575Z",
+      "ok": true,
+      "id": "4TY14214PG473924B",
+      "status": "CREATED",
+      "amount": {
+        "currency": "USD",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:37:53Z",
+      "createTime": "2026-10-23T14:37:53Z"
+    },
+    {
+      "label": "reauthorize B rest",
+      "at": "2026-10-31T22:35:45.915Z",
+      "ok": false,
+      "error": "Error: reauthorize: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "reauthorize C first",
+      "at": "2026-10-31T22:35:45.915Z",
+      "ok": false,
+      "error": "Error: reauthorize: PayPal-Request-Id must be 1-108 visible ASCII characters"
+    },
+    {
+      "label": "reauthorize D",
+      "at": "2026-10-31T22:35:45.915Z",
+      "ok": true,
+      "id": "9WP61984MC1605403",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 50000
+      },
+      "expirationTime": "2026-11-21T14:41:05Z",
+      "createTime": "2026-10-31T22:35:46Z"
+    },
+    {
+      "label": "GET D child",
+      "at": "2026-10-31T22:35:47.593Z",
+      "ok": true,
+      "id": "9WP61984MC1605403",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 50000
+      },
+      "expirationTime": "2026-11-21T14:41:05Z",
+      "createTime": "2026-10-31T22:35:46Z"
+    },
+    {
+      "label": "GET D parent",
+      "at": "2026-10-31T22:35:48.032Z",
+      "ok": true,
+      "id": "1SE48913583669934",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 50000
+      },
+      "expirationTime": "2026-11-21T14:41:05Z",
+      "createTime": "2026-10-23T14:41:05Z"
+    }
+  ]
+}

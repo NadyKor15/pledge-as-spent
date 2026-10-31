@@ -162,6 +162,17 @@ export function latestAuthorizationId(h: HoldBook): string {
   return id;
 }
 
+/**
+ * The first authorization of a hold. PayPal voids and reauthorizes through it:
+ * a reauthorization id answers CANNOT_BE_VOIDED and REAUTHORIZATION_NOT_SUPPORTED,
+ * and a void of the parent ends the reauthorization too (live probe 2026-10-31).
+ */
+export function rootAuthorizationId(h: HoldBook): string {
+  const id = h.authorizationIds[0];
+  if (!id) throw new CoreError("invalid_state", `hold ${h.pledgeId} has no authorization`);
+  return id;
+}
+
 export function requireDrive(s: LedgerState): Drive {
   if (!s.drive) throw new CoreError("unknown_drive", "no DriveOpened event yet");
   return s.drive;

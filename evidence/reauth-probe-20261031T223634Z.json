@@ -1,0 +1,260 @@
+{
+  "run": "b856015e",
+  "steps": [
+    {
+      "label": "capture A child",
+      "at": "2026-10-31T22:36:13.615Z",
+      "ok": true,
+      "id": "8TR52491MN035164T",
+      "status": "COMPLETED"
+    },
+    {
+      "label": "GET A child after capture",
+      "at": "2026-10-31T22:36:15.764Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "GET A parent after capture on child",
+      "at": "2026-10-31T22:36:16.277Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "void A child",
+      "at": "2026-10-31T22:36:16.826Z",
+      "ok": false,
+      "httpStatus": 422,
+      "name": "UNPROCESSABLE_ENTITY",
+      "issue": "CANNOT_BE_VOIDED",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation. — A reauthorization cannot be voided. Please void the original parent authorization.",
+      "debugId": "f8084216af911"
+    },
+    {
+      "label": "GET A child after refused void",
+      "at": "2026-10-31T22:36:17.296Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "void A parent",
+      "at": "2026-10-31T22:36:17.649Z",
+      "ok": true
+    },
+    {
+      "label": "GET A parent after void",
+      "at": "2026-10-31T22:36:18.630Z",
+      "ok": true,
+      "id": "3FP83575AK5969054",
+      "status": "VOIDED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-23T14:35:49Z"
+    },
+    {
+      "label": "GET A child after parent void",
+      "at": "2026-10-31T22:36:19.129Z",
+      "ok": true,
+      "id": "1KX765876R319253G",
+      "status": "VOIDED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2000
+      },
+      "expirationTime": "2026-11-21T14:35:49Z",
+      "createTime": "2026-10-31T22:35:41Z"
+    },
+    {
+      "label": "capture A child after parent void",
+      "at": "2026-10-31T22:36:19.658Z",
+      "ok": false,
+      "httpStatus": 422,
+      "name": "UNPROCESSABLE_ENTITY",
+      "issue": "AUTHORIZATION_VOIDED",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation. — Authorization has been voided.",
+      "debugId": "f21026346fbab"
+    },
+    {
+      "label": "capture B parent before reauthorize",
+      "at": "2026-10-31T22:36:20.374Z",
+      "ok": true,
+      "id": "95H54709GB742622K",
+      "status": "COMPLETED"
+    },
+    {
+      "label": "GET B parent partly captured",
+      "at": "2026-10-31T22:36:22.078Z",
+      "ok": true,
+      "id": "4TY14214PG473924B",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "USD",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:37:53Z",
+      "createTime": "2026-10-23T14:37:53Z"
+    },
+    {
+      "label": "reauthorize B rest",
+      "at": "2026-10-31T22:36:22.556Z",
+      "ok": true,
+      "id": "4A367999V64051844",
+      "status": "CREATED",
+      "amount": {
+        "currency": "USD",
+        "minor": 2900
+      },
+      "expirationTime": "2026-11-21T14:37:54Z",
+      "createTime": "2026-10-31T22:36:23Z"
+    },
+    {
+      "label": "GET B child",
+      "at": "2026-10-31T22:36:24.247Z",
+      "ok": true,
+      "id": "4A367999V64051844",
+      "status": "CREATED",
+      "amount": {
+        "currency": "USD",
+        "minor": 2900
+      },
+      "expirationTime": "2026-11-21T14:37:54Z",
+      "createTime": "2026-10-31T22:36:23Z"
+    },
+    {
+      "label": "GET B parent after reauthorize",
+      "at": "2026-10-31T22:36:24.758Z",
+      "ok": true,
+      "id": "4TY14214PG473924B",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "USD",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:37:53Z",
+      "createTime": "2026-10-23T14:37:53Z"
+    },
+    {
+      "label": "capture B parent after reauthorize",
+      "at": "2026-10-31T22:36:25.162Z",
+      "ok": true,
+      "id": "02H26534569650016",
+      "status": "COMPLETED"
+    },
+    {
+      "label": "capture B child",
+      "at": "2026-10-31T22:36:27.257Z",
+      "ok": true,
+      "id": "4X845998FC948570Y",
+      "status": "COMPLETED"
+    },
+    {
+      "label": "GET B child after captures",
+      "at": "2026-10-31T22:36:29.614Z",
+      "ok": true,
+      "id": "4A367999V64051844",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "USD",
+        "minor": 2900
+      },
+      "expirationTime": "2026-11-21T14:37:54Z",
+      "createTime": "2026-10-31T22:36:23Z"
+    },
+    {
+      "label": "GET B parent after captures",
+      "at": "2026-10-31T22:36:30.146Z",
+      "ok": true,
+      "id": "4TY14214PG473924B",
+      "status": "PARTIALLY_CAPTURED",
+      "amount": {
+        "currency": "USD",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:37:53Z",
+      "createTime": "2026-10-23T14:37:53Z"
+    },
+    {
+      "label": "reauthorize C first",
+      "at": "2026-10-31T22:36:30.579Z",
+      "ok": true,
+      "id": "8WT44994TH808012G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:39:50Z",
+      "createTime": "2026-10-31T22:36:31Z"
+    },
+    {
+      "label": "reauthorize C second on child",
+      "at": "2026-10-31T22:36:32.056Z",
+      "ok": false,
+      "httpStatus": 422,
+      "name": "UNPROCESSABLE_ENTITY",
+      "issue": "REAUTHORIZATION_NOT_SUPPORTED",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation. — A reauthorize cannot be attempted on an authorization_id that is the result of a prior reauthorization or on an authorization made on an Order saved using the v2/orders/id/save API.",
+      "debugId": "f942486b9c33a"
+    },
+    {
+      "label": "reauthorize C second on parent",
+      "at": "2026-10-31T22:36:32.486Z",
+      "ok": false,
+      "httpStatus": 422,
+      "name": "UNPROCESSABLE_ENTITY",
+      "issue": "REAUTHORIZATION_TOO_SOON",
+      "message": "The requested action could not be performed, semantically incorrect, or failed business validation. — A reauthorization is only allowed once from Day 4 to Day 29 since the date of the original authorization.",
+      "debugId": "f230986b88fcf"
+    },
+    {
+      "label": "GET C parent",
+      "at": "2026-10-31T22:36:33.023Z",
+      "ok": true,
+      "id": "50945691LB572660A",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:39:50Z",
+      "createTime": "2026-10-23T14:39:50Z"
+    },
+    {
+      "label": "GET C child",
+      "at": "2026-10-31T22:36:33.559Z",
+      "ok": true,
+      "id": "8WT44994TH808012G",
+      "status": "CREATED",
+      "amount": {
+        "currency": "JPY",
+        "minor": 3000
+      },
+      "expirationTime": "2026-11-21T14:39:50Z",
+      "createTime": "2026-10-31T22:36:31Z"
+    }
+  ]
+}

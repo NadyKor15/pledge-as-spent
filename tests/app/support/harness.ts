@@ -6,6 +6,7 @@ import type { ConverseClient } from "../../../src/receipts/bedrock";
 import { Recordings } from "../../../src/receipts/recorded";
 import type { Pipeline } from "../../../src/server/reading";
 import { PledgeService, type Limits } from "../../../src/server/service";
+import { FAKE_EPOCH } from "./fake-sandbox";
 
 export const ROOT = path.resolve(__dirname, "../../..");
 export const HERO_PNG = path.join(ROOT, "eval/receipts/hero/hero-ja-01.png");
@@ -55,7 +56,7 @@ export async function harness(o: {
 }): Promise<Harness> {
   const db = await openPglite();
   await db.migrate(path.join(ROOT, "drizzle"));
-  const c = clock(o.start ?? "2026-10-23T16:00:00.000Z");
+  const c = clock(o.start ?? FAKE_EPOCH);
   const make = (fetch: FetchLike) =>
     new PledgeService({
       db: db.db,

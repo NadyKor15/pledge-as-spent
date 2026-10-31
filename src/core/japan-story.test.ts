@@ -180,14 +180,14 @@ describe("Japanese story: one receipt, three donors, three currencies, a 1:1 com
     expect(planHoldMaintenance(book.state, daysAfter(6, STORY_T0))).toEqual([]);
   });
 
-  it("closes: nothing accrued, so every hold is voided on its newest authorization, then the drive closes", () => {
+  it("closes: nothing accrued, so every hold is voided through its parent authorization, then the drive closes", () => {
     book.event("DriveClosing", daysAfter(7, STORY_T0), {});
     const cmds = planClose(book.state, daysAfter(7, STORY_T0));
     expect(cmds.map((c) => (c.kind === "void" ? [c.kind, c.pledgeId, c.authorizationId, c.requestId] : [c.kind]))).toEqual([
-      ["void", "p-anna", "AUTH-p-anna-R1", "void:kitasora-flood:p-anna"],
-      ["void", "p-mike", "AUTH-p-mike-R1", "void:kitasora-flood:p-mike"],
+      ["void", "p-anna", "AUTH-p-anna", "void:kitasora-flood:p-anna"],
+      ["void", "p-mike", "AUTH-p-mike", "void:kitasora-flood:p-mike"],
       ["void", "p-yuki", "AUTH-p-yuki", "void:kitasora-flood:p-yuki"],
-      ["void", "p-match", "AUTH-p-match-R1", "void:kitasora-flood:p-match"],
+      ["void", "p-match", "AUTH-p-match", "void:kitasora-flood:p-match"],
     ]);
     for (const c of cmds) if (c.kind === "void") book.event("HoldVoided", daysAfter(7, STORY_T0), { pledgeId: c.pledgeId });
     expect(planClose(book.state, daysAfter(7, STORY_T0))).toEqual([{ kind: "close_drive", driveId: "kitasora-flood" }]);

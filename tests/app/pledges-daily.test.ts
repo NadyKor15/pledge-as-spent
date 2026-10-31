@@ -150,3 +150,43 @@ describe("daily job", () => {
     expect((await types()).filter((t) => t === "HoldExpired")).toHaveLength(5);
   });
 });
+
+describe("a hold after a reauthorization", () => {
+  async function reauthorized() {
+    const s = await setup("drive-reauth");
+    await s.h.db.db.update(drives).set({ demo: false }).where(eq(drives.id, s.driveId));
+    const claire = await walletPledge(s);
+    s.h.clock.advance(4 * DAY_MS + HOUR_MS);
+    await s.h.svc.runDaily();
+    expect(s.pp.reauthorizations).toHaveLength(1);
+    return { ...s, claire, child: s.pp.reauthorizations[0].to };
+  }
+  const claireHold = async (s: Awaited<ReturnType<typeof reauthorized>>) =>
+    (await s.h.svc.getDriveView(s.driveId)).holds.find((x) => x.pledgeId === s.claire.pledgeId)!;
+
+  it("is voided through its parent, so a closed drive really lets the money go", async () => {
+    const s = await reauthorized();
+    await s.h.svc.closeDrive(s.driveId);
+    await s.h.svc.reconcile(s.driveId, { graceMinutes: 0 });
+    expect(s.pp.voids).toContain(s.claire.authorizationId);
+    expect(s.pp.voids).not.toContain(s.child);
+    expect(await claireHold(s)).toMatchObject({ status: "voided", released: 1000 });
+  });
+
+  it("stays alive in the book when PayPal refuses the void with CANNOT_BE_VOIDED", async () => {
+    const s = await reauthorized();
+    s.pp.failNext(`/${s.claire.authorizationId}/void`, 422, {
+      name: "UNPROCESSABLE_ENTITY",
+      details: [{ issue: "CANNOT_BE_VOIDED", description: "A reauthorization cannot be voided." }],
+      debug_id: "fake",
+    });
+    await s.h.svc.closeDrive(s.driveId);
+    const hold = await claireHold(s);
+    expect(hold.status).not.toBe("voided");
+    expect(hold.released).toBe(0);
+    const voided = (await s.h.db.db.select().from(events).where(eq(events.driveId, s.driveId))).filter(
+      (e) => e.type === "HoldVoided" && (e.payload as { pledgeId: string }).pledgeId === s.claire.pledgeId,
+    );
+    expect(voided).toEqual([]);
+  });
+});

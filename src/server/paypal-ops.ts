@@ -32,6 +32,9 @@ export interface Outcome {
 }
 
 /** PayPal refused the request itself (as opposed to a timeout or an outage). */
+/** PayPal's answers to a void of a hold that is already gone (live probe 2026-10-31: PREVIOUSLY_VOIDED). */
+const ALREADY_VOIDED = new Set(["PREVIOUSLY_VOIDED", "AUTHORIZATION_VOIDED"]);
+
 export function isRefusal(e: unknown): e is PayPalError {
   return e instanceof PayPalError && [400, 404, 422].includes(e.httpStatus);
 }
@@ -165,9 +168,9 @@ export async function perform(gw: PayPalGateway, cmd: PayPalCommand, ctx: Perfor
         await gw.voidAuthorization({ authorizationId: cmd.authorizationId, requestId: cmd.requestId });
         return { events: [{ event: voided, source: "paypal_response" }], report };
       } catch (e) {
-        const text = e instanceof PayPalError ? `${e.name} ${e.issue ?? ""}` : "";
-        if (isRefusal(e) && /VOIDED/i.test(text)) return { events: [{ event: voided, source: "paypal_response" }], report: { ...report, detail: describe(e) } };
-        if (isRefusal(e) && /EXPIRED/i.test(text)) {
+        // CANNOT_BE_VOIDED is not one of these: it means the hold is still alive at PayPal.
+        if (isRefusal(e) && ALREADY_VOIDED.has(e.issue ?? "")) return { events: [{ event: voided, source: "paypal_response" }], report: { ...report, detail: describe(e) } };
+        if (isRefusal(e) && e.issue === "AUTHORIZATION_EXPIRED") {
           const expired: LedgerEvent = { id: `expire:${cmd.driveId}:${cmd.pledgeId}`, type: "HoldExpired", at, driveId: cmd.driveId, pledgeId: cmd.pledgeId };
           return { events: [{ event: expired, source: "paypal_response" }], report: { ...report, detail: describe(e) } };
         }

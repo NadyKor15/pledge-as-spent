@@ -23,6 +23,8 @@ interface Auth {
   captured: number;
   status: string;
   customId: string;
+  /** Set on a reauthorization: the authorization it came from. */
+  parentId?: string;
 }
 
 export interface FakeSandbox {
@@ -45,8 +47,11 @@ export interface FakeSandbox {
   reauthorizations: { from: string; to: string; minor: number }[];
 }
 
+/** Fixed start of every test run, shared with the harness clock: nothing here may read the wall clock. */
+export const FAKE_EPOCH = "2026-10-23T16:00:00Z";
+
 export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
-  const now = opts.now ?? (() => new Date().toISOString().replace(/\.\d+Z$/, "Z"));
+  const now = opts.now ?? (() => FAKE_EPOCH);
   let n = 0;
   const id = (p: string) => `${p}${String(++n).padStart(6, "0")}FAKE`;
   const orders = new Map<string, any>();
@@ -119,16 +124,20 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
       if (!a) return error(404, "RESOURCE_NOT_FOUND", "INVALID_RESOURCE_ID");
       if (method === "GET" && !m[2]) return json(200, authJson(a));
       if (m[2] === "/void") {
-        if (a.status === "VOIDED") return error(422, "UNPROCESSABLE_ENTITY", "AUTHORIZATION_ALREADY_VOIDED");
+        // As in the sandbox (evidence/reauth-probe-20261031T223634Z.json): a reauthorization cannot be
+        // voided, and a void of the parent ends every reauthorization of it.
+        if (a.parentId) return error(422, "UNPROCESSABLE_ENTITY", "CANNOT_BE_VOIDED");
+        if (a.status === "VOIDED") return error(422, "UNPROCESSABLE_ENTITY", "PREVIOUSLY_VOIDED");
         a.status = "VOIDED";
+        for (const child of auths.values()) if (child.parentId === a.id) child.status = "VOIDED";
         state.voids.push(a.id);
         return json(200, authJson(a));
       }
       if (m[2] === "/reauthorize") {
         if (state.reauthorize === "too_soon") return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_TOO_SOON");
+        if (a.parentId) return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_NOT_SUPPORTED");
         const minor = body.amount ? toMinor(body.amount) : a.amount - a.captured;
-        const b: Auth = { ...a, id: id("AUTH"), amount: a.captured + minor, status: "CREATED" };
-        a.status = "VOIDED";
+        const b: Auth = { ...a, id: id("AUTH"), parentId: a.id, amount: minor, captured: 0, status: "CREATED" };
         auths.set(b.id, b);
         state.reauthorizations.push({ from: a.id, to: b.id, minor });
         return json(201, authJson(b));
@@ -139,6 +148,11 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
         if (a.captured + minor > a.amount) return error(422, "UNPROCESSABLE_ENTITY", "MAX_CAPTURE_AMOUNT_EXCEEDED");
         a.captured += minor;
         a.status = "PARTIALLY_CAPTURED";
+        const parent = a.parentId ? auths.get(a.parentId) : undefined;
+        if (parent) {
+          parent.captured += minor;
+          parent.status = "PARTIALLY_CAPTURED";
+        }
         const fee = Math.round((minor * 259) / 10_000) + (FIXED[a.currency] ?? 0);
         const c = {
           id: id("CAP"),

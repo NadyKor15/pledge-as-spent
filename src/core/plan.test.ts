@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ReauthorizeCommand } from "./events";
-import { applyEvent } from "./ledger";
+import { applyEvent, latestAuthorizationId, rootAuthorizationId } from "./ledger";
 import {
   holdExpiredEvent,
   planCaptures,
@@ -154,7 +154,7 @@ describe("planHoldMaintenance (SPEC §5)", () => {
     expect(() => planExplicitReauthorize(b.state, "a", daysAfter(3))).toThrow(/day 3: reauthorize opens on day 4/);
     b.event("Reauthorized", daysAfter(4), { pledgeId: "a", requestId: "reauth:drv1:a:1", authorizationId: "AUTH-a-2" });
     const cmd = planExplicitReauthorize(b.state, "a", daysAfter(8));
-    expect(cmd).toMatchObject({ requestId: "reauth:drv1:a:2", attempt: 2, explicit: true, authorizationId: "AUTH-a-2" });
+    expect(cmd).toMatchObject({ requestId: "reauth:drv1:a:2", attempt: 2, explicit: true, authorizationId: "AUTH-a" });
     expect(() => planExplicitReauthorize(b.state, "a", daysAfter(29))).toThrow(/days are over/);
     expect(() => planExplicitReauthorize(b.state, "zz", daysAfter(8))).toThrow(/unknown_pledge/);
   });
@@ -186,6 +186,22 @@ describe("planHoldMaintenance (SPEC §5)", () => {
     expect(b.state.pledges.a.status).toBe("expired");
     expect(b.state.holds.a).toMatchObject({ captured: 300, released: 9700, uncollected: 0 });
     expect(kinds(b, daysAfter(30))).toEqual([]);
+  });
+
+  it("voids and reauthorizes through the parent after a reauthorization, captures on the newest id", () => {
+    const b = oneHold();
+    b.fund(line("r1", 1, "water", 1, 300), hoursAfter(1));
+    b.event("Reauthorized", daysAfter(4), { pledgeId: "a", requestId: "reauth:drv1:a:1", authorizationId: "AUTH-a-2" });
+    expect(latestAuthorizationId(b.state.holds.a)).toBe("AUTH-a-2");
+    expect(rootAuthorizationId(b.state.holds.a)).toBe("AUTH-a");
+    const [cap] = planCaptures(b.state, daysAfter(4), { force: true });
+    expect(cap.authorizationId).toBe("AUTH-a-2");
+    b.submit(cap, daysAfter(4));
+    b.confirm(cap, daysAfter(4.1));
+    b.event("PledgeRevoked", daysAfter(5), { pledgeId: "a" });
+    expect(planHoldMaintenance(b.state, daysAfter(5))).toEqual([
+      { kind: "void", driveId: "drv1", pledgeId: "a", authorizationId: "AUTH-a", requestId: "void:drv1:a", reason: "revoked" },
+    ]);
   });
 
   it("a revoked hold: capture what accrued, then void", () => {
