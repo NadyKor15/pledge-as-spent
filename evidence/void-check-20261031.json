@@ -1,0 +1,36 @@
+{
+  "commit": "340f8d6",
+  "steps": [
+    {
+      "label": "before",
+      "paypal": {
+        "parent": "CREATED",
+        "child": "CREATED"
+      }
+    },
+    {
+      "label": "void through the child id (fixed code)",
+      "at": "2026-10-31T22:40:09.832Z",
+      "outcome": "refused",
+      "detail": "422 UNPROCESSABLE_ENTITY CANNOT_BE_VOIDED (debug_id f7723433a03b4)",
+      "events": [],
+      "paypal": {
+        "parent": "CREATED",
+        "child": "CREATED"
+      }
+    },
+    {
+      "label": "void through the parent id (fixed code)",
+      "at": "2026-10-31T22:40:11.762Z",
+      "outcome": "done",
+      "detail": null,
+      "events": [
+        "HoldVoided"
+      ],
+      "paypal": {
+        "parent": "VOIDED",
+        "child": "VOIDED"
+      }
+    }
+  ]
+}
