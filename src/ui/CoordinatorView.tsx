@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { captureState, focusReceipt, holdAmounts, holdStatusLabel, lineViews, liveFeed, needById, paypalActivity, receiptChecks, shareGroups, type LineView } from "./derive";
@@ -49,7 +50,7 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
 
   return (
     <div className={s.page} ref={page}>
-      <DesktopHeader driveId={driveId} title={view.drive.title} demo={view.drive.demo} role="coordinator" variant="c" />
+      <DesktopHeader driveId={driveId} title={view.drive.displayTitle} demo={view.drive.demo} role="coordinator" variant="c" />
 
       <section className={s.row1}>
         <div className={`${s.panel} ${s.pLeft}`}>
@@ -57,7 +58,7 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
           <p className={s.psub}>Donors’ funds are held and only captured for verified purchases.</p>
           <div className={s.cards}>
             {donors.map((h) => (
-              <HoldCard key={h.pledgeId} hold={h} needLabel={needById(view, h.needId)?.label ?? ""} />
+              <HoldCard key={h.pledgeId} hold={h} needLabel={needById(view, h.needId)?.displayLabel ?? ""} />
             ))}
             {matches.map((h) => (
               <MatchCard key={h.pledgeId} hold={h} ratio={view.match.ratio} />
@@ -98,7 +99,7 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
                 <div className={s.ico}>
                   <NeedIcon needId={n.needId} size={36} />
                 </div>
-                <div className={s.nt}>{n.label}</div>
+                <div className={s.nt}>{n.displayLabel}</div>
                 <div className={s.nc}>{ofCount(n.qtyCovered, n.qtyNeeded, n.unit)}</div>
                 <div className={s.nbar}>
                   <i style={{ width: `${Math.min(100, pct(n.qtyCovered, n.qtyNeeded))}%` }} />
@@ -182,7 +183,9 @@ function HoldCard({ hold: h, needLabel }: { hold: Hold; needLabel: string }) {
     <article className={s.card} data-flow={`hold:${h.pledgeId}`}>
       <div className={tagClass(h)}>{holdStatusLabel(h)}</div>
       <div className={s.pname}>
-        <b>{name}</b>
+        <Link href={`/pledge/${encodeURIComponent(h.pledgeId)}`}>
+          <b>{name}</b>
+        </Link>
         {place && ` · ${place}`}
       </div>
       <div className={s.pneed}>{needLabel}</div>
@@ -317,7 +320,7 @@ function ReceiptBody({
                     {l.line.text} · {money(r.currency, l.line.amount)}
                   </b>
                   <em>→</em>
-                  {l.need ? `${l.need.label}${l.qty ? ` (${l.qty})` : ""}` : "no need"}
+                  {l.need ? `${l.need.displayLabel}${l.qty ? ` (${l.qty})` : ""}` : "no need"}
                   {l.state === "pending" ? " · waiting" : l.state === "review" ? " · needs a decision" : ""}
                 </span>
               </div>
@@ -406,7 +409,7 @@ function WhoPays({ view }: { view: DriveView }) {
               <span className={s.wi}>
                 <NeedIcon needId={g.needId} size={22} />
               </span>
-              <span className={s.nm}>{g.need?.label ?? g.needId}</span>
+              <span className={s.nm}>{g.need?.displayLabel ?? g.needId}</span>
               <span className={s.eq}>
                 <b>{money(base, g.base)}</b> ={" "}
                 {[

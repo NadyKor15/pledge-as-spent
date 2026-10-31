@@ -5,6 +5,7 @@ import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledg
 import type { ReceiptFlag } from "../receipts/checks";
 import type { ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
+import { DEMO_DISPLAY } from "./demo";
 import { ServiceError } from "./errors";
 import type { StoredClassification } from "./reading";
 
@@ -67,9 +68,13 @@ export async function driveView(db: Db, driveId: string) {
     .orderBy(asc(receipts.uploadedAt), asc(receipts.id));
   const calls = await db.select().from(paypalCalls).where(eq(paypalCalls.driveId, driveId)).orderBy(asc(paypalCalls.id));
   const [count] = await db.select({ n: sql<number>`count(*)::int` }).from(events).where(eq(events.driveId, driveId));
+  const demo = row?.demo ?? false;
   return {
-    drive: { ...state.drive, demo: row?.demo ?? false },
-    needs: state.needIds.map((id) => needProgress(state, id)),
+    drive: { ...state.drive, demo, displayTitle: demo ? DEMO_DISPLAY.title : state.drive.title, volunteerName: demo ? DEMO_DISPLAY.volunteerName : null },
+    needs: state.needIds.map((id) => {
+      const need = needProgress(state, id);
+      return { ...need, displayLabel: (demo ? DEMO_DISPLAY.needLabels[id] : undefined) ?? need.label };
+    }),
     holds: state.pledgeIds.map((id) => {
       const p = state.pledges[id];
       return { ...pledgeBalance(state, id), donorCountry: p.donorCountry ?? null, fx: p.fx, orderId: p.paypal.orderId, paymentSource: p.paymentSource ?? null };

@@ -1,0 +1,105 @@
+/* Volunteer: ported from html-F-volunteer/volunteer.html (390 px). Picked colours from F-volunteer-mobile.png. */
+.vo-page {
+  --page: #F7F6F3; --card: #FEFDFC; --card-border: #EAEBEC; --r-card: 8px; --r-box: 5px;
+  --ink: #080913; --sub: #3A465C; --chip-bg: #EEF0F2; --chip-text: #4A5368; --muted: #373B4D;
+  --chk1-bg: #E5F6F0; --chk1-border: #D9F0E9; --chk1-text: #0E5A47;
+  --chk-bg: #F1F9F6; --chk-border: #E0F2ED; --chk-text: #33394F; --chk-icon: #07885F;
+  --appr: #0B6768; --appr-bg: #F1FAF6; --appr-border: #DEF1EC; --appr-div: #E2F1ED;
+  --red: #E8202B; --rej-bg: #FEEDEC; --rej-border: #FAB5B4; --rej-icon: #EE2A2C; --rej-text: #4F5C6E;
+  --wait: #B7791F; --wait-bg: #FBF4EA; --wait-line: #EFD9B8;
+  --pay-bg: #E7F7F1; --pay-icon: #078A66; --pay-sub: #3E475B; --pay-meta: #475764;
+  --info-text: #4B4C60; --info-icon: #4D596F;
+  --btn: #027076; --btn-text: #FFFFFF; --btn2-bg: #FFFFFF; --btn2-border: #32AAAB; --btn2-text: #0B686E;
+  --photo-bg: #9B9184;
+  --ico-blue: #0A93B5; --ico-teal: #00726C; --drop-top: #24AACA; --drop-bottom: #0985A9;
+  width: 100%; max-width: 390px; margin: 0 auto; padding-bottom: 12px;
+  color: var(--ink); -webkit-font-smoothing: antialiased;
+}
+.vo-card { margin: 0 10px 0 10.5px; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--r-card); }
+
+/* card 1: receipt */
+.vo-cReceipt { margin-top: 3.2px; min-height: 309.4px; padding: 9.5px 9.6px 10px 10.4px; }
+.vo-cAsk { margin-top: 3.2px; padding: 9.5px 9.6px 10px 10.4px; }
+.vo-cTitle { margin-left: .4px; font-size: 15.7px; line-height: 20px; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; }
+.vo-cSubrow { margin-top: 1.3px; height: 19.7px; display: flex; justify-content: space-between; align-items: flex-start; }
+.vo-cSub { font-size: 11.8px; line-height: 19.7px; letter-spacing: -.02em; color: var(--sub); white-space: nowrap; }
+.vo-chip { width: 140.4px; height: 19.7px; border-radius: 7px; background: var(--chip-bg); color: var(--chip-text); font-size: 8.7px; line-height: 19.7px; letter-spacing: -.02em; text-align: center; white-space: nowrap; }
+.vo-cBody { margin-top: 5.4px; display: grid; grid-template-columns: 163.7px minmax(0, 1fr); column-gap: 12.6px; align-items: start; }
+.vo-photo { position: relative; width: 163.7px; height: 239.6px; border-radius: 5px; overflow: hidden; background: var(--photo-bg); }
+.vo-photo img { object-fit: cover; object-position: top; }
+.vo-noImage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 12px; text-align: center; color: #FFFFFF; font-size: 11px; line-height: 15px; }
+.vo-rCol { display: flex; flex-direction: column; min-width: 0; }
+.vo-store { margin: 6.85px 0 0 .5px; font-size: 12.8px; line-height: 16px; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vo-total { margin-top: 4.14px; font-size: 17.5px; line-height: 22px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.vo-lines { margin: .65px 0 0 .6px; font-size: 11px; line-height: 14px; letter-spacing: .01em; color: var(--muted); white-space: nowrap; }
+.vo-checks { margin-top: 8.6px; display: flex; flex-direction: column; gap: 4.2px; }
+.vo-chk { display: flex; align-items: flex-start; min-height: 25.7px; padding: 3.8px 5px 3.8px 7.2px; border: 1px solid var(--chk-border); background: var(--chk-bg); border-radius: var(--r-box); color: var(--chk-text); font-size: 9.4px; line-height: 15.6px; letter-spacing: -.03em; }
+.vo-chk svg { flex: none; display: block; }
+.vo-chk span { margin-left: 7.2px; white-space: pre-line; min-width: 0; }
+.vo-chk.vo-two { min-height: 44.4px; }
+.vo-chk.vo-bad { background: var(--wait-bg); border-color: var(--wait-line); }
+.vo-chk.vo-read { margin-top: 5.45px; padding-left: 8.1px; background: var(--chk1-bg); border-color: var(--chk1-border); color: var(--chk1-text); font-size: 10.5px; font-weight: 500; line-height: 15px; letter-spacing: -.005em; }
+
+/* the form before a receipt */
+.vo-askText { margin-top: 6px; font-size: 12.4px; line-height: 17.5px; letter-spacing: -.01em; color: var(--sub); }
+.vo-cErr { margin-top: 8px; padding: 9px 11px; display: flex; align-items: flex-start; gap: 10px; background: var(--rej-bg); border-color: var(--rej-border); font-size: 12px; line-height: 17px; }
+.vo-cErr svg { flex: none; margin-top: 1px; }
+.vo-errHint { margin-top: 4px; color: var(--rej-text); }
+.vo-closedNote { margin: 8px 12px 0; font-size: 12px; line-height: 17px; color: var(--sub); }
+
+/* card 2: lines */
+.vo-cLines { margin-top: 8.8px; padding: 8.24px 9.6px 10px 10.4px; }
+.vo-verdict { display: flex; font-size: 16.4px; line-height: 22px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.vo-ok { color: var(--appr); }
+.vo-wait { color: var(--wait); }
+.vo-no { color: var(--red); letter-spacing: -.042em; }
+.vo-verdict .vo-dot { display: inline-block; width: 16px; text-align: center; color: var(--appr); }
+.vo-appr { margin-top: 5.86px; background: var(--appr-bg); border: 1px solid var(--appr-border); border-radius: var(--r-box); }
+.vo-need { display: flex; align-items: center; height: 27.9px; padding: 0 11.9px 0 12.4px; }
+.vo-need + .vo-need { box-shadow: 0 -1px 0 var(--appr-div); }
+.vo-ic { flex: none; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+.vo-nm { margin-left: 13.6px; font-size: 11.3px; line-height: 14px; font-weight: 500; letter-spacing: -.03em; white-space: nowrap; }
+.vo-amt { margin-left: auto; font-size: 11.4px; line-height: 14px; font-weight: 700; letter-spacing: -.015em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vo-waitNote { margin-top: 6px; font-size: 12px; line-height: 17px; color: var(--sub); }
+.vo-rej { margin-top: 5px; min-height: 42.7px; padding: 6.9px 8px 4.6px 10.6px; display: flex; align-items: flex-start; background: var(--rej-bg); border: 1px solid var(--rej-border); border-radius: var(--r-box); }
+.vo-rej svg { flex: none; margin-top: -1.6px; display: block; }
+.vo-appr + .vo-rej { margin-top: 6.4px; }
+.vo-rejTx { margin-left: 15.3px; min-width: 0; }
+.vo-t { font-size: 11.2px; line-height: 14px; font-weight: 600; letter-spacing: -.03em; }
+.vo-t .vo-dot { display: inline-block; width: 14.2px; text-align: center; }
+.vo-pr { font-variant-numeric: tabular-nums; letter-spacing: -.05em; }
+.vo-why { margin-top: .5px; font-size: 10px; line-height: 14px; letter-spacing: -.02em; color: var(--rej-text); }
+
+/* card 3: payout */
+.vo-cPay { margin-top: 6.4px; padding: 5.6px 8.2px 6.4px 6.1px; }
+.vo-pay { min-height: 80.1px; background: var(--pay-bg); border-radius: var(--r-card); display: flex; align-items: flex-start; }
+.vo-payIcon { flex: none; margin: 12.35px 0 0 16.65px; display: block; }
+.vo-payIcon svg { display: block; }
+.vo-tx { margin: 9.3px 8px 8px 17.55px; min-width: 0; }
+.vo-h { font-size: 20.6px; line-height: 24px; font-weight: 700; letter-spacing: -.037em; }
+.vo-s { margin: 3px 0 0 1.6px; font-size: 11.6px; line-height: 15px; font-weight: 600; color: var(--pay-sub); display: flex; flex-wrap: wrap; }
+.vo-s .vo-dot { display: inline-block; width: 13px; text-align: center; font-weight: 400; }
+.vo-st { letter-spacing: -.035em; }
+.vo-when { font-weight: 400; color: var(--pay-meta); }
+.vo-refresh { margin: 4px 0 0 1.6px; font-size: 11.6px; line-height: 15px; font-weight: 600; color: var(--btn2-text); text-decoration: underline; }
+.vo-m { margin: 4.14px 0 0 1.6px; font-size: 11.2px; line-height: 15px; letter-spacing: -.03em; color: var(--pay-meta); }
+
+/* card 4: info */
+.vo-cInfo { margin-top: 8px; min-height: 47px; display: flex; align-items: flex-start; padding: 12.4px 12px 5px 13.2px; }
+.vo-cInfo svg { flex: none; display: block; }
+.vo-cInfo p { margin: -1.3px 0 0 11.63px; font-size: 10.5px; line-height: 14.2px; letter-spacing: -.025em; color: var(--info-text); }
+
+/* buttons */
+.vo-btn { margin: 0 9.8px 0 12.2px; width: calc(100% - 22px); min-height: 34px; padding: 0 10px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12.9px; line-height: 16px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; }
+.vo-btn:disabled { opacity: .55; }
+.vo-primary { margin-top: 9.9px; background: var(--btn); color: var(--btn-text); }
+.vo-secondary { margin-top: 6.2px; background: var(--btn2-bg); border: 1px solid var(--btn2-border); color: var(--btn2-text); }
+.vo-link { display: block; margin: 10px auto 0; font-size: 12px; line-height: 18px; font-weight: 600; color: var(--btn2-text); }
+
+/* narrow phones: the fixed desktop-of-the-phone metrics give way */
+@media (max-width: 379px) {
+  .vo-cTitle { white-space: normal; }
+  .vo-cSubrow { height: auto; flex-wrap: wrap; gap: 2px 8px; }
+  .vo-cBody { grid-template-columns: 124px minmax(0, 1fr); column-gap: 8px; }
+  .vo-photo { width: 124px; height: 182px; }
+}

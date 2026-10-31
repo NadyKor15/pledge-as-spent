@@ -34,6 +34,17 @@ export function demoDrive(id: string, createdAt: string): { drive: Drive; needs:
   return { drive, needs };
 }
 
+/**
+ * What the demo drive shows on screen. `drive.title` stays as recorded: it goes
+ * into the order description sent to PayPal, and the strict replay of
+ * tests/fixtures/paypal/app-e2e compares request bodies.
+ */
+export const DEMO_DISPLAY = {
+  title: "Kitasora Community Shelter — Earthquake relief",
+  volunteerName: "Haruto",
+  needLabels: { water: "Water 2 L", diapers: "Diapers size M", batteries: "AA batteries" } as Record<string, string>,
+};
+
 export interface DemoPledge {
   key: string;
   needId: string | null;

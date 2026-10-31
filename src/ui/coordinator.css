@@ -35,6 +35,8 @@
 .co-tag { position: absolute; top: 13px; right: 17.5px; height: 33.5px; min-width: 119px; padding: 0 14px; border-radius: 8px; font-size: 14.15px; font-weight: 600; letter-spacing: .1px; text-align: center; line-height: 33.5px; white-space: nowrap; background: var(--tag-off-bg); color: var(--tag-off-ink); }
 .co-tagHeld { width: 185px; background: var(--tag-held-bg); color: var(--tag-held-ink); }
 .co-tagDone { background: var(--tag-done-bg); color: var(--tag-done-ink); }
+.co-pname a { color: inherit; text-decoration: none; }
+.co-pname a:hover { text-decoration: underline; }
 .co-pname { flex: none; margin-top: 12.8px; height: 26px; line-height: 26px; font-size: 20px; white-space: nowrap; }
 .co-pneed { flex: none; margin-top: 3.7px; height: 20px; line-height: 20px; font-size: 16.6px; color: var(--ink-2); white-space: nowrap; }
 .co-amts { flex: none; margin-top: 13.1px; height: 22px; line-height: 22px; font-size: 17.6px; display: flex; justify-content: space-between; white-space: nowrap; padding-right: 1.5px; }
@@ -168,3 +170,70 @@
 .co-updating { margin: 15px 22px 0 8px; font-size: 13px; color: var(--ink-4); }
 
 .co-flow { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+
+/* Stacked: one column below 1100 px (src/ui/stage.tsx). Nothing keeps a desktop width or a fixed height. */
+.sc-stack .co-page { width: auto; min-height: 0; padding: 0 10px; }
+.sc-stack .co-flow { display: none; }
+.sc-stack .co-row1, .sc-stack .co-row2 { flex-direction: column; gap: 10px; min-height: 0; margin-top: 10px; }
+.sc-stack .co-panel { margin: 0; width: auto; padding-bottom: 12px; border-radius: 10px; min-width: 0; }
+.sc-stack .co-panel .co-ptitle, .sc-stack .co-btitle, .sc-stack .co-bPp .co-btitle, .sc-stack .co-bClose .co-btitle, .sc-stack .co-bWho .co-btitle { margin: 8px 12px 0; height: auto; font-size: 18px; line-height: 24px; white-space: normal; }
+.sc-stack .co-panel .co-psub, .sc-stack .co-bsub, .sc-stack .co-bWho .co-bsub, .sc-stack .co-bPp .co-bsub, .sc-stack .co-bClose .co-bsub { margin: 2px 12px 0; width: auto; height: auto; font-size: 13.5px; line-height: 19px; white-space: normal; }
+.sc-stack .co-cards { margin-top: 10px; gap: 8px; }
+.sc-stack .co-card { margin: 0 10px; width: auto; height: auto; padding: 8px 10px 10px; }
+.sc-stack .co-tag, .sc-stack .co-kit .co-tag { position: static; align-self: flex-start; order: 3; width: auto; min-width: 0; height: 22px; line-height: 22px; padding: 0 7px; margin-top: 6px; font-size: 10.5px; border-radius: 6px; }
+.sc-stack .co-pname { margin: 0; height: auto; font-size: 15px; line-height: 21px; white-space: normal; order: 1; }
+.sc-stack .co-pneed { margin: 0; height: auto; font-size: 13px; line-height: 18px; order: 2; }
+.sc-stack .co-amts { margin: 6px 0 0; height: auto; font-size: 14px; line-height: 20px; flex-wrap: wrap; gap: 0 12px; padding: 0; order: 4; }
+.sc-stack .co-amts .co-r { gap: 12px; }
+.sc-stack .co-bar { margin-top: 4px; height: 14px; order: 5; }
+.sc-stack .co-lbls { display: none; }
+.sc-stack .co-hold { margin-top: 6px; height: auto; font-size: 12px; line-height: 16px; order: 7; }
+.sc-stack .co-hold .co-id { margin-left: 8px; font-size: 11.5px; }
+.sc-stack .co-waiting { margin-top: 6px; font-size: 13.5px; order: 4; }
+.sc-stack .co-kname { margin: 0; height: auto; font-size: 15px; line-height: 21px; order: 1; }
+.sc-stack .co-ksub { margin: 0; height: auto; font-size: 13px; line-height: 18px; white-space: normal; order: 2; }
+.sc-stack .co-kused { margin: 6px 0 0; height: auto; font-size: 14px; line-height: 20px; white-space: normal; order: 4; }
+.sc-stack .co-kbar { margin-top: 4px; height: 14px; order: 5; }
+.sc-stack .co-pager { position: static; margin: 6px 12px 0; flex-wrap: wrap; }
+.sc-stack .co-msub { margin: 2px 12px 0; height: auto; font-size: 15px; line-height: 21px; white-space: normal; }
+.sc-stack .co-mbody { flex-direction: column; padding-bottom: 0; }
+.sc-stack .co-receipt { margin: 10px auto 0; width: min(100% - 20px, 298px); height: 420px; }
+.sc-stack .co-mcol { margin: 10px 10px 0; width: auto; align-self: stretch; }
+.sc-stack .co-checks { width: auto; padding: 10px; }
+.sc-stack .co-chk span { font-size: 13.5px; line-height: 19px; margin-left: 8px; }
+.sc-stack .co-lines { margin: 10px 0 0; width: auto; }
+.sc-stack .co-pill, .sc-stack .co-pill:first-child, .sc-stack .co-pill.co-last { height: auto; min-height: 33px; margin-bottom: 6px; padding: 5px 8px; white-space: normal; overflow: visible; }
+.sc-stack .co-pill span { margin-left: 8px; line-height: 17px; }
+.sc-stack .co-rej { padding: 0 10px 6px; }
+.sc-stack .co-rej .co-t { margin-left: 10px; }
+.sc-stack .co-rej .co-t1 { height: auto; font-size: 13.5px; line-height: 18px; white-space: normal; }
+.sc-stack .co-rej .co-t2 { margin: 2px 0 0; font-size: 12.5px; line-height: 17px; }
+.sc-stack .co-decide { margin: 8px 0 0; width: auto; }
+.sc-stack .co-emptyReceipt { margin: 12px; font-size: 15px; line-height: 21px; }
+.sc-stack .co-needs { margin-top: 10px !important; gap: 8px !important; }
+.sc-stack .co-need { margin: 0 10px; width: auto; height: auto; padding: 10px; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; }
+.sc-stack .co-need .co-ico { position: static; width: 44px; height: 44px; grid-row: 1 / span 3; }
+.sc-stack .co-need .co-nt { position: static; height: auto; font-size: 15px; line-height: 21px; white-space: normal; }
+.sc-stack .co-need .co-nc { position: static; height: auto; font-size: 13.5px; line-height: 21px; }
+.sc-stack .co-need .co-nbar { position: static; grid-column: 2 / -1; width: auto; height: 12px; margin-top: 4px; }
+.sc-stack .co-need .co-closed { position: static; grid-column: 2 / -1; justify-self: start; margin-top: 6px; }
+.sc-stack .co-whoRows { margin: 10px 10px 0; width: auto; }
+.sc-stack .co-wrow { height: auto; padding: 6px 8px; margin-bottom: 6px; flex-wrap: wrap; gap: 2px 8px; white-space: normal; }
+.sc-stack .co-wrow .co-wi { margin: 0; }
+.sc-stack .co-wrow .co-nm { flex: 1 1 60%; width: auto; margin: 0; font-size: 14px; font-weight: 600; }
+.sc-stack .co-wrow .co-eq { flex: 1 1 100%; font-size: 13.5px; line-height: 19px; }
+.sc-stack .co-empty { margin: 8px 12px 0; }
+.sc-stack .co-ppBtn { position: static; align-self: flex-start; margin: 8px 12px 0; }
+.sc-stack .co-acts { margin: 8px 12px 0; }
+.sc-stack .co-act { height: auto; min-height: 24px; align-items: flex-start; margin-bottom: 4px; white-space: normal; }
+.sc-stack .co-act span { margin-left: 8px; font-size: 13.5px; line-height: 19px; }
+.sc-stack .co-act span span { display: inline-block; }
+.sc-stack .co-act span i { margin: 0 5px; }
+.sc-stack .co-error { margin: 6px 12px 0; }
+.sc-stack .co-closeBtn { margin: 10px 12px 0; width: auto; height: auto; min-height: 48px; line-height: 20px; padding: 8px 12px; white-space: normal; }
+.sc-stack .co-foot { margin: 10px -10px 0; height: auto; padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 6px; white-space: normal; }
+.sc-stack .co-fLive { margin: 0; width: auto; height: auto; }
+.sc-stack .co-fSep { display: none; }
+.sc-stack .co-fItem { flex: none; margin: 0; height: auto; padding: 0; white-space: normal; overflow: visible; }
+.sc-stack .co-fItem i { margin-top: 5.5px; margin-right: 8px; }
+.sc-stack .co-refresh, .sc-stack .co-updating { align-self: flex-start; margin: 2px 0 0; }

@@ -3,9 +3,13 @@
 import { useEffect, useSyncExternalStore, type ReactNode, type RefObject } from "react";
 
 // Desktop screens are laid out at the reference width (1920 CSS px) and
-// zoomed to fit narrower windows, so a laptop sees the whole page.
+// zoomed to fit narrower windows, so a laptop sees the whole page. Below
+// STACK_BELOW a zoomed page would be unreadable: the screen's `.sc-stack` rules
+// put it into one column instead. The class comes from here, not from a media
+// query, so the width test and the layout can never disagree.
 
 export const DESIGN_WIDTH = 1920;
+export const STACK_BELOW = 1100;
 
 const subscribe = (cb: () => void) => {
   window.addEventListener("resize", cb);
@@ -13,10 +17,13 @@ const subscribe = (cb: () => void) => {
 };
 const viewportWidth = () => document.documentElement.clientWidth;
 
+const useViewportWidth = () => useSyncExternalStore(subscribe, viewportWidth, () => DESIGN_WIDTH);
+export const useStacked = () => useViewportWidth() < STACK_BELOW;
+
 export function DesktopStage({ children }: { children: ReactNode }) {
-  const w = useSyncExternalStore(subscribe, viewportWidth, () => DESIGN_WIDTH);
-  const zoom = Math.min(1, Math.max(0.5, w / DESIGN_WIDTH));
-  return <div style={{ zoom, width: DESIGN_WIDTH, margin: "0 auto" }}>{children}</div>;
+  const w = useViewportWidth();
+  if (w < STACK_BELOW) return <div className="sc-stack">{children}</div>;
+  return <div style={{ zoom: Math.min(1, w / DESIGN_WIDTH), width: DESIGN_WIDTH, margin: "0 auto" }}>{children}</div>;
 }
 
 export interface Box {

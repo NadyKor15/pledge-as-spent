@@ -7,9 +7,10 @@ import { captureState, holdAmounts, holdStatusLabel, latestFunded, lineViews, ne
 import { classes } from "./cls";
 import { donorParts, lineRange, money, ofCount, pct, qtyText } from "./format";
 import { DesktopHeader, DriveTitle, driveBadge } from "./Header";
-import { Check, Chevron, Cross, Handshake, NeedIcon, Person, ShelterArt } from "./icons";
+import { Check, Chevron, Cross, Handshake, NeedIcon, Person } from "./icons";
 import { PledgeForm } from "./PledgeForm";
 import { curve, useFlows, type Box, type Shape } from "./stage";
+import shelterPhoto from "./shelter-photo.png";
 import type { DriveView, Hold, Need, Receipt, Role } from "./types";
 import "./donor.css";
 
@@ -25,15 +26,15 @@ export function DonorView({ view, role }: { view: DriveView; role: Role }) {
   useFlows(page, layer, (box) => flows(view, receipt, box));
   return (
     <div className={s.page} ref={page}>
-      <DesktopHeader driveId={view.drive.id} title={view.drive.title} demo={view.drive.demo} role={role} variant="d" />
+      <DesktopHeader driveId={view.drive.id} title={view.drive.displayTitle} demo={view.drive.demo} role={role} variant="d" />
       <main className={s.main}>
         <section className={`${s.card} ${s.hero}`}>
           <div className={s.heroPhoto}>
-            <ShelterArt w={170.69} h={116.22} />
+            <Image src={shelterPhoto} alt="" width={171} height={116} unoptimized />
           </div>
           <div className={s.heroTxt}>
             <h1>
-              <DriveTitle title={view.drive.title} />
+              <DriveTitle title={view.drive.displayTitle} />
             </h1>
             <div className={s.chip}>{driveBadge(view.drive.demo)}</div>
             <p>
@@ -83,7 +84,7 @@ function NeedCard({ view, need: n, pledging }: { view: DriveView; need: Need; pl
         </div>
         <div className={s.needMain}>
           <div className={s.needRow}>
-            <span className={`${s.ttl} ${s.nudge}`}>{n.label}</span>
+            <span className={`${s.ttl} ${s.nudge}`}>{n.displayLabel}</span>
             <span className={s.cnt}>{ofCount(n.qtyCovered, n.qtyNeeded, n.unit)}</span>
           </div>
           <div className={s.bar}>
@@ -105,7 +106,7 @@ function NeedCard({ view, need: n, pledging }: { view: DriveView; need: Need; pl
           </div>
         </div>
       ) : open && pledging ? (
-        <PledgeForm driveId={view.drive.id} needId={n.needId} needLabel={n.label} />
+        <PledgeForm driveId={view.drive.id} needId={n.needId} needLabel={n.displayLabel} />
       ) : (
         <div className={`${s.closed} ${s.open}`}>
           <div className={s.halo}>
@@ -168,12 +169,14 @@ function MoneyColumn({ view }: { view: DriveView }) {
             <div className={s.pc} key={h.pledgeId} data-flow={`hold:${h.pledgeId}`}>
               <div className={s.pcRow1}>
                 <span className={s.pcName}>
-                  <b>{name}</b>
+                  <Link href={`/pledge/${encodeURIComponent(h.pledgeId)}`}>
+                    <b>{name}</b>
+                  </Link>
                   {place && ` · ${place}`}
                 </span>
                 <span className={badgeClass(h)}>{holdStatusLabel(h)}</span>
               </div>
-              <div className={s.pcNeed}>{needById(view, h.needId)?.label}</div>
+              <div className={s.pcNeed}>{needById(view, h.needId)?.displayLabel}</div>
               {h.authorized > 0 ? (
                 <>
                   <div className={s.pcAmt}>
@@ -293,7 +296,7 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
             Approved items ({approved.length} {approved.length === 1 ? "line" : "lines"})
           </h3>
           {groups.map((g) => (
-            <div className={s.li} key={g.needId} data-flow={`group:${g.needId}`} aria-label={`${g.need?.label}: ${money(base, g.base)}`}>
+            <div className={s.li} key={g.needId} data-flow={`group:${g.needId}`} aria-label={`${g.need?.displayLabel}: ${money(base, g.base)}`}>
               <Check size={21.19} color="var(--ok-ico)" />
               <div className={s.liTxt}>
                 <b>
@@ -330,7 +333,7 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
                     <NeedIcon needId={g.needId} size={26} />
                   </div>
                   <div className={s.miniTx}>
-                    <b>{g.need.label}</b>
+                    <b>{g.need.displayLabel}</b>
                     <span>{ofCount(g.need.qtyCovered, g.need.qtyNeeded, "piece")}</span>
                   </div>
                 </div>
@@ -351,7 +354,7 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
             <b>Volunteer reimbursement</b>
             <span>
               {payout.status === "confirmed"
-                ? `The volunteer was reimbursed ${money(base, payout.amount)} via PayPal Payouts.`
+                ? `${view.drive.volunteerName ?? "The volunteer"} was reimbursed ${money(base, payout.amount)} via PayPal Payouts.`
                 : payout.status === "pending"
                   ? `${money(base, payout.amount)} is on its way to the volunteer via PayPal Payouts.`
                   : `The payout of ${money(base, payout.amount)} failed${payout.failReason ? `: ${payout.failReason}` : ""}.`}
@@ -391,7 +394,7 @@ function LatestColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt 
                 </div>
                 <div className={s.ltTx}>
                   <div className={s.ltRow}>
-                    <b>{g.need?.label ?? g.needId}</b>
+                    <b>{g.need?.displayLabel ?? g.needId}</b>
                     <span className={s.price}>{money(base, g.base)}</span>
                     {firstDonor ? (
                       <Link href={`/pledge/${encodeURIComponent(firstDonor.pledgeId)}`} aria-label={`${donorParts(firstDonor.name).name}'s statement`}>
