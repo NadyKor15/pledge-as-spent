@@ -8,7 +8,7 @@ import { classes } from "./cls";
 import { captureState, holdAmounts, reauthorized } from "./derive";
 import { day, itemPhrase, lineRange, money, pct, titleParts } from "./format";
 import { driveBadge, MobileHeader, roleHref } from "./Header";
-import { Chat, Check, Clock, Gift, Info, NeedIcon } from "./icons";
+import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading } from "./states";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
@@ -283,11 +283,8 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
 
       {items.length > 0 && (
         <section className={`${s.card} ${s.ask}`}>
-          <h2 className={s.h2}>Ask: what did my money buy?</h2>
+          <h2 className={s.h2}>In one sentence, from the ledger</h2>
           <div className={s.askRow}>
-            <div className={s.chat}>
-              <Chat w={18.7} h={18.8} />
-            </div>
             <div className={s.bubble}>
               {items.map((i) => (
                 <p key={i.key}>{answer(view, st, i)}</p>
