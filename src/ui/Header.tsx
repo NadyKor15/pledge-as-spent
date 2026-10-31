@@ -71,7 +71,12 @@ export function MobileHeader({ badge, driveId, role }: { badge?: string; driveId
         <ul>
           {ROLES.map((r) => (
             <li key={r.id}>
-              <Link href={roleHref(driveId ?? "", r.id)} aria-current={r.id === role ? "page" : undefined} scroll={false}>
+              <Link
+                href={roleHref(driveId ?? "", r.id)}
+                aria-current={r.id === role ? "page" : undefined}
+                scroll={false}
+                onClick={(e) => e.currentTarget.closest("details")?.removeAttribute("open")}
+              >
                 {r.label}
               </Link>
             </li>

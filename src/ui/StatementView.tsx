@@ -63,7 +63,7 @@ function WithDrive({ data, reload }: { data: StatementView; reload: () => Promis
     if (!d.error) return <Loading what="your statement" />;
     return <Failure title="The statement could not be loaded" message={d.error.message} />;
   }
-  return <Page view={d.view} st={data.statement} follow={d.follow} refresh={d.refresh} />;
+  return <Page view={d.view} st={data.statement} following={d.following} follow={d.follow} refresh={d.refresh} />;
 }
 
 interface Bought {
@@ -132,7 +132,7 @@ function holdFate(view: DriveView, st: Statement): string {
   return reauthorized(view, b.pledgeId) ? `re-authorized, expires ${expires}` : `expires ${expires}`;
 }
 
-function Page({ view, st, follow, refresh }: { view: DriveView; st: Statement; follow: () => void; refresh: () => Promise<unknown> }) {
+function Page({ view, st, following, follow, refresh }: { view: DriveView; st: Statement; following: boolean; follow: () => void; refresh: () => Promise<unknown> }) {
   const { head, tail } = titleParts(view.drive.displayTitle);
   const b = st.balance;
   const a = holdAmounts(b);
@@ -141,6 +141,8 @@ function Page({ view, st, follow, refresh }: { view: DriveView; st: Statement; f
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
   const fate = holdFate(view, st);
+  const live = b.status === "authorized" || b.status === "partially_captured";
+  const pending = items.some((i) => !captureState(i.statuses).done);
   return (
     <div className={s.page}>
       <MobileHeader badge={driveBadge(view.drive.demo)} />
@@ -257,8 +259,12 @@ function Page({ view, st, follow, refresh }: { view: DriveView; st: Statement; f
                 <span className={s.nw}>{fate}</span>
               </>
             )}
-            <br />
-            Whatever is not spent is released when the drive closes.
+            {live && (
+              <>
+                <br />
+                Whatever is not spent is released when the drive closes.
+              </>
+            )}
           </p>
         </div>
 
@@ -268,6 +274,11 @@ function Page({ view, st, follow, refresh }: { view: DriveView; st: Statement; f
           </a>
         )}
         <Withdraw view={view} st={st} follow={follow} refresh={refresh} />
+        {pending && !following && (
+          <button type="button" className={s.link} onClick={() => void refresh()}>
+            Refresh
+          </button>
+        )}
       </section>
 
       {items.length > 0 && (

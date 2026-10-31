@@ -172,6 +172,11 @@ test("at 390 px neither the coordinator nor the donor screen is wider than the w
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, role).toBeLessThanOrEqual(0);
   }
+  // The phone's role menu moves between screens and closes behind itself.
+  await page.locator("header summary").click();
+  await page.getByRole("link", { name: "Donor" }).click();
+  await expect(page).toHaveURL(/as=donor$/);
+  await expect(page.locator("header details")).not.toHaveAttribute("open");
 });
 
 test("an unknown pledge and an unknown drive say so and lead back", async ({ page }) => {

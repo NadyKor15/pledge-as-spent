@@ -238,7 +238,7 @@ export function liveFeed(v: DriveView, n: number): { key: string; ok: boolean | 
 export function readLabel(r: Receipt): string {
   const lines = `${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
   if (r.reader.startsWith("live:")) return `Read by AI · ${lines}`;
-  if (r.reader === "copy") return `Same photo as before · ${lines}`;
+  if (r.reader === "copy") return `Read before · ${lines}`;
   return `Saved AI reading · ${lines}`;
 }
 

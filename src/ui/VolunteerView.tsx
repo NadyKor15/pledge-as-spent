@@ -24,7 +24,7 @@ function uploadErrorText(e: ApiError): string {
 }
 
 /** The receipt form until there is a receipt to show; after that, the result as on the reference. */
-export function VolunteerView({ view, refresh, follow }: { view: DriveView; refresh: () => Promise<unknown>; follow: () => void }) {
+export function VolunteerView({ view, following, refresh, follow }: { view: DriveView; following: boolean; refresh: () => Promise<unknown>; follow: () => void }) {
   const { busy, error, run } = useAction();
   const [asking, setAsking] = useState(false);
   const receipt = view.receipts[view.receipts.length - 1] ?? null;
@@ -57,7 +57,7 @@ export function VolunteerView({ view, refresh, follow }: { view: DriveView; refr
       {asking || !receipt ? (
         <UploadForm view={view} busy={busy} error={error?.error ?? null} upload={upload} sample={sample} back={receipt ? () => setAsking(false) : null} />
       ) : (
-        <Result view={view} receipt={receipt} another={() => setAsking(true)} />
+        <Result view={view} receipt={receipt} following={following} refresh={refresh} another={() => setAsking(true)} />
       )}
     </div>
   );
@@ -150,7 +150,7 @@ function UploadForm({
   );
 }
 
-function Payout({ view, receipt: r }: { view: DriveView; receipt: Receipt }) {
+function Payout({ view, receipt: r, following, refresh }: { view: DriveView; receipt: Receipt; following: boolean; refresh: () => Promise<unknown> }) {
   const base = view.drive.baseCurrency;
   const a = view.payouts.find((p) => p.receiptId === r.id)?.attempts.at(-1);
   const who = view.drive.volunteerName ? `Volunteer ${view.drive.volunteerName}` : "The volunteer";
@@ -175,11 +175,12 @@ function Payout({ view, receipt: r }: { view: DriveView; receipt: Receipt }) {
         </>
       }
       meta={done ? `${who} reimbursed` : `For ${who.replace(/^The /, "the ")}`}
+      refresh={done || following ? undefined : refresh}
     />
   );
 }
 
-function Status({ icon, head, sub, meta }: { icon: React.ReactNode; head: string; sub: React.ReactNode; meta: string }) {
+function Status({ icon, head, sub, meta, refresh }: { icon: React.ReactNode; head: string; sub: React.ReactNode; meta: string; refresh?: () => Promise<unknown> }) {
   return (
     <section className={`${s.card} ${s.cPay}`}>
       <div className={s.pay}>
@@ -188,13 +189,18 @@ function Status({ icon, head, sub, meta }: { icon: React.ReactNode; head: string
           <div className={s.h}>{head}</div>
           <div className={s.s}>{sub}</div>
           {meta && <div className={s.m}>{meta}</div>}
+          {refresh && (
+            <button type="button" className={s.refresh} onClick={() => void refresh()}>
+              Refresh
+            </button>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
-function Result({ view, receipt: r, another }: { view: DriveView; receipt: Receipt; another: () => void }) {
+function Result({ view, receipt: r, following, refresh, another }: { view: DriveView; receipt: Receipt; following: boolean; refresh: () => Promise<unknown>; another: () => void }) {
   const base = view.drive.baseCurrency;
   const lines = lineViews(view, r);
   const approved = lines.filter((l) => l.state === "approved");
@@ -285,7 +291,7 @@ function Result({ view, receipt: r, another }: { view: DriveView; receipt: Recei
         ))}
       </section>
 
-      <Payout view={view} receipt={r} />
+      <Payout view={view} receipt={r} following={following} refresh={refresh} />
 
       <section className={`${s.card} ${s.cInfo}`}>
         <Info size={19.6} outline />

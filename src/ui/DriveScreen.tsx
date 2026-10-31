@@ -28,7 +28,7 @@ export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
         <DesktopStage>
           <DesktopHeader driveId={id} title={d.view.drive.displayTitle} demo={d.view.drive.demo} role="volunteer" variant="d" />
         </DesktopStage>
-        <VolunteerView view={d.view} refresh={d.refresh} follow={d.follow} />
+        <VolunteerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />
       </>
     );
   }

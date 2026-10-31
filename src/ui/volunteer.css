@@ -48,7 +48,7 @@
 .vo-closedNote { margin: 8px 12px 0; font-size: 12px; line-height: 17px; color: var(--sub); }
 
 /* card 2: lines */
-.vo-cLines { margin-top: 8.8px; min-height: 230.5px; padding: 8.24px 9.6px 10px 10.4px; }
+.vo-cLines { margin-top: 8.8px; padding: 8.24px 9.6px 10px 10.4px; }
 .vo-verdict { display: flex; font-size: 16.4px; line-height: 22px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
 .vo-ok { color: var(--appr); }
 .vo-wait { color: var(--wait); }
@@ -81,6 +81,7 @@
 .vo-s .vo-dot { display: inline-block; width: 13px; text-align: center; font-weight: 400; }
 .vo-st { letter-spacing: -.035em; }
 .vo-when { font-weight: 400; color: var(--pay-meta); }
+.vo-refresh { margin: 4px 0 0 1.6px; font-size: 11.6px; line-height: 15px; font-weight: 600; color: var(--btn2-text); text-decoration: underline; }
 .vo-m { margin: 4.14px 0 0 1.6px; font-size: 11.2px; line-height: 15px; letter-spacing: -.03em; color: var(--pay-meta); }
 
 /* card 4: info */
