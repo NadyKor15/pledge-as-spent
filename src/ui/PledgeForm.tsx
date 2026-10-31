@@ -98,7 +98,7 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
           </PayPalScriptProvider>
         </div>
       ) : (
-        <button type="button" className={s.btnPp} disabled title="PayPal checkout is not configured on this server">
+        <button type="button" className={s.btnPp} onClick={() => setMessage("PayPal checkout is not configured on this server, so no pledge can be placed here.")}>
           Pledge with
           <span className={s.pp}>
             <b>Pay</b>
@@ -110,9 +110,7 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
         {message ??
           (invalid
             ? `Enter an amount up to ${MAX_MAJOR.toLocaleString("en-US")} ${currency}${currency === "JPY" ? " in whole yen" : ", with at most two decimals"}.`
-            : CLIENT_ID
-              ? `Held on your PayPal account up to ${HOLD_LIFE_DAYS} days, renewed automatically.`
-              : "PayPal checkout is not configured on this server.")}
+            : `Held on your PayPal account for up to ${HOLD_LIFE_DAYS} days, then released.`)}
       </p>
     </form>
   );

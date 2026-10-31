@@ -170,28 +170,3 @@ export function Chevron({ w, h, down = false }: { w: number; h: number; down?: b
     </svg>
   );
 }
-
-/** Neutral drive illustration (shelter building and relief tents), for the donor page header. */
-export function ShelterArt({ w, h }: { w: number; h: number }) {
-  return (
-    <svg width={w} height={h} viewBox="0 0 170 116" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="170" height="116" style={{ fill: "var(--art-sky)" }} />
-      <path d="M0 62 28 40 52 52 82 30 118 50 142 38 170 50V116H0Z" style={{ fill: "var(--art-hill)" }} />
-      <path d="M0 80 40 70 90 76 130 68 170 74V116H0Z" style={{ fill: "var(--art-ground)" }} />
-      <rect x="18" y="56" width="70" height="34" rx="2" style={{ fill: "var(--art-wall)" }} />
-      <path d="M14 58 53 44 92 58Z" style={{ fill: "var(--art-roof)" }} />
-      {[26, 42, 58, 74].map((x) => (
-        <rect key={x} x={x} y="64" width="9" height="8" rx="1" style={{ fill: "var(--art-window)" }} />
-      ))}
-      <rect x="47" y="76" width="12" height="14" rx="1" style={{ fill: "var(--art-roof)" }} />
-      {[
-        [100, 96],
-        [128, 98],
-        [150, 93],
-      ].map(([x, y]) => (
-        <path key={x} d={`M${x - 14} ${y} L${x} ${y - 20} L${x + 14} ${y}Z`} style={{ fill: "var(--art-tent)" }} />
-      ))}
-      <path d="M100 76v20M128 78v20M150 73v20" strokeWidth="1" style={{ stroke: "var(--art-tent-line)" }} />
-    </svg>
-  );
-}
