@@ -1,9 +1,11 @@
 import path from "node:path";
 import { openDatabase } from "../db/client";
-import { createBedrockClient } from "../receipts/bedrock";
+import { TesseractEngine, type OcrEngine } from "../receipts/ocr";
 import { Recordings } from "../receipts/recorded";
 import recordedJson from "../../eval/receipts/recorded.json";
+import { bedrockClient } from "./aws";
 import { ServiceError } from "./errors";
+import type { Pipeline } from "./reading";
 import { PledgeService } from "./service";
 import { fileLedgerTotal, seedCarryOver } from "./spend";
 
@@ -15,12 +17,20 @@ import { fileLedgerTotal, seedCarryOver } from "./spend";
 // PAYPAL_WEBHOOK_ID     id of the webhook registered for /api/paypal/webhook
 // CRON_SECRET           bearer token of /api/cron/daily; also keys the IP hashes
 // APP_BASE_URL          public origin, for PayPal return/cancel links
-// LIVE_READING=on       allow live Bedrock Nova reading (AWS credentials from the SDK chain)
+// LIVE_READING=on       allow live Bedrock Nova reading
+// AWS_ROLE_ARN          on Vercel: the Nova-only role, reached through OIDC (src/server/aws.ts)
+// READING_PIPELINE      nova-lite | ocr-lite | ocr-pro (default ocr-lite)
 // DEMO_PAYOUT_EMAIL     sandbox account that receives demo payouts (default: Nadezhda's sandbox volunteer)
 
 // On globalThis: one service (one PGlite instance on a data dir) per process, whichever bundle asks first.
-const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService> } };
+const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService>; ocr?: OcrEngine } };
 const state = (slot.__pledgeAsSpent ??= {});
+
+function pipelineFrom(value: string | undefined): Pipeline {
+  if (value === undefined) return "ocr-lite";
+  if (value === "nova-lite" || value === "ocr-lite" || value === "ocr-pro") return value;
+  throw new ServiceError(503, "not_configured", `READING_PIPELINE ${value} is not a reading pipeline.`);
+}
 
 async function build(): Promise<PledgeService> {
   const env = process.env;
@@ -43,9 +53,9 @@ async function build(): Promise<PledgeService> {
     appBaseUrl: env.APP_BASE_URL ?? null,
     ...(env.DEMO_PAYOUT_EMAIL ? { demoPayoutEmail: env.DEMO_PAYOUT_EMAIL } : {}),
     ipHashKey,
-    bedrock: env.LIVE_READING === "on" ? () => createBedrockClient() : undefined,
-    // The OCR-first pipelines need Tesseract traced into the function; until that is wired, live reading is Nova vision.
-    pipeline: "nova-lite",
+    bedrock: env.LIVE_READING === "on" ? () => bedrockClient() : undefined,
+    pipeline: pipelineFrom(env.READING_PIPELINE),
+    ocr: () => (state.ocr ??= new TesseractEngine(path.join(process.cwd(), "vendor", "tessdata"))),
   });
 }
 

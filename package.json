@@ -24,6 +24,7 @@
     "@neondatabase/serverless": "1.2.0",
     "@paypal/paypal-server-sdk": "2.5.0",
     "@paypal/react-paypal-js": "10.6.0",
+    "@vercel/oidc-aws-credentials-provider": "^3.3.16",
     "ag-grid-community": "36.2.0",
     "ag-grid-react": "36.2.0",
     "drizzle-orm": "0.45.4",
