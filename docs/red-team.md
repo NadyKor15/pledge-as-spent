@@ -16,7 +16,7 @@ Every attack goes through the service's real write path on an in-memory Postgres
 | 4 | Receipt | Same receipt on a second real drive | duplicate across real drives | `tests/app/redteam.test.ts` |
 | 5 | Receipt | Dated before the disaster | waits for the coordinator | `tests/app/receipts.test.ts` |
 | 6 | Receipt | No purchase date | waits for the coordinator | `tests/app/redteam.test.ts` |
-| 7 | Receipt | Store outside the drive zone | waits for the coordinator | `tests/receipts/checks.test.ts` |
+| 7 | Receipt | Store outside the drive zone | waits for the coordinator | `tests/receipts/flags.test.ts` |
 | 8 | Receipt | Another currency than the drive | every line refused | `tests/app/redteam.test.ts` |
 | 9 | Receipt | Lines do not add up to the total | waits for the coordinator | `tests/app/redteam.test.ts` |
 | 10 | Receipt | Negative line pays for a bigger one | refused line, bounded payout | `tests/app/redteam.test.ts` |
