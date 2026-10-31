@@ -1,0 +1,17 @@
+/* The way in: same tokens and typeface as the screens, one column. */
+.ld-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
+.ld-col { width: 100%; max-width: 620px; }
+.ld-brand { font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -.03em; color: var(--primary); }
+.ld-page h1 { margin-top: 18px; font-size: 30px; line-height: 37px; font-weight: 700; letter-spacing: -.025em; }
+.ld-open { margin-top: 24px; min-height: 52px; padding: 0 26px; border-radius: 9px; background: var(--primary); color: var(--surface); font-size: 17px; font-weight: 600; }
+.ld-open:disabled { opacity: .7; }
+.ld-error { margin-top: 10px; font-size: 14px; line-height: 20px; color: var(--rejected); }
+.ld-badge { margin-top: 12px; font-size: 13.5px; line-height: 19px; color: rgba(28, 27, 25, .66); }
+.ld-steps { margin: 26px 0 0 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15.5px; line-height: 22px; }
+.ld-steps li::marker { font-weight: 700; color: var(--primary); }
+.ld-steps b { font-weight: 600; }
+.ld-links { margin-top: 22px; display: flex; gap: 20px; font-size: 15px; font-weight: 600; }
+.ld-links a { color: var(--primary); }
+@media (max-width: 480px) {
+  .ld-page h1 { font-size: 24px; line-height: 31px; }
+}
