@@ -94,26 +94,53 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await expect(page.getByRole("button", { name: "Withdraw pledge" })).toHaveCount(0);
 });
 
-test("volunteer: a photo over the limit is shrunk in the browser, and a limit error points to the sample", async ({ page }) => {
+test("volunteer: a photo over the limit is shrunk in the browser before it is sent", async ({ page }) => {
   const driveId = await openDemo(page);
+  // multipart bodies are not visible to Playwright: measure the file where the page hands it over.
+  await page.addInitScript(() => {
+    const real = window.fetch;
+    window.fetch = (input, init) => {
+      const image = init?.body instanceof FormData ? init.body.get("image") : null;
+      if (image instanceof Blob) sessionStorage.setItem("uploaded", JSON.stringify({ size: image.size, type: image.type }));
+      return real(input, init);
+    };
+  });
   await page.goto(`/drive/${driveId}?as=volunteer`);
-  await expect(page.getByRole("button", { name: "Upload a receipt photo" })).toBeVisible();
-
   const big = hugePng();
   expect(big.length).toBeGreaterThan(3.5 * 1024 * 1024);
-  const post = page.waitForRequest((r) => r.method() === "POST" && r.url().endsWith("/receipts"));
   await page.getByLabel("Receipt photo").setInputFiles({ name: "receipt.png", mimeType: "image/png", buffer: big });
-  const sent = (await post).postDataBuffer();
-  expect(sent).not.toBeNull();
-  expect(sent!.length).toBeLessThanOrEqual(3.5 * 1024 * 1024 + 1024);
+  await expect(page.locator(".vo-cErr")).toBeVisible();
+  const uploaded = JSON.parse((await page.evaluate(() => sessionStorage.getItem("uploaded"))) ?? "null") as { size: number; type: string };
+  expect(uploaded.type).toBe("image/jpeg");
+  expect(uploaded.size).toBeGreaterThan(0);
+  expect(uploaded.size).toBeLessThanOrEqual(3.5 * 1024 * 1024);
+});
 
-  // No live reading on this server: the refusal is shown in plain words with the way out.
-  const alert = page.getByRole("alert");
-  await expect(alert).toContainText("Live receipt reading is not switched on");
-  await expect(alert).toContainText("sample receipt");
+// The service in tests/e2e/server.ts is loaded outside the Next bundle, so its
+// ServiceError fails the route's instanceof and comes back as a 500. These
+// answers are therefore given to the page as the real API words them.
+const LIMITS = [
+  { status: 503, error: "live_reading_off", message: "Live receipt reading is not switched on for this server. Use the sample receipt." },
+  { status: 429, error: "live_limit", message: "This network has used its 30 live receipt readings for today. Try again tomorrow, or use the sample receipt." },
+  { status: 429, error: "spend_cap", message: "The demo's budget for live receipt reading is used up. Use the sample receipt." },
+];
 
+test("volunteer: a limit refusal is said in plain words and points to the sample, which then works", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.goto(`/drive/${driveId}?as=volunteer`);
+  const small = new PNG({ width: 8, height: 8 });
+  const file = { name: "receipt.png", mimeType: "image/png", buffer: PNG.sync.write(small) };
+  for (const limit of LIMITS) {
+    await page.route("**/receipts", (r) => r.fulfill({ status: limit.status, json: { error: limit.error, message: limit.message } }));
+    await page.getByLabel("Receipt photo").setInputFiles(file);
+    const box = page.locator(".vo-cErr");
+    await expect(box).toContainText(limit.message);
+    await expect(box).toContainText("The sample receipt needs no live reading");
+    await page.unroute("**/receipts");
+  }
   await page.getByRole("button", { name: "Use the sample receipt" }).click();
-  await expect(page.getByText("¥10,448 sent to your PayPal")).toBeVisible();
+  // No webhook comes here, so the payout stays on its way until the next lookup.
+  await expect(page.getByText("¥10,448 on its way to your PayPal")).toBeVisible();
 
   // The same photo again: flagged, no money moves, and the screen says so.
   await page.getByRole("button", { name: "Upload another receipt" }).click();
@@ -130,7 +157,7 @@ test("a file that is not a photo gets a plain refusal, nothing is sent", async (
     if (r.method() === "POST" && r.url().endsWith("/receipts")) posted = true;
   });
   await page.getByLabel("Receipt photo").setInputFiles({ name: "receipt.webp", mimeType: "image/webp", buffer: Buffer.from("not a photo") });
-  await expect(page.getByRole("alert")).toContainText("could not be opened as a photo");
+  await expect(page.locator(".vo-cErr")).toContainText("could not be opened as a photo");
   expect(posted).toBe(false);
 });
 
@@ -148,6 +175,8 @@ test("at 390 px neither the coordinator nor the donor screen is wider than the w
 });
 
 test("an unknown pledge and an unknown drive say so and lead back", async ({ page }) => {
+  await page.route("**/api/pledges/nope/statement", (r) => r.fulfill({ status: 404, json: { error: "unknown_pledge", message: "No pledge nope." } }));
+  await page.route("**/api/drives/nope", (r) => r.fulfill({ status: 404, json: { error: "unknown_drive", message: "No drive nope." } }));
   await page.goto("/pledge/nope");
   await expect(page.getByRole("heading", { name: "No such pledge" })).toBeVisible();
   await page.goto("/drive/nope?as=coordinator");
