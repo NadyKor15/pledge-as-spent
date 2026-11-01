@@ -24,13 +24,18 @@ async function bot(files: Record<string, Uint8Array> = {}) {
   const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: () => notAReceipt, pipeline: "nova-lite" });
   const said: string[] = [];
   const urls: string[] = [];
+  const bodies: Record<string, unknown>[] = [];
+  const calls: { url: string; body: Record<string, unknown> }[] = [];
   const tg = (async (url: string, init?: RequestInit) => {
     urls.push(String(url));
-    if (String(url).includes("/sendChatAction")) return Response.json({ ok: true });
+    if (init?.body) calls.push({ url: String(url), body: JSON.parse(String(init.body)) });
     if (String(url).includes("/sendMessage")) {
-      said.push(JSON.parse(String(init?.body)).text);
+      const body = JSON.parse(String(init?.body));
+      said.push(body.text);
+      bodies.push(body);
       return Response.json({ ok: true });
     }
+    if (init?.body) return Response.json({ ok: true });
     const m = /getFile\?file_id=(.+)$/.exec(String(url));
     if (m) return Response.json({ ok: true, result: { file_path: `photos/${m[1]}` } });
     const name = String(url).split("/").pop()!;
@@ -39,7 +44,7 @@ async function bot(files: Record<string, Uint8Array> = {}) {
   const deps = { token: "TEST-TOKEN", baseUrl: "https://demo.example", fetch: tg };
   const send = (update_id: number, message: Record<string, unknown>) => handleTelegramUpdate(h.svc, { update_id, message: { chat: { id: 77, type: "private" }, ...message } }, deps);
   const money = async () => (await h.db.db.select().from(events)).filter((e) => e.type === "LineFunded").length;
-  return { h, pp, rec, files, said, urls, send, money };
+  return { h, pp, rec, files, said, urls, bodies, calls, deps, send, money };
 }
 
 describe("the receipt bot", () => {
@@ -142,7 +147,7 @@ describe("the receipt bot", () => {
     const reply = b.said.at(-1)!;
     expect(reply).toContain("its total does not match its lines");
     expect(reply).not.toContain("add up to");
-    expect(reply).not.toContain("¥216");
+    expect(reply).not.toContain("¥999 but");
     expect(reply).toContain("you are the coordinator");
     expect(reply).toContain("no money moves");
     expect(await b.money()).toBe(0);
@@ -179,6 +184,90 @@ describe("the receipt bot", () => {
     expect(b.said).toHaveLength(1);
     expect(b.said.join(" ")).not.toContain("TEST-TOKEN");
     expect((await b.h.db.db.select().from(events).where(eq(events.type, "LineFunded"))).length).toBe(0);
+  });
+});
+
+describe("the coordinator's buttons", () => {
+  /** A receipt the model calls hard to read: its lines add up, one line is alcohol. */
+  async function held(b: Awaited<ReturnType<typeof bot>>, over = {}) {
+    const r = syntheticReceipt(
+      b.rec,
+      401,
+      [
+        { needId: "water", qty: 2, amount: 216 },
+        { needId: null, qty: 1, amount: 1198, verdict: "rejected", ruleCode: "alcohol" },
+      ],
+      { readability: "poor", ...over },
+    );
+    b.files.held = r.bytes;
+    await b.send(30, { photo: [{ file_id: "held" }] });
+    return b.bodies.at(-1)!;
+  }
+  const press = (b: Awaited<ReturnType<typeof bot>>, update_id: number, data: string, chatId = 77) =>
+    handleTelegramUpdate(b.h.svc, { update_id, callback_query: { id: `q${update_id}`, data, message: { message_id: 5, chat: { id: chatId, type: "private" } } } }, b.deps);
+  const buttons = (body: Record<string, unknown>) => (body.reply_markup as { inline_keyboard: { text: string; callback_data: string }[][] }).inline_keyboard[0];
+  const answers = (b: Awaited<ReturnType<typeof bot>>) => b.calls.filter((c) => c.url.includes("/answerCallbackQuery")).map((c) => c.body.text as string);
+
+  it("a hard-to-read receipt shows its lines in English and both buttons, and moves no money yet", async () => {
+    const b = await bot();
+    const body = await held(b);
+    expect(body.text).toContain("the photo is hard to read");
+    expect(body.text).toContain("1. Water 2 L · ¥216");
+    expect(body.text).toContain("2. Alcohol · ¥1,198 · not funded");
+    expect(buttons(body).map((x) => x.text)).toEqual(["Approve as coordinator", "Reject"]);
+    expect(await b.money()).toBe(0);
+  });
+
+  it("Approve moves the money for the approved lines only, and takes the buttons away", async () => {
+    const b = await bot();
+    const data = buttons(await held(b))[0].callback_data;
+    await press(b, 31, data);
+    expect(await b.money()).toBe(1);
+    expect(b.said.at(-1)).toContain("1 approved, 1 refused");
+    expect(answers(b)).toEqual(["Approved."]);
+    expect(b.calls.some((c) => c.url.includes("/editMessageReplyMarkup"))).toBe(true);
+  });
+
+  it("a second press changes nothing", async () => {
+    const b = await bot();
+    const data = buttons(await held(b))[0].callback_data;
+    await press(b, 32, data);
+    const funded = await b.money();
+    const captures = b.pp.captures.length;
+    await press(b, 33, data);
+    await press(b, 33, data);
+    expect(await b.money()).toBe(funded);
+    expect(b.pp.captures.length).toBe(captures);
+    expect(answers(b)).toEqual(["Approved.", "Already decided."]);
+  });
+
+  it("Reject moves nothing and Approve after it is refused", async () => {
+    const b = await bot();
+    const [approve, reject] = buttons(await held(b));
+    await press(b, 34, reject.callback_data);
+    expect(b.said.at(-1)).toContain("Rejected by the coordinator");
+    await press(b, 35, approve.callback_data);
+    expect(await b.money()).toBe(0);
+    expect(answers(b)).toEqual(["Rejected.", "Already decided."]);
+  });
+
+  it("another chat cannot decide, whatever data it sends", async () => {
+    const b = await bot();
+    const data = buttons(await held(b))[0].callback_data;
+    await press(b, 36, data, 12345);
+    await press(b, 37, "approve:demo-1234.r1", 12345);
+    await press(b, 38, data.replace("approve", "pay"));
+    expect(await b.money()).toBe(0);
+    expect(answers(b)).toEqual(["This button is not for this chat.", "This button is not for this chat.", "This button is not for this chat."]);
+    const [row] = await b.h.db.db.select().from(receipts);
+    expect(row.status).toBe("review");
+  });
+
+  it("a total that does not add up offers Reject only", async () => {
+    const b = await bot();
+    const body = await held(b, { totalMinor: 999, subtotalMinor: 999 });
+    expect(buttons(body).map((x) => x.text)).toEqual(["Reject"]);
+    expect(body.text).toContain("its total does not match its lines");
   });
 });
 

@@ -29,9 +29,10 @@ async function api(method: string, query = ""): Promise<{ ok: boolean; result?: 
 interface Update {
   update_id: number;
   message?: { text?: string; photo?: unknown; document?: { mime_type?: string }; sticker?: unknown };
+  callback_query?: unknown;
 }
 
-const kind = (u: Update) => (u.message?.photo ? "photo" : u.message?.document ? `document ${u.message.document.mime_type ?? "no-type"}` : u.message?.sticker ? "sticker" : u.message?.text ? "text" : "other");
+const kind = (u: Update) => (u.callback_query ? "button" : u.message?.photo ? "photo" : u.message?.document ? `document ${u.message.document.mime_type ?? "no-type"}` : u.message?.sticker ? "sticker" : u.message?.text ? "text" : "other");
 
 async function main() {
   const svc = await getService();
@@ -42,7 +43,7 @@ async function main() {
   let failures = 0;
   while (Date.now() < deadline) {
     try {
-      const got = await api("getUpdates", `?timeout=${WAIT_S}&offset=${offset}&allowed_updates=${encodeURIComponent('["message"]')}`);
+      const got = await api("getUpdates", `?timeout=${WAIT_S}&offset=${offset}&allowed_updates=${encodeURIComponent('["message","callback_query"]')}`);
       if (!got.ok) throw new Error(`getUpdates refused ${got.error_code}`);
       failures = 0;
       const updates = got.result as Update[];
