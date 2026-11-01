@@ -1,8 +1,8 @@
 # Red team: 30 attacks on the money path
 
-Every attack goes through the service's real write path on an in-memory Postgres and a test sandbox that answers like the live one. A hold's money can only move through the same code the demo runs.
+Attacks go through the service's real write path on an in-memory Postgres and a test sandbox that answers like the live one, or straight at the checks and the money core where the test column says so. A hold's money can only move through the same code the demo runs.
 
-**Result:** 30 of 30 hold today. Three did not hold when first tried, and each was fixed before this table was written:
+**Result:** 30 of 30 hold today. Four did not hold when first tried, and each was fixed before this table was written:
 
 - #4: the same receipt paid on two real drives. Duplicate checks now cover all real drives; demo drives stay apart so every judge can use the sample.
 - #8, #19: every line was refused and no money moved, but the receipt still read "funded". It now reads "rejected".
