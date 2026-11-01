@@ -28,10 +28,10 @@ async function api(method: string, query = ""): Promise<{ ok: boolean; result?: 
 
 interface Update {
   update_id: number;
-  message?: { text?: string; photo?: unknown; document?: unknown; sticker?: unknown };
+  message?: { text?: string; photo?: unknown; document?: { mime_type?: string }; sticker?: unknown };
 }
 
-const kind = (u: Update) => (u.message?.photo ? "photo" : u.message?.document ? "document" : u.message?.sticker ? "sticker" : u.message?.text ? "text" : "other");
+const kind = (u: Update) => (u.message?.photo ? "photo" : u.message?.document ? `document ${u.message.document.mime_type ?? "no-type"}` : u.message?.sticker ? "sticker" : u.message?.text ? "text" : "other");
 
 async function main() {
   const svc = await getService();

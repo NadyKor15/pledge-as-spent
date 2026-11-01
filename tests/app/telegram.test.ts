@@ -79,20 +79,22 @@ describe("the receipt bot", () => {
     expect(await b.money()).toBe(0);
   });
 
-  it("a file that is no image at all is refused before anything is read", async () => {
-    const b = await bot();
-    await b.send(5, { document: { file_id: "doc", mime_type: "application/pdf" } });
-    expect(b.said.at(-1)).toContain("photo of a receipt");
-    expect(b.urls.some((u) => u.includes("getFile"))).toBe(false);
+  it("a file is judged by its bytes, whatever type Telegram gives it", async () => {
+    const b = await bot({ hero: heroBytes(), pdf: new TextEncoder().encode("%PDF-1.7 not an image") });
+    await b.send(5, { document: { file_id: "pdf", mime_type: "application/pdf" } });
+    expect(b.said.at(-1)).not.toContain("approved");
+    expect(await b.h.db.db.select().from(receipts)).toHaveLength(0);
+    await b.send(16, { document: { file_id: "hero", mime_type: "video/apng" } });
+    expect(b.said.at(-1)).toContain("9 approved, 2 refused");
+    await b.send(17, { document: { file_id: "pdf", mime_type: "application/octet-stream" } });
+    expect(await b.h.db.db.select().from(receipts)).toHaveLength(1);
   });
 
-  it("a file of unknown type is judged by its bytes", async () => {
-    const b = await bot({ hero: heroBytes(), junk: new TextEncoder().encode("this is not an image") });
-    await b.send(16, { document: { file_id: "hero", mime_type: "application/octet-stream" } });
-    expect(b.said.at(-1)).toContain("9 approved, 2 refused");
-    await b.send(17, { document: { file_id: "junk", mime_type: "application/octet-stream" } });
-    expect(b.said.at(-1)).not.toContain("approved");
-    expect(await b.h.db.db.select().from(receipts)).toHaveLength(1);
+  it("reads the largest size of a photo, in whatever order Telegram lists them", async () => {
+    const b = await bot({ hero: heroBytes() });
+    await b.send(18, { photo: [{ file_id: "hero", width: 624, height: 1280 }, { file_id: "thumb", width: 44, height: 90 }] });
+    expect(b.urls.some((u) => u.includes("file_id=hero"))).toBe(true);
+    expect(b.urls.some((u) => u.includes("file_id=thumb"))).toBe(false);
   });
 
   it("an oversized photo is refused before it is downloaded", async () => {
@@ -107,7 +109,7 @@ describe("the receipt bot", () => {
     await b.send(7, { photo: [{ file_id: "hero" }] });
     const funded = await b.money();
     await b.send(8, { photo: [{ file_id: "hero" }] });
-    expect(b.said.at(-1)).toContain("already uploaded");
+    expect(b.said.at(-1)).toContain("already sent");
     expect(await b.money()).toBe(funded);
   });
 
@@ -138,9 +140,11 @@ describe("the receipt bot", () => {
     b.files.off = r.bytes;
     await b.send(15, { photo: [{ file_id: "off" }] });
     const reply = b.said.at(-1)!;
-    expect(reply).toContain("add up to ¥216 but the printed total is ¥999");
-    expect(reply).not.toContain("allowed");
+    expect(reply).toContain("its total does not match its lines");
+    expect(reply).not.toContain("add up to");
+    expect(reply).not.toContain("¥216");
     expect(reply).toContain("you are the coordinator");
+    expect(reply).toContain("no money moves");
     expect(await b.money()).toBe(0);
   });
 
@@ -156,8 +160,15 @@ describe("the receipt bot", () => {
     const b = await bot();
     await handleTelegramUpdate(b.h.svc, { update_id: 14, message: { chat: { id: 78, type: "private" }, text: "/start" } }, { token: "T", baseUrl: "", fetch: async () => Response.json({ ok: true }) });
     expect(b.said).toEqual([]);
-    const drives = (await b.h.db.db.select().from(events)).map((e) => e.driveId);
-    expect(drives.every((d) => d?.startsWith("demo-tg-"))).toBe(true);
+    const local: string[] = [];
+    const tg = (async (_u: string, init?: RequestInit) => {
+      if (init?.body) local.push(JSON.parse(String(init.body)).text ?? "");
+      return Response.json({ ok: true });
+    }) as unknown as typeof fetch;
+    await handleTelegramUpdate(b.h.svc, { update_id: 19, message: { chat: { id: 79, type: "private" }, text: "/start" } }, { token: "T", baseUrl: "", fetch: tg });
+    expect(local.join(" ")).toContain("Send a photo");
+    expect(local.join(" ")).not.toContain("local check");
+    expect(local.join(" ")).not.toContain("http");
   });
 
   it("group chats and updates without a message are ignored, and a reply never carries the token", async () => {
