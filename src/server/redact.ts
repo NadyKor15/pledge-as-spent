@@ -74,9 +74,10 @@ export function redactImage(image: ReceiptImage, pii: ParsedReceipt["pii"]): Red
   if (!img) return { bytes: null, regions: 0, note: NOT_BLURRED_NOTE };
   for (const p of pii) {
     const b = p.bbox!;
-    // A margin around the box: readers place boxes tightly, sometimes a little off.
+    // A margin around the box: boxes are tight and sometimes a little off along the row. Across the rows it stays
+    // small: the next row is often the receipt's total, a few pixels away, and the amounts must stay readable.
     const mx = Math.max(4, b.h * img.height * 0.5);
-    const my = Math.max(4, b.h * img.height * 0.5);
+    const my = Math.max(3, b.h * img.height * 0.25);
     const x0 = Math.max(0, Math.floor(b.x * img.width - mx));
     const y0 = Math.max(0, Math.floor(b.y * img.height - my));
     const x1 = Math.min(img.width, Math.ceil((b.x + b.w) * img.width + mx));
