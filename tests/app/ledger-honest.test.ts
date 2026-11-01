@@ -138,6 +138,20 @@ describe("2. a hold that ended inside an open drive", () => {
     expect(donorOf(v, "Lena").restWord).toBe("held");
   });
 
+  it("a refund on a live hold went back to the donor: it is not held", () => {
+    const v = fixture("open");
+    const row = rowsOf(v, "Yuki")[0];
+    row.status = "captured";
+    reverse(v, row, 300);
+    const m = deriveLedger(v);
+    expect(yen(m.held)).toBe(yen(5559));
+    expect(yen(m.returned)).toBe(yen(300));
+    expect(m.restNote).toBe(`${yen(300)} already returned`);
+    expect(m.donors.find((d) => d.name === "Yuki")!.restWord).toBe("held");
+    expect(m.donors.find((d) => d.name === "Yuki")!.restText).toBe(yen(1763));
+    adds(m);
+  });
+
   it("nothing has gone back: no note", () => {
     expect(deriveLedger(fixture("open")).restNote).toBeNull();
   });

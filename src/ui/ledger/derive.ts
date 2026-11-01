@@ -31,6 +31,8 @@ export interface LedgerDonor {
   pledgedBase: number;
   spentBase: number;
   restBase: number;
+  heldBase: number;
+  backBase: number;
   needIds: string[];
   lineKeys: string[];
 }
@@ -140,6 +142,13 @@ function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
   );
   const rest = h.authorized - spent;
   const over = closed || OVER.includes(h.status);
+  // A refund or a release has left PayPal's hold: on a live hold that part is back with the donor. An uncollected
+  // share has not: PayPal keeps it until the void (needsVoid in core/ledger.ts), so it stays held.
+  const back = over ? rest : Math.min(rest, h.reversed + h.released);
+  const held = rest - back;
+  const restAll = pledgedBase - spentBase;
+  const backBase = over ? restAll : Math.min(restAll, inBase(h, back, base));
+  const heldBase = restAll - backBase;
 
   const city = donorParts(h.donorName).place;
   const name = shortName(h.donorName);
@@ -151,14 +160,16 @@ function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
     at: locate(city, h.donorCountry),
     currency: h.currency,
     spent,
-    back: over ? rest : 0,
-    held: over ? 0 : rest,
+    back,
+    held,
     spentText: money(h.currency, spent),
-    restText: money(h.currency, rest),
+    restText: money(h.currency, over ? back : held),
     restWord: over ? "back" : "held",
     pledgedBase,
     spentBase,
-    restBase: pledgedBase - spentBase,
+    restBase: over ? backBase : heldBase,
+    heldBase,
+    backBase,
     needIds: [...new Set(shares.flatMap((r) => (r.needId ? [r.needId] : [])))],
     lineKeys: [...new Set(shares.map((r) => lineKey(r.receiptId, r.lineNo)))],
   };
@@ -239,8 +250,8 @@ export function deriveLedger(v: DriveView): LedgerModel {
   const closed = v.drive.status === "closed";
   const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed));
   const sum = (pick: (d: LedgerDonor) => number) => donors.reduce((total, d) => total + pick(d), 0);
-  const held = sum((d) => (d.restWord === "held" ? d.restBase : 0));
-  const returned = sum((d) => (d.restWord === "back" ? d.restBase : 0));
+  const held = sum((d) => d.heldBase);
+  const returned = sum((d) => d.backBase);
   const waiting = closed ? 0 : waitingBase(v);
   return {
     driveId: v.drive.id,
