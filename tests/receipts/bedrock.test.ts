@@ -193,6 +193,29 @@ describe("BedrockNovaClassifier", () => {
     expect(input.messages?.[0].content?.some((b) => b.image)).toBe(false);
   });
 
+  it("asks once more about the lines it got no answer for, about those alone", async () => {
+    const answers = ["no=1; need=water; qty=1; verdict=eligible; conf=0.9; why=Water.", "no=2; verdict=rejected; rule=alcohol; conf=0.9; why=Beer."];
+    const send = vi.fn(async () => reply([toolUse("submit_classifications", { lines: answers[send.mock.calls.length - 1] })]));
+    const { cap } = await setup(reply([]));
+    const out = await new BedrockNovaClassifier({ client: { send } as never, cap }).classify({ receipt: receipt(), needs, rules: "" });
+    expect(out.lines.map((l) => l.lineNo)).toEqual([1, 2]);
+    expect(send).toHaveBeenCalledTimes(2);
+    expect(out.usage.tokensIn).toBeGreaterThan(0);
+    const secondAsk = (send.mock.calls[1] as unknown as [{ input: { messages: { content: { text: string }[] }[] } }])[0].input.messages[0].content[0].text;
+    expect(secondAsk).toContain("item 2");
+    expect(secondAsk).not.toContain("item 1");
+  });
+
+  it("keeps what it has when the second answer is unusable, and ignores answers about other lines", async () => {
+    const first = "no=1; need=water; qty=1; verdict=eligible; conf=0.9; why=Water.";
+    for (const bad of ["no answer in any form", "no=1; verdict=rejected; rule=alcohol; conf=0.9; why=Changed its mind."]) {
+      const send = vi.fn(async () => reply([toolUse("submit_classifications", { lines: send.mock.calls.length === 1 ? first : bad })]));
+      const { cap } = await setup(reply([]));
+      const out = await new BedrockNovaClassifier({ client: { send } as never, cap }).classify({ receipt: receipt(), needs, rules: "" });
+      expect(out.lines.map((l) => [l.lineNo, l.verdict])).toEqual([[1, "eligible"]]);
+    }
+  });
+
   it("reads every row when the model calls the tool once per line", async () => {
     const one = (n: number) => toolUse("submit_classifications", { lines: `no=${n}; need=water; qty=1; verdict=eligible; conf=0.9; why=Water.` });
     const { client, cap } = await setup(reply([one(1), one(2), { toolUse: { toolUseId: "x", name: "submit_classifications", input: JSON.stringify({ lines: "no=3; verdict=review; rule=unclear; conf=0.4; why=Unknown." }) } }]));
@@ -201,7 +224,7 @@ describe("BedrockNovaClassifier", () => {
   });
 
   it("reads every row when the model writes a literal backslash-n or runs the rows together with semicolons", async () => {
-    for (const glue of ["\\n", "; "]) {
+    for (const glue of ["\\n", "; ", " | ", ". "]) {
       const text = ["no=1; need=water; qty=6; verdict=eligible; conf=0.95; why=Water.", "no=2; verdict=rejected; rule=alcohol; conf=0.9; why=Beer."].join(glue);
       const { client, cap } = await setup(reply([toolUse("submit_classifications", { lines: text })]));
       const out = await new BedrockNovaClassifier({ client, cap }).classify({ receipt: receipt(), needs, rules: "" });

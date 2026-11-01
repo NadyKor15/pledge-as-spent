@@ -55,7 +55,7 @@ const isEmpty = (s: string | undefined) => EMPTY.has((s ?? "").trim().toLowerCas
  * The rows of a one-string answer. Besides real newlines Nova Pro writes a literal backslash-n, or runs the rows
  * together with semicolons: read as one row, that kept one classification and left the other lines unclassified.
  */
-const entries = (t: string) => t.split(/\r?\n|\\n|(?<=why\s*=[^\n]*)[;\s]+(?=no\s*=\s*\d+\s*;)/i).filter((e) => e.trim() !== "");
+const entries = (t: string) => t.split(/\r?\n|\\n|(?<=why\s*=[^\n]*)(?<![\p{L}\p{N}])(?=no\s*=\s*\d+\s*;)/iu).filter((e) => e.trim() !== "");
 
 const num = (s: string | undefined): number | string | null => {
   if (isEmpty(s)) return null;
@@ -239,6 +239,14 @@ async function converseStructured<T>(
   return { value: parsed.data, usage };
 }
 
+const sumUsage = (us: ModelUsage[]): ModelUsage => ({
+  model: us[0].model,
+  tokensIn: us.reduce((s, u) => s + u.tokensIn, 0),
+  tokensOut: us.reduce((s, u) => s + u.tokensOut, 0),
+  usdCeiling: us.reduce((s, u) => s + u.usdCeiling, 0),
+  usdActual: us.some((u) => u.usdActual === null) ? null : us.reduce((s, u) => s + (u.usdActual ?? 0), 0),
+});
+
 export const IMAGE_FORMAT = { "image/png": "png", "image/jpeg": "jpeg", "image/webp": "webp" } as const;
 
 export const READER_SYSTEM = `You read photos of store receipts for a disaster-relief fundraiser and report exactly what is printed.
@@ -321,8 +329,24 @@ export class BedrockNovaClassifier implements LineClassifier {
   }
 
   async classify(input: { receipt: ParsedReceipt; needs: Need[]; rules: string }) {
+    const first = await this.ask(input, input.receipt.lines);
+    const answered = new Set(first.lines.map((l) => l.lineNo));
+    const missing = input.receipt.lines.filter((l) => !answered.has(l.lineNo));
+    if (missing.length === 0) return first;
+    // An unanswered line is never funded, so it is worth one more question, about those lines alone.
+    try {
+      const again = await this.ask(input, missing);
+      const wanted = new Set(missing.map((l) => l.lineNo));
+      return { lines: [...first.lines, ...again.lines.filter((l) => wanted.has(l.lineNo))].sort((a, b) => a.lineNo - b.lineNo), usage: sumUsage([first.usage, again.usage]) };
+    } catch (e) {
+      if (e instanceof ModelOutputError) return first;
+      throw e;
+    }
+  }
+
+  private async ask(input: { receipt: ParsedReceipt; needs: Need[]; rules: string }, asked: ParsedReceipt["lines"]) {
     const needs = input.needs.map((n) => ({ id: n.id, label: n.label, unit: n.unit, qtyNeeded: n.qtyNeeded }));
-    const lines = input.receipt.lines.map((l) => ({ lineNo: l.lineNo, rawText: l.rawText, translationEn: l.translationEn, qty: l.qty, amountMinor: l.amountMinor }));
+    const lines = asked.map((l) => ({ lineNo: l.lineNo, rawText: l.rawText, translationEn: l.translationEn, qty: l.qty, amountMinor: l.amountMinor }));
     const { value, usage } = await converseStructured(this.o, {
       what: `classify lines (${this.o.modelId})`,
       system: CLASSIFIER_SYSTEM,

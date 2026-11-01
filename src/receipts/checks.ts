@@ -233,8 +233,11 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   }
 
   const min = input.minConfidence ?? DEFAULT_MIN_CONFIDENCE;
-  const doubtful = (input.classifications ?? []).filter((c) => c.verdict === "review" || c.confidence < min);
-  if (doubtful.length) add("low_confidence", "review", `Line ${doubtful.map((c) => c.lineNo).join(", ")} need a person to confirm.`);
+  const doubtful = (input.classifications ?? []).filter((c) => c.verdict === "review" || c.confidence < min).map((c) => c.lineNo);
+  // A product line the classifier never answered for is not funded: a person should know, not find it missing.
+  const unanswered = input.classifications ? r.lines.filter((l) => l.amountMinor >= 0 && !input.classifications!.some((c) => c.lineNo === l.lineNo)).map((l) => l.lineNo) : [];
+  const toConfirm = [...new Set([...doubtful, ...unanswered])].sort((a, b) => a - b);
+  if (toConfirm.length) add("low_confidence", "review", `Line ${toConfirm.join(", ")} need a person to confirm.`);
   return flags;
 }
 

@@ -62,7 +62,8 @@ export async function harness(o: {
     new PledgeService({
       db: db.db,
       recordings: o.recordings ?? loadRecordings(),
-      savedAnswers: o.savedAnswers,
+      // The truth files by default, so a test's numbers do not depend on a model's wording; pass SHIPPED_ANSWERS for the demo's path.
+      savedAnswers: o.savedAnswers ?? [],
       paypal: { clientId: "test-client", clientSecret: "test-secret", fetch, retryDelayMs: 0 },
       webhookId: o.webhookId === undefined ? "WH-TEST" : o.webhookId,
       demoPayoutEmail: o.demoPayoutEmail === undefined ? "sb-pywsi53523660@personal.example.com" : o.demoPayoutEmail,

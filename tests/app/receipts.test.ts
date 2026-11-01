@@ -7,7 +7,8 @@ import { events, receipts, spendLedger } from "../../src/db/schema";
 import type { ConverseClient } from "../../src/receipts/bedrock";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { sha256Hex } from "../../src/receipts/hash";
-import { SHIPPED_ANSWERS } from "../../src/server/reading";
+import { demoDrive } from "../../src/server/demo";
+import { ReceiptReading, SHIPPED_ANSWERS, type SavedAnswer } from "../../src/server/reading";
 import { NOT_BLURRED_NOTE, redactImage } from "../../src/server/redact";
 import { ServiceError } from "../../src/server/errors";
 import { fakeSandbox } from "./support/fake-sandbox";
@@ -49,11 +50,11 @@ function fakeBedrock(answer: { reader: string; lines: LineClassification[] }) {
   return { client, sent };
 }
 
-async function setup(o: { bedrock?: () => ConverseClient; spent?: number } = {}) {
+async function setup(o: { bedrock?: () => ConverseClient; spent?: number; savedAnswers?: SavedAnswer[] } = {}) {
   const pp = fakeSandbox();
   const rec = loadRecordings();
   // The test double speaks the one-step vision reader's protocol.
-  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock, pipeline: "nova-lite" });
+  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock, pipeline: "nova-lite", savedAnswers: o.savedAnswers });
   if (o.spent !== undefined) await h.db.db.insert(spendLedger).values({ id: "seed", ts: h.clock.now(), kind: "reserve", what: "seed", usd: o.spent.toFixed(6), ref: null });
   const driveId = (await h.svc.createDemoDrive({ driveId: "demo-receipts" })).drive.id;
   return { pp, h, rec, driveId };
@@ -74,7 +75,7 @@ const moneyEvents = async (h: Awaited<ReturnType<typeof setup>>["h"], driveId: s
 
 describe("the sample receipt: a saved live answer, not the truth file", () => {
   it("is read by the saved answer and funded without a flag: 9 lines ¥10,448 funded, beer and gift card refused, ¥14,646 in all", async () => {
-    const { h, driveId, pp } = await setup();
+    const { h, driveId, pp } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
     expect(r.reader).toBe("cached:ocr-pro");
     expect(r).toMatchObject({ status: "funded", flags: [], total: 14646, currency: "JPY", merchant: "ミナト生活館 北空店", purchasedAt: "2026-11-05T14:32:00" });
@@ -87,12 +88,25 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     expect(funded.reduce((s, l) => s + l.base, 0)).toBe(10448);
     expect(refused.map((l) => [l.lineNo, l.code, l.base])).toEqual([[10, "alcohol", 1198], [11, "gift_card", 3000]]);
     expect(r.lines.reduce((s, l) => s + l.amount, 0)).toBe(14646);
-    expect(Object.fromEntries(v.needs.map((n) => [n.needId, n.qtyCovered]))).toEqual({ water: 12, diapers: 6, batteries: 50 });
+    const need = Object.fromEntries(v.needs.map((n) => [n.needId, n]));
+    expect(need.water).toMatchObject({ qtyCovered: 12, fundedBase: 1486, donorBase: 743, matchBase: 743 });
+    expect(need.diapers).toMatchObject({ qtyCovered: 6, fundedBase: 6488, donorBase: 3244, matchBase: 3244 });
+    expect(need.batteries).toMatchObject({ qtyCovered: 50, fundedBase: 2474, donorBase: 1237, matchBase: 1237 });
+    expect(v.match.usedBase).toBe(5224);
     expect(pp.payouts).toHaveLength(1);
   });
 
+  it("books the same money as the truth file does, line by line", async () => {
+    const books = async (savedAnswers: SavedAnswer[]) => {
+      const { h, driveId } = await setup({ savedAnswers });
+      const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+      return (await h.svc.getDriveView(driveId)).ledger.filter((l) => l.receiptId === r.id).map((l) => [l.lineNo, l.kind, l.needId, l.base, l.code]);
+    };
+    expect(await books(SHIPPED_ANSWERS)).toEqual(await books([]));
+  });
+
   it("publishes the photo with its three personal rows blurred", async () => {
-    const { h, driveId, rec } = await setup();
+    const { h, driveId, rec } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
     expect(r.image).toMatchObject({ published: true, blurredRegions: 3 });
     const truth = rec.readings[sha256Hex(heroBytes())];
@@ -105,7 +119,7 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
   });
 
   it("the saved classification serves only the needs and rules it was made for", async () => {
-    const { h, driveId } = await setup();
+    const { h, driveId } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const answer = { ...SHIPPED_ANSWERS[0], classifiedFor: "another drive" };
     const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [answer] })).svc;
     const id = (await svc.createDemoDrive({ driveId: "demo-other-rules" })).drive.id;
@@ -113,7 +127,13 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     expect((await h.svc.submitReceipt({ driveId, bytes: heroBytes() })).receipt.status).toBe("funded");
   });
 
-  it("the truth file is still what tests get when the answers are switched off", async () => {
+  it("the server's default is the saved answer; the truth file serves only when the answers are switched off", async () => {
+    const { h, driveId } = await setup();
+    const { drive, needs } = demoDrive(driveId, h.clock.now());
+    const bytes = heroBytes();
+    const input = { driveId, image: { bytes, mediaType: "image/png" as const }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() };
+    const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, spendCapUsd: 0 });
+    expect((await reading.read(input)).reader).toBe("cached:ocr-pro");
     const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [] })).svc;
     const id = (await svc.createDemoDrive({ driveId: "demo-recorded" })).drive.id;
     expect((await svc.submitReceipt({ driveId: id, bytes: heroBytes() })).receipt.reader).toBe("recorded");

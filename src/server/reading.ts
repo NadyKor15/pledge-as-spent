@@ -9,7 +9,7 @@ import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
-import heroAnswer from "../../eval/live/ocr-pro/hero-ja-01.json";
+import heroAnswer from "../../eval/live/shipped/hero-ja-01.json";
 import { ServiceError } from "./errors";
 import { PgSpendLedger } from "./spend";
 
@@ -51,7 +51,7 @@ export interface LiveReading {
   ocr?: () => OcrEngine;
 }
 
-/** A real pipeline's saved answer for one photo (eval/live/<pipeline>/<receipt>.json). Never a hand-written reading. */
+/** A real pipeline's saved answer for one photo (a copy of eval/live/<pipeline>/<receipt>.json in eval/live/shipped/, so a new benchmark run does not change the demo). Never a hand-written reading. */
 export interface SavedAnswer {
   pipeline: string;
   imageSha256: string;

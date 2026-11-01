@@ -1,5 +1,5 @@
 // Benchmark: how well a reader + classifier pass the receipt sets, scored against ground truth.
-//   npm run eval -- --reader recorded|nova-lite|nova-pro --set v1|adversarial|hero [--classifier <same choices>]
+//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix --set v1|adversarial|hero [--classifier <same choices>]
 // Writes eval/results/<reader>-<set>-<UTC>.json and .md. The recorded reader replays the ground truth, so it must score 100 %.
 
 import { createHash } from "node:crypto";
