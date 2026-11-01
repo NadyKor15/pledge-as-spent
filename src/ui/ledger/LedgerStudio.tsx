@@ -20,27 +20,53 @@ import { ShelterWidget } from "./widgets/ShelterWidget";
 const noForm = (params: { createDefaults: (p: { dataMappingItems: never[] }) => never }) => params.createDefaults({ dataMappingItems: [] });
 const SIZE = { width: 4, height: 4 };
 
-const fitting = new WeakSet<GridApi>();
+// Share of the book's width and the least each column can do with. Studio's own auto-size gives
+// the free room to Line and leaves the items just wide enough, then redoes it on every filter.
+const COLUMNS: [id: string, share: number, least: number][] = [
+  ["book.line", 0.05, 56],
+  ["book.item", 0.25, 240],
+  ["book.need", 0.14, 130],
+  ["book.payer", 0.15, 150],
+  ["book.share", 0.07, 80],
+  ["book.charged", 0.08, 90],
+  ["book.capture", 0.16, 190],
+  ["book.status", 0.1, 100],
+];
 
-/**
- * Studio sizes the columns as soon as new rows are in the store, before they are in the DOM,
- * so a filtered book is measured by the rows it had before and cuts its longest item short.
- * The rows are on screen when their cells mount: measure again then, once per frame.
- */
-function fitColumns(api: GridApi) {
-  if (fitting.has(api)) return;
-  fitting.add(api);
+const listening = new WeakSet<GridApi>();
+const queued = new WeakSet<GridApi>();
+
+/** Puts the columns back at their shares, at most once a frame. Studio sizes them again after each refresh. */
+function holdColumns(api: GridApi, grid: Element) {
+  if (queued.has(api)) return;
+  queued.add(api);
   requestAnimationFrame(() => {
-    fitting.delete(api);
-    if (!api.isDestroyed()) api.autoSizeAllColumns({ scaleUpToFitGridWidth: true });
+    queued.delete(api);
+    const width = grid.clientWidth;
+    if (api.isDestroyed() || !width) return;
+    const target = COLUMNS.map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
+    const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
+    if (off) api.setColumnWidths(target, true);
   });
 }
 
+function watchColumns(api: GridApi, grid: Element) {
+  if (listening.has(api)) return;
+  listening.add(api);
+  for (const event of ["storeRefreshed", "modelUpdated", "gridSizeChanged", "columnResized"] as const) api.addEventListener(event, () => holdColumns(api, grid));
+}
+
 /** The grid widget is flat, so a group shows as its first row: the need in bold, then its other lines. */
-function NeedCell({ api, node, column, value }: CustomCellRendererProps) {
+function NeedCell({ api, node, column, value, eGridCell }: CustomCellRendererProps) {
   const above = node.rowIndex ? api.getDisplayedRowAtIndex(node.rowIndex - 1) : undefined;
   const first = !above || !column || above.data?.[column.getColId()] !== value;
-  useEffect(() => fitColumns(api), [api, value]);
+  useEffect(() => {
+    // The grid's root, not this cell: the cell leaves the page with the next filter, the root stays.
+    const grid = eGridCell.closest(".ag-root-wrapper");
+    if (!grid) return;
+    watchColumns(api, grid);
+    holdColumns(api, grid);
+  });
   return <span className={first ? "lg-group" : "lg-group-more"}>{String(value ?? "")}</span>;
 }
 

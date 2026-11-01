@@ -235,9 +235,25 @@ const totals = (page: Page) => page.locator(".ag-studio-value-widget-content");
 const bookRows = (page: Page) => page.locator(".ag-row");
 const book = (page: Page) => page.locator(".ag-root-wrapper");
 
-/** Book cells whose text does not fit, as the reader would see it cut short. */
+/**
+ * Book cells whose text does not fit. An ellipsis hides from scrollWidth and from ranges, so each text
+ * is measured on its own in the cell's font. `.ag-cell[data-control]` is the synthetic proof it can fail.
+ */
 const cutShort = (page: Page) =>
-  page.evaluate(() => [...document.querySelectorAll<HTMLElement>(".ag-cell")].filter((c) => c.scrollWidth > c.clientWidth + 1).map((c) => c.textContent));
+  page.evaluate(() => {
+    const probe = document.createElement("span");
+    probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap";
+    document.body.append(probe);
+    const out: string[] = [];
+    for (const cell of document.querySelectorAll<HTMLElement>(".ag-cell")) {
+      const style = getComputedStyle(cell);
+      probe.style.font = style.font;
+      probe.textContent = cell.textContent;
+      if (probe.getBoundingClientRect().width > cell.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) out.push(cell.textContent ?? "");
+    }
+    probe.remove();
+    return out;
+  });
 
 async function expectTotals(page: Page, third: string) {
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: third })).toHaveCount(1);
@@ -350,9 +366,25 @@ test("ledger: the book's text fits, the items get the room, and a selection made
   await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(6);
   await expect(page.locator(".ag-row", { hasText: "Paper diapers M 18 pieces" }).first()).toBeVisible();
+
+  // The measure itself: a cell that cannot fit is found.
+  await page.evaluate(() => {
+    const cell = document.createElement("div");
+    cell.className = "ag-cell";
+    cell.dataset.control = "1";
+    cell.style.cssText = "position:absolute;width:30px;overflow:hidden;white-space:nowrap";
+    cell.textContent = "a text far too long for its cell";
+    document.body.append(cell);
+  });
+  expect(await cutShort(page)).toEqual(["a text far too long for its cell"]);
+  await page.evaluate(() => document.querySelector("[data-control]")?.remove());
+
   await expect(async () => expect(await cutShort(page)).toEqual([])).toPass({ timeout: 3_000 });
 
   const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
+  const itemWidth = await width("item");
+  expect(itemWidth).toBeGreaterThan(300);
+  expect(await width("line")).toBeLessThan(100);
   const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
   for (const pick of ["Lena", "Yuki", "Mark"] as const) {
     await page.locator(`button[data-donor=${pick}]`).click();
@@ -360,8 +392,7 @@ test("ledger: the book's text fits, the items get the room, and a selection made
     await expect(bookRows(page)).toHaveCount(6);
     await expect(async () => {
       expect(await cutShort(page)).toEqual([]);
-      expect(await width("item")).toBeGreaterThan(await width("need"));
-      expect(await width("item")).toBeGreaterThan(await width("payer"));
+      expect(await width("item")).toBe(itemWidth);
     }).toPass({ timeout: 3_000 });
   }
 });
@@ -455,6 +486,7 @@ test("ledger: the phone presses rows, and the book filters there too", async ({ 
   await expect(mark).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
   await expect(bookRows(page)).toHaveCount(6);
+  await expect(async () => expect(await cutShort(page)).toEqual([])).toPass({ timeout: 3_000 });
   await mark.click();
   await expect(bookRows(page)).toHaveCount(20);
   const water = page.locator("[data-need=water]");
