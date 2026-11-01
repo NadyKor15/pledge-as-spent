@@ -339,7 +339,20 @@ export function groundReceipt(obj: Record<string, unknown>, rows: { text: string
     }),
   );
   out.lines = clean;
-  return { ...out, subtotalMinor: null, ...printedTotals(rows, clean as { amountMinor: number }[], exp) };
+  return { ...out, merchantAddress: completeAddress(obj.merchantAddress, rows), subtotalMinor: null, ...printedTotals(rows, clean as { amountMinor: number }[], exp) };
+}
+
+/**
+ * A model stops at the street and leaves the town on the next row, and the town is what the zone check needs:
+ * the row after the address joins it unless it is the phone, a tax number or the date.
+ */
+function completeAddress(address: unknown, rows: { text: string }[]): unknown {
+  if (typeof address !== "string" || address.trim() === "") return address;
+  const head = letters(address);
+  const at = rows.findIndex((r) => head.length >= 3 && letters(r.text).length >= 3 && similarity(letters(r.text), head.slice(-letters(r.text).length)) > 0.7);
+  const next = at >= 0 ? rows[at + 1]?.text : undefined;
+  if (!next || !/\p{L}{3}/u.test(next) || /^(?:tel|phone|fax|vkn|cif|nif|登録|\d{4}\s*年|\d{1,2}[/.]\d{1,2}[/.])/i.test(next.trim()) || similarity(next, address.slice(-next.length)) > 0.7) return address;
+  return `${address.trim()}, ${next.trim()}`;
 }
 
 const realDate = (y: number, m: number, d: number) => m >= 1 && m <= 12 && d >= 1 && d <= new Date(Date.UTC(y, m, 0)).getUTCDate();

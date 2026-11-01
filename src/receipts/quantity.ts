@@ -92,6 +92,8 @@ export function refineClassifications(receipt: ParsedReceipt, needs: Need[], lab
     if (hint && c.ruleCode !== hint) {
       return { ...c, verdict: "rejected", needId: null, needQty: null, ruleCode: hint, reasonEn: GENERIC_REASON[hint], confidence: Math.max(c.confidence, 0.9) };
     }
+    // A refused line names no need, whatever need a model said it almost was.
+    if (c.verdict === "rejected" && (c.needId !== null || c.needQty !== null)) return { ...c, needId: null, needQty: null };
     if (c.verdict === "eligible" && c.needId) {
       const need = needs.find((n) => n.id === c.needId);
       const derived = need ? deriveNeedQty(line, need) : null;

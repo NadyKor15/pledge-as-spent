@@ -402,6 +402,20 @@ describe("dates and totals from the printed rows", () => {
     expect(out.totalMinor).toBe(470);
   });
 
+  it("adds the town to an address that stopped at the street, and nothing else", () => {
+    const address = (a: string, ...r: string[]) => groundReceipt({ currency: "EUR", lines: [], merchantAddress: a }, rows(...r, "AA 1,00 A", "TOTAL 1,00")).merchantAddress;
+    expect(address("Plaza Nueva 3", "LA LLAVE", "Plaza Nueva 3", "90000 Villa Alborada", "TEL 900 000 063")).toBe("Plaza Nueva 3, 90000 Villa Alborada");
+    expect(address("Plaza Nueva 3, 90000 Villa Alborada", "LA LLAVE", "Plaza Nueva 3", "90000 Villa Alborada", "TEL 900")).toBe("Plaza Nueva 3, 90000 Villa Alborada");
+    expect(address("Sanayi Sk. No:7", "GOLPINAR", "Sanayi Sk. No:7", "TEL 0 555")).toBe("Sanayi Sk. No:7");
+    expect(address("Sanayi Sk. No:7", "GOLPINAR", "Sanayi Sk. No:7", "VKN: 000")).toBe("Sanayi Sk. No:7");
+    expect(address("Elsewhere 9", "GOLPINAR", "Sanayi Sk. No:7", "TEL 0 555")).toBe("Elsewhere 9");
+  });
+
+  it("a size printed with an x is not a quantity", () => {
+    const out = groundReceipt({ currency: "EUR", lines: [{ rawText: "MANTA POLAR", amountMinor: 1299, lineNo: 1 }] }, rows("MANTA POLAR 12,99 B", "130X160", "2x 6,85", "TOTAL 12,99"));
+    expect(out.lines).toMatchObject([{ amountMinor: 1299, qty: 1 }]);
+  });
+
   it("does not take a store or register number for an amount", () => {
     const out = groundReceipt({ currency: "USD", lines: [{ rawText: "AA BATTERY", amountMinor: 799, lineNo: 1 }] }, rows("CORNER PHARMACY #14", "Brindlewood, NY 12345", "TRANS #2718", "AA BATTERY $7.99 T", "SUBTOTAL $7.99", "TOTAL $7.99"));
     expect((out.lines as { rawText: string }[]).map((l) => l.rawText)).toEqual(["AA BATTERY"]);

@@ -66,6 +66,11 @@ describe("refining a classifier's answer", () => {
     expect(out[3]).toEqual(labels[3]); // a discount is left alone
     expect(water.id).toBe("water");
   });
+  it("clears the need of a refused line, so nothing downstream reads it as that need", () => {
+    const l = [cls(1, { verdict: "rejected", needId: "diapers", needQty: 2, ruleCode: "not_in_needs", reasonEn: "Wrong size." })];
+    expect(refineClassifications(receipt({ lines: [{ ...line(1, 500), rawText: "PAÑALES T4" }] }), needs, l)[0]).toMatchObject({ verdict: "rejected", needId: null, needQty: null, ruleCode: "not_in_needs" });
+  });
+
   it("keeps a rejected line's own rule code when it already names the right one", () => {
     const l = [cls(1), cls(2, { verdict: "rejected", needId: null, needQty: null, ruleCode: "alcohol", reasonEn: "Beer.", confidence: 0.5 }), cls(3), cls(4)];
     expect(refineClassifications(r, needs, l)[1]).toEqual(l[1]);

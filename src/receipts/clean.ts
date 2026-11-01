@@ -23,11 +23,17 @@ const norm = (s: string) => s.normalize("NFKC").toLowerCase();
  */
 const QTY_ROW = /^\s*(\d+)\s*\S{0,3}\s*[x×@]\s*\D{0,2}\s*([\d.,]+)\s*$/i;
 
-export const isQtyRow = (text: string) => QTY_ROW.test(text.normalize("NFKC"));
+/** Two bare numbers around an x are a size ("130X160"), not a quantity and a price. */
+const DIMENSIONS = /^\s*\d{2,3}\s*[x×]\s*\d{2,3}\s*$/i;
+
+export const isQtyRow = (text: string) => {
+  const t = text.normalize("NFKC");
+  return QTY_ROW.test(t) && !DIMENSIONS.test(t);
+};
 
 /** The quantity and the unit price as printed on such a row. */
 export function qtyRow(text: string): { qty: number; unit: string } | null {
-  const m = text.normalize("NFKC").match(QTY_ROW);
+  const m = isQtyRow(text) ? text.normalize("NFKC").match(QTY_ROW) : null;
   return m ? { qty: Number(m[1]), unit: m[2] } : null;
 }
 

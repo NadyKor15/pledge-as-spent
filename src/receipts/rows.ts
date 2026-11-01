@@ -139,6 +139,8 @@ export function zeroMisread(seen: string, real: string): boolean {
   if (seen === real) return false;
   // A minus or percent sign in front of the number comes out as 4 or 5 ("-0,06" as "40,06", "%20" as "420").
   if (seen.length === real.length + 1 && "45".includes(seen[0]) && seen.slice(1) === real) return true;
+  // "-0,70" as "4,70": the sign and the zero run together.
+  if (seen.length === real.length && seen[0] === "4" && real[0] === "0" && seen.slice(1) === real.slice(1)) return true;
   if (seen.length === real.length) {
     return [...seen].every((c, i) => c === real[i] || (real[i] === "0" && "1689".includes(c)));
   }

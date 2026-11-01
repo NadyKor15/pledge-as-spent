@@ -34,6 +34,9 @@ describe("zeroMisread", () => {
     expect(zeroMisread("1098", "1000")).toBe(true);
     expect(zeroMisread("2", "20")).toBe(true);
     expect(zeroMisread("104", "10")).toBe(true);
+    expect(zeroMisread("420", "20")).toBe(true); // %20
+    expect(zeroMisread("4006", "006")).toBe(true); // -0,06
+    expect(zeroMisread("470", "070")).toBe(true); // -0,70
   });
   it("refuses any other difference: the photo's copy is not trusted over the OCR on those", () => {
     expect(zeroMisread("980", "898")).toBe(false);

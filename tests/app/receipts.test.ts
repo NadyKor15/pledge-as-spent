@@ -7,6 +7,7 @@ import { events, receipts, spendLedger } from "../../src/db/schema";
 import type { ConverseClient } from "../../src/receipts/bedrock";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { sha256Hex } from "../../src/receipts/hash";
+import { SHIPPED_ANSWERS } from "../../src/server/reading";
 import { NOT_BLURRED_NOTE, redactImage } from "../../src/server/redact";
 import { ServiceError } from "../../src/server/errors";
 import { fakeSandbox } from "./support/fake-sandbox";
@@ -70,6 +71,54 @@ const reject = async (p: Promise<unknown>) => {
 
 const moneyEvents = async (h: Awaited<ReturnType<typeof setup>>["h"], driveId: string) =>
   (await h.db.db.select().from(events).where(eq(events.driveId, driveId))).filter((e) => ["LineFunded", "CaptureSubmitted", "PayoutSubmitted"].includes(e.type));
+
+describe("the sample receipt: a saved live answer, not the truth file", () => {
+  it("is read by the saved answer and funded without a flag: 9 lines ¥10,448 funded, beer and gift card refused, ¥14,646 in all", async () => {
+    const { h, driveId, pp } = await setup();
+    const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    expect(r.reader).toBe("cached:ocr-pro");
+    expect(r).toMatchObject({ status: "funded", flags: [], total: 14646, currency: "JPY", merchant: "ミナト生活館 北空店", purchasedAt: "2026-11-05T14:32:00" });
+
+    const v = await h.svc.getDriveView(driveId);
+    const mine = v.ledger.filter((l) => l.receiptId === r.id);
+    const funded = mine.filter((l) => l.kind !== "rejected");
+    const refused = mine.filter((l) => l.kind === "rejected");
+    expect(new Set(funded.map((l) => l.lineNo)).size).toBe(9);
+    expect(funded.reduce((s, l) => s + l.base, 0)).toBe(10448);
+    expect(refused.map((l) => [l.lineNo, l.code, l.base])).toEqual([[10, "alcohol", 1198], [11, "gift_card", 3000]]);
+    expect(r.lines.reduce((s, l) => s + l.amount, 0)).toBe(14646);
+    expect(Object.fromEntries(v.needs.map((n) => [n.needId, n.qtyCovered]))).toEqual({ water: 12, diapers: 6, batteries: 50 });
+    expect(pp.payouts).toHaveLength(1);
+  });
+
+  it("publishes the photo with its three personal rows blurred", async () => {
+    const { h, driveId, rec } = await setup();
+    const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    expect(r.image).toMatchObject({ published: true, blurredRegions: 3 });
+    const truth = rec.readings[sha256Hex(heroBytes())];
+    expect(truth.pii).toHaveLength(3);
+    const answer = SHIPPED_ANSWERS[0].reading.pii;
+    for (const t of truth.pii) {
+      const b = t.bbox!;
+      expect(answer.some((p) => p.bbox && b.x + b.w > p.bbox.x && b.x < p.bbox.x + p.bbox.w && b.y + b.h > p.bbox.y && b.y < p.bbox.y + p.bbox.h), t.kind).toBe(true);
+    }
+  });
+
+  it("the saved classification serves only the needs and rules it was made for", async () => {
+    const { h, driveId } = await setup();
+    const answer = { ...SHIPPED_ANSWERS[0], classifiedFor: "another drive" };
+    const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [answer] })).svc;
+    const id = (await svc.createDemoDrive({ driveId: "demo-other-rules" })).drive.id;
+    expect(await reject(svc.submitReceipt({ driveId: id, bytes: heroBytes() }))).toMatchObject({ status: 503, code: "live_reading_off" });
+    expect((await h.svc.submitReceipt({ driveId, bytes: heroBytes() })).receipt.status).toBe("funded");
+  });
+
+  it("the truth file is still what tests get when the answers are switched off", async () => {
+    const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [] })).svc;
+    const id = (await svc.createDemoDrive({ driveId: "demo-recorded" })).drive.id;
+    expect((await svc.submitReceipt({ driveId: id, bytes: heroBytes() })).receipt.reader).toBe("recorded");
+  });
+});
 
 describe("live reading limits: refused before any model call", () => {
   it("the $5 spend cap refuses the call and offers the cached sample", async () => {

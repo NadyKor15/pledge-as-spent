@@ -10,6 +10,13 @@ describe("checkReceipt", () => {
     expect(codes()).toEqual([]);
   });
 
+  it("finds the zone in an address read without its accents or dotless i, and no further", () => {
+    const d = { ...drive, zone: ["Yıldızova", "Villa Alborada"] };
+    expect(codes(receipt({ merchantAddress: "Sanayi Sk. No:7, Yildizova" }), { drive: d })).not.toContain("out_of_zone");
+    expect(codes(receipt({ merchantAddress: "Plaza 3, VILLA ALBORADÁ" }), { drive: d })).not.toContain("out_of_zone");
+    expect(codes(receipt({ merchantAddress: "Liman Cd. 1, Denizbahçe" }), { drive: d })).toContain("out_of_zone");
+  });
+
   it("blocks an unreadable photo and asks for a retake", () => {
     const flags = checkReceipt({ receipt: receipt({ readability: "unreadable" }), drive });
     expect(flags[0]).toMatchObject({ code: "unreadable", severity: "block" });

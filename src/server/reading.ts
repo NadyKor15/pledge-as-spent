@@ -9,6 +9,7 @@ import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
+import heroAnswer from "../../eval/live/ocr-pro/hero-ja-01.json";
 import { ServiceError } from "./errors";
 import { PgSpendLedger } from "./spend";
 
@@ -67,6 +68,9 @@ export function savedAnswer(json: unknown, pipeline: string): SavedAnswer {
   return { pipeline, imageSha256: f.imageSha256, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor };
 }
 
+/** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro")];
+
 export interface ReadInput {
   driveId: string;
   image: ReceiptImage;
@@ -99,7 +103,7 @@ export class ReceiptReading {
     private readonly limits: LiveLimits,
     private readonly live?: LiveReading,
   ) {
-    this.answers = new Map((sources.answers ?? []).map((a) => [a.imageSha256, a]));
+    this.answers = new Map((sources.answers ?? SHIPPED_ANSWERS).map((a) => [a.imageSha256, a]));
     this.recordings = sources.recordings ?? { readings: {}, classifications: {} };
   }
   private readonly recordings: Recordings;

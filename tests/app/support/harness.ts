@@ -4,7 +4,7 @@ import { openPglite, type DatabaseHandle } from "../../../src/db/client";
 import type { FetchLike } from "../../../src/paypal/recording";
 import type { ConverseClient } from "../../../src/receipts/bedrock";
 import { Recordings } from "../../../src/receipts/recorded";
-import type { Pipeline } from "../../../src/server/reading";
+import type { Pipeline, SavedAnswer } from "../../../src/server/reading";
 import { PledgeService, type Limits } from "../../../src/server/service";
 import { FAKE_EPOCH } from "./fake-sandbox";
 
@@ -48,6 +48,7 @@ export async function harness(o: {
   fetch: FetchLike;
   start?: string;
   recordings?: Recordings;
+  savedAnswers?: SavedAnswer[];
   bedrock?: () => ConverseClient;
   pipeline?: Pipeline;
   limits?: Partial<Limits>;
@@ -61,6 +62,7 @@ export async function harness(o: {
     new PledgeService({
       db: db.db,
       recordings: o.recordings ?? loadRecordings(),
+      savedAnswers: o.savedAnswers,
       paypal: { clientId: "test-client", clientSecret: "test-secret", fetch, retryDelayMs: 0 },
       webhookId: o.webhookId === undefined ? "WH-TEST" : o.webhookId,
       demoPayoutEmail: o.demoPayoutEmail === undefined ? "sb-pywsi53523660@personal.example.com" : o.demoPayoutEmail,
