@@ -58,9 +58,9 @@ describe.each(["closed", "open"])("the Ledger of the %s drive", (name) => {
     const water = m.book.filter((r) => r.need === "Water 2 L");
     expect(water.map((r) => r.payer)).toEqual(["Lena", "Kitasora Logistics", "Lena", "Kitasora Logistics", "Lena", "Kitasora Logistics"]);
     expect(water[0]).toMatchObject({ line: 1, item: "Natural water from Kitasora 2L", share: 399, charged: "€2.46" });
-    expect(m.book.filter((r) => r.need === "Refused").map((r) => [r.item, yen(r.share), r.charged])).toEqual([
-      ["Alcohol", "¥1,198", "—"],
-      ["Gift card", "¥3,000", "—"],
+    expect(m.book.filter((r) => r.need === "Refused").map((r) => [r.item, yen(r.share), r.charged, r.status])).toEqual([
+      ["Alcohol", "¥1,198", "—", "Rejected"],
+      ["Gift card", "¥3,000", "—", "Rejected"],
     ]);
   });
 
@@ -82,7 +82,7 @@ describe("the two states of a drive", () => {
     expect(m.donors.map((d) => d.restWord)).toEqual(["back", "back", "back"]);
     expect(m.donors.map((d) => d.back)).toEqual([1542, 855, 1763]);
     expect(m.donors.every((d) => d.held === 0)).toBe(true);
-    expect(m.book.filter((r) => r.need !== "Refused").every((r) => r.status === "CAPTURED" && r.capture !== "—")).toBe(true);
+    expect(m.book.filter((r) => r.need !== "Refused").every((r) => r.status === "Captured" && r.capture !== "—")).toBe(true);
   });
 
   it("an open drive says the money is held, and never that it returned", () => {
@@ -93,7 +93,7 @@ describe("the two states of a drive", () => {
     expect(m.donors.map((d) => d.held)).toEqual([1542, 855, 1763]);
     expect(m.donors.every((d) => d.back === 0)).toBe(true);
     expect(JSON.stringify(m)).not.toMatch(/return/i);
-    expect(m.book.filter((r) => r.need !== "Refused").every((r) => r.status === "ACCRUED" && r.capture === "—")).toBe(true);
+    expect(m.book.filter((r) => r.need !== "Refused").every((r) => r.status === "Accrued" && r.capture === "—")).toBe(true);
   });
 
   it("a drive still closing is not called closed", () => {

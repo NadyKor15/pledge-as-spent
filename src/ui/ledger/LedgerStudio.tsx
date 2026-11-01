@@ -1,7 +1,8 @@
 "use client";
 
-import type { AgReportState, AgStudioApi, AgWidgetField } from "ag-studio";
+import type { AgWidgetField } from "ag-studio";
 import { AgStudio, AgStudioProvider, createWidgets } from "ag-studio-react";
+import type { GridApi } from "ag-grid-community";
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { money } from "../format";
@@ -19,10 +20,27 @@ import { ShelterWidget } from "./widgets/ShelterWidget";
 const noForm = (params: { createDefaults: (p: { dataMappingItems: never[] }) => never }) => params.createDefaults({ dataMappingItems: [] });
 const SIZE = { width: 4, height: 4 };
 
+const fitting = new WeakSet<GridApi>();
+
+/**
+ * Studio sizes the columns as soon as new rows are in the store, before they are in the DOM,
+ * so a filtered book is measured by the rows it had before and cuts its longest item short.
+ * The rows are on screen when their cells mount: measure again then, once per frame.
+ */
+function fitColumns(api: GridApi) {
+  if (fitting.has(api)) return;
+  fitting.add(api);
+  requestAnimationFrame(() => {
+    fitting.delete(api);
+    if (!api.isDestroyed()) api.autoSizeAllColumns({ scaleUpToFitGridWidth: true });
+  });
+}
+
 /** The grid widget is flat, so a group shows as its first row: the need in bold, then its other lines. */
 function NeedCell({ api, node, column, value }: CustomCellRendererProps) {
   const above = node.rowIndex ? api.getDisplayedRowAtIndex(node.rowIndex - 1) : undefined;
   const first = !above || !column || above.data?.[column.getColId()] !== value;
+  useEffect(() => fitColumns(api), [api, value]);
   return <span className={first ? "lg-group" : "lg-group-more"}>{String(value ?? "")}</span>;
 }
 
@@ -95,14 +113,15 @@ function bodyRows(m: Metrics, matched: boolean) {
 }
 
 function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerModel, run: number, layoutKey: string) {
+  const { promised, spent, rest, baseCurrency } = model;
   useEffect(() => {
     const el = root.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const targets = [
-      { value: model.promised, delay: 100, spanMs: 1100 },
-      { value: model.spent, delay: 450, spanMs: 1100 },
-      { value: model.rest, delay: 1500, spanMs: 1000 },
-    ].map((t) => ({ ...t, text: money(model.baseCurrency, t.value) }));
+      { value: promised, delay: 100, spanMs: 1100 },
+      { value: spent, delay: 450, spanMs: 1100 },
+      { value: rest, delay: 1500, spanMs: 1000 },
+    ].map((t) => ({ ...t, text: money(baseCurrency, t.value) }));
     let frame = 0;
     let observer: MutationObserver | null = null;
     const start = () => {
@@ -111,7 +130,7 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
       observer?.disconnect();
       const t0 = performance.now();
       nodes.forEach((n, i) => {
-        n!.textContent = money(model.baseCurrency, 0);
+        n!.textContent = money(baseCurrency, 0);
         n!.dataset.counting = String(i);
       });
       const tick = (now: number) => {
@@ -119,7 +138,7 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
         targets.forEach((t, i) => {
           const p = Math.max(0, Math.min(1, (now - t0 - t.delay) / t.spanMs));
           const eased = 1 - (1 - p) ** 3;
-          nodes[i]!.textContent = p >= 1 ? t.text : money(model.baseCurrency, Math.round(t.value * eased));
+          nodes[i]!.textContent = p >= 1 ? t.text : money(baseCurrency, Math.round(t.value * eased));
           busy ||= p < 1;
         });
         if (busy) frame = requestAnimationFrame(tick);
@@ -140,12 +159,15 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
         delete n.dataset.counting;
       });
     };
-  }, [root, model, run, layoutKey]);
+  }, [root, promised, spent, rest, baseCurrency, run, layoutKey]);
 }
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
 export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: boolean }) {
-  const model = useMemo(() => deriveLedger(view), [view]);
+  // The drive is re-read every few seconds after an action. The same figures must stay the same
+  // object, or every read would rebuild Studio's data and start the count over.
+  const json = useMemo(() => JSON.stringify(deriveLedger(view)), [view]);
+  const model = useMemo(() => JSON.parse(json) as LedgerModel, [json]);
   const [store] = useState(() => new LedgerStore(model));
   const run = useSyncExternalStore(store.subscribe, () => store.get().run);
   const bookOpen = useSyncExternalStore(store.subscribe, () => store.get().bookOpen);
@@ -153,34 +175,32 @@ export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: bool
   const picked = selected ? linesOf(model, selected) : null;
   const metrics = useMetrics(stacked, model);
   const root = useRef<HTMLDivElement>(null);
-  const studio = useRef<{ key: string; api: AgStudioApi } | null>(null);
 
   useEffect(() => store.setModel(model), [store, model]);
 
-  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${metrics.rows.map}-${model.phase}`;
+  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}`;
   useCountUp(root, model, run, layoutKey);
 
   const data = useMemo(() => ledgerData(model), [model]);
   const context = useMemo(() => ({ store }), [store]);
-  const initialState = useMemo(() => ledgerState(model, metrics, bookOpen), [model, metrics, bookOpen]);
+  const initialState = useMemo(() => ledgerState(model, metrics), [model, metrics]);
 
-  // The book is a widget of the report: opening it adds that widget and keeps everything else.
   useEffect(() => {
-    if (studio.current?.key !== layoutKey) return;
-    const { api } = studio.current;
-    const current = api.getState();
-    const crossFilter = current.pages[0].crossFilter;
-    api.setState({ ...current, pages: [{ ...initialState.pages[0], crossFilter }] } as AgReportState);
-    if (bookOpen) requestAnimationFrame(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" }));
-  }, [bookOpen, initialState, layoutKey]);
+    if (!bookOpen) return;
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    requestAnimationFrame(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior }));
+  }, [bookOpen]);
 
-  // A filtered book is shorter than its widget: the frame ends with the last row.
-  const bookShown = bookOpen ? bookHeight(picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length) : 0;
-  const height = bodyRows(metrics, model.matchName !== null) * metrics.rowHeight + bookShown + 4;
+  // The book is always in the report, below the fold of this frame. Opening it moves the frame's
+  // edge and nothing else: Studio keeps its full height and is never told, so no widget rebuilds.
+  // A filtered book is shorter than its widget: the frame ends with its last row.
+  const body = bodyRows(metrics, model.matchName !== null) * metrics.rowHeight + 4;
+  const whole = body + metrics.rows.book * metrics.rowHeight;
+  const height = body + (bookOpen ? bookHeight(picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length) : 0);
 
   return (
     <div className="lg-screen" ref={root} data-phase={model.phase} data-stacked={stacked} style={{ "--s": metrics.scale } as CSSProperties}>
-      <div className="lg-frame" style={{ height }}>
+      <div className="lg-frame" data-book={bookOpen ? "open" : "closed"} style={{ height }}>
         {stacked ? (
           <i className="lg-rule lg-rule-pair" />
         ) : (
@@ -190,21 +210,20 @@ export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: bool
           </>
         )}
         <AgStudioProvider {...(LICENSE ? { licenseKey: LICENSE } : {})}>
-          <AgStudio
-            key={layoutKey}
-            style={{ width: "100%", height: "100%" }}
-            theme={ledgerTheme}
-            data={data}
-            context={context}
-            widgets={WIDGETS}
-            initialState={initialState}
-            mode="view"
-            panels={PANELS}
-            layout={LAYOUT(metrics.rowHeight)}
-            onApiReady={(e) => {
-              studio.current = { key: layoutKey, api: e.api };
-            }}
-          />
+          <div style={{ height: whole }}>
+            <AgStudio
+              key={layoutKey}
+              style={{ width: "100%", height: "100%" }}
+              theme={ledgerTheme}
+              data={data}
+              context={context}
+              widgets={WIDGETS}
+              initialState={initialState}
+              mode="view"
+              panels={PANELS}
+              layout={LAYOUT(metrics.rowHeight)}
+            />
+          </div>
         </AgStudioProvider>
       </div>
     </div>

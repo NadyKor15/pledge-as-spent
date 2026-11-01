@@ -1,6 +1,6 @@
 import { toBase } from "@/core/money";
 import { holdAmounts, latestFunded, lineName, needById } from "../derive";
-import { donorParts, money, ofCount, pct, shortName, statusLabel, titleParts } from "../format";
+import { donorParts, money, ofCount, pct, shortName, titleParts } from "../format";
 import type { DriveView, Hold, Need } from "../types";
 import { locate, type LonLat } from "./geo";
 
@@ -86,6 +86,12 @@ export interface LedgerModel {
 
 const lineKey = (receiptId: string, lineNo: number) => `${receiptId}:${lineNo}`;
 
+/** "capture_pending" -> "Capture pending". */
+const statusWords = (status: string) => {
+  const words = status.replace(/_/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+};
+
 /** "Kitasora Community Shelter — Earthquake relief" -> "Kitasora Shelter", as the card calls it. */
 export function shelterName(title: string): string {
   return titleParts(title).head.replace(/\bCommunity\s+/, "");
@@ -167,7 +173,7 @@ function bookRows(v: DriveView): LedgerBookRow[] {
         share: r.base,
         charged: r.amount === null ? "—" : money(r.currency, r.amount) || "—",
         capture: r.captureId ?? "—",
-        status: statusLabel(r.status),
+        status: statusWords(r.status),
       };
     });
 }

@@ -11,6 +11,10 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-frame .ag-studio-value-widget-content[data-counting] { width: 100%; text-align: center; }
 /* Studio marks a clicked widget as selected: that is for its editor. Tabbing to a widget still rings it. */
 .lg-frame .ag-studio-layout-widget:not(.ag-studio-layout-widget-focus) { --ag-studio-layout-widget-resize-border-color: transparent; --ag-studio-layout-widget-resize-handle-color: transparent; }
+/* A closed book is below the frame's edge: out of reach for Tab and for screen readers as well as for the eye. */
+.lg-frame[data-book="closed"] .ag-studio-layout-widget:has(.ag-root-wrapper) { visibility: hidden; }
+/* Studio has no setting for it: a total under the pointer gets a tooltip repeating the same number. */
+.lg-frame .ag-studio-value-widget-content-container, .lg-frame .ag-studio-layout-widget-title { pointer-events: none; }
 .lg-group { font-weight: 600; }
 .lg-group-more { color: var(--muted); }
 .lg-rule { position: absolute; z-index: 3; top: calc(38px * var(--s)); height: calc(112px * var(--s)); width: 1px; background: var(--line); pointer-events: none; }
@@ -107,7 +111,7 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 [data-stacked="true"] .lg-bar { grid-column: 1 / -1; height: 13px; margin-top: 9px; }
 [data-stacked="true"] .lg-foot { grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 6px 14px; padding: 10px 14px 12px; font-size: 13.5px; }
 [data-stacked="true"] .lg-receipt { grid-row: 1 / 3; gap: 0; }
-[data-stacked="true"] .lg-receipt span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+[data-stacked="true"] .lg-receipt span { display: none; }
 [data-stacked="true"] .lg-refused { align-self: end; line-height: 1.35; margin: 0; padding: 0; border: 0; }
 [data-stacked="true"] .lg-open-book { align-self: start; justify-self: start; font-size: 14px; padding: 0; border: 0; grid-column: auto; }
 

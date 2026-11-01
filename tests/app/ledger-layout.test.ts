@@ -96,6 +96,23 @@ describe.each(SIZES)("the money map at $width px", (size) => {
     }
   });
 
+  it.each(["closed", "open"])("no label of the %s drive lies on a city's dot or an arrowhead", (name) => {
+    for (const d of [deriveLedger(fixture(name)).donors, EIGHT]) {
+      const plan = planMap(d, size);
+      const marks: Box[] = plan.placed.flatMap((p) => [
+        { x: p.x - 8, y: p.y - 8, w: 16, h: 16 },
+        ...p.arcs.flatMap((a) => (a.head ? [{ x: a.head.x - 7, y: a.head.y - 7, w: 14, h: 14 }] : [])),
+      ]);
+      for (const box of boxes(plan)) for (const m of marks) expect(hit(box, m), `${JSON.stringify(box)} ${JSON.stringify(m)}`).toBe(false);
+    }
+  });
+
+  it("names the city alone on a phone, the donor too elsewhere", () => {
+    const plan = planMap(deriveLedger(fixture("closed")).donors, size);
+    const expected = size.compact ? ["Columbus", "Berlin", "Osaka"] : ["Mark · Columbus", "Lena · Berlin", "Yuki · Osaka"];
+    expect(plan.placed.map((p) => p.text)).toEqual(expected);
+  });
+
   it("no arc leaves the map", () => {
     for (const d of [deriveLedger(fixture("closed")).donors, EIGHT]) {
       for (const p of planMap(d, size).placed) {

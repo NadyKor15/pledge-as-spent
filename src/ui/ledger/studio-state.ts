@@ -104,8 +104,8 @@ function book(): AgGridWidget {
   };
 }
 
-/** The page: three totals, the map and the shelter card, the bottom line; the book joins it when asked for. */
-export function ledgerState(m: LedgerModel, x: Metrics, withBook: boolean): AgReportState {
+/** The page: three totals, the map and the shelter card, the bottom line, and under them the book. */
+export function ledgerState(m: LedgerModel, x: Metrics): AgReportState {
   const rest = m.phase === "closed" ? COLORS.back : COLORS.held;
   const r = x.rows;
   const s = x.scale;
@@ -138,7 +138,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, withBook: boolean): AgRe
     y += r.donors;
     place("footer", custom(FOOTER_WIDGET), at(0, y, 48, r.footer));
     y += r.footer;
-    if (withBook) place(BOOK_WIDGET_ID, book(), at(0, y, 48, r.book));
+    place(BOOK_WIDGET_ID, book(), at(0, y, 48, r.book));
   } else {
     const top = Math.round(74 * s);
     const label = Math.round(28 * s);
@@ -153,7 +153,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, withBook: boolean): AgRe
     place("map", map, at(0, r.kpi, 32, r.map));
     place("shelter", custom(SHELTER_WIDGET), at(32, r.kpi, 16, r.map));
     place("footer", custom(FOOTER_WIDGET), at(0, r.kpi + r.map, 48, r.footer));
-    if (withBook) place(BOOK_WIDGET_ID, book(), at(0, r.kpi + r.map + r.footer, 48, r.book));
+    place(BOOK_WIDGET_ID, book(), at(0, r.kpi + r.map + r.footer, 48, r.book));
   }
 
   return {

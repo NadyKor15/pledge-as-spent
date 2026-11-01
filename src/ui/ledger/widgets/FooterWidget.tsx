@@ -13,9 +13,9 @@ export function FooterWidget(params: AgWidgetParams) {
   return (
     <div className="lg-foot" ref={root}>
       {receiptUrl && (
-        <a className="lg-receipt" href={receiptUrl} target="_blank" rel="noopener noreferrer">
+        <a className="lg-receipt" href={receiptUrl} target="_blank" rel="noopener noreferrer" aria-label="Receipt photo">
           <Image src={receiptUrl} alt="" width={46} height={60} unoptimized />
-          <span>Receipt photo</span>
+          <span aria-hidden="true">Receipt photo</span>
         </a>
       )}
       {refused.length > 0 && (

@@ -32,6 +32,8 @@ export interface PlacedDonor {
   donor: LedgerDonor;
   x: number;
   y: number;
+  /** "Mark · Columbus"; a phone has room for "Columbus", and names the donor in the card below. */
+  text: string;
   label: Box;
   /** Empty on a phone: the card under the map carries the amounts there. */
   pills: Pill[];
@@ -96,6 +98,16 @@ function spread(points: Point[], gap: number): Point[] {
 }
 
 const EDGE = 12;
+const HEAD = 13;
+
+/** The box around an arrowhead whose tip is at `tip`, arriving from `from`. */
+function headBox(tip: Point, from: Point): Box {
+  const back = short(tip, from, HEAD);
+  const half = HEAD * 0.6;
+  const x = Math.min(tip.x, back.x) - half;
+  const y = Math.min(tip.y, back.y) - half;
+  return { x, y, w: Math.abs(tip.x - back.x) + half * 2, h: Math.abs(tip.y - back.y) + half * 2 };
+}
 const SAMPLES = 120;
 const sample = (a: Point, c: Point, b: Point): Point[] => Array.from({ length: SAMPLES + 1 }, (_, i) => bezier(a, c, b, i / SAMPLES));
 const crossings = (box: Box, line: Point[]) => line.filter((p) => p.x >= box.x - 6 && p.x <= box.x + box.w + 6 && p.y >= box.y - 6 && p.y <= box.y + box.h + 6).length;
@@ -153,7 +165,12 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   const everyLine = lines.flatMap((l) => [l.out, l.back]);
   const hidden = (box: Box, own: Point[][] = []) => everyLine.reduce((n, line) => (own.includes(line) ? n : n + crossings(box, line)), 0);
 
-  const taken: Box[] = [{ x: hub.x - 14, y: hub.y - 14, w: 28, h: 28 }, ...lines.map(({ at }) => ({ x: at.x - 10, y: at.y - 10, w: 20, h: 20 }))];
+  // What no label may lie on: the shelter, every city's dot, every arrowhead.
+  const taken: Box[] = [
+    { x: hub.x - 14, y: hub.y - 14, w: 28, h: 28 },
+    ...lines.map(({ at }) => ({ x: at.x - 10, y: at.y - 10, w: 20, h: 20 })),
+    ...lines.filter((l) => l.returns).map(({ tip, bow }) => headBox(tip, bow.back)),
+  ];
   const take = (box: Box) => {
     taken.push(box);
     return box;
@@ -177,21 +194,23 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   const placed: PlacedDonor[] = [];
   for (const line of lines) {
     const { donor, at, bow, returns, tip } = line;
-    const lw = textWidth(donor.label, labelPx) + (compact ? 14 : 20);
+    const text = compact ? (donor.city ?? donor.name) : donor.label;
+    const lw = textWidth(text, labelPx) + (compact ? 14 : 20);
     // Near an edge the label slides along it rather than falling off the map.
     const slide = (x: number) => Math.max(3, Math.min(x, width - lw - 3));
-    const label = best(
+    const around = (gap: number) =>
       [
-        { x: at.x - lw / 2, y: at.y + 14 },
-        { x: at.x - lw - 14, y: at.y - labelH / 2 },
-        { x: at.x + 14, y: at.y - labelH / 2 },
-        { x: at.x - lw / 2, y: at.y - labelH - 14 },
-        { x: at.x - lw - 10, y: at.y + 12 },
-        { x: at.x + 10, y: at.y + 12 },
-        { x: at.x - lw - 10, y: at.y - labelH - 12 },
-        { x: at.x + 10, y: at.y - labelH - 12 },
-      ].map((c) => ({ x: slide(c.x), y: c.y, w: lw, h: labelH })),
-    );
+        { x: at.x - lw / 2, y: at.y + gap },
+        { x: at.x - lw - gap, y: at.y - labelH / 2 },
+        { x: at.x + gap, y: at.y - labelH / 2 },
+        { x: at.x - lw / 2, y: at.y - labelH - gap },
+        { x: at.x - lw - gap * 0.7, y: at.y + gap * 0.85 },
+        { x: at.x + gap * 0.7, y: at.y + gap * 0.85 },
+        { x: at.x - lw - gap * 0.7, y: at.y - labelH - gap * 0.85 },
+        { x: at.x + gap * 0.7, y: at.y - labelH - gap * 0.85 },
+      ].map((c) => ({ x: slide(c.x), y: c.y, w: lw, h: labelH }));
+    // Close to the dot if there is any room at all: a label wanders off only when it must.
+    const label = best(around(14)) ?? best(around(26)) ?? best(around(40));
     if (!label) {
       listed.push(donor);
       continue;
@@ -238,7 +257,7 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
     }
 
     if (!room) listed.push(donor);
-    placed.push({ donor, x: at.x, y: at.y, label, pills, arcs });
+    placed.push({ donor, x: at.x, y: at.y, text, label, pills, arcs });
   }
 
   return { hub, placed, listed };

@@ -129,7 +129,7 @@ export function MapWidget(params: AgWidgetParams) {
                   onFocus={() => store.hover(pick)}
                   onBlur={() => store.hover(null)}
                 >
-                  {p.donor.label}
+                  {p.text}
                 </button>
                 {p.pills.map((x) => (
                   <span key={x.flow} data-label className={`lg-pill lg-pill-${x.flow}`} style={{ left: x.box.x, top: x.box.y, width: x.box.w, height: x.box.h }}>

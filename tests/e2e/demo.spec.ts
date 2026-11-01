@@ -233,6 +233,11 @@ async function openLedger(page: Page, name: Snapshot, body = snapshot(name)) {
 
 const totals = (page: Page) => page.locator(".ag-studio-value-widget-content");
 const bookRows = (page: Page) => page.locator(".ag-row");
+const book = (page: Page) => page.locator(".ag-root-wrapper");
+
+/** Book cells whose text does not fit, as the reader would see it cut short. */
+const cutShort = (page: Page) =>
+  page.evaluate(() => [...document.querySelectorAll<HTMLElement>(".ag-cell")].filter((c) => c.scrollWidth > c.clientWidth + 1).map((c) => c.textContent));
 
 async function expectTotals(page: Page, third: string) {
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: third })).toHaveCount(1);
@@ -250,7 +255,11 @@ const crowded = (page: Page) =>
         if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) out.push(`${boxes[i].text} × ${boxes[j].text}`);
       }
     }
-    return { count: boxes.length, out };
+    const marks = [...document.querySelectorAll(".lg-ring, .lg-head")].map((e) => e.getBoundingClientRect());
+    for (const { text, r } of boxes) {
+      for (const m of marks) if (r.left < m.right && m.left < r.right && r.top < m.bottom && m.top < r.bottom) out.push(`${text} × a dot or arrowhead`);
+    }
+    return { count: boxes.length, marks: marks.length, out };
   });
 
 const wider = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -267,6 +276,7 @@ for (const { width, height } of [
     expect(await wider(page)).toBeLessThanOrEqual(0);
     const labels = await crowded(page);
     expect(labels.count).toBeGreaterThan(8);
+    expect(labels.marks).toBe(6);
     expect(labels.out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
     await expect(page.locator(".lg-head")).toHaveCount(3);
@@ -277,6 +287,9 @@ for (const { width, height } of [
     await expect(page.locator("[data-need=diapers]")).toContainText("6 of 6");
     await expect(page.locator("[data-need=batteries]")).toContainText("50 of 50");
     await expect(page.locator(".lg-receipt")).toHaveAttribute("target", "_blank");
+    await expect(page.getByRole("link", { name: "Receipt photo" })).toBeVisible();
+    const cities = await page.locator(".lg-label").allTextContents();
+    expect(cities).toEqual(width < 600 ? ["Columbus", "Berlin", "Osaka"] : ["Mark · Columbus", "Lena · Berlin", "Yuki · Osaka"]);
   });
 
   test(`ledger at ${width} px: open drive, the money is held and nothing says it returned`, async ({ page }) => {
@@ -296,14 +309,14 @@ for (const { width, height } of [
 
 test("ledger: pressing a donor lights up what they paid for and filters the book; pressing again clears", async ({ page }) => {
   await openLedger(page, "closed");
-  await expect(bookRows(page)).toHaveCount(0);
+  await expect(book(page)).toBeHidden();
   const open = page.getByRole("button", { name: /Every line of the book/ });
   await expect(open).toHaveAttribute("aria-expanded", "false");
-  await page.evaluate(() => document.querySelector(".lg-run")?.setAttribute("data-kept", "1"));
   await open.click();
+  await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(20);
   await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Charged", "PayPal capture", "Status"]);
-  await expect(page.locator(".lg-run")).toHaveAttribute("data-kept", "1");
+  await expect(page.locator(".ag-row").first()).toContainText("Captured");
 
   const lena = page.locator("button[data-donor=Lena]");
   await lena.click();
@@ -327,6 +340,95 @@ test("ledger: pressing a donor lights up what they paid for and filters the book
   await expect(bookRows(page)).toHaveCount(6);
   await diapers.click();
   await expect(bookRows(page)).toHaveCount(20);
+});
+
+test("ledger: the book's text fits, the items get the room, and a selection made while it is closed filters it", async ({ page }) => {
+  await openLedger(page, "closed");
+  await page.locator("button[data-donor=Mark]").click();
+  await expect(book(page)).toBeHidden();
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(book(page)).toBeVisible();
+  await expect(bookRows(page)).toHaveCount(6);
+  await expect(page.locator(".ag-row", { hasText: "Paper diapers M 18 pieces" }).first()).toBeVisible();
+  await expect(async () => expect(await cutShort(page)).toEqual([])).toPass({ timeout: 3_000 });
+
+  const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
+  const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
+  for (const pick of ["Lena", "Yuki", "Mark"] as const) {
+    await page.locator(`button[data-donor=${pick}]`).click();
+    await expect(page.locator(".ag-row", { hasText: needOf[pick] })).toHaveCount(6);
+    await expect(bookRows(page)).toHaveCount(6);
+    await expect(async () => {
+      expect(await cutShort(page)).toEqual([]);
+      expect(await width("item")).toBeGreaterThan(await width("need"));
+      expect(await width("item")).toBeGreaterThan(await width("payer"));
+    }).toPass({ timeout: 3_000 });
+  }
+});
+
+test("ledger: opening and closing the book moves nothing; Replay still runs it all again", async ({ page }) => {
+  await openLedger(page, "closed");
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
+  await page.evaluate(() => {
+    const w = window as unknown as { kept: Element[]; started: number };
+    w.kept = [...document.querySelectorAll(".ag-studio-value-widget-content, .lg-map, .lg-run, .lg-shelter")];
+    w.started = 0;
+    document.addEventListener("animationstart", (e) => {
+      if ((e.target as Element).closest?.(".lg-map, .lg-shelter")) w.started++;
+    });
+  });
+  const same = () => page.evaluate(() => (window as unknown as { kept: Element[] }).kept.filter((e) => !e.isConnected).length);
+  const started = () => page.evaluate(() => (window as unknown as { started: number }).started);
+
+  const button = page.getByRole("button", { name: /Every line of the book/ });
+  for (let i = 0; i < 2; i++) {
+    await button.click();
+    await expect(book(page)).toBeVisible();
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+    await button.click();
+    await expect(book(page)).toBeHidden();
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  }
+  await page.waitForTimeout(400);
+  expect(await same()).toBe(0);
+  expect(await started()).toBe(0);
+  expect(await runningAnimations(page)).toBe(0);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.getByRole("button", { name: "Replay" }).click();
+  await expect(async () => expect(await started()).toBeGreaterThan(5)).toPass({ timeout: 3_000 });
+});
+
+test("ledger: a closed book is out of reach for Tab and for screen readers", async ({ page }) => {
+  await openLedger(page, "closed");
+  await page.getByRole("button", { name: /Every line of the book/ }).focus();
+  await page.keyboard.press("Escape");
+  const visited = [];
+  for (let i = 0; i < 16; i++) {
+    await page.keyboard.press("Tab");
+    visited.push(await page.evaluate(() => Boolean(document.activeElement?.closest(".ag-studio-layout-widget")?.querySelector(".ag-root-wrapper"))));
+  }
+  expect(visited).not.toContain(true);
+  await expect(page.getByRole("grid")).toHaveCount(0);
+
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(page.getByRole("grid")).toHaveCount(1);
+});
+
+test("ledger: a total under the pointer shows no tooltip of its own number", async ({ page }) => {
+  await openLedger(page, "closed");
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  const tooltip = page.locator("[class*=tooltip]");
+  await totals(page).nth(1).hover({ force: true });
+  await page.waitForTimeout(2_600);
+  await expect(tooltip).toHaveCount(0);
+  await page.mouse.move(700, 500);
+
+  // The control: with our rule taken off, Studio's tooltip appears and this locator finds it.
+  await page.addStyleTag({ content: ".lg-frame .ag-studio-value-widget-content-container { pointer-events: auto !important; }" });
+  await totals(page).nth(1).hover();
+  await expect(tooltip.first()).toContainText("¥5,224", { timeout: 4_000 });
 });
 
 test("ledger: hovering lights up the pair without touching the book", async ({ page }) => {
@@ -470,6 +572,7 @@ test("ledger of a drive taken through the app: held before the close, returned a
   const driveId = await openDemo(page);
   await page.getByRole("button", { name: "Use the sample receipt" }).click();
   await expect(page.locator(".co-pill")).toHaveCount(9);
+  // The sample receipt started a re-read of the drive every 2.5 s: the screen must not notice.
   await page.getByRole("navigation", { name: "Role" }).getByRole("link", { name: "Ledger" }).click();
   await expect(page).toHaveURL(/as=ledger$/);
   await expectTotals(page, "Held");
