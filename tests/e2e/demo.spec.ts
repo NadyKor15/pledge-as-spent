@@ -809,6 +809,28 @@ test("finding 4: on a phone too the next step is big and Close asks", async ({ p
   await expect(page.getByRole("button", { name: "Keep it open" })).toBeVisible();
 });
 
+test("recheck: the need pictures are painted on the Ledger right after Close", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await captureUntilCompleted(page);
+  await closeDrive(page);
+  await page.getByRole("link", { name: "See where the money went" }).click();
+  await page.waitForURL(/as=ledger/);
+  const pics = page.locator(".lg-pic img");
+  await expect(pics).toHaveCount(3, { timeout: 15_000 });
+  for (const wait of [1_500, 6_000]) {
+    await page.waitForTimeout(wait);
+    for (let i = 0; i < 3; i++) {
+      const shot = PNG.sync.read(await page.screenshot({ clip: (await pics.nth(i).boundingBox())! }));
+      let ink = 0;
+      for (let p = 0; p < shot.data.length; p += 4) if (Math.min(shot.data[p], shot.data[p + 1], shot.data[p + 2]) < 225) ink++;
+      expect(ink, `picture ${i} after ${wait} ms`).toBeGreaterThan(200);
+    }
+  }
+});
+
 test("recheck: the buttons that confirm Close are on screen at 1440×900", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await openDemo(page);

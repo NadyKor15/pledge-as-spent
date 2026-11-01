@@ -17,7 +17,7 @@ const PICTURES: Record<string, { src: string; w: number; h: number }> = {
 function Picture({ needId }: { needId: string }) {
   const p = PICTURES[needId];
   if (!p) return <NeedIcon needId={needId} size={52} />;
-  return <Image src={p.src} alt="" width={p.w} height={p.h} unoptimized />;
+  return <Image src={p.src} alt="" width={p.w} height={p.h} loading="eager" unoptimized />;
 }
 
 export function ShelterWidget(params: AgWidgetParams) {
