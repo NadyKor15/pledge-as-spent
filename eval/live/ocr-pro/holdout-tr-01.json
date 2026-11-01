@@ -1,0 +1,239 @@
+{
+ "receiptId": "holdout-tr-01",
+ "set": "holdout",
+ "imageSha256": "5ce22a03d0ff14c10dad04bb9dbecb7468046c7fbd2191fe9b0baad8269e0d12",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-07T17:10:00",
+  "receiptNumber": "5641",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DOĞAL KAYNAK 5 LİTRE wie",
+    "translationEn": "Natural source 5 liters",
+    "qty": 2,
+    "unitPriceMinor": 2690,
+    "amountMinor": 5380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA 6 pieces 20 *114.90",
+    "qty": 1,
+    "unitPriceMinor": 11490,
+    "amountMinor": 11490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500 GR “10 *298.00",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SİGARA UZUN 20'Lİ",
+    "translationEn": "Long cigarettes 20's «20 *99.00",
+    "qty": 1,
+    "unitPriceMinor": 9900,
+    "amountMinor": 9900,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 6763,
+  "taxIncluded": false,
+  "totalMinor": 56570,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5916873187",
+    "bbox": {
+     "x": 0.6904869619264408,
+     "y": 0.7664494858879326,
+     "w": 0.1471373025576167,
+     "h": 0.021806761667979346
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "eR ob ork 9318",
+    "bbox": {
+     "x": 0.19913202217698853,
+     "y": 0.7234847054274229,
+     "w": 0.27374773080232695,
+     "h": 0.025032525545108153
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.20236993868583397,
+     "y": 0.8071402778574067,
+     "w": 0.18816279431385968,
+     "h": 0.02661180361004356
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural source 5 liters counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.98
+  }
+ ],
+ "classifiedFor": "c32512e34e4befd7701e6a6fa34e7335b3b89801d000949d74918179abe6bd11",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3882,
+   "tokensOut": 1057,
+   "usdCeiling": 0.024799,
+   "usdActual": 0.006488
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1926,
+   "tokensOut": 180,
+   "usdCeiling": 0.019141,
+   "usdActual": 0.002117
+  }
+ ],
+ "latencyMs": {
+  "read": 9737,
+  "classify": 1660
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 07.11.2026 17:10 FİŞ NO: 5641",
+   "DOĞAL KAYNAK 5 LİTRE wie *53,80",
+   "2 x 26,90",
+   "ALKALİN AA 6 ADET 420 *114,90",
+   "BEYAZ PEYNİR 500 GR “19 *298,00",
+   "2 x 149,00",
+   "SİGARA UZUN 20'Lİ «20 *99,00",
+   "KDV %1@ MATRAH 319,82 «31,98",
+   "KDV %20 MATRAH 178,25 *35,65",
+   "TOPKDV *67 , 63",
+   "TOPLAM *565,70",
+   "KREDİ KARTI *565,70",
+   "eR ob ork 9318",
+   "MÜŞTERİ KARTI 5916873187",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 07.11.2026 17:10 FİŞ NO: 5641",
+   "DOĞAL KAYNAK 5 LİTRE wie *53,80",
+   "2 x 26,90",
+   "ALKALİN AA 6 ADET 420 *114,90",
+   "BEYAZ PEYNİR 500 GR “19 *298,00",
+   "2 x 149,00",
+   "SİGARA UZUN 20'Lİ «20 *99,00",
+   "KDV %1@ MATRAH 319,82 «31,98",
+   "KDV %20 MATRAH 178,25 *35,65",
+   "TOPKDV *67 , 63",
+   "TOPLAM *565,70",
+   "KREDİ KARTI *565,70",
+   "eR ob ork 9318",
+   "MÜŞTERİ KARTI 5916873187",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarş1 Cd. No:12",
+   "Merkez / Y1ld1zova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 07.11.2026 17:10",
+   "FİŞ NO: 5641",
+   "DOĞAL KAYNAK 5 LİTRE",
+   "%10 *53,80",
+   "2 x 26,90",
+   "ALKALİN AA 6 ADET",
+   "%20 *114,90",
+   "BEYAZ PEYNİR 500 GR",
+   "%10 *298,00",
+   "2 x 149,00",
+   "ŞİGARA UZUN 20'Lİ",
+   "%20 *99,00",
+   "KDV %10 MATRAH 319,82",
+   "*31,98",
+   "KDV %20 MATRAH 178,25",
+   "*35,65",
+   "TOPKDV",
+   "*67,63",
+   "TOPLAM",
+   "*565,70",
+   "KREDİ KARTI"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
+}

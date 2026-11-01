@@ -1,0 +1,225 @@
+{
+ "receiptId": "holdout-es-04",
+ "set": "holdout",
+ "imageSha256": "69a92b3ac058d679f32b5ceb0608da7e5777ce2d71dc6af0aacc07774c47689c",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 000809 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T12:57:00",
+  "receiptNumber": "7337",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C batteries LR14 2-pack",
+    "qty": 2,
+    "unitPriceMinor": 479,
+    "amountMinor": 958,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ATÚN EN ACEITE PACK 3",
+    "translationEn": "Tuna in oil 3-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 389,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diaper size 3 40-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 945,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COBERTOR SOFA 150X200",
+    "translationEn": "Sofa cover 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 842,
+  "taxIncluded": true,
+  "totalMinor": 5490,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5755114861",
+    "bbox": {
+     "x": 0.6869742374778544,
+     "y": 0.7734491163160848,
+     "w": 0.1420700281954318,
+     "h": 0.01836270952454233
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek ek oke 6439",
+    "bbox": {
+     "x": 0.1856201005568463,
+     "y": 0.7314159640040266,
+     "w": 0.28369520671296594,
+     "h": 0.022323364653079047
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.18821505701124938,
+     "y": 0.8166626328010113,
+     "w": 0.2096401986149883,
+     "h": 0.021088679832791946
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are not the same as AA batteries, which are the only batteries this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tuna in oil is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A sofa cover is not one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "b06f873a350ccbb83f6cb1b7f7698ab5c26bc4b756e25bff7ec7510e301ba090",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2703,
+   "tokensOut": 611,
+   "usdCeiling": 0.024833,
+   "usdActual": 0.004118
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1913,
+   "tokensOut": 177,
+   "usdCeiling": 0.01912,
+   "usdActual": 0.002097
+  }
+ ],
+ "latencyMs": {
+  "read": 5530,
+  "classify": 1941
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "000809 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 7337",
+   "05/11/2026 12:57 CAJA 02",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS C LR14 2U 9,58 B",
+   "2 x 4,79",
+   "ATÚN EN ACEITE PACK 3 3,89 A",
+   "PAÑAL DORMILÓN TALLA 3 40UD 9,45 A",
+   "COBERTOR SOFA 150X200 31,98 B",
+   "2 x 15,99",
+   "TOTAL (IVA INCLUIDO) 54,90 EUR",
+   "A IVA 10% BASE 12,13 CUOTA 1,21",
+   "B IVA 21% BASE 34,35 CUOTA 7,21",
+   "PAGO TARJETA 54,98",
+   "seek ek oke 6439",
+   "socio 5755114861",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "000809 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 7337",
+   "05/11/2026 12:57 CAJA 02",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS C LR14 2U 9,58 B",
+   "2 x 4,79",
+   "ATÚN EN ACEITE PACK 3 3,89 A",
+   "PAÑAL DORMILÓN TALLA 3 40UD 9,45 A",
+   "COBERTOR SOFA 150X200 31,98 B",
+   "2 x 15,99",
+   "TOTAL (IVA INCLUIDO) 54,90 EUR",
+   "A IVA 10% BASE 12,13 CUOTA 1,21",
+   "B IVA 21% BASE 34,35 CUOTA 7,21",
+   "PAGO TARJETA 54,98",
+   "seek ek oke 6439",
+   "socio 5755114861",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Villa Alboraday",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 7337",
+   "05/11/2026 12:57",
+   "CAJA 02",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PILAS C LR14 2U",
+   "9,58 B",
+   "2 x 4,79",
+   "ATÚN EN ACEITE PACK 3",
+   "3,89 A",
+   "PANAL DORMILÓN TALLA 3 40UD",
+   "9,45 A",
+   "COBERTOR SOFÁ 150X200",
+   "31,98 B",
+   "2 x 15,99",
+   "TOTAL (IVA INCLUIDO)",
+   "54,90 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

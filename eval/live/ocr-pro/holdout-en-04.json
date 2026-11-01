@@ -1,0 +1,229 @@
+{
+ "receiptId": "holdout-en-04",
+ "set": "holdout",
+ "imageSha256": "497f4c2f5d5296ac68a5cb31816891497cd3168f42d9f0a7e1e08350fd52185d",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T20:12:00",
+  "receiptNumber": "6353",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 3,
+    "unitPriceMinor": 139,
+    "amountMinor": 417,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "AA batteries 12-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1099,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "C BATTERY 4PK",
+    "translationEn": "C batteries 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 899,
+    "amountMinor": 1798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Tiny Steps Diaper Size 3 52-count",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1899,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5213,
+  "taxMinor": 348,
+  "taxIncluded": false,
+  "totalMinor": 5561,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "3156000307",
+    "bbox": {
+     "x": 0.6597566720443351,
+     "y": 0.7931615660519646,
+     "w": 0.14655157531339846,
+     "h": 0.018998393903918
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "se FRI IAA G7",
+    "bbox": {
+     "x": 0.5726016335389603,
+     "y": 0.6501228931637484,
+     "w": 0.24381427273775713,
+     "h": 0.029807315176124227
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.15998664660204442,
+     "y": 0.7546113739129798,
+     "w": 0.18251578187987416,
+     "h": 0.020566801287927317
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "f36a6308ca5ba5c7ba101099f8e12875ee31a7c75b453f44eb9c77f32a5403e8",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2585,
+   "tokensOut": 585,
+   "usdCeiling": 0.024787,
+   "usdActual": 0.00394
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1889,
+   "tokensOut": 169,
+   "usdCeiling": 0.019122,
+   "usdActual": 0.002052
+  }
+ ],
+ "latencyMs": {
+  "read": 5143,
+  "classify": 1535
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 @8:12 PM REG @3",
+   "TRANS #6353",
+   "DISTILLED WTR 1GAL $4.17 F",
+   "3 @ $1.39",
+   "DOUBLE A CELLS 12CT $10.99 T",
+   "C BATTERY 4PK $17.98 T",
+   "2 @ $8.99",
+   "TINY STEPS DIAPER SZ3 52CT $18.99 T",
+   "SUBTOTAL $52.13",
+   "SALES TAX 7.25% $3.48",
+   "TOTAL $55.61",
+   "VISA se FRI IAA G7",
+   "APPROVED $55.61",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 3156000307",
+   "; T = TAXABLE F = NON-TAXABLE",
+   "= THANK YOU - COME AGAIN",
+   "3",
+   "fi"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 @8:12 PM REG @3",
+   "TRANS #6353",
+   "DISTILLED WTR 1GAL $4.17 F",
+   "3 @ $1.39",
+   "DOUBLE A CELLS 12CT $10.99 T",
+   "C BATTERY 4PK $17.98 T",
+   "2 @ $8.99",
+   "TINY STEPS DIAPER SZ3 52CT $18.99 T",
+   "SUBTOTAL $52.13",
+   "SALES TAX 7.25% $3.48",
+   "TOTAL $55.61",
+   "VISA se FRI IAA G7",
+   "APPROVED $55.61",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 3156000307",
+   "; T = TAXABLE F = NON-TAXABLE",
+   "= THANK YOU - COME AGAIN",
+   "3",
+   "fi"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 08:12 PM",
+   "REG 03",
+   "TRANS #6353",
+   "DISTILLED WTR 1GAL",
+   "3 @ $1.39",
+   "$4.17 F",
+   "DOUBLE A CELLS 12CT",
+   "$10.99 T",
+   "C BATTERY 4PK",
+   "$17.98 T",
+   "2 @ $8.99",
+   "TINY STEPS DIAPER SZ3 52CT",
+   "$18.99 T",
+   "SUBTOTAL",
+   "$52.13",
+   "SALES TAX 7.25%",
+   "$3.48",
+   "TOTAL",
+   "$55.61"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

@@ -1,0 +1,182 @@
+{
+ "receiptId": "holdout-tr-02",
+ "set": "holdout",
+ "imageSha256": "678e3e527fb2f711a6f1d53d9d5b91f6b4872fa5d36501a4cc87dcf6822f9123",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T13:58:00",
+  "receiptNumber": "0834",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "POLAR BATTANİYE 150X200 820",
+    "translationEn": "Polar blanket 150x200",
+    "qty": 2,
+    "unitPriceMinor": 52900,
+    "amountMinor": 105800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton cloth size 4 40 pieces",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 28267,
+  "taxIncluded": false,
+  "totalMinor": 169600,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8795342148",
+    "bbox": {
+     "x": 0.6897926745363714,
+     "y": 0.7415646860348889,
+     "w": 0.1458401629194176,
+     "h": 0.023405101716145627
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.2038926181187583,
+     "y": 0.788518301048236,
+     "w": 0.18800239462425528,
+     "h": 0.030617184082437077
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "8795342148",
+    "bbox": {
+     "x": 0.6897926745363714,
+     "y": 0.7415646860348889,
+     "w": 0.1458401629194176,
+     "h": 0.023405101716145627
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A polar blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cotton cloth is not one of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "7ee6c90cebd9292d4cedea13ef01feb2ad483e2d11225028df4f0bf05db2367b",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2584,
+   "tokensOut": 582,
+   "usdCeiling": 0.024726,
+   "usdActual": 0.0039299999999999995
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1829,
+   "tokensOut": 90,
+   "usdCeiling": 0.018901,
+   "usdActual": 0.001751
+  }
+ ],
+ "latencyMs": {
+  "read": 5184,
+  "classify": 1041
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL @ 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 04.11.2026 13:58 FİŞ NO: 0834",
+   "POLAR BATTANİYE 150X200 820 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET «20 *638,00",
+   "2 x 319,00",
+   "KDV %2@ MATRAH 1.413,33 *282,67",
+   "TOPKDV *282,67",
+   "TOPLAM *1.696,00",
+   "NAKİT *1.700,00",
+   "PARA ÜSTÜ *4,00",
+   "MÜŞTERİ KARTI 8795342148",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL @ 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 04.11.2026 13:58 FİŞ NO: 0834",
+   "POLAR BATTANİYE 150X200 820 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET «20 *638,00",
+   "2 x 319,00",
+   "KDV %2@ MATRAH 1.413,33 *282,67",
+   "TOPKDV *282,67",
+   "TOPLAM *1.696,00",
+   "NAKİT *1.700,00",
+   "PARA ÜSTÜ *4,00",
+   "MÜŞTERİ KARTI 8795342148",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarş1 Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 04.11.2026 13:58",
+   "FİŞ NO: 0834",
+   "POLAR BATTANİYE 150X200",
+   "%20 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLÜ BEZ 4 NUMARA 40 AÇET",
+   "%20 *638,00",
+   "2 x 319,00",
+   "KDV %20 MATRAH 1.413,33",
+   "*282,67",
+   "TOPKDV",
+   "*282,67",
+   "TOPLAM",
+   "*1.696,00"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
+}

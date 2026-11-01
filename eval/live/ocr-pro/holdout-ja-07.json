@@ -1,0 +1,302 @@
+{
+ "receiptId": "holdout-ja-07",
+ "set": "holdout",
+ "imageSha256": "0be85f4a513e5fac5102325b5d9c20bedd18a6e1203075548a314ab4da2fd651",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T08:49:00",
+  "receiptNumber": "05 No.@559",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BADOF—T M 40K",
+    "translationEn": "BADOF-T M 40K",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "いわし蒲焼 ff",
+    "translationEn": "Iwashi Kabayaki",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 1,
+    "unitPriceMinor": 178,
+    "amountMinor": 178,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "紙巻たばこ 1 箱",
+    "translationEn": "Cigarettes 1 box",
+    "qty": 1,
+    "unitPriceMinor": 580,
+    "amountMinor": 580,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "テープおむつ S 60K",
+    "translationEn": "Tape diaper S 60K",
+    "qty": 1,
+    "unitPriceMinor": 1180,
+    "amountMinor": 1180,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "WBOB* 2L",
+    "translationEn": "WBOB 2L",
+    "qty": 3,
+    "unitPriceMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "単ニアルカリ 8 本パック",
+    "translationEn": "Alkaline AA 8 pack",
+    "qty": 1,
+    "unitPriceMinor": 468,
+    "amountMinor": 468,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5684,
+  "taxMinor": 545,
+  "taxIncluded": false,
+  "totalMinor": 6229,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "3871 9663 0304",
+    "bbox": {
+     "x": 0.5956771081423295,
+     "y": 0.7997488985485249,
+     "w": 0.203104230908684,
+     "h": 0.018700558794149558
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The product description is unclear and does not match any of the listed needs.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Canned food is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are not funded.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size S diapers are not the size this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 8 AA batteries counts toward the batteries need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "6dfc3947c2f00f036956f33bbc53ae39c3855bf8421c622f70ad83c67dadeb56",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3156,
+   "tokensOut": 879,
+   "usdCeiling": 0.02477,
+   "usdActual": 0.005338
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2007,
+   "tokensOut": 278,
+   "usdCeiling": 0.019372,
+   "usdActual": 0.002495
+  }
+ ],
+ "latencyMs": {
+  "read": 8579,
+  "classify": 2743
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "AAAS A",
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199999551",
+   "2626 年 11 月 95 日 ( 木 ) 98:49",
+   "レジ 95 No.@559",
+   "BADOF—T M 40K ¥2,360",
+   "2m x 1,180",
+   "いわし蒲焼 ff ¥594※",
+   "3 x 単 168",
+   "ゼリー飲料 ¥178※",
+   "紙巻たばこ 1 箱 ¥580",
+   "テープおむつ S 60K ¥1,180",
+   "WBOB* 2L Y414※",
+   "3 点 x 単 138",
+   "単ニアルカリ 8 本パック ¥468",
+   "小計 (7 点 ) ¥5,684",
+   "外税 8* 対象 ¥1,096 消費税 ¥87",
+   "外税 19* 対象 ¥4,588 消費税 ¥458",
+   "合計 ¥6,229",
+   "お預り ¥7,000",
+   "お釣り ¥771",
+   "Se Hittin sakacsee",
+   "SRW ®",
+   "会員番号 3871 9663 0304",
+   "ae cme” SoA",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "AAAS A",
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199999551",
+   "2626 年 11 月 95 日 ( 木 ) 98:49",
+   "レジ 95 No.@559",
+   "BADOF—T M 40K ¥2,360",
+   "2m x 1,180",
+   "いわし蒲焼 ff ¥594※",
+   "3 x 単 168",
+   "ゼリー飲料 ¥178※",
+   "紙巻たばこ 1 箱 ¥580",
+   "テープおむつ S 60K ¥1,180",
+   "WBOB* 2L Y414※",
+   "3 点 x 単 138",
+   "単ニアルカリ 8 本パック ¥468",
+   "小計 (7 点 ) ¥5,684",
+   "外税 8* 対象 ¥1,096 消費税 ¥87",
+   "外税 19* 対象 ¥4,588 消費税 ¥458",
+   "合計 ¥6,229",
+   "お預り ¥7,000",
+   "お釣り ¥771",
+   "ポイントカード",
+   "SRW ®",
+   "会員番号 3871 9663 0304",
+   "ae cme” SoA",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "レシート",
+   "•",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月05日(•) 08:49",
+   "L•05",
+   "No.0559",
+   "• M 40% ¥2,360",
+   "2• x ¥1,180",
+   "• ¥504",
+   "3• x ¥168",
+   "• ¥178",
+   "• 1 ¥580",
+   "• S 60% ¥1,180",
+   "• 2L ¥414",
+   "3• x ¥138",
+   "• 8• ¥468",
+   "合計 (税) ¥5,684",
+   "• 8% ¥1,096",
+   "• 10% ¥4,588",
+   "• ¥87",
+   "• ¥458",
+   "合計 ¥6,229"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9999199999551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "2626",
+    "to": "2026"
+   },
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "594",
+    "to": "504"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
+}

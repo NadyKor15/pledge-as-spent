@@ -1,0 +1,284 @@
+{
+ "receiptId": "holdout-ja-08",
+ "set": "holdout",
+ "imageSha256": "ebdff881ef2be1a0ebda1edf80226dad5eeb6c309c022a8ecbd94aa7a9c896a7",
+ "reading": {
+  "merchantName": "ホームセンターツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T13:32:00",
+  "receiptNumber": "3565",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単ニアルカリ 8 本バック",
+    "translationEn": "AA alkaline 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ふんわりテープ M 40K",
+    "translationEn": "Fluffy tape M 40K",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6 本入",
+    "translationEn": "Delicious water 2L",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "歯ブラシ 3 本",
+    "translationEn": "Toothbrush 3 pieces",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 248,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 609,
+  "taxIncluded": false,
+  "totalMinor": 7096,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "クレジット本本本キネキキネネ 5.268",
+    "bbox": {
+     "x": 0.7401318889560988,
+     "y": 0.7746076753525523,
+     "w": 0.058233448770210194,
+     "h": 0.025402123429718038
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M baby diapers count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "47c8dbe6b5d9ce3ff3f6cfb5e712a68d79d6cdf54e379c87ef865b9cba266539",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3620,
+   "tokensOut": 731,
+   "usdCeiling": 0.024774,
+   "usdActual": 0.005235
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1980,
+   "tokensOut": 273,
+   "usdCeiling": 0.019307,
+   "usdActual": 0.002458
+  }
+ ],
+ "latencyMs": {
+  "read": 7446,
+  "classify": 2389
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL @123-55-1100",
+   "登録番号 T9999199999712",
+   "29626 年 11 月 99 日 (月 ) 13:32",
+   "レジ 9@1 No.3565",
+   "ゼリー飲料 ¥356※",
+   "2 点 x 単 178",
+   "単ニアルカリ 8 本バック ¥936",
+   "2 点 x 単 468",
+   "フリース毛布 149x299 ¥1,480",
+   "ふんわりテープ M 40K ¥2,366",
+   "2 点 x 単 1,189",
+   "おいしい水 2L ¥1,716%",
+   "6 本入",
+   "2 点 x 単 858",
+   "歯ブラシ 3 本 ¥248",
+   "小計 (6 点 ) ¥7,696",
+   "But ¥2,072",
+   "16% 対象 ¥5,024",
+   "(内消費税等 Br ¥153)",
+   "(内消費税等 10* ¥456)",
+   "ait ¥7,096",
+   "クレジット本本本キネキキネネ 5.268",
+   "お支払い ¥7,096",
+   "% ※ は軽減税率 (8$) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL @123-55-1100",
+   "登録番号 T9999199999712",
+   "29626 年 11 月 99 日 (月 ) 13:32",
+   "レジ 9@1 No.3565",
+   "ゼリー飲料 ¥356※",
+   "2 点 x 単 178",
+   "単ニアルカリ 8 本バック ¥936",
+   "2 点 x 単 468",
+   "フリース毛布 149x299 ¥1,480",
+   "ふんわりテープ M 40K ¥2,366",
+   "2 点 x 単 1,189",
+   "おいしい水 2L ¥1,716%",
+   "6 本入",
+   "2 点 x 単 858",
+   "歯ブラシ 3 本 ¥248",
+   "小計 (6 点 ) ¥7,696",
+   "But ¥2,072",
+   "16% 対象 ¥5,024",
+   "(内消費税等 Br ¥153)",
+   "(内消費税等 10* ¥456)",
+   "ait ¥7,096",
+   "クレジット本本本キネキキネネ 5.268",
+   "お支払い ¥7,096",
+   "% ※ は軽減税率 (8$) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "- -",
+   "TEL 0123-55-1100",
+   "0000100000712",
+   "20261109() 13:32",
+   "01",
+   "No.3565",
+   "- ¥356",
+   "2 x 178",
+   "8 ¥936",
+   "2 x 468",
+   "- 140x200 ¥1,480",
+   "M 40 ¥2,360",
+   "2 x 1,180",
+   "2L ¥1,716",
+   "2 x 858",
+   "3 ¥248",
+   "(6) ¥7,096",
+   "8 ¥2,072",
+   "10 ¥5,024",
+   "8 ¥153)",
+   "10% ¥456)",
+   "¥7,096",
+   "5268",
+   "¥7,096",
+   "(8)"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9999199999712",
+    "to": "0000100000712"
+   },
+   {
+    "from": "149",
+    "to": "140"
+   },
+   {
+    "from": "299",
+    "to": "200"
+   },
+   {
+    "from": "2,366",
+    "to": "2,360"
+   },
+   {
+    "from": "1,189",
+    "to": "1,180"
+   },
+   {
+    "from": "7,696",
+    "to": "7,096"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
+}

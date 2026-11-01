@@ -1,5 +1,24 @@
 # Receipt reading, for the README
 
+## Held-out set: the number to quote
+
+20 receipts (ja 8, tr 4, es 4, en 4) with fresh seeds and a shelf of products no prompt or rule was tuned on (`tools/receipts/catalog-holdout.ts`). `ocr-pro`, one run, 2026-11-01 01:04Z, `eval/results/ocr-pro-holdout-20261101T010436Z.md`. The set was committed before the run and nothing was changed after it.
+
+| Metric | Result |
+|---|---|
+| Line F1 | 95.6 % |
+| Receipt total exact | 20/20 |
+| Date exact | 20/20 |
+| Line class (verdict + need) | 80/98, 81.6 % |
+| Need quantity exact | 38/60, 63.3 % |
+| Forbidden lines refused with the right code | 9/10 |
+| Forbidden lines funded by mistake | 0 |
+| Personal data covered by a blur box | 35/42, 83.3 % |
+| Receipts sent to the coordinator | 6 (3 total mismatch, 3 poor quality), plus 1 false out-of-zone flag |
+
+The prompts were tuned on the v1, adversarial and hero sets, so the figures for those sets are optimistic: v1 line F1 is 100 % there and 95.6 % here. All receipts are synthetic photos of fictional stores; real crumpled receipts will read worse. A wrong class or quantity sends a line to the coordinator or leaves it unfunded; the money check is the funded-by-mistake row.
+
+
 Receipt reading (2026-11-01, Tesseract + Nova Pro v1 live, synthetic receipts: 1 main, 30 in 4 languages, 13 adversarial): line F1 100.0 / 100.0 / 99.1, Japanese 100.0, line class 140/143 on the 30, forbidden goods rejected 25/25 with 0 funded, about $0.0069 per receipt. The prompts were tuned on these sets.
 
 Details: `eval/results/reading-summary-20261101.md`. Journal: `docs/reading-rounds.md`.

@@ -1,0 +1,203 @@
+{
+ "receiptId": "holdout-ja-01",
+ "set": "holdout",
+ "imageSha256": "e6f19800c6190235557bbe274973dddc2a241b0f08c444dc8350c61972194046",
+ "reading": {
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:13:00",
+  "receiptNumber": "7283",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おいしい水 2L 6 本入",
+    "translationEn": "Delicious water 2L",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "プリベイドカード 5,000 円",
+    "translationEn": "Prepaid card 5,000 yen",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain spring water 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 138,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 6854,
+  "taxMinor": 148,
+  "taxIncluded": false,
+  "totalMinor": 7002,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "4918 7675 3547",
+    "bbox": {
+     "x": 0.5851102912190541,
+     "y": 0.7757274728229336,
+     "w": 0.19669636739250773,
+     "h": 0.021982586387957914
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "玉森 本 ネネ ネネ ドキ *49809",
+    "bbox": {
+     "x": 0.5686268265151808,
+     "y": 0.6435188822114645,
+     "w": 0.22698707318489608,
+     "h": 0.0329076750170928
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Prepaid cards are not funded.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "8a7bb9f6bd008c630d88a1a776c317fd89e49aee8d72eff997b64bd93b8763f0",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3809,
+   "tokensOut": 446,
+   "usdCeiling": 0.024697,
+   "usdActual": 0.004474
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1868,
+   "tokensOut": 132,
+   "usdCeiling": 0.01901,
+   "usdActual": 0.001917
+  }
+ ],
+ "latencyMs": {
+  "read": 5519,
+  "classify": 1943
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 0123-33-7788",
+   "登録番号 T9909199999634",
+   "2026 年 11 月 08 日 (日 ) 19:13",
+   "レジ 693 No.7283",
+   "おいしい水 2L ¥1,716※",
+   "6 本入",
+   "2 点 x 単 858",
+   "プリベイドカード 5,996 円 ¥5,000",
+   "山里の湧水 2L ¥138※",
+   "小計 (3 点 ) ¥6,854",
+   "外税 8* 対象 ¥1,854 消費税 ¥148",
+   "非課税対象 ¥5,000",
+   "合計 ¥7,602",
+   "クレジット玉森本ネネネネドキ *49809",
+   "お支払い ¥7,002",
+   "ポイントカード",
+   "/ Nh 様",
+   "会員番号 4918 7675 3547",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 0123-33-7788",
+   "登録番号 T9909199999634",
+   "2026 年 11 月 08 日 (日 ) 19:13",
+   "レジ 693 No.7283",
+   "おいしい水 2L ¥1,716※",
+   "6 本入",
+   "2 点 x 単 858",
+   "プリベイドカード 5,996 円 ¥5,000",
+   "山里の湧水 2L ¥138※",
+   "小計 (3 点 ) ¥6,854",
+   "外税 8* 対象 ¥1,854 消費税 ¥148",
+   "非課税対象 ¥5,000",
+   "合計 ¥7,602",
+   "クレジット玉森本ネネネネドキ *49809",
+   "お支払い ¥7,002",
+   "ポイントカード",
+   "/ Nh 様",
+   "会員番号 4918 7675 3547",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "カフェ カフェ",
+   "•",
+   "•",
+   "TEL 0123-33-7788",
+   "• T00001000000634",
+   "2026年11月08日(•) 10:13",
+   "•",
+   "No.7283",
+   "• 2L ¥1,716",
+   "6•",
+   "2• x •858",
+   "• 5,000円 ¥5,000",
+   "• 2L ¥138",
+   "• (3•) ¥6,854",
+   "• ¥1,854",
+   "• ¥148",
+   "• ¥5,000",
+   "• ¥7,002"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "5,996",
+    "to": "5,000"
+   }
+  ]
+ }
+}

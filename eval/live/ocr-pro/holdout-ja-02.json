@@ -1,0 +1,242 @@
+{
+ "receiptId": "holdout-ja-02",
+ "set": "holdout",
+ "imageSha256": "3e8655958825fd3e0286dbde6ba88729613dbcd428f4d67e828e9a444201d69b",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T15:36:00",
+  "receiptNumber": "5508",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "| 単三アルカリ 8 本パック",
+    "translationEn": "AA alkaline battery 8-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 468,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "i ふんわりテーブ M 40 枚",
+    "translationEn": "Soft tissue M 40 sheets",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 2360,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "8 2 点 x M",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1180,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ょ山里の湧水 2L k 2 点 x 単 138 h s 時",
+    "translationEn": "Mountain village spring water 2L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3104,
+  "taxMinor": 277,
+  "taxIncluded": false,
+  "totalMinor": 3104,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "6199 9211 6799",
+    "bbox": {
+     "x": 0.6315218874540297,
+     "y": 0.769674903986341,
+     "w": 0.19766329374519553,
+     "h": 0.02109128757989287
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "An 8-pack of AA alkaline batteries counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Soft tissues are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and cannot be matched to a need.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2L counts toward the water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "ccb07b3b32dad43afedaa3420cf103e25ea08ec1fc0715866162916f8692b91f",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3752,
+   "tokensOut": 481,
+   "usdCeiling": 0.024749,
+   "usdActual": 0.004541
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1918,
+   "tokensOut": 170,
+   "usdCeiling": 0.019135,
+   "usdActual": 0.002078
+  }
+ ],
+ "latencyMs": {
+  "read": 5537,
+  "classify": 1524
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SN N SNS で",
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199090551",
+   "2926 年 11 月 99 日 (月 ) 15:36",
+   "レジ 96 No.5508",
+   "| 単三アルカリ 8 本パック ¥468",
+   "i ふんわりテーブ M 49 枚 Y2,369",
+   "8 2 点 x M1,180",
+   "ょ山里の湧水 2L ¥276※",
+   "k 2 点 x 単 138",
+   "h s 時",
+   "ト小計 (3 点 ) ¥3,104",
+   "a BTR ¥276",
+   "i 19*% 対象 ¥2,828",
+   "+ ( 内消費税等 8* ¥20)",
+   "4 (内消費税等 16* Y257)",
+   "= 合計 ¥3,104",
+   "9 お預り ¥4,000",
+   "5 お釣り ¥896",
+   "ポイントカード",
+   "/ NAR",
+   "会員番号 6199 9211 6799",
+   "は軽減税率 (8*) 対象商品です",
+   "N ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "SN N SNS で",
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199090551",
+   "2926 年 11 月 99 日 (月 ) 15:36",
+   "レジ 96 No.5508",
+   "| 単三アルカリ 8 本パック ¥468",
+   "i ふんわりテーブ M 49 枚 Y2,369",
+   "8 2 点 x M1,180",
+   "ょ山里の湧水 2L ¥276※",
+   "k 2 点 x 単 138",
+   "h s 時",
+   "ト小計 (3 点 ) ¥3,104",
+   "a BTR ¥276",
+   "i 19*% 対象 ¥2,828",
+   "+ ( 内消費税等 8* ¥20)",
+   "4 (内消費税等 16* Y257)",
+   "= 合計 ¥3,104",
+   "9 お預り ¥4,000",
+   "5 お釣り ¥896",
+   "ポイントカード",
+   "/ NAR",
+   "会員番号 6199 9211 6799",
+   "は軽減税率 (8*) 対象商品です",
+   "N ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "•",
+   "TEL 0123-22-0042",
+   "T0000100000551",
+   "2026年11月09日(•) 15:36",
+   "レシート06",
+   "No.5508",
+   "• 8• ¥468",
+   "• M 40• ¥2,360",
+   "2• x ¥1,180",
+   "• 2L",
+   "2• x ¥138",
+   "• (3•) ¥3,104",
+   "8%• ¥276",
+   "10%• ¥2,828",
+   "(• 8% ¥20)",
+   "(• 10% ¥257)",
+   "• ¥3,104"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9999199090551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "99",
+    "to": "09"
+   },
+   {
+    "from": "96",
+    "to": "06"
+   },
+   {
+    "from": "49",
+    "to": "40"
+   },
+   {
+    "from": "2,369",
+    "to": "2,360"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
+}

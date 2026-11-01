@@ -4344,3 +4344,123 @@
 {"ts":"2026-11-01T00:52:38.626Z","id":"2524b3fe-c2c6-46ba-843f-8b0d7d2f330e","kind":"settle","ref":"146672b4-fdc1-465d-a654-f39c07e138d3","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.013753}
 {"ts":"2026-11-01T00:52:38.628Z","id":"ea52733e-a276-4505-81a5-692d346a0169","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019282}
 {"ts":"2026-11-01T00:52:40.921Z","id":"2c4ec28b-7d5a-42ba-8742-95c7c9add715","kind":"settle","ref":"ea52733e-a276-4505-81a5-692d346a0169","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.01685}
+{"ts":"2026-11-01T01:01:37.806Z","id":"0d199800-fb50-49d8-8322-a823f6e23933","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:01:40.177Z","id":"8b9057ab-aa85-4e48-8f52-9afaa46f8b43","kind":"settle","ref":"0d199800-fb50-49d8-8322-a823f6e23933","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005009}
+{"ts":"2026-11-01T01:01:40.178Z","id":"efd620f6-6b58-4f73-912f-0a73830360a1","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.016985}
+{"ts":"2026-11-01T01:01:42.214Z","id":"3d900e5f-8102-4bf9-adfd-8e7af5d8f452","kind":"settle","ref":"efd620f6-6b58-4f73-912f-0a73830360a1","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.015031}
+{"ts":"2026-11-01T01:01:42.219Z","id":"c8eb26bf-de01-4cea-afd4-43114c4faa86","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.01889}
+{"ts":"2026-11-01T01:01:43.470Z","id":"3b9f07ac-7a14-4b67-9784-dec213ce6d38","kind":"settle","ref":"c8eb26bf-de01-4cea-afd4-43114c4faa86","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017137}
+{"ts":"2026-11-01T01:01:43.975Z","id":"d936a8b0-4032-41aa-8790-dd32e8bc3c03","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:01:46.332Z","id":"008f5596-eea9-418b-b535-8990e01d3c67","kind":"settle","ref":"d936a8b0-4032-41aa-8790-dd32e8bc3c03","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005012}
+{"ts":"2026-11-01T01:01:46.333Z","id":"9adfc506-a44f-4bda-b7ec-bae200f40fcd","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017058}
+{"ts":"2026-11-01T01:01:49.861Z","id":"a5013c4f-3a75-4ac8-a1c7-75b878d794d3","kind":"settle","ref":"9adfc506-a44f-4bda-b7ec-bae200f40fcd","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014601}
+{"ts":"2026-11-01T01:01:49.864Z","id":"8d0b3925-df33-4b10-b171-30979dcb9f9b","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019233}
+{"ts":"2026-11-01T01:01:51.772Z","id":"849b5177-77f8-4de8-ba1a-d1ce549cc002","kind":"settle","ref":"8d0b3925-df33-4b10-b171-30979dcb9f9b","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017033}
+{"ts":"2026-11-01T01:01:52.276Z","id":"127c6196-35e0-4360-815f-006614888b1b","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:01:54.915Z","id":"c3c67c35-756f-49ba-9887-b53690efe3c8","kind":"settle","ref":"127c6196-35e0-4360-815f-006614888b1b","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.00565}
+{"ts":"2026-11-01T01:01:54.916Z","id":"4c20635a-e225-4cca-84e1-38de5a48cca5","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.01709}
+{"ts":"2026-11-01T01:01:58.672Z","id":"81d53b7b-669a-4a74-b255-d2c4608bc8fa","kind":"settle","ref":"4c20635a-e225-4cca-84e1-38de5a48cca5","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014034}
+{"ts":"2026-11-01T01:01:58.674Z","id":"c324ec4e-0610-4659-ae45-92c367b6e030","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019294}
+{"ts":"2026-11-01T01:02:00.862Z","id":"b9f6b708-4bce-4e61-a8e8-4c2c09fac2cc","kind":"settle","ref":"c324ec4e-0610-4659-ae45-92c367b6e030","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016967}
+{"ts":"2026-11-01T01:02:01.317Z","id":"e82cdf7d-1781-4ef9-b49d-062de4c23174","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:03.287Z","id":"19fec746-f72f-4b66-8273-fbc29cce3205","kind":"settle","ref":"e82cdf7d-1781-4ef9-b49d-062de4c23174","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.006017}
+{"ts":"2026-11-01T01:02:03.288Z","id":"0309a714-7a78-49be-9358-55c5c8b0521f","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017047}
+{"ts":"2026-11-01T01:02:06.026Z","id":"d89e8410-6ba5-4c37-899b-bbb39e6d15d8","kind":"settle","ref":"0309a714-7a78-49be-9358-55c5c8b0521f","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.01483}
+{"ts":"2026-11-01T01:02:06.028Z","id":"26454f5a-54ae-4413-8768-32ef5ec4ed28","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019122}
+{"ts":"2026-11-01T01:02:07.560Z","id":"2a82ec34-afb4-4626-9636-2112980e007d","kind":"settle","ref":"26454f5a-54ae-4413-8768-32ef5ec4ed28","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.01707}
+{"ts":"2026-11-01T01:02:08.332Z","id":"e8bc76a7-5b33-4dc2-bc4b-04c4535394b4","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:10.741Z","id":"3de693ee-809c-48f1-be59-3654679088ef","kind":"settle","ref":"e8bc76a7-5b33-4dc2-bc4b-04c4535394b4","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.00497}
+{"ts":"2026-11-01T01:02:10.742Z","id":"d6701158-c8d3-43d9-ae8a-6a3e1b8ca448","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017102}
+{"ts":"2026-11-01T01:02:13.670Z","id":"68828df1-9cfb-4317-b200-9cec5a673061","kind":"settle","ref":"d6701158-c8d3-43d9-ae8a-6a3e1b8ca448","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014979}
+{"ts":"2026-11-01T01:02:13.671Z","id":"5771a7cf-918f-4442-bd34-bd4b11d0bdcf","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019179}
+{"ts":"2026-11-01T01:02:16.109Z","id":"3d49edf1-7136-4cf8-a0bc-41aecd30e065","kind":"settle","ref":"5771a7cf-918f-4442-bd34-bd4b11d0bdcf","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016951}
+{"ts":"2026-11-01T01:02:16.735Z","id":"a57e1117-4e00-4e3f-ba3b-7a8313d97272","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:20.932Z","id":"3a511721-8a81-4769-b1fb-75dc749fdaca","kind":"settle","ref":"a57e1117-4e00-4e3f-ba3b-7a8313d97272","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.004958}
+{"ts":"2026-11-01T01:02:20.933Z","id":"4700e5a9-b62d-4995-bcb3-d8e110b78ed7","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017147}
+{"ts":"2026-11-01T01:02:24.115Z","id":"c41a8980-f7bb-4249-9a6a-abb0fc853865","kind":"settle","ref":"4700e5a9-b62d-4995-bcb3-d8e110b78ed7","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014659}
+{"ts":"2026-11-01T01:02:24.116Z","id":"db2bc0d0-c047-42c3-93b0-24c19a3246ff","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019219}
+{"ts":"2026-11-01T01:02:26.176Z","id":"c758e242-3bf6-4ef7-a0f0-e77e3a4f3439","kind":"settle","ref":"db2bc0d0-c047-42c3-93b0-24c19a3246ff","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016919}
+{"ts":"2026-11-01T01:02:26.795Z","id":"eccc815a-149f-4737-8283-41a9263ad7f3","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:29.321Z","id":"1520e56a-4a96-4a64-9f28-f08637b0df55","kind":"settle","ref":"eccc815a-149f-4737-8283-41a9263ad7f3","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.004958}
+{"ts":"2026-11-01T01:02:29.323Z","id":"41dc0aa4-8ccd-4dfc-bf93-63ad5e488cb6","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017155}
+{"ts":"2026-11-01T01:02:33.904Z","id":"0c5aec6b-bb94-46a6-8fa2-79ea6f82ed07","kind":"settle","ref":"41dc0aa4-8ccd-4dfc-bf93-63ad5e488cb6","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014221}
+{"ts":"2026-11-01T01:02:33.906Z","id":"71debc84-5be1-4aba-9e34-42194f763b4f","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019453}
+{"ts":"2026-11-01T01:02:36.263Z","id":"a1128d24-cf59-43eb-9b00-cd192eafa33d","kind":"settle","ref":"71debc84-5be1-4aba-9e34-42194f763b4f","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.01692}
+{"ts":"2026-11-01T01:02:36.849Z","id":"96a2a0ff-5b58-4b8b-8ee6-3e29fd7cc780","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:38.927Z","id":"f6265e97-10b1-4c10-9b63-dacd81208cd0","kind":"settle","ref":"96a2a0ff-5b58-4b8b-8ee6-3e29fd7cc780","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005914}
+{"ts":"2026-11-01T01:02:38.929Z","id":"6f198ddd-0d6e-4bdd-ac82-8694be7d433c","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017093}
+{"ts":"2026-11-01T01:02:41.815Z","id":"dde07978-e1a9-4ea4-ab7a-2d1fe821d5c6","kind":"settle","ref":"6f198ddd-0d6e-4bdd-ac82-8694be7d433c","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014801}
+{"ts":"2026-11-01T01:02:41.817Z","id":"0e7fe8b3-5f65-457d-8a8a-7688db98cc84","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.01912}
+{"ts":"2026-11-01T01:02:43.757Z","id":"1944cba6-615a-418e-9a3d-dfd21d7a32cd","kind":"settle","ref":"0e7fe8b3-5f65-457d-8a8a-7688db98cc84","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017023}
+{"ts":"2026-11-01T01:02:44.733Z","id":"602f820b-ebbb-4db7-b2c6-0d5ecc584aaf","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:46.791Z","id":"86e1c06a-fd93-40cd-9a15-3ba443cf03b4","kind":"settle","ref":"602f820b-ebbb-4db7-b2c6-0d5ecc584aaf","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005169}
+{"ts":"2026-11-01T01:02:46.792Z","id":"d3b8b952-1e87-4b1a-8428-f16ad7308193","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.016957}
+{"ts":"2026-11-01T01:02:49.290Z","id":"4f320f1b-a54b-47e9-b90c-dca8c3a78824","kind":"settle","ref":"d3b8b952-1e87-4b1a-8428-f16ad7308193","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.015054}
+{"ts":"2026-11-01T01:02:49.294Z","id":"1f03884b-99dd-443e-9057-c0ec684c7182","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.01901}
+{"ts":"2026-11-01T01:02:51.231Z","id":"4b2b6ef3-0c6d-4301-a825-a960348f1f3c","kind":"settle","ref":"1f03884b-99dd-443e-9057-c0ec684c7182","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017093}
+{"ts":"2026-11-01T01:02:52.255Z","id":"b4c32894-d2e1-45d3-a0b0-54e43852f7ba","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:02:54.682Z","id":"6d5c62c4-63bc-4e2b-8ebd-294b916d2cee","kind":"settle","ref":"b4c32894-d2e1-45d3-a0b0-54e43852f7ba","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.00522}
+{"ts":"2026-11-01T01:02:54.683Z","id":"fe2e46a4-ae88-4e4a-9b50-c3cfa9da0315","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017009}
+{"ts":"2026-11-01T01:02:56.800Z","id":"2073d89a-2972-41ec-8d92-ef2ba33d0370","kind":"settle","ref":"fe2e46a4-ae88-4e4a-9b50-c3cfa9da0315","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014988}
+{"ts":"2026-11-01T01:02:56.802Z","id":"02c89069-65a1-4718-8a3d-f19c2054f2b4","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019135}
+{"ts":"2026-11-01T01:02:58.325Z","id":"64e41db1-8423-48ea-b82b-7d66fc33196d","kind":"settle","ref":"02c89069-65a1-4718-8a3d-f19c2054f2b4","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017057}
+{"ts":"2026-11-01T01:02:59.209Z","id":"1e3e579e-7c2a-4c81-baf1-d341c832c4af","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:01.542Z","id":"7434ecfc-fd21-4f80-9ba4-5d838b803968","kind":"settle","ref":"1e3e579e-7c2a-4c81-baf1-d341c832c4af","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.00551}
+{"ts":"2026-11-01T01:03:01.543Z","id":"9f2906f6-3087-4dc5-b7f5-ce81985d500a","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.01703}
+{"ts":"2026-11-01T01:03:04.972Z","id":"f985f652-7dd9-436d-9c94-eeb21d0f1054","kind":"settle","ref":"9f2906f6-3087-4dc5-b7f5-ce81985d500a","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014552}
+{"ts":"2026-11-01T01:03:04.974Z","id":"63976c57-1b34-4e05-89c7-521431f078ce","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019396}
+{"ts":"2026-11-01T01:03:07.415Z","id":"1e575d7e-1b14-4b0b-907b-d6b3192df41b","kind":"settle","ref":"63976c57-1b34-4e05-89c7-521431f078ce","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016861}
+{"ts":"2026-11-01T01:03:08.293Z","id":"feac3015-ff6a-4cd7-9c98-555011ce0b1a","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:10.766Z","id":"10996670-7d8c-493b-b580-465cd7613fba","kind":"settle","ref":"feac3015-ff6a-4cd7-9c98-555011ce0b1a","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005682}
+{"ts":"2026-11-01T01:03:10.767Z","id":"6e95ed28-91b2-4428-a1bb-1bff1ac78e39","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.016982}
+{"ts":"2026-11-01T01:03:13.362Z","id":"c2434e6b-f85a-4d26-858f-c66f3c507644","kind":"settle","ref":"6e95ed28-91b2-4428-a1bb-1bff1ac78e39","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014679}
+{"ts":"2026-11-01T01:03:13.364Z","id":"90e7f869-4a49-4751-9a39-61ba2bad4fbf","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019175}
+{"ts":"2026-11-01T01:03:15.188Z","id":"0180fbe1-2e9e-459b-8efd-f11d63314f70","kind":"settle","ref":"90e7f869-4a49-4751-9a39-61ba2bad4fbf","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.01697}
+{"ts":"2026-11-01T01:03:16.021Z","id":"ca3187c4-86a3-4120-beac-718460f35180","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:18.518Z","id":"023af988-9d09-4bc7-8aa6-53c45977764a","kind":"settle","ref":"ca3187c4-86a3-4120-beac-718460f35180","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005429}
+{"ts":"2026-11-01T01:03:18.519Z","id":"2955953b-1202-4de1-b7c8-fbacc87de653","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017024}
+{"ts":"2026-11-01T01:03:21.810Z","id":"69b76525-d94b-418f-bbb1-3c7abde42780","kind":"settle","ref":"2955953b-1202-4de1-b7c8-fbacc87de653","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014406}
+{"ts":"2026-11-01T01:03:21.813Z","id":"4d1fa924-57ef-4ca1-9d2e-6d0042bc249a","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019394}
+{"ts":"2026-11-01T01:03:24.167Z","id":"6c20e8ff-adc4-4546-8e52-df76ebdc2058","kind":"settle","ref":"4d1fa924-57ef-4ca1-9d2e-6d0042bc249a","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016866}
+{"ts":"2026-11-01T01:03:25.111Z","id":"f8c40661-2f01-47e3-9566-4672810bc603","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:27.670Z","id":"c81f8043-1c14-4fa6-855a-ef59295a146f","kind":"settle","ref":"f8c40661-2f01-47e3-9566-4672810bc603","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005441}
+{"ts":"2026-11-01T01:03:27.671Z","id":"c87d4b3f-9546-4890-8ce0-48a5df1d0651","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017035}
+{"ts":"2026-11-01T01:03:31.308Z","id":"59bc6b23-6d07-4846-9649-c23edf8f09bc","kind":"settle","ref":"c87d4b3f-9546-4890-8ce0-48a5df1d0651","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014392}
+{"ts":"2026-11-01T01:03:31.311Z","id":"b5dcb6f4-384f-4e3c-bebb-01e5ee94498f","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019379}
+{"ts":"2026-11-01T01:03:33.615Z","id":"f224aab5-a4d5-48ba-92a2-e4b09b9b867a","kind":"settle","ref":"b5dcb6f4-384f-4e3c-bebb-01e5ee94498f","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016877}
+{"ts":"2026-11-01T01:03:34.709Z","id":"b1cfe3a9-5c2a-48b9-9bbe-84cc7c289a3c","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:37.323Z","id":"766c36b3-42d7-4cc0-b6f0-8ca19e9d35a7","kind":"settle","ref":"b1cfe3a9-5c2a-48b9-9bbe-84cc7c289a3c","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005562}
+{"ts":"2026-11-01T01:03:37.325Z","id":"84cadd68-e89a-46e5-bcbe-53bd17781434","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.01703}
+{"ts":"2026-11-01T01:03:42.216Z","id":"7c60079d-f8b2-4c67-a3fb-1dcd49552897","kind":"settle","ref":"84cadd68-e89a-46e5-bcbe-53bd17781434","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.01387}
+{"ts":"2026-11-01T01:03:42.218Z","id":"6e0e476c-de96-4cf4-aa28-a3f119feb481","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019372}
+{"ts":"2026-11-01T01:03:44.960Z","id":"b0a31bc8-f701-40ac-92db-601c46e14b39","kind":"settle","ref":"6e0e476c-de96-4cf4-aa28-a3f119feb481","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016877}
+{"ts":"2026-11-01T01:03:45.786Z","id":"2d75f004-d447-41e6-93c5-6230dcc356a5","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:48.242Z","id":"d7198d81-6ae7-41c2-b586-78b961f40e21","kind":"settle","ref":"2d75f004-d447-41e6-93c5-6230dcc356a5","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005193}
+{"ts":"2026-11-01T01:03:48.243Z","id":"098a2279-5994-422c-abaf-fbd671f67b31","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017034}
+{"ts":"2026-11-01T01:03:52.423Z","id":"e9e88b8e-54b5-4c34-afe9-e989380d3c4a","kind":"settle","ref":"098a2279-5994-422c-abaf-fbd671f67b31","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014346}
+{"ts":"2026-11-01T01:03:52.427Z","id":"83a8599c-0901-4a4e-901e-40962c65bf10","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019307}
+{"ts":"2026-11-01T01:03:54.815Z","id":"c6efe7df-ec4e-4d80-9d85-a9a81c799c82","kind":"settle","ref":"83a8599c-0901-4a4e-901e-40962c65bf10","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016849}
+{"ts":"2026-11-01T01:03:55.526Z","id":"5a411489-f4ff-4ba5-b62e-9e66ff366dbf","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:03:58.489Z","id":"4ecd2a0e-0ef6-45d1-93bc-07fcea227906","kind":"settle","ref":"5a411489-f4ff-4ba5-b62e-9e66ff366dbf","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.00475}
+{"ts":"2026-11-01T01:03:58.490Z","id":"34a918df-8748-414d-9a5e-f0ad07d21271","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017059}
+{"ts":"2026-11-01T01:04:04.575Z","id":"3694dfe7-3b0a-4d5e-bc63-89792bc9459d","kind":"settle","ref":"34a918df-8748-414d-9a5e-f0ad07d21271","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.013561}
+{"ts":"2026-11-01T01:04:04.577Z","id":"8281959b-f304-4c63-9f8e-11f972632144","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019141}
+{"ts":"2026-11-01T01:04:06.236Z","id":"00a93850-0223-47b4-8569-ec423494aa79","kind":"settle","ref":"8281959b-f304-4c63-9f8e-11f972632144","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.017024}
+{"ts":"2026-11-01T01:04:06.689Z","id":"c410f48c-43a9-4ffa-9eb1-6ff9051d3668","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:04:08.986Z","id":"ea097ac5-f09e-4df9-ad9d-ce386dddb0c0","kind":"settle","ref":"c410f48c-43a9-4ffa-9eb1-6ff9051d3668","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.005939}
+{"ts":"2026-11-01T01:04:08.987Z","id":"e0bd49df-6ec6-4742-93e4-9efc81df8388","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.016986}
+{"ts":"2026-11-01T01:04:11.439Z","id":"a41ce566-c8e5-4dec-a02b-c63e76059df0","kind":"settle","ref":"e0bd49df-6ec6-4742-93e4-9efc81df8388","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.014857}
+{"ts":"2026-11-01T01:04:11.441Z","id":"95d88b97-61e2-4b5c-85c1-c1473e214db6","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.018901}
+{"ts":"2026-11-01T01:04:12.480Z","id":"26b53af6-16a8-48fb-b323-09f5ca295d81","kind":"settle","ref":"95d88b97-61e2-4b5c-85c1-c1473e214db6","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.01715}
+{"ts":"2026-11-01T01:04:13.006Z","id":"3ebef461-4f36-4316-a830-c339925c0ab5","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:04:16.193Z","id":"014910c0-f2a7-4c3f-84a2-2fe9a651b4a5","kind":"settle","ref":"3ebef461-4f36-4316-a830-c339925c0ab5","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.004788}
+{"ts":"2026-11-01T01:04:16.194Z","id":"abe15088-d9c5-4d9d-af20-88c1ba50816c","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017077}
+{"ts":"2026-11-01T01:04:21.837Z","id":"62c72cf4-13a6-457c-a8a5-54450f29e405","kind":"settle","ref":"abe15088-d9c5-4d9d-af20-88c1ba50816c","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.013535}
+{"ts":"2026-11-01T01:04:21.839Z","id":"e26d4b93-611c-4138-b149-3f541e7e1b22","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019312}
+{"ts":"2026-11-01T01:04:24.163Z","id":"253dbac5-902c-4b07-a24e-61573e7b572b","kind":"settle","ref":"e26d4b93-611c-4138-b149-3f541e7e1b22","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016997}
+{"ts":"2026-11-01T01:04:24.785Z","id":"8053809c-3ed2-4bd8-afc3-8154c4f16d27","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":0.00774}
+{"ts":"2026-11-01T01:04:27.986Z","id":"66b0fda2-d1cc-4d21-bd66-ab5379bd4efd","kind":"settle","ref":"8053809c-3ed2-4bd8-afc3-8154c4f16d27","what":"ocr read (amazon.nova-pro-v1:0): numbers 1 of 1","usd":-0.0052}
+{"ts":"2026-11-01T01:04:27.987Z","id":"d6cefb1b-2e50-486e-83fa-ba782b560a66","kind":"reserve","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":0.017166}
+{"ts":"2026-11-01T01:04:33.679Z","id":"f75d23f9-da3b-44ca-be51-e64d3e77163f","kind":"settle","ref":"d6cefb1b-2e50-486e-83fa-ba782b560a66","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.013616}
+{"ts":"2026-11-01T01:04:33.681Z","id":"ee216e8f-6892-4235-bc2e-2c5eaba261ce","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019312}
+{"ts":"2026-11-01T01:04:36.397Z","id":"f855b7c1-cd6c-4605-83ab-eaf591449438","kind":"settle","ref":"ee216e8f-6892-4235-bc2e-2c5eaba261ce","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016868}

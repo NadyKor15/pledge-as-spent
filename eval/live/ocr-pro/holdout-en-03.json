@@ -1,0 +1,280 @@
+{
+ "receiptId": "holdout-en-03",
+ "set": "holdout",
+ "imageSha256": "3055709c4349bab04b7a958e792b905d66cfc07a08dd741b28eb9b2bdb3cf89c",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-07T08:11:00",
+  "receiptNumber": "9481",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PLUSH BLANKET TWIN",
+    "translationEn": "Plush blanket twin",
+    "qty": 2,
+    "unitPriceMinor": 1799,
+    "amountMinor": 3598,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "Double A cells 12ct",
+    "qty": 2,
+    "unitPriceMinor": 1099,
+    "amountMinor": 2198,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COUPON -",
+    "translationEn": "Coupon",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -220,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "HARD SELTZER 12PK",
+    "translationEn": "Hard seltzer 12pk",
+    "qty": 1,
+    "unitPriceMinor": 1799,
+    "amountMinor": 1799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PEANUT BUTTER 16Z",
+    "translationEn": "Peanut butter 16z",
+    "qty": 2,
+    "unitPriceMinor": 289,
+    "amountMinor": 578,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1gal",
+    "qty": 6,
+    "unitPriceMinor": 139,
+    "amountMinor": 834,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8787,
+  "taxMinor": 535,
+  "taxIncluded": false,
+  "totalMinor": 9322,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8304869469",
+    "bbox": {
+     "x": 0.6580177938489823,
+     "y": 0.8137032338231557,
+     "w": 0.14607420861856624,
+     "h": 0.017180268035693613
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "eI 259",
+    "bbox": {
+     "x": 0.5743703323813807,
+     "y": 0.6837004761340167,
+     "w": 0.23874331750374989,
+     "h": 0.02830278339683079
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.16316379001447678,
+     "y": 0.7796225823601057,
+     "w": 0.17860095081128785,
+     "h": 0.0171017214137823
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A plush blanket twin counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AA batteries are not the same as the required AA batteries.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of the coupon is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Hard seltzer is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Peanut butter is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "9392d63d05048ebd3576d7174325c28958e91a41969e3975af2cc8edad8cec36",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2913,
+   "tokensOut": 880,
+   "usdCeiling": 0.02483,
+   "usdActual": 0.0051459999999999995
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1949,
+   "tokensOut": 240,
+   "usdCeiling": 0.019294,
+   "usdActual": 0.002327
+  }
+ ],
+ "latencyMs": {
+  "read": 6881,
+  "classify": 2190
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:11 AM REG 02",
+   "TRANS #9481",
+   "PLUSH BLANKET TWIN $35.98 T",
+   "2 @ $17.99",
+   "DOUBLE A CELLS 12CT $21.98 T",
+   "2 @ $10.99",
+   "COUPON -$2.20",
+   "HARD SELTZER 12PK $17.99 T",
+   "PEANUT BUTTER 160Z $5.78 F",
+   "2 @ $2.89",
+   "DISTILLED WTR 1GAL $8.34 F",
+   "6 @ $1.39",
+   "SUBTOTAL $87.87",
+   "SALES TAX 7.25% $5.35",
+   "TOTAL $93.22",
+   "VISA eI 259",
+   "APPROVED $93.22",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 8304869469",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:11 AM REG 02",
+   "TRANS #9481",
+   "PLUSH BLANKET TWIN $35.98 T",
+   "2 @ $17.99",
+   "DOUBLE A CELLS 12CT $21.98 T",
+   "2 @ $10.99",
+   "COUPON -$2.20",
+   "HARD SELTZER 12PK $17.99 T",
+   "PEANUT BUTTER 160Z $5.78 F",
+   "2 @ $2.89",
+   "DISTILLED WTR 1GAL $8.34 F",
+   "6 @ $1.39",
+   "SUBTOTAL $87.87",
+   "SALES TAX 7.25% $5.35",
+   "TOTAL $93.22",
+   "VISA eI 259",
+   "APPROVED $93.22",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 8304869469",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:11 AM",
+   "REG 02",
+   "TRANS #9481",
+   "PLUSH BLANKET TWIN",
+   "$35.98 T",
+   "2 @ $17.99",
+   "DOUBLE A CELLS 12CT",
+   "$21.98 T",
+   "2 @ $10.99",
+   "COUPON",
+   "-$2.20",
+   "HARD SELTZER 12PK",
+   "$17.99 T",
+   "PEANUT BUTTER 16OZ",
+   "$5.78 F",
+   "2 @ $2.89",
+   "DISTILLED WTR 1GAL",
+   "$8.34 F",
+   "6 @ $1.39",
+   "SUBTOTAL",
+   "$87.87",
+   "SALES TAX 7.25%",
+   "$5.35",
+   "TOTAL",
+   "$93.22"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "160",
+    "to": "16"
+   }
+  ]
+ }
+}

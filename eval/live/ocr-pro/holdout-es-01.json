@@ -1,0 +1,246 @@
+{
+ "receiptId": "holdout-es-01",
+ "set": "holdout",
+ "imageSha256": "65b0ff9124f7f450e151b68c5d2e76b666a7521448067dda5987edc152ea1c61",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Ville Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T13:21:00",
+  "receiptNumber": "3875",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS C LRI4 2U",
+    "translationEn": "C batteries",
+    "qty": 1,
+    "unitPriceMinor": 479,
+    "amountMinor": 8,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑAL DORMILON TALLA 3 40UD",
+    "translationEn": "Diapers size 3",
+    "qty": 1,
+    "unitPriceMinor": 1890,
+    "amountMinor": 1890,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "CEPILLO DENTAL",
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitPriceMinor": 215,
+    "amountMinor": 8,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CIGARRILLOS",
+    "translationEn": "Cigarettes",
+    "qty": 1,
+    "unitPriceMinor": 520,
+    "amountMinor": 8,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+    "translationEn": "Spring water 1.5 liters",
+    "qty": 1,
+    "unitPriceMinor": 288,
+    "amountMinor": 288,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 111,
+  "taxIncluded": true,
+  "totalMinor": 3392,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8558059859",
+    "bbox": {
+     "x": 0.6574819908782845,
+     "y": 0.7951380743326882,
+     "w": 0.15091968084070329,
+     "h": 0.02024010227362283
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.16495862606014097,
+     "y": 0.8070167092876234,
+     "w": 0.20162934134733781,
+     "h": 0.020801162355446268
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are not the same as AA batteries, which are the only batteries this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "fbc086bc165327c832339ad3304d12b3840bf6d88e131db8b8722ece255e46d3",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3856,
+   "tokensOut": 565,
+   "usdCeiling": 0.024842,
+   "usdActual": 0.004893
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1909,
+   "tokensOut": 219,
+   "usdCeiling": 0.019179,
+   "usdActual": 0.002228
+  }
+ ],
+ "latencyMs": {
+  "read": 6087,
+  "classify": 2440
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Ville Alborada",
+   "TEL 900 000 057",
+   "CIF BO0000057",
+   "FACTURA SIMPLIFICADA ne 3875",
+   "05/11/2026 13:21 COMA 61",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS C LRI4 2U 4,79 8",
+   "PAÑAL DORMILON TALLA 3 40UD 18,90 A",
+   "2 14",
+   "CEPILLO DENTAL 2,15 8",
+   "CIGARRILLOS 204 5,20 8",
+   "AGUA DE MANANTIAL 1,5 LITROS 2,88 A",
+   "4 :. 04,77",
+   "TOTAL (IVA INCLUIDO) 33,92 EUR",
+   "A IVA 10% BASE 19,00 CUOTA 1,08",
+   "D IVA 214% GASE 10,0) CUOTA 2,11",
+   "EFECTIVO 40,00",
+   "CAMBIO 6,08",
+   "socio 8558059859",
+   "MARCOS ALBERDI",
+   "GACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Ville Alborada",
+   "TEL 900 000 057",
+   "CIF BO0000057",
+   "FACTURA SIMPLIFICADA ne 3875",
+   "05/11/2026 13:21 COMA 61",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS C LRI4 2U 4,79 8",
+   "PAÑAL DORMILON TALLA 3 40UD 18,90 A",
+   "2 14",
+   "CEPILLO DENTAL 2,15 8",
+   "CIGARRILLOS 204 5,20 8",
+   "AGUA DE MANANTIAL 1,5 LITROS 2,88 A",
+   "4 :. 04,77",
+   "TOTAL (IVA INCLUIDO) 33,92 EUR",
+   "A IVA 10% BASE 19,00 CUOTA 1,08",
+   "D IVA 214% GASE 10,0) CUOTA 2,11",
+   "EFECTIVO 40,00",
+   "CAMBIO 6,08",
+   "socio 8558059859",
+   "MARCOS ALBERDI",
+   "GACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alboraday",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 3875",
+   "05/11/2026 13:21",
+   "CAJA 01",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PILAS C LR14 ZU",
+   "4,79 B",
+   "PANAL DORMILÓN TALLA 3 40UD",
+   "18,90 A",
+   "2 x 9,45",
+   "CEPILLO DENTAL",
+   "2,15 B",
+   "CIGARRILLOS 20U",
+   "5,20 B",
+   "AGUA DE MANANTIAL 1,5 LITROS",
+   "2,88 A",
+   "4 x 0,72",
+   "TOTAL (IVA INCLUIDO)",
+   "33,92 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "61",
+    "to": "01"
+   },
+   {
+    "from": "204",
+    "to": "20"
+   }
+  ]
+ }
+}

@@ -1,0 +1,152 @@
+{
+ "receiptId": "holdout-en-01",
+ "set": "holdout",
+ "imageSha256": "1d7167761e7cdcbf79b16568a5bd0b4deb8ba7d07d88b296afae6e21443b18ad",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Tiny Steps Diaper Size 3",
+    "qty": 2,
+    "unitPriceMinor": 1899,
+    "amountMinor": 3798,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled Water 1 Gallon",
+    "qty": 4,
+    "unitPriceMinor": 139,
+    "amountMinor": 556,
+    "taxRateBp": 0
+   }
+  ],
+  "subtotalMinor": 9643,
+  "taxMinor": 275,
+  "taxIncluded": false,
+  "totalMinor": 9918,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tiny Steps Diaper Size 3 counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled Water 1 Gallon counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "625d9157b174b4d2804f527f8be08eee33a456ef15f4fff68d0fd3b295bfb3f2",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3817,
+   "tokensOut": 510,
+   "usdCeiling": 0.024725,
+   "usdActual": 0.004685
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1803,
+   "tokensOut": 97,
+   "usdCeiling": 0.01889,
+   "usdActual": 0.001753
+  }
+ ],
+ "latencyMs": {
+  "read": 4977,
+  "classify": 1255
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/03/2026 12:22 PM REG 06",
+   "TRANS #2965",
+   "TINY STEPS DIAPER SZ3 52CT $37.98 T",
+   "2 @ $18.99",
+   "DISTILLED WTR 1GAL $5.56 F",
+   "4 @ $1.39",
+   "PREPAID VISA $50 $50.00 F",
+   "PEANUT BUTTER 160Z $2.89 F",
+   "SUBTOTAL $96.43",
+   "SALES TAX 7.25% $2.75",
+   "TOTAL $99.18",
+   "CASH $100.00",
+   "CHANGE $0.82",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/03/2026 12:22 PM REG 06",
+   "TRANS #2965",
+   "TINY STEPS DIAPER SZ3 52CT $37.98 T",
+   "2 @ $18.99",
+   "DISTILLED WTR 1GAL $5.56 F",
+   "4 @ $1.39",
+   "PREPAID VISA $50 $50.00 F",
+   "PEANUT BUTTER 160Z $2.89 F",
+   "SUBTOTAL $96.43",
+   "SALES TAX 7.25% $2.75",
+   "TOTAL $99.18",
+   "CASH $100.00",
+   "CHANGE $0.82",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/03/2026 12:22 PM",
+   "REG 06",
+   "TRANS #2965",
+   "TINY STEPS DIAPER SZ3 52CT",
+   "$37.98 T",
+   "2 @ $18.99",
+   "DISTILLED WTR 1GAL",
+   "$5.56 F",
+   "4 @ $1.39",
+   "PREPAID VISA $50",
+   "$50.00 F",
+   "PEANUT BUTTER 160Z",
+   "$2.89 F",
+   "SUBTOTAL",
+   "$96.43",
+   "SALES TAX 7.25%",
+   "$2.75",
+   "TOTAL",
+   "$99.18"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

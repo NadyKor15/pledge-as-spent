@@ -1,0 +1,312 @@
+{
+ "receiptId": "holdout-ja-03",
+ "set": "holdout",
+ "imageSha256": "dbe5059cc13ee0c6ca24e75a70f8e767eab2995364b0d5dcb971e5004c1ab8a9",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T08:29:00",
+  "receiptNumber": "6907",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単三アルカリ 8 本パック",
+    "translationEn": "AA alkaline batteries 8-pack",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "紙巻たばこ 1 箱",
+    "translationEn": "Cigarettes 1 box",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 580,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 138,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 178,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 2,
+    "unitPriceMinor": 1480,
+    "amountMinor": 2960,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "おいしい水 2L 6 本入 2 点 x Mass",
+    "translationEn": "Tasty water 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "値引 -",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -90,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 6418,
+  "taxMinor": 602,
+  "taxIncluded": false,
+  "totalMinor": 7020,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5562 4321 5858",
+    "bbox": {
+     "x": 0.6265586767263032,
+     "y": 0.7963019579944791,
+     "w": 0.19905251547667058,
+     "h": 0.01503728922672909
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ジリ",
+    "bbox": {
+     "x": 0.19588551128568077,
+     "y": 0.7858062394369107,
+     "w": 0.04744770806738624,
+     "h": 0.01250805639350916
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries in an 8-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in the 2L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water in the 2L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs review to determine its eligibility.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "51bc7b76132204bbad37dbd57a518742b29709bec788b1d997f461fa23ef4122",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3196,
+   "tokensOut": 672,
+   "usdCeiling": 0.02477,
+   "usdActual": 0.004708
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2013,
+   "tokensOut": 289,
+   "usdCeiling": 0.019396,
+   "usdActual": 0.002535
+  }
+ ],
+ "latencyMs": {
+  "read": 6628,
+  "classify": 2442
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T9909199999427",
+   "2926 年 11 月 95 日 ( 木 ) 98:29",
+   "レジ 93 No. 6907",
+   "単三アルカリ 8 本パック ¥936",
+   "2 点 x M468",
+   "紙巻たばこ 1 箱 ¥589",
+   "山里の湧水 2L ¥138※",
+   "ゼリー飲料 ¥178※",
+   "フリース毛布 140x200 ¥2,960",
+   "2 点 x 1,480",
+   "おいしい水 2L ¥1,716※",
+   "6 本入",
+   "2 点 x Mass",
+   "値引 -¥90K",
+   "小計 (6ma) ¥6,418",
+   "外税 8* 対象 ¥1,942 消費税 ¥155",
+   "外税 19* 対象 ¥4,476 消費税 ¥447",
+   "合計 ¥7,020",
+   "お預り Y8,000",
+   "お釣り ¥980",
+   "ポイントカード",
+   "ジリ様",
+   "会員番号 5562 4321 5858",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご率店ありがとうございました"
+  ],
+  "reread": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T9909199999427",
+   "2926 年 11 月 95 日 ( 木 ) 98:29",
+   "レジ 93 No. 6907",
+   "単三アルカリ 8 本パック ¥936",
+   "2 点 x M468",
+   "紙巻たばこ 1 箱 ¥589",
+   "山里の湧水 2L ¥138※",
+   "ゼリー飲料 ¥178※",
+   "フリース毛布 140x200 ¥2,960",
+   "2 点 x 1,480",
+   "おいしい水 2L ¥1,716※",
+   "6 本入",
+   "2 点 x Mass",
+   "値引 -¥90K",
+   "小計 (6ma) ¥6,418",
+   "外税 8* 対象 ¥1,942 消費税 ¥155",
+   "外税 19* 対象 ¥4,476 消費税 ¥447",
+   "合計 ¥7,020",
+   "お預り Y8,000",
+   "お釣り ¥980",
+   "ポイントカード",
+   "タライシリン村",
+   "会員番号 5562 4321 5858",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご率店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "エコファーマーズ",
+   "店舗名",
+   "東京都新宿区西新宿2-8-1",
+   "TEL 0123-45-6789",
+   "店舗番号 T0000100000427",
+   "2026年11月05日(•) 08:29",
+   "L•03",
+   "No.6907",
+   "• 8• ¥936",
+   "2• x ¥468",
+   "• 1• ¥580",
+   "• 2L ¥138•",
+   "• ¥178•",
+   "• 140x200 ¥2,960",
+   "2• x ¥1,480",
+   "• 2L ¥1,716•",
+   "6•",
+   "2• x ¥858",
+   "• ¥90•",
+   "• (6•) ¥6,418",
+   "• ¥1,942",
+   "• ¥4,476",
+   "¥7,020"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9909199999427",
+    "to": "0000100000427"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "93",
+    "to": "03"
+   },
+   {
+    "from": "589",
+    "to": "580"
+   }
+  ]
+ }
+}

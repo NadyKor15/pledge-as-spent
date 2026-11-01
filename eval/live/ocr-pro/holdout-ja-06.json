@@ -1,0 +1,345 @@
+{
+ "receiptId": "holdout-ja-06",
+ "set": "holdout",
+ "imageSha256": "05a47266145693f438dc134840d7dad802ce11786c401555ad162649ad451569",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T08:40:00",
+  "receiptNumber": "0974",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おいしい水 2L 6 本入",
+    "translationEn": "Delicious water 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 858,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "テーブおむつ S 60K",
+    "translationEn": "Tablet diapers S 60K",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1180,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 1,
+    "unitPriceMinor": 178,
+    "amountMinor": 178,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いわし蒲焼 &",
+    "translationEn": "Sardines grilled 3m x M168",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "値引 -",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -50,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "単アルカリ 8 本パック",
+    "translationEn": "Alkaline batteries 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BOB 2L",
+    "translationEn": "BOB 2L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3882,
+  "taxMinor": 388,
+  "taxIncluded": false,
+  "totalMinor": 3882,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9198 9462 2170",
+    "bbox": {
+     "x": 0.6267661536138119,
+     "y": 0.8082948561013987,
+     "w": 0.20345041933492203,
+     "h": 0.014968291823276747
+    }
+   },
+   {
+    "kind": "name",
+    "text": "THY Vy 機",
+    "bbox": {
+     "x": 0.20141116552043636,
+     "y": 0.7893702491071268,
+     "w": 0.12203505423110728,
+     "h": 0.013985079622180097
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size S diapers are not the size this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Canned food is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs review to determine its impact on the receipt.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Alkaline batteries are not the type this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "0049f3e7c708941d325ba1e24c0239902ad3de28072f3a38e573ad0c71016faa",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3282,
+   "tokensOut": 724,
+   "usdCeiling": 0.024775000000000002,
+   "usdActual": 0.004942
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2000,
+   "tokensOut": 282,
+   "usdCeiling": 0.019379,
+   "usdActual": 0.002502
+  }
+ ],
+ "latencyMs": {
+  "read": 7118,
+  "classify": 2305
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9009109999551",
+   "2926 年 11 月 8 日 (日 ) 98:49",
+   "レジ 92 No.0974",
+   "おいしい水 2L Y858※",
+   "6 本入",
+   "テーブおむつ S 60K ¥1,189",
+   "ゼリー飲料 ¥178%",
+   "いわし蒲焼 & ¥504K",
+   "3m x M168",
+   "値引 -¥56※",
+   "単アルカリ 8 本パック ¥936",
+   "2m x 単 468",
+   "BOB 2L ¥276%",
+   "2m x M138",
+   "小計 (6 点 ) ¥3,882",
+   "8 対象 ¥1,766",
+   "19% 対象 ¥2,116",
+   "(BARES 8% visi",
+   "(内消費税等 16* ial",
+   "合計 ¥3,882",
+   "クレジット sere KB BOD",
+   "お支払い ¥3,882",
+   "ポイントカード",
+   "THY Vy 機",
+   "会員番号 9198 9462 2170",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご素店ありがとうさございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9009109999551",
+   "2926 年 11 月 8 日 (日 ) 98:49",
+   "レジ 92 No.0974",
+   "おいしい水 2L Y858※",
+   "6 本入",
+   "テーブおむつ S 60K ¥1,189",
+   "ゼリー飲料 ¥178%",
+   "いわし蒲焼 & ¥504K",
+   "3m x M168",
+   "値引 -¥56※",
+   "単アルカリ 8 本パック ¥936",
+   "2m x 単 468",
+   "BOB 2L ¥276%",
+   "2m x M138",
+   "小計 (6 点 ) ¥3,882",
+   "8 対象 ¥1,766",
+   "19% 対象 ¥2,116",
+   "(BARES 8% visi",
+   "(内消費税等 16* ial",
+   "合計 ¥3,882",
+   "クレジット sere KB BOD",
+   "お支払い ¥3,882",
+   "ポイントカード",
+   "ラライシリン本",
+   "会員番号 9198 9462 2170",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご素店ありがとうさございました"
+  ],
+  "photoNumbers": [
+   "•",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月08日(•) 08:40",
+   "•02",
+   "No.0974",
+   "• 2L",
+   "¥858",
+   "6•",
+   "• S 60•",
+   "¥1,180",
+   "•",
+   "¥178",
+   "•",
+   "¥504",
+   "3• x #168",
+   "•",
+   "-¥50",
+   "• 8•",
+   "¥936",
+   "2• x #468",
+   "• 2L",
+   "¥276",
+   "2• x #138",
+   "• (6•)",
+   "¥3,882",
+   "8•",
+   "¥1,766",
+   "10•",
+   "¥2,116",
+   "(• 8%",
+   "¥130)",
+   "(• 10%",
+   "¥192)",
+   "•",
+   "¥3,882"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9942",
+    "to": "0042"
+   },
+   {
+    "from": "9009109999551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "49",
+    "to": "40"
+   },
+   {
+    "from": "92",
+    "to": "02"
+   },
+   {
+    "from": "1,189",
+    "to": "1,180"
+   },
+   {
+    "from": "56",
+    "to": "50"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
+}

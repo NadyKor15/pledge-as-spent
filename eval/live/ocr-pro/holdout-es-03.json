@@ -1,0 +1,288 @@
+{
+ "receiptId": "holdout-es-03",
+ "set": "holdout",
+ "imageSha256": "18f3134d1e0227f06ef266bd3701a201ee2f2b385c026054fe7fa3d8467e0383",
+ "reading": {
+  "merchantName": "BAZAR ALBORADA S.L.",
+  "merchantAddress": "C/ Mayor 12, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-08T11:57:00",
+  "receiptNumber": "7643",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CIGARRILLOS 20U",
+    "translationEn": "Cigarettes 20 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 520,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa cover 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BLISTER 6 PILAS AA",
+    "translationEn": "Blister 6 AA batteries",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C LR14 batteries 2 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 479,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCION",
+    "translationEn": "Promotion discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -48,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diaper size 3 40 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 945,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ATÚN EN ACEITE PACK 3",
+    "translationEn": "Tuna in oil pack of 3",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 389,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 926,
+  "taxIncluded": true,
+  "totalMinor": 5972,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "0095831242",
+    "bbox": {
+     "x": 0.6508683751538188,
+     "y": 0.7971048962346222,
+     "w": 0.1421033627706506,
+     "h": 0.019644431190785405
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek ok follo 8190",
+    "bbox": {
+     "x": 0.16448650641344992,
+     "y": 0.7344832789322912,
+     "w": 0.2799414445463428,
+     "h": 0.02345233690250792
+    }
+   },
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": {
+     "x": 0.15909283040924255,
+     "y": 0.8116378774482889,
+     "w": 0.2063887687094917,
+     "h": 0.024011177848051513
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A sofa cover is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 6 AA batteries counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C LR14 batteries are not the type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The promotion discount is unclear and requires review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 40 size 3 diapers counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tuna in oil is not one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "7a87168861c1d4e02a31d124d056072afd8f662862ead9d1e2e628b01cd42102",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3790,
+   "tokensOut": 839,
+   "usdCeiling": 0.024895,
+   "usdActual": 0.005716000000000001
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2018,
+   "tokensOut": 287,
+   "usdCeiling": 0.019453,
+   "usdActual": 0.002533
+  }
+ ],
+ "latencyMs": {
+  "read": 7711,
+  "classify": 2361
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BAZAR ALBORADA S.L.",
+   "C/ Mayor 12",
+   "00000 Villa Alborada",
+   "TEL 900 000 042",
+   "CIF BO0000042",
+   "FACTURA SIMPLIFICADA N° 7643",
+   "08/11/2026 11:57 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "CIGARRILLOS 20U 5,20 B",
+   "COBERTOR SOFÁ 150X200 31,98 B",
+   "2 x 15,99",
+   "BLISTER 6 PILAS AA 4,89 B",
+   "PILAS C LR14 2U 4,79 B",
+   "DTO. PROMOCION -0,48 B",
+   "PAÑAL DORMILÓN TALLA 3 40UD 9,45 A",
+   "ATÚN EN ACEITE PACK 3 3,89 A",
+   "TOTAL (IVA INCLUIDO) 59,72 EUR",
+   "A IVA 10% BASE 12,13 CUOTA 1,21",
+   "B IVA 21% BASE 38,33 CUOTA 8,05",
+   "PAGO TARJETA 59,72",
+   "seek ok follo 8190",
+   "SOCIO 0095831242",
+   "LUCÍA FERRANDO",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "BAZAR ALBORADA S.L.",
+   "C/ Mayor 12",
+   "00000 Villa Alborada",
+   "TEL 900 000 042",
+   "CIF BO0000042",
+   "FACTURA SIMPLIFICADA N° 7643",
+   "08/11/2026 11:57 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "CIGARRILLOS 20U 5,20 B",
+   "COBERTOR SOFÁ 150X200 31,98 B",
+   "2 x 15,99",
+   "BLISTER 6 PILAS AA 4,89 B",
+   "PILAS C LR14 2U 4,79 B",
+   "DTO. PROMOCION -0,48 B",
+   "PAÑAL DORMILÓN TALLA 3 40UD 9,45 A",
+   "ATÚN EN ACEITE PACK 3 3,89 A",
+   "TOTAL (IVA INCLUIDO) 59,72 EUR",
+   "A IVA 10% BASE 12,13 CUOTA 1,21",
+   "B IVA 21% BASE 38,33 CUOTA 8,05",
+   "PAGO TARJETA 59,72",
+   "seek ok follo 8190",
+   "SOCIO 0095831242",
+   "LUCÍA FERRANDO",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "BAZAR ALBORADA S.L.",
+   "C/ Mayor 12",
+   "00000 Villa Alboraday",
+   "TEL 900 000 042",
+   "CIF B000000042",
+   "FACTURA SIMPLIFICADA",
+   "08/11/2026 11:57",
+   "N° 7643",
+   "CAJA 01",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "CIGARRILLOS 20U",
+   "5,20 B",
+   "COBERTOR SOFÁ 150X200",
+   "31,98 B",
+   "2 X 15,99",
+   "BLISTER 6 PILAS AA",
+   "4,89 B",
+   "PILAS C LR14 2U",
+   "4,79 B",
+   "DTO. PROMOCIÓN",
+   "-0,48 B",
+   "PANAL DORMILÓN TALLA 3 40UD",
+   "9,45 A",
+   "ATÚN EN ACEITE PACK 3",
+   "3,89 A",
+   "TOTAL (IVA INCLUIDO)",
+   "59,72 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

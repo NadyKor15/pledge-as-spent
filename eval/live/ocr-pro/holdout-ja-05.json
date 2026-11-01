@@ -1,0 +1,300 @@
+{
+ "receiptId": "holdout-ja-05",
+ "set": "holdout",
+ "imageSha256": "e8f3f800499892ca17ae1ac8cb72eb14b369cab634777056436d5c7e5f71f800",
+ "reading": {
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T10:07:00",
+  "receiptNumber": "3842",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "歯ブラシ 3 本",
+    "translationEn": "Toothbrush 3 pcs",
+    "qty": 1,
+    "unitPriceMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単アルカリ 8 本パック",
+    "translationEn": "Alkaline batteries 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "プリペイドカード 5, 09 円",
+    "translationEn": "Prepaid card",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 3,
+    "unitPriceMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 2,
+    "unitPriceMinor": 1480,
+    "amountMinor": 2960,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "おいしい水 2L",
+    "translationEn": "Tasty water 2L",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 858,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 10772,
+  "taxMinor": 544,
+  "taxIncluded": false,
+  "totalMinor": 11316,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 8 AA batteries counts toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Prepaid cards are not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drinks are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "6c3ec4f81e87855c61e6596597a6bb5bb8529881c5f59cb2ec7562f530adf361",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3254,
+   "tokensOut": 727,
+   "usdCeiling": 0.024764,
+   "usdActual": 0.004929
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2012,
+   "tokensOut": 287,
+   "usdCeiling": 0.019394,
+   "usdActual": 0.002528
+  }
+ ],
+ "latencyMs": {
+  "read": 6602,
+  "classify": 2355
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9909199999634",
+   "2626 年 11 月 97 日 ( 土 ) 19:97",
+   "レジ 95 No.3842",
+   "歯ブラシ 3 本 ¥248",
+   "単アルカリ 8 本パック ¥936",
+   "2 x 468",
+   "プリペイドカード 5, 09 円 ¥5,000",
+   "山里の湧水 2L ¥414※",
+   "3 点 x 単 138",
+   "ゼリー飲料 ¥356※",
+   "2m x M178",
+   "フリース毛布 149x209 ¥2,960",
+   "2 x 1,480",
+   "おいしい水 2L ¥858※",
+   "小計 (7 点 ) ¥10,772",
+   "外税 8* 対象 ¥1,628 ARR ¥139",
+   "外税 16* 対象 ¥4,144 消費税 ¥414",
+   "非課税対象 ¥5,000",
+   "合計 ¥11,316",
+   "お預り ¥12,000",
+   "お釣り ¥684",
+   "は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9909199999634",
+   "2626 年 11 月 97 日 ( 土 ) 19:97",
+   "レジ 95 No.3842",
+   "歯ブラシ 3 本 ¥248",
+   "単アルカリ 8 本パック ¥936",
+   "2 x 468",
+   "プリペイドカード 5, 09 円 ¥5,000",
+   "山里の湧水 2L ¥414※",
+   "3 点 x 単 138",
+   "ゼリー飲料 ¥356※",
+   "2m x M178",
+   "フリース毛布 149x209 ¥2,960",
+   "2 x 1,480",
+   "おいしい水 2L ¥858※",
+   "小計 (7 点 ) ¥10,772",
+   "外税 8* 対象 ¥1,628 ARR ¥139",
+   "外税 16* 対象 ¥4,144 消費税 ¥414",
+   "非課税対象 ¥5,000",
+   "合計 ¥11,316",
+   "お預り ¥12,000",
+   "お釣り ¥684",
+   "は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "•",
+   "•",
+   "TEL 0123-33-7788",
+   "• T00001000000634",
+   "2026年11月07日(•) 10:07",
+   "•05",
+   "No.3842",
+   "• 3 ¥248",
+   "• 8 ¥936",
+   "2• x ¥468",
+   "• 5,000¥ ¥5,000",
+   "• 2L ¥414",
+   "3• x ¥138",
+   "• ¥356",
+   "2• x ¥178",
+   "• 140x200 ¥2,960",
+   "2• x ¥1,480",
+   "• 2L ¥858",
+   "6•",
+   "• (7) ¥10,772",
+   "• ¥1,628 • ¥130",
+   "•10% ¥4,144 • ¥414",
+   "¥5,000",
+   "¥11,316"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2626",
+    "to": "2026"
+   },
+   {
+    "from": "97",
+    "to": "07"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "97",
+    "to": "07"
+   },
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "149",
+    "to": "140"
+   },
+   {
+    "from": "209",
+    "to": "200"
+   },
+   {
+    "from": "139",
+    "to": "130"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
+}

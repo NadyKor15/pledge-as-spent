@@ -1,0 +1,246 @@
+{
+ "receiptId": "holdout-es-02",
+ "set": "holdout",
+ "imageSha256": "108dd4ec0c873388e78a0241b86b1ac657ee2b4d6f8f49a98b7c61a6ab731281",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T11:25:00",
+  "receiptNumber": "4110",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CEPILLO DENTAL",
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitPriceMinor": 215,
+    "amountMinor": 215,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BLISTER 6 PILAS AA",
+    "translationEn": "Blister 6 AA batteries",
+    "qty": 1,
+    "unitPriceMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COBERTOR SOFA 150X200",
+    "translationEn": "Sofa cover 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PANAL DORMILON TALLA 3 40UD",
+    "translationEn": "Diaper size 3",
+    "qty": 2,
+    "unitPriceMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+    "translationEn": "Spring water 1.5 liters",
+    "qty": 2,
+    "unitPriceMinor": 72,
+    "amountMinor": 144,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 1852,
+  "taxIncluded": true,
+  "totalMinor": 5936,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7026242380",
+    "bbox": {
+     "x": 0.6837432332648319,
+     "y": 0.7860384164932314,
+     "w": 0.1462684499756598,
+     "h": 0.016790636874379206
+    }
+   },
+   {
+    "kind": "name",
+    "text": "E LUCÍA FERRANDO",
+    "bbox": {
+     "x": 0.10995162806113196,
+     "y": 0.8119385400586898,
+     "w": 0.2881769404077691,
+     "h": 0.03427463246350415
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A blister of 6 AA batteries counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A sofa cover is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "a214fae11907f313fc296e1ddfa7fe7e35772223396c2f9f634a293b738c7c9b",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3832,
+   "tokensOut": 689,
+   "usdCeiling": 0.024887,
+   "usdActual": 0.00527
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1935,
+   "tokensOut": 235,
+   "usdCeiling": 0.019219,
+   "usdActual": 0.0023
+  }
+ ],
+ "latencyMs": {
+  "read": 7978,
+  "classify": 2062
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 4110",
+   "04/11/2026 11:25 CAJA 06",
+   "DESCRIPCIÓN IMPORTE",
+   "CEPILLO DENTAL 2,15 B",
+   "BLISTER 6 PILAS AA 4,89 B",
+   "COBERTOR SOFA 150X200 31,98 B",
+   "2 x 15,99",
+   "PANAL DORMILON TALLA 3 40UD 18,90 A",
+   "2x 9,45",
+   "AGUA DE MANANTIAL 1,5 LITROS 1,44 A",
+   "2 x 0,72",
+   "TOTAL (IVA INCLUIDO) 59,36 EUR",
+   "i A IVA 10% BASE 18,49 CUOTA 1,85",
+   "B IVA 21% BASE 32,25 CUOTA 6,77",
+   ": EFECTIVO 60,00",
+   "| CAMBIO 0,64",
+   "k SOCIO 7026242380",
+   "E LUCÍA FERRANDO",
+   "E GRACIAS POR SU VISITA",
+   "he",
+   "Ro",
+   "at"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 4110",
+   "04/11/2026 11:25 CAJA 06",
+   "DESCRIPCIÓN IMPORTE",
+   "CEPILLO DENTAL 2,15 B",
+   "BLISTER 6 PILAS AA 4,89 B",
+   "COBERTOR SOFA 150X200 31,98 B",
+   "2 x 15,99",
+   "PANAL DORMILON TALLA 3 40UD 18,90 A",
+   "2x 9,45",
+   "AGUA DE MANANTIAL 1,5 LITROS 1,44 A",
+   "2 x 0,72",
+   "TOTAL (IVA INCLUIDO) 59,36 EUR",
+   "i A IVA 10% BASE 18,49 CUOTA 1,85",
+   "B IVA 21% BASE 32,25 CUOTA 6,77",
+   ": EFECTIVO 60,00",
+   "| CAMBIO 0,64",
+   "k SOCIO 7026242380",
+   "E LUCÍA FERRANDO",
+   "E GRACIAS POR SU VISITA",
+   "he",
+   "Ro",
+   "at"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Villa Alborrada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 4110",
+   "04/11/2026 11:25",
+   "CAJA 06",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "CEPILLO DENTAL",
+   "2,15 B",
+   "BLISTER 6 PILAS AA",
+   "4,89 B",
+   "COBERTOR SOFÁ 150X200",
+   "31,98 B",
+   "2 x 15,99",
+   "PÁNAL DORMILÓN TALLA 3 40UD",
+   "18,90 A",
+   "2 x 9,45",
+   "AGUA DE MANANTIAL 1,5 LITROS",
+   "1,44 A",
+   "2 x 0,72",
+   "TOTAL (IVA INCLUIDO)",
+   "59,36 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

@@ -1,0 +1,251 @@
+{
+ "receiptId": "holdout-en-02",
+ "set": "holdout",
+ "imageSha256": "b261f1a33f6f9ca0cf829bd5d424953797fc5ea3a460a4466e0107f30e0e05c0",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-07T20:34:00",
+  "receiptNumber": "4308",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 4,
+    "unitPriceMinor": 139,
+    "amountMinor": 556,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 2,
+    "rawText": "C BATTERY 4PK",
+    "translationEn": "C battery 4 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 899,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PEANUT BUTTER 160",
+    "translationEn": "Peanut butter 16 oz",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 289,
+    "taxRateBp": 0
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TINY STEPS DIAPER $Z3 52CT",
+    "translationEn": "Tiny Steps Diaper size 3 52 count",
+    "qty": 2,
+    "unitPriceMinor": 1899,
+    "amountMinor": 3798,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "Double A cells 12 count",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1099,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 6641,
+  "taxMinor": 420,
+  "taxIncluded": false,
+  "totalMinor": 7061,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5853933663",
+    "bbox": {
+     "x": 0.6494292931425463,
+     "y": 0.7998867624361282,
+     "w": 0.14252702300329778,
+     "h": 0.019980663507577878
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "Jeo 599",
+    "bbox": {
+     "x": 0.5708997678575105,
+     "y": 0.658440654145345,
+     "w": 0.23467089883276715,
+     "h": 0.032682624531331306
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.16328482877806394,
+     "y": 0.7550051878266567,
+     "w": 0.17442915304566903,
+     "h": 0.02121958247630107
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are not the type this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Peanut butter is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Double A cells are not the type this drive needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "105542f7641a33bc4bfe9d6cca1ac1fef65f42e02b9b9040e05663ae26321087",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3813,
+   "tokensOut": 667,
+   "usdCeiling": 0.024798,
+   "usdActual": 0.005185
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1926,
+   "tokensOut": 206,
+   "usdCeiling": 0.019233,
+   "usdActual": 0.0022
+  }
+ ],
+ "latencyMs": {
+  "read": 6368,
+  "classify": 1910
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:34 PM REG 06",
+   "TRANS #4308",
+   "DISTILLED WTR 1GAL $5.56 F",
+   "4 @ $1.39",
+   "C BATTERY 4PK $8.99 T",
+   "PEANUT BUTTER 1602 $2.89 F",
+   "TINY STEPS DIAPER $Z3 52CT $37.98 T",
+   "2 @ $18.99",
+   "DOUBLE A CELLS 12CT $10.99 T",
+   "SUBTOTAL $66.41",
+   "SALES TAX 7.25% $4.20",
+   "TOTAL $70.61",
+   "VISA Jeo 599",
+   "APPROVED $70.61",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 5853933663",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:34 PM REG 06",
+   "TRANS #4308",
+   "DISTILLED WTR 1GAL $5.56 F",
+   "4 @ $1.39",
+   "C BATTERY 4PK $8.99 T",
+   "PEANUT BUTTER 1602 $2.89 F",
+   "TINY STEPS DIAPER $Z3 52CT $37.98 T",
+   "2 @ $18.99",
+   "DOUBLE A CELLS 12CT $10.99 T",
+   "SUBTOTAL $66.41",
+   "SALES TAX 7.25% $4.20",
+   "TOTAL $70.61",
+   "VISA Jeo 599",
+   "APPROVED $70.61",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 5853933663",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/07/2026 08:34 PM",
+   "REG 06",
+   "TRANS #4308",
+   "DISTILLED WTR 1GAL",
+   "4 @ $1.39",
+   "C BATTERY 4PK",
+   "$8.99 T",
+   "PEANUT BUTTER 160Z",
+   "$2.89 F",
+   "TINY STEPS DIAPER SZ3 52CT",
+   "$37.98 T",
+   "2 @ $18.99",
+   "DOUBLE A CELLS 12CT",
+   "$10.99 T",
+   "SUBTOTAL",
+   "$66.41",
+   "SALES TAX 7.25%",
+   "$4.20",
+   "TOTAL",
+   "$70.61"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "1602",
+    "to": "160"
+   }
+  ]
+ }
+}

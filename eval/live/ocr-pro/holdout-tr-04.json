@@ -1,0 +1,291 @@
+{
+ "receiptId": "holdout-tr-04",
+ "set": "holdout",
+ "imageSha256": "90c97064025463788cecb3ad863d3e9d5f511d5e6cc1487ecf3e1daf542127fb",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-05T12:48:00",
+  "receiptNumber": "4657",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DİŞ FIRÇASI",
+    "translationEn": "Toothbrush",
+    "qty": 2,
+    "unitPriceMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOGAL KAYNAK 5 LITRE sie",
+    "translationEn": "Natural spring water",
+    "qty": 3,
+    "unitPriceMinor": 2690,
+    "amountMinor": 8070,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POLAR BATTANIYE 150X200",
+    "translationEn": "Polar blanket",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 52900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton cloths",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA batteries",
+    "qty": 2,
+    "unitPriceMinor": 11490,
+    "amountMinor": 22980,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 28053,
+  "taxIncluded": false,
+  "totalMinor": 185530,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7221824956",
+    "bbox": {
+     "x": 0.6972664047363896,
+     "y": 0.7894705494518134,
+     "w": 0.1409600140147773,
+     "h": 0.019019407531258303
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.21145189367768455,
+     "y": 0.8343733051595951,
+     "w": 0.19076934562951528,
+     "h": 0.02569241585312043
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "7221824956",
+    "bbox": {
+     "x": 0.6972664047363896,
+     "y": 0.7894705494518134,
+     "w": 0.1409600140147773,
+     "h": 0.019019407531258303
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural spring water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A polar blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cotton cloths are not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "2acd389c824ef92ec64f65350cdd1edde4aab5012b4de85a8b741e7bca4fcda8",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3105,
+   "tokensOut": 1127,
+   "usdCeiling": 0.024906,
+   "usdActual": 0.00609
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1963,
+   "tokensOut": 273,
+   "usdCeiling": 0.019312,
+   "usdActual": 0.002444
+  }
+ ],
+ "latencyMs": {
+  "read": 9501,
+  "classify": 2717
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 05.11.2026 12:48 FİŞ NO: 4657",
+   "DİŞ FIRÇASI «20 *79,80",
+   "2 x 39,90",
+   "DOGAL KAYNAK 5 LITRE sie *80,78",
+   "3 x 26,90",
+   "POLAR BATTANIYE 150X200 %20 *529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET 420 *638,00",
+   "2 x 319,00",
+   "BEYAZ PEYNİR 500 GR «10 *298,00",
+   "2 x 149,00",
+   "ALKALİN AA 6 ADET 20 *229,80",
+   "2 x 114,90",
+   "KDV 10 MATRAH 344,27 #34,43",
+   "KDV %2@ MATRAH 1.230,50 *246,10",
+   "TOPKDV *280,53",
+   "TOPLAM *1.855,30",
+   "NAKİT *1.860, 00",
+   "PARA ÜSTÜ *4,70",
+   "MÜŞTERİ KARTI 7221824956",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 05.11.2026 12:48 FİŞ NO: 4657",
+   "DİŞ FIRÇASI «20 *79,80",
+   "2 x 39,90",
+   "DOGAL KAYNAK 5 LITRE sie *80,78",
+   "3 x 26,90",
+   "POLAR BATTANIYE 150X200 %20 *529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET 420 *638,00",
+   "2 x 319,00",
+   "BEYAZ PEYNİR 500 GR «10 *298,00",
+   "2 x 149,00",
+   "ALKALİN AA 6 ADET 20 *229,80",
+   "2 x 114,90",
+   "KDV 10 MATRAH 344,27 #34,43",
+   "KDV %2@ MATRAH 1.230,50 *246,10",
+   "TOPKDV *280,53",
+   "TOPLAM *1.855,30",
+   "NAKİT *1.860, 00",
+   "PARA ÜSTÜ *4,70",
+   "MÜŞTERİ KARTI 7221824956",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarş1 Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 05.11.2026 12:48",
+   "FİŞ NO: 4657",
+   "DİŞ FIRÇASI",
+   "%20 *79,80",
+   "2 x 39,90",
+   "DOĞAL KAYNAK 5 LİTRE",
+   "%10 *80,70",
+   "3 x 26,90",
+   "POLAR BATTANİYE 150X200",
+   "%20 *529,00",
+   "PAMUKLÜ BEZ 4 NUMAR 40 ADEP",
+   "%20 *638,00",
+   "2 x 319,00",
+   "BEYAZ PEYNİR 500 GR",
+   "%10 *298,00",
+   "2 x 149,00",
+   "ALKALİN AA 6 ADEP",
+   "%20 *229,80",
+   "2 x 114,90",
+   "KDV %10 MATRAH 344,27",
+   "*34,43",
+   "KDV %20 MATRAH 1.230,50",
+   "*246,10",
+   "TOPKDV",
+   "*280,53",
+   "TOPLAM",
+   "*1.855,30"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "80,78",
+    "to": "80,70"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
+}

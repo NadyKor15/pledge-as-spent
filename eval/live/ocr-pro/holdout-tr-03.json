@@ -1,0 +1,252 @@
+{
+ "receiptId": "holdout-tr-03",
+ "set": "holdout",
+ "imageSha256": "e35ed992cf613902837075705971f24de95a0122d52e979d6ba6ff254b419efd",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-03T10:56:00",
+  "receiptNumber": "2432",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KIRMIZI ŞARAP 75 CL",
+    "translationEn": "Red wine 75 cl",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 42900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500 gr",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 14900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -1490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DİŞ FIRÇASI",
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitPriceMinor": 3990,
+    "amountMinor": 3990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "POLAR BATTANİYE 150X200",
+    "translationEn": "Polar blanket 150x200",
+    "qty": 2,
+    "unitPriceMinor": 52900,
+    "amountMinor": 105800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton cloth size 4 40 pieces",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 373,
+  "taxIncluded": false,
+  "totalMinor": 229900,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Red wine is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A polar blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cotton cloth is not one of the needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "808679d8bd94f4b2624fa9681692c8033c3ad566f17b3c2d828361e573021673",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3710,
+   "tokensOut": 1102,
+   "usdCeiling": 0.024817,
+   "usdActual": 0.006494
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1982,
+   "tokensOut": 228,
+   "usdCeiling": 0.019312,
+   "usdActual": 0.002315
+  }
+ ],
+ "latencyMs": {
+  "read": 9340,
+  "classify": 2324
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 03.11.2026 10:56 FİŞ NO: 2432",
+   "KIRMIZI ŞARAP 75 CL 420 *429,00",
+   "BEYAZ PEYNİR 500 GR 19 *149,00",
+   "İNDİRİM #10 *-14,90",
+   "DİŞ FIRÇASI «20 *39,90",
+   "POLAR BATTANİYE 150X200 20 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET «20 *638,00",
+   "2 x 319,00",
+   "KDV %1@ MATRAH 121,91 *12,19",
+   "KDV %2@ MATRAH 1.804,08 *360,82",
+   "TOPKDV «373,01",
+   "TOPLAM *2.299,00",
+   "NAKİT *2.300,00",
+   "PARA ÜSTÜ *1,00",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 03.11.2026 10:56 FİŞ NO: 2432",
+   "KIRMIZI ŞARAP 75 CL 420 *429,00",
+   "BEYAZ PEYNİR 500 GR 19 *149,00",
+   "İNDİRİM #10 *-14,90",
+   "DİŞ FIRÇASI «20 *39,90",
+   "POLAR BATTANİYE 150X200 20 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADET «20 *638,00",
+   "2 x 319,00",
+   "KDV %1@ MATRAH 121,91 *12,19",
+   "KDV %2@ MATRAH 1.804,08 *360,82",
+   "TOPKDV «373,01",
+   "TOPLAM *2.299,00",
+   "NAKİT *2.300,00",
+   "PARA ÜSTÜ *1,00",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 00000000057",
+   "TARIH: 03.11.2026 10:56",
+   "FIS NO: 2432",
+   "KIRMIZI SARAP 75 CL",
+   "%20 *429,00",
+   "BEYAZ PEYNIR 500 GR",
+   "%10 *149,00",
+   "INDIRIM",
+   "%10 *-14,90",
+   "DIS FIRCASI",
+   "%20 *39,90",
+   "POLAR BATTANIYE 150X200",
+   "%20 *1.058,00",
+   "2 x 529,00",
+   "PAMUKLU BEZ 4 NUMARA 40 ADEP",
+   "%20 *638,00",
+   "2 x 319,00",
+   "KDV %10 MATRAH 121,91",
+   "*12,19",
+   "KDV %20 MATRAH 1.804,08",
+   "*360,82",
+   "TOPKDV",
+   "*373,01",
+   "TOPLAM",
+   "*2.299,00",
+   "NAKIT"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
+}

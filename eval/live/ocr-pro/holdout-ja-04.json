@@ -1,0 +1,275 @@
+{
+ "receiptId": "holdout-ja-04",
+ "set": "holdout",
+ "imageSha256": "6afeeb111224ceb847a8a6f8805ccdfd41b420743880c25d07956b21b517cc9f",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:56:00",
+  "receiptNumber": "5824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "レトルトカレー",
+    "translationEn": "Retort curry",
+    "qty": 1,
+    "unitPriceMinor": 178,
+    "amountMinor": 228,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いわし蒲焼缶",
+    "translationEn": "Sardine kamaboko can",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6 本入 2 点 x Mess",
+    "translationEn": "Tasty water 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3080,
+  "taxMinor": 228,
+  "taxIncluded": false,
+  "totalMinor": 3080,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "4633 1577 4131",
+    "bbox": {
+     "x": 0.5867312742795536,
+     "y": 0.8044445909486543,
+     "w": 0.19670738203032434,
+     "h": 0.01953118909800755
+    }
+   },
+   {
+    "kind": "name",
+    "text": "S ゆ",
+    "bbox": {
+     "x": 0.16133719542289068,
+     "y": 0.7715409053192179,
+     "w": 0.07458770713456966,
+     "h": 0.014302727972539175
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "4633 1577 4131",
+    "bbox": {
+     "x": 0.5867312742795536,
+     "y": 0.8044445909486543,
+     "w": 0.19670738203032434,
+     "h": 0.01953118909800755
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 2L counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Retort curry is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sardine kamaboko can counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2L counts toward the water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "1baf6e5fe5d9c44aa66eaee9f1aa72c03bd12595cb46f5c8c8a4d843d832e6b0",
+ "usage": [
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 3055,
+   "tokensOut": 599,
+   "usdCeiling": 0.024722,
+   "usdActual": 0.004361
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1928,
+   "tokensOut": 207,
+   "usdCeiling": 0.019175,
+   "usdActual": 0.002205
+  }
+ ],
+ "latencyMs": {
+  "read": 5924,
+  "classify": 1825
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL @123-45-6789",
+   "登録番号 T9909199909427",
+   "2026 年 11 月 98 日 (日 ) 19:56",
+   "レジ 5 No.5824",
+   "山里の湧水 2L ¥276※",
+   "2m x 単 138",
+   "レトルトカレー ¥228※",
+   "ゼリー飲料 ¥356※",
+   "2m x 単 178",
+   "いわし蒲焼缶 ¥504※",
+   "3 点 x M168",
+   "おいしい水 2L ¥1,716%",
+   "6 本入",
+   "2 点 x Mess",
+   "小計 (Smt) ¥3,080",
+   "BTR ¥3,080",
+   "(内消費税等 8% ¥228)",
+   "合計 ¥3,686",
+   "クレジット sect 1 35.4",
+   "お支払い ¥3,080",
+   "ポイントカード",
+   "S ゆ様",
+   "会員番号 4633 1577 4131",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL @123-45-6789",
+   "登録番号 T9909199909427",
+   "2026 年 11 月 98 日 (日 ) 19:56",
+   "レジ 5 No.5824",
+   "山里の湧水 2L ¥276※",
+   "2m x 単 138",
+   "レトルトカレー ¥228※",
+   "ゼリー飲料 ¥356※",
+   "2m x 単 178",
+   "いわし蒲焼缶 ¥504※",
+   "3 点 x M168",
+   "おいしい水 2L ¥1,716%",
+   "6 本入",
+   "2 点 x Mess",
+   "小計 (Smt) ¥3,080",
+   "BTR ¥3,080",
+   "(内消費税等 8% ¥228)",
+   "合計 ¥3,686",
+   "クレジット sect 1 35.4",
+   "お支払い ¥3,080",
+   "ポイントカード",
+   "ミッマルン株",
+   "会員番号 4633 1577 4131",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "エステティック",
+   "サロン",
+   "TEL 0123-45-6789",
+   "番号 T0000100000427",
+   "2026年11月08日(木) 10:56",
+   "レ05",
+   "No.5824",
+   "• 2L",
+   "2個 x #138",
+   "¥276",
+   "•",
+   "¥228",
+   "•",
+   "2個 x #178",
+   "¥356",
+   "•",
+   "3個 x #168",
+   "¥504",
+   "• 2L",
+   "¥1,716",
+   "6個",
+   "2個 x #858",
+   "合計 (5点)",
+   "¥3,080",
+   "8%税込",
+   "¥3,080",
+   "(ポイント 8%",
+   "¥228)",
+   "合計",
+   "¥3,080"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9909199909427",
+    "to": "0000100000427"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
+}
