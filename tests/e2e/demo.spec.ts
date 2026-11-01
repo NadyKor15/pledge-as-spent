@@ -510,7 +510,7 @@ test("finding 17: Tab walks the Ledger's buttons in order, Space presses, and th
     await page.keyboard.press("Tab");
     seen.push(await page.evaluate(() => document.activeElement?.getAttribute("data-donor") ?? document.activeElement?.getAttribute("data-need") ?? document.activeElement?.textContent?.trim().slice(0, 28) ?? ""));
   }
-  expect(seen.slice(0, 9)).toEqual(["Mark", "Lena", "Yuki", "Replay", "water", "diapers", "batteries", "Receipt photo", "Every line of the book →"]);
+  expect(seen.slice(0, 10)).toEqual(["Mark", "Lena", "Yuki", "Replay", "water", "diapers", "batteries", "Receipt photo", "Every line of the book →", "Download the book (CSV)"]);
   await page.getByRole("link", { name: "Ledger" }).focus();
   await page.keyboard.press("Tab");
   const mark = page.locator("button[data-donor=Mark]");

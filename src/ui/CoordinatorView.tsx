@@ -482,7 +482,7 @@ function Activity({ view, busy, next, capture, line, error }: { view: DriveView;
       {payout && <p className={`${s.bsub} ${s.source}`}>{payoutNote(view, payout)}</p>}
       {view.drive.status === "open" && view.receipts.length > 0 && (
         <button type="button" className={`${s.ppBtn} ${live ? s.ppMain : ""}`} disabled={busy !== null || !live} onClick={capture}>
-          {busy === "capture" ? `Capturing ${count} ${count === 1 ? "hold" : "holds"} at PayPal…` : next === "check" ? "Check PayPal" : "Capture now"}
+          {busy === "capture" ? `Capturing ${count} ${count === 1 ? "hold" : "holds"}…` : next === "check" ? "Check PayPal" : "Capture now"}
         </button>
       )}
       {error && <p className={s.error}>{error.message}</p>}

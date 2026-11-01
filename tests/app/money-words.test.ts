@@ -129,7 +129,7 @@ describe("#2 the line under Capture now comes from the data", () => {
   it("what was sent but not confirmed is not called captured", () => {
     const v = fixture("open");
     Object.assign(holdOf(v, "Mark"), { accrued: 0, capturePending: 2145 });
-    expect(captureLine(v, null)).toEqual({ text: "Sent to PayPal, waiting for its answer: $21.45", tone: "wait" });
+    expect(captureLine(v, null)).toEqual({ text: "Sent to PayPal, waiting for the confirmation: $21.45", tone: "wait" });
   });
 
   it("says when PayPal refused or did not answer", () => {

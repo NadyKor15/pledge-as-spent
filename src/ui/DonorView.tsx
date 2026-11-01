@@ -58,7 +58,7 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
 
         <div className={s.bottom}>
           <MoneyColumn view={view} />
-          <ReceiptColumn view={view} receipt={receipt} />
+          <ReceiptColumn view={view} receipt={receipt} role={role} />
           <LatestColumn view={view} receipt={receipt} />
         </div>
       </main>
@@ -275,12 +275,18 @@ function splitText(g: ShareGroup, base: string) {
   ].join(" + ");
 }
 
-function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt | null }) {
+function emptyReceipt(status: DriveView["drive"]["status"], role: Role): string {
+  if (status === "closed") return "This drive closed with no verified receipt. Nothing was charged.";
+  if (role === "shelter") return "No receipt has been verified yet.";
+  return "No receipt has been verified yet. Your pledge stays a hold: nothing is charged until a volunteer’s receipt for your need passes the checks.";
+}
+
+function ReceiptColumn({ view, receipt: r, role }: { view: DriveView; receipt: Receipt | null; role: Role }) {
   if (!r) {
     return (
       <section className={`${s.card} ${s.col} ${s.rcpt}`}>
         <h2>Verified receipt</h2>
-        <p className={s.empty}>No receipt has been verified yet. Your pledge stays a hold: nothing is charged until a volunteer’s receipt for your need passes the checks.</p>
+        <p className={s.empty}>{emptyReceipt(view.drive.status, role)}</p>
       </section>
     );
   }
@@ -398,7 +404,7 @@ function LatestColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt 
       <h2>Latest verified purchases</h2>
       <div className={s.lead}>Items from approved receipt lines, paid from donors’ holds as PayPal captures them.</div>
       {groups.length === 0 ? (
-        <p className={s.empty}>Nothing has been bought yet.</p>
+        <p className={s.empty}>{view.drive.status === "closed" ? "Nothing was bought." : "Nothing has been bought yet."}</p>
       ) : (
         <div className={s.lts}>
           {groups.map((g) => {

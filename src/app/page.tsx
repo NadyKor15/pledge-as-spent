@@ -15,7 +15,7 @@ export default function Home() {
         <p className="ld-badge">Fictional drive · PayPal Sandbox · no real money moves</p>
         <ol className="ld-steps">
           <li>
-            <b>Send a receipt.</b> Press “Use the sample receipt”. AI reads every line, approves what the shelter needs and rejects the rest.
+            <b>Send a receipt.</b> Press “Use the sample receipt”. AI reads every line, approves what the shelter needs and refuses the rest.
           </li>
           <li>
             <b>Follow the money.</b> Each approved line is split across donor holds and the company match. “Capture now” takes only those shares at PayPal.

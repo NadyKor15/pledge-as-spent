@@ -159,7 +159,7 @@
 .co-bPp .co-bsub { margin: 3px 0 0 20px; width: 470px; line-height: 19px; font-size: 14.7px; }
 .co-ppBtn { position: absolute; top: 9px; right: 14px; min-height: 40px; padding: 0 14px; border-radius: 7px; border: 1px solid var(--btn); color: var(--btn); background: var(--panel); font-size: 15px; font-weight: 600; white-space: nowrap; }
 .co-ppBtn:disabled { opacity: .55; }
-.co-ppBtn.co-ppMain { min-height: 60px; padding: 0 22px; border-color: var(--btn-2); background: var(--btn-2); color: var(--on-btn); font-size: 18px; }
+.co-ppBtn.co-ppMain { min-height: 60px; max-width: 168px; padding: 0 22px; border-color: var(--btn-2); background: var(--btn-2); color: var(--on-btn); font-size: 18px; line-height: 21px; white-space: normal; }
 .co-capLine { margin: 6px 20px 0; font-size: 15.5px; line-height: 21px; font-weight: 600; color: var(--tag-held-ink); }
 .co-capDone { color: var(--tag-done-ink); }
 .co-capBad { color: var(--no); }
@@ -252,7 +252,7 @@
 .sc-stack .co-wrow .co-eq { flex: 1 1 100%; font-size: 13.5px; line-height: 19px; }
 .sc-stack .co-empty { margin: 8px 12px 0; }
 .sc-stack .co-ppBtn { position: static; align-self: flex-start; margin: 8px 12px 0; }
-.sc-stack .co-ppBtn.co-ppMain { align-self: stretch; min-height: 48px; font-size: 16px; }
+.sc-stack .co-ppBtn.co-ppMain { align-self: stretch; max-width: none; min-height: 48px; font-size: 16px; }
 .sc-stack .co-capLine { margin: 6px 12px 0; font-size: 13.5px; line-height: 19px; }
 .sc-stack .co-acts { margin: 8px 12px 0; }
 .sc-stack .co-act { height: auto; min-height: 24px; align-items: flex-start; margin-bottom: 4px; white-space: normal; }

@@ -204,7 +204,7 @@ export function captureLine(v: DriveView, commands: CommandReport[] | null): { t
       .map((h) => money(h.currency, pick(h)))
       .join(" · ");
   const sent = list((h) => h.capturePending);
-  if (sent) return { text: `Sent to PayPal, waiting for its answer: ${sent}`, tone: "wait" };
+  if (sent) return { text: `Sent to PayPal, waiting for the confirmation: ${sent}`, tone: "wait" };
   const done = list((h) => holdAmounts(h).spent);
   if (done) return { text: `PayPal captured ${done}`, tone: "done" };
   return commands ? { text: "Nothing was waiting for capture", tone: "wait" } : null;

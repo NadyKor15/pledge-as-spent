@@ -1,6 +1,6 @@
 # Pledge-as-Spent
 
-**Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent is released.
+**Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent goes back.
 
 In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
 
@@ -12,8 +12,8 @@ Video: {YouTube URL}
 
 1. Open the demo and press **Open the demo drive**. Four holds are placed at PayPal.
 2. On the Coordinator screen press **Use the sample receipt**: 9 lines approved, 2 refused, ¥10,448 to the volunteer.
-3. Press **Capture now**, then **Close drive — release unspent holds**.
-4. Open the **Ledger** tab: promised, spent on needs and returned to donors, on a world map. Press a donor to see what they paid for.
+3. Press **Capture now**: each share turns from waiting to spent once PayPal confirms it. Then press **Close drive** and confirm with **Yes, close the drive**.
+4. Press **See where the money went**: the Ledger shows pledged, spent on needs and returned to donors, on a world map. Press a donor to see what they paid for.
 
 | Claim | Proof | What you will see |
 |---|---|---|
@@ -21,7 +21,7 @@ Video: {YouTube URL}
 | One receipt is split across several donors' holds | captures `3WP65983GD053501C` (€4.58), `5PE922386K0983923` ($21.45), `3HK86339B7905131L` (¥1,237) | each donor pays their own share, in their own currency |
 | A company match is captured with them | capture `64424341AL727524D` (¥5,224) | a second hold on the same lines, 1:1 up to a ¥500,000 cap |
 | The volunteer is reimbursed through PayPal Payouts | batch `NPUW3BEC9J8TC` | ¥10,448, confirmed |
-| Unspent money goes back | the same drive, Ledger tab | €15.42, $8.55 and ¥1,763 released, every hold voided |
+| Unspent money goes back | the same drive, Ledger tab | €15.42, $8.55 and ¥1,763 returned, every hold voided |
 | Alcohol and a gift card are refused | [the same receipt](https://pledge-as-spent.vercel.app/drive/demo-f372326129?as=coordinator) | ¥4,198 of ¥14,646 never reaches a donor |
 | AI reads receipts in other languages | [held-out numbers below](#how-ai-is-used) | 20 unseen receipts in 4 languages: line F1 95.6%, totals 20/20 |
 | The model never moves money | `src/core` | amounts are computed in code; the model only reads and labels lines |
@@ -32,7 +32,7 @@ The PayPal ids and amounts come from a live run on 2026-11-01: [`evidence/live-v
 
 An earthquake, a shelter and three needs: water, size M diapers, AA batteries. This drive is fictional. Lena in Berlin pledges €20 for water, Mark in Columbus $30 for diapers, Yuki in Osaka ¥3,000 for batteries. A local company matches each yen 1:1, up to ¥500,000.
 
-A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift card are on it. AI reads every line, matches each to a need and applies the drive's rules. Nine lines pass, two are refused. The approved ¥10,448 is split: half from the company, half from the donors, each in their own currency. The volunteer is paid back the same day. When the drive closes, what nobody spent is released, and each donor can see which receipt lines their money bought.
+A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift card are on it. AI reads every line, matches each to a need and applies the drive's rules. Nine lines pass, two are refused. The approved ¥10,448 is split: half from the company, half from the donors, each in their own currency. The volunteer is paid back the same day. When the drive closes, what nobody spent goes back, and each donor can see which receipt lines their money bought.
 
 ## How PayPal is used
 
@@ -76,7 +76,7 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 
 - The money stays on the donor's own PayPal hold until a verified purchase. Nothing is collected first and explained later.
 - One receipt line is shared across donors and a company match, each charged in their own currency.
-- The Ledger splits every pledge into spent, still held and returned, and the three add up to the pledge.
+- The Ledger splits every pledge into spent, waiting for capture, still held and returned, and the four add up to the pledge.
 
 ## Platform findings
 
@@ -92,7 +92,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 661 unit and integration tests, 32 browser tests.
+30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 698 unit and integration tests, 48 browser tests.
 
 ## Run it
 

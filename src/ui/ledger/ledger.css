@@ -17,6 +17,7 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
    on the widgets (Enter to go in, then a trap) would hide the buttons; only the grid keeps its stop. */
 .lg-frame .ag-studio-layout-widget:not(:has(.ag-root-wrapper)) > .ag-studio-layout-widget-focus-container,
 .lg-frame .ag-studio-layout-widget:not(:has(.ag-root-wrapper)) > .ag-tab-guard { display: none; }
+.lg-frame .ag-studio-layout-widget-focus:not(:has(.ag-root-wrapper)) { box-shadow: none; }
 .lg-frame button:focus-visible, .lg-frame a:focus-visible { outline: 3px solid var(--spent-text); outline-offset: 2px; border-radius: 6px; }
 .lg-frame .lg-need:focus-visible { outline-offset: -3px; }
 /* The book's export is our own button in the bottom line: always visible, with a real file behind it. */
