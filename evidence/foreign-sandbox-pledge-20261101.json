@@ -1,0 +1,13 @@
+{
+ "checkedUtc": "2026-11-01T17:46:22Z",
+ "site": "https://pledge-as-spent.vercel.app",
+ "drive": "demo-4e8aa74db5",
+ "note": "A pledge approved in the PayPal window by a sandbox personal account of a different developer account than the app's own, as a judge would.",
+ "amount": {
+  "currency": "EUR",
+  "value": "5.00"
+ },
+ "authorizationId": "1FJ380227D3086411",
+ "paymentSource": "paypal",
+ "productStatus": "authorized"
+}
