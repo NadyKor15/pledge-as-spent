@@ -1,5 +1,5 @@
 // Applies the drizzle migrations to DATABASE_URL (postgres://… or pglite:<dir>)
-// and carries the receipts lane's model spend (eval/spend-ledger.jsonl) into the
+// and carries the model spend recorded while the receipts were built (eval/spend-ledger.jsonl) into the
 // database spend ledger, so the $5 ceiling counts everything spent so far.
 //
 //   DATABASE_URL=postgres://… npm run db:migrate

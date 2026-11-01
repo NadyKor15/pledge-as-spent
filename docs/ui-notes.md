@@ -1,6 +1,5 @@
-# Product UI: notes (lane P3B2-UI, 2026-10-31; first draft CT2310-P3B1-UI, 2026-10-23)
+# Product UI: notes (2026-10-31; first draft 2026-10-23)
 
-Spec: `docs/nadya/p3-build/SPEC-ui.md` (campaign repo). References: `docs/nadya/p3-build/ui/2026-10-23-image-first-drive/html-*`.
 
 ## How to run locally (no credentials, no network to PayPal)
 - `PORT=3311 npx tsx tests/e2e/server.ts`: the real Next app with the service on in-memory PGlite and recorded sandbox answers (`tests/e2e/support/recorded-sandbox.ts`), injected through `setServiceForTests`. Lookups run at once (grace 0) because no webhook comes.

@@ -21,9 +21,8 @@ Holds were authorized with a public sandbox test card (Visa 4012 8888 8888 1881)
 
 - The endpoint description in the Payments v2 OpenAPI says: "Within the 29-day authorization period, you can issue **multiple re-authorizations** after the honor period expires."
 - The `reauthorize_request` schema in the same file says: "You can reauthorize a payment **only once** from days four to 29" and "You can reauthorize an authorized payment once."
-  (Both are in `docs/nadya/p3-build/ref/paypal-payments-v2-schema-2026-10-23.json`, under `paths./v2/payments/authorizations/{authorization_id}/reauthorize.post.description` and `components.schemas.reauthorize_request.description`.)
 - **The sandbox sides with "once".** A day-0 reauthorize returned 422 `REAUTHORIZATION_TOO_SOON` with the text "A reauthorization is only allowed once from Day 4 to Day 29 since the date of the original authorization." (`029-reauthorize-day0`, debug_id `f817919f50230`). The design therefore assumes one reauthorization per hold.
-- A successful reauthorize could not be checked on day 0. It needs a hold that is at least 4 days old. That reauthorize, and whether its response carries a new authorization id, is still open; the gateway returns whatever id PayPal sends.
+- **Checked on 2026-10-31 on holds aged 8 days** ([`evidence/reauth-probe-20261031T223634Z.json`](../evidence/reauth-probe-20261031T223634Z.json), [`evidence/void-check-20261031.json`](../evidence/void-check-20261031.json)). Reauthorize returns a new authorization id and keeps the same `expiration_time`. Capture works with both ids and the status shows on both. Void works only with the original id: voiding the new id returns 422 `CANNOT_BE_VOIDED`, voiding the original releases both. A second reauthorize right after the first returns `REAUTHORIZATION_TOO_SOON`. It also works on a partly captured hold and on a hold paid by a business account.
 
 ## Idempotency and errors
 

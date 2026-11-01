@@ -43,7 +43,7 @@ async function sumOf(q: Pick<Db, "select">): Promise<number> {
 
 const toRow = (e: LedgerEntry) => ({ id: e.id, ts: e.ts, kind: e.kind, what: e.what, usd: e.usd.toFixed(6), ref: e.ref ?? null });
 
-/** Total of the file ledger the receipts lane kept before the database existed. */
+/** Total of the file ledger kept before the database existed. */
 export function fileLedgerTotal(file: string): number {
   return readFileSync(file, "utf8")
     .split("\n")

@@ -14,7 +14,7 @@ Files of the runs marked "interim" were not kept: only the last live run of each
 
 Ledger $0.0007 to $1.2568. On C with Pro the main receipt had date 0/1, store 0.67, class 8/11, quantity 4/9, rules 1/2, personal data 1/3 and a total mismatch.
 
-## Round 5 (2026-10-31 to 2026-11-01), lane P3B2-READ
+## Round 5 (2026-10-31 to 2026-11-01)
 
 | Time (UTC) | Change | Result | Ledger after |
 |---|---|---|---|
