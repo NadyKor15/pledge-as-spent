@@ -1,0 +1,213 @@
+{
+ "receiptId": "adv-predisaster-ja",
+ "set": "adversarial",
+ "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+ "reading": {
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-10-27T11:20:00",
+  "receiptNumber": "3996",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "NC-37 ルツ M",
+    "translationEn": "NC-37 Ruts M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単 3 電池 19 本入",
+    "translationEn": "AA battery 19 pack",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ボタン電池 CR2032",
+    "translationEn": "Button battery CR2032",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline dry cell 4 pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2768,
+  "taxMinor": 251,
+  "taxIncluded": false,
+  "totalMinor": 2768,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "本 キキ 本 末 本 本 ネネ ネネ 9728",
+    "bbox": {
+     "x": 0.5646413473007564,
+     "y": 0.7571909091810168,
+     "w": 0.23106077064264174,
+     "h": 0.035363474045762455
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 38,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Button batteries are not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not one of the needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "7e57ee1606fab2b6045e9021a7b85d6bac0a07f894bc721b0322e69889035c20",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3689,
+   "tokensOut": 538,
+   "usdCeiling": 0.017507,
+   "usdActual": 0.002483
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1905,
+   "tokensOut": 159,
+   "usdCeiling": 0.019112,
+   "usdActual": 0.002033
+  }
+ ],
+ "latencyMs": {
+  "read": 4974,
+  "classify": 1461
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-33-7788",
+   "2026年10月27日(金) 11:20",
+   "No.3996",
+   "¥1,098",
+   "¥796",
+   "2個 x ¥398",
+   "¥398",
+   "¥476",
+   "2個 x ¥238",
+   "¥2,768",
+   "10%税",
+   "¥2,768",
+   "(内税込 10% ¥251)",
+   "¥2,768"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
+}

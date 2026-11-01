@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "0db994154f3aab65d289076a34420be11a3d9ab22aed2cda4204ec2ec81161bb",
  "reading": {
-  "merchantName": "ホームセンターツバメ",
+  "merchantName": "ホームセンターツバメ 北空東店",
   "merchantAddress": "空川県北空市東町 7-29",
   "country": "JP",
   "currency": "JPY",
@@ -12,89 +12,195 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "単 3 電池 16 本入 ¥1,194",
-    "translationEn": "AA batteries 16 pack",
-    "qty": 16,
-    "unitPriceMinor": null,
+    "rawText": "単 3 電池 10 本入",
+    "translationEn": "AA battery 10-pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
     "amountMinor": 1194,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "QRIO* 2L ¥236%",
-    "translationEn": "QRIO 2L",
+    "rawText": "時解けの水 2L",
+    "translationEn": "",
     "qty": 2,
     "unitPriceMinor": 118,
     "amountMinor": 236,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ベビーラブパンツ M 38 枚 ¥2,196",
-    "translationEn": "Baby pants M 38 pack",
-    "qty": 38,
-    "unitPriceMinor": null,
+    "rawText": "ベビーラブパンツ M 38 枚",
+    "translationEn": "Baby pants M 38-pack",
+    "qty": 2,
+    "unitPriceMinor": 1098,
     "amountMinor": 2196,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "缶ビピール 350ml 6% ¥1,198",
-    "translationEn": "Canned beverage 350ml 6 pack",
-    "qty": 6,
+    "rawText": "缶ビピール 350ml 6%",
+    "translationEn": "Canned beverage 350ml 6-pack",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 1198,
-    "taxRateBp": 800
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 4824,
   "taxMinor": 434,
   "taxIncluded": false,
   "totalMinor": 4824,
-  "pii": [
-   {
-    "kind": "card_number",
-    "text": "2026118088",
-    "bbox": {
-     "x": 0.17690292212406594,
-     "y": 0.30918336697109094,
-     "w": 0.23079571166384133,
-     "h": 0.02407225345566666
-    }
-   }
-  ],
+  "pii": [],
   "readability": "poor"
  },
  "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 30,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in a 10-pack count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby pants in size M count toward the diapers need.",
+   "confidence": 0.9
+  },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Canned beverage 350ml 6 pack is not a listed need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "3c33e0aae43e410f4b67033bd804660eccfe91b5dae1735ff961044f681f5998",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1170,
-   "tokensOut": 356,
-   "usdCeiling": 0.016551,
-   "usdActual": 0.002075
+   "tokensIn": 3002,
+   "tokensOut": 508,
+   "usdCeiling": 0.024702,
+   "usdActual": 0.004026999999999999
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1162,
-   "tokensOut": 180,
-   "usdCeiling": 0.016465,
-   "usdActual": 0.001506
+   "tokensIn": 1910,
+   "tokensOut": 177,
+   "usdCeiling": 0.019102,
+   "usdActual": 0.002094
   }
  ],
  "latencyMs": {
-  "read": 6034,
-  "classify": 1699
+  "read": 5538,
+  "classify": 1611
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 123-55-1100",
+   "SMHS T0000100000712",
+   "2026118088 (A) 14:51",
+   "レジ 92 No. 1930",
+   "単 3 電池 16 本入 ¥1,194",
+   "3m x M398",
+   "QRIO* 2L ¥236%",
+   "2 点 x M118",
+   "ベビーラブパンツ M 38 枚 ¥2,196",
+   "2 点 x 1,098",
+   "缶ビピール 350ml 6% ¥1,198",
+   "小計 (4 点 ) ¥4,824",
+   "BAIR ¥236",
+   "10* 対象 ¥4,588",
+   "(内消費税等 8* ¥17)",
+   "(内消費税等 16* ¥417)",
+   "合計 ¥4,824",
+   "お預り ¥5,000",
+   "お釣り ¥176",
+   "A SERRE (8%) 対象商品です rT a",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 123-55-1100",
+   "SMHS T0000100000712",
+   "2026118088 (A) 14:51",
+   "レジ 92 No. 1930",
+   "単 3 電池 16 本入 ¥1,194",
+   "3m x M398",
+   "時解けの水 2L ¥236%",
+   "2 点 x M118",
+   "ベビーラブパンツ M 38 枚 ¥2,196",
+   "2 点 x 1,098",
+   "缶ビピール 350ml 6% ¥1,198",
+   "小計 (4 点 ) ¥4,824",
+   "BAIR ¥236",
+   "10* 対象 ¥4,588",
+   "(内消費税等 8* ¥17)",
+   "(内消費税等 16* ¥417)",
+   "合計 ¥4,824",
+   "お預り ¥5,000",
+   "お釣り ¥176",
+   "A SERRE (8%) 対象商品です rT a",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "-•-•-",
+   "•",
+   "•",
+   "TEL 0123-55-1100",
+   "• T0000100000712",
+   "20261108() 14:51",
+   "2",
+   "No.1930",
+   "10 ¥1,194",
+   "3 x ¥398",
+   "2L",
+   "¥236",
+   "2 x ¥118",
+   "38 ¥2,196",
+   "2 x ¥1,098",
+   "350ml 6 ¥1,198",
+   "(4) ¥4,824",
+   "8% ¥236",
+   "10% ¥4,588",
+   "() 8% ¥17)",
+   "() 10% ¥417)",
+   "¥4,824"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "16",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
 }

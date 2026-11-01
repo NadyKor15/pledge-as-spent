@@ -13,8 +13,8 @@
    {
     "lineNo": 1,
     "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
-    "translationEn": "Baby Diaper 3 Pack 44's",
-    "qty": 3,
+    "translationEn": "Baby Diaper 3 No 44's",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 27900,
     "taxRateBp": 1000
@@ -22,8 +22,8 @@
    {
     "lineNo": 2,
     "rawText": "KAYNAK SU @,5L 12'Lİ",
-    "translationEn": "Mineral Water 0.5L 12 Pack",
-    "qty": 12,
+    "translationEn": "Mineral Water 0.5L 12's",
+    "qty": 1098,
     "unitPriceMinor": 5,
     "amountMinor": 5490,
     "taxRateBp": 1000
@@ -31,71 +31,35 @@
    {
     "lineNo": 3,
     "rawText": "MİNİ BEBEK BEZİ 4 NO",
-    "translationEn": "Mini Baby Diaper 4 Pack",
-    "qty": 4,
-    "unitPriceMinor": null,
+    "translationEn": "Mini Baby Diaper 4 No",
+    "qty": 2,
+    "unitPriceMinor": 28990,
     "amountMinor": 57980,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
     "rawText": "AA PİL 10'LU PAKET",
-    "translationEn": "AA Battery 10 Pack",
-    "qty": 2,
-    "unitPriceMinor": null,
+    "translationEn": "AA Battery 10's Pack",
+    "qty": 1,
+    "unitPriceMinor": 28990,
     "amountMinor": 16990,
     "taxRateBp": 1000
-   },
-   {
-    "lineNo": 5,
-    "rawText": "KDV %1@ MATRAH",
-    "translationEn": "Tax 1% Base",
-    "qty": null,
-    "unitPriceMinor": 4991,
-    "amountMinor": 4991,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 6,
-    "rawText": "KDV 20 MATRAH",
-    "translationEn": "Tax 20% Base",
-    "qty": null,
-    "unitPriceMinor": 85725,
-    "amountMinor": 17145,
-    "taxRateBp": 2000
-   },
-   {
-    "lineNo": 7,
-    "rawText": "TOPKDV",
-    "translationEn": "Total Tax",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": 17644,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 8,
-    "rawText": "TOPLAM",
-    "translationEn": "Total",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": 108360,
-    "taxRateBp": null
    }
   ],
-  "subtotalMinor": 85725,
-  "taxMinor": 17644,
+  "subtotalMinor": null,
+  "taxMinor": 17145,
   "taxIncluded": false,
   "totalMinor": 108360,
   "pii": [
    {
     "kind": "card_number",
-    "text": "6869",
+    "text": "i soe bb took 6869",
     "bbox": {
-     "x": 0.41306562017708337,
+     "x": 0.10402509287930321,
      "y": 0.7818035175885857,
-     "w": 0.056544686649148135,
-     "h": 0.018072560132935123
+     "w": 0.36573063139600076,
+     "h": 0.030329273787050304
     }
    }
   ],
@@ -105,28 +69,28 @@
   {
    "lineNo": 1,
    "needId": "diapers",
-   "needQty": 44,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby Diaper 3 Pack 44's counts toward the baby diapers size 4 need.",
+   "reasonEn": "Baby diapers size 4 count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 12,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Mineral Water 0.5L 12 Pack does not match the need for drinking water 5 L bottles.",
-   "confidence": 0.95
+   "reasonEn": "Water in 0.5L bottles does not count toward the water need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
    "needId": "diapers",
-   "needQty": 4,
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mini Baby Diaper 4 Pack counts toward the baby diapers size 4 need.",
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -135,65 +99,114 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Battery 10 Pack counts toward the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Tax 1% Base is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Tax 20% Base is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total Tax is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Total is not a need.",
+   "reasonEn": "AA batteries count toward the batteries need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "4366bcf0c014221122e0dd8eb1f88d77901551c101ae1c88dc6e2b63206e9e50",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1181,
-   "tokensOut": 514,
-   "usdCeiling": 0.001247,
-   "usdActual": 0.000194
+   "tokensIn": 3963,
+   "tokensOut": 878,
+   "usdCeiling": 0.001859,
+   "usdActual": 0.00044800000000000005
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1285,
-   "tokensOut": 386,
-   "usdCeiling": 0.001263,
-   "usdActual": 0.00017
+   "tokensIn": 1922,
+   "tokensOut": 175,
+   "usdCeiling": 0.001434,
+   "usdActual": 0.000157
   }
  ],
  "latencyMs": {
-  "read": 2978,
-  "classify": 2471
+  "read": 5777,
+  "classify": 1330
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "Si SAE",
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 09.11.2026 08:26 FİŞ NO: 8832",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "KAYNAK SU @,5L 12'Lİ %10 *54,90",
+   "MİNİ BEBEK BEZİ 4 NO «20 *579,80",
+   "2 x 289,90",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "KDV %1@ MATRAH 49,91 *4,99",
+   "| KDV 20 MATRAH 857,25 *171,45",
+   "I TOPKDV *176,44",
+   "TOPLAM *1.083,60",
+   "\\ KREDİ KARTI *1.083,60",
+   "i soe bb took 6869",
+   "h TEŞEKKÜR EDERİZ",
+   "|",
+   "he",
+   "he"
+  ],
+  "reread": [
+   "Si SAE",
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 09.11.2026 08:26 FİŞ NO: 8832",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "KAYNAK SU @,5L 12'Lİ %10 *54,90",
+   "MİNİ BEBEK BEZİ 4 NO «20 *579,80",
+   "2 x 289,90",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "KDV %1@ MATRAH 49,91 *4,99",
+   "| KDV 20 MATRAH 857,25 *171,45",
+   "I TOPKDV *176,44",
+   "TOPLAM *1.083,60",
+   "\\ KREDİ KARTI *1.083,60",
+   "i soe bb took 6869",
+   "h TEŞEKKÜR EDERİZ",
+   "|",
+   "he",
+   "he"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARIH: 09.11.2026 08:26",
+   "FIS NO: 8832",
+   "BEBÉK BEZI 3 NO 44'LÜ",
+   "%20 *279,00",
+   "KAYNA K SU 0,5L 12'Lİ",
+   "%10 *54,90",
+   "MÍNÍ BEBÉK BEZI 4 NO",
+   "%20 *579,80",
+   "2 X 289,90",
+   "AA PÍL 10'LU PAKET",
+   "%20 *169,90",
+   "KDV %10 MATRAH 49,91",
+   "*4,99",
+   "KDV %20 MATRAH 857,25",
+   "*171,45",
+   "TOPKDV",
+   "*176,44",
+   "TOPLAM",
+   "*1.083,60",
+   "*1 083,60"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
 }

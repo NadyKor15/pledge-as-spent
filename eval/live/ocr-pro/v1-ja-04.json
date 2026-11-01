@@ -7,61 +7,51 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-09T19:56:00",
-  "receiptNumber": "4993",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パビー7 NYIM ¥1,098",
-    "translationEn": "Pabby 7 NYIM",
+    "rawText": "ビーラプが>ッウロ",
+    "translationEn": "",
     "qty": 1,
-    "unitPriceMinor": 1098,
+    "unitPriceMinor": null,
     "amountMinor": 1098,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "ツナ缶 3 缶パック ¥1,832※",
-    "translationEn": "Tuna can 3 can pack",
-    "qty": 3,
-    "unitPriceMinor": null,
+    "rawText": "ツナ缶 3 缶パック",
+    "translationEn": "Tuna can 3-pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
     "amountMinor": 1832,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "さば味噌者缶詰 ¥2,256※",
-    "translationEn": "Saba miso can",
+    "rawText": "さば味噌者缶詰",
+    "translationEn": "Saba miso canned",
     "qty": 12,
     "unitPriceMinor": 188,
     "amountMinor": 2256,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "単 4 アルカリ乾電池 4 本入 ¥476",
-    "translationEn": "4 AA alkaline batteries 4 pack",
-    "qty": 4,
-    "unitPriceMinor": null,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline battery 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
     "amountMinor": 476,
-    "taxRateBp": 1000
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 475,
+  "taxMinor": 484,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
-   {
-    "kind": "card_number",
-    "text": "seek 4 414",
-    "bbox": {
-     "x": 0.7747363880486794,
-     "y": 0.6478382189895372,
-     "w": 0.05974330592185195,
-     "h": 0.023946208896499566
-    }
-   },
    {
     "kind": "member_id",
     "text": "3846 7326 4188",
@@ -70,6 +60,26 @@
      "y": 0.7780273047785063,
      "w": 0.2036804963526011,
      "h": 0.02124635123406715
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek 4 414",
+    "bbox": {
+     "x": 0.5964285260586921,
+     "y": 0.6478382189895372,
+     "w": 0.23805116791183922,
+     "h": 0.030205781865400683
+    }
+   },
+   {
+    "kind": "name",
+    "text": "iW Wy",
+    "bbox": {
+     "x": 0.2107922083400285,
+     "y": 0.7684591732472713,
+     "w": 0.07390613525929685,
+     "h": 0.016690567357292796
     }
    }
   ],
@@ -82,26 +92,26 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Pabby 7 NYIM does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "The product is not one of the listed needs.",
+   "confidence": 0.8
   },
   {
    "lineNo": 2,
    "needId": "canned",
-   "needQty": 3,
+   "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "Tuna cans count toward the canned food need.",
-   "confidence": 0.95
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Saba miso can does not match any listed need.",
-   "confidence": 0.95
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Saba miso canned counts toward the canned food need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
@@ -109,29 +119,134 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "4 AA alkaline batteries do not match the listed need for AA batteries.",
-   "confidence": 0.95
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "d4da8c7157ba08723171b649e03d79bc91e2e83ab3e9348b50b0b095015089f1",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1208,
-   "tokensOut": 386,
-   "usdCeiling": 0.016587,
-   "usdActual": 0.002202
+   "tokensIn": 3710,
+   "tokensOut": 659,
+   "usdCeiling": 0.024743,
+   "usdActual": 0.005076000000000001
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1163,
-   "tokensOut": 173,
-   "usdCeiling": 0.01646,
-   "usdActual": 0.001484
+   "tokensIn": 1904,
+   "tokensOut": 165,
+   "usdCeiling": 0.019085,
+   "usdActual": 0.002051
   }
  ],
  "latencyMs": {
-  "read": 4948,
-  "classify": 1624
+  "read": 5740,
+  "classify": 1501
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T199909199999551",
+   "2626 年 11 月 94 日 ( 水 ) 19:56",
+   "レジ @1 No.4993",
+   "パビー7 NYIM ¥1,098",
+   "ツナ缶 3 缶パック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌者缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2m x M238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 1* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット seek 4 414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "iW Wy",
+   "会員番号 3846 7326 4188",
+   "※ は軽滅税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T199909199999551",
+   "2626 年 11 月 94 日 ( 水 ) 19:56",
+   "レジ @1 No.4993",
+   "ビーラプが>ッウロ ¥1,098",
+   "ツナ缶 3 缶パック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌者缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2m x M238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 1* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット seek 4 414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "ミタマY ルン株",
+   "会員番号 3846 7326 4188",
+   "※ は軽滅税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "カフェ・ド・クリエ",
+   "カフェドクリエ新宿西口店",
+   "東京都新宿区西新宿1-4",
+   "TEL 0123-22-0042",
+   "店舗番号 T000010000051",
+   "2026年11月04日(木) 19:56",
+   "レ01",
+   "No.4093",
+   "•-• • M",
+   "¥1,098",
+   "• 3•/•",
+   "¥1,832*",
+   "4• x ¥458",
+   "• •",
+   "¥2,256*",
+   "12• x ¥188",
+   "•4 • 4•",
+   "¥476",
+   "2• x ¥238",
+   "合計 (4点)",
+   "¥5,662",
+   "• ¥4,088",
+   "• ¥327",
+   "•10% ¥1,574",
+   "• ¥157",
+   "合計",
+   "¥6,146"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2626",
+    "to": "2026"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "4993",
+    "to": "4093"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
 }

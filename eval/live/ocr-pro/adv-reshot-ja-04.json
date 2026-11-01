@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-07-11T19:56:00",
+  "purchasedAt": "2026-11-04T19:56:00",
   "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パピ -7 パツ M ¥1,098",
-    "translationEn": "Papi -7 Pack M",
+    "rawText": "パピ -7 パツ M",
+    "translationEn": "Papy -7 Pack M",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -21,65 +21,37 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ツナ缶 3 缶バック ¥1,832※",
+    "rawText": "ツナ缶 3 缶バック",
     "translationEn": "Tuna can 3 can pack",
-    "qty": 3,
-    "unitPriceMinor": null,
+    "qty": 4,
+    "unitPriceMinor": 458,
     "amountMinor": 1832,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
-    "rawText": "4m x 単 458",
-    "translationEn": "4m x single 458",
-    "qty": 4,
-    "unitPriceMinor": null,
-    "amountMinor": 56,
+    "rawText": "さば味噌煮缶詰",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "さば味噌煮缶詰 ¥2,256※",
-    "translationEn": "Miso-simmered mackerel canned",
-    "qty": null,
-    "unitPriceMinor": 2256,
-    "amountMinor": 2256,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 5,
-    "rawText": "単 4 アルカリ乾電池 4 本入 ¥476",
-    "translationEn": "Single 4 alkaline dry battery 4 pack",
-    "qty": 4,
-    "unitPriceMinor": null,
-    "amountMinor": 476,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 6,
-    "rawText": "2 点 x 単 238",
-    "translationEn": "2 items x single 238",
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline dry cell 4 pack",
     "qty": 2,
     "unitPriceMinor": 238,
     "amountMinor": 476,
-    "taxRateBp": null
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 474,
+  "taxMinor": 484,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
-   {
-    "kind": "card_number",
-    "text": "米村玉村玉玉本本キキキキ 4414",
-    "bbox": {
-     "x": 0.7473766010829886,
-     "y": 0.6641283535117284,
-     "w": 0.055312140769027685,
-     "h": 0.02459832296285569
-    }
-   },
    {
     "kind": "member_id",
     "text": "3846 7326 4188",
@@ -89,40 +61,191 @@
      "w": 0.2001494926398356,
      "h": 0.020425790837085955
     }
+   },
+   {
+    "kind": "card_number",
+    "text": "米村 玉村 玉 玉 本 本 キキ キキ 4414",
+    "bbox": {
+     "x": 0.5718404342022275,
+     "y": 0.6580215610365645,
+     "w": 0.2308483076497888,
+     "h": 0.03070511543801957
+    }
+   },
+   {
+    "kind": "name",
+    "text": "in by",
+    "bbox": {
+     "x": 0.17618214099883614,
+     "y": 0.7439768671549934,
+     "w": 0.07277873740318577,
+     "h": 0.01599464263864392
+    }
    }
   ],
   "readability": "good"
  },
  "classifications": [
   {
-   "lineNo": 6,
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans count toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned mackerel in miso counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "2 items x single 238 does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "fe1f5455a8046091f57059b48c3b902fd4b64470e8bea37873f626a89bd50f05",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1221,
-   "tokensOut": 483,
-   "usdCeiling": 0.016594,
-   "usdActual": 0.002522
+   "tokensIn": 2952,
+   "tokensOut": 633,
+   "usdCeiling": 0.024742,
+   "usdActual": 0.004387
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1251,
-   "tokensOut": 259,
-   "usdCeiling": 0.016693,
-   "usdActual": 0.00183
+   "tokensIn": 1904,
+   "tokensOut": 167,
+   "usdCeiling": 0.019089,
+   "usdActual": 0.002058
   }
  ],
  "latencyMs": {
-  "read": 7261,
-  "classify": 2415
+  "read": 6590,
+  "classify": 1563
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "in by 様",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "ミシマルン本",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "•",
+   "•",
+   "•",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月04日(•) 19:56",
+   "•01",
+   "No.4093",
+   "•-• • M",
+   "¥1,098",
+   "• 3•",
+   "¥1,832*",
+   "4• x ¥458",
+   "• •",
+   "¥2,256*",
+   "12• x ¥188",
+   "#4 • 4•",
+   "¥476",
+   "2• x ¥238",
+   "• (4•)",
+   "¥5,662",
+   "8% ¥4,088",
+   "¥327",
+   "10% ¥1,574",
+   "¥157",
+   "¥6,146"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9942",
+    "to": "0042"
+   },
+   {
+    "from": "9999199999551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "91",
+    "to": "01"
+   }
+  ]
+ }
 }

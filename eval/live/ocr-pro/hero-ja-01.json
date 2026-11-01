@@ -3,44 +3,44 @@
  "set": "hero",
  "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
  "reading": {
-  "merchantName": "ミナト生活館",
+  "merchantName": "ミナト生活館 北空店",
   "merchantAddress": "空川県北空市港町 2-8-1",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-09T14:32:00",
+  "purchasedAt": "2026-11-05T14:32:00",
   "receiptNumber": "8258",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥798※",
-    "translationEn": "Natural water of Kitasora 2L",
-    "qty": 6,
-    "unitPriceMinor": 798,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Natural water from Kitasora 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 798,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "雪解けの水 2L ¥472※",
-    "translationEn": "Meltwater 2L",
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melted snow water 2L",
     "qty": 4,
     "unitPriceMinor": 118,
     "amountMinor": 472,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ミネラルウォーター ¥216※",
+    "rawText": "ミネラルウォーター 2L ペット",
     "translationEn": "Mineral water",
     "qty": 2,
-    "unitPriceMinor": 168,
+    "unitPriceMinor": 108,
     "amountMinor": 216,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "ソフトキッズおおむつ M 44 枚 ¥2,596",
-    "translationEn": "Soft kids diapers M 44 pieces",
+    "rawText": "ソフトキッズおおむつ M 44 枚",
+    "translationEn": "Soft kids diapers M",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
@@ -48,8 +48,8 @@
    },
    {
     "lineNo": 5,
-    "rawText": "パビ -7 アツ NM ¥3,294",
-    "translationEn": "Pavi -7 Heat NM",
+    "rawText": "ベビーラプがッツ M",
+    "translationEn": "",
     "qty": 3,
     "unitPriceMinor": 1098,
     "amountMinor": 3294,
@@ -57,55 +57,55 @@
    },
    {
     "lineNo": 6,
-    "rawText": "紙おむつ M 18 枚 ¥598",
+    "rawText": "紙おむつ M 18 枚 お試しパック",
     "translationEn": "Paper diapers M 18 pieces",
     "qty": 1,
-    "unitPriceMinor": 598,
+    "unitPriceMinor": null,
     "amountMinor": 598,
     "taxRateBp": null
    },
    {
     "lineNo": 7,
-    "rawText": "アルカリ乾電池単 3 2 本入 ¥698",
-    "translationEn": "Alkaline dry battery single 3 2 pack",
-    "qty": 2,
-    "unitPriceMinor": 398,
+    "rawText": "アルカリ乾電池単 3 20 本入",
+    "translationEn": "Alkaline dry battery AA 20 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 698,
     "taxRateBp": null
    },
    {
     "lineNo": 8,
-    "rawText": "単 3 電池 1 本入 ¥796",
-    "translationEn": "Single 3 battery 1 pack",
-    "qty": 1,
-    "unitPriceMinor": 796,
+    "rawText": "単 3 電池 10 本入",
+    "translationEn": "AA battery 10 pack",
+    "qty": 2,
+    "unitPriceMinor": 398,
     "amountMinor": 796,
     "taxRateBp": null
    },
    {
     "lineNo": 9,
-    "rawText": "単 3 ばら ¥980",
-    "translationEn": "Single 3 assorted ¥980",
-    "qty": 104,
+    "rawText": "単 3 ばら",
+    "translationEn": "",
+    "qty": 10,
     "unitPriceMinor": 98,
     "amountMinor": 980,
     "taxRateBp": null
    },
    {
     "lineNo": 10,
-    "rawText": "缶ピール 350m 6 缶 ¥1,198",
-    "translationEn": "Can peel 350m 6 cans",
-    "qty": 6,
+    "rawText": "缶ピール 350m 6 缶",
+    "translationEn": "Canned peel 350ml 6 cans",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 1198,
     "taxRateBp": null
    },
    {
     "lineNo": 11,
-    "rawText": "ギフトカード 3,000 ¥3,000",
-    "translationEn": "Gift card 3,000",
-    "qty": null,
-    "unitPriceMinor": 3000,
+    "rawText": "ギフトカード 3,000",
+    "translationEn": "Gift card 3000",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 3000,
     "taxRateBp": null
    }
@@ -116,26 +116,6 @@
   "totalMinor": 14646,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "seco 591",
-    "bbox": {
-     "x": 0.7940115144988261,
-     "y": 0.7517929140092322,
-     "w": 0.041198512693396916,
-     "h": 0.01708629143398055
-    }
-   },
-   {
-    "kind": "name",
-    "text": "DY Wy 様",
-    "bbox": {
-     "x": 0.21360446317844156,
-     "y": 0.833549061178897,
-     "w": 0.10851685779246495,
-     "h": 0.011876756501067565
-    }
-   },
-   {
     "kind": "member_id",
     "text": "3216 2141 5525",
     "bbox": {
@@ -143,6 +123,26 @@
      "y": 0.8467096738162764,
      "w": 0.2015975643432647,
      "h": 0.013223830535892045
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seco 591",
+    "bbox": {
+     "x": 0.6015036895869447,
+     "y": 0.7517929140092322,
+     "w": 0.23370633760527837,
+     "h": 0.01987228546054931
+    }
+   },
+   {
+    "kind": "name",
+    "text": "DY Wy",
+    "bbox": {
+     "x": 0.21360446317844156,
+     "y": 0.8340848292609295,
+     "w": 0.07146472938160409,
+     "h": 0.010825219657363494
     }
    }
   ],
@@ -155,7 +155,7 @@
    "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water counts toward the water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -164,16 +164,16 @@
    "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water counts toward the water need.",
+   "reasonEn": "Melted snow water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Mineral water is not listed as a need.",
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -182,16 +182,16 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "reasonEn": "Soft kids diapers in size M count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Pavi -7 Heat NM is not listed as a need.",
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby pants in size M count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -200,13 +200,13 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size M diapers count toward the diapers need.",
+   "reasonEn": "Paper diapers in size M count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 7,
    "needId": "batteries",
-   "needQty": 2,
+   "needQty": 20,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "AA batteries count toward the batteries need.",
@@ -215,7 +215,7 @@
   {
    "lineNo": 8,
    "needId": "batteries",
-   "needQty": 1,
+   "needQty": 20,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "AA batteries count toward the batteries need.",
@@ -223,11 +223,11 @@
   },
   {
    "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Single 3 assorted is not listed as a need.",
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Loose AA batteries count toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -235,8 +235,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Can peel is not listed as a need.",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
    "confidence": 0.95
   },
   {
@@ -245,29 +245,202 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded.",
-   "confidence": 1
+   "reasonEn": "Gift cards are not funded by this drive.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "20c08cbad1f07dca9dee532ae4e487893803bf789204ef5e47d920069cd0a3cb",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1385,
-   "tokensOut": 747,
-   "usdCeiling": 0.016805,
-   "usdActual": 0.003498
+   "tokensIn": 6716,
+   "tokensOut": 1106,
+   "usdCeiling": 0.032773,
+   "usdActual": 0.008911
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1446,
-   "tokensOut": 421,
-   "usdCeiling": 0.017134,
-   "usdActual": 0.002504
+   "tokensIn": 2160,
+   "tokensOut": 453,
+   "usdCeiling": 0.019713,
+   "usdActual": 0.003178
   }
  ],
  "latencyMs": {
-  "read": 9795,
-  "classify": 3824
+  "read": 10169,
+  "classify": 3630
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T19999199999427",
+   "2926 年 11 月 95 日 ( 木 ) 14:32",
+   "レジ 94 No.8258",
+   "北空の天然水 2L ¥798※",
+   "6 本ケース",
+   "雪解けの水 2L ¥472※",
+   "4 点 x 単 118",
+   "ミネラルウォーター ¥216※",
+   "2L ペット",
+   "2 点 x 単 168",
+   "ソフトキッズおおむつ M 44 枚 ¥2,596",
+   "2 点 x 単 1298",
+   "パビ -7 アツ NM ¥3,294",
+   "3m x 1,098",
+   "紙おむつ M 18 枚 ¥598",
+   "お試しパック",
+   "アルカリ乾電池単 3 2 本入 ¥698",
+   "単 3 電池 1 本入 ¥796",
+   "2 点 x 単 398",
+   "単 3 ばら ¥980",
+   "104 x 単 98",
+   "缶ピール 350m 6 缶 ¥1,198",
+   "ギフトカード 3,000 ¥3,000",
+   "小計 (11 点 ) ¥14,646",
+   "8* 対象 ¥1,486",
+   "16% 対象 ¥10,169",
+   "非課税対象 ¥3,000",
+   "(BBRRS 8* ¥110)",
+   "(内消費税等 19* ¥923 )",
+   "合計 ¥14,646",
+   "クレジット seco 591",
+   "お支払い ¥14,646",
+   "ポイントカード",
+   "DY Wy 様",
+   "会員番号 3216 2141 5525",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T19999199999427",
+   "2926 年 11 月 95 日 ( 木 ) 14:32",
+   "レジ 94 No.8258",
+   "北空の天然水 2L ¥798※",
+   "6 本ケース",
+   "雪解けの水 2L ¥472※",
+   "4 点 x 単 118",
+   "ミネラルウォーター ¥216※",
+   "2L ペット",
+   "2 点 x 単 168",
+   "ソフトキッズおおむつ M 44 枚 ¥2,596",
+   "2 点 x 単 1298",
+   "ベビーラプがッツ M ¥3,294",
+   "3m x 1,098",
+   "紙おむつ M 18 枚 ¥598",
+   "お試しパック",
+   "アルカリ乾電池単 3 2 本入 ¥698",
+   "単 3 電池 1 本入 ¥796",
+   "2 点 x 単 398",
+   "単 3 ばら ¥980",
+   "104 x 単 98",
+   "缶ピール 350m 6 缶 ¥1,198",
+   "ギフトカード 3,000 ¥3,000",
+   "小計 (11 点 ) ¥14,646",
+   "8* 対象 ¥1,486",
+   "16% 対象 ¥10,169",
+   "非課税対象 ¥3,000",
+   "(BBRRS 8* ¥110)",
+   "(内消費税等 19* ¥923 )",
+   "合計 ¥14,646",
+   "クレジット seco 591",
+   "お支払い ¥14,646",
+   "ポイントカード",
+   "ミッマレルン本",
+   "会員番号 3216 2141 5525",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "株式会社•",
+   "•",
+   "•2-8-1",
+   "TEL 0123-45-6789",
+   "• T0000100000427",
+   "2026年11月05日(•) 14:32",
+   "•04",
+   "No.8258",
+   "• 2L ¥798",
+   "6•-•",
+   "• 2L ¥472",
+   "4• x •118",
+   "• ¥216",
+   "2L•¥",
+   "2• x •108",
+   "• • M 44• ¥2,596",
+   "2• x •1,298",
+   "•-• • M ¥3,294",
+   "3M x ¥1,098",
+   "• M 18¥ ¥598",
+   "•",
+   "• #3 20¥ ¥698",
+   "• 10¥ ¥796",
+   "2M x ¥398",
+   "#3 • ¥980",
+   "10M x ¥98",
+   "• 350ml 6¥ ¥1,198",
+   "•-• 3,000¥ ¥3,000",
+   "• (11¥) ¥14,646",
+   "8%¥ ¥1,486",
+   "10%¥ ¥10,160",
+   "¥3,000",
+   "( 8% ¥110)",
+   "( 10% ¥923)",
+   "¥14,646"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "168",
+    "to": "108"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "104",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   },
+   {
+    "from": "10,169",
+    "to": "10,160"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

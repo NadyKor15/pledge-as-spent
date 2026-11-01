@@ -7,32 +7,32 @@
   "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
-  "purchasedAt": "2026-09-11T20:53:00",
+  "purchasedAt": "2026-11-09T20:53:00",
   "receiptNumber": "1578",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "PILAS AA LR6 8U",
-    "translationEn": "Piles AA LR6 8U",
-    "qty": 8,
-    "unitPriceMinor": null,
+    "translationEn": "AA batteries LR6 8 pack",
+    "qty": 1,
+    "unitPriceMinor": 599,
     "amountMinor": 599,
     "taxRateBp": 2100
    },
    {
     "lineNo": 2,
     "rawText": "GALLETAS MARÍA",
-    "translationEn": "Maria Cookies",
-    "qty": null,
+    "translationEn": "Maria cookies",
+    "qty": 1,
     "unitPriceMinor": 145,
     "amountMinor": 145,
-    "taxRateBp": 1000
+    "taxRateBp": 2100
    },
    {
     "lineNo": 3,
     "rawText": "VINO TINTO CRIANZA",
-    "translationEn": "Red Wine Aging",
-    "qty": null,
+    "translationEn": "Red wine crianza",
+    "qty": 1,
     "unitPriceMinor": 650,
     "amountMinor": 650,
     "taxRateBp": 2100
@@ -40,72 +40,44 @@
    {
     "lineNo": 4,
     "rawText": "CUADERNO AS",
-    "translationEn": "Notebook AS",
-    "qty": null,
-    "unitPriceMinor": 390,
-    "amountMinor": 390,
-    "taxRateBp": 2100
-   },
-   {
-    "lineNo": 5,
-    "rawText": "2 x 1,95",
-    "translationEn": "2 x 1.95",
+    "translationEn": "A5 notebook",
     "qty": 2,
     "unitPriceMinor": 195,
     "amountMinor": 390,
     "taxRateBp": 2100
    },
    {
-    "lineNo": 6,
+    "lineNo": 5,
     "rawText": "PAPEL HIGIENICO 12R",
-    "translationEn": "Toilet Paper 12R",
-    "qty": null,
+    "translationEn": "Toilet paper 12 rolls",
+    "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
     "taxRateBp": 2100
    },
    {
-    "lineNo": 7,
+    "lineNo": 6,
     "rawText": "AGUA MINERAL 1,5L",
-    "translationEn": "Mineral Water 1.5L",
-    "qty": null,
-    "unitPriceMinor": 708,
-    "amountMinor": 708,
-    "taxRateBp": 2100
-   },
-   {
-    "lineNo": 8,
-    "rawText": "12 x 0,59",
-    "translationEn": "12 x 0.59",
+    "translationEn": "Mineral water 1.5L",
     "qty": 12,
     "unitPriceMinor": 59,
     "amountMinor": 708,
     "taxRateBp": 2100
    }
   ],
-  "subtotalMinor": 2166,
+  "subtotalMinor": null,
   "taxMinor": 775,
   "taxIncluded": true,
   "totalMinor": 2941,
   "pii": [
    {
-    "kind": "phone",
-    "text": "TEL 900 000 057",
-    "bbox": {
-     "x": 0.4429134714253445,
-     "y": 0.24429000423665667,
-     "w": 0.1589996820037371,
-     "h": 0.01692277643546522
-    }
-   },
-   {
     "kind": "card_number",
-    "text": "1277",
+    "text": "see eK joto 1277",
     "bbox": {
-     "x": 0.4098129702826125,
+     "x": 0.17954501624659513,
      "y": 0.8113005993177512,
-     "w": 0.058758703653550626,
-     "h": 0.016437362829329838
+     "w": 0.2890458889914272,
+     "h": 0.02027185180668023
     }
    }
   ],
@@ -118,7 +90,7 @@
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need and the quantity matches the need unit.",
+   "reasonEn": "AA batteries in an 8-pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -127,7 +99,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Maria Cookies do not match any listed need.",
+   "reasonEn": "Maria cookies are not one of the needs.",
    "confidence": 0.9
   },
   {
@@ -136,8 +108,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Red Wine Aging is alcohol, which is not a funded item.",
-   "confidence": 0.95
+   "reasonEn": "Red wine is alcohol, which this drive does not fund.",
+   "confidence": 0.98
   },
   {
    "lineNo": 4,
@@ -145,7 +117,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Notebook AS does not match any listed need.",
+   "reasonEn": "A5 notebooks are not one of the needs.",
    "confidence": 0.9
   },
   {
@@ -154,56 +126,120 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "The item '2 x 1.95' does not match any listed need.",
+   "reasonEn": "Toilet paper is not one of the needs.",
    "confidence": 0.9
   },
   {
    "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Toilet Paper 12R does not match any listed need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 7,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Mineral Water 1.5L is a listed need and the quantity matches the need unit.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
    "needId": "water",
    "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mineral Water 1.5L is a listed need and the quantity matches the need unit.",
+   "reasonEn": "Mineral water in 1.5 L bottles counts toward the water need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "81a819ca00e11b63c465eb708e89647fdf8dd84bb1a3a9c8b1b6db766bc36c81",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1157,
-   "tokensOut": 570,
-   "usdCeiling": 0.00125,
-   "usdActual": 0.000206
+   "tokensIn": 2530,
+   "tokensOut": 740,
+   "usdCeiling": 0.001862,
+   "usdActual": 0.00033
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1257,
-   "tokensOut": 390,
-   "usdCeiling": 0.00126,
-   "usdActual": 0.000169
+   "tokensIn": 1949,
+   "tokensOut": 245,
+   "usdCeiling": 0.001447,
+   "usdActual": 0.000176
   }
  ],
  "latencyMs": {
-  "read": 4732,
-  "classify": 2441
+  "read": 4767,
+  "classify": 1771
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 1578",
+   "09/11/2026 20:53 CAJA 06",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS AA LR6 8U 5,99 B",
+   "GALLETAS MARÍA 1,45 A",
+   "VINO TINTO CRIANZA 6,50 B",
+   "CUADERNO AS 3,90 B",
+   "2 x 1,95",
+   "PAPEL HIGIENICO 12R 4,49 B",
+   "AGUA MINERAL 1,5L 7,08 A",
+   "12 x 0,59",
+   "TOTAL (IVA INCLUIDO) 29,41 EUR",
+   "A IVA 10% BASE 7,75 CUOTA 0,78",
+   "B IVA 21% BASE 17,26 CUOTA 3,62",
+   "PAGO TARJETA 29,41",
+   "see eK joto 1277",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 1578",
+   "09/11/2026 20:53 CAJA 06",
+   "DESCRIPCIÓN IMPORTE",
+   "PILAS AA LR6 8U 5,99 B",
+   "GALLETAS MARÍA 1,45 A",
+   "VINO TINTO CRIANZA 6,50 B",
+   "CUADERNO AS 3,90 B",
+   "2 x 1,95",
+   "PAPEL HIGIENICO 12R 4,49 B",
+   "AGUA MINERAL 1,5L 7,08 A",
+   "12 x 0,59",
+   "TOTAL (IVA INCLUIDO) 29,41 EUR",
+   "A IVA 10% BASE 7,75 CUOTA 0,78",
+   "B IVA 21% BASE 17,26 CUOTA 3,62",
+   "PAGO TARJETA 29,41",
+   "see eK joto 1277",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 1578",
+   "09/11/2026 20:53",
+   "CAJA 06",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PILAS AA LR6 8U",
+   "5,99 B",
+   "GALLETAS MARÍA",
+   "1,45 A",
+   "VINO TINTO CRIANZA",
+   "6,50 B",
+   "CUADERNO A5",
+   "3,90 B",
+   "2 X 1,95",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 B",
+   "AGUA MINERAL 1,5L",
+   "7,08 A",
+   "12 X 0,59",
+   "TOTAL (IVA INCLUIDO)",
+   "29,41 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

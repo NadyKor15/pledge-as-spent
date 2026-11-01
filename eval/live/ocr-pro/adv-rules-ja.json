@@ -8,92 +8,74 @@
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-03T20:11:00",
-  "receiptNumber": "9777",
+  "receiptNumber": "0777",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "ギフトカード 3,966 円 ¥3,000",
-    "translationEn": "",
+    "rawText": "ギフトカード 3,000 円",
+    "translationEn": "Gift card",
     "qty": 1,
-    "unitPriceMinor": 3966,
-    "amountMinor": 3966,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "缶ビピール 356ml 6 缶 ¥1,198",
-    "translationEn": "",
-    "qty": 6,
+    "rawText": "缶ビピール 350ml 6 缶",
+    "translationEn": "Canned beverage 350ml 6 cans",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 1198,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "単 4 アルカリ乾電池 4 本入 ¥238",
-    "translationEn": "",
-    "qty": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline battery 4 pack",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 238,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "雪解けの水 2L ¥236※",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 236,
-    "amountMinor": 236,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 5,
-    "rawText": "2 点 x 118",
-    "translationEn": "",
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melted snow water 2L",
     "qty": 2,
     "unitPriceMinor": 118,
     "amountMinor": 236,
     "taxRateBp": null
    },
    {
-    "lineNo": 6,
-    "rawText": "ノート AS ¥148",
-    "translationEn": "",
+    "lineNo": 5,
+    "rawText": "ノート AS",
+    "translationEn": "Notebook",
     "qty": 1,
-    "unitPriceMinor": 148,
+    "unitPriceMinor": null,
     "amountMinor": 148,
     "taxRateBp": null
    },
    {
-    "lineNo": 7,
-    "rawText": "ホシノメンソール ¥580",
-    "translationEn": "",
+    "lineNo": 6,
+    "rawText": "ホシノメンソール",
+    "translationEn": "Menthol",
     "qty": 1,
-    "unitPriceMinor": 580,
+    "unitPriceMinor": null,
     "amountMinor": 580,
     "taxRateBp": null
    },
    {
-    "lineNo": 8,
-    "rawText": "3351-9- 2L ¥324※",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 324,
-    "amountMinor": 324,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 9,
-    "rawText": "3m x 単 198",
+    "lineNo": 7,
+    "rawText": "ミネラルウォーターフレし 2L",
     "translationEn": "",
     "qty": 3,
-    "unitPriceMinor": 198,
-    "amountMinor": 11,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
     "taxRateBp": null
    }
   ],
   "subtotalMinor": 5724,
-  "taxMinor": 2164,
+  "taxMinor": 237,
   "taxIncluded": false,
   "totalMinor": 5724,
   "pii": [
@@ -106,6 +88,26 @@
      "w": 0.19837942634592254,
      "h": 0.014925810079353785
     }
+   },
+   {
+    "kind": "card_number",
+    "text": "sooo 2 050",
+    "bbox": {
+     "x": 0.5757689524180164,
+     "y": 0.7009410466342326,
+     "w": 0.22988232033776768,
+     "h": 0.014740411592659042
+    }
+   },
+   {
+    "kind": "name",
+    "text": "Bl ゆ",
+    "bbox": {
+     "x": 0.1697499330177317,
+     "y": 0.7855750521308557,
+     "w": 0.06024897114362171,
+     "h": 0.011676978748599742
+    }
    }
   ],
   "readability": "good"
@@ -117,29 +119,215 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded.",
+   "reasonEn": "Gift cards are not funded by this drive.",
    "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is not funded.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Melted snow water in the 2L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Menthol products are considered tobacco and are not funded by this drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in the 2L size counts toward the water need.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "68691f49f11392859badb383c15c7f3d1e2d08a3f2494401a5882dab8558599c",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1244,
-   "tokensOut": 485,
-   "usdCeiling": 0.016638,
-   "usdActual": 0.002547
+   "tokensIn": 3276,
+   "tokensOut": 739,
+   "usdCeiling": 0.024798,
+   "usdActual": 0.004986
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1298,
-   "tokensOut": 351,
-   "usdCeiling": 0.016818,
-   "usdActual": 0.002162
+   "tokensIn": 2008,
+   "tokensOut": 286,
+   "usdCeiling": 0.019389,
+   "usdActual": 0.002522
   }
  ],
  "latencyMs": {
-  "read": 5786,
-  "classify": 2826
+  "read": 6991,
+  "classify": 2338
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199900634",
+   "202611038 (x) 20:11",
+   "LYe1 No.9777",
+   "ギフトカード 3,966 円 ¥3,000",
+   "缶ビピール 356ml 6 缶 ¥1,198",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "雪解けの水 2L ¥236※",
+   "2 点 x 118",
+   "ノート AS ¥148",
+   "ホシノメンソール ¥580",
+   "3351-9- 2L ¥324※",
+   "3m x 単 198",
+   "小計 (7 点 ) ¥5,724",
+   "8* 対象 ¥560",
+   "10%XTR ¥2,164",
+   "非課税対象 ¥3,000",
+   "(内消費税等 8% ¥41)",
+   "(内消費税等 10* ¥196 )",
+   "合計 ¥5,724",
+   "クレジット sooo 2 050",
+   "お支払い ¥5,724",
+   "ポイントカード",
+   "Bl ゆ様",
+   "会員番号 7788 9428 0676",
+   "※ は軽減税率 (8s) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199900634",
+   "202611038 (x) 20:11",
+   "LYe1 No.9777",
+   "ギフトカード 3,966 円 ¥3,000",
+   "缶ビピール 356ml 6 缶 ¥1,198",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "雪解けの水 2L ¥236※",
+   "2 点 x 118",
+   "ノート AS ¥148",
+   "ホシノメンソール ¥580",
+   "ミネラルウォーターフレし 2L \\324※",
+   "3m x 単 198",
+   "小計 (7 点 ) ¥5,724",
+   "8* 対象 ¥560",
+   "10%XTR ¥2,164",
+   "非課税対象 ¥3,000",
+   "(内消費税等 8% ¥41)",
+   "(内消費税等 10* ¥196 )",
+   "合計 ¥5,724",
+   "クレジット sooo 2 050",
+   "お支払い ¥5,724",
+   "ポイントカード",
+   "ミッタマレルン株",
+   "会員番号 7788 9428 0676",
+   "※ は軽減税率 (8s) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "• •",
+   "TEL 0123-33-7788",
+   "• T0000100000634",
+   "2026年11月03日(•) 20:11",
+   "•01",
+   "No.0777",
+   "• 3,000",
+   "¥3,000",
+   "• 350ml 6•",
+   "¥1,198",
+   "#4 • 4•",
+   "¥238",
+   "• 2L",
+   "¥236*",
+   "2• x #118",
+   "1-1 A5",
+   "¥148",
+   "• •",
+   "¥580",
+   "• 2L",
+   "¥324*",
+   "3• x #108",
+   "• (7•)",
+   "¥5,724",
+   "8%•",
+   "¥560",
+   "10%•",
+   "¥2,164",
+   "•",
+   "¥3,000",
+   "(• 8%",
+   "¥41)",
+   "(• 10%",
+   "¥196)",
+   "•",
+   "¥5,724"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9999199900634",
+    "to": "0000100000634"
+   },
+   {
+    "from": "9777",
+    "to": "0777"
+   },
+   {
+    "from": "3,966",
+    "to": "3,000"
+   },
+   {
+    "from": "356",
+    "to": "350"
+   },
+   {
+    "from": "198",
+    "to": "108"
+   }
+  ]
+ }
 }

@@ -7,95 +7,77 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-01-04T20:57:00",
-  "receiptNumber": "7948",
+  "purchasedAt": "2026-11-04T20:57:00",
+  "receiptNumber": "7048",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥798%",
-    "translationEn": "Kitasora natural water 2L",
-    "qty": 6,
-    "unitPriceMinor": 798,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Natural water from Kitasora 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 798,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "ディッシュ SH ¥398",
+    "rawText": "ディッシュ SH",
     "translationEn": "Dish SH",
-    "qty": null,
-    "unitPriceMinor": 398,
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 398,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ビー-7 ルツ M ¥3,294",
+    "rawText": "ビー-7 ルツ M",
     "translationEn": "B-7 Lutz M",
-    "qty": null,
-    "unitPriceMinor": 3294,
+    "qty": 3,
+    "unitPriceMinor": 1098,
     "amountMinor": 3294,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "34 x 単 1.698",
-    "translationEn": "34 x single 1.698",
-    "qty": 34,
-    "unitPriceMinor": 1698,
-    "amountMinor": 1698,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 5,
-    "rawText": "YH 3 缶パック Y458※",
+    "rawText": "YH 3 缶パック",
     "translationEn": "YH 3 can pack",
-    "qty": null,
-    "unitPriceMinor": 458,
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 458,
     "taxRateBp": null
    },
    {
-    "lineNo": 6,
-    "rawText": "ソフトキッズおむつ L 34 枚 ¥2,596",
+    "lineNo": 5,
+    "rawText": "ソフトキッズおむつ L 34 枚",
     "translationEn": "Soft kids diapers L 34 pieces",
-    "qty": null,
-    "unitPriceMinor": 2596,
-    "amountMinor": 2596,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "2m x M1,298",
-    "translationEn": "2m x M1,298",
-    "qty": null,
+    "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
     "taxRateBp": null
    },
    {
-    "lineNo": 8,
-    "rawText": "紙おむつ M 18K ¥598",
-    "translationEn": "Paper diapers M 18K",
-    "qty": null,
-    "unitPriceMinor": 598,
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18K お試しレパック",
+    "translationEn": "Paper diapers M 18K trial repack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 598,
     "taxRateBp": null
    },
    {
-    "lineNo": 9,
-    "rawText": "“shea ¥660",
-    "translationEn": "Shea discount",
-    "qty": null,
+    "lineNo": 7,
+    "rawText": "A 1L",
+    "translationEn": "A 1L",
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 660,
+    "amountMinor": 198,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 8346,
-  "taxMinor": null,
+  "subtotalMinor": null,
+  "taxMinor": 626,
   "taxIncluded": false,
-  "totalMinor": 9000,
+  "totalMinor": 8340,
   "pii": [
    {
     "kind": "member_id",
@@ -105,6 +87,16 @@
      "y": 0.817192852042725,
      "w": 0.21261316854796275,
      "h": 0.016124101440478267
+    }
+   },
+   {
+    "kind": "name",
+    "text": "BR Wy",
+    "bbox": {
+     "x": 0.19514895181589098,
+     "y": 0.7983614535598339,
+     "w": 0.07739860789374714,
+     "h": 0.014839347982504303
     }
    }
   ],
@@ -117,7 +109,7 @@
    "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Kitasora natural water 2L matches the drinking water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -126,44 +118,44 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Dish SH does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "Dish SH is not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "B-7 Lutz M does not match any listed need.",
-   "confidence": 0.95
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Single batteries do not match the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
    "needId": "canned",
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "YH 3 can pack matches the canned food need.",
-   "confidence": 0.95
+   "reasonEn": "A 3 can pack counts toward the canned food need.",
+   "confidence": 0.9
   },
   {
-   "lineNo": 6,
+   "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Soft kids diapers L do not match the size M diapers need.",
-   "confidence": 0.95
+   "reasonEn": "Soft kids diapers size L are not the size this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Paper diapers size M count toward the diapers need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 7,
@@ -171,47 +163,152 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "2m x M1,298 does not match any listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": "diapers",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Paper diapers M match the baby diapers size M need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The shea discount line is unclear and requires further review.",
-   "confidence": 0.5
+   "reasonEn": "A 1L is not one of the listed needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "fdc727132a2978f3ee70bd121f8bbd3dc89f0d00912a56ba44b400b85d8d9080",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1214,
-   "tokensOut": 516,
-   "usdCeiling": 0.016609,
-   "usdActual": 0.002622
+   "tokensIn": 3188,
+   "tokensOut": 782,
+   "usdCeiling": 0.024764,
+   "usdActual": 0.005053
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1355,
-   "tokensOut": 366,
-   "usdCeiling": 0.016987,
-   "usdActual": 0.002255
+   "tokensIn": 2018,
+   "tokensOut": 285,
+   "usdCeiling": 0.019414,
+   "usdActual": 0.002526
   }
  ],
  "latencyMs": {
-  "read": 7579,
-  "classify": 3393
+  "read": 7386,
+  "classify": 2355
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T9999199999551",
+   "2026 年 1 月 4 日 ( 水 ) 20:57",
+   "レジ 94 No.7948",
+   "北空の天然水 2L ¥798%",
+   "6 本ケース",
+   "ディッシュ SH ¥398",
+   "ビー-7 ルツ M ¥3,294",
+   "34 x 単 1.698",
+   "YH 3 缶パック Y458※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2m x M1,298",
+   "紙おむつ M 18K ¥598",
+   "お試しレパック",
+   "A 1L Y198※",
+   "att (7m) Y8,349",
+   "BAR Y1,454",
+   "10% Y6,886",
+   "(ABRRE 8x 時",
+   "(ABRRE 10% ¥626)",
+   "合計 ¥8,346",
+   "em ¥9,000",
+   "“shea ¥660",
+   "Ee 時",
+   "BR Wy",
+   "会員番号 9739 4221 9384",
+   "ae eee",
+   "= ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T9999199999551",
+   "2026 年 1 月 4 日 ( 水 ) 20:57",
+   "レジ 94 No.7948",
+   "北空の天然水 2L ¥798%",
+   "6 本ケース",
+   "ディッシュ SH ¥398",
+   "ビー-7 ルツ M ¥3,294",
+   "34 x 単 1.698",
+   "YH 3 缶パック Y458※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2m x M1,298",
+   "紙おむつ M 18K ¥598",
+   "お試しレパック",
+   "A 1L Y198※",
+   "att (7m) Y8,349",
+   "BAR Y1,454",
+   "10% Y6,886",
+   "(ABRRE 8x 時",
+   "(ABRRE 10% ¥626)",
+   "合計 ¥8,346",
+   "em ¥9,000",
+   "“shea ¥660",
+   "Ee 時",
+   "ミシマレン様",
+   "会員番号 9739 4221 9384",
+   "(8和)対象剖品です",
+   "= ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "•",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月04日(•) 20:57",
+   "•",
+   "No.7048",
+   "•",
+   "• 2L ¥798",
+   "6•-2",
+   "• 5• ¥398",
+   "•-7• • M ¥3,294",
+   "3• x ¥1,098",
+   "• 3• ¥458",
+   "• L 34• ¥2,596",
+   "2• x ¥1,298",
+   "• M 18• ¥598",
+   "•",
+   "• 1L ¥198",
+   "• (7•) ¥8,340",
+   "8• ¥1,454",
+   "10• ¥6,886",
+   "(• 8% ¥107)",
+   "(• 10% ¥626)",
+   "• ¥8,340",
+   "• ¥9,000"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9999199999551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "7948",
+    "to": "7048"
+   },
+   {
+    "from": "34",
+    "to": "3"
+   },
+   {
+    "from": "1.698",
+    "to": "1,098"
+   },
+   {
+    "from": "8,349",
+    "to": "8,340"
+   },
+   {
+    "from": "8,346",
+    "to": "8,340"
+   }
+  ]
+ }
 }

@@ -8,7 +8,7 @@
   "country": "US",
   "currency": "USD",
   "purchasedAt": "2026-11-06T10:05:00",
-  "receiptNumber": "02",
+  "receiptNumber": "2075",
   "lines": [
    {
     "lineNo": 1,
@@ -21,64 +21,46 @@
    },
    {
     "lineNo": 2,
-    "rawText": "COUPON -$0.20",
+    "rawText": "COUPON -",
     "translationEn": "Coupon",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -20,
-    "taxRateBp": null
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
     "rawText": "DEER CREEK WATER 1 GALLON JUG",
-    "translationEn": "Deer Creek Water 1 Gallon Jug",
-    "qty": 1,
-    "unitPriceMinor": 507,
-    "amountMinor": 507,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "3 @ $1.69",
-    "translationEn": "3 @ $1.69",
+    "translationEn": "Deer Creek Water",
     "qty": 3,
     "unitPriceMinor": 169,
     "amountMinor": 507,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 5,
+    "lineNo": 4,
     "rawText": "LITTLE LAMB DIAPERS SZ3 66CT",
-    "translationEn": "Little Lamb Diapers SZ3 66CT",
+    "translationEn": "Little Lamb Diapers",
     "qty": 1,
-    "unitPriceMinor": 2499,
+    "unitPriceMinor": 1499,
     "amountMinor": 2499,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 6,
+    "lineNo": 5,
     "rawText": "FLEECE THROW BLANKET",
-    "translationEn": "Fleece Throw Blanket",
-    "qty": 1,
-    "unitPriceMinor": 2998,
-    "amountMinor": 2998,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 7,
-    "rawText": "2 @ $14.99",
-    "translationEn": "2 @ $14.99",
+    "translationEn": "Fleece Throw",
     "qty": 2,
     "unitPriceMinor": 1499,
     "amountMinor": 2998,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 8,
-    "rawText": "WATER 24PK.5L",
-    "translationEn": "Water 24PK.5L",
+    "lineNo": 6,
+    "rawText": "WATER 24PK .5L",
+    "translationEn": "Water 24pk 0.5L",
     "qty": 1,
-    "unitPriceMinor": 499,
+    "unitPriceMinor": null,
     "amountMinor": 499,
     "taxRateBp": 1000
    }
@@ -90,12 +72,12 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "************719",
+    "text": "sePeoeek2 719",
     "bbox": {
-     "x": 0.7913836005138098,
+     "x": 0.6009828565477644,
      "y": 0.7484825206304251,
-     "w": 0.04416037098756276,
-     "h": 0.025311019645835486
+     "w": 0.2345611149536082,
+     "h": 0.03203467115941849
     }
    }
   ],
@@ -108,7 +90,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "A spiral notebook is not a listed need for the disaster relief drive.",
+   "reasonEn": "A spiral notebook is not one of the listed needs.",
    "confidence": 0.95
   },
   {
@@ -117,83 +99,159 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "A coupon is not a listed need for the disaster relief drive.",
+   "reasonEn": "A coupon is not one of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Deer Creek Water 1 Gallon Jug matches the water need.",
+   "reasonEn": "Drinking water in 1 gallon jugs counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item is not a listed need for the disaster relief drive.",
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": "diapers",
-   "needQty": 66,
+   "needId": "blankets",
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Little Lamb Diapers SZ3 66CT matches the diapers need.",
+   "reasonEn": "A blanket counts toward the blankets need.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": "blankets",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Fleece Throw Blanket matches the blankets need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "The item is not a listed need for the disaster relief drive.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Water 24PK.5L does not match the water need as it is not in 1 gallon jugs.",
+   "reasonEn": "Water in 0.5L bottles does not match the 1 gallon jug size needed.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "b78f574dbf993b32c695bd3714a6c1075abbf104921bc0d3b29d5d59aef137f5",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1116,
-   "tokensOut": 546,
-   "usdCeiling": 0.001247,
-   "usdActual": 0.000198
+   "tokensIn": 2946,
+   "tokensOut": 733,
+   "usdCeiling": 0.001859,
+   "usdActual": 0.000353
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1265,
-   "tokensOut": 410,
-   "usdCeiling": 0.001264,
-   "usdActual": 0.000174
+   "tokensIn": 1943,
+   "tokensOut": 255,
+   "usdCeiling": 0.001447,
+   "usdActual": 0.000178
   }
  ],
  "latencyMs": {
-  "read": 4284,
-  "classify": 2593
+  "read": 4693,
+  "classify": 1811
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 018-0063",
+   "11/06/2026 10:05 AM REG 02",
+   "TRANS #2075",
+   "SPIRAL NOTEBOOK $1.99 T",
+   "COUPON -$0.20",
+   "DEER CREEK WATER $5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "LITTLE LAMB DIAPERS $24.99 T",
+   "SZ3 66CT",
+   "FLEECE THROW $29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "WATER 24PK .5L $4.99 F",
+   "SUBTOTAL $66.82",
+   "SALES TAX 7.25% $4.12",
+   "TOTAL $70.94",
+   "VISA sePeoeek2 719",
+   "APPROVED $70.94",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 018-0063",
+   "11/06/2026 10:05 AM REG 02",
+   "TRANS #2075",
+   "SPIRAL NOTEBOOK $1.99 T",
+   "COUPON -$0.20",
+   "DEER CREEK WATER $5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "LITTLE LAMB DIAPERS $24.99 T",
+   "SZ3 66CT",
+   "FLEECE THROW $29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "WATER 24PK .5L $4.99 F",
+   "SUBTOTAL $66.82",
+   "SALES TAX 7.25% $4.12",
+   "TOTAL $70.94",
+   "VISA sePeoeek2 719",
+   "APPROVED $70.94",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:05 AM",
+   "REG 02",
+   "TRANS #2075",
+   "SPIRAL NOTEBOOK",
+   "$1.99 T",
+   "COUPON",
+   "-$0.20",
+   "DEER CREEK WATER",
+   "$5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "LITTLE LAMB DIAPERS",
+   "$24.99 T",
+   "SZ3 66CT",
+   "FLEECE THROW",
+   "$29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "WATER 24PK.5L",
+   "$4.99 F",
+   "SUBTOTAL",
+   "$66.82",
+   "SALES TAX 7.25%",
+   "$4.12",
+   "TOTAL",
+   "$70.94"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "018",
+    "to": "010"
+   }
+  ]
+ }
 }

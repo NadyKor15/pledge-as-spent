@@ -1,0 +1,91 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": null,
+ "classifications": null,
+ "classifiedFor": null,
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2542,
+   "tokensOut": 465,
+   "usdCeiling": 0.017577000000000002,
+   "usdActual": 0.00201
+  }
+ ],
+ "latencyMs": {
+  "read": 4417,
+  "classify": null
+ },
+ "errors": [
+  "read: ocr read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received string\n  → at taxMinor",
+  "raw: {\"ocr\":\"COMESTIBLES MARINA\\nPaseo Maritimo 9\\n00000 Puerto Brisa\\nTEL 900 000 088\\nCIF B00000088\\nFACTURA SIMPLIFICADA N% 8076\\n06/11/2026 12:03 CAJA 04\\nDESCRIPCIÓN IMPORTE\\nAGUA 1,5L PACK 6 3,29 A\\nPANALES T3 PANTS 36U 14,98 A\\n2x 7,49\\nPAPEL HIGIENICO 12R 4,49 B\\nTOTAL (IVA INCLUIDO) 22,76 EUR\\nA IVA 10% BASE 16,61 CUOTA 1,66\\nB IVA 21% BASE 3,71 CUOTA 0,78\\nEFECTIVO 30,00\\nCAMBIO 7,24\\nGRACIAS POR SU VISITA\",\"structured\":\"RECEIPT: merchant=COMESTIBLES MARINA; address=Paseo Maritimo 9; country=ES; currency=EUR; purchased=2026-11-06T12:03:00; number=8076; subtotal=2276; tax=166+78; tax_included=true; total=2276; readability=good\\nLINE: no=1; qty=6; unit=3.29; amount=1974; rate=1000; text=AGUA 1,5L PACK 6 3,29 A; en=Water 1.5L pack of 6\\nLINE: no=2; qty=36; unit=14.98; amount=1498; rate=1000; text=PANALES T3 PANTS 36U 14,98 A 2x 7,49; en=Diapers size 3 pack of 36\\nLINE: no=3; qty=12; unit=4.49; amount=538; rate=2100; text=PAPEL HIGIENICO 12R 4,49 B; en=Toilet paper 12 rolls\"}"
+ ],
+ "trace": {
+  "ocr": [
+   "COMESTIBLES MARINA",
+   "Paseo Maritimo 9",
+   "00000 Puerto Brisa",
+   "TEL 900 000 088",
+   "CIF B00000088",
+   "FACTURA SIMPLIFICADA N% 8076",
+   "06/11/2026 12:03 CAJA 04",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 3,29 A",
+   "PANALES T3 PANTS 36U 14,98 A",
+   "2x 7,49",
+   "PAPEL HIGIENICO 12R 4,49 B",
+   "TOTAL (IVA INCLUIDO) 22,76 EUR",
+   "A IVA 10% BASE 16,61 CUOTA 1,66",
+   "B IVA 21% BASE 3,71 CUOTA 0,78",
+   "EFECTIVO 30,00",
+   "CAMBIO 7,24",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "COMESTIBLES MARINA",
+   "Paseo Maritimo 9",
+   "00000 Puerto Brisa",
+   "TEL 900 000 088",
+   "CIF B00000088",
+   "FACTURA SIMPLIFICADA N% 8076",
+   "06/11/2026 12:03 CAJA 04",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 3,29 A",
+   "PANALES T3 PANTS 36U 14,98 A",
+   "2x 7,49",
+   "PAPEL HIGIENICO 12R 4,49 B",
+   "TOTAL (IVA INCLUIDO) 22,76 EUR",
+   "A IVA 10% BASE 16,61 CUOTA 1,66",
+   "B IVA 21% BASE 3,71 CUOTA 0,78",
+   "EFECTIVO 30,00",
+   "CAMBIO 7,24",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "COMESTIBLIES MARINA",
+   "Paseo Maritimo 9",
+   "00000 Puerto Brisa",
+   "TEL 900 000 088",
+   "CIF B0000088",
+   "FACTURA SIMPLIFICADA",
+   "N° 8076",
+   "06/11/2026 12:03",
+   "CAJA 04",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "AGUA 1,5L PACK 6",
+   "3,29 A",
+   "PAÑALES T3 PANTS 36U",
+   "14,98 A",
+   "2 X 7,49",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 B",
+   "TOTAL (IVA INCLUIDO)",
+   "22,76 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

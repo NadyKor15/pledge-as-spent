@@ -7,13 +7,13 @@
   "merchantAddress": "海原県海風市浜通 5-1",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-09T12:43:00",
-  "receiptNumber": "4198",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "ツナ人缶 3 缶パック ¥1,832※",
-    "translationEn": "Tuna can 3 can pack",
+    "rawText": "ツナ人缶 3 缶パック",
+    "translationEn": "Tuna can 3-pack",
     "qty": 4,
     "unitPriceMinor": 458,
     "amountMinor": 1832,
@@ -21,47 +21,47 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ティッシュ 5 箱 ¥398",
-    "translationEn": "Tissue 5 boxes",
-    "qty": 5,
-    "unitPriceMinor": 398,
+    "rawText": "ティッシュ 5 箱",
+    "translationEn": "Tissue 5-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 398,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "チョコレート ¥128%",
+    "rawText": "チョコレート",
     "translationEn": "Chocolate",
-    "qty": null,
-    "unitPriceMinor": 128,
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 128,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "牛乳 1L ¥198※",
+    "rawText": "牛乳 1L",
     "translationEn": "Milk 1L",
-    "qty": null,
-    "unitPriceMinor": 198,
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 198,
     "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "アルカリ乾電池単 3 2 本入 ¥1,396",
-    "translationEn": "Alkaline dry battery 3 2 pack",
+    "rawText": "アルカリ乾電池単 3 20 本入",
+    "translationEn": "Alkaline AA batteries 20-pack",
     "qty": 2,
-    "unitPriceMinor": 1396,
+    "unitPriceMinor": 3698,
     "amountMinor": 1396,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
-    "rawText": "2m x 3698 ミネラルウォーター ¥324※ 2L ペット 3 点 x 単 198",
-    "translationEn": "Mineral water 2L 3 items",
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral water 2L plastic bottle",
     "qty": 3,
-    "unitPriceMinor": 198,
-    "amountMinor": 458,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
     "taxRateBp": 800
    }
   ],
@@ -71,7 +71,7 @@
   "totalMinor": 4653,
   "pii": [
    {
-    "kind": "card_number",
+    "kind": "member_id",
     "text": "5449 1448 4664",
     "bbox": {
      "x": 0.5903603694396546,
@@ -81,13 +81,23 @@
     }
    },
    {
-    "kind": "name",
-    "text": "FHI Wy 様",
+    "kind": "card_number",
+    "text": "ERP 1 033",
     "bbox": {
-     "x": 0.17688985155272735,
-     "y": 0.7599925529632715,
-     "w": 0.12044695439598918,
-     "h": 0.017653754664983312
+     "x": 0.5693283771530914,
+     "y": 0.6827808439426652,
+     "w": 0.23172391397769143,
+     "h": 0.027097187390388133
+    }
+   },
+   {
+    "kind": "name",
+    "text": "FHI Wy",
+    "bbox": {
+     "x": 0.17694381735547585,
+     "y": 0.7606543948169391,
+     "w": 0.08305350012228255,
+     "h": 0.015156609789533704
     }
    }
   ],
@@ -109,8 +119,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Tissues are not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Tissues are not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
@@ -118,8 +128,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Chocolate is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Chocolate is not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
@@ -127,13 +137,13 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Milk is not a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 5,
    "needId": "batteries",
-   "needQty": 4,
+   "needQty": 40,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "AA batteries count toward the batteries need.",
@@ -145,29 +155,144 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mineral water 2L bottles count toward the drinking water need.",
+   "reasonEn": "Mineral water 2L plastic bottles count toward the water need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "ee5a12ee5210292a8f4dec293fb553d4b888d244b30cf2c09e9d7050502a744d",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1228,
-   "tokensOut": 465,
-   "usdCeiling": 0.016618,
-   "usdActual": 0.00247
+   "tokensIn": 3126,
+   "tokensOut": 655,
+   "usdCeiling": 0.02477,
+   "usdActual": 0.004597
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1255,
-   "tokensOut": 236,
-   "usdCeiling": 0.016691,
-   "usdActual": 0.001759
+   "tokensIn": 1973,
+   "tokensOut": 240,
+   "usdCeiling": 0.019296,
+   "usdActual": 0.002346
   }
  ],
  "latencyMs": {
-  "read": 6377,
-  "classify": 2166
+  "read": 6923,
+  "classify": 1978
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "潮風マート",
+   "海風店",
+   "海原県海風市浜通 5-1",
+   "TEL 0456-78-1234",
+   "登録番号 T19999199999899",
+   "2026 年 11 月 95 日 ( 木 ) 12:43",
+   "レジ 92 No .4198",
+   "ツナ人缶 3 缶パック ¥1,832※",
+   "4 点 x 単 458",
+   "ティッシュ 5 箱 ¥398",
+   "チョコレート ¥128%",
+   "牛乳 1L ¥198※",
+   "アルカリ乾電池単 3 2 本入 ¥1,396",
+   "2m x 3698",
+   "ミネラルウォーター ¥324※",
+   "2L ペット",
+   "3 点 x 単 198",
+   "小計 (6 点 ) ¥4,276",
+   "外税 8* WR ¥2,482 消費税 ¥198",
+   "外税 1* 対象 ¥1,794 消費税 ¥179",
+   "合計 ¥4,653",
+   "クレジット ERP 1 033",
+   "お支払い ¥4,653",
+   "ポイントカード",
+   "FHI Wy 様",
+   "会員番号 5449 1448 4664",
+   "※ は軽減税率 (8*) 対象商品です",
+   "で来店ありがとうございました"
+  ],
+  "reread": [
+   "潮風マート",
+   "海風店",
+   "海原県海風市浜通 5-1",
+   "TEL 0456-78-1234",
+   "登録番号 T19999199999899",
+   "2026 年 11 月 95 日 ( 木 ) 12:43",
+   "レジ 92 No .4198",
+   "ツナ人缶 3 缶パック ¥1,832※",
+   "4 点 x 単 458",
+   "ティッシュ 5 箱 ¥398",
+   "チョコレート ¥128%",
+   "牛乳 1L ¥198※",
+   "アルカリ乾電池単 3 2 本入 ¥1,396",
+   "2m x 3698",
+   "ミネラルウォーター ¥324※",
+   "2L ペット",
+   "3 点 x 単 198",
+   "小計 (6 点 ) ¥4,276",
+   "外税 8* WR ¥2,482 消費税 ¥198",
+   "外税 1* 対象 ¥1,794 消費税 ¥179",
+   "合計 ¥4,653",
+   "クレジット ERP 1 033",
+   "お支払い ¥4,653",
+   "ポイントカード",
+   "ラライッリン様",
+   "会員番号 5449 1448 4664",
+   "※ は軽減税率 (8*) 対象商品です",
+   "で来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "店名-名",
+   "住所",
+   "店舗番号5-1",
+   "TEL 0456-78-1234",
+   "店舗コード T0000100000899",
+   "2026年11月05日(•) 12:43",
+   "L=02",
+   "No.4108",
+   "\"¥\"記号 3•/• ¥1,832×",
+   "4• x ¥458",
+   "• 5• ¥398",
+   "• ¥128×",
+   "4• 1L ¥198×",
+   "• #3 20• ¥1,396",
+   "2• x ¥698",
+   "• ¥324×",
+   "2L•¥",
+   "3• x ¥108",
+   "合計 (6•) ¥4,276",
+   "• 8% 割引 ¥2,482",
+   "• 10% 割引 ¥1,794",
+   "• ¥179",
+   "支払 ¥4,653"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "92",
+    "to": "02"
+   },
+   {
+    "from": "4198",
+    "to": "4108"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   },
+   {
+    "from": "198",
+    "to": "108"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
 }

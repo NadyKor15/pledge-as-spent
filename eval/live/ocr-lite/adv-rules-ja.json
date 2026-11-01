@@ -3,97 +3,79 @@
  "set": "adversarial",
  "imageSha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
  "reading": {
-  "merchantName": "ドラッグヒカリ",
+  "merchantName": "ドラッグヒカリ 北空中央店",
   "merchantAddress": "空川県北空市中央 3-5-12",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-03T20:11:00",
-  "receiptNumber": "9777",
+  "receiptNumber": "0777",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "ギフトカード 3,966 円",
     "translationEn": "Gift card 3,966 yen",
     "qty": 1,
-    "unitPriceMinor": 3966,
-    "amountMinor": 3966,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
     "rawText": "缶ビピール 356ml 6 缶",
     "translationEn": "Canned beer 356ml 6 cans",
-    "qty": 6,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 1198,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
     "lineNo": 3,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "Single 4 Alkaline dry batteries 4 pack",
-    "qty": 4,
+    "translationEn": "AAA alkaline dry battery 4-pack",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 238,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
     "lineNo": 4,
     "rawText": "雪解けの水 2L",
     "translationEn": "Melting snow water 2L",
-    "qty": 1,
-    "unitPriceMinor": 236,
-    "amountMinor": 236,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 5,
-    "rawText": "2 点 x 118",
-    "translationEn": "2 items x 118",
     "qty": 2,
     "unitPriceMinor": 118,
     "amountMinor": 236,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
-    "lineNo": 6,
+    "lineNo": 5,
     "rawText": "ノート AS",
     "translationEn": "Notebook AS",
     "qty": 1,
-    "unitPriceMinor": 148,
+    "unitPriceMinor": null,
     "amountMinor": 148,
     "taxRateBp": null
    },
    {
-    "lineNo": 7,
+    "lineNo": 6,
     "rawText": "ホシノメンソール",
     "translationEn": "Hoshin Menthol",
     "qty": 1,
-    "unitPriceMinor": 580,
+    "unitPriceMinor": null,
     "amountMinor": 580,
     "taxRateBp": null
    },
    {
-    "lineNo": 8,
-    "rawText": "3351-9- 2L",
-    "translationEn": "3351-9- 2L",
-    "qty": 1,
-    "unitPriceMinor": 324,
-    "amountMinor": 324,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 9,
-    "rawText": "3m x 単 198",
-    "translationEn": "3m x single 198",
+    "lineNo": 7,
+    "rawText": "ミネラルウォーターフレし 2L",
+    "translationEn": "",
     "qty": 3,
-    "unitPriceMinor": 198,
-    "amountMinor": 11,
-    "taxRateBp": null
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 5724,
-  "taxMinor": 560,
+  "taxMinor": 41,
   "taxIncluded": false,
   "totalMinor": 5724,
   "pii": [
@@ -108,13 +90,23 @@
     }
    },
    {
+    "kind": "card_number",
+    "text": "sooo 2 050",
+    "bbox": {
+     "x": 0.5757689524180164,
+     "y": 0.7009410466342326,
+     "w": 0.22988232033776768,
+     "h": 0.014740411592659042
+    }
+   },
+   {
     "kind": "name",
-    "text": "Bl ゆ様",
+    "text": "Bl ゆ",
     "bbox": {
      "x": 0.1697499330177317,
-     "y": 0.7843019524940761,
-     "w": 0.1124888143908235,
-     "h": 0.01369681162404679
+     "y": 0.7855750521308557,
+     "w": 0.06024897114362171,
+     "h": 0.011676978748599742
     }
    }
   ],
@@ -127,8 +119,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded by the drive.",
-   "confidence": 1
+   "reasonEn": "A gift card is not funded by this drive.",
+   "confidence": 0.95
   },
   {
    "lineNo": 2,
@@ -136,7 +128,7 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Canned beer is an alcoholic beverage and is not funded by the drive.",
+   "reasonEn": "Canned beer is alcohol, which this drive does not fund.",
    "confidence": 0.95
   },
   {
@@ -144,27 +136,27 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the type this drive needs.",
    "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Melting snow water 2L counts toward the water need.",
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear and cannot be matched to any need.",
-   "confidence": 0.1
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A notebook is not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 6,
@@ -172,56 +164,141 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Notebooks are not listed as a need for the drive.",
+   "reasonEn": "Hoshin Menthol is not one of the needs.",
    "confidence": 0.9
   },
   {
    "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Hoshin Menthol does not match any need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear and cannot be matched to any need.",
-   "confidence": 0.2
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item description is unclear and cannot be matched to any need.",
-   "confidence": 0.1
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "ccca1068e5db34191f5b127b0042f1c5b5ac2e00066692de5616bdcb55691320",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1244,
-   "tokensOut": 599,
-   "usdCeiling": 0.001248,
-   "usdActual": 0.000218
+   "tokensIn": 3276,
+   "tokensOut": 702,
+   "usdCeiling": 0.00186,
+   "usdActual": 0.000365
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1339,
-   "tokensOut": 345,
-   "usdCeiling": 0.001271,
-   "usdActual": 0.000163
+   "tokensIn": 2020,
+   "tokensOut": 326,
+   "usdCeiling": 0.001456,
+   "usdActual": 0.000199
   }
  ],
  "latencyMs": {
-  "read": 3100,
-  "classify": 2396
+  "read": 5459,
+  "classify": 2145
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199900634",
+   "202611038 (x) 20:11",
+   "LYe1 No.9777",
+   "ギフトカード 3,966 円 ¥3,000",
+   "缶ビピール 356ml 6 缶 ¥1,198",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "雪解けの水 2L ¥236※",
+   "2 点 x 118",
+   "ノート AS ¥148",
+   "ホシノメンソール ¥580",
+   "3351-9- 2L ¥324※",
+   "3m x 単 198",
+   "小計 (7 点 ) ¥5,724",
+   "8* 対象 ¥560",
+   "10%XTR ¥2,164",
+   "非課税対象 ¥3,000",
+   "(内消費税等 8% ¥41)",
+   "(内消費税等 10* ¥196 )",
+   "合計 ¥5,724",
+   "クレジット sooo 2 050",
+   "お支払い ¥5,724",
+   "ポイントカード",
+   "Bl ゆ様",
+   "会員番号 7788 9428 0676",
+   "※ は軽減税率 (8s) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199900634",
+   "202611038 (x) 20:11",
+   "LYe1 No.9777",
+   "ギフトカード 3,966 円 ¥3,000",
+   "缶ビピール 356ml 6 缶 ¥1,198",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "雪解けの水 2L ¥236※",
+   "2 点 x 118",
+   "ノート AS ¥148",
+   "ホシノメンソール ¥580",
+   "ミネラルウォーターフレし 2L \\324※",
+   "3m x 単 198",
+   "小計 (7 点 ) ¥5,724",
+   "8* 対象 ¥560",
+   "10%XTR ¥2,164",
+   "非課税対象 ¥3,000",
+   "(内消費税等 8% ¥41)",
+   "(内消費税等 10* ¥196 )",
+   "合計 ¥5,724",
+   "クレジット sooo 2 050",
+   "お支払い ¥5,724",
+   "ポイントカード",
+   "ミッタマレルン株",
+   "会員番号 7788 9428 0676",
+   "※ は軽減税率 (8s) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-33-7788",
+   "2026年11月03日(金) 20:11",
+   "No.0777",
+   "¥3,000",
+   "¥1,198",
+   "¥238",
+   "¥236",
+   "2 x ¥118",
+   "¥148",
+   "¥580",
+   "¥324",
+   "3 x ¥108",
+   "¥5,724",
+   "¥560",
+   "¥2,164",
+   "¥3,000",
+   "¥41",
+   "¥196",
+   "¥5,724"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9777",
+    "to": "0777"
+   },
+   {
+    "from": "198",
+    "to": "108"
+   }
+  ]
+ }
 }

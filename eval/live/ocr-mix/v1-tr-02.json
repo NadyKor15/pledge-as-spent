@@ -1,0 +1,218 @@
+{
+ "receiptId": "v1-tr-02",
+ "set": "v1",
+ "imageSha256": "65623e612afca38710bc6d143c91acd38abb3eb9c254eefb0bc013ca171b6f89",
+ "reading": {
+  "merchantName": "SUPER YILDIZ MARKET",
+  "merchantAddress": "çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T14:36:00",
+  "receiptNumber": "9824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -329,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Cute baby diaper 20",
+    "qty": 1,
+    "unitPriceMinor": 34900,
+    "amountMinor": 34900,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 5986,
+  "taxIncluded": false,
+  "totalMinor": 36761,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7724103405",
+    "bbox": {
+     "x": 0.6875116590318759,
+     "y": 0.7490650033733007,
+     "w": 0.1443720893437057,
+     "h": 0.02078928724382334
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "eK aplik doe 7374",
+    "bbox": {
+     "x": 0.20341981974412612,
+     "y": 0.7051339923013621,
+     "w": 0.27070542829923894,
+     "h": 0.025546292963752992
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.20831727496259914,
+     "y": 0.7912390222349289,
+     "w": 0.1864797530934211,
+     "h": 0.028345453869762394
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Cute baby diaper size 4 counts toward the diapers need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "a57da57cb5c253e8e408aea1cb619d780524e232cd58a71ce1d2a75626d43624",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2662,
+   "tokensOut": 660,
+   "usdCeiling": 0.017587000000000002,
+   "usdActual": 0.002491
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1846,
+   "tokensOut": 129,
+   "usdCeiling": 0.018967,
+   "usdActual": 0.00189
+  }
+ ],
+ "latencyMs": {
+  "read": 5755,
+  "classify": 1230
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "RT",
+   "SUPER YILDIZ MARKET",
+   "çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU 5 L “19 #21,90",
+   "İNDİRİM #10 *-3,29",
+   "SEVİMLİ BEBEK BEZİ 420 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV *20 MATRAH 290,83 *58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDİ KARTI *367,61",
+   "eK aplik doe 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "RT",
+   "SUPER YILDIZ MARKET",
+   "çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU 5 L “19 #21,90",
+   "İNDİRİM #10 *-3,29",
+   "SEVİMLİ BEBEK BEZİ 420 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV *20 MATRAH 290,83 *58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDİ KARTI *367,61",
+   "eK aplik doe 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yildizova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 06.11.2026 14:36",
+   "FiS NO: 9824",
+   "•",
+   "DAĞ SUYU 5 L",
+   "%10 *21,90",
+   "İNDİRİM",
+   "%10 *-3,29",
+   "SEVİMLİ BEBEK BESİ",
+   "%20 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "•",
+   "KDV %10 MATRAH 16,92",
+   "*1,69",
+   "KDV %20 MATRAH 290,83",
+   "*58,17",
+   "TOPKDV",
+   "*59,86",
+   "TOPLAM",
+   "*367,61",
+   "•"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
+}

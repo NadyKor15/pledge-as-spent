@@ -4,7 +4,7 @@
  "imageSha256": "c04e02a4abf943e410449f3791f911d25a50a630f21946cfaac6425557201d31",
  "reading": {
   "merchantName": "FERRETERIA LA LLAVE",
-  "merchantAddress": "Plaza Nueva 3",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-05T10:09:00",
@@ -12,100 +12,91 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AGUA 1,5L PACK 6 3,29 B",
-    "translationEn": "WATER 1.5L PACK 6",
-    "qty": 6,
-    "unitPriceMinor": 329,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack of 6",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 329,
     "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "AGUA FUENTE CLARA 1,30 B",
-    "translationEn": "FUENTE CLARA WATER 1.30",
-    "qty": 1,
-    "unitPriceMinor": 130,
-    "amountMinor": 130,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 3,
-    "rawText": "BOTELLA 1,5 L 2 x 0,65",
-    "translationEn": "BOTTLE 1.5 L",
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "Fuente Clara water",
     "qty": 2,
     "unitPriceMinor": 65,
     "amountMinor": 130,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 4,
-    "rawText": "PANAL BEBE T3 44U 8,95 B",
-    "translationEn": "BABY DIAPER T3 44U",
-    "qty": null,
-    "unitPriceMinor": 895,
+    "lineNo": 3,
+    "rawText": "PANAL BEBE T3 44U",
+    "translationEn": "Baby diaper size 3 pack of 44",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 895,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 5,
-    "rawText": "PILAS AA LR6 8U 11,98 C 2x 5,99",
-    "translationEn": "AA LR6 BATTERIES 8U",
-    "qty": 8,
-    "unitPriceMinor": 1198,
-    "amountMinor": 65,
+    "lineNo": 4,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries pack of 8",
+    "qty": 2,
+    "unitPriceMinor": 599,
+    "amountMinor": 1198,
     "taxRateBp": 2100
    },
    {
-    "lineNo": 6,
-    "rawText": "PAN BARRA 1,70 A 2x 6,85",
-    "translationEn": "BREAD LOAF",
+    "lineNo": 5,
+    "rawText": "PAN BARRA",
+    "translationEn": "Bread loaf",
     "qty": 2,
-    "unitPriceMinor": 170,
-    "amountMinor": 65,
+    "unitPriceMinor": 85,
+    "amountMinor": 170,
     "taxRateBp": 400
    },
    {
-    "lineNo": 7,
-    "rawText": "AGUA SL GARRAFA 1,19 B",
-    "translationEn": "WATER SL JAR",
+    "lineNo": 6,
+    "rawText": "AGUA SL GARRAFA",
+    "translationEn": "Water jug",
     "qty": 1,
-    "unitPriceMinor": 119,
+    "unitPriceMinor": null,
     "amountMinor": 119,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 8,
-    "rawText": "DTO. PROMOCIÓN 40,06 B",
-    "translationEn": "PROMOTION DISCOUNT",
-    "qty": null,
+    "lineNo": 7,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 4006,
-    "taxRateBp": null
+    "amountMinor": -6,
+    "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 2835,
-  "taxMinor": 163,
+  "subtotalMinor": null,
+  "taxMinor": null,
   "taxIncluded": true,
   "totalMinor": 2835,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "ao ek ojo 7636",
-    "bbox": {
-     "x": 0.3945237502781705,
-     "y": 0.7590098733485551,
-     "w": 0.0550824825412351,
-     "h": 0.013408757957748874
-    }
-   },
-   {
     "kind": "member_id",
-    "text": "SOCIO 6082753386",
+    "text": "6082753386",
     "bbox": {
      "x": 0.657548769153294,
      "y": 0.8093274568910797,
      "w": 0.14451841209203597,
      "h": 0.014992142726305335
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "ao ek ojo 7636",
+    "bbox": {
+     "x": 0.1752966546719389,
+     "y": 0.7551286497085569,
+     "w": 0.2743095781474667,
+     "h": 0.017289981597747084
     }
    },
    {
@@ -128,43 +119,43 @@
    "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "reasonEn": "A pack of 6 1.5 L water bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "This is not the exact item listed (1.5 L bottle).",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
    "needId": "water",
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "reasonEn": "Two 1.5 L water bottles count toward the water need.",
    "confidence": 0.95
   },
   {
-   "lineNo": 4,
+   "lineNo": 3,
    "needId": "diapers",
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
+   "reasonEn": "A pack of 44 size 3 baby diapers counts toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two packs of 8 AA batteries count toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": "batteries",
-   "needQty": 8,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the needs.",
    "confidence": 0.95
   },
   {
@@ -173,47 +164,145 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Bread loaf is not a listed need.",
+   "reasonEn": "A water jug is not a 1.5 L bottle.",
    "confidence": 0.95
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Water in a jar is not the exact item listed (1.5 L bottle).",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The promotion discount needs further review to determine its eligibility.",
-   "confidence": 0.5
+   "reasonEn": "The promotion discount is unclear and requires review.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "3bf9a9c0461cda38872eb2aa547ade72f29b47bfea8cd43d430063b218be9c76",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1224,
-   "tokensOut": 602,
-   "usdCeiling": 0.016773,
-   "usdActual": 0.002906
+   "tokensIn": 3053,
+   "tokensOut": 802,
+   "usdCeiling": 0.024923,
+   "usdActual": 0.0050089999999999996
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1332,
-   "tokensOut": 332,
-   "usdCeiling": 0.016904,
-   "usdActual": 0.002128
+   "tokensIn": 1989,
+   "tokensOut": 300,
+   "usdCeiling": 0.019414,
+   "usdActual": 0.002551
   }
  ],
  "latencyMs": {
-  "read": 8419,
-  "classify": 3101
+  "read": 6381,
+  "classify": 2559
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 3433",
+   "05/11/2026 10:09 CAJA 03",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 3,29 B",
+   "AGUA FUENTE CLARA 1,30 B",
+   "BOTELLA 1,5 L",
+   "2 x 0,65",
+   "PANAL BEBE T3 44U 8,95 B",
+   "PILAS AA LR6 8U 11,98 C",
+   "2x 5,99",
+   "PAN BARRA 1,70 A",
+   "2x 6,85",
+   "AGUA SL GARRAFA 1,19 B",
+   "DTO. PROMOCIÓN 40,06 B",
+   "TOTAL (IVA INCLUIDO) 28,35 EUR",
+   "A IVA 4% BASE 1,63 CUOTA 0,07",
+   "B IVA 10% BASE 13,34 CUOTA 1,33",
+   "C IVA 21% BASE 9,90 CUOTA 2,08",
+   "PAGO TARJETA 28,35",
+   "ao ek ojo 7636",
+   "SOCIO 6082753386",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 3433",
+   "05/11/2026 10:09 CAJA 03",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 3,29 B",
+   "AGUA FUENTE CLARA 1,30 B",
+   "BOTELLA 1,5 L",
+   "2 x 0,65",
+   "PANAL BEBE T3 44U 8,95 B",
+   "PILAS AA LR6 8U 11,98 C",
+   "2x 5,99",
+   "PAN BARRA 1,70 A",
+   "2x 6,85",
+   "AGUA SL GARRAFA 1,19 B",
+   "DTO. PROMOCIÓN 40,06 B",
+   "TOTAL (IVA INCLUIDO) 28,35 EUR",
+   "A IVA 4% BASE 1,63 CUOTA 0,07",
+   "B IVA 10% BASE 13,34 CUOTA 1,33",
+   "C IVA 21% BASE 9,90 CUOTA 2,08",
+   "PAGO TARJETA 28,35",
+   "ao ek ojo 7636",
+   "SOCIO 6082753386",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "FERRETERÍA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alboradá",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA",
+   "N° 3433",
+   "05/11/2026 10:09",
+   "CAJA 03",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "AGUA 1,5L PACK 6",
+   "3,29 B",
+   "AGUA FUENTE CLARA",
+   "1,30 B",
+   "BOTELLA 1,5 L",
+   "2 X 0,65",
+   "PANAL BEBÉ T3 44U",
+   "8,95 B",
+   "PILAS AA LR6 8U",
+   "11,98 C",
+   "2 X 5,99",
+   "PAN BARRA",
+   "1,70 A",
+   "2 X 0,85",
+   "AGUA 5L GARRAFÁ",
+   "1,19 B",
+   "DTO. PROMOCIÓN",
+   "-0,06 B",
+   "TOTAL (IVA INCLUIDO)",
+   "28,35 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "6,85",
+    "to": "0,85"
+   },
+   {
+    "from": "40,06",
+    "to": "0,06"
+   }
+  ]
+ }
 }

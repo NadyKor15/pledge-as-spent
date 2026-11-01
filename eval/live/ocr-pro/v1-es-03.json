@@ -4,7 +4,7 @@
  "imageSha256": "e32e98a473e975e2cf939421578869f9bceb8ded5ea2fc0a45577753f6c5cf78",
  "reading": {
   "merchantName": "SUPERMERCADO EL FARO",
-  "merchantAddress": "Av. del Rio 45",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-09T20:27:00",
@@ -12,70 +12,52 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AGUA 1,5L PACK 6 9,87 A",
-    "translationEn": "WATER 1.5L PACK 6",
-    "qty": 6,
-    "unitPriceMinor": null,
-    "amountMinor": 987,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 2,
-    "rawText": "3 x 3,29",
-    "translationEn": "3 x 3.29",
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack of 6",
     "qty": 3,
     "unitPriceMinor": 329,
     "amountMinor": 987,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 3,
-    "rawText": "PAÑAL BEBÉ T3 44U 17,90 A",
-    "translationEn": "BABY DIAPER T3 44U",
-    "qty": 1,
-    "unitPriceMinor": 1790,
-    "amountMinor": 1790,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "2x 8,95",
-    "translationEn": "2x 8.95",
+    "lineNo": 2,
+    "rawText": "PAÑAL BEBÉ T3 44U",
+    "translationEn": "Baby diaper size 3 pack of 44",
     "qty": 2,
     "unitPriceMinor": 895,
     "amountMinor": 1790,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 5,
-    "rawText": "TABACO LIAR CAJETILLA 4,60 B",
-    "translationEn": "ROLLING TOBACCO BOX",
+    "lineNo": 3,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Rolling tobacco pack",
     "qty": 1,
-    "unitPriceMinor": 460,
+    "unitPriceMinor": null,
     "amountMinor": 460,
     "taxRateBp": 2100
    },
    {
-    "lineNo": 6,
-    "rawText": "PAÑALES T3 PANTS 36U 7,49 A",
-    "translationEn": "T3 PANTS DIAPERS 36U",
+    "lineNo": 4,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Pants diaper size 3 pack of 36",
     "qty": 1,
-    "unitPriceMinor": 749,
+    "unitPriceMinor": null,
     "amountMinor": 749,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
-    "rawText": "DTO. PROMOCIÓN -1,12 A",
-    "translationEn": "PROMOTION DISCOUNT",
-    "qty": null,
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -112,
     "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 3564,
-  "taxMinor": 310,
+  "subtotalMinor": null,
+  "taxMinor": 390,
   "taxIncluded": true,
   "totalMinor": 3874,
   "pii": [
@@ -83,10 +65,10 @@
     "kind": "card_number",
     "text": "RK dom tato 2040",
     "bbox": {
-     "x": 0.38968913838073194,
-     "y": 0.7967212174453442,
-     "w": 0.05729426959056755,
-     "h": 0.016298731032148295
+     "x": 0.16568560003833283,
+     "y": 0.7924838261413731,
+     "w": 0.28129780793296666,
+     "h": 0.021381893478066183
     }
    }
   ],
@@ -96,86 +78,146 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 6,
+   "needQty": 18,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "reasonEn": "A pack of 6 1.5 L water bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item is not clearly identified, so it needs further review.",
-   "confidence": 0.5
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 44 size 3 baby diapers counts toward the diapers need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Rolling tobacco is not funded.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
    "needId": "diapers",
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The item is not clearly identified, so it needs further review.",
-   "confidence": 0.5
+   "reasonEn": "A pack of 36 size 3 pants diapers counts toward the diapers need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "tobacco",
-   "reasonEn": "Tobacco products are not funded.",
-   "confidence": 1
-  },
-  {
-   "lineNo": 6,
-   "needId": "diapers",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Baby diapers size 3 count toward the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The discount needs to be reviewed to ensure it applies to eligible items.",
+   "reasonEn": "The promotion discount needs further review to determine its eligibility.",
    "confidence": 0.5
   }
  ],
+ "classifiedFor": "0b4fefcad7adcecb309deb8ae00374747491903cdbafc962d2fba820cb241a5e",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1153,
-   "tokensOut": 510,
-   "usdCeiling": 0.016657,
-   "usdActual": 0.002554
+   "tokensIn": 3838,
+   "tokensOut": 646,
+   "usdCeiling": 0.024809,
+   "usdActual": 0.005138
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1275,
-   "tokensOut": 279,
-   "usdCeiling": 0.016755,
-   "usdActual": 0.001913
+   "tokensIn": 1932,
+   "tokensOut": 216,
+   "usdCeiling": 0.01923,
+   "usdActual": 0.002237
   }
  ],
  "latencyMs": {
-  "read": 7460,
-  "classify": 2621
+  "read": 5665,
+  "classify": 1822
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 2894",
+   "09/11/2026 20:27 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 9,87 A",
+   "3 x 3,29",
+   "PAÑAL BEBÉ T3 44U 17,90 A",
+   "2x 8,95",
+   "TABACO LIAR CAJETILLA 4,60 B",
+   "PAÑALES T3 PANTS 36U 7,49 A",
+   "DTO. PROMOCIÓN -1,12 A",
+   "TOTAL (IVA INCLUIDO) 38,74 EUR",
+   "A IVA 10% BASE 31,04 CUOTA 3,10",
+   "B IVA 21% BASE 3,80 CUOTA 0,80",
+   "PAGO TARJETA 38,74",
+   "RK dom tato 2040",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 2894",
+   "09/11/2026 20:27 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 9,87 A",
+   "3 x 3,29",
+   "PAÑAL BEBÉ T3 44U 17,90 A",
+   "2x 8,95",
+   "TABACO LIAR CAJETILLA 4,60 B",
+   "PAÑALES T3 PANTS 36U 7,49 A",
+   "DTO. PROMOCIÓN -1,12 A",
+   "TOTAL (IVA INCLUIDO) 38,74 EUR",
+   "A IVA 10% BASE 31,04 CUOTA 3,10",
+   "B IVA 21% BASE 3,80 CUOTA 0,80",
+   "PAGO TARJETA 38,74",
+   "RK dom tato 2040",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 2894",
+   "09/11/2026 20:27",
+   "CAJA 01",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "AGUA 1,5L PACK 6",
+   "9,87 A",
+   "3 x 3,29",
+   "PANAL BEBÉ T3 44U",
+   "17,90 A",
+   "2 x 8,95",
+   "TABACO LIAR CAJETILLA",
+   "4,60 B",
+   "PANALES T3 PANTS 36U",
+   "7,49 A",
+   "DTO. PROMOCIÓN",
+   "-1,12 A",
+   "TOTAL (IVA INCLUIDO)",
+   "38,74 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

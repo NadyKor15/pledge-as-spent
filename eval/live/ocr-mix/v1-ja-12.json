@@ -1,0 +1,195 @@
+{
+ "receiptId": "v1-ja-12",
+ "set": "v1",
+ "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
+ "reading": {
+  "merchantName": "ホームセンターツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町 7-26",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": null,
+  "receiptNumber": "2816",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ぐビーラプがンツ M",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ギフトカード 3,000F",
+    "translationEn": "Gift card 3,000F",
+    "qty": 1,
+    "unitPriceMinor": 3999,
+    "amountMinor": 3999,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ティッシュ 5 箱",
+    "translationEn": "Tissue 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ミ多 7 ォター 2L",
+    "translationEn": "Mita 7 water 2L",
+    "qty": 6,
+    "unitPriceMinor": 198,
+    "amountMinor": 648,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 5144,
+  "taxMinor": 648,
+  "taxIncluded": false,
+  "totalMinor": 5344,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "1081 2345 8996",
+    "bbox": {
+     "x": 0.5879209011527424,
+     "y": 0.7802646422891101,
+     "w": 0.1929697552623899,
+     "h": 0.019137579660158832
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "‘s KERB (85) NRBRTT",
+    "bbox": {
+     "x": 0.4554851461629127,
+     "y": 0.8135585424775397,
+     "w": 0.15185062892021706,
+     "h": 0.03361780972918771
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.85
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissues are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water 2 L counts toward the water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "470c7ef19b667a3a5f7ef06f0ddb9db06197247280377923016f461486562526",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3673,
+   "tokensOut": 1938,
+   "usdCeiling": 0.017557000000000003,
+   "usdActual": 0.002905
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1893,
+   "tokensOut": 159,
+   "usdCeiling": 0.019073,
+   "usdActual": 0.002023
+  }
+ ],
+ "latencyMs": {
+  "read": 12766,
+  "classify": 1430
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "パビ - デルツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "SRW ®",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "ぐビーラプがンツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "ミタマルン柏",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [],
+  "numbersFailed": 1,
+  "repairs": []
+ }
+}

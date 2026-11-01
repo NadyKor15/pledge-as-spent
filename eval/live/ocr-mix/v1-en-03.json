@@ -1,0 +1,222 @@
+{
+ "receiptId": "v1-en-03",
+ "set": "v1",
+ "imageSha256": "4344c0502147d37457b0aaa396fdc6e979b840bec40af506f29fd797e6b534da",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 999,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA Alkaline 24 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1599,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "Coupon",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.684640522875817,
+     "y": 0.7762890783597239,
+     "w": 0.1470588235294118,
+     "h": 0.01705237515225333
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "pec AL1OS",
+    "bbox": {
+     "x": 0.5909586056644881,
+     "y": 0.6325619163621599,
+     "w": 0.2363834422657951,
+     "h": 0.02842062525375577
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1977124183006536,
+     "y": 0.7543645960211125,
+     "w": 0.1721132897603486,
+     "h": 0.01786439301664633
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of the coupon is unclear, and it may or may not be related to the needs of the drive.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "a58a97c1badfe290f567bd81d2d5e8e97f3e2bdcfaed79165a19c1111950faae",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2625,
+   "tokensOut": 493,
+   "usdCeiling": 0.017587000000000002,
+   "usdActual": 0.002102
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1860,
+   "tokensOut": 174,
+   "usdCeiling": 0.019054,
+   "usdActual": 0.002045
+  }
+ ],
+ "latencyMs": {
+  "read": 3979,
+  "classify": 1686
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM",
+   "REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL",
+   "4 @ $1.49",
+   "LAGER 6PK BTL",
+   "AA ALKALINE 24PK",
+   "COUPON",
+   "$5.96 F",
+   "$9.99 T",
+   "$15.99 T",
+   "-$2.40",
+   "SUBTOTAL",
+   "SALES TAX 7.25%",
+   "TOTAL",
+   "$29.54",
+   "$1.71",
+   "$31.25"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

@@ -1,0 +1,212 @@
+{
+ "receiptId": "v1-tr-01",
+ "set": "v1",
+ "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
+ "reading": {
+  "merchantName": "EVİM YAPI MARKET",
+  "merchantAddress": "Atatürk Bulv. No:101 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T15:05:00",
+  "receiptNumber": "5640",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "AA batteries 10-pack",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -1699,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4",
+    "qty": 1,
+    "unitPriceMinor": 28990,
+    "amountMinor": 28990,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 7380,
+  "taxIncluded": false,
+  "totalMinor": 44281,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9309880230",
+    "bbox": {
+     "x": 0.6862519659077798,
+     "y": 0.7387702249934989,
+     "w": 0.14644323328271291,
+     "h": 0.02215766594500901
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "28K eK dock 0229",
+    "bbox": {
+     "x": 0.19432558428604835,
+     "y": 0.6899640393232935,
+     "w": 0.27566984495596336,
+     "h": 0.0246836273103076
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.19855917197028794,
+     "y": 0.7810713895017735,
+     "w": 0.18795497442138787,
+     "h": 0.028088525510092777
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 10-pack of AA batteries counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line is unclear and requires review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "2127043c8e38fb438e7194a419ff51381860dae0cc44325667823d20e535612c",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2539,
+   "tokensOut": 703,
+   "usdCeiling": 0.017551,
+   "usdActual": 0.0027199999999999998
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1841,
+   "tokensOut": 132,
+   "usdCeiling": 0.018964,
+   "usdActual": 0.001895
+  }
+ ],
+ "latencyMs": {
+  "read": 5283,
+  "classify": 1335
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ESS",
+   "EVİM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yıldızova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARİH: 04.11.2026 15:05 FİŞ NO: 5640",
+   "AA PIL 10'LU PAKET «20 *169,90",
+   "İNDİRİM 420 *-16,99",
+   "MİNİ BEBEK BEZİ 4 NO 420 *289,90",
+   "KDV 420 MATRAH 369,01 *73,80",
+   "| TOPKDV *73,80",
+   "TOPLAM *442,81",
+   "KREDI KARTI *442,81",
+   "28K eK dock 0229",
+   "| MÜŞTERİ KARTI 9309880230",
+   "| AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ",
+   "h,"
+  ],
+  "reread": [
+   "ESS",
+   "EVİM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yıldızova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARİH: 04.11.2026 15:05 FİŞ NO: 5640",
+   "AA PIL 10'LU PAKET «20 *169,90",
+   "İNDİRİM 420 *-16,99",
+   "MİNİ BEBEK BEZİ 4 NO 420 *289,90",
+   "KDV 420 MATRAH 369,01 *73,80",
+   "| TOPKDV *73,80",
+   "TOPLAM *442,81",
+   "KREDI KARTI *442,81",
+   "28K eK dock 0229",
+   "| MÜŞTERİ KARTI 9309880230",
+   "| AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ",
+   "h,"
+  ],
+  "photoNumbers": [
+   "EVIM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yildizova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARIH: 04.11.2026 15:05",
+   "FIS NO: 5640",
+   "•",
+   "AA PIL 10'LU PAKET",
+   "%20 *169,90",
+   "INDIRIIM",
+   "%20 *-16,99",
+   "MINI BEBEK BESIZ 4 NO",
+   "%20 *289,90",
+   "•",
+   "KDV %20 MATRAH 369,01",
+   "*73,80",
+   "TOPKDV",
+   "*73,80",
+   "TOPLAM",
+   "*442,81"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   }
+  ]
+ }
+}

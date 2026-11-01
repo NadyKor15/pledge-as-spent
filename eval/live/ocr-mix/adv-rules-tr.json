@@ -1,0 +1,260 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "Raki 70 cl",
+    "qty": 1,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Cute baby diapers",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YILDIZ SİGARA MAVİ",
+    "translationEn": "YILDIZ CIGARETTES BLUE",
+    "qty": 1,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA PİL 10'LU PAKET BATTANİYE TEK KİŞİLİK «20 #898, 00",
+    "translationEn": "AA batteries 10 pack",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 52162,
+  "taxIncluded": false,
+  "totalMinor": 362970,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "sek elek eek 2115",
+    "bbox": {
+     "x": 0.17015153313514478,
+     "y": 0.8013767712288603,
+     "w": 0.27553921842311013,
+     "h": 0.01872131783311648
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Raki is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Cute baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded by this drive.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "0e0d080067bc39af2626b9d4a8d10f8e776209b4f232f20e4d6e8acd40405858",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3070,
+   "tokensOut": 1257,
+   "usdCeiling": 0.017694,
+   "usdActual": 0.00415
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2015,
+   "tokensOut": 241,
+   "usdCeiling": 0.019369,
+   "usdActual": 0.002383
+  }
+ ],
+ "latencyMs": {
+  "read": 8713,
+  "classify": 2019
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 06.11.2026 08:14 FİŞ NO: 0723",
+   "MİNİ BEBEK BEZİ 4 NO “20 *579,80",
+   "2 x 289,90",
+   "RAKI 70 CL «20 *689,00",
+   "SEVİMLİ BEBEK BEZİ «20 *698,00",
+   "NO:4 JUMBO 42'Lİ",
+   "2 x 349,00",
+   "YILDIZ SİGARA MAVİ “20 *95,00",
+   "HEDİYE KARTI 500 TL *500,00",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "BATTANİYE TEK KİŞİLİK «20 #898, 00",
+   "2 x 449,00",
+   "KDV 420 MATRAH 2.608, 08 *521,62",
+   "TOPKDV *521, 62",
+   "TOPLAM *3.629,70",
+   "KREDİ KARTI *3.629,70",
+   "sek elek eek 2115",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 06.11.2026 08:14 FİŞ NO: 0723",
+   "MİNİ BEBEK BEZİ 4 NO “20 *579,80",
+   "2 x 289,90",
+   "RAKI 70 CL «20 *689,00",
+   "SEVİMLİ BEBEK BEZİ «20 *698,00",
+   "NO:4 JUMBO 42'Lİ",
+   "2 x 349,00",
+   "YILDIZ SİGARA MAVİ “20 *95,00",
+   "HEDİYE KARTI 500 TL *500,00",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "BATTANİYE TEK KİŞİLİK «20 #898, 00",
+   "2 x 449,00",
+   "KDV 420 MATRAH 2.608, 08 *521,62",
+   "TOPKDV *521, 62",
+   "TOPLAM *3.629,70",
+   "KREDİ KARTI *3.629,70",
+   "sek elek eek 2115",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayl Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARIH: 06.11.2026 08:14",
+   "Fi$ NO: 0723",
+   "•",
+   "MINI BEBEK BEZI 4 NO",
+   "%20 *579,80",
+   "2 X 289,90",
+   "RAKI 70 CL",
+   "%20 *689,00",
+   "SEVIMLI BEBEK BEZI",
+   "%20 *698,00",
+   "NO:4 JUMBO 42'Li",
+   "2 X 349,00",
+   "YILDIZ SIGARA MAVI",
+   "%20 *95,00",
+   "HEDÍYE KARTI 500 TL",
+   "*500,00",
+   "AA PÍL 10'LU PAKET",
+   "%20 *169,90",
+   "BATTIÑÍYE TEK KISILIK",
+   "%20 *898,00",
+   "2 X 449,00",
+   "•",
+   "KDV %20 MATRAH 2.608,08",
+   "*521,62",
+   "TOPKDV",
+   "*521,62",
+   "TOPLAM",
+   "*3.629,70",
+   "KREDÍ KARTI",
+   "+2.629,70"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   }
+  ]
+ }
+}

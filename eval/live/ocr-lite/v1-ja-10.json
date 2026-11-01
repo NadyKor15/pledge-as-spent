@@ -3,17 +3,17 @@
  "set": "v1",
  "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
  "reading": {
-  "merchantName": "ドラッグヒカリ",
+  "merchantName": "ドラッグヒカリ 北空中央店",
   "merchantAddress": "空川県北空市中央 3-5-12",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2029-11-09T13:25:00",
+  "purchasedAt": "2026-11-07T13:25:00",
   "receiptNumber": "4599",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥256※",
-    "translationEn": "Natural water 2L",
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Hoku Sora natural water 2L",
     "qty": 2,
     "unitPriceMinor": 128,
     "amountMinor": 256,
@@ -21,8 +21,8 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ソフトキッズおむつ M 44 枚 ¥1,298",
-    "translationEn": "Soft kids diaper M 44 pcs",
+    "rawText": "ソフトキッズおむつ M 44 枚",
+    "translationEn": "Soft Kids Diapers M 44 pcs",
     "qty": 1,
     "unitPriceMinor": 1298,
     "amountMinor": 1298,
@@ -30,25 +30,25 @@
    },
    {
     "lineNo": 3,
-    "rawText": "単 3 形 4 本入 ¥1,298",
-    "translationEn": "AAA 4-pack",
+    "rawText": "単 3 形 4 本入 Sa x M258",
+    "translationEn": "AA 4-pack",
     "qty": 1,
-    "unitPriceMinor": 1298,
-    "amountMinor": 1298,
+    "unitPriceMinor": 1290,
+    "amountMinor": 1290,
     "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "ベビーラブパンツ M 38% ¥1,098",
-    "translationEn": "Baby love pants M",
+    "rawText": "ベビーラブパンツ M 38%",
+    "translationEn": "Baby Love Pants M 38%",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
-    "taxRateBp": 380
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 3942,
-  "taxMinor": 368,
+  "taxMinor": 388,
   "taxIncluded": false,
   "totalMinor": 4330,
   "pii": [
@@ -64,12 +64,22 @@
    },
    {
     "kind": "name",
-    "text": "SY ゆ様",
+    "text": "SY ゆ",
     "bbox": {
-     "x": 0.17788511346950447,
+     "x": 0.17802792772811915,
      "y": 0.7359512605684534,
-     "w": 0.1050530542019576,
-     "h": 0.018535003660704152
+     "w": 0.0556806744784889,
+     "h": 0.014788908986145821
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "KSEE (8s) NRBATT 3",
+    "bbox": {
+     "x": 0.4527193263957498,
+     "y": 0.8088978033767557,
+     "w": 0.32287232957023465,
+     "h": 0.03877075046546963
     }
    }
   ],
@@ -82,56 +92,137 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Natural water 2L counts toward the water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "diapers",
-   "needQty": 44,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Soft kids diaper M counts toward the diapers need.",
+   "reasonEn": "Size M diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "AAA batteries are not the AA batteries needed.",
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Baby love pants M is not a listed need and its size is not specified.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby pants are not one of the needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "cee1bd4ab01d865957eedb7ddac553ae31ac682d8411a5c0406470df9f767d0d",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1186,
-   "tokensOut": 413,
-   "usdCeiling": 0.001243,
-   "usdActual": 0.00017
+   "tokensIn": 3680,
+   "tokensOut": 544,
+   "usdCeiling": 0.0018549999999999999,
+   "usdActual": 0.000351
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1151,
-   "tokensOut": 186,
-   "usdCeiling": 0.001234,
-   "usdActual": 0.000114
+   "tokensIn": 1916,
+   "tokensOut": 167,
+   "usdCeiling": 0.001434,
+   "usdActual": 0.000155
   }
  ],
  "latencyMs": {
-  "read": 3915,
-  "classify": 1418
+  "read": 4062,
+  "classify": 1296
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199990634",
+   "2926 年 11 月 97 日 ( 土 ) 13:25",
+   "レジ 95 No.4599",
+   "北空の天然水 2L ¥256※",
+   "2 点 x 単 128",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "単 3 形 4 本入 ¥1,298",
+   "Sa x M258",
+   "ベビーラブパンツ M 38% ¥1,098",
+   "小計 (4 点 ) ¥3,942",
+   "外税 8* 対象 ¥256 消費税 ¥29",
+   "AR10% 対象 ¥3,686 消費税 ¥368",
+   "合計 ¥4,330",
+   "お預り ¥5,000",
+   "お釣り ¥670",
+   "ポイントカード 3",
+   "SY ゆ様",
+   "会員番号 1606 3023 4322",
+   "KSEE (8s) NRBATT 3",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199990634",
+   "2926 年 11 月 97 日 ( 土 ) 13:25",
+   "レジ 95 No.4599",
+   "北空の天然水 2L ¥256※",
+   "2 点 x 単 128",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "単 3 形 4 本入 ¥1,298",
+   "Sa x M258",
+   "ベビーラブパンツ M 38% ¥1,098",
+   "小計 (4 点 ) ¥3,942",
+   "外税 8* 対象 ¥256 消費税 ¥29",
+   "AR10% 対象 ¥3,686 消費税 ¥368",
+   "合計 ¥4,330",
+   "お預り ¥5,000",
+   "お釣り ¥670",
+   "ポイントカード 3",
+   "ミシマルン本",
+   "会員番号 1606 3023 4322",
+   "KSEE (8s) NRBATT 3",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-33-7788 2026年11月07日(火) 13:25 No.4599 ¥256* 2L 2回 x ¥128 ¥1,298 ¥1,290 ¥1,098 ¥3,942 ¥256 ¥20 ¥3,686 ¥368 ¥4,330"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "97",
+    "to": "07"
+   },
+   {
+    "from": "1,298",
+    "to": "1,290"
+   },
+   {
+    "from": "29",
+    "to": "20"
+   }
+  ]
+ }
 }

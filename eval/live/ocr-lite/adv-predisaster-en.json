@@ -13,70 +13,34 @@
    {
     "lineNo": 1,
     "rawText": "SPRING WATER 1GAL",
-    "translationEn": "Spring Water 1 Gallon",
-    "qty": 1,
-    "unitPriceMinor": 894,
-    "amountMinor": 894,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 2,
-    "rawText": "6 @ $1.49",
-    "translationEn": "6 at $1.49",
+    "translationEn": "Spring water 1 gallon",
     "qty": 6,
     "unitPriceMinor": 149,
     "amountMinor": 894,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 3,
+    "lineNo": 2,
     "rawText": "AA ALKALINE 24PK",
-    "translationEn": "AA Alkaline 24 Pack",
-    "qty": 1,
-    "unitPriceMinor": 3198,
-    "amountMinor": 3198,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "2 @ $15.99",
-    "translationEn": "2 at $15.99",
+    "translationEn": "AA alkaline 24 pack",
     "qty": 2,
     "unitPriceMinor": 1599,
     "amountMinor": 3198,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 5,
+    "lineNo": 3,
     "rawText": "FLEECE THROW BLANKET",
-    "translationEn": "Fleece Throw Blanket",
-    "qty": 1,
-    "unitPriceMinor": 2998,
-    "amountMinor": 2998,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 6,
-    "rawText": "2 @ $14.99",
-    "translationEn": "2 at $14.99",
+    "translationEn": "Fleece throw",
     "qty": 2,
     "unitPriceMinor": 1499,
     "amountMinor": 2998,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
+    "lineNo": 4,
     "rawText": "SOFTIES DIAPERS SZ 3 38CT",
-    "translationEn": "Softies Diapers Size 3 38 Count",
-    "qty": 1,
-    "unitPriceMinor": 3747,
-    "amountMinor": 3747,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 8,
-    "rawText": "3 @ $12.49",
-    "translationEn": "3 at $12.49",
+    "translationEn": "Softies diapers size 3 38 count",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
@@ -90,12 +54,12 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "************728",
+    "text": "eI: 7 28",
     "bbox": {
-     "x": 0.7473433437683492,
-     "y": 0.7522416058262165,
-     "w": 0.042350789383874266,
-     "h": 0.027735050031992725
+     "x": 0.5626610151572538,
+     "y": 0.7438723365624554,
+     "w": 0.22703311799496972,
+     "h": 0.03610431929575375
     }
    }
   ],
@@ -105,95 +69,140 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Spring Water 1 Gallon counts toward the drinking water need.",
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "water",
-   "needQty": 6,
+   "needId": "batteries",
+   "needQty": 48,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "6 Spring Water 1 Gallon counts toward the drinking water need.",
+   "reasonEn": "AA alkaline batteries in a 24 pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "batteries",
-   "needQty": 24,
+   "needId": "blankets",
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Alkaline 24 Pack counts toward the AA batteries need.",
+   "reasonEn": "A fleece throw counts toward the blankets need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": "batteries",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "2 AA Alkaline count toward the AA batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": "blankets",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Fleece Throw Blanket counts toward the blankets need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": "blankets",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "2 Fleece Throw Blankets count toward the blankets need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": "diapers",
-   "needQty": 38,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Softies Diapers Size 3 38 Count counts toward the baby diapers size 3 need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
    "needId": "diapers",
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "3 Softies Diapers Size 3 count toward the baby diapers size 3 need.",
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "6393c64d71a1a2b6786d2d5ab9670b58930388ce9bcb296bf182cc2097fd408d",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1108,
-   "tokensOut": 581,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000206
+   "tokensIn": 3601,
+   "tokensOut": 599,
+   "usdCeiling": 0.0018570000000000001,
+   "usdActual": 0.000359
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1274,
-   "tokensOut": 359,
-   "usdCeiling": 0.001262,
-   "usdActual": 0.000163
+   "tokensIn": 1878,
+   "tokensOut": 180,
+   "usdCeiling": 0.001433,
+   "usdActual": 0.000156
   }
  ],
  "latencyMs": {
-  "read": 3263,
-  "classify": 2340
+  "read": 5333,
+  "classify": 1464
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "10/18/2026 04:05 PM REG @1",
+   "TRANS #3936",
+   "SPRING WATER 1GAL $8.94 F",
+   "6 @ $1.49",
+   "AA ALKALINE 24PK $31.98 T",
+   "2 @ $15.99",
+   "FLEECE THROW $29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "SUBTOTAL $108.37",
+   "SALES TAX 7.25% $7.21",
+   "TOTAL $115.58",
+   "VISA eI: 7 28",
+   "APPROVED $115.58",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "10/18/2026 04:05 PM REG @1",
+   "TRANS #3936",
+   "SPRING WATER 1GAL $8.94 F",
+   "6 @ $1.49",
+   "AA ALKALINE 24PK $31.98 T",
+   "2 @ $15.99",
+   "FLEECE THROW $29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "SUBTOTAL $108.37",
+   "SALES TAX 7.25% $7.21",
+   "TOTAL $115.58",
+   "VISA eI: 7 28",
+   "APPROVED $115.58",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "10/18/2026 04:05 PM",
+   "REG 01",
+   "TRANS #3936",
+   "SPRING WATER 1GAL",
+   "$8.94 F",
+   "6 @ $1.49",
+   "AA ALKALINE 24PK",
+   "$31.98 T",
+   "2 @ $15.99",
+   "FLEECE THROW",
+   "$29.98 T",
+   "BLANKET",
+   "2 @ $14.99",
+   "SOFTIES DIAPERS SZ 3 38CT",
+   "$37.47 T",
+   "3 @ $12.49",
+   "SUBTOTAL",
+   "$108.37",
+   "SALES TAX 7.25%",
+   "$7.21",
+   "TOTAL",
+   "$115.58"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

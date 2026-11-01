@@ -4,7 +4,7 @@
  "imageSha256": "ba99092be819b1b4337dfb0efc5de91a1b125f3cfcae26a8190df159d39fda27",
  "reading": {
   "merchantName": "EVİM YAPI MARKET",
-  "merchantAddress": "Atatürk Bulv. No:101, Yıldızova",
+  "merchantAddress": "Atatürk Bulv. No:101 Yıldızova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-11-04T15:05:00",
@@ -12,64 +12,45 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AA PIL 10'LU PAKET «20 *169,90",
-    "translationEn": "",
-    "qty": 10,
+    "rawText": "AA PIL 10'LU PAKET",
+    "translationEn": "AA batteries 10-pack",
+    "qty": 1,
     "unitPriceMinor": 16990,
     "amountMinor": 16990,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "İNDİRİM 420 *-16,99",
-    "translationEn": "",
-    "qty": 420,
-    "unitPriceMinor": -1699,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": -1699,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "MİNİ BEBEK BEZİ 4 NO 420 *289,90",
-    "translationEn": "",
-    "qty": 420,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4",
+    "qty": 1,
     "unitPriceMinor": 28990,
     "amountMinor": 28990,
     "taxRateBp": null
-   },
-   {
-    "lineNo": 4,
-    "rawText": "420 MATRAH 369,01 *73,80",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 36901,
-    "amountMinor": 36901,
-    "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 44281,
+  "subtotalMinor": null,
   "taxMinor": 7380,
   "taxIncluded": false,
   "totalMinor": 44281,
   "pii": [
    {
-    "kind": "phone",
-    "text": "0 555 000 00 63",
+    "kind": "member_id",
+    "text": "9309880230",
     "bbox": {
-     "x": 0.40896980916885733,
-     "y": 0.26590658819049,
-     "w": 0.22033689164897957,
-     "h": 0.02463966857549027
-    }
-   },
-   {
-    "kind": "other",
-    "text": "0000000063",
-    "bbox": {
-     "x": 0.4551382121306811,
-     "y": 0.3005166391387516,
-     "w": 0.14639958804885472,
-     "h": 0.02124889432598731
+     "x": 0.6862519659077798,
+     "y": 0.7387702249934989,
+     "w": 0.14644323328271291,
+     "h": 0.02215766594500901
     }
    },
    {
@@ -83,16 +64,6 @@
     }
    },
    {
-    "kind": "member_id",
-    "text": "9309880230",
-    "bbox": {
-     "x": 0.6862519659077798,
-     "y": 0.7387702249934989,
-     "w": 0.14644323328271291,
-     "h": 0.02215766594500901
-    }
-   },
-   {
     "kind": "name",
     "text": "AYŞE DEMİRKAN",
     "bbox": {
@@ -103,7 +74,7 @@
     }
    }
   ],
-  "readability": "good"
+  "readability": "poor"
  },
  "classifications": [
   {
@@ -112,7 +83,7 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need.",
+   "reasonEn": "A 10-pack of AA batteries counts toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -121,47 +92,119 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The discount line needs further review to determine its eligibility.",
+   "reasonEn": "The discount line needs review to determine its eligibility.",
    "confidence": 0.5
   },
   {
    "lineNo": 3,
    "needId": "diapers",
-   "needQty": 420,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Size 4 diapers are a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Matresses are not a listed need.",
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "2127043c8e38fb438e7194a419ff51381860dae0cc44325667823d20e535612c",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1141,
-   "tokensOut": 430,
-   "usdCeiling": 0.016562,
-   "usdActual": 0.002289
+   "tokensIn": 2539,
+   "tokensOut": 662,
+   "usdCeiling": 0.02471,
+   "usdActual": 0.00415
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1135,
-   "tokensOut": 161,
-   "usdCeiling": 0.016383,
-   "usdActual": 0.001423
+   "tokensIn": 1841,
+   "tokensOut": 133,
+   "usdCeiling": 0.018964,
+   "usdActual": 0.001898
   }
  ],
  "latencyMs": {
-  "read": 6936,
-  "classify": 1702
+  "read": 5853,
+  "classify": 1311
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ESS",
+   "EVİM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yıldızova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARİH: 04.11.2026 15:05 FİŞ NO: 5640",
+   "AA PIL 10'LU PAKET «20 *169,90",
+   "İNDİRİM 420 *-16,99",
+   "MİNİ BEBEK BEZİ 4 NO 420 *289,90",
+   "KDV 420 MATRAH 369,01 *73,80",
+   "| TOPKDV *73,80",
+   "TOPLAM *442,81",
+   "KREDI KARTI *442,81",
+   "28K eK dock 0229",
+   "| MÜŞTERİ KARTI 9309880230",
+   "| AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ",
+   "h,"
+  ],
+  "reread": [
+   "ESS",
+   "EVİM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yıldızova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARİH: 04.11.2026 15:05 FİŞ NO: 5640",
+   "AA PIL 10'LU PAKET «20 *169,90",
+   "İNDİRİM 420 *-16,99",
+   "MİNİ BEBEK BEZİ 4 NO 420 *289,90",
+   "KDV 420 MATRAH 369,01 *73,80",
+   "| TOPKDV *73,80",
+   "TOPLAM *442,81",
+   "KREDI KARTI *442,81",
+   "28K eK dock 0229",
+   "| MÜŞTERİ KARTI 9309880230",
+   "| AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ",
+   "h,"
+  ],
+  "photoNumbers": [
+   "EVIM YAPI MARKET",
+   "Atatürk Bulv. No:101",
+   "Yıldızova",
+   "TEL 0 555 000 00 63",
+   "VKN: 0000000063",
+   "TARIH: 04.11.2026 15:05",
+   "FIŞ NO: 5640",
+   "AA PİL 10'LU PAKET",
+   "%20 *169,90",
+   "İNDİRİM",
+   "%20 *-16,99",
+   "MİNİ BEBÊK BEZI 4 NO",
+   "%20 *289,90",
+   "KDV %20 MATRAH 369,01",
+   "*73,80",
+   "TOPKDV",
+   "*73,80",
+   "TOPLAM",
+   "*442,81"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   }
+  ]
+ }
 }

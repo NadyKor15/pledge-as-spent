@@ -12,84 +12,57 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AA ALKALINE 24PK $15.99 T",
-    "translationEn": "",
-    "qty": 24,
-    "unitPriceMinor": 1599,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries 24 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 1599,
-    "taxRateBp": 725
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "AA BATTERY 8PK $15.98 T",
-    "translationEn": "",
-    "qty": 8,
-    "unitPriceMinor": 1598,
-    "amountMinor": 1598,
-    "taxRateBp": 725
-   },
-   {
-    "lineNo": 3,
-    "rawText": "2 @ $7.99",
-    "translationEn": "",
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries 8 pack",
     "qty": 2,
     "unitPriceMinor": 799,
     "amountMinor": 1598,
-    "taxRateBp": 725
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POTATO CHIPS",
+    "translationEn": "Potato chips",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 349,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "POTATO CHIPS $3.49 T",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": 349,
-    "amountMinor": 349,
-    "taxRateBp": 725
+    "rawText": "PURE WTR 1GAL 4CT",
+    "translationEn": "Water 1 gallon 4 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 549,
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "PURE WTR 1GAL 4CT $5.49 F",
-    "translationEn": "",
-    "qty": 4,
-    "unitPriceMinor": 549,
-    "amountMinor": 799,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 6,
-    "rawText": "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
-    "translationEn": "",
-    "qty": 38,
-    "unitPriceMinor": 3747,
-    "amountMinor": 799,
-    "taxRateBp": 725
-   },
-   {
-    "lineNo": 7,
-    "rawText": "3 @ $12.49",
-    "translationEn": "",
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Diapers size 3 38 count",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
-    "taxRateBp": 725
+    "taxRateBp": 1000
    },
    {
-    "lineNo": 8,
-    "rawText": "MILK 1GAL $7.78 F",
-    "translationEn": "",
-    "qty": null,
-    "unitPriceMinor": 778,
-    "amountMinor": 778,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 9,
-    "rawText": "2 @ $3.89",
-    "translationEn": "",
+    "lineNo": 6,
+    "rawText": "MILK 1GAL",
+    "translationEn": "Milk 1 gallon",
     "qty": 2,
     "unitPriceMinor": 389,
     "amountMinor": 778,
-    "taxRateBp": 725
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 8620,
@@ -98,16 +71,6 @@
   "totalMinor": 9149,
   "pii": [
    {
-    "kind": "name",
-    "text": "AVA PRESCOTT",
-    "bbox": {
-     "x": 0.16214847304115276,
-     "y": 0.774226745055321,
-     "w": 0.1786274487757486,
-     "h": 0.017686438927298043
-    }
-   },
-   {
     "kind": "member_id",
     "text": "2356750201",
     "bbox": {
@@ -115,6 +78,16 @@
      "y": 0.8089529391277972,
      "w": 0.14389975069572314,
      "h": 0.016950069483708363
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.16214847304115276,
+     "y": 0.774226745055321,
+     "w": 0.1786274487757486,
+     "h": 0.017686438927298043
     }
    }
   ],
@@ -127,16 +100,16 @@
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries in 24-pack count toward the batteries need.",
+   "reasonEn": "AA alkaline batteries in a 24 pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "batteries",
-   "needQty": 8,
+   "needQty": 16,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries in 8-pack count toward the batteries need.",
+   "reasonEn": "AA batteries in an 8 pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -144,84 +117,146 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The item is not specified and does not match any need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Potato chips are not one of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Potato chips are not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
    "needId": "water",
    "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "1 gallon jugs of water count toward the water need.",
+   "reasonEn": "Water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Diapers size 3 count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": "diapers",
-   "needQty": 38,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Size 3 diapers count toward the diapers need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The item is not specified and does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Milk is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The item is not specified and does not match any need.",
+   "reasonEn": "Milk is not one of the listed needs.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "ad4b6766e098abfafe32a2c942ab739d338f21805902ef82624d82eb249521da",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1143,
-   "tokensOut": 522,
-   "usdCeiling": 0.016664,
-   "usdActual": 0.002585
+   "tokensIn": 3636,
+   "tokensOut": 784,
+   "usdCeiling": 0.024816,
+   "usdActual": 0.005418
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1274,
-   "tokensOut": 405,
-   "usdCeiling": 0.01683,
-   "usdActual": 0.002315
+   "tokensIn": 1950,
+   "tokensOut": 256,
+   "usdCeiling": 0.01931,
+   "usdActual": 0.002379
   }
  ],
  "latencyMs": {
-  "read": 6206,
-  "classify": 3309
+  "read": 5718,
+  "classify": 2233
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK $15.99 T",
+   "AA BATTERY 8PK $15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS $3.49 T",
+   "PURE WTR 1GAL 4CT $5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL $7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL $86.20",
+   "SALES TAX 7.25% $5.29",
+   "TOTAL $91.49",
+   "CASH $100.00",
+   "CHANGE $8.51",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2356750201",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK $15.99 T",
+   "AA BATTERY 8PK $15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS $3.49 T",
+   "PURE WTR 1GAL 4CT $5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL $7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL $86.20",
+   "SALES TAX 7.25% $5.29",
+   "TOTAL $91.49",
+   "CASH $100.00",
+   "CHANGE $8.51",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2356750201",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM",
+   "REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK",
+   "$15.99 T",
+   "AA BATTERY 8PK",
+   "$15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS",
+   "$3.49 T",
+   "PURE WTR 1GAL 4CT",
+   "$5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT",
+   "$37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL",
+   "$7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL",
+   "$86.20",
+   "SALES TAX 7.25%",
+   "$5.29",
+   "TOTAL",
+   "$91.49"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

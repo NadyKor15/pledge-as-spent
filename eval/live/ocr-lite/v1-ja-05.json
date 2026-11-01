@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市港町 2-8-1",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2029-11-09T14:38:00",
+  "purchasedAt": "2026-11-04T14:38:00",
   "receiptNumber": "4174",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "北空の天然水 2L",
-    "translationEn": "North Sky Natural Water 2L",
+    "translationEn": "Hoku Sora natural water 2L",
     "qty": 2,
     "unitPriceMinor": 128,
     "amountMinor": 256,
@@ -21,24 +21,33 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ノート AS",
-    "translationEn": "Notebook AS",
+    "rawText": "値引 -",
+    "translationEn": "",
     "qty": 1,
-    "unitPriceMinor": 148,
-    "amountMinor": 148,
-    "taxRateBp": 1000
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ソフトキッズおむつ L",
-    "translationEn": "Soft Kids Diapers L",
-    "qty": 34,
+    "rawText": "ノート AS",
+    "translationEn": "Notebook AS",
+    "qty": 2,
+    "unitPriceMinor": 148,
+    "amountMinor": 296,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ソフトキッズおむつ L 34 枚",
+    "translationEn": "Soft Kids Diapers L 34 pieces",
+    "qty": 1,
     "unitPriceMinor": 38,
     "amountMinor": 1298,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 4,
+    "lineNo": 5,
     "rawText": "チョコレート",
     "translationEn": "Chocolate",
     "qty": 1,
@@ -47,37 +56,37 @@
     "taxRateBp": 800
    },
    {
-    "lineNo": 5,
+    "lineNo": 6,
     "rawText": "単 3 電池 16 本入",
-    "translationEn": "Single 3 Battery 16 pack",
-    "qty": 16,
-    "unitPriceMinor": null,
+    "translationEn": "AA battery 16 pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
     "amountMinor": 1194,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 6,
+    "lineNo": 7,
     "rawText": "単 3 形 4 本入",
-    "translationEn": "Single 3 4 pack",
-    "qty": 4,
+    "translationEn": "AAA battery 4 pack",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 258,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    }
   ],
   "subtotalMinor": 3390,
   "taxMinor": 344,
   "taxIncluded": false,
-  "totalMinor": 3399,
+  "totalMinor": 3390,
   "pii": [
    {
     "kind": "card_number",
-    "text": "8931",
+    "text": "本 本 ネ 末 ネネ ネネ 8931",
     "bbox": {
-     "x": 0.7404825370114964,
-     "y": 0.7743570006866145,
-     "w": 0.059963612457414106,
-     "h": 0.02529307229968314
+     "x": 0.5623221806157003,
+     "y": 0.7690701591980855,
+     "w": 0.2381239688532102,
+     "h": 0.03057991378821212
     }
    }
   ],
@@ -90,17 +99,17 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "North Sky Natural Water 2L counts toward the water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Notebooks are not a listed need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": null,
+   "reasonEn": "Discount lines do not specify what they apply to, so we cannot tell if they are eligible.",
+   "confidence": 0.8
   },
   {
    "lineNo": 3,
@@ -108,56 +117,144 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Soft Kids Diapers L do not match the size M diapers need.",
-   "confidence": 0.95
+   "reasonEn": "Notebooks are not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size L diapers count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Chocolate is not a listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": "batteries",
-   "needQty": 16,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Single 3 Battery 16 pack counts toward the AA batteries need.",
-   "confidence": 0.95
+   "reasonEn": "Chocolate is not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 6,
    "needId": "batteries",
-   "needQty": 4,
+   "needQty": 48,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Single 3 4 pack counts toward the AA batteries need.",
+   "reasonEn": "AA batteries count toward the batteries need.",
    "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "440e70dc58b8cac51cb1557c30aca5e45be82e251030ff117c8b45de600aa594",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1212,
-   "tokensOut": 453,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000181
+   "tokensIn": 3207,
+   "tokensOut": 558,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.00032700000000000003
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1191,
-   "tokensOut": 279,
-   "usdCeiling": 0.001246,
-   "usdActual": 0.000138
+   "tokensIn": 1991,
+   "tokensOut": 274,
+   "usdCeiling": 0.001453,
+   "usdActual": 0.000185
   }
  ],
  "latencyMs": {
-  "read": 2915,
-  "classify": 1769
+  "read": 4654,
+  "classify": 1943
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL @123-45-6789",
+   "登録番号 T9999109099427",
+   "2926 年 11 月 94 日 ( 水 ) 14:38",
+   "レジ @3 No.4174",
+   "北空の天然水 2L ¥256※",
+   "2m x 単 128",
+   "値引 -¥46※",
+   "ノート AS ¥296",
+   "2m x M148",
+   "ソフトキッズおむつ L 34 枚 ¥1,298",
+   "チョコレート ¥128※",
+   "単 3 電池 16 本入 ¥1,194",
+   "3 点 x 単 398",
+   "単 3 形 4 本入 ¥258",
+   "小計 (6 点 ) ¥3,390",
+   "8% 対象 ¥344",
+   "16% 対象 ¥3,046",
+   "(内消費税等 8* ¥25)",
+   "(内消費税等 1es ¥276)",
+   "合計 ¥3,399",
+   "クレジット本本ネ末ネネネネ 8931",
+   "お支払い ¥3,390",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL @123-45-6789",
+   "登録番号 T9999109099427",
+   "2926 年 11 月 94 日 ( 水 ) 14:38",
+   "レジ @3 No.4174",
+   "北空の天然水 2L ¥256※",
+   "2m x 単 128",
+   "値引 -¥46※",
+   "ノート AS ¥296",
+   "2m x M148",
+   "ソフトキッズおむつ L 34 枚 ¥1,298",
+   "チョコレート ¥128※",
+   "単 3 電池 16 本入 ¥1,194",
+   "3 点 x 単 398",
+   "単 3 形 4 本入 ¥258",
+   "小計 (6 点 ) ¥3,390",
+   "8% 対象 ¥344",
+   "16% 対象 ¥3,046",
+   "(内消費税等 8* ¥25)",
+   "(内消費税等 1es ¥276)",
+   "合計 ¥3,399",
+   "クレジット本本ネ末ネネネネ 8931",
+   "お支払い ¥3,390",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-45-6789 2026年11月04日(木) 14:38 No.4174 ¥256 2 x ¥128 -¥40 ¥296 2 x ¥148 ¥1,298 ¥128 ¥1,194 3 x ¥398 ¥258 ¥3,390 ¥344 ¥3,046 ¥25 ¥276 ¥3,390"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "46",
+    "to": "40"
+   }
+  ]
+ }
 }

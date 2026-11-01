@@ -12,180 +12,99 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "HEDİYE KARTI 500 TL *500,00",
-    "translationEn": "",
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
     "qty": 1,
-    "unitPriceMinor": 50000,
+    "unitPriceMinor": null,
     "amountMinor": 50000,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
-    "translationEn": "",
-    "qty": 20,
-    "unitPriceMinor": 27900,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diapers size 3 pack of 44",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 27900,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "EKMEK 301 *36,00",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 3600,
-    "amountMinor": 3600,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 4,
-    "rawText": "3 x 12,00",
-    "translationEn": "",
+    "rawText": "EKMEK 301",
+    "translationEn": "Bread",
     "qty": 3,
     "unitPriceMinor": 1200,
     "amountMinor": 3600,
     "taxRateBp": null
    },
    {
-    "lineNo": 5,
-    "rawText": "BATTANİYE TEK KİŞİLİK 420 *449,00",
-    "translationEn": "",
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Single blanket",
     "qty": 1,
-    "unitPriceMinor": 44900,
+    "unitPriceMinor": null,
     "amountMinor": 44900,
     "taxRateBp": null
    },
    {
-    "lineNo": 6,
-    "rawText": "DEFTER AS «20 *42,00",
-    "translationEn": "",
-    "qty": 20,
-    "unitPriceMinor": 4200,
+    "lineNo": 5,
+    "rawText": "DEFTER AS",
+    "translationEn": "Notebook",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 4200,
     "taxRateBp": null
    },
    {
-    "lineNo": 7,
-    "rawText": "MİNİ BEBEK BEZİ 4 NO 520 *579,80",
-    "translationEn": "",
-    "qty": 520,
-    "unitPriceMinor": 57980,
-    "amountMinor": 57980,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 8,
-    "rawText": "2 x 289,90",
-    "translationEn": "",
+    "lineNo": 6,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4",
     "qty": 2,
     "unitPriceMinor": 28990,
     "amountMinor": 57980,
     "taxRateBp": null
    },
    {
-    "lineNo": 9,
-    "rawText": "AA KALEM PİL 4'LÜ 420 *159,80",
-    "translationEn": "",
-    "qty": 420,
-    "unitPriceMinor": 15980,
-    "amountMinor": 15980,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 10,
-    "rawText": "2 x 79,98",
-    "translationEn": "",
+    "lineNo": 7,
+    "rawText": "AA KALEM PİL 4'LÜ",
+    "translationEn": "AA batteries pack of 4",
     "qty": 2,
-    "unitPriceMinor": 7998,
-    "amountMinor": 15996,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 11,
-    "rawText": "İNDİRİM «20 *-7,99",
-    "translationEn": "",
-    "qty": 20,
-    "unitPriceMinor": 799,
+    "unitPriceMinor": 7990,
     "amountMinor": 15980,
     "taxRateBp": null
    },
    {
-    "lineNo": 12,
-    "rawText": "KAYNAK SU 5 LT »10 *98,00",
-    "translationEn": "",
-    "qty": 10,
-    "unitPriceMinor": 9800,
-    "amountMinor": 9800,
+    "lineNo": 8,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -799,
     "taxRateBp": null
    },
    {
-    "lineNo": 13,
-    "rawText": "4x 24,50",
-    "translationEn": "",
+    "lineNo": 9,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
     "qty": 4,
     "unitPriceMinor": 2450,
-    "amountMinor": 98000,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 14,
-    "rawText": "KDV %1 MATRAH 35,64 *0,36",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 36,
-    "amountMinor": 36,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 15,
-    "rawText": "KDV %1@ MATRAH 89,09 *8,91",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 8909,
-    "amountMinor": 8909,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 16,
-    "rawText": "KDV %2@ MATRAH 1.251,34 «250,27",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 25027,
-    "amountMinor": 25027,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 17,
-    "rawText": "TOPKDV *259,54",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 25954,
-    "amountMinor": 25954,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 18,
-    "rawText": "TOPLAM *2.135,61",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 213561,
-    "amountMinor": 213561,
+    "amountMinor": 9800,
     "taxRateBp": null
    }
   ],
-  "subtotalMinor": 213561,
+  "subtotalMinor": null,
   "taxMinor": 25954,
   "taxIncluded": false,
   "totalMinor": 213561,
   "pii": [
    {
     "kind": "card_number",
-    "text": "9366",
+    "text": "Aololok eK KK 9366",
     "bbox": {
-     "x": 0.4125979255243761,
+     "x": 0.18974523539939864,
      "y": 0.8357996668638746,
-     "w": 0.058546445320250884,
-     "h": 0.015507736885220225
+     "w": 0.2813991354452283,
+     "h": 0.01986006611453528
     }
    }
   ],
@@ -198,29 +117,237 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded.",
+   "reasonEn": "Gift cards are not funded by this drive.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size 3 diapers are not the size this drive needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A single blanket counts toward the blankets need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not one of the needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 4 AA batteries counts toward the batteries need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The nature of the discount is unclear.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 5 L bottles counts toward the water need.",
    "confidence": 1
   }
  ],
+ "classifiedFor": "de329f11eb432c8ac6cafa75ac26153960401b08bf78ff1c22f8e1ddc054accb",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1310,
-   "tokensOut": 951,
-   "usdCeiling": 0.016801,
-   "usdActual": 0.004091
+   "tokensIn": 3337,
+   "tokensOut": 1216,
+   "usdCeiling": 0.024951,
+   "usdActual": 0.00656
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1699,
-   "tokensOut": 732,
-   "usdCeiling": 0.017743,
-   "usdActual": 0.003702
+   "tokensIn": 2080,
+   "tokensOut": 344,
+   "usdCeiling": 0.019609,
+   "usdActual": 0.002765
   }
  ],
  "latencyMs": {
-  "read": 11830,
-  "classify": 5900
+  "read": 8884,
+  "classify": 2867
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "sanan dual iŞ",
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 09 42",
+   "VKN: 0000000042",
+   "TARİH: 09.11.2026 19:17 FİŞ NO: 9609",
+   "HEDİYE KARTI 500 TL *500,00",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "EKMEK 301 *36,00",
+   "3 x 12,00",
+   "BATTANİYE TEK KİŞİLİK 420 *449,00",
+   "DEFTER AS «20 *42,00",
+   "MİNİ BEBEK BEZİ 4 NO 520 *579,80",
+   "2 x 289,90",
+   "AA KALEM PİL 4'LÜ 420 *159,80",
+   "2 x 79,98",
+   "İNDİRİM «20 *-7,99",
+   "KAYNAK SU 5 LT »10 *98,00",
+   "4x 24,50",
+   "KDV %1 MATRAH 35,64 *0,36",
+   "KDV %1@ MATRAH 89,09 *8,91",
+   "KDV %2@ MATRAH 1.251,34 «250,27",
+   "TOPKDV *259,54",
+   "TOPLAM *2.135,61",
+   "KREDİ KARTI *2.135,61",
+   "Aololok eK KK 9366",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "sanan dual iŞ",
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 09 42",
+   "VKN: 0000000042",
+   "TARİH: 09.11.2026 19:17 FİŞ NO: 9609",
+   "HEDİYE KARTI 500 TL *500,00",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "EKMEK 301 *36,00",
+   "3 x 12,00",
+   "BATTANİYE TEK KİŞİLİK 420 *449,00",
+   "DEFTER AS «20 *42,00",
+   "MİNİ BEBEK BEZİ 4 NO 520 *579,80",
+   "2 x 289,90",
+   "AA KALEM PİL 4'LÜ 420 *159,80",
+   "2 x 79,98",
+   "İNDİRİM «20 *-7,99",
+   "KAYNAK SU 5 LT »10 *98,00",
+   "4x 24,50",
+   "KDV %1 MATRAH 35,64 *0,36",
+   "KDV %1@ MATRAH 89,09 *8,91",
+   "KDV %2@ MATRAH 1.251,34 «250,27",
+   "TOPKDV *259,54",
+   "TOPLAM *2.135,61",
+   "KREDİ KARTI *2.135,61",
+   "Aololok eK KK 9366",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarş1 Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 09.11.2026 19:17",
+   "FİŞ NO: 9609",
+   "HEDİYE KARTI 500 TL",
+   "*500,00",
+   "BEBĞK BEZI 3 NO 44'LÜ",
+   "%20 *279,00",
+   "EKMEK",
+   "%01 *36,00",
+   "3 X 12,00",
+   "BATTANiYE TEK KİŞİLİK",
+   "%20 *449,00",
+   "DEFTER A5",
+   "%20 *42,00",
+   "MİNİ BEBĞK BEZI 4 NO",
+   "%20 *579,80",
+   "2 X 289,90",
+   "AA KAŁEM PİL 4'LÜ",
+   "%20 *159,80",
+   "2 X 79,90",
+   "INDIRIM",
+   "%20 *-7,99",
+   "KAYNAKSÜ 5 LT",
+   "%10 *98,00",
+   "4 X 24,50",
+   "KDV %1 MATRAH 35,64",
+   "*0,36",
+   "KDV %10 MATRAH 89,09",
+   "*8,91",
+   "KDV %20 MATRAH 1.251,34",
+   "*250,27",
+   "TOPKDV",
+   "*259,54",
+   "TOPLAM",
+   "*2.135,61",
+   "KREDİ KARTI"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "09",
+    "to": "00"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "520",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "79,98",
+    "to": "79,90"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
 }

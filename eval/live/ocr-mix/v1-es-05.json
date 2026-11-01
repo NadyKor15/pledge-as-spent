@@ -1,0 +1,257 @@
+{
+ "receiptId": "v1-es-05",
+ "set": "v1",
+ "imageSha256": "1a48b154e75dd68aed07113e2978814877e736e2e7d59b646ac3b20bd9caabfd",
+ "reading": {
+  "merchantName": "FERRETERIA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T08:53:00",
+  "receiptNumber": "2571",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAÑALES T4 40U",
+    "translationEn": "Diapers size T4 40 units",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 895,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack of 6",
+    "qty": 2,
+    "unitPriceMinor": 329,
+    "amountMinor": 658,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12 rolls",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 449,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "MANTA POLAR",
+    "translationEn": "Polar blanket 130x160",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1299,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline battery 4 units",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -70,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 370,
+  "taxIncluded": true,
+  "totalMinor": 3929,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "seek follar tock 7289 |",
+    "bbox": {
+     "x": 0.16701017911230487,
+     "y": 0.7885380006851725,
+     "w": 0.7206740314010721,
+     "h": 0.05633470373056315
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Diapers size T4 are not the size 3 this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A polar blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The promotion discount is unclear and requires review.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "b51643079787e8344550840951690b862fc8f4ebef0fefa1a889f918d372bafb",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3763,
+   "tokensOut": 625,
+   "usdCeiling": 0.017681000000000002,
+   "usdActual": 0.0024809999999999997
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1965,
+   "tokensOut": 257,
+   "usdCeiling": 0.019322,
+   "usdActual": 0.002394
+  }
+ ],
+ "latencyMs": {
+  "read": 5652,
+  "classify": 2176
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 2571",
+   "06/11/2026 08:53 CAJA 04",
+   "DESCRIPCIÓN IMPORTE",
+   "PAÑALES T4 40U 8,95 A",
+   "AGUA 1,5L PACK 6 6,58 A",
+   "2x3,29",
+   "PAPEL HIGIÉNICO 12R 4,49 B",
+   "MANTA POLAR 12,99 B",
+   "130X160",
+   "PILA AA ALCALINA 4U 6,98 B",
+   "2 x 3,49",
+   "DTO. PROMOCIÓN 4,70 B",
+   "TOTAL (IVA INCLUIDO) 39,29 EUR",
+   "A IVA 10% BASE 14,12 CUOTA 1,41",
+   "B IVA 21% BASE 19,64 CUOTA 4,12",
+   "PAGO TARJETA 39,29 4",
+   "seek follar tock 7289",
+   "GRACIAS POR SU VISITA",
+   "4",
+   "ss"
+  ],
+  "reread": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 2571",
+   "06/11/2026 08:53 CAJA 04",
+   "DESCRIPCIÓN IMPORTE",
+   "PAÑALES T4 40U 8,95 A",
+   "AGUA 1,5L PACK 6 6,58 A",
+   "2x3,29",
+   "PAPEL HIGIÉNICO 12R 4,49 B",
+   "MANTA POLAR 12,99 B",
+   "130X160",
+   "PILA AA ALCALINA 4U 6,98 B",
+   "2 x 3,49",
+   "DTO. PROMOCIÓN 4,70 B",
+   "TOTAL (IVA INCLUIDO) 39,29 EUR",
+   "A IVA 10% BASE 14,12 CUOTA 1,41",
+   "B IVA 21% BASE 19,64 CUOTA 4,12",
+   "PAGO TARJETA 39,29 4",
+   "seek follar tock 7289",
+   "GRACIAS POR SU VISITA",
+   "4",
+   "ss"
+  ],
+  "photoNumbers": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA",
+   "N° 2571",
+   "06/11/2026 08:53",
+   "CAJA 04",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PAÑALES T4 40U",
+   "8,95 A",
+   "AGUA 1,5L PACK 6",
+   "6,58 A",
+   "2 X 3,29",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 B",
+   "MANTA POLAR",
+   "12,99 B",
+   "130X160",
+   "PILA AA ALCALIN4 4U",
+   "6,98 B",
+   "2 X 3,49",
+   "DTO. PROMOCIÓN",
+   "-0,70 B",
+   "TOTAL (IVA INCLUIDO)",
+   "39,29 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "4,70",
+    "to": "0,70"
+   }
+  ]
+ }
+}

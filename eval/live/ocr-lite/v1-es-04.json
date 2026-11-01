@@ -7,50 +7,50 @@
   "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
-  "purchasedAt": "2026-04-11T20:36:00",
+  "purchasedAt": "2026-11-04T20:36:00",
   "receiptNumber": "8426",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "PAPEL HIGIÉNICO 12R",
-    "translationEn": "Toilet paper 12R",
+    "translationEn": "Toilet paper 12 rolls",
     "qty": 1,
     "unitPriceMinor": 449,
     "amountMinor": 449,
-    "taxRateBp": 1000
+    "taxRateBp": 2100
    },
    {
     "lineNo": 2,
     "rawText": "PILA AA ALCALINA 4U",
-    "translationEn": "Alkaline AA battery 4U",
-    "qty": 4,
-    "unitPriceMinor": null,
+    "translationEn": "Alkaline AA battery 4 pack",
+    "qty": 2,
+    "unitPriceMinor": 349,
     "amountMinor": 698,
-    "taxRateBp": 1000
+    "taxRateBp": 2100
    },
    {
     "lineNo": 3,
     "rawText": "PILAS AA LR6 8U",
-    "translationEn": "LR6 AA batteries 8U",
-    "qty": 2,
+    "translationEn": "AA LR6 battery 8 pack",
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 349,
-    "taxRateBp": 1000
+    "amountMinor": 599,
+    "taxRateBp": 2100
    }
   ],
-  "subtotalMinor": 1443,
+  "subtotalMinor": null,
   "taxMinor": 303,
   "taxIncluded": true,
   "totalMinor": 1746,
   "pii": [
    {
-    "kind": "other",
+    "kind": "card_number",
     "text": "Ao aloja ola 5572",
     "bbox": {
-     "x": 0.38563066642553023,
-     "y": 0.7688885832487597,
-     "w": 0.055846342061422416,
-     "h": 0.018360247613748992
+     "x": 0.16690612933781596,
+     "y": 0.7595378022317777,
+     "w": 0.2745708791491367,
+     "h": 0.02771102863073105
     }
    }
   ],
@@ -63,29 +63,112 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Toilet paper is not a listed need.",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA LR6 batteries count toward the batteries need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "85b69f52909b670dc9193f53fcf178c9fba593cdf3c0066a28167fd8fdbdcfd9",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1091,
-   "tokensOut": 311,
-   "usdCeiling": 0.001242,
-   "usdActual": 0.00014
+   "tokensIn": 2525,
+   "tokensOut": 524,
+   "usdCeiling": 0.0018540000000000002,
+   "usdActual": 0.000277
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1082,
-   "tokensOut": 51,
-   "usdCeiling": 0.001223,
-   "usdActual": 0.000077
+   "tokensIn": 1851,
+   "tokensOut": 131,
+   "usdCeiling": 0.001425,
+   "usdActual": 0.000143
   }
  ],
  "latencyMs": {
-  "read": 1939,
-  "classify": 698
+  "read": 3814,
+  "classify": 1003
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 8426",
+   "04/11/2026 20:36",
+   "CAJA 05",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 A",
+   "PILA AA ALCALINÁ 4U",
+   "6,98 A",
+   "2 X 3,49",
+   "PILAS AA LR6 8U",
+   "5,99 A",
+   "TOTAL (IVA INCLUIDO)",
+   "17,46 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

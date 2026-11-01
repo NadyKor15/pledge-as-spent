@@ -1,0 +1,285 @@
+{
+ "receiptId": "v1-tr-05",
+ "set": "v1",
+ "imageSha256": "125aca8c57f13e4c1b85875ee6750c677d760c606019a16bc0bb1650c65d0b9b",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T19:41:00",
+  "receiptNumber": "3867",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 1,
+    "unitPriceMinor": 2450,
+    "amountMinor": 2450,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries 10-pack",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SÜT 1 LT s10¢",
+    "translationEn": "Milk 1 L",
+    "qty": 1,
+    "unitPriceMinor": 3850,
+    "amountMinor": 3850,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Single blanket",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "KAYNAK SU @,5L 12'Lİ",
+    "translationEn": "Spring water 0.5L 12-pack",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DAĞ SUYU 5 L",
+    "translationEn": "Mountain water 5 L",
+    "qty": 2,
+    "unitPriceMinor": 2190,
+    "amountMinor": 4380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": -657,
+    "amountMinor": -657,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 19208,
+  "taxIncluded": false,
+  "totalMinor": 122303,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 10-pack of AA batteries counts toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A single blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spring water in 0.5 L bottles does not match the 5 L need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line needs review to determine its impact on the eligible items.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "26c03ea3ca91117cb39b4aca236ecd84b5b09e6e2bb6ca51f8a5fca896ec19ed",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2983,
+   "tokensOut": 1034,
+   "usdCeiling": 0.017654000000000003,
+   "usdActual": 0.003518
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2006,
+   "tokensOut": 293,
+   "usdCeiling": 0.019389,
+   "usdActual": 0.002542
+  }
+ ],
+ "latencyMs": {
+  "read": 7954,
+  "classify": 2432
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL @ 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 08.11.2026 19:41 FİŞ NO: 3867",
+   "KAYNAK SU 5 LT *10 *24,50",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "SÜT 1 LT s1¢ *38,50",
+   "BATTANİYE TEK KİŞİLİK 420 *898,00",
+   "2 x 449,00",
+   "KAYNAK SU @,5L 12'Lİ 410 *54,90",
+   "DAĞ SUYU 5 L 410 *43,80",
+   "2 x 21,99",
+   "İNDİRİM #10 *-6,57",
+   "KDV %1@ MATRAH 141,03 *14,10",
+   "KDV 420 MATRAH 889,92 «177,98",
+   "TOPKDV *192,08",
+   "TOPLAM *1.223,03",
+   "NAKİT *1.230,00",
+   "PARA USTU *6,97",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL @ 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 08.11.2026 19:41 FİŞ NO: 3867",
+   "KAYNAK SU 5 LT *10 *24,50",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "SÜT 1 LT s1¢ *38,50",
+   "BATTANİYE TEK KİŞİLİK 420 *898,00",
+   "2 x 449,00",
+   "KAYNAK SU @,5L 12'Lİ 410 *54,90",
+   "DAĞ SUYU 5 L 410 *43,80",
+   "2 x 21,99",
+   "İNDİRİM #10 *-6,57",
+   "KDV %1@ MATRAH 141,03 *14,10",
+   "KDV 420 MATRAH 889,92 «177,98",
+   "TOPKDV *192,08",
+   "TOPLAM *1.223,03",
+   "NAKİT *1.230,00",
+   "PARA USTU *6,97",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARIH: 08.11.2026 19:41",
+   "FIS NO: 3867",
+   "KAYNAK SU 5 LT",
+   "%10 *24,50",
+   "AA PÜL 10'LU PAKET",
+   "%20 *169,90",
+   "SÜT 1 LT",
+   "%10 *38,50",
+   "BATTANIYE TEK KISILIK",
+   "%20 *898,00",
+   "2 X 449,00",
+   "KAYNAK SU 0,5L 12'Li",
+   "%10 *54,90",
+   "DAG SUYU 5 L",
+   "%10 *43,80",
+   "2 X 21,90",
+   "INDIRIIM",
+   "%10 *-6,57",
+   "KDV %10 MATRAH 141,03",
+   "*14,10",
+   "KDV %20 MATRAH 889,92",
+   "*177,98",
+   "TOPKDV",
+   "*192,08",
+   "TOPLAM",
+   "*1.223,03"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "410",
+    "to": "10"
+   },
+   {
+    "from": "410",
+    "to": "10"
+   },
+   {
+    "from": "21,99",
+    "to": "21,90"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   }
+  ]
+ }
+}

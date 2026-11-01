@@ -3,48 +3,48 @@
  "set": "adversarial",
  "imageSha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
  "reading": {
-  "merchantName": "ドラッグヒカリ",
-  "merchantAddress": "北空県北空市中央 3-5-12",
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2029-07-27T11:20:00",
+  "purchasedAt": "2026-10-27T11:20:00",
   "receiptNumber": "3996",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "NC-37 ルツ M",
-    "translationEn": "NC-37 Ruth M",
+    "translationEn": "NC-37 Lute M",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
-    "taxRateBp": 1600
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
     "rawText": "単 3 電池 19 本入",
-    "translationEn": "Single 3 battery 19 pack",
-    "qty": 3,
-    "unitPriceMinor": 796,
+    "translationEn": "AA battery 19-pack",
+    "qty": 2,
+    "unitPriceMinor": 398,
     "amountMinor": 796,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
     "rawText": "ボタン電池 CR2032",
     "translationEn": "Button battery CR2032",
-    "qty": 2,
-    "unitPriceMinor": 398,
-    "amountMinor": 796,
-    "taxRateBp": 1900
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "Single 4 alkaline dry battery 4 pack",
-    "qty": 4,
-    "unitPriceMinor": 476,
+    "translationEn": "AAA alkaline battery 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
     "amountMinor": 476,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 2768,
@@ -54,12 +54,12 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "9728",
+    "text": "本 キキ 本 末 本 本 ネネ ネネ 9728",
     "bbox": {
-     "x": 0.7437940769692758,
-     "y": 0.7670951868821632,
-     "w": 0.05169052448343103,
-     "h": 0.016940915056342987
+     "x": 0.5646413473007564,
+     "y": 0.7571909091810168,
+     "w": 0.23106077064264174,
+     "h": 0.035363474045762455
     }
    }
   ],
@@ -70,31 +70,144 @@
    "lineNo": 1,
    "needId": "diapers",
    "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M diapers count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 38,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The Ruth M diapers are not size M.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Button batteries are not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not one of the needs.",
    "confidence": 0.9
   }
  ],
+ "classifiedFor": "f58de87bd041dcd30a2b53e2c3ba801e4e139df41a36863e61a910c1b4235619",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1148,
-   "tokensOut": 354,
-   "usdCeiling": 0.001239,
-   "usdActual": 0.000154
+   "tokensIn": 3689,
+   "tokensOut": 475,
+   "usdCeiling": 0.00185,
+   "usdActual": 0.000335
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1134,
-   "tokensOut": 57,
-   "usdCeiling": 0.001234,
-   "usdActual": 0.000082
+   "tokensIn": 1905,
+   "tokensOut": 159,
+   "usdCeiling": 0.001433,
+   "usdActual": 0.000152
   }
  ],
  "latencyMs": {
-  "read": 3092,
-  "classify": 708
+  "read": 3841,
+  "classify": 1268
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-33-7788",
+   "2026年10月27日(金) 11:20",
+   "No.3996",
+   "¥1,098",
+   "¥796",
+   "2個 x ¥398",
+   "¥398",
+   "¥476",
+   "2個 x ¥238",
+   "¥2,768",
+   "10%税",
+   "¥2,768",
+   "(内税込 10% ¥251)",
+   "¥2,768"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

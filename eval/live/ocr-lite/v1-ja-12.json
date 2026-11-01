@@ -3,79 +3,52 @@
  "set": "v1",
  "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
  "reading": {
-  "merchantName": "ホームセンターツバメ",
+  "merchantName": "ホームセンターツバメ 北空東店",
   "merchantAddress": "空川県北空市東町 7-26",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-06T19:48:00",
+  "purchasedAt": null,
   "receiptNumber": "2816",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パビ - デルツ M ¥1,098",
-    "translationEn": "Pavilion Lights M",
-    "qty": null,
-    "unitPriceMinor": 1098,
+    "rawText": "ぐビーラプがンツ M",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 1098,
     "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "ギフトカード 3,000F Y3,999",
-    "translationEn": "Gift Card 3,000F",
-    "qty": null,
-    "unitPriceMinor": 3000,
-    "amountMinor": 3000,
+    "rawText": "ギフトカード 3,000F",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 3999,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ティッシュ 5 箱 ¥398",
-    "translationEn": "Tissues 5 boxes",
-    "qty": 5,
+    "rawText": "ティッシュ 5 箱",
+    "translationEn": "Tissue 5 boxes",
+    "qty": 1,
     "unitPriceMinor": 398,
     "amountMinor": 398,
-    "taxRateBp": null
+    "taxRateBp": 800
    },
    {
     "lineNo": 4,
-    "rawText": "ミ多 7 ォター 2L Y¥648※",
-    "translationEn": "Water 2L 2 bottles",
-    "qty": 2,
-    "unitPriceMinor": 648,
+    "rawText": "ミ多 7 ォター 2L",
+    "translationEn": "Mita 7 Water 2L",
+    "qty": 6,
+    "unitPriceMinor": 198,
     "amountMinor": 648,
     "taxRateBp": 1000
-   },
-   {
-    "lineNo": 5,
-    "rawText": "6m x 単 198",
-    "translationEn": "6m x single",
-    "qty": null,
-    "unitPriceMinor": 198,
-    "amountMinor": 198,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 6,
-    "rawText": "外税 10* WR ¥1,496 消費税 ¥149",
-    "translationEn": "Tax 10% WR ¥1,496 Tax ¥149",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": 51,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "非課税対象 ¥3,000",
-    "translationEn": "Non-taxable ¥3,000",
-    "qty": null,
-    "unitPriceMinor": null,
-    "amountMinor": 3000,
-    "taxRateBp": null
    }
   ],
   "subtotalMinor": 5144,
-  "taxMinor": 1496,
+  "taxMinor": 648,
   "taxIncluded": false,
   "totalMinor": 5344,
   "pii": [
@@ -98,8 +71,8 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Pavilion Lights M are not a listed need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby pants are not one of the listed needs.",
    "confidence": 0.9
   },
   {
@@ -108,74 +81,105 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded by the drive.",
+   "reasonEn": "A gift card is not one of the listed needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Tissues are not a listed need, but it's unclear if they are needed for the relief effort.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissue is not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": "water",
-   "needQty": 2,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Water 2L bottles count toward the water need.",
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
    "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "6m x single is not a listed need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Tax is not a listed need.",
-   "confidence": 0.9
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Non-taxable items are not a listed need.",
-   "confidence": 0.9
   }
  ],
+ "classifiedFor": "1b314a3257539fdba8afc2bb9fe3b0bafa37126117db48e4d9b8080b67b85883",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1177,
-   "tokensOut": 479,
-   "usdCeiling": 0.001242,
-   "usdActual": 0.000186
+   "tokensIn": 3673,
+   "tokensOut": 2106,
+   "usdCeiling": 0.0018540000000000002,
+   "usdActual": 0.0007260000000000001
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1288,
-   "tokensOut": 269,
-   "usdCeiling": 0.001259,
-   "usdActual": 0.000142
+   "tokensIn": 1883,
+   "tokensOut": 166,
+   "usdCeiling": 0.001429,
+   "usdActual": 0.000153
   }
  ],
  "latencyMs": {
-  "read": 4430,
-  "classify": 1801
+  "read": 12935,
+  "classify": 1184
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "パビ - デルツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "SRW ®",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "ぐビーラプがンツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "ミタマルン柏",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [],
+  "numbersFailed": 1,
+  "repairs": []
+ }
 }

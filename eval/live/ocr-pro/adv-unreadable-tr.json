@@ -2,23 +2,36 @@
  "receiptId": "adv-unreadable-tr",
  "set": "adversarial",
  "imageSha256": "798cd879017d6474026a58f307a0351b4d928aa00610e517bde8ea571b7c085c",
- "reading": null,
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "TRY",
+  "purchasedAt": null,
+  "receiptNumber": null,
+  "lines": [],
+  "subtotalMinor": null,
+  "taxMinor": null,
+  "taxIncluded": null,
+  "totalMinor": 0,
+  "pii": [],
+  "readability": "unreadable"
+ },
  "classifications": null,
+ "classifiedFor": "d3cfe0d627f3541ef24f96a59a5f56830bee263ace4e5b6ae8b7d2c55c5f8c46",
  "usage": [
   {
-   "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 882,
-   "tokensOut": 14,
-   "usdCeiling": 0.016196,
-   "usdActual": 0.00075
+   "model": "none",
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "usdCeiling": 0,
+   "usdActual": 0
   }
  ],
  "latencyMs": {
-  "read": 690,
+  "read": 126,
   "classify": null
  },
- "errors": [
-  "read: ocr read (amazon.nova-pro-v1:0): output does not match the schema: ✖ Invalid input: expected number, received null\n  → at totalMinor",
-  "raw: {\"ocr\":\"j Fi ik\\nSr ei di\",\"structured\":\"RECEIPT: currency=TRY; readability=unreadable\"}"
- ]
+ "errors": [],
+ "trace": null
 }
