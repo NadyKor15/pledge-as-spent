@@ -53,7 +53,7 @@ describe("demo drive replayed from the live sandbox run", () => {
     expect(r.final.holds.find((x) => x.pledgeId === r.walletPledgeId)).toMatchObject({ status: "pending_approval", authorized: 0 });
   });
 
-  // The numbers agreed for the demo, the video and the README (orchestrator, 23.10).
+  // The numbers of the demo, the video and the README.
   it("matches the agreed demo numbers: funded ¥10,448, refused ¥4,198, payout ¥10,448, match ¥5,224", () => {
     const holds = Object.fromEntries(r.final.holds.map((x) => [x.pledgeId.split(".").pop(), x]));
     expect(holds.water).toMatchObject({ donorName: "Lena (Berlin)", donorCountry: "DE", currency: "EUR", pledged: 2000 });

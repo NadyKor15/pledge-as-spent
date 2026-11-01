@@ -12,7 +12,6 @@ import { createPayPalGateway } from "../src/paypal/gateway";
 import { PayPalError } from "../src/paypal/errors";
 import { loadExchanges, recordingFetch, type FetchLike, type RecordedExchange } from "../src/paypal/recording";
 import type { Money } from "../src/core/types";
-import { readVaultSecrets } from "./lib/vault";
 
 const ROOT = path.resolve(__dirname, "..");
 const FIXTURES = path.join(ROOT, "tests/fixtures/paypal/story");
@@ -32,14 +31,9 @@ const m = (currency: Money["currency"], minor: number): Money => ({ currency, mi
 async function main() {
   const startedAt = new Date();
   const runId = startedAt.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
-  const secrets = await readVaultSecrets({
-    project: "retailbox-general",
-    environment: "prod",
-    path: "/retailbox-internal-development",
-    keys: ["PAYPAL_SANDBOX_NADYA_CLIENT_ID", "PAYPAL_SANDBOX_NADYA_SECRET"],
-  });
-  const clientId = secrets.PAYPAL_SANDBOX_NADYA_CLIENT_ID;
-  const clientSecret = secrets.PAYPAL_SANDBOX_NADYA_SECRET;
+  const clientId = process.env.PAYPAL_CLIENT_ID;
+  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+  if (!clientId || !clientSecret) throw new Error("Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET of a sandbox app.");
   const volunteer = process.env.PAYPAL_SANDBOX_VOLUNTEER_EMAIL;
 
   rmSync(FIXTURES, { recursive: true, force: true });
