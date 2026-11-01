@@ -86,6 +86,15 @@ describe("the receipt bot", () => {
     expect(b.urls.some((u) => u.includes("getFile"))).toBe(false);
   });
 
+  it("a file of unknown type is judged by its bytes", async () => {
+    const b = await bot({ hero: heroBytes(), junk: new TextEncoder().encode("this is not an image") });
+    await b.send(16, { document: { file_id: "hero", mime_type: "application/octet-stream" } });
+    expect(b.said.at(-1)).toContain("9 approved, 2 refused");
+    await b.send(17, { document: { file_id: "junk", mime_type: "application/octet-stream" } });
+    expect(b.said.at(-1)).not.toContain("approved");
+    expect(await b.h.db.db.select().from(receipts)).toHaveLength(1);
+  });
+
   it("an oversized photo is refused before it is downloaded", async () => {
     const b = await bot();
     await b.send(6, { photo: [{ file_id: "big", file_size: 9_000_000 }] });
@@ -133,6 +142,14 @@ describe("the receipt bot", () => {
     expect(reply).not.toContain("allowed");
     expect(reply).toContain("you are the coordinator");
     expect(await b.money()).toBe(0);
+  });
+
+  it("a chat's own drive is reused, and new drives from one chat stop at the hourly limit", async () => {
+    const b = await bot();
+    const open = (driveId: string) => b.h.svc.createDemoDrive({ driveId, ip: "telegram:9", enforceLimit: true });
+    for (let i = 0; i < b.h.svc.limits.demoDrivesPerHour; i++) await open(`demo-limit-${i}`);
+    await expect(open("demo-limit-over")).rejects.toMatchObject({ code: "demo_limit" });
+    await expect(open("demo-limit-0")).resolves.toBeTruthy();
   });
 
   it("a local run has no drive link to offer", async () => {

@@ -71,7 +71,9 @@ export async function handleTelegramUpdate(svc: PledgeService, raw: unknown, dep
       await say(`${SANDBOX}\n\nSend a photo of a store receipt and I will read it for the Kitasora drive.\nYour drive: ${link}`);
       return;
     }
-    if (m.document && !m.document.mime_type?.startsWith("image/")) {
+    // Telegram guesses a file's type from its name; an unknown type is judged by its bytes in submitReceipt.
+    const type = m.document?.mime_type;
+    if (m.document && type && type !== "application/octet-stream" && !type.startsWith("image/")) {
       await say("Please send a photo of a receipt. Other files are not read.");
       return;
     }
