@@ -416,6 +416,11 @@ describe("dates and totals from the printed rows", () => {
     expect(out.lines).toMatchObject([{ amountMinor: 1299, qty: 1 }]);
   });
 
+  it("a tax a model did not give as a number is left out, not a failed reading", () => {
+    const out = groundReceipt({ currency: "EUR", taxMinor: "A 0,07 B 1,33", lines: [{ rawText: "AA", amountMinor: 100, lineNo: 1 }] }, rows("AA 1,00 A", "TOTAL 1,00"));
+    expect(out).toMatchObject({ taxMinor: null, totalMinor: 100 });
+  });
+
   it("does not take a store or register number for an amount", () => {
     const out = groundReceipt({ currency: "USD", lines: [{ rawText: "AA BATTERY", amountMinor: 799, lineNo: 1 }] }, rows("CORNER PHARMACY #14", "Brindlewood, NY 12345", "TRANS #2718", "AA BATTERY $7.99 T", "SUBTOTAL $7.99", "TOTAL $7.99"));
     expect((out.lines as { rawText: string }[]).map((l) => l.rawText)).toEqual(["AA BATTERY"]);

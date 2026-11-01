@@ -339,6 +339,8 @@ export function groundReceipt(obj: Record<string, unknown>, rows: { text: string
     }),
   );
   out.lines = clean;
+  // A tax a model wrote in words or as a table ("1,33+2,08") must not cost the whole reading: the rows decide below.
+  if (typeof out.taxMinor !== "number") out.taxMinor = null;
   return { ...out, merchantAddress: completeAddress(obj.merchantAddress, rows), subtotalMinor: null, ...printedTotals(rows, clean as { amountMinor: number }[], exp) };
 }
 
