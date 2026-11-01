@@ -24,7 +24,7 @@ export interface LedgerDonor {
   /** Money the hold still keeps. */
   held: number;
   spentText: string;
-  /** "$8.55" with the word for it: back on a closed hold, held on an open one. */
+  /** What did not go to the shelter, with the word for it: back on a closed hold, held on an open one. */
   restText: string;
   restWord: "back" | "held";
   /** Weights for the arcs, in the drive's currency, so a euro and a yen compare. */

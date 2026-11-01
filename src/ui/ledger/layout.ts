@@ -95,6 +95,11 @@ function spread(points: Point[], gap: number): Point[] {
   return out;
 }
 
+const EDGE = 12;
+const SAMPLES = 120;
+const sample = (a: Point, c: Point, b: Point): Point[] => Array.from({ length: SAMPLES + 1 }, (_, i) => bezier(a, c, b, i / SAMPLES));
+const crossings = (box: Box, line: Point[]) => line.filter((p) => p.x >= box.x - 6 && p.x <= box.x + box.w + 6 && p.y >= box.y - 6 && p.y <= box.y + box.h + 6).length;
+
 /** Arc shape: green bows over the top and comes down steeply, the return bows under, so near donors keep a corridor. */
 function bows(at: Point, hub: Point, width: number, compact: boolean) {
   const dx = hub.x - at.x;
@@ -104,18 +109,13 @@ function bows(at: Point, hub: Point, width: number, compact: boolean) {
   // The normal that points up (and, for a steep chord, to the right).
   const up = dx >= 0 ? { x: along.y, y: -along.x } : { x: -along.y, y: along.x };
   const mid = { x: at.x + dx / 2, y: at.y + dy / 2 };
-  const lift = Math.max(span * 0.5, (span * span) / (width * (compact ? 1.2 : 1.35)));
   const dip = span * (compact ? 0.2 : 0.26);
-  return {
-    span,
-    out: { x: mid.x + up.x * lift + along.x * span * 0.2, y: mid.y + up.y * lift + along.y * span * 0.2 },
-    back: { x: mid.x - up.x * dip - along.x * span * 0.04, y: mid.y - up.y * dip - along.y * span * 0.04 },
-  };
+  const over = (lift: number) => ({ x: mid.x + up.x * lift + along.x * span * 0.2, y: mid.y + up.y * lift + along.y * span * 0.2 });
+  // The far donors bow highest; the bow stops at the top edge of the map.
+  let lift = Math.max(span * 0.5, (span * span) / (width * (compact ? 1.2 : 1.35)));
+  while (lift > span * 0.2 && Math.min(...sample(at, over(lift), hub).map((p) => p.y)) < EDGE) lift *= 0.94;
+  return { out: over(lift), back: { x: mid.x - up.x * dip - along.x * span * 0.04, y: mid.y - up.y * dip - along.y * span * 0.04 } };
 }
-
-const SAMPLES = 36;
-const sample = (a: Point, c: Point, b: Point): Point[] => Array.from({ length: SAMPLES + 1 }, (_, i) => bezier(a, c, b, i / SAMPLES));
-const crossings = (box: Box, line: Point[]) => line.filter((p) => p.x >= box.x - 3 && p.x <= box.x + box.w + 3 && p.y >= box.y - 3 && p.y <= box.y + box.h + 3).length;
 
 export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOptions): MapPlan {
   const hub = compact ? { x: width * 0.945, y: height * 0.7 } : { x: width - 12, y: height * 0.6 };
@@ -134,7 +134,8 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   const points = spread(
     shown.map((d) => {
       const p = project(d.at!.lon, d.at!.lat);
-      return { x: Math.min(p.x * width, hub.x - 44), y: p.y * height };
+      // True position, unless a donor is so far east that their arc would have no length at all.
+      return { x: Math.min(p.x * width, hub.x - (compact ? 24 : 44)), y: p.y * height };
     }),
     compact ? 12 : 18,
   );
@@ -177,16 +178,20 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   for (const line of lines) {
     const { donor, at, bow, returns, tip } = line;
     const lw = textWidth(donor.label, labelPx) + (compact ? 14 : 20);
-    const label = best([
-      { x: at.x - lw / 2, y: at.y + 14, w: lw, h: labelH },
-      { x: at.x - lw - 14, y: at.y - labelH / 2, w: lw, h: labelH },
-      { x: at.x + 14, y: at.y - labelH / 2, w: lw, h: labelH },
-      { x: at.x - lw / 2, y: at.y - labelH - 14, w: lw, h: labelH },
-      { x: at.x - lw - 10, y: at.y + 12, w: lw, h: labelH },
-      { x: at.x + 10, y: at.y + 12, w: lw, h: labelH },
-      { x: at.x - lw - 10, y: at.y - labelH - 12, w: lw, h: labelH },
-      { x: at.x + 10, y: at.y - labelH - 12, w: lw, h: labelH },
-    ]);
+    // Near an edge the label slides along it rather than falling off the map.
+    const slide = (x: number) => Math.max(3, Math.min(x, width - lw - 3));
+    const label = best(
+      [
+        { x: at.x - lw / 2, y: at.y + 14 },
+        { x: at.x - lw - 14, y: at.y - labelH / 2 },
+        { x: at.x + 14, y: at.y - labelH / 2 },
+        { x: at.x - lw / 2, y: at.y - labelH - 14 },
+        { x: at.x - lw - 10, y: at.y + 12 },
+        { x: at.x + 10, y: at.y + 12 },
+        { x: at.x - lw - 10, y: at.y - labelH - 12 },
+        { x: at.x + 10, y: at.y - labelH - 12 },
+      ].map((c) => ({ x: slide(c.x), y: c.y, w: lw, h: labelH })),
+    );
     if (!label) {
       listed.push(donor);
       continue;
@@ -254,5 +259,5 @@ export function landPath(land: { cols: number; rows: number; runs: number[][] },
       d += `M${n1(x0)} ${n1(y)}H${n1(x1 + 0.1)}`;
     }
   });
-  return { d, dash: `0 ${cell.toFixed(3)}`, dot: Math.min(cell * 0.62, 3) };
+  return { d, dash: `0 ${cell.toFixed(3)}`, dot: Math.min(cell * 0.7, 3.2) };
 }

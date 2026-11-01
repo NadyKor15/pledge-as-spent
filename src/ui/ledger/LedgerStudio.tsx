@@ -26,6 +26,7 @@ function NeedCell({ api, node, column, value }: CustomCellRendererProps) {
   return <span className={first ? "lg-group" : "lg-group-more"}>{String(value ?? "")}</span>;
 }
 
+// Our widget ids are not in Studio's default registry, whose type this argument expects.
 const WIDGETS = createWidgets({
   overrides: [{ id: "grid", options: { createCellRenderer: (f: AgWidgetField) => (f.fieldId === NEED_FIELD ? NeedCell : undefined) } }],
   additionalTypes: [

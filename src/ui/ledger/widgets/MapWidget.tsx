@@ -30,7 +30,7 @@ function Land({ width, height, stride }: { width: number; height: number; stride
   const { d, dash, dot } = useMemo(() => landPath(land, width, height, stride), [width, height, stride]);
   return (
     <svg className="lg-land" width={width} height={height} viewBox={`0 0 ${width} ${height}`} aria-hidden="true">
-      <path d={d} fill="none" stroke="#CFCBC3" strokeWidth={dot} strokeLinecap="round" strokeDasharray={dash} />
+      <path d={d} fill="none" stroke="#C8C4BB" strokeWidth={dot} strokeLinecap="round" strokeDasharray={dash} />
     </svg>
   );
 }
@@ -48,7 +48,7 @@ function ArcLines({ arc, index, onHit }: { arc: Arc; index: number; onHit: { ent
         <path className="lg-head" d="M0 0L-13 -7.5L-13 7.5Z" transform={`translate(${arc.head.x.toFixed(1)} ${arc.head.y.toFixed(1)}) rotate(${arc.head.angle.toFixed(1)})`} />
       )}
       {[0, 1, 2].map((p) => (
-        <circle key={p} className="lg-part" r={Math.max(2.6, arc.width * 0.55)} style={{ offsetPath: `path("${arc.d}")`, "--p": `${delay + 0.7 + p * 0.8}s` } as CSSProperties} />
+        <circle key={p} className="lg-part" r={Math.max(3.4, arc.width * 0.72)} style={{ offsetPath: `path("${arc.d}")`, "--p": `${delay + 0.7 + p * 0.8}s` } as CSSProperties} />
       ))}
       <path {...path} className="lg-hit" strokeWidth={Math.max(16, arc.width + 10)} onMouseEnter={onHit.enter} onMouseLeave={onHit.leave} onClick={onHit.press} />
     </g>

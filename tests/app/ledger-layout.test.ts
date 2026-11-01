@@ -1,11 +1,12 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { deriveLedger, type LedgerDonor } from "@/ui/ledger/derive";
-import { locate } from "@/ui/ledger/geo";
+import { locate, project } from "@/ui/ledger/geo";
 import land from "@/ui/ledger/land.json";
 import { landPath, MAX_ARCS, planMap, type Box, type MapPlan } from "@/ui/ledger/layout";
 import { focusOf, linesOf, LedgerStore } from "@/ui/ledger/store";
+import { COLORS } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
 
 const fixture = (name: string) => JSON.parse(readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8")) as DriveView;
@@ -84,6 +85,33 @@ describe.each(SIZES)("the money map at $width px", (size) => {
     expectInside(plan, size.width, size.height);
     const shown = new Set([...plan.placed.map((p) => p.donor.pledgeId), ...plan.listed.map((d) => d.pledgeId)]);
     expect(shown.size).toBe(8);
+  });
+
+  it("every city of the two drives sits at its real coordinates", () => {
+    const { donors } = deriveLedger(fixture("closed"));
+    for (const p of planMap(donors, size).placed) {
+      const at = project(p.donor.at!.lon, p.donor.at!.lat);
+      expect(p.x).toBeCloseTo(at.x * size.width, 3);
+      expect(p.y).toBeCloseTo(at.y * size.height, 3);
+    }
+  });
+
+  it("no arc leaves the map", () => {
+    for (const d of [deriveLedger(fixture("closed")).donors, EIGHT]) {
+      for (const p of planMap(d, size).placed) {
+        for (const a of p.arcs) {
+          const n = a.d.match(/-?[\d.]+/g)!.map(Number);
+          const [ax, ay, cx, cy, bx, by] = n;
+          for (let t = 0; t <= 1; t += 0.02) {
+            const y = (1 - t) ** 2 * ay + 2 * (1 - t) * t * cy + t ** 2 * by;
+            const x = (1 - t) ** 2 * ax + 2 * (1 - t) * t * cx + t ** 2 * bx;
+            expect(y).toBeGreaterThanOrEqual(0);
+            expect(y).toBeLessThanOrEqual(size.height);
+            expect(x).toBeLessThanOrEqual(size.width);
+          }
+        }
+      }
+    }
   });
 
   it("two donors in one city get two dots", () => {
@@ -197,5 +225,44 @@ describe("picking a donor or a need", () => {
     const seen: string[][] = [];
     store.connectFilter((keys) => seen.push(keys));
     expect(seen).toEqual([water.lineKeys]);
+  });
+});
+
+describe("the colours of the screen", () => {
+  const css = readFileSync(path.join(__dirname, "../../src/ui/ledger/ledger.css"), "utf8");
+  const luminance = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a: string, b: string) => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  it("the live blue reads as text on the page, on the card, and white on its pills", () => {
+    expect(contrast(COLORS.back, "#FAF8F4")).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(COLORS.back, "#FFFFFF")).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("the small green text and the refused line read too", () => {
+    expect(contrast(COLORS.spentText, "#FAF8F4")).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(COLORS.refused, "#FAF8F4")).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("the report and the stylesheet agree on them", () => {
+    expect(css).toContain(`--back: ${COLORS.back}`);
+    expect(css).toContain(`--spent: ${COLORS.spent}`);
+    expect(css).toContain(`--spent-text: ${COLORS.spentText}`);
+    expect(css).toContain(`--held: ${COLORS.held}`);
+    expect(css).toContain(`--refused: ${COLORS.refused}`);
+  });
+});
+
+describe("the code of the tab", () => {
+  const files = (dir: string): string[] => readdirSync(dir).flatMap((f) => (statSync(path.join(dir, f)).isDirectory() ? files(path.join(dir, f)) : [path.join(dir, f)]));
+
+  it("writes none of the drive's figures by hand", () => {
+    const dir = path.join(__dirname, "../../src/ui/ledger");
+    for (const file of files(dir).filter((f) => /\.tsx?$/.test(f))) expect(readFileSync(file, "utf8"), file).not.toMatch(/(?<![#\w])(10,?783|5,?224|5,?559|1,?198|8\.55|15\.42|21\.45)\b/);
   });
 });
