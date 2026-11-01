@@ -36,15 +36,17 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
   const [currency, setCurrency] = useState<Currency>("EUR");
   const [message, setMessage] = useState<string | null>(null);
   const pledgeId = useRef<string | null>(null);
+  // Read when PayPal's button is pressed: a name is no reason to reload the button on every letter.
+  const donorName = useRef("");
   const minor = toMinor(amount, currency);
-  const invalid = amount.trim() !== "" && minor === null;
+  const invalid = minor === null;
   const id = `pledge-${needId}`;
 
   const createOrder = async () => {
     setMessage(null);
     if (minor === null) throw new Error("Enter an amount first.");
     const res = await api<{ pledgeId: string; orderId: string }>(`/api/drives/${encodeURIComponent(driveId)}/pledges`, {
-      json: { needId, donorName: name.trim() || "Anonymous donor", amount: { currency, minor } },
+      json: { needId, donorName: donorName.current.trim() || "Anonymous donor", amount: { currency, minor } },
     });
     pledgeId.current = res.pledgeId;
     return res.orderId;
@@ -67,7 +69,10 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
       <div className={s.pfCols}>
         <div>
           <label htmlFor={`${id}-name`}>Your name</label>
-          <input id={`${id}-name`} className={`${s.inp} ${s.name}`} value={name} onChange={(e) => setName(e.target.value)} placeholder="Anonymous" maxLength={80} autoComplete="given-name" />
+          <input id={`${id}-name`} className={`${s.inp} ${s.name}`} value={name} onChange={(e) => {
+                setName(e.target.value);
+                donorName.current = e.target.value;
+              }} placeholder="Anonymous" maxLength={80} autoComplete="given-name" />
         </div>
         <div>
           <label htmlFor={`${id}-amount`}>Your pledge amount</label>
@@ -93,11 +98,11 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
             <PayPalButtons
               style={{ layout: "horizontal", color: "gold", shape: "rect", label: "paypal", height: 52, tagline: false }}
               disabled={minor === null}
-              forceReRender={[minor, currency, name]}
+              forceReRender={[minor, currency]}
               createOrder={createOrder}
               onApprove={onApprove}
               onCancel={() => setMessage("You closed the PayPal window. Nothing was held.")}
-              onError={(err) => setMessage(err instanceof Error ? err.message : "PayPal could not open the pledge. Try again.")}
+              onError={() => setMessage("PayPal could not open the pledge. Nothing was held. Try again.")}
             />
           </PayPalScriptProvider>
         </div>
@@ -113,8 +118,8 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
       <p className={`${s.pfHint} ${message || invalid ? s.err : ""}`} role={message ? "alert" : undefined}>
         {message ??
           (invalid
-            ? `Enter an amount up to ${MAX_MAJOR.toLocaleString("en-US")} ${currency}${currency === "JPY" ? " in whole yen" : ", with at most two decimals"}.`
-            : `Held on your PayPal account for up to ${HOLD_LIFE_DAYS} days, then released.`)}
+            ? `Enter an amount above 0, up to ${MAX_MAJOR.toLocaleString("en-US")} ${currency}${currency === "JPY" ? " in whole yen" : ", with at most two decimals"}.`
+            : `Held on your PayPal account for up to ${HOLD_LIFE_DAYS} days, then returned.`)}
       </p>
     </form>
   );

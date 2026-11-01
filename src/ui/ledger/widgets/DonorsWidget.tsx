@@ -7,7 +7,7 @@ import { useWidget } from "./useWidget";
 // On a phone the map has no room for amounts: they are here, one row per donor.
 
 export function DonorsWidget(params: AgWidgetParams) {
-  const { store, snap, root } = useWidget<HTMLElement>(params, "What each donor spent");
+  const { store, snap, root } = useWidget<HTMLElement>(params);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
   const closed = snap.model.phase === "closed";
 
@@ -29,7 +29,7 @@ export function DonorsWidget(params: AgWidgetParams) {
                 <span className="lg-who">{d.label}</span>
                 <span className="lg-sums">
                   <span className="lg-spent">
-                    <b>{d.spentText}</b> spent
+                    <b>{d.spentText}</b> {d.spentWord}
                   </span>
                   <span className={`lg-rest lg-rest-${d.restWord}`}>
                     <b>{d.restText}</b> {d.restWord}

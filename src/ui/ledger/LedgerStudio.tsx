@@ -9,7 +9,7 @@ import { money } from "../format";
 import { deriveLedger, type LedgerModel } from "./derive";
 import "./ledger.css";
 import { LedgerStore, linesOf } from "./store";
-import { DONORS_WIDGET, FOOTER_WIDGET, ledgerData, ledgerState, MAP_WIDGET, NEED_FIELD, NOTE_WIDGET, ORDER_FIELD, SHELTER_WIDGET, type Metrics } from "./studio-state";
+import { DONORS_WIDGET, FOOTER_WIDGET, ledgerData, ledgerState, MAP_WIDGET, NEED_FIELD, NOTE_WIDGET, ORDER_FIELD, SHELTER_WIDGET, WHAT_FIELD, type Metrics } from "./studio-state";
 import { ledgerTheme } from "./theme";
 import type { DriveView } from "../types";
 import { DonorsWidget } from "./widgets/DonorsWidget";
@@ -34,6 +34,13 @@ const COLUMNS: [id: string, share: number, least: number][] = [
   ["book.status", 0.1, 100],
 ];
 
+const PHONE_COLUMNS: typeof COLUMNS = [
+  ["book.what", 0.37, 130],
+  ["book.who", 0.2, 70],
+  ["book.much", 0.24, 84],
+  ["book.state", 0.19, 66],
+];
+
 const listening = new WeakSet<GridApi>();
 const queued = new WeakSet<GridApi>();
 
@@ -45,7 +52,7 @@ function holdColumns(api: GridApi, grid: Element) {
     queued.delete(api);
     const width = grid.clientWidth;
     if (api.isDestroyed() || !width) return;
-    const target = COLUMNS.map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
+    const target = (api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS).map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
     const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
     if (off) api.setColumnWidths(target, true);
     if (api.getColumn(ORDER_FIELD)?.isVisible()) api.setColumnsVisible([ORDER_FIELD], false);
@@ -72,9 +79,20 @@ function NeedCell({ api, node, column, value, eGridCell }: CustomCellRendererPro
   return <span className={first ? "lg-group" : "lg-group-more"}>{String(value ?? "")}</span>;
 }
 
+/** The phone's first column: its text is plain, and it is what keeps the columns at their shares there. */
+function WhatCell({ api, value, eGridCell }: CustomCellRendererProps) {
+  useEffect(() => {
+    const grid = eGridCell.closest(".ag-root-wrapper");
+    if (!grid) return;
+    watchColumns(api, grid);
+    holdColumns(api, grid);
+  });
+  return <span>{String(value ?? "")}</span>;
+}
+
 // Our widget ids are not in Studio's default registry, whose type this argument expects.
 const WIDGETS = createWidgets({
-  overrides: [{ id: "grid", options: { createCellRenderer: (f: AgWidgetField) => (f.fieldId === NEED_FIELD ? NeedCell : undefined) } }],
+  overrides: [{ id: "grid", options: { createCellRenderer: (f: AgWidgetField) => (f.fieldId === NEED_FIELD ? NeedCell : f.fieldId === WHAT_FIELD ? WhatCell : undefined) } }],
   additionalTypes: [
     { id: MAP_WIDGET, label: "Money map", comp: MapWidget, form: noForm, defaultSize: SIZE, minSize: SIZE, dataMapping: { lineKey: { type: "field", supportedRoles: ["category"] } } },
     { id: SHELTER_WIDGET, label: "Shelter", comp: ShelterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
@@ -112,9 +130,9 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       match: 4,
       note: counts.waiting || counts.rest ? 4 : 0,
       map: Math.ceil((Math.min(width, 640) * 0.56) / rowHeight),
-      shelter: Math.ceil((64 + counts.needs * 104) / rowHeight),
+      shelter: Math.ceil((112 + counts.needs * 104) / rowHeight),
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
-      footer: 10,
+      footer: 13,
       book: bookRows(rowHeight),
     };
     return { rowHeight, stacked, scale: 1, rows };
@@ -216,7 +234,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
     store.setStale(stale);
   }, [store, stale, refresh]);
 
-  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}`;
+  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}-${model.spentLabel}`;
   useCountUp(root, model, run, layoutKey);
 
   const data = useMemo(() => ledgerData(model), [model]);

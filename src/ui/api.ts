@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { returningAtPayPal } from "./derive";
 import type { DriveView } from "./types";
 
 // Browser side of the JSON API: every screen reads and writes through these
@@ -35,25 +36,25 @@ export async function api<T>(path: string, init?: RequestInit & { json?: unknown
   } catch {
     body = null;
   }
-  if (!res.ok) throw new ApiError(res.status, body?.error ?? `http_${res.status}`, body?.message ?? `The request failed (HTTP ${res.status}).`);
+  if (!res.ok) throw new ApiError(res.status, body?.error ?? `http_${res.status}`, body?.message ?? "Something went wrong on the server. Try again in a moment.");
   return body as T;
 }
 
 export const errorText = (e: unknown) => (e instanceof Error ? e.message : String(e));
 export const asApiError = (e: unknown) => (e instanceof ApiError ? e : new ApiError(0, "unknown", errorText(e)));
 
-/** Webhooks from the sandbox arrive 10–75 s after a capture or payout. */
+/** Webhooks from the sandbox arrive 10–75 s after a capture or payout, and a void waits for its hold's capture. */
 const POLL_MS = 2500;
-const POLL_FOR_MS = 60_000;
+const POLL_FOR_MS = 120_000;
 
 /** Nothing left that a webhook or lookup could still change. */
 export function settled(v: DriveView): boolean {
-  return v.drive.status !== "closing" && v.holds.every((h) => h.capturePending === 0) && v.payouts.every((p) => !p.attempts.some((a) => a.status === "pending"));
+  return v.drive.status !== "closing" && v.holds.every((h) => h.capturePending === 0 && !returningAtPayPal(h)) && v.payouts.every((p) => !p.attempts.some((a) => a.status === "pending"));
 }
 
 /**
  * The drive as the API has it. After an action, `follow()` re-reads it every
- * 2.5 s for up to a minute (or until nothing is pending); after that the
+ * 2.5 s for up to two minutes (or until nothing is pending); after that the
  * screen offers a Refresh button.
  */
 export function useDrive(driveId: string) {
@@ -93,8 +94,8 @@ export function useDrive(driveId: string) {
     };
   }, [load]);
 
-  const follow = useCallback(() => {
-    until.current = Date.now() + POLL_FOR_MS;
+  const follow = useCallback((ms: number = POLL_FOR_MS) => {
+    until.current = Date.now() + ms;
     setFollowing(true);
   }, []);
 

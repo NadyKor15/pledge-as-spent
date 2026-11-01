@@ -9,11 +9,11 @@ import { DonorView } from "./DonorView";
 import { DesktopHeader } from "./Header";
 import { VolunteerView } from "./VolunteerView";
 import { DesktopStage } from "./stage";
-import { Failure, Loading } from "./states";
+import { DriveLoading, Failure, Skeleton, StaleData } from "./states";
 import { isRole } from "./types";
 
 // AG Studio is by far the heaviest thing in the app, and only this tab needs it.
-const LedgerView = dynamic(() => import("./ledger/LedgerView").then((m) => m.LedgerView), { ssr: false, loading: () => <Loading /> });
+const LedgerView = dynamic(() => import("./ledger/LedgerView").then((m) => m.LedgerView), { ssr: false, loading: () => <Skeleton /> });
 
 /** One drive, seen by the role in `?as=` (donor when absent). */
 export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
@@ -23,27 +23,31 @@ export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
   const d = useDrive(id);
 
   if (!d.view) {
-    if (!d.error) return <Loading />;
+    if (!d.error) return <DriveLoading />;
     return <Failure title={d.error.status === 404 ? "No such drive" : "The drive could not be loaded"} message={d.error.message} />;
   }
-  if (role === "ledger") return <LedgerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />;
-  if (role === "volunteer") {
+  const stale = <StaleData error={d.error} retry={d.refresh} />;
+  if (role === "ledger" || role === "volunteer") {
     return (
       <>
+        {stale}
         <DesktopStage>
-          <DesktopHeader driveId={id} title={d.view.drive.displayTitle} demo={d.view.drive.demo} role="volunteer" variant="d" />
+          <DesktopHeader driveId={id} title={d.view.drive.displayTitle} demo={d.view.drive.demo} role={role} variant="d" />
         </DesktopStage>
-        <VolunteerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />
+        {role === "ledger" ? <LedgerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} /> : <VolunteerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />}
       </>
     );
   }
   return (
-    <DesktopStage>
-      {role === "coordinator" ? (
-        <CoordinatorView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />
-      ) : (
-        <DonorView view={d.view} role={role} />
-      )}
-    </DesktopStage>
+    <>
+      {stale}
+      <DesktopStage>
+        {role === "coordinator" ? (
+          <CoordinatorView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />
+        ) : (
+          <DonorView view={d.view} role={role} />
+        )}
+      </DesktopStage>
+    </>
   );
 }

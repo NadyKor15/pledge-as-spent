@@ -2,18 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { use, useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import { api, asApiError, useAction, useDrive, type ApiError } from "./api";
 import { classes } from "./cls";
-import { captureState, holdAmounts, reauthorized } from "./derive";
-import { day, itemPhrase, lineRange, money, pct, titleParts } from "./format";
+import { captureState, holdAmounts, holdTag, reauthorized, returningAtPayPal } from "./derive";
+import { day, itemPhrase, lineRange, money, pct, rateText, titleParts } from "./format";
 import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
-import { Failure, Loading } from "./states";
+import { Failure, Loading, StaleData } from "./states";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
 
 const s = classes("st");
+
+/** How long this page keeps re-reading on its own while a void is on its way. */
+const RETURN_WATCH_MS = 5 * 60_000;
 
 /** One donor's statement. The drive view fills in what the statement does not carry: store, photo, match, display names. */
 export function StatementScreen({ params }: { params: Promise<{ pledgeId: string }> }) {
@@ -63,7 +66,12 @@ function WithDrive({ data, reload }: { data: StatementView; reload: () => Promis
     if (!d.error) return <Loading what="your statement" />;
     return <Failure title="The statement could not be loaded" message={d.error.message} />;
   }
-  return <Page view={d.view} st={data.statement} following={d.following} follow={d.follow} refresh={d.refresh} />;
+  return (
+    <>
+      <StaleData error={d.error} retry={d.refresh} />
+      <Page view={d.view} st={data.statement} following={d.following} follow={d.follow} refresh={d.refresh} />
+    </>
+  );
 }
 
 interface Bought {
@@ -116,7 +124,7 @@ function answer(view: DriveView, st: Statement, b: Bought): string {
   const lineTotal = view.ledger.filter((x) => x.receiptId === b.receipt?.id && x.lineNo !== null && b.lineNos.includes(x.lineNo) && (x.kind === "donor_share" || x.kind === "match_share")).reduce((a, x) => a + x.base, 0);
   const half = b.shareBase * 2 === lineTotal && b.matchBase === b.shareBase;
   const lines = `receipt ${b.lineNos.length === 1 ? "line" : "lines"} ${lineRange(b.lineNos)}`;
-  const own = `Your ${money(st.currency, b.share)} paid for ${half ? "half" : "part"} of ${b.phrase} (${lines})`;
+  const own = `Your ${money(st.currency, b.share)} ${captureState(b.statuses).done ? "paid" : "is paying"} for ${half ? "half" : "part"} of ${b.phrase} (${lines})`;
   if (!company || b.matchBase === 0) return `${own}.`;
   return half ? `${own}; ${company} matched the other half.` : `${own}; ${company} added ${money(base, b.matchBase)}.`;
 }
@@ -124,25 +132,42 @@ function answer(view: DriveView, st: Statement, b: Bought): string {
 function holdFate(view: DriveView, st: Statement): string {
   const b = st.balance;
   const expires = b.expiresAt ? day(b.expiresAt, false) : null;
-  if (b.status === "voided") return "released";
-  if (b.status === "captured") return "fully used";
+  if (returningAtPayPal(b)) return "returning at PayPal";
+  if (b.status === "voided") return "returned";
+  if (b.status === "captured") return "fully spent";
   if (b.status === "expired") return "expired";
   if (b.status === "denied") return "declined by PayPal";
   if (!expires) return "";
   return reauthorized(view, b.pledgeId) ? `re-authorized, expires ${expires}` : `expires ${expires}`;
 }
 
-function Page({ view, st, following, follow, refresh }: { view: DriveView; st: Statement; following: boolean; follow: () => void; refresh: () => Promise<unknown> }) {
+function Page({ view, st, following, follow, refresh }: { view: DriveView; st: Statement; following: boolean; follow: (ms?: number) => void; refresh: () => Promise<unknown> }) {
   const { head, tail } = titleParts(view.drive.displayTitle);
   const b = st.balance;
   const a = holdAmounts(b);
+  const returning = returningAtPayPal(b);
+  const watched = useRef(false);
+  // A void waits for the hold's capture and for PayPal's word on it: this page re-reads by itself meanwhile, reloaded or not.
+  useEffect(() => {
+    if (!returning || watched.current) return;
+    watched.current = true;
+    follow(RETURN_WATCH_MS);
+  }, [returning, follow]);
   const items = boughtItems(view, st);
   const receipts = [...new Map(items.flatMap((i) => (i.receipt ? [[i.receipt.id, i.receipt] as const] : []))).values()];
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
   const fate = holdFate(view, st);
-  const live = b.status === "authorized" || b.status === "partially_captured";
+  const live = (b.status === "authorized" || b.status === "partially_captured") && !returning;
   const pending = items.some((i) => !captureState(i.statuses).done);
+  const rate = rateText(view.holds.find((h) => h.pledgeId === b.pledgeId)?.fx);
+  const parts = [
+    { key: "spent", bar: s.bSpent, stat: s.sSpent, value: a.spent, word: "spent", always: true },
+    { key: "waiting", bar: s.bWait, stat: s.sWait, value: a.waiting, word: "waiting", always: false },
+    { key: "held", bar: s.bHeld, stat: s.sHeld, value: a.held, word: "held", always: live },
+    { key: "returning", bar: s.bBack, stat: s.sBack, value: a.returning, word: "Returning at PayPal…", always: false },
+    { key: "returned", bar: s.bRel, stat: s.sRel, value: a.released, word: "returned", always: !returning },
+  ].filter((p) => p.always || p.value > 0);
   return (
     <div className={s.page}>
       <MobileHeader badge={driveBadge(view.drive.demo)} />
@@ -157,25 +182,20 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
         <div className={s.sumRow}>
           <span className={s.sumAmt}>{money(st.currency, a.total)}</span>
           <span className={s.sumLbl}>pledged</span>
+          {b.revoked && <span className={s.tag}>{holdTag(b)}</span>}
         </div>
-        <div className={s.bar} role="img" aria-label={`${money(st.currency, a.spent)} spent, ${money(st.currency, a.held)} held, ${money(st.currency, a.released)} released`}>
-          <i className={s.bSpent} style={{ width: `${pct(a.spent, a.total)}%` }} />
-          <i className={s.bHeld} style={{ width: `${pct(a.held, a.total)}%` }} />
-          <i className={s.bRel} style={{ width: `${pct(a.released, a.total)}%` }} />
+        <div className={s.bar} role="img" aria-label={parts.map((p) => `${money(st.currency, p.value)} ${p.word}`).join(", ")}>
+          {parts.map((p) => (
+            <i key={p.key} className={p.bar} data-part={p.key} style={{ width: `${pct(p.value, a.total)}%` }} />
+          ))}
         </div>
         <div className={s.stats}>
-          <div className={`${s.stat} ${s.sSpent}`}>
-            <b>{money(st.currency, a.spent)}</b>
-            <span>spent</span>
-          </div>
-          <div className={`${s.stat} ${s.sHeld}`}>
-            <b>{money(st.currency, a.held)}</b>
-            <span>held</span>
-          </div>
-          <div className={`${s.stat} ${s.sRel}`}>
-            <b>{money(st.currency, a.released)}</b>
-            <span>released</span>
-          </div>
+          {parts.map((p) => (
+            <div key={p.key} className={`${s.stat} ${p.stat}`}>
+              <b>{money(st.currency, p.value)}</b>
+              <span>{p.word}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -193,18 +213,20 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
           </div>
           <div className={s.vline} />
           <p>
-            With the {ratio.num}:{ratio.den} company match, your <span className={s.nw}>{money(st.currency, st.totals.share)}</span> became <strong className={s.nw}>{money(st.currency, help)} of help.</strong>
+            With the {ratio.num}:{ratio.den} company match, your <span className={s.nw}>{money(st.currency, st.totals.share)}</span> {pending ? "is becoming" : "became"} <strong className={s.nw}>{money(st.currency, help)} of help.</strong>
           </p>
         </section>
       )}
 
       <section className={`${s.card} ${s.bought}`}>
-        <h2 className={s.h2}>What your money bought</h2>
+        <h2 className={s.h2}>{pending ? "What your money is buying" : "What your money bought"}</h2>
         {items.length === 0 && (
           <p className={s.empty}>
-            {a.total > 0 && b.authorized > 0 && a.held === 0
-              ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} was released at PayPal and never charged.`
-              : `Nothing yet. ${a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.`}
+            {returning
+              ? `Nothing was bought with this pledge. Your ${money(st.currency, a.returning)} is on its way back at PayPal and was never charged.`
+              : a.total > 0 && b.authorized > 0 && a.held === 0
+                ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} went back at PayPal and was never charged.`
+                : `Nothing yet. ${a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.`}
           </p>
         )}
         {items.map((i) => {
@@ -264,7 +286,13 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
             {live && (
               <>
                 <br />
-                Whatever is not spent is released when the drive closes.
+                Whatever is not spent goes back when the drive closes.
+              </>
+            )}
+            {rate && (
+              <>
+                <br />
+                Rate at pledge: {rate}
               </>
             )}
           </p>
@@ -276,7 +304,7 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
           </a>
         )}
         <Withdraw view={view} st={st} follow={follow} refresh={refresh} />
-        {pending && !following && (
+        {(pending || returning) && !following && (
           <button type="button" className={s.link} onClick={() => void refresh()}>
             Refresh
           </button>
@@ -327,12 +355,18 @@ function ReceiptFrame({ receipt: r, firstLine }: { receipt: Receipt; firstLine: 
   );
 }
 
-function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statement; follow: () => void; refresh: () => Promise<unknown> }) {
+function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statement; follow: (ms?: number) => void; refresh: () => Promise<unknown> }) {
   const { busy, error, run } = useAction();
   const [asking, setAsking] = useState(false);
   const b = st.balance;
   const live = view.drive.status === "open" && !b.revoked && (b.status === "authorized" || b.status === "partially_captured");
-  if (b.revoked) return <p className={s.withdrawn}>You withdrew this pledge. What was already bought stays paid; the rest of the hold is released.</p>;
+  if (b.revoked) {
+    return (
+      <p className={s.withdrawn} role="status">
+        {returningAtPayPal(b) ? "You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal." : "You withdrew this pledge. What was already bought stays paid; the rest went back at PayPal."}
+      </p>
+    );
+  }
   if (!live) return null;
   if (!asking) {
     return (
@@ -344,11 +378,11 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   const withdraw = async () => {
     const done = await run("withdraw", () => api(`/api/pledges/${encodeURIComponent(b.pledgeId)}/revoke`, { method: "POST" }));
     await refresh();
-    if (done !== undefined) follow();
+    if (done !== undefined) follow(RETURN_WATCH_MS);
   };
   return (
     <div className={s.confirm}>
-      <p>Withdraw this pledge? What was already bought stays paid. The rest of the hold is released.</p>
+      <p>Withdraw this pledge? What was already bought stays paid. The rest of the hold goes back to you.</p>
       <div className={s.confirmActs}>
         <button type="button" className={s.yes} disabled={busy !== null} onClick={withdraw}>
           {busy ? "Withdrawing…" : "Yes, withdraw"}

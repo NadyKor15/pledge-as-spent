@@ -6,7 +6,7 @@
   --chk-bg: #F1F9F6; --chk-border: #E0F2ED; --chk-text: #33394F; --chk-icon: #07885F;
   --appr: #0B6768; --appr-bg: #F1FAF6; --appr-border: #DEF1EC; --appr-div: #E2F1ED;
   --red: #E8202B; --rej-bg: #FEEDEC; --rej-border: #FAB5B4; --rej-icon: #EE2A2C; --rej-text: #4F5C6E;
-  --wait: #B7791F; --wait-bg: #FBF4EA; --wait-line: #EFD9B8;
+  --wait: #8F5F14; --wait-bg: #FBF4EA; --wait-line: #EFD9B8;
   --pay-bg: #E7F7F1; --pay-icon: #078A66; --pay-sub: #3E475B; --pay-meta: #475764;
   --info-text: #4B4C60; --info-icon: #4D596F;
   --btn: #027076; --btn-text: #FFFFFF; --btn2-bg: #FFFFFF; --btn2-border: #32AAAB; --btn2-text: #0B686E;
@@ -23,7 +23,7 @@
 .vo-cTitle { margin-left: .4px; font-size: 15.7px; line-height: 20px; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; }
 .vo-cSubrow { margin-top: 1.3px; height: 19.7px; display: flex; justify-content: space-between; align-items: flex-start; }
 .vo-cSub { font-size: 11.8px; line-height: 19.7px; letter-spacing: -.02em; color: var(--sub); white-space: nowrap; }
-.vo-chip { width: 140.4px; height: 19.7px; border-radius: 7px; background: var(--chip-bg); color: var(--chip-text); font-size: 8.7px; line-height: 19.7px; letter-spacing: -.02em; text-align: center; white-space: nowrap; }
+.vo-chip { height: 19.7px; padding: 0 8px; border-radius: 7px; background: var(--chip-bg); color: var(--chip-text); font-size: 11px; line-height: 19.7px; letter-spacing: -.02em; text-align: center; white-space: nowrap; }
 .vo-cBody { margin-top: 5.4px; display: grid; grid-template-columns: 163.7px minmax(0, 1fr); column-gap: 12.6px; align-items: start; }
 .vo-photo { position: relative; width: 163.7px; height: 239.6px; border-radius: 5px; overflow: hidden; background: var(--photo-bg); }
 .vo-photo img { object-fit: cover; object-position: top; }
@@ -33,12 +33,12 @@
 .vo-total { margin-top: 4.14px; font-size: 17.5px; line-height: 22px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
 .vo-lines { margin: .65px 0 0 .6px; font-size: 11px; line-height: 14px; letter-spacing: .01em; color: var(--muted); white-space: nowrap; }
 .vo-checks { margin-top: 8.6px; display: flex; flex-direction: column; gap: 4.2px; }
-.vo-chk { display: flex; align-items: flex-start; min-height: 25.7px; padding: 3.8px 5px 3.8px 7.2px; border: 1px solid var(--chk-border); background: var(--chk-bg); border-radius: var(--r-box); color: var(--chk-text); font-size: 9.4px; line-height: 15.6px; letter-spacing: -.03em; }
+.vo-chk { display: flex; align-items: flex-start; min-height: 25.7px; padding: 3.8px 5px 3.8px 7.2px; border: 1px solid var(--chk-border); background: var(--chk-bg); border-radius: var(--r-box); color: var(--chk-text); font-size: 11px; line-height: 15.6px; letter-spacing: -.02em; }
 .vo-chk svg { flex: none; display: block; }
 .vo-chk span { margin-left: 7.2px; white-space: pre-line; min-width: 0; }
 .vo-chk.vo-two { min-height: 44.4px; }
 .vo-chk.vo-bad { background: var(--wait-bg); border-color: var(--wait-line); }
-.vo-chk.vo-read { margin-top: 5.45px; padding-left: 8.1px; background: var(--chk1-bg); border-color: var(--chk1-border); color: var(--chk1-text); font-size: 10.5px; font-weight: 500; line-height: 15px; letter-spacing: -.005em; }
+.vo-chk.vo-read { margin-top: 5.45px; padding-left: 8.1px; background: var(--chk1-bg); border-color: var(--chk1-border); color: var(--chk1-text); font-size: 11px; font-weight: 500; line-height: 15px; letter-spacing: -.005em; }
 
 /* the form before a receipt */
 .vo-askText { margin-top: 6px; font-size: 12.4px; line-height: 17.5px; letter-spacing: -.01em; color: var(--sub); }
@@ -68,7 +68,8 @@
 .vo-t { font-size: 11.2px; line-height: 14px; font-weight: 600; letter-spacing: -.03em; }
 .vo-t .vo-dot { display: inline-block; width: 14.2px; text-align: center; }
 .vo-pr { font-variant-numeric: tabular-nums; letter-spacing: -.05em; }
-.vo-why { margin-top: .5px; font-size: 10px; line-height: 14px; letter-spacing: -.02em; color: var(--rej-text); }
+.vo-why { margin-top: .5px; font-size: 11px; line-height: 14px; letter-spacing: -.02em; color: var(--rej-text); }
+.vo-rejTx small.line-original { font-size: 11px; }
 
 /* card 3: payout */
 .vo-cPay { margin-top: 6.4px; padding: 5.6px 8.2px 6.4px 6.1px; }
@@ -87,7 +88,7 @@
 /* card 4: info */
 .vo-cInfo { margin-top: 8px; min-height: 47px; display: flex; align-items: flex-start; padding: 12.4px 12px 5px 13.2px; }
 .vo-cInfo svg { flex: none; display: block; }
-.vo-cInfo p { margin: -1.3px 0 0 11.63px; font-size: 10.5px; line-height: 14.2px; letter-spacing: -.025em; color: var(--info-text); }
+.vo-cInfo p { margin: -1.3px 0 7px 11.63px; font-size: 11px; line-height: 14.8px; letter-spacing: -.015em; color: var(--info-text); }
 
 /* buttons */
 .vo-btn { margin: 0 9.8px 0 12.2px; width: calc(100% - 22px); min-height: 34px; padding: 0 10px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12.9px; line-height: 16px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; }

@@ -21,13 +21,19 @@ function Picture({ needId }: { needId: string }) {
 }
 
 export function ShelterWidget(params: AgWidgetParams) {
-  const { store, snap, root } = useWidget<HTMLElement>(params, "What the shelter got");
+  const { store, snap, root } = useWidget<HTMLElement>(params);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
 
   return (
-    <section className="lg-card lg-shelter" aria-label={`${snap.model.shelter}: spent on needs`} key={snap.run} ref={root}>
+    <section className="lg-card lg-shelter" aria-label={`${snap.model.shelter}: ${snap.model.spentLabel}`} key={snap.run} ref={root}>
       <h2 className="lg-name">{snap.model.shelter}</h2>
-      <p className="lg-kicker">Spent on needs</p>
+      <p className="lg-kicker">{snap.model.spentLabel}</p>
+      {snap.model.shelterTotal && (
+        <p className="lg-sum">
+          <b>{snap.model.shelterTotal}</b>
+          {snap.model.receiptTotal && <span> · {snap.model.receiptTotal}</span>}
+        </p>
+      )}
       <ul>
         {snap.model.needs.map((n, i) => {
           const pick: Pick = { kind: "need", needId: n.needId };

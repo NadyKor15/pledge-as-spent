@@ -10,7 +10,7 @@ export default function Home() {
     <main className="ld-page">
       <div className="ld-col">
         <div className="ld-brand">Pledge-as-Spent</div>
-        <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest is released.</h1>
+        <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest goes back.</h1>
         <DemoStart />
         <p className="ld-badge">Fictional drive · PayPal Sandbox · no real money moves</p>
         <ol className="ld-steps">
@@ -21,7 +21,10 @@ export default function Home() {
             <b>Follow the money.</b> Each approved line is split across donor holds and the company match. “Capture now” takes only those shares at PayPal.
           </li>
           <li>
-            <b>Close the drive.</b> “Close drive” releases what is left of every hold. Open a donor’s name to read what that pledge bought.
+            <b>Close the drive.</b> “Close drive” sends what is left of every hold back to its donor. Open a donor’s name to read what that pledge bought.
+          </li>
+          <li>
+            <b>See where the money went.</b> The Ledger puts every pledge on one page: spent, returned, and the receipt lines behind each yen.
           </li>
         </ol>
         {(CODE_URL || VIDEO_URL) && (

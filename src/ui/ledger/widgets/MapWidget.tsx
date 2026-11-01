@@ -86,7 +86,7 @@ function fitting(widths: number[], room: number) {
 
 /** Donors with no room on the map, in one line: as many as fit, and an honest count of the rest. */
 function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; width: number; selected: Pick | null; press: (pick: Pick) => void }) {
-  const text = (d: LedgerDonor) => `${d.spentText} · ${d.restText} ${d.restWord}`;
+  const text = (d: LedgerDonor) => `${d.spentText} ${d.spentWord} · ${d.restText} ${d.restWord}`;
   const room = width - LISTED_LEFT - 90;
   const shown = donors.slice(0, fitting(donors.map((d) => (d.label.length + text(d).length + 1) * 6.5 + 14), room));
   const more = donors.length - shown.length;
@@ -106,11 +106,11 @@ function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; wid
 
 function describe(p: PlacedDonor) {
   const d = p.donor;
-  return `${d.label}: ${d.spentText} spent, ${d.restText} ${d.restWord}`;
+  return `${d.label}: ${d.spentText} ${d.spentWord}, ${d.restText} ${d.restWord}`;
 }
 
 export function MapWidget(params: AgWidgetParams) {
-  const { store, snap, root } = useWidget<HTMLDivElement>(params, "Money map");
+  const { store, snap, root } = useWidget<HTMLDivElement>(params);
   const { width, height } = useSize(root);
   const compact = width > 0 && width < COMPACT_BELOW;
   const field = (params.dataMapping as { lineKey?: AgWidgetField[] }).lineKey?.[0];

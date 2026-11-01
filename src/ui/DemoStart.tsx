@@ -16,7 +16,7 @@ export function DemoStart() {
   return (
     <>
       <button type="button" className="ld-open" disabled={busy !== null} onClick={open}>
-        {busy ? "Placing the demo holds at PayPal…" : "Open the demo drive"}
+        {busy ? "Placing four holds at PayPal: three donors and the company match…" : "Open the demo drive"}
       </button>
       {error && (
         <p className="ld-error" role="alert">

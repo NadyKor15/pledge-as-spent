@@ -3,5 +3,6 @@
   "startedAt": "2026-10-23T15:49:08.816Z",
   "driveId": "demo-deedc05de3",
   "volunteer": "sb-pywsi53523660@personal.example.com",
-  "evidence": "evidence/e2e-20261023T154908Z.json"
+  "evidence": "evidence/e2e-20261023T154908Z.json",
+  "edited": "2026-11-01: request bodies only, not re-recorded live: the title became \"Earthquake relief (demo)\" and the wallet order gained brand_name. PayPal's answers are as recorded on 2026-10-23."
 }

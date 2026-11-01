@@ -37,6 +37,9 @@ function expectInside(plan: MapPlan, width: number, height: number) {
   }
 }
 
+/** The radius of the shelter's dot: an arc ends under it. */
+const HUB_RING = 9.5;
+
 function donor(i: number, city: string, country: string, spentBase: number, restBase: number): LedgerDonor {
   return {
     pledgeId: `p${i}`,
@@ -46,12 +49,15 @@ function donor(i: number, city: string, country: string, spentBase: number, rest
     at: locate(city, country),
     currency: "USD",
     spent: spentBase,
+    waiting: 0,
     back: restBase,
     held: 0,
     spentText: `$${spentBase}.00`,
+    spentWord: "spent",
     restText: `$${restBase}.00`,
     restWord: "back",
     spentBase,
+    waitingBase: 0,
     restBase,
     heldBase: 0,
     backBase: restBase,
@@ -116,9 +122,10 @@ describe.each(SIZES)("the money map at $width px", (size) => {
     expect(plan.placed.map((p) => p.text)).toEqual(expected);
   });
 
-  it("no arc leaves the map", () => {
+  it("no arc leaves the map, but for the last step to the shelter's dot on its card's edge", () => {
     for (const d of [deriveLedger(fixture("closed")).donors, EIGHT]) {
-      for (const p of planMap(d, size).placed) {
+      const { placed, hub } = planMap(d, size);
+      for (const p of placed) {
         for (const a of p.arcs) {
           const n = a.d.match(/-?[\d.]+/g)!.map(Number);
           const [ax, ay, cx, cy, bx, by] = n;
@@ -126,8 +133,8 @@ describe.each(SIZES)("the money map at $width px", (size) => {
             const y = (1 - t) ** 2 * ay + 2 * (1 - t) * t * cy + t ** 2 * by;
             const x = (1 - t) ** 2 * ax + 2 * (1 - t) * t * cx + t ** 2 * bx;
             expect(y).toBeGreaterThanOrEqual(0);
-            expect(y).toBeLessThanOrEqual(size.height);
-            expect(x).toBeLessThanOrEqual(size.width);
+            expect(y).toBeLessThanOrEqual(Math.max(size.height, hub.y + HUB_RING));
+            expect(x).toBeLessThanOrEqual(Math.max(size.width, hub.x + HUB_RING));
           }
         }
       }
@@ -164,6 +171,16 @@ describe("what the arcs say", () => {
       expect(p.pills.map((x) => x.flow)).toEqual(["spent", "back"]);
     }
     expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text))).toEqual(expect.arrayContaining(["$21.45", "$8.55 back", "€4.58", "€15.42 back", "¥1,237", "¥1,763 back"]));
+  });
+
+  it("the shelter sits on the edge of its card: past the map's right edge, under the phone's map", () => {
+    const wide = planMap(deriveLedger(fixture("closed")).donors, size).hub;
+    expect(wide.x).toBeGreaterThan(size.width);
+    expect(wide.x).toBeLessThan(size.width + 8);
+    const phone = planMap(deriveLedger(fixture("closed")).donors, { width: 390, height: 220, compact: true }).hub;
+    expect(phone.y).toBeGreaterThan(220);
+    expect(phone.y).toBeLessThan(228);
+    expect(phone.x).toBeLessThan(390 - 12);
   });
 
   it("every arc of the map ends at the same hub", () => {

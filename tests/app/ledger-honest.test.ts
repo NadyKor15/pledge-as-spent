@@ -314,7 +314,7 @@ describe("7. a need's filter keeps its refused and unfunded lines", () => {
     const water = m.needs.find((n) => n.needId === "water")!;
     expect(water.lineKeys).toContain(`${v.receipts[0].id}:21`);
     expect(water.lineKeys).toContain(`${v.receipts[0].id}:22`);
-    expect(m.book.filter((r) => water.lineKeys.includes(r.lineKey)).map((r) => r.status)).toEqual(expect.arrayContaining(["Rejected", "Unfunded"]));
+    expect(m.book.filter((r) => water.lineKeys.includes(r.lineKey)).map((r) => r.status)).toEqual(expect.arrayContaining(["Refused", "Unfunded"]));
   });
 });
 
@@ -374,6 +374,12 @@ describe("the invariant, on every state a donor can be in", () => {
         });
         const m = deriveLedger(v);
         expect(m.spent + m.held + m.returned).toBe(m.promised);
+        // The word "spent" on the screens is `captured`: pledged = spent + waiting + held + returned.
+        expect(m.captured + m.waiting + m.held + m.returned).toBe(m.promised);
+        expect(m.captured).toBeGreaterThanOrEqual(0);
+        expect(m.waiting).toBeGreaterThanOrEqual(0);
+        if (driveStatus === "closed") expect(m.waiting).toBe(0);
+        for (const d of m.donors) expect(d.waiting).toBeLessThanOrEqual(d.spent);
         expect(m.spent).toBeGreaterThanOrEqual(0);
         expect(m.held).toBeGreaterThanOrEqual(0);
         expect(m.returned).toBeGreaterThanOrEqual(0);

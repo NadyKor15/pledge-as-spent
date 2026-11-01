@@ -43,9 +43,12 @@
 .hd-fsep { margin-top: 9.6px; width: 1px; height: 17.8px; background: #D8DADC; }
 
 /* Role menu on phones: the role chip opens the list of roles. */
-.hd-roles { position: relative; margin: 8.2px 0 0 13.6px; }
-.hd-roles summary { list-style: none; cursor: pointer; min-width: 64.5px; height: 20.6px; padding: 0 9px; border-radius: 9px; background: #E9EEEF; color: #03696B; font-size: 10px; font-weight: 500; line-height: 22px; letter-spacing: -.02em; text-align: center; }
+.hd-roles { position: relative; margin: 6.2px 0 0 13.6px; }
+.hd-roles summary { list-style: none; cursor: pointer; min-width: 64.5px; height: 24px; padding: 0 9px; border-radius: 9px; background: #E9EEEF; color: #03696B; font-size: 12px; font-weight: 500; line-height: 24px; letter-spacing: -.02em; text-align: center; }
 .hd-roles summary::-webkit-details-marker { display: none; }
+.hd-roles summary::after { content: ""; display: inline-block; margin-left: 6px; width: 6px; height: 6px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+.hd-roles[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+.hd-mline { padding: 4px 12px; background: #F2F1EC; color: #3E4A5C; font-size: 11.5px; line-height: 16px; letter-spacing: -.01em; }
 .hd-roles ul { position: absolute; top: 26px; left: 0; z-index: 5; list-style: none; padding: 4px; border: 1px solid #EAEBEC; border-radius: 8px; background: var(--surface); box-shadow: 0 6px 18px rgba(0, 0, 0, .08); }
 .hd-roles li a { display: block; padding: 6px 12px; font-size: 13px; color: #0B1222; text-decoration: none; border-radius: 6px; }
 .hd-roles li a[aria-current="page"] { background: #E9EEEF; color: #03696B; font-weight: 600; }

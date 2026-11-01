@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { captureState, focusReceipt, holdAmounts, holdStatusLabel, lineName, lineViews, liveFeed, needById, paypalActivity, receiptChecks, shareGroups, type LineView } from "./derive";
+import { captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineName, lineViews, liveFeed, needById, nextStep, paypalActivity, payoutNote, receiptBadge, receiptChecks, shareGroups, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
-import { DesktopHeader } from "./Header";
+import { DesktopHeader, roleHref } from "./Header";
 import { Check, Clock, Cross, NeedIcon } from "./icons";
 import { curve, drop, useFlows, type Box, type Shape } from "./stage";
 import type { DriveView, Hold, Receipt } from "./types";
@@ -26,15 +27,22 @@ interface Props {
 export function CoordinatorView({ view, following, refresh, follow }: Props) {
   const { busy, error, run } = useAction();
   const [picked, setPicked] = useState<string | null>(null);
+  const [pressed, setPressed] = useState<CommandReport[] | null>(null);
   const receipt = view.receipts.find((r) => r.id === picked) ?? focusReceipt(view);
   const driveId = view.drive.id;
   const page = useRef<HTMLDivElement>(null);
   const layer = useRef<SVGGElement>(null);
+  const next = nextStep(view);
 
   const act = async (name: string, path: string, init?: RequestInit & { json?: unknown }) => {
     const ok = await run(name, () => api(path, { method: "POST", ...init }));
     await refresh();
     if (ok !== undefined) follow();
+    return ok;
+  };
+  const capture = async () => {
+    const done = await act("capture", `/api/drives/${encodeURIComponent(driveId)}/capture-now`);
+    if (done !== undefined) setPressed((done as { commands: CommandReport[] }).commands);
   };
   const sample = () => {
     const body = new FormData();
@@ -72,8 +80,8 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
           {view.receipts.length > 1 && (
             <div className={s.pager} role="group" aria-label="Receipts">
               {view.receipts.map((r, i) => (
-                <button key={r.id} type="button" aria-pressed={r.id === receipt?.id} className={r.status === "review" ? s.flagged : undefined} onClick={() => setPicked(r.id)} title={r.status}>
-                  {i + 1}
+                <button key={r.id} type="button" aria-pressed={r.id === receipt?.id} className={r.status === "review" ? s.flagged : undefined} onClick={() => setPicked(r.id)}>
+                  {i + 1} · {receiptBadge(r)}
                 </button>
               ))}
             </div>
@@ -82,11 +90,22 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
             <ReceiptBody view={view} receipt={receipt} lines={lines} busy={busy} errorFor={errorFor} act={act} />
           ) : (
             <div className={s.emptyReceipt}>
-              <p>No receipt yet. Volunteers send one from the Volunteer view; the sample receipt shows the whole flow.</p>
-              <button type="button" className={s.ppBtn} style={{ position: "static" }} disabled={busy !== null || view.drive.status !== "open"} onClick={sample}>
-                {busy === "sample" ? "Reading the sample receipt…" : "Use the sample receipt"}
-              </button>
-              {errorFor("sample") && <p className={s.error}>{errorFor("sample")!.message}</p>}
+              {view.drive.status === "open" ? (
+                <>
+                  <p>No receipt yet. The sample receipt shows the whole flow; volunteers send real ones from the Volunteer view.</p>
+                  <button type="button" className={s.mainBtn} disabled={busy !== null} onClick={sample}>
+                    {busy === "sample" ? "Reading the sample receipt…" : "Use the sample receipt"}
+                  </button>
+                  {errorFor("sample") && <p className={s.error}>{errorFor("sample")!.message}</p>}
+                </>
+              ) : (
+                <>
+                  <p>This drive closed with no receipt, so nothing was spent. Open a new one to see the whole flow.</p>
+                  <Link className={s.mainBtn} href="/">
+                    Open a new demo drive
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -114,8 +133,8 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
 
       <section className={s.row2}>
         <WhoPays view={view} />
-        <Activity view={view} busy={busy} capture={() => act("capture", `/api/drives/${encodeURIComponent(driveId)}/capture-now`)} error={errorFor("capture")} />
-        <ClosePanel view={view} busy={busy} close={() => act("close", `/api/drives/${encodeURIComponent(driveId)}/close`)} error={errorFor("close")} />
+        <Activity view={view} busy={busy} next={next} capture={capture} line={captureLine(view, pressed)} error={errorFor("capture")} />
+        <ClosePanel view={view} busy={busy} next={next} close={() => void act("close", `/api/drives/${encodeURIComponent(driveId)}/close`)} error={errorFor("close")} />
       </section>
 
       <footer className={s.foot}>
@@ -168,21 +187,30 @@ function FootItem({ ok, text }: { ok: boolean | null; text: string }) {
 }
 
 function tagClass(h: Hold) {
-  if (h.status === "partially_captured") return `${s.tag} ${s.tagHeld}`;
-  if (h.status === "captured") return `${s.tag} ${s.tagDone}`;
-  return s.tag;
+  const tone = holdTone(h);
+  return tone === "wait" ? `${s.tag} ${s.tagHeld}` : tone === "done" ? `${s.tag} ${s.tagDone}` : s.tag;
+}
+
+/** Segments in the bar's order, each with its word: only what is there. */
+function holdParts(a: ReturnType<typeof holdAmounts>) {
+  return [
+    { key: "spent", cls: s.s, label: s.ls, value: a.spent, word: "spent" },
+    { key: "waiting", cls: s.wait, label: s.lw, value: a.waiting, word: "waiting" },
+    { key: "held", cls: s.h, label: s.lh, value: a.held, word: "held" },
+    { key: "returning", cls: s.back, label: s.lx, value: a.returning, word: "returning" },
+    { key: "back", cls: s.x, label: s.lx, value: a.released, word: "back" },
+  ].filter((p) => p.value > 0);
 }
 
 function HoldCard({ hold: h, needLabel }: { hold: Hold; needLabel: string }) {
   const { name, place } = donorParts(h.donorName, h.donorCountry);
   const a = holdAmounts(h);
-  const spentPct = pct(a.spent, a.total);
-  const heldPct = pct(a.held, a.total);
-  const relPct = pct(a.released, a.total);
+  const parts = holdParts(a);
   const mid = (from: number, w: number) => `${Math.min(92, Math.max(8, from + w / 2))}%`;
+  const before = (i: number) => parts.slice(0, i).reduce((sum, p) => sum + pct(p.value, a.total), 0);
   return (
     <article className={s.card} data-flow={`hold:${h.pledgeId}`}>
-      <div className={tagClass(h)}>{holdStatusLabel(h)}</div>
+      <div className={tagClass(h)}>{holdTag(h)}</div>
       <div className={s.pname}>
         <Link href={`/pledge/${encodeURIComponent(h.pledgeId)}`}>
           <b>{name}</b>
@@ -197,38 +225,24 @@ function HoldCard({ hold: h, needLabel }: { hold: Hold; needLabel: string }) {
               <b>{money(h.currency, a.total)}</b> <span className={s.w}>pledged</span>
             </span>
             <span className={s.r}>
-              <span>
-                <b>{money(h.currency, a.spent)}</b> <span className={s.w}>spent</span>
-              </span>
-              {a.held > 0 || a.released === 0 ? (
-                <span>
-                  <b>{money(h.currency, a.held)}</b> <span className={s.w}>held</span>
+              {parts.map((p) => (
+                <span key={p.key}>
+                  <b>{money(h.currency, p.value)}</b> <span className={s.w}>{p.word}</span>
                 </span>
-              ) : null}
-              {a.released > 0 && (
-                <span>
-                  <b>{money(h.currency, a.released)}</b> <span className={s.w}>released</span>
-                </span>
-              )}
+              ))}
             </span>
           </div>
-          <div className={s.bar} role="img" aria-label={`${money(h.currency, a.spent)} spent, ${money(h.currency, a.held)} held, ${money(h.currency, a.released)} released`}>
-            <i className={s.s} style={{ width: `${spentPct}%` }} />
-            <i className={s.h} style={{ width: `${heldPct}%` }} />
-            <i className={s.x} style={{ width: `${relPct}%` }} />
+          <div className={s.bar} role="img" aria-label={parts.map((p) => `${money(h.currency, p.value)} ${p.word}`).join(", ")}>
+            {parts.map((p) => (
+              <i key={p.key} className={p.cls} data-part={p.key} style={{ width: `${pct(p.value, a.total)}%` }} />
+            ))}
           </div>
           <div className={s.lbls}>
-            {a.spent > 0 && <span className={s.ls}>{money(h.currency, a.spent)}</span>}
-            {a.held > 0 && (
-              <span className={s.lh} style={{ left: mid(spentPct, heldPct) }}>
-                {money(h.currency, a.held)}
+            {parts.map((p, i) => (
+              <span key={p.key} className={p.label} style={i === 0 ? { left: 9.5, transform: "none" } : { left: mid(before(i), pct(p.value, a.total)) }}>
+                {money(h.currency, p.value)}
               </span>
-            )}
-            {a.released > 0 && (
-              <span className={s.lx} style={{ left: mid(spentPct + heldPct, relPct) }}>
-                {money(h.currency, a.released)} released
-              </span>
-            )}
+            ))}
           </div>
         </>
       ) : (
@@ -247,23 +261,36 @@ function MatchCard({ hold: h, ratio }: { hold: Hold; ratio: DriveView["match"]["
   const a = holdAmounts(h);
   return (
     <article className={`${s.card} ${s.kit}`} data-flow={`hold:${h.pledgeId}`}>
-      <div className={s.tag}>{holdStatusLabel(h)}</div>
-      <div className={s.kname}>{h.donorName}</div>
+      <div className={tagClass(h)}>{holdTag(h)}</div>
+      <div className={s.kname}>
+        <Link href={`/pledge/${encodeURIComponent(h.pledgeId)}`}>{h.donorName}</Link>
+      </div>
       <div className={s.ksub}>
         Company match {ratio ? `${ratio.num}:${ratio.den}` : ""}, cap {money(h.currency, a.total)}
       </div>
       <div className={s.kused}>
-        <b>{money(h.currency, a.spent)}</b> <span className={s.w}>used</span>
+        {a.waiting > 0 ? (
+          <>
+            <b>{money(h.currency, a.waiting)}</b> <span className={s.w}>waiting</span>
+            {a.spent > 0 && " · "}
+          </>
+        ) : null}
+        {(a.spent > 0 || a.waiting === 0) && (
+          <>
+            <b>{money(h.currency, a.spent)}</b> <span className={s.w}>used of {money(h.currency, a.total)}</span>
+          </>
+        )}
         {a.released > 0 && (
           <>
             {" · "}
-            <b>{money(h.currency, a.released)}</b> <span className={s.w}>released</span>
+            <b>{money(h.currency, a.released)}</b> <span className={s.w}>back</span>
           </>
         )}
       </div>
-      <div className={s.kbar} role="img" aria-label={`${money(h.currency, a.spent)} used of ${money(h.currency, a.total)}`}>
-        <i style={{ width: `${pct(a.spent, a.total)}%` }} />
-        <i style={{ width: `${pct(a.released, a.total)}%` }} />
+      <div className={s.kbar} role="img" aria-label={`${money(h.currency, a.spent)} used, ${money(h.currency, a.waiting)} waiting, of ${money(h.currency, a.total)}`}>
+        <i data-part="spent" style={{ width: `${pct(a.spent, a.total)}%` }} />
+        <i data-part="waiting" className={s.kwait} style={{ width: `${pct(a.waiting, a.total)}%` }} />
+        <i data-part="back" className={s.kback} style={{ width: `${pct(a.released, a.total)}%` }} />
       </div>
       <div className={s.hold}>
         Hold ID<span className={`mono ${s.id}`}>{h.authorizationId ?? "—"}</span>
@@ -285,7 +312,7 @@ function ReceiptBody({
   lines: LineView[];
   busy: string | null;
   errorFor: (name: string) => ApiError | null;
-  act: (name: string, path: string, init?: RequestInit & { json?: unknown }) => Promise<void>;
+  act: (name: string, path: string, init?: RequestInit & { json?: unknown }) => Promise<unknown>;
 }) {
   const checks = receiptChecks(r);
   const kept = lines.filter((l) => l.state !== "rejected");
@@ -295,7 +322,7 @@ function ReceiptBody({
       <p className={s.msub}>
         Store receipt · <b>{money(r.currency, r.total)}</b>
         {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.8em", opacity: 0.62 }}>{r.merchant}</small>}
-        {r.reader.startsWith("recognized:") && <small style={{ marginLeft: 8, fontSize: "0.8em" }}>Recognized as the sample: saved, checked reading</small>}
+        {r.reader.startsWith("recognized:") && <small className={s.recognized}>Recognized as the sample: saved, checked reading</small>}
       </p>
       <div className={s.mbody}>
         <div className={s.receipt} data-flow="receipt">
@@ -316,7 +343,7 @@ function ReceiptBody({
           </div>
           <div className={s.lines}>
             {kept.map((l, i) => (
-              <div key={l.line.lineNo} className={`${s.pill} ${l.state === "approved" ? "" : s.wait} ${i === kept.length - 1 ? s.last : ""}`} data-flow={`line:${l.line.lineNo}`} title={l.reason ?? undefined}>
+              <div key={l.line.lineNo} className={`${s.pill} ${l.state === "approved" ? "" : s.pillWait} ${i === kept.length - 1 ? s.last : ""}`} data-flow={`line:${l.line.lineNo}`} title={l.reason ?? undefined}>
                 {l.state === "approved" ? <Check size={25} color="var(--pill-ok)" /> : <Clock size={25} />}
                 <span>
                   <b>
@@ -360,7 +387,7 @@ function Decision({
   lines: LineView[];
   busy: string | null;
   error: ApiError | null;
-  act: (name: string, path: string, init?: RequestInit & { json?: unknown }) => Promise<void>;
+  act: (name: string, path: string, init?: RequestInit & { json?: unknown }) => Promise<unknown>;
 }) {
   const [reason, setReason] = useState("");
   const [named, setNamed] = useState<number[]>([]);
@@ -373,8 +400,8 @@ function Decision({
       <b>{blocked ? "This receipt cannot be approved" : "Your decision"}</b>
       <span>
         {blocked
-          ? "A blocking check failed (see above). Reject it with a reason; no money moves."
-          : "No money moves until you decide. Approving releases the lines held for low confidence or a quantity that does not fit."}
+          ? "A blocking check failed (see above). Refuse it with a reason; no money moves."
+          : "No money moves until you decide. Approving lets through the lines stopped for low confidence or a quantity that does not fit."}
       </span>
       {!blocked &&
         askable.map((l) => (
@@ -390,7 +417,7 @@ function Decision({
           {busy === "decide" ? "Saving…" : "Approve"}
         </button>
         <button type="button" className={s.reject} disabled={!reason.trim() || busy !== null} onClick={() => decide("reject")}>
-          Reject
+          Refuse
         </button>
       </div>
       {error && <p className={s.error} style={{ margin: 0 }}>{error.message}</p>}
@@ -403,7 +430,7 @@ function WhoPays({ view }: { view: DriveView }) {
   const base = view.drive.baseCurrency;
   return (
     <div className={`${s.panel} ${s.bWho}`}>
-      <h3 className={s.btitle}>Who pays each approved line</h3>
+      <h3 className={s.btitle}>Who pays for each need</h3>
       <p className={s.bsub}>Each approved line is split across donor holds and the company match, then captured from those holds.</p>
       {groups.length === 0 ? (
         <p className={s.empty}>No approved lines yet.</p>
@@ -436,26 +463,34 @@ function batchSentence(view: DriveView): string {
   const thresholds = Object.entries(view.drive.batch.thresholdMinor).map(([cur, minor]) => money(cur, minor as number));
   const saved = view.feeSavings.filter((f) => f.savedMinor && f.savedMinor > 0).map((f) => money(f.currency, f.savedMinor));
   return (
-    `Shares are recorded at once and captured ${when}${thresholds.length ? ` or as soon as a hold reaches ${thresholds.join(" / ")}` : ""}` +
+    `Approved shares wait for capture, ${when}${thresholds.length ? ` or as soon as a hold reaches ${thresholds.join(" / ")}` : ""}` +
     (saved.length ? ` — batching has saved ${saved.join(" + ")} in per-capture fees.` : ", one batch per hold — fewer per-capture fees.")
   );
 }
 
-function Activity({ view, busy, capture, error }: { view: DriveView; busy: string | null; capture: () => void; error: ApiError | null }) {
+function Activity({ view, busy, next, capture, line, error }: { view: DriveView; busy: string | null; next: NextStep; capture: () => void; line: ReturnType<typeof captureLine>; error: ApiError | null }) {
   const items = paypalActivity(view)
     .sort((a, b) => a.last.localeCompare(b.last))
     .slice(-5);
-  const accrued = view.holds.some((h) => h.accrued > 0);
+  const payout = view.payouts.flatMap((p) => p.attempts).at(-1);
+  const count = view.holds.filter((h) => h.accrued > 0).length;
+  const live = next === "capture" || next === "check";
   return (
     <div className={`${s.panel} ${s.bPp}`}>
       <h3 className={s.btitle}>PayPal activity</h3>
       <p className={s.bsub}>{batchSentence(view)}</p>
-      {view.drive.status === "open" && (
-        <button type="button" className={s.ppBtn} disabled={busy !== null} onClick={capture} title={accrued ? "Capture every recorded share now" : "Nothing is waiting; this also checks PayPal for pending captures"}>
-          {busy === "capture" ? "Capturing…" : "Capture now"}
+      {payout && <p className={`${s.bsub} ${s.source}`}>{payoutNote(view, payout)}</p>}
+      {view.drive.status === "open" && view.receipts.length > 0 && (
+        <button type="button" className={`${s.ppBtn} ${live ? s.ppMain : ""}`} disabled={busy !== null || !live} onClick={capture}>
+          {busy === "capture" ? `Capturing ${count} ${count === 1 ? "hold" : "holds"} at PayPal…` : next === "check" ? "Check PayPal" : "Capture now"}
         </button>
       )}
       {error && <p className={s.error}>{error.message}</p>}
+      {line && (
+        <p className={`${s.capLine} ${line.tone === "done" ? s.capDone : line.tone === "bad" ? s.capBad : ""}`} role="status">
+          {line.text}
+        </p>
+      )}
       <div className={s.acts}>
         {items.map((a) => (
           <div className={s.act} key={a.key}>
@@ -475,23 +510,50 @@ function Activity({ view, busy, capture, error }: { view: DriveView; busy: strin
   );
 }
 
-function ClosePanel({ view, busy, close, error }: { view: DriveView; busy: string | null; close: () => void; error: ApiError | null }) {
+function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy: string | null; next: NextStep; close: () => void; error: ApiError | null }) {
+  const [asking, setAsking] = useState(false);
   const status = view.drive.status;
   const sub =
     status === "open"
-      ? "After closing, any unspent holds will be released automatically."
+      ? "Closing captures what is waiting and sends what is left of every hold back to its donor."
       : status === "closing"
-        ? "Closing: recorded shares are captured first, then each hold’s remainder is released once PayPal confirms."
-        : "Closed. Every hold is settled: pledged = spent + released.";
-  const label = status === "open" ? "Close drive — release unspent holds" : status === "closing" ? "Check PayPal and release holds" : "Drive closed";
+        ? "Closing: waiting shares are captured first, then what is left of each hold goes back once PayPal confirms."
+        : "Every hold is settled: pledged = spent + returned.";
+  const main = next === "close" || next === "closing";
   return (
     <div className={`${s.panel} ${s.bClose}`}>
-      <h3 className={s.btitle}>Close drive</h3>
+      <h3 className={s.btitle}>{status === "closed" ? "Drive closed" : "Close drive"}</h3>
       <p className={s.bsub}>{sub}</p>
       {error && <p className={s.error}>{error.message}</p>}
-      <button type="button" className={s.closeBtn} disabled={status === "closed" || busy !== null} onClick={close}>
-        {busy === "close" ? "Closing…" : label}
-      </button>
+      {status === "closed" ? (
+        <Link className={`${s.closeBtn} ${s.closeMain}`} href={roleHref(view.drive.id, "ledger")}>
+          See where the money went
+        </Link>
+      ) : asking && status === "open" && busy !== "close" ? (
+        <div className={s.confirm} role="group" aria-label="Confirm closing the drive">
+          <p>Close the drive? Shares still waiting are captured and unspent holds go back to donors.</p>
+          <div className={s.confirmActs}>
+            <button
+              type="button"
+              className={s.yes}
+              disabled={busy !== null}
+              onClick={() => {
+                setAsking(false);
+                close();
+              }}
+            >
+              Yes, close the drive
+            </button>
+            <button type="button" className={s.keep} disabled={busy !== null} onClick={() => setAsking(false)}>
+              Keep it open
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button type="button" className={`${s.closeBtn} ${main ? s.closeMain : ""}`} disabled={busy !== null} onClick={status === "open" ? () => setAsking(true) : close}>
+          {busy === "close" ? "Capturing what waits, then returning the rest…" : status === "closing" ? "Check PayPal and finish closing" : "Close drive"}
+        </button>
+      )}
     </div>
   );
 }

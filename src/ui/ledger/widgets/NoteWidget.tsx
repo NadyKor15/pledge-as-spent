@@ -10,7 +10,7 @@ import { useWidget } from "./useWidget";
 const textOf = (m: LedgerModel, id: string) => (id === NOTE_REST ? m.restNote : m.waitingNote);
 
 export function NoteWidget(params: AgWidgetParams) {
-  const { snap, root } = useWidget<HTMLDivElement>(params, "Note");
+  const { snap, root } = useWidget<HTMLDivElement>(params);
   const text = textOf(snap.model, params.widgetId);
   return (
     <div className={`lg-note${params.widgetId === NOTE_REST ? " lg-note-rest" : ""}`} ref={root}>

@@ -15,12 +15,19 @@ async function openDemo(page: Page): Promise<string> {
   return new URL(page.url()).pathname.split("/").pop()!;
 }
 
-/** The lookup that confirms captures runs on "Capture now": press until PayPal's word is on screen. */
+/** The lookup that confirms captures runs on the capture button: press until PayPal's word is on screen. */
 async function captureUntilCompleted(page: Page) {
   await expect(async () => {
-    await page.getByRole("button", { name: "Capture now" }).click();
-    await expect(page.getByText(/final_capture=false.*COMPLETED/).first()).toBeVisible({ timeout: 2_000 });
+    await page.getByRole("button", { name: /^(Capture now|Check PayPal)$/ }).click();
+    await expect(page.locator(".co-capDone")).toContainText("PayPal captured", { timeout: 2_000 });
   }).toPass({ timeout: 45_000 });
+}
+
+/** Close, through its confirmation. */
+async function closeDrive(page: Page) {
+  await page.getByRole("button", { name: "Close drive" }).click();
+  await page.getByRole("button", { name: "Yes, close the drive" }).click();
+  await expect(page.getByRole("link", { name: "See where the money went" })).toBeVisible({ timeout: 45_000 });
 }
 
 /** A PNG over the upload limit: random noise does not compress. */
@@ -38,7 +45,8 @@ function hugePng(width = 1400, height = 1400): Buffer {
 test("the way in offers one action, explains the path and shows no empty links", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
-  await expect(page.locator(".ld-steps li")).toHaveCount(3);
+  await expect(page.locator(".ld-steps li")).toHaveCount(4);
+  await expect(page.locator(".ld-steps li").last()).toContainText("See where the money went");
   await expect(page.getByRole("link", { name: /source code|demo video/i })).toHaveCount(0);
   await expect(page.getByText("To get started")).toHaveCount(0);
 });
@@ -61,7 +69,7 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   // Volunteer: the result from the API, with the name from the API.
   await page.goto(`/drive/${driveId}?as=volunteer`);
   await expect(page.getByText("9 lines approved")).toBeVisible();
-  await expect(page.getByText("2 rejected")).toBeVisible();
+  await expect(page.getByText("2 refused")).toBeVisible();
   await expect(page.getByText("¥10,448 sent to your PayPal")).toBeVisible();
   await expect(page.getByText("Volunteer Haruto reimbursed")).toBeVisible();
 
@@ -84,13 +92,10 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await expect(page.locator("body")).not.toContainText(/renew|extended/i);
 
   await page.goto(`/drive/${driveId}?as=coordinator`);
-  await page.getByRole("button", { name: "Close drive — release unspent holds" }).click();
-  await expect(async () => {
-    await expect(page.getByRole("button", { name: "Drive closed" })).toBeVisible({ timeout: 2_000 });
-  }).toPass({ timeout: 45_000 });
+  await closeDrive(page);
   const holds = page.locator(".co-card");
   await expect(holds).toHaveCount(4);
-  for (const hold of await holds.all()) await expect(hold).toContainText("released");
+  for (const hold of await holds.all()) await expect(hold).toContainText("back");
 
   await page.goto(`/pledge/${driveId}.water`);
   await expect(page.locator(".st-sRel")).toContainText("€15.42");
@@ -313,6 +318,8 @@ for (const { width, height } of [
     await page.setViewportSize({ width, height });
     await openLedger(page, "open");
     await expectTotals(page, "Held");
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Approved for needs" })).toHaveCount(1);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Spent on needs" })).toHaveCount(0);
     expect(await wider(page)).toBeLessThanOrEqual(0);
     expect((await crowded(page)).out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
@@ -332,8 +339,8 @@ test("ledger: pressing a donor lights up what they paid for and filters the book
   await open.click();
   await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(20);
-  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Charged", "PayPal capture", "Status"]);
-  await expect(page.locator(".ag-row").first()).toContainText("Captured");
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Spent", "PayPal capture", "Status"]);
+  await expect(page.locator(".ag-row").first()).toContainText("Spent");
 
   const lena = page.locator("button[data-donor=Lena]");
   await lena.click();
@@ -435,7 +442,6 @@ test("ledger: opening and closing the book moves nothing; Replay still runs it a
 test("ledger: a closed book is out of reach for Tab and for screen readers", async ({ page }) => {
   await openLedger(page, "closed");
   await page.getByRole("button", { name: /Every line of the book/ }).focus();
-  await page.keyboard.press("Escape");
   const visited = [];
   for (let i = 0; i < 16; i++) {
     await page.keyboard.press("Tab");
@@ -496,17 +502,33 @@ test("ledger: the phone presses rows, and the book filters there too", async ({ 
   await expect(bookRows(page)).toHaveCount(6);
 });
 
-test("ledger: the keyboard reaches the map through Studio's own stops, and Space presses a donor", async ({ page }) => {
+test("finding 17: Tab walks the Ledger's buttons in order, Space presses, and the focus is seen whole", async ({ page }) => {
   await openLedger(page, "closed");
-  await page.getByRole("button", { name: "Replay" }).focus();
-  await page.keyboard.press("Escape");
-  const stop = page.getByRole("group", { name: /^Money map/ });
-  await expect(stop).toBeFocused();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".lg-map button").first()).toBeFocused();
+  await page.getByRole("link", { name: "Ledger" }).focus();
+  const seen: string[] = [];
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press("Tab");
+    seen.push(await page.evaluate(() => document.activeElement?.getAttribute("data-donor") ?? document.activeElement?.getAttribute("data-need") ?? document.activeElement?.textContent?.trim().slice(0, 28) ?? ""));
+  }
+  expect(seen.slice(0, 9)).toEqual(["Mark", "Lena", "Yuki", "Replay", "water", "diapers", "batteries", "Receipt photo", "Every line of the book →"]);
+  await page.getByRole("link", { name: "Ledger" }).focus();
+  await page.keyboard.press("Tab");
+  const mark = page.locator("button[data-donor=Mark]");
+  await expect(mark).toBeFocused();
+  const look = await mark.evaluate((e) => {
+    const { outlineStyle, outlineWidth } = getComputedStyle(e);
+    const r = e.getBoundingClientRect();
+    const top = document.elementFromPoint(r.left + r.width / 2, r.top - 3);
+    return { outlineStyle, outlineWidth: parseFloat(outlineWidth), underHeader: Boolean(top?.closest("header")) };
+  });
+  expect(look.outlineStyle).toBe("solid");
+  expect(look.outlineWidth).toBeGreaterThanOrEqual(2);
+  expect(look.underHeader).toBe(false);
   await page.keyboard.press("Space");
-  await expect(page.locator(".lg-map button").first()).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".is-on").first()).toBeVisible();
+  await expect(mark).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
+  await page.keyboard.press("Space");
+  await expect(mark).toHaveAttribute("aria-pressed", "false");
 });
 
 test("ledger: reduced motion shows the finished picture at once and moves nothing", async ({ page }) => {
@@ -616,10 +638,7 @@ test("ledger of a drive taken through the app: held before the close, returned a
 
   await page.goto(`/drive/${driveId}?as=coordinator`);
   await captureUntilCompleted(page);
-  await page.getByRole("button", { name: "Close drive — release unspent holds" }).click();
-  await expect(async () => {
-    await expect(page.getByRole("button", { name: "Drive closed" })).toBeVisible({ timeout: 2_000 });
-  }).toPass({ timeout: 45_000 });
+  await closeDrive(page);
 
   await page.goto(`/drive/${driveId}?as=ledger`);
   await expectTotals(page, "Returned to donors");
@@ -647,7 +666,7 @@ test("ledger, finding 5: two receipts with the same line keep both lines in the 
   await expect(page.getByRole("grid")).toHaveAttribute("aria-rowcount", "41");
   await page.locator("[data-need=water]").click();
   await expect(bookRows(page)).toHaveCount(12);
-  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Charged", "PayPal capture", "Status"]);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Spent", "PayPal capture", "Status"]);
 });
 
 test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ page }) => {
@@ -739,4 +758,294 @@ test("ledger: a drive with no receipts draws no flow", async ({ page }) => {
   await expect(page.locator(".lg-map")).not.toContainText(/[€$¥]0(\.00)?\b/);
   await expect(page.locator(".lg-map")).toContainText("$30.00 held");
   await expect(page.locator(".lg-receipt")).toHaveCount(0);
+});
+
+// The strict judge's findings, by number (docs/nadya/p3-build/ui/2026-11-01-image-first-ledger-r3/judge/TRIAGE.md).
+
+/** Solid, hatched or absent: what a part of a hold's bar looks like. */
+const barLook = (page: Page, card: string, part: string) =>
+  page.locator(".co-card", { hasText: card }).locator(`[data-part=${part}]`).evaluateAll((els) => (els.length ? (getComputedStyle(els[0]).backgroundImage.includes("repeating-linear-gradient") ? "hatched" : "solid") : "none"));
+
+test("finding 1, 4: the screen leads step by step: sample, capture, close, ledger", async ({ page }) => {
+  await openDemo(page);
+  const sample = page.getByRole("button", { name: "Use the sample receipt" });
+  await expect(sample).toBeVisible();
+  expect((await sample.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await expect(page.locator(".co-pMid")).toContainText("Use the sample receipt");
+  // Before a receipt Close is the quiet button, and it asks.
+  const close = page.getByRole("button", { name: "Close drive" });
+  const closeBg = await close.evaluate((e) => getComputedStyle(e).backgroundColor);
+  const sampleBg = await sample.evaluate((e) => getComputedStyle(e).backgroundColor);
+  expect(closeBg).not.toBe(sampleBg);
+  let posts = 0;
+  page.on("request", (r) => {
+    if (r.method() === "POST" && r.url().endsWith("/close")) posts += 1;
+  });
+  await close.click();
+  await expect(page.getByText("Close the drive? Shares still waiting are captured and unspent holds go back to donors.")).toBeVisible();
+  expect(posts).toBe(0);
+  await page.getByRole("button", { name: "Keep it open" }).click();
+  await expect(page.getByText("Close the drive?")).toHaveCount(0);
+  expect(posts).toBe(0);
+
+  await sample.click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await captureUntilCompleted(page);
+  await closeDrive(page);
+  expect(posts).toBe(1);
+  const toLedger = page.getByRole("link", { name: "See where the money went" });
+  expect((await toLedger.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await toLedger.click();
+  await expect(page).toHaveURL(/as=ledger$/);
+  await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+});
+
+test("finding 4: on a phone too the next step is big and Close asks", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openDemo(page);
+  expect((await page.getByRole("button", { name: "Use the sample receipt" }).boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await page.getByRole("button", { name: "Close drive" }).click();
+  await expect(page.getByRole("button", { name: "Yes, close the drive" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Keep it open" })).toBeVisible();
+});
+
+test("finding 2, 3: waiting and hatched before the capture, spent and solid after, the sums do not move", async ({ page }) => {
+  await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  const lena = page.locator(".co-card", { hasText: "Lena" });
+  await expect(lena).toContainText("€4.58 waiting");
+  await expect(lena).toContainText("€15.42 held");
+  await expect(lena).not.toContainText("spent");
+  await expect(lena.locator(".co-tag")).toHaveText("Waiting for capture");
+  expect(await barLook(page, "Lena", "waiting")).toBe("hatched");
+  expect(await barLook(page, "Lena", "spent")).toBe("none");
+  await expect(page.locator(".co-card", { hasText: "Kitasora Logistics" })).toContainText("¥5,224 waiting");
+
+  await captureUntilCompleted(page);
+  await expect(lena).toContainText("€4.58 spent");
+  await expect(lena).toContainText("€15.42 held");
+  await expect(lena.locator(".co-tag")).toHaveText("Partly spent");
+  expect(await barLook(page, "Lena", "spent")).toBe("solid");
+  expect(await barLook(page, "Lena", "waiting")).toBe("none");
+  await expect(page.locator(".co-capDone")).toHaveText("PayPal captured €4.58 · $21.45 · ¥1,237 · ¥5,224");
+  await expect(page.locator(".co-card", { hasText: "Kitasora Logistics" })).toContainText("¥5,224 used of ¥500,000");
+  // Nothing is left to take: the button says so by not being pressable.
+  await expect(page.getByRole("button", { name: "Capture now" })).toBeDisabled();
+});
+
+test("finding 3: the donor's statement says what is being bought until PayPal took it", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.goto(`/pledge/${driveId}.water`);
+  await expect(page.getByRole("heading", { name: "What your money is buying" })).toBeVisible();
+  await expect(page.locator(".st-sWait")).toContainText("€4.58");
+  await expect(page.locator(".st-sSpent")).toContainText("€0.00");
+  await expect(page.getByText("is becoming")).toBeVisible();
+  await expect(page.locator(".st-cap").first()).toContainText("Waiting for capture");
+});
+
+test("finding 5: after Withdraw the statement says returning, then returned, by itself", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await captureUntilCompleted(page);
+  const pledge = `${driveId}.water`;
+  const drive = (await (await page.request.get(`/api/drives/${driveId}`)).json()) as DriveView;
+  const statement = (await (await page.request.get(`/api/pledges/${pledge}/statement`)).json()) as { statement: { balance: Record<string, unknown> } };
+  const hold = drive.holds.find((h) => h.pledgeId === pledge)!;
+  const answer = (voided: boolean) => {
+    const patch = voided ? { status: "voided", revoked: true, released: 1542, available: 0 } : { revoked: true };
+    Object.assign(hold, patch);
+    Object.assign(statement.statement.balance, patch);
+  };
+  let confirmed = false;
+  answer(false);
+  await page.route(`**/api/drives/${driveId}`, (r) => {
+    drive.eventCount += confirmed ? 1 : 0;
+    answer(confirmed);
+    return r.fulfill({ json: drive });
+  });
+  await page.route(`**/api/pledges/${pledge}/statement`, (r) => {
+    answer(confirmed);
+    return r.fulfill({ json: statement });
+  });
+  await page.goto(`/pledge/${pledge}`);
+  const sum = page.getByRole("region", { name: "Pledge summary" });
+  await expect(sum).toContainText("Returning at PayPal…");
+  await expect(sum).toContainText("€15.42");
+  await expect(sum).toContainText("Withdrawn");
+  await expect(sum).not.toContainText("held");
+  const body = page.locator("body");
+  await expect(body).not.toContainText("expires");
+  await expect(body).not.toContainText("when the drive closes");
+  await expect(page.getByText("on its way back at PayPal")).toBeVisible();
+  // No press: PayPal's word arrives on the page's own re-read.
+  confirmed = true;
+  await expect(page.locator(".st-sRel")).toContainText("€15.42", { timeout: 10_000 });
+  await expect(sum).not.toContainText("Returning");
+  await expect(sum).toContainText("Withdrawn");
+  await expect(body).not.toContainText("on its way back");
+});
+
+/** Text in `selector` drawn smaller than 11 px, counting the stage's zoom. `[data-control]` is the proof it can fail. */
+const tooSmall = (page: Page, selector: string) =>
+  page.evaluate((sel) => {
+    const out: string[] = [];
+    for (const root of document.querySelectorAll(sel)) {
+      for (const el of [root, ...root.querySelectorAll("*")]) {
+        if (![...el.childNodes].some((n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim())) continue;
+        const px = parseFloat(getComputedStyle(el).fontSize) * (el as Element & { currentCSSZoom: number }).currentCSSZoom;
+        if (px < 11) out.push(`${px.toFixed(1)}: ${el.textContent}`);
+      }
+    }
+    return out;
+  }, selector);
+
+test("finding 6: at 1440 the receipt's lines are at least 11 px, on all three screens", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  const rows = ".co-pill, .co-rej";
+  await expect(page.locator(rows)).toHaveCount(11);
+  await page.evaluate(() => {
+    const el = document.createElement("span");
+    el.dataset.control = "1";
+    el.style.fontSize = "12px";
+    el.textContent = "a line too small";
+    document.querySelector(".co-pill")!.append(el);
+  });
+  expect(await tooSmall(page, rows)).toEqual(["9.0: a line too small"]);
+  await page.evaluate(() => document.querySelector("[data-control]")?.remove());
+  expect(await tooSmall(page, rows)).toEqual([]);
+  // The original stays on screen, whole in its tooltip.
+  const original = page.locator(".co-pill .line-original").first();
+  await expect(original).toBeVisible();
+  expect(await original.getAttribute("title")).toContain("北空");
+
+  await page.goto(`/drive/${driveId}?as=donor`);
+  await expect(page.locator(".dn-li")).toHaveCount(5);
+  expect(await tooSmall(page, ".dn-li")).toEqual([]);
+
+  await page.goto(`/drive/${driveId}?as=volunteer`);
+  await expect(page.locator(".vo-rej")).toHaveCount(2);
+  expect(await tooSmall(page, ".vo-rej, .vo-need, .vo-chk")).toEqual([]);
+});
+
+test("finding 10: every phone screen says which drive this is and that it is the sandbox", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const driveId = await openDemo(page);
+  for (const role of ["shelter", "donor", "volunteer", "coordinator", "ledger"]) {
+    await page.goto(`/drive/${driveId}?as=${role}`);
+    const line = page.locator(".hd-mline");
+    await expect(line, role).toHaveText("Kitasora Shelter · Earthquake relief · Fictional · PayPal Sandbox");
+    expect((await line.boundingBox())!.height, role).toBeLessThan(30);
+  }
+  await page.goto("/");
+  await expect(page.locator(".hd-mline")).toHaveCount(0);
+});
+
+test("finding 12: a failed re-read says so, keeps the data, and clears when the server is back", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  const bar = page.getByText("Can’t reach the server, showing the last data");
+  await expect(bar).toHaveCount(0);
+  // The sample receipt started the re-reads: the next one fails.
+  await page.route(`**/api/drives/${driveId}`, (r) => r.abort());
+  await expect(bar).toBeVisible();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.unroute(`**/api/drives/${driveId}`);
+  await page.getByRole("button", { name: "Try again" }).click();
+  await expect(bar).toHaveCount(0);
+});
+
+test("finding 11: the phone's book has its own four columns and does not scroll sideways", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLedger(page, "open");
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(bookRows(page)).toHaveCount(20);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["What", "Who", "How much", "Status"]);
+  await expect(page.locator(".ag-row").first()).toContainText("1 Water 2 L");
+  await expect(page.locator(".ag-row").first()).toContainText("Waiting");
+  await expect(async () => {
+    expect(await page.locator('.ag-header-cell[col-id="book.state"]').evaluate((e) => e.getBoundingClientRect().right)).toBeLessThanOrEqual(390);
+    expect(await cutShort(page)).toEqual([]);
+  }).toPass({ timeout: 3_000 });
+});
+
+test("finding 18: while the Ledger's code loads, the header stays and the page says what it waits for", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.route("**/_next/static/**", async (r) => {
+    await new Promise((done) => setTimeout(done, 2_000));
+    await r.continue();
+  });
+  await page.getByRole("navigation", { name: "Role" }).getByRole("link", { name: "Ledger" }).click();
+  await expect(page.getByText("Loading the dashboard…")).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Role" })).toBeVisible();
+  await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText("Loading the dashboard…")).toHaveCount(0);
+  await expect(page).toHaveURL(new RegExp(driveId));
+});
+
+test("finding 31: the book downloads as a real CSV from a button that is always there", async ({ page }) => {
+  await openLedger(page, "closed");
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(book(page)).toBeVisible();
+  await book(page).hover();
+  await expect(page.locator("[aria-label=gridWidgetFormSectionExport]")).toBeHidden();
+  const [file] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download the book (CSV)" }).click()]);
+  expect(file.suggestedFilename()).toMatch(/^demo-[0-9a-f]+-book\.csv$/);
+  const text = readFileSync(await file.path(), "utf8");
+  expect(text.split("\r\n")[0]).toBe("Receipt,Line,Item,Need,Payer,Share (JPY),Spent,PayPal capture,Status");
+  expect(text).toContain("Alcohol");
+  expect(text.trim().split("\r\n").at(-1)).toBe("Total,,,,,14646,,,");
+});
+
+test("finding 24: the company's card leads to its statement", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("link", { name: "Kitasora Logistics" }).click();
+  await expect(page).toHaveURL(new RegExp(`/pledge/${driveId}\\.match$`));
+  await expect(page.getByText("Your pledge to")).toBeVisible();
+});
+
+test("finding 21: the shelter sees the receipt and the flow", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.goto(`/drive/${driveId}?as=shelter`);
+  await expect(page.getByRole("heading", { name: "Verified receipt" })).toBeVisible();
+  await expect(page.getByText("What this drive has bought for your shelter")).toBeVisible();
+  await expect(page.getByRole("button", { name: /PayPal/ })).toHaveCount(0);
+});
+
+test("finding 26: an address that leads nowhere offers the way back", async ({ page }) => {
+  await page.goto("/no/such/page");
+  await expect(page.getByRole("heading", { name: "No such page" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Open a new demo drive" })).toBeVisible();
+});
+
+test("finding 36: the amount hint covers empty, zero and negative", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.goto(`/drive/${driveId}?as=donor`);
+  const amount = page.getByRole("textbox", { name: "Your pledge amount" }).first();
+  const hint = page.locator(".dn-pfHint.dn-err").first();
+  for (const text of ["", "0", "-5"]) {
+    await amount.fill(text);
+    await expect(hint, text).toContainText("Enter an amount above 0");
+  }
+});
+
+test("finding 23: after a duplicate the paid receipt stays in front, and the pager says what each page is", async ({ page }) => {
+  await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.getByRole("link", { name: "Volunteer" }).click();
+  await page.getByRole("button", { name: "Upload another receipt" }).click();
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.getByText("Waiting for the coordinator")).toBeVisible();
+  await page.getByRole("link", { name: "Coordinator" }).click();
+  await expect(page.getByRole("button", { name: "1 · Approved" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "2 · Duplicate" })).toBeVisible();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
 });

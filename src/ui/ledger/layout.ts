@@ -98,6 +98,9 @@ function spread(points: Point[], gap: number): Point[] {
 }
 
 const EDGE = 12;
+/** The gap between the map and the shelter's card, and how far from the phone's edge the shelter sits. */
+const HUB_GAP = 5;
+const HUB_INSET = 34;
 const HEAD = 13;
 const LISTED_H = 34;
 
@@ -131,7 +134,8 @@ function bows(at: Point, hub: Point, width: number, compact: boolean) {
 }
 
 export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOptions): MapPlan {
-  const hub = compact ? { x: width * 0.945, y: height * 0.7 } : { x: width - 12, y: height * 0.6 };
+  // The shelter sits on the edge of its card: right of the map on a desktop, under it on a phone.
+  const hub = compact ? { x: width - HUB_INSET, y: height + HUB_GAP } : { x: width + HUB_GAP - 1, y: height * 0.6 };
   const labelPx = compact ? 11.5 : 14;
   const pillPx = 14.5;
   const labelH = compact ? 21 : 28;
@@ -148,7 +152,7 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
     shown.map((d) => {
       const p = project(d.at!.lon, d.at!.lat);
       // True position, unless a donor is so far east that their arc would have no length at all.
-      return { x: Math.min(p.x * width, hub.x - (compact ? 24 : 44)), y: p.y * height };
+      return { x: Math.min(p.x * width, hub.x - (compact ? 12 : 44)), y: p.y * height };
     }),
     compact ? 12 : 18,
   );
@@ -256,6 +260,12 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
         { x: label.x + label.w + 6, y: label.y, w, h: pillH },
         { x: label.x - w - 6, y: label.y, w, h: pillH },
         { x: label.x + (label.w - w) / 2, y: label.y - pillH - 5, w, h: pillH },
+        { x: label.x + label.w - w, y: label.y + label.h + 5, w, h: pillH },
+        { x: label.x, y: label.y + label.h + 5, w, h: pillH },
+        { x: at.x - w / 2, y: at.y + 16, w, h: pillH },
+        { x: at.x - w / 2, y: at.y - 16 - pillH, w, h: pillH },
+        { x: label.x - w / 3, y: label.y + label.h + 5, w, h: pillH },
+        { x: label.x - w / 3, y: label.y + label.h + pillH + 10, w, h: pillH },
       ]);
       if (box) pills.push({ flow: "held", text, box: take(box) });
       else room = false;

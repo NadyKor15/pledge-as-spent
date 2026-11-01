@@ -1,28 +1,90 @@
-import { money, shortName, statusLabel } from "./format";
+import type { CommandReport } from "@/server/paypal-ops";
+import { money, shortName } from "./format";
 import type { DriveView, Hold, JournalCall, LedgerRow, Need, Receipt, ReceiptLine } from "./types";
 
 // Read-only derivations over the drive view. No numbers are invented here:
 // everything is a sum, a grouping or a lookup of what the API returned.
 
-/** spent = captured or on its way to capture; held = what the hold can still pay; released = voided back to the donor. */
-export function holdAmounts(h: Pick<Hold, "pledged" | "authorized" | "captured" | "capturePending" | "accrued" | "released" | "uncollected" | "reversed">) {
-  const spent = h.captured + h.capturePending + h.accrued;
+type ShareMoney = "spent" | "waiting" | "none";
+
+/** What a share's status means for the money. The word "spent" is decided here and in holdAmounts, nowhere else. */
+export function shareStage(status: string): ShareMoney {
+  if (status === "captured" || status === "partly_reversed" || status === "reversed") return "spent";
+  if (status === "accrued" || status === "capture_pending") return "waiting";
+  return "none";
+}
+
+/** The donor withdrew and PayPal has not confirmed the void yet. */
+export const returningAtPayPal = (h: Pick<Hold, "revoked" | "status">) => h.revoked && (h.status === "authorized" || h.status === "partially_captured");
+
+type HoldMoney = Pick<Hold, "pledged" | "authorized" | "captured" | "capturePending" | "accrued" | "released" | "uncollected" | "reversed" | "revoked" | "status">;
+
+/**
+ * The one reading of a hold, whose book is the source of truth. spent = PayPal took it; waiting = accepted for a
+ * purchase, not taken yet; held = what the hold can still pay; returning = on its way back after a withdrawal;
+ * released = back with the donor. pledged = spent + waiting + held + returning + released, plus what never came in.
+ */
+export function holdAmounts(h: HoldMoney) {
+  const spent = h.captured;
+  const waiting = h.accrued + h.capturePending;
   const total = h.authorized > 0 ? h.authorized : h.pledged;
   const released = h.released;
-  const held = h.authorized > 0 ? Math.max(0, h.authorized - spent - released - h.uncollected - h.reversed) : 0;
-  return { total, spent, held, released };
+  const rest = h.authorized > 0 ? Math.max(0, h.authorized - spent - waiting - released - h.uncollected - h.reversed) : 0;
+  const returning = returningAtPayPal(h) ? rest : 0;
+  return { total, spent, waiting, held: rest - returning, returning, released };
+}
+
+/** The tag on a hold, in plain words. PayPal's own statuses stay in the journal. */
+export function holdTag(h: HoldMoney): string {
+  if (h.revoked) return "Withdrawn";
+  const a = holdAmounts(h);
+  switch (h.status) {
+    case "pending_approval":
+      return "Waiting for approval";
+    case "voided":
+      return a.spent > 0 ? "Rest returned" : "Returned";
+    case "captured":
+      return "Fully spent";
+    case "expired":
+      return "Expired";
+    case "denied":
+      return "Declined by PayPal";
+    default:
+      return a.waiting > 0 ? "Waiting for capture" : a.spent > 0 ? "Partly spent" : "On hold";
+  }
+}
+
+/** The tag's colour: amber while money waits, green once PayPal took some, grey otherwise. */
+export function holdTone(h: HoldMoney): "wait" | "done" | "off" {
+  if (h.revoked || h.status === "voided" || h.status === "pending_approval" || h.status === "expired" || h.status === "denied") return "off";
+  const a = holdAmounts(h);
+  return a.waiting > 0 ? "wait" : a.spent > 0 ? "done" : "off";
 }
 
 export const needById = (v: DriveView, id: string | null | undefined): Need | undefined => (id ? v.needs.find((n) => n.needId === id) : undefined);
 export const holdById = (v: DriveView, id: string | null | undefined): Hold | undefined => (id ? v.holds.find((h) => h.pledgeId === id) : undefined);
 
-/** The receipt the coordinator should look at first: one waiting for a decision, else the newest. */
-export function focusReceipt(v: DriveView): Receipt | null {
-  return v.receipts.find((r) => r.status === "review") ?? v.receipts[v.receipts.length - 1] ?? null;
-}
-
 /** The newest receipt that moved money (what donors see as "verified"). */
 export const latestFunded = (v: DriveView): Receipt | null => [...v.receipts].reverse().find((r) => r.status === "funded") ?? null;
+
+/** A failed check no decision can lift: the coordinator can only refuse it. */
+const blockedReceipt = (r: Receipt) => r.flags.some((f) => f.severity === "block");
+
+/**
+ * The receipt the coordinator should look at first: one a decision can move, else the newest that moved money,
+ * else the newest. A blocked one (a duplicate) stays a labelled page in the pager.
+ */
+export function focusReceipt(v: DriveView): Receipt | null {
+  return v.receipts.find((r) => r.status === "review" && !blockedReceipt(r)) ?? latestFunded(v) ?? v.receipts[v.receipts.length - 1] ?? null;
+}
+
+/** What each page of the receipt pager is. */
+export function receiptBadge(r: Receipt): string {
+  if (r.status === "funded") return "Approved";
+  if (r.status === "rejected") return "Refused";
+  if (r.flags.some((f) => f.code === "duplicate")) return "Duplicate";
+  return blockedReceipt(r) ? "Blocked" : "Needs a decision";
+}
 
 export type LineState = "approved" | "rejected" | "pending" | "review";
 
@@ -64,7 +126,7 @@ export function lineViews(v: DriveView, r: Receipt): LineView[] {
     }
     if (refused) return { line, state: "rejected", need, qty: refused.qty, reason: refused.reasonEn, shares };
     if (unfunded) return { line, state: "rejected", need, qty: null, reason: unfunded.reasonEn, shares };
-    if (r.status === "rejected") return { line, state: "rejected", need, qty: line.needQty, reason: (r.decision as { reason?: string } | null)?.reason ?? "The coordinator rejected this receipt.", shares };
+    if (r.status === "rejected") return { line, state: "rejected", need, qty: line.needQty, reason: (r.decision as { reason?: string } | null)?.reason ?? "The coordinator refused this receipt.", shares };
     if (line.verdict === "rejected") return { line, state: "rejected", need, qty: line.needQty, reason: line.reasonEn, shares };
     const confirmed = r.status === "funded";
     return { line, state: confirmed ? "rejected" : line.verdict === "eligible" ? "pending" : "review", need, qty: line.needQty, reason: line.reasonEn, shares };
@@ -116,12 +178,65 @@ export function shareGroups(v: DriveView, receiptId?: string): ShareGroup[] {
   return [...groups.values()].sort((a, b) => order.indexOf(a.needId) - order.indexOf(b.needId));
 }
 
-/** The weakest capture state across a group's shares, in PayPal's words. */
+/** The weakest capture state across a group's shares. */
 export function captureState(statuses: string[]): { label: string; done: boolean } {
-  if (statuses.length && statuses.every((s) => s === "captured")) return { label: "PayPal capture · COMPLETED", done: true };
-  if (statuses.some((s) => s === "capture_pending")) return { label: "PayPal capture · PENDING", done: false };
-  if (statuses.some((s) => s === "uncollected")) return { label: "Not captured · hold ended", done: false };
-  return { label: "Recorded · captured with the next batch", done: false };
+  const real = statuses.filter((s) => s !== "nothing_to_capture");
+  if (real.length && real.every((s) => s === "reversed")) return { label: "Returned · PayPal took it back", done: false };
+  if (real.length && real.every((s) => shareStage(s) === "spent")) return { label: "Spent · captured by PayPal", done: true };
+  if (real.some((s) => s === "capture_pending")) return { label: "Waiting for capture · sent to PayPal", done: false };
+  if (real.some((s) => s === "uncollected")) return { label: "Not captured · hold ended", done: false };
+  return { label: "Waiting for capture · next batch", done: false };
+}
+
+const count = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+
+/**
+ * The line under Capture now. It comes from what PayPal answered and what the book recorded: `commands` is the
+ * answer to the last press, null when there was none in this visit.
+ */
+export function captureLine(v: DriveView, commands: CommandReport[] | null): { text: string; tone: "done" | "wait" | "bad" } | null {
+  const by = (outcome: CommandReport["outcome"]) => (commands ?? []).filter((c) => c.kind === "capture" && c.outcome === outcome).length;
+  if (by("refused")) return { text: `PayPal refused ${count(by("refused"), "capture")}`, tone: "bad" };
+  if (by("pending")) return { text: `PayPal did not answer ${count(by("pending"), "capture")}: ${by("pending") === 1 ? "it is" : "they are"} sent again`, tone: "wait" };
+  const list = (pick: (h: Hold) => number) =>
+    v.holds
+      .filter((h) => pick(h) > 0)
+      .map((h) => money(h.currency, pick(h)))
+      .join(" · ");
+  const sent = list((h) => h.capturePending);
+  if (sent) return { text: `Sent to PayPal, waiting for its answer: ${sent}`, tone: "wait" };
+  const done = list((h) => holdAmounts(h).spent);
+  if (done) return { text: `PayPal captured ${done}`, tone: "done" };
+  return commands ? { text: "Nothing was waiting for capture", tone: "wait" } : null;
+}
+
+export type NextStep = "sample" | "capture" | "check" | "close" | "closing" | "ledger";
+
+/** What the coordinator's screen should lead to now: this one button is the main one. */
+export function nextStep(v: DriveView): NextStep {
+  if (v.drive.status === "closed") return "ledger";
+  if (v.drive.status === "closing") return "closing";
+  if (v.receipts.length === 0) return "sample";
+  if (v.holds.some((h) => h.accrued > 0)) return "capture";
+  if (v.holds.some((h) => h.capturePending > 0)) return "check";
+  return "close";
+}
+
+/** Fees PayPal reported on captures, one figure per currency: "€0.51 + ¥265 + $1.05". */
+function captureFees(v: DriveView): string {
+  return v.feeSavings
+    .filter((f) => f.paypalFeeMinor > 0)
+    .map((f) => money(f.currency, f.paypalFeeMinor))
+    .join(" + ");
+}
+
+/** Where a volunteer's payout comes from, with the fees PayPal really reported. */
+export function payoutNote(v: DriveView, attempt: DriveView["payouts"][number]["attempts"][number]): string {
+  const waiting = v.holds.some((h) => holdAmounts(h).waiting > 0);
+  const who = v.drive.volunteerName ?? "The volunteer";
+  const source = waiting ? `${who} is paid now from the drive’s PayPal balance; donors’ shares are captured with the next batch.` : `${who} was paid from the drive’s PayPal balance; donors’ shares were captured after it.`;
+  const fees = [attempt.fee ? `payout ${money(attempt.fee.currency, attempt.fee.minor)}` : "", captureFees(v) ? `captures ${captureFees(v)}` : ""].filter(Boolean);
+  return fees.length ? `${source} PayPal fees: ${fees.join(", ")}.` : source;
 }
 
 export interface Check {
@@ -204,7 +319,7 @@ export function paypalActivity(v: DriveView): Activity[] {
     } else if (kind === "cap") {
       const pledgeId = rest[1];
       if (c.ids.id) byPayPalId.set(c.ids.id, key);
-      build = (s) => ({ parts: ["Partial capture", who(pledgeId), "final_capture=false", s], short: `${who(pledgeId)} partial capture ${s}` });
+      build = (s) => ({ parts: ["Partial capture", who(pledgeId), s], short: `${who(pledgeId)} partial capture ${s}` });
     } else if (kind === "pay") {
       const attempt = v.payouts.find((p) => p.receiptId === rest[1])?.attempts.find((a) => a.senderBatchId === rid);
       const amount = attempt ? money(v.drive.baseCurrency, attempt.amount) : "";
@@ -213,7 +328,7 @@ export function paypalActivity(v: DriveView): Activity[] {
       build = (s) => ({ parts: [`Payout to ${volunteer}`, amount, s].filter(Boolean), short: `Payout to ${volunteer} — ${s}` });
     } else if (kind === "void") {
       const pledgeId = rest[1];
-      build = (s) => ({ parts: ["Unspent hold released", who(pledgeId), s], short: `${who(pledgeId)} hold released — ${s}` });
+      build = (s) => ({ parts: ["Rest of the hold returned", who(pledgeId), s], short: `${who(pledgeId)} hold returned — ${s}` });
     } else if (kind === "reauth") {
       const pledgeId = rest[1];
       build = (s) => ({ parts: ["Hold re-authorized", who(pledgeId), s], short: `${who(pledgeId)} hold re-authorized — ${s}` });
@@ -267,8 +382,6 @@ export function readLabel(r: Receipt): string {
 /** PayPal accepted a reauthorization of this hold. It refreshes the honor period, not the 29 days. */
 export const reauthorized = (v: DriveView, pledgeId: string) =>
   v.paypal.some((c) => c.requestId?.startsWith("reauth:") && c.requestId.split(":")[2] === pledgeId && c.httpStatus > 0 && c.httpStatus < 400);
-
-export const holdStatusLabel = (h: Hold) => (h.revoked && h.status !== "voided" ? "WITHDRAWN" : statusLabel(h.status));
 
 /** The name of the company behind the match, if there is one. */
 export const matchName = (v: DriveView) => v.match.holds[0]?.donorName ?? null;

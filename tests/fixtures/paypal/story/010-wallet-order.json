@@ -29,7 +29,8 @@
             "shipping_preference": "NO_SHIPPING",
             "return_url": "https://example.com/pledge-as-spent/return",
             "cancel_url": "https://example.com/pledge-as-spent/cancel",
-            "user_action": "CONTINUE"
+            "user_action": "CONTINUE",
+            "brand_name": "Pledge-as-Spent"
           }
         }
       }

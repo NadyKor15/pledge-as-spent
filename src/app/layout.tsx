@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"], 
 
 export const metadata: Metadata = {
   title: "Pledge-as-Spent",
-  description: "Your pledge is a PayPal hold: it is charged only for verified purchases, and whatever is not spent is released.",
+  description: "Your pledge is a PayPal hold: it is charged only for verified purchases, and whatever is not spent goes back.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };

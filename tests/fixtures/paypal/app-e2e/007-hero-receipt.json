@@ -12,7 +12,7 @@
     "body": {
       "sender_batch_header": {
         "sender_batch_id": "pay:demo-deedc05de3:demo-deedc05de3.r1",
-        "email_subject": "Reimbursement for your receipt: Kitasora flood relief (demo)"
+        "email_subject": "Reimbursement for your receipt: Earthquake relief (demo)"
       },
       "items": [
         {

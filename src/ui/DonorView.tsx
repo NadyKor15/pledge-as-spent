@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { captureState, holdAmounts, holdStatusLabel, latestFunded, lineName, lineViews, needById, shareGroups, type ShareGroup } from "./derive";
+import { captureState, holdAmounts, holdTag, holdTone, latestFunded, lineName, lineViews, needById, shareGroups, shareStage, type ShareGroup } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
-import { donorParts, lineRange, money, ofCount, pct, qtyText } from "./format";
+import { donorParts, itemPhrase, lineRange, money, ofCount, pct, qtyText } from "./format";
 import { DesktopHeader, DriveTitle, driveBadge } from "./Header";
 import { Check, Chevron, Cross, Handshake, NeedIcon, Person } from "./icons";
 import { PledgeForm } from "./PledgeForm";
@@ -19,11 +19,17 @@ const s = classes("dn");
 
 const UNIT_WORD: Record<string, string> = { JPY: "yen", USD: "dollar", EUR: "euro", GBP: "pound" };
 
-/** The public drive page: needs with the PayPal pledge form (donor) or read-only (shelter). */
+function heroText(role: Role, status: DriveView["drive"]["status"]): string {
+  if (role === "shelter") return "What this drive has bought for your shelter, line by line. There is nothing to do here: volunteers send receipts and donors pledge.";
+  if (status === "closed") return "This drive is closed. Donors paid only for verified purchases, and everything else went back to them.";
+  return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent goes back when the drive closes.";
+}
+
+/** The public drive page: needs with the PayPal pledge form (donor) or read-only (shelter), and where the money went. */
 export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role, "ledger"> }) {
   const page = useRef<HTMLDivElement>(null);
   const layer = useRef<SVGGElement>(null);
-  const receipt = role === "donor" ? latestFunded(view) : null;
+  const receipt = latestFunded(view);
   useFlows(page, layer, (box) => flows(view, receipt, box));
   return (
     <div className={s.page} ref={page}>
@@ -38,10 +44,7 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
               <DriveTitle title={view.drive.displayTitle} />
             </h1>
             <div className={s.chip}>{driveBadge(view.drive.demo)}</div>
-            <p>
-              Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent is released
-              when the drive closes.
-            </p>
+            <p>{heroText(role, view.drive.status)}</p>
           </div>
         </section>
 
@@ -53,13 +56,11 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
 
         <MatchStrip view={view} />
 
-        {role === "donor" && (
-          <div className={s.bottom}>
-            <MoneyColumn view={view} />
-            <ReceiptColumn view={view} receipt={receipt} />
-            <LatestColumn view={view} receipt={receipt} />
-          </div>
-        )}
+        <div className={s.bottom}>
+          <MoneyColumn view={view} />
+          <ReceiptColumn view={view} receipt={receipt} />
+          <LatestColumn view={view} receipt={receipt} />
+        </div>
       </main>
       <svg className={s.links} aria-hidden="true">
         <defs>
@@ -127,6 +128,7 @@ function MatchStrip({ view }: { view: DriveView }) {
   const { ratio, holds, pledgedBase, usedBase } = view.match;
   if (!ratio || holds.length === 0) return null;
   const base = view.drive.baseCurrency;
+  const waiting = view.ledger.filter((r) => r.kind === "match_share" && shareStage(r.status) === "waiting").reduce((sum, r) => sum + r.base, 0);
   const unit = UNIT_WORD[base] ?? base;
   const what = ratio.num === ratio.den ? `doubles every verified ${unit}` : `adds ${ratio.num} for every ${ratio.den} verified ${unit}`;
   return (
@@ -135,8 +137,8 @@ function MatchStrip({ view }: { view: DriveView }) {
         <Handshake w={53.27} h={35.11} />
       </span>
       <p>
-        <b>{holds.map((h) => h.donorName).join(", ")}</b> {what}, up to {money(base, pledgedBase)} — <b>{money(base, usedBase)}</b>
-        <span> used</span>
+        <b>{holds.map((h) => h.donorName).join(", ")}</b> {what}, up to {money(base, pledgedBase)} — <b>{money(base, waiting > 0 ? waiting : usedBase)}</b>
+        <span>{waiting > 0 ? " waiting for capture" : " used"}</span>
       </p>
       <span className={s.pill}>
         {ratio.num}:{ratio.den} company match
@@ -145,7 +147,10 @@ function MatchStrip({ view }: { view: DriveView }) {
   );
 }
 
-const badgeClass = (h: Hold) => (h.status === "partially_captured" ? `${s.badge} ${s.part}` : h.status === "captured" ? `${s.badge} ${s.done}` : s.badge);
+function badgeClass(h: Hold) {
+  const tone = holdTone(h);
+  return tone === "wait" ? `${s.badge} ${s.part}` : tone === "done" ? `${s.badge} ${s.done}` : s.badge;
+}
 
 /** Label inside a bar segment only when it fits the segment. */
 const fits = (label: string, percent: number, trackPx: number) => (percent / 100) * trackPx >= label.length * 7.4 + 10;
@@ -162,10 +167,12 @@ function MoneyColumn({ view }: { view: DriveView }) {
           const { name, place } = donorParts(h.donorName, h.donorCountry);
           const a = holdAmounts(h);
           const parts = [
-            { cls: s.s, v: a.spent },
-            { cls: s.h, v: a.held },
-            { cls: s.x, v: a.released },
-          ];
+            { key: "spent", cls: s.s, v: a.spent, word: "spent" },
+            { key: "waiting", cls: s.wait, v: a.waiting, word: "waiting" },
+            { key: "held", cls: s.h, v: a.held, word: "held" },
+            { key: "returning", cls: s.back, v: a.returning, word: "returning" },
+            { key: "back", cls: s.x, v: a.released, word: "back" },
+          ].filter((p) => p.v > 0);
           return (
             <div className={s.pc} key={h.pledgeId} data-flow={`hold:${h.pledgeId}`}>
               <div className={s.pcRow1}>
@@ -175,7 +182,7 @@ function MoneyColumn({ view }: { view: DriveView }) {
                   </Link>
                   {place && ` · ${place}`}
                 </span>
-                <span className={badgeClass(h)}>{holdStatusLabel(h)}</span>
+                <span className={badgeClass(h)}>{holdTag(h)}</span>
               </div>
               <div className={s.pcNeed}>{needById(view, h.needId)?.displayLabel}</div>
               {h.authorized > 0 ? (
@@ -185,28 +192,20 @@ function MoneyColumn({ view }: { view: DriveView }) {
                       <b>{money(h.currency, a.total)}</b> pledged
                     </span>
                     <span className={s.r}>
-                      <span>
-                        <b>{money(h.currency, a.spent)}</b> spent
-                      </span>
-                      {(a.held > 0 || a.released === 0) && (
-                        <span>
-                          <b>{money(h.currency, a.held)}</b> held
+                      {parts.map((p) => (
+                        <span key={p.key}>
+                          <b>{money(h.currency, p.v)}</b> {p.word}
                         </span>
-                      )}
-                      {a.released > 0 && (
-                        <span>
-                          <b>{money(h.currency, a.released)}</b> released
-                        </span>
-                      )}
+                      ))}
                     </span>
                   </div>
-                  <div className={s.pbar}>
-                    {parts.map((p, i) => {
+                  <div className={s.pbar} role="img" aria-label={parts.map((p) => `${money(h.currency, p.v)} ${p.word}`).join(", ")}>
+                    {parts.map((p) => {
                       const w = pct(p.v, a.total);
                       const label = money(h.currency, p.v);
                       return (
-                        <i key={i} className={p.cls} style={{ width: `${w}%` }}>
-                          {p.v > 0 && fits(label, w, 549) ? label : ""}
+                        <i key={p.key} className={p.cls} data-part={p.key} style={{ width: `${w}%` }}>
+                          {p.key !== "waiting" && p.key !== "returning" && fits(label, w, 549) ? label : ""}
                         </i>
                       );
                     })}
@@ -229,19 +228,32 @@ function MoneyColumn({ view }: { view: DriveView }) {
           return (
             <div className={`${s.pc} ${s.kl}`} key={h.pledgeId} data-flow={`hold:${h.pledgeId}`}>
               <div className={s.pcRow1}>
-                <span className={s.pcName}>{h.donorName}</span>
-                <span className={s.badge}>{holdStatusLabel(h)}</span>
+                <span className={s.pcName}>
+                  <Link href={`/pledge/${encodeURIComponent(h.pledgeId)}`}>{h.donorName}</Link>
+                </span>
+                <span className={badgeClass(h)}>{holdTag(h)}</span>
               </div>
               <div className={s.klSub}>
                 Company match {r ? `${r.num}:${r.den}` : ""}, up to {money(h.currency, a.total)}
               </div>
               <div className={s.klUsed}>
                 <span className={s.nudge}>
-                  <b>{money(h.currency, a.spent)}</b> used{a.released > 0 ? ` · ${money(h.currency, a.released)} released` : ""}
+                  {a.waiting > 0 ? (
+                    <>
+                      <b>{money(h.currency, a.waiting)}</b> waiting{a.spent > 0 ? " · " : ""}
+                    </>
+                  ) : null}
+                  {(a.spent > 0 || a.waiting === 0) && (
+                    <>
+                      <b>{money(h.currency, a.spent)}</b> used of {money(h.currency, a.total)}
+                    </>
+                  )}
+                  {a.released > 0 ? ` · ${money(h.currency, a.released)} back` : ""}
                 </span>
                 <span className={s.klBar}>
-                  <i style={{ width: `${pct(a.spent, a.total)}%` }} />
-                  <i style={{ width: `${pct(a.released, a.total)}%` }} />
+                  <i data-part="spent" style={{ width: `${pct(a.spent, a.total)}%` }} />
+                  <i data-part="waiting" className={s.klWait} style={{ width: `${pct(a.waiting, a.total)}%` }} />
+                  <i data-part="back" className={s.klBack} style={{ width: `${pct(a.released, a.total)}%` }} />
                 </span>
               </div>
               <div className={s.pcHold}>
@@ -302,15 +314,17 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
               <Check size={21.19} color="var(--ok-ico)" />
               <div className={s.liTxt}>
                 <b>
-                  {g.lineNos.length === 1 ? "Line" : "Lines"} {lineRange(g.lineNos)} · {money(base, g.base)}
+                  {g.need?.displayLabel ?? g.needId} · {money(base, g.base)}
                 </b>
-                <span>{splitText(g, base)}</span>
+                <span>
+                  {g.lineNos.length === 1 ? "Line" : "Lines"} {lineRange(g.lineNos)} · {splitText(g, base)}
+                </span>
               </div>
             </div>
           ))}
           {refused.length > 0 && (
             <h3 className={s.gap}>
-              Rejected items ({refused.length} {refused.length === 1 ? "line" : "lines"})
+              Refused items ({refused.length} {refused.length === 1 ? "line" : "lines"})
             </h3>
           )}
           {refused.map((l) => (
@@ -337,7 +351,7 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
                   </div>
                   <div className={s.miniTx}>
                     <b>{g.need.displayLabel}</b>
-                    <span>{ofCount(g.need.qtyCovered, g.need.qtyNeeded, "piece")}</span>
+                    <span>{ofCount(g.need.qtyCovered, g.need.qtyNeeded, g.need.unit)}</span>
                   </div>
                 </div>
                 <div className={s.bar}>
@@ -382,7 +396,7 @@ function LatestColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt 
   return (
     <section className={`${s.card} ${s.col} ${s.latest}`}>
       <h2>Latest verified purchases</h2>
-      <div className={s.lead}>Items from approved receipt lines that were captured from donors’ holds.</div>
+      <div className={s.lead}>Items from approved receipt lines, paid from donors’ holds as PayPal captures them.</div>
       {groups.length === 0 ? (
         <p className={s.empty}>Nothing has been bought yet.</p>
       ) : (
@@ -408,7 +422,7 @@ function LatestColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt 
                     )}
                   </div>
                   <div className={s.ltSub}>
-                    {g.need ? qtyText(g.qty, g.need.unit) : g.qty} · {g.lineNos.length === 1 ? "line" : "lines"} {lineRange(g.lineNos)}
+                    {g.need ? itemPhrase(g.qty, g.need.unit, g.need.displayLabel) : g.qty} · {g.lineNos.length === 1 ? "line" : "lines"} {lineRange(g.lineNos)}
                   </div>
                   <div className={s.ltCap}>
                     {cap.done ? <Check size={22.4} color="var(--ok-ico)" /> : <Check size={22.4} color="var(--wait)" />}

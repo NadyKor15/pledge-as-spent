@@ -1,7 +1,7 @@
 import Link from "next/link";
 import "./header.css";
 import { classes } from "./cls";
-import { titleParts } from "./format";
+import { shelterShort, titleParts } from "./format";
 import { useStacked } from "./stage";
 import { ROLES, type Role } from "./types";
 
@@ -22,11 +22,24 @@ export function DriveTitle({ title }: { title: string }) {
 
 export const driveBadge = (demo: boolean) => (demo ? "Fictional drive · PayPal Sandbox" : "PayPal Sandbox");
 
+/** The phone's one line under the header: which drive, and that nothing here is real money. */
+function phoneLine(title: string, demo: boolean): string {
+  const { tail } = titleParts(title);
+  return [shelterShort(title), tail, demo ? "Fictional" : null, "PayPal Sandbox"].filter(Boolean).join(" · ");
+}
+
 export const roleHref = (driveId: string, role: Role) => `/drive/${encodeURIComponent(driveId)}?as=${role}`;
 
 export function DesktopHeader({ driveId, title, demo, role, variant }: { driveId: string; title: string; demo: boolean; role: Role; variant: "c" | "d" }) {
   const stacked = useStacked();
-  if (stacked) return <MobileHeader driveId={driveId} role={role} />;
+  if (stacked) {
+    return (
+      <>
+        <MobileHeader driveId={driveId} role={role} />
+        <p className={s.mline}>{phoneLine(title, demo)}</p>
+      </>
+    );
+  }
   return (
     <header className={`${s.top} ${s[variant]}`}>
       <Link className={s.brand} href="/">

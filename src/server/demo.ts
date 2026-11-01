@@ -22,11 +22,14 @@ export function fxFor(quote: CurrencyCode, base: CurrencyCode): FxRate | null {
   return rate ? { base, quote, rate, ...FX_SNAPSHOT } : null;
 }
 
+/** What the donor reads in PayPal's window. tests/fixtures/paypal/app-e2e compares request bodies with this title. */
+const DEMO_TITLE = "Earthquake relief (demo)";
+
 export function demoDrive(id: string, createdAt: string): { drive: Drive; needs: Need[] } {
   const drive: Drive = {
     ...KITASORA.drive,
     id,
-    title: "Kitasora flood relief (demo)",
+    title: DEMO_TITLE,
     status: "open",
     createdAt,
   };
@@ -35,9 +38,8 @@ export function demoDrive(id: string, createdAt: string): { drive: Drive; needs:
 }
 
 /**
- * What the demo drive shows on screen. `drive.title` stays as recorded: it goes
- * into the order description sent to PayPal, and the strict replay of
- * tests/fixtures/paypal/app-e2e compares request bodies.
+ * What the demo drive shows on screen. `drive.title` is the shorter name PayPal
+ * sees: in the order description, the capture's note and the payout's subject.
  */
 export const DEMO_DISPLAY = {
   title: "Kitasora Community Shelter — Earthquake relief",

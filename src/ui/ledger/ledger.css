@@ -13,6 +13,14 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-frame .ag-studio-layout-widget:not(.ag-studio-layout-widget-focus) { --ag-studio-layout-widget-resize-border-color: transparent; --ag-studio-layout-widget-resize-handle-color: transparent; }
 /* A closed book is below the frame's edge: out of reach for Tab and for screen readers as well as for the eye. */
 .lg-frame[data-book="closed"] .ag-studio-layout-widget:has(.ag-root-wrapper) { visibility: hidden; }
+/* Tab walks the report like any page: the buttons in our widgets, the book's grid when it is open. Studio's stops
+   on the widgets (Enter to go in, then a trap) would hide the buttons; only the grid keeps its stop. */
+.lg-frame .ag-studio-layout-widget:not(:has(.ag-root-wrapper)) > .ag-studio-layout-widget-focus-container,
+.lg-frame .ag-studio-layout-widget:not(:has(.ag-root-wrapper)) > .ag-tab-guard { display: none; }
+.lg-frame button:focus-visible, .lg-frame a:focus-visible { outline: 3px solid var(--spent-text); outline-offset: 2px; border-radius: 6px; }
+.lg-frame .lg-need:focus-visible { outline-offset: -3px; }
+/* The book's export is our own button in the bottom line: always visible, with a real file behind it. */
+.lg-frame .ag-studio-layout-widget-toolbar { display: none; }
 /* Studio has no setting for it: a total under the pointer gets a tooltip repeating the same number. */
 .lg-frame .ag-studio-value-widget-content-container, .lg-frame .ag-studio-layout-widget-title { pointer-events: none; }
 .lg-group { font-weight: 600; }
@@ -22,8 +30,11 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-screen[data-stacked="true"] .lg-frame { max-width: 640px; }
 
 /* Map */
-.lg-map { position: absolute; inset: 0; overflow: hidden; }
-.lg-land, .lg-flows { position: absolute; inset: 0; }
+/* The shelter's dot sits on the card's edge, past the map's: the widget lets it out and stays over the card. */
+.lg-map { position: absolute; inset: 0; }
+.lg-frame .ag-studio-layout-widget:has(.lg-map) { overflow: visible; z-index: 2; }
+.lg-frame .ag-studio-layout-widget:has(.lg-map) * { overflow: visible; }
+.lg-land, .lg-flows { position: absolute; inset: 0; overflow: visible; }
 .lg-flows { pointer-events: none; }
 .lg-arc path, .lg-arc circle { fill: none; }
 .lg-spent { --c: var(--spent); }
@@ -68,7 +79,9 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-shelter { display: flex; flex-direction: column; padding: calc(26px * var(--s)) calc(30px * var(--s)) calc(14px * var(--s)); inset: 2px 16px 2px 4px; }
 .lg-name { font-size: calc(33px * var(--s)); line-height: 1.15; font-weight: 700; letter-spacing: -.02em; }
 .lg-kicker { margin-top: calc(6px * var(--s)); font-size: calc(21px * var(--s)); font-weight: 600; color: var(--spent-text); }
-.lg-shelter ul { flex: 1; min-height: 0; margin-top: calc(8px * var(--s)); display: flex; flex-direction: column; list-style: none; overflow-y: auto; }
+.lg-sum { margin-top: calc(4px * var(--s)); font-size: calc(16px * var(--s)); line-height: 1.3; color: #4A5160; }
+.lg-sum b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.lg-shelter ul { flex: 1; min-height: 0; margin-top: calc(8px * var(--s)); display: flex; flex-direction: column; list-style: none; overflow-y: auto; padding: 2px; }
 .lg-shelter li { flex: 1 1 0; min-height: calc(92px * var(--s)); display: flex; }
 .lg-shelter li + li { border-top: 1px solid var(--line); }
 .lg-need { flex: 1; display: grid; grid-template-columns: calc(118px * var(--s)) 1fr; align-items: center; gap: calc(16px * var(--s)); text-align: left; border-radius: 10px; }
@@ -96,10 +109,14 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 
 /* Bottom line */
 .lg-foot { position: absolute; inset: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: center; padding: 0 calc(40px * var(--s)); border-top: 1px solid var(--line); font-size: calc(18px * var(--s)); }
+.lg-mid { min-width: 0; margin-left: calc(36px * var(--s)); padding: calc(4px * var(--s)) 0 calc(4px * var(--s)) calc(64px * var(--s)); border-left: 1px solid var(--line); }
+.lg-rates { margin-top: 2px; font-size: calc(14px * var(--s)); color: var(--muted); font-variant-numeric: tabular-nums; }
+.lg-book-acts { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding-left: calc(64px * var(--s)); border-left: 1px solid var(--line); }
+.lg-csv { color: var(--muted); font-size: calc(14px * var(--s)); text-decoration: underline; text-underline-offset: 3px; }
 .lg-receipt { display: flex; align-items: center; gap: 22px; color: #4A5160; text-decoration: none; }
 .lg-receipt img { width: 40px; height: auto; max-height: 56px; object-fit: cover; object-position: top; border-radius: 3px; box-shadow: 0 1px 4px rgba(40, 36, 28, .2); }
-.lg-refused { color: var(--refused); margin-left: calc(36px * var(--s)); padding: calc(10px * var(--s)) 0 calc(10px * var(--s)) calc(64px * var(--s)); border-left: 1px solid var(--line); }
-.lg-open-book { color: var(--back); font-weight: 500; white-space: nowrap; padding: calc(10px * var(--s)) 0 calc(10px * var(--s)) calc(64px * var(--s)); border-left: 1px solid var(--line); grid-column: 3; }
+.lg-refused { color: var(--refused); }
+.lg-open-book { color: var(--back); font-weight: 500; white-space: nowrap; }
 
 /* Phone: one column, the same widgets laid out as on the phone picture. */
 [data-stacked="true"] .lg-card { inset: 5px 12px; border-radius: 14px; }
@@ -118,8 +135,13 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 [data-stacked="true"] .lg-foot { grid-template-columns: auto 1fr; grid-template-rows: auto auto; gap: 6px 14px; padding: 10px 14px 12px; font-size: 13.5px; }
 [data-stacked="true"] .lg-receipt { grid-row: 1 / 3; gap: 0; }
 [data-stacked="true"] .lg-receipt span { display: none; }
-[data-stacked="true"] .lg-refused { align-self: end; line-height: 1.35; margin: 0; padding: 0; border: 0; }
-[data-stacked="true"] .lg-open-book { align-self: start; justify-self: start; font-size: 14px; padding: 0; border: 0; grid-column: auto; }
+[data-stacked="true"] .lg-mid { align-self: end; margin: 0; padding: 0; border: 0; }
+[data-stacked="true"] .lg-refused { line-height: 1.35; }
+[data-stacked="true"] .lg-rates { font-size: 12px; line-height: 1.35; }
+[data-stacked="true"] .lg-book-acts { align-self: start; align-items: flex-start; padding: 0; border: 0; }
+[data-stacked="true"] .lg-open-book { font-size: 14px; }
+[data-stacked="true"] .lg-csv { font-size: 12.5px; }
+[data-stacked="true"] .lg-sum { font-size: 13.5px; margin-top: 2px; }
 
 @keyframes lg-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes lg-fade { from { opacity: 0; } }

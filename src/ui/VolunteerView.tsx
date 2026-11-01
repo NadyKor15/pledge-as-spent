@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
-import { lineName, lineViews, readLabel, receiptChecks, shareGroups } from "./derive";
+import { lineName, lineViews, payoutNote, readLabel, receiptChecks, shareGroups } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { ago, money, ofCount, titleParts } from "./format";
 import { driveBadge, roleHref } from "./Header";
@@ -157,7 +157,7 @@ function Payout({ view, receipt: r, following, refresh }: { view: DriveView; rec
   const who = view.drive.volunteerName ? `Volunteer ${view.drive.volunteerName}` : "The volunteer";
   if (!a) {
     if (r.status === "review") return <Status icon={<Clock size={36} />} head="With the coordinator" sub="No money moves until they decide" meta="You will see the result here" />;
-    if (r.status === "rejected") return <Status icon={<Cross size={36} color="var(--rej-icon)" />} head="Receipt rejected" sub="Nothing was paid" meta={(r.decision as { reason?: string } | null)?.reason ?? ""} />;
+    if (r.status === "rejected") return <Status icon={<Cross size={36} color="var(--rej-icon)" />} head="Receipt refused" sub="Nothing was paid" meta={(r.decision as { reason?: string } | null)?.reason ?? ""} />;
     return <Status icon={<Cross size={36} color="var(--rej-icon)" />} head="Nothing to pay" sub="No line on this receipt was approved" meta="" />;
   }
   if (a.status === "failed") return <Status icon={<Cross size={36} color="var(--rej-icon)" />} head="The payout did not go through" sub={`PayPal Payouts · FAILED · ${money(base, a.amount)}`} meta={a.failReason ?? ""} />;
@@ -208,7 +208,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
   const refused = lines.filter((l) => l.state === "rejected");
   const waiting = lines.filter((l) => l.state === "pending" || l.state === "review");
   const groups = shareGroups(view, r.id);
-  const hours = view.drive.batch.maxAgeHours;
+  const payout = view.payouts.find((p) => p.receiptId === r.id)?.attempts.at(-1);
   return (
     <>
       <section className={`${s.card} ${s.cReceipt}`}>
@@ -258,7 +258,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
           {refused.length > 0 && (
             <>
               <span className={s.dot}>·</span>
-              <span className={s.no}>{refused.length} rejected</span>
+              <span className={s.no}>{refused.length} refused</span>
             </>
           )}
         </div>
@@ -298,14 +298,18 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
 
       <Payout view={view} receipt={r} following={following} refresh={refresh} />
 
-      <section className={`${s.card} ${s.cInfo}`}>
-        <Info size={19.6} outline />
-        <p>Approved lines are paid from the donors’ holds {hours === 24 ? "once a day" : `every ${hours} hours`} — your reimbursement does not wait for that.</p>
-      </section>
+      {payout && payout.status !== "failed" && (
+        <section className={`${s.card} ${s.cInfo}`}>
+          <Info size={19.6} outline />
+          <p>{payoutNote(view, payout)}</p>
+        </section>
+      )}
 
-      <button type="button" className={`${s.btn} ${s.primary}`} onClick={another}>
-        Upload another receipt
-      </button>
+      {view.drive.status === "open" && (
+        <button type="button" className={`${s.btn} ${s.primary}`} onClick={another}>
+          Upload another receipt
+        </button>
+      )}
       <Link className={`${s.btn} ${s.secondary}`} href={roleHref(view.drive.id, "coordinator")}>
         See who paid for each line
       </Link>

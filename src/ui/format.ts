@@ -12,6 +12,13 @@ export function money(currency: string | null | undefined, minor: number | null 
   return `${minor < 0 ? "−" : ""}${SYMBOL[currency] ?? `${currency} `}${s}`;
 }
 
+/** "€1 = ¥162.35": one unit of the pledge's currency in the drive's. */
+export function rateText(fx: { base: string; quote: string; rate: string } | null | undefined): string | null {
+  if (!fx || fx.base === fx.quote) return null;
+  const sign = (c: string) => SYMBOL[c] ?? `${c} `;
+  return `${sign(fx.quote)}1 = ${sign(fx.base)}${fx.rate}`;
+}
+
 /** "Lena (Berlin)" + "DE" -> { name: "Lena", place: "Berlin, DE" }. */
 export function donorParts(donorName: string, country?: string | null): { name: string; place: string | null } {
   const m = /^(.*?)\s*\(([^)]+)\)\s*$/.exec(donorName);
@@ -63,6 +70,9 @@ export function lineRange(nos: number[]): string {
   return parts.join(", ");
 }
 
+/** "Kitasora Community Shelter — Earthquake relief" -> "Kitasora Shelter", as the Ledger's card calls it. */
+export const shelterShort = (title: string) => titleParts(title).head.replace(/\bCommunity\s+/, "");
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /** Date part of an ISO string (zoned or local) -> "5 Nov 2026" / "5 Nov". */
@@ -88,9 +98,6 @@ export function titleParts(title: string): { head: string; tail: string | null }
   const i = title.indexOf(" — ");
   return i < 0 ? { head: title, tail: null } : { head: title.slice(0, i), tail: title.slice(i + 3) };
 }
-
-const UPPER = (s: string) => s.replace(/_/g, " ").toUpperCase();
-export const statusLabel = UPPER;
 
 /** Bar split in percent, rounded to 0.01 so the parts add up to 100. */
 export const pct = (part: number, whole: number) => (whole > 0 ? Math.round((part / whole) * 10000) / 100 : 0);

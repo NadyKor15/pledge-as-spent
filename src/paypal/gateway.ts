@@ -18,6 +18,9 @@ import type { Money } from "../core/types";
 
 export const SANDBOX_BASE_URL = "https://api-m.sandbox.paypal.com";
 
+/** The name a donor sees in PayPal's window, in place of the sandbox merchant's "TEST STORE". */
+const BRAND_NAME = "Pledge-as-Spent";
+
 /** Public sandbox test card from developer.paypal.com/tools/sandbox/card-testing (Visa). */
 export const SANDBOX_TEST_CARD = { number: "4012888888881881", expiry: "2030-12", securityCode: "123", name: "Sandbox Donor" };
 
@@ -238,6 +241,7 @@ export function createPayPalGateway(opts: GatewayOptions): PayPalGateway {
         paymentSource: {
           paypal: {
             experienceContext: {
+              brandName: BRAND_NAME,
               shippingPreference: PaypalWalletContextShippingPreference.NoShipping,
               // PAY_NOW shows the donor the exact pledge; with CONTINUE PayPal tells them "up to" a higher amount.
               userAction: i.userAction === "CONTINUE" ? PaypalExperienceUserAction.Continue : PaypalExperienceUserAction.PayNow,

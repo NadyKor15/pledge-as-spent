@@ -230,6 +230,7 @@ describe("wallet approval path", () => {
     const [driveId, pledgeId] = unit.reference_id.split(":");
     const ctx = b.payment_source.paypal.experience_context;
     expect(ctx.shipping_preference).toBe("NO_SHIPPING");
+    expect(ctx.brand_name).toBe("Pledge-as-Spent");
     const { pp } = gateway([e]);
     const order = await pp.createAuthorizeOrder({ pledgeId, driveId, amount: money(unit.amount), description: unit.description, requestId: reqId(e), returnUrl: ctx.return_url, cancelUrl: ctx.cancel_url, userAction: ctx.user_action });
     expect(order).toEqual({ id: (e.response.body as any).id, status: "PAYER_ACTION_REQUIRED", approveUrl: `https://www.sandbox.paypal.com/checkoutnow?token=${(e.response.body as any).id}`, authorization: undefined });

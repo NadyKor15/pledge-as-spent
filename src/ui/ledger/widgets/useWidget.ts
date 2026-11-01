@@ -5,11 +5,11 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { LedgerContext } from "../store";
 
 /**
- * What every custom widget of the report needs: the shared store, Studio told the widget is
- * ready, and a name on the stop Studio's keyboard model gives each widget (Tab between
- * widgets, Enter to go inside, Escape to come back out), which has none of its own.
+ * What every custom widget of the report needs: the shared store, and Studio told the widget is
+ * ready. Studio's keyboard model (a stop per widget, Enter to go inside) is switched off for these
+ * in ledger.css: their buttons are ordinary buttons in the page's Tab order.
  */
-export function useWidget<T extends HTMLElement>(params: AgWidgetParams, name: string) {
+export function useWidget<T extends HTMLElement>(params: AgWidgetParams) {
   const { store } = params.context as LedgerContext;
   const snap = useSyncExternalStore(store.subscribe, store.get, store.get);
   const root = useRef<T>(null);
@@ -17,19 +17,7 @@ export function useWidget<T extends HTMLElement>(params: AgWidgetParams, name: s
 
   useEffect(() => {
     widgetApi.setDisplayState("displayed");
-    // Studio attaches this widget to its frame on its own schedule: wait for the frame to be there.
-    let frame = 0;
-    let tries = 0;
-    const label = () => {
-      const stop = root.current?.closest(".ag-studio-layout-widget")?.querySelector(".ag-studio-layout-widget-focus-container");
-      if (stop) {
-        stop.setAttribute("role", "group");
-        stop.setAttribute("aria-label", `${name}. Press Enter to go inside.`);
-      } else if (tries++ < 120) frame = requestAnimationFrame(label);
-    };
-    label();
-    return () => cancelAnimationFrame(frame);
-  }, [widgetApi, name]);
+  }, [widgetApi]);
 
   return { store, snap, root };
 }

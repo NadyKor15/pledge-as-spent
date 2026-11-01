@@ -19,7 +19,7 @@
             "currency_code": "EUR",
             "value": "10.00"
           },
-          "description": "Pledge: Drinking water 2 L - Kitasora flood relief (demo)",
+          "description": "Pledge: Drinking water 2 L - Earthquake relief (demo)",
           "custom_id": "demo-deedc05de3.wallet"
         }
       ],
@@ -27,7 +27,8 @@
         "paypal": {
           "experience_context": {
             "shipping_preference": "NO_SHIPPING",
-            "user_action": "PAY_NOW"
+            "user_action": "PAY_NOW",
+            "brand_name": "Pledge-as-Spent"
           }
         }
       }
