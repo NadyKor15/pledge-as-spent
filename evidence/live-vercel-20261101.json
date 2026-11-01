@@ -1,0 +1,511 @@
+{
+ "site": "https://pledge-as-spent.vercel.app",
+ "commit": "9fbfdba",
+ "checkedUtc": "2026-11-01T02:11:26Z",
+ "controlDrive": {
+  "id": "demo-f372326129",
+  "status": "closed",
+  "reader": [
+   "cached:ocr-pro"
+  ],
+  "holds": [
+   {
+    "pledgeId": "demo-f372326129.water",
+    "donorName": "Lena (Berlin)",
+    "currency": "EUR",
+    "authorized": 2000,
+    "captured": 458,
+    "released": 1542,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "2Y816602392541815"
+   },
+   {
+    "pledgeId": "demo-f372326129.diapers",
+    "donorName": "Mark (Columbus)",
+    "currency": "USD",
+    "authorized": 3000,
+    "captured": 2145,
+    "released": 855,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "3T416474B7938142S"
+   },
+   {
+    "pledgeId": "demo-f372326129.batteries",
+    "donorName": "Yuki (Osaka)",
+    "currency": "JPY",
+    "authorized": 3000,
+    "captured": 1237,
+    "released": 1763,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "4V841583EA244972U"
+   },
+   {
+    "pledgeId": "demo-f372326129.match",
+    "donorName": "Kitasora Logistics",
+    "currency": "JPY",
+    "authorized": 500000,
+    "captured": 5224,
+    "released": 494776,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "1NR092281W690032M"
+   }
+  ],
+  "captures": [
+   {
+    "capture": "3WP65983GD053501C",
+    "request": "cap:demo-f372326129:demo-f372326129.water:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "EUR",
+     "4.58"
+    ]
+   },
+   {
+    "capture": "5PE922386K0983923",
+    "request": "cap:demo-f372326129:demo-f372326129.diapers:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "USD",
+     "21.45"
+    ]
+   },
+   {
+    "capture": "3HK86339B7905131L",
+    "request": "cap:demo-f372326129:demo-f372326129.batteries:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "JPY",
+     "1237"
+    ]
+   },
+   {
+    "capture": "64424341AL727524D",
+    "request": "cap:demo-f372326129:demo-f372326129.match:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "JPY",
+     "5224"
+    ]
+   }
+  ],
+  "payouts": [
+   {
+    "receiptId": "demo-f372326129.r1",
+    "attempts": [
+     {
+      "senderBatchId": "pay:demo-f372326129:demo-f372326129.r1",
+      "amount": 10448,
+      "status": "confirmed",
+      "submittedAt": "2026-11-01T02:06:01.784Z",
+      "payoutBatchId": "NPUW3BEC9J8TC",
+      "fee": {
+       "minor": 209,
+       "currency": "JPY"
+      }
+     }
+    ]
+   }
+  ],
+  "closeReport": [
+   {
+    "pledgeId": "demo-f372326129.water",
+    "donorName": "Lena (Berlin)",
+    "kind": "donor",
+    "currency": "EUR",
+    "pledged": 2000,
+    "spent": 458,
+    "released": 1542,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-f372326129.diapers",
+    "donorName": "Mark (Columbus)",
+    "kind": "donor",
+    "currency": "USD",
+    "pledged": 3000,
+    "spent": 2145,
+    "released": 855,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-f372326129.batteries",
+    "donorName": "Yuki (Osaka)",
+    "kind": "donor",
+    "currency": "JPY",
+    "pledged": 3000,
+    "spent": 1237,
+    "released": 1763,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-f372326129.match",
+    "donorName": "Kitasora Logistics",
+    "kind": "match",
+    "currency": "JPY",
+    "pledged": 500000,
+    "spent": 5224,
+    "released": 494776,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   }
+  ],
+  "feeSavings": [
+   {
+    "currency": "EUR",
+    "batches": 1,
+    "shares": 3,
+    "savedMinor": 78,
+    "estimate": false
+   },
+   {
+    "currency": "JPY",
+    "batches": 2,
+    "shares": 12,
+    "savedMinor": 490,
+    "estimate": false
+   },
+   {
+    "currency": "USD",
+    "batches": 1,
+    "shares": 3,
+    "savedMinor": 98,
+    "estimate": false
+   }
+  ]
+ },
+ "walletAndRefusalsDrive": {
+  "id": "demo-23ebc213a0",
+  "status": "closed",
+  "receipts": [
+   {
+    "id": "demo-23ebc213a0.r1",
+    "status": "funded",
+    "reader": "live:ocr-pro",
+    "flags": [],
+    "decision": null
+   },
+   {
+    "id": "demo-23ebc213a0.r2",
+    "status": "funded",
+    "reader": "live:ocr-pro",
+    "flags": [],
+    "decision": null
+   },
+   {
+    "id": "demo-23ebc213a0.r3",
+    "status": "rejected",
+    "reader": "copy",
+    "flags": [
+     "duplicate"
+    ],
+    "decision": "reject"
+   },
+   {
+    "id": "demo-23ebc213a0.r4",
+    "status": "rejected",
+    "reader": "recorded",
+    "flags": [
+     "pre_disaster"
+    ],
+    "decision": "reject"
+   },
+   {
+    "id": "demo-23ebc213a0.r5",
+    "status": "funded",
+    "reader": "live:ocr-pro",
+    "flags": [
+     "low_confidence"
+    ],
+    "decision": "approve"
+   }
+  ],
+  "holds": [
+   {
+    "pledgeId": "demo-23ebc213a0.water",
+    "donorName": "Lena (Berlin)",
+    "currency": "EUR",
+    "authorized": 2000,
+    "captured": 834,
+    "released": 1166,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "3BP83240M5939033W"
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.diapers",
+    "donorName": "Mark (Columbus)",
+    "currency": "USD",
+    "authorized": 3000,
+    "captured": 2145,
+    "released": 855,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "2H725594Y90943803"
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.batteries",
+    "donorName": "Yuki (Osaka)",
+    "currency": "JPY",
+    "authorized": 3000,
+    "captured": 1237,
+    "released": 1763,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "0AN82331E89806412"
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.match",
+    "donorName": "Kitasora Logistics",
+    "currency": "JPY",
+    "authorized": 500000,
+    "captured": 7188,
+    "released": 492812,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "08283693GE1465739"
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.p-2a0b54d256",
+    "donorName": "Anonymous donor",
+    "currency": "EUR",
+    "authorized": 2000,
+    "captured": 835,
+    "released": 1165,
+    "status": "voided",
+    "paymentSource": "paypal",
+    "authorizationId": "9V2771289D0227445"
+   }
+  ],
+  "captures": [
+   {
+    "capture": "2PE69842MU6632208",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.water:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "EUR",
+     "2.29"
+    ]
+   },
+   {
+    "capture": "34137820PD608970R",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.diapers:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "USD",
+     "21.45"
+    ]
+   },
+   {
+    "capture": "2Y795960E1721341F",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.batteries:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "JPY",
+     "1237"
+    ]
+   },
+   {
+    "capture": "35A89008S9973851T",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.match:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "JPY",
+     "5224"
+    ]
+   },
+   {
+    "capture": "5PE44157KP0410231",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.p-2a0b54d256:1",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "EUR",
+     "2.29"
+    ]
+   },
+   {
+    "capture": "4R594958298422522",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.water:2",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "EUR",
+     "6.05"
+    ]
+   },
+   {
+    "capture": "5NH202317A2329542",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.match:2",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "JPY",
+     "1964"
+    ]
+   },
+   {
+    "capture": "2S403782CS4721335",
+    "request": "cap:demo-23ebc213a0:demo-23ebc213a0.p-2a0b54d256:2",
+    "http": 201,
+    "paypal": [
+     "COMPLETED",
+     "EUR",
+     "6.06"
+    ]
+   }
+  ],
+  "payouts": [
+   {
+    "receipt": "demo-23ebc213a0.r1",
+    "status": "confirmed",
+    "amount": 10448
+   },
+   {
+    "receipt": "demo-23ebc213a0.r2",
+    "status": "confirmed",
+    "amount": 2002
+   },
+   {
+    "receipt": "demo-23ebc213a0.r5",
+    "status": "confirmed",
+    "amount": 1928
+   }
+  ],
+  "closeReport": [
+   {
+    "pledgeId": "demo-23ebc213a0.water",
+    "donorName": "Lena (Berlin)",
+    "kind": "donor",
+    "currency": "EUR",
+    "pledged": 2000,
+    "spent": 834,
+    "released": 1166,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.diapers",
+    "donorName": "Mark (Columbus)",
+    "kind": "donor",
+    "currency": "USD",
+    "pledged": 3000,
+    "spent": 2145,
+    "released": 855,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.batteries",
+    "donorName": "Yuki (Osaka)",
+    "kind": "donor",
+    "currency": "JPY",
+    "pledged": 3000,
+    "spent": 1237,
+    "released": 1763,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.match",
+    "donorName": "Kitasora Logistics",
+    "kind": "match",
+    "currency": "JPY",
+    "pledged": 500000,
+    "spent": 7188,
+    "released": 492812,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-23ebc213a0.p-2a0b54d256",
+    "donorName": "Anonymous donor",
+    "kind": "donor",
+    "currency": "EUR",
+    "pledged": 2000,
+    "spent": 835,
+    "released": 1165,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   }
+  ]
+ },
+ "withdrawDrive": {
+  "id": "demo-ab18ad9a68",
+  "holds": [
+   {
+    "pledgeId": "demo-ab18ad9a68.water",
+    "donorName": "Lena (Berlin)",
+    "currency": "EUR",
+    "authorized": 2000,
+    "captured": 0,
+    "released": 0,
+    "status": "authorized",
+    "paymentSource": "card",
+    "authorizationId": "507617740X2920159"
+   },
+   {
+    "pledgeId": "demo-ab18ad9a68.diapers",
+    "donorName": "Mark (Columbus)",
+    "currency": "USD",
+    "authorized": 3000,
+    "captured": 0,
+    "released": 0,
+    "status": "authorized",
+    "paymentSource": "card",
+    "authorizationId": "6LX03755CN4502156"
+   },
+   {
+    "pledgeId": "demo-ab18ad9a68.batteries",
+    "donorName": "Yuki (Osaka)",
+    "currency": "JPY",
+    "authorized": 3000,
+    "captured": 0,
+    "released": 3000,
+    "status": "voided",
+    "paymentSource": "card",
+    "authorizationId": "5HR57085N4347244W"
+   },
+   {
+    "pledgeId": "demo-ab18ad9a68.match",
+    "donorName": "Kitasora Logistics",
+    "currency": "JPY",
+    "authorized": 500000,
+    "captured": 0,
+    "released": 0,
+    "status": "authorized",
+    "paymentSource": "card",
+    "authorizationId": "4F4712846D1253630"
+   }
+  ]
+ },
+ "liveReading": {
+  "file": "eval/receipts/holdout/holdout-ja-01.png",
+  "httpSeconds": 12.8,
+  "reader": "live:ocr-pro",
+  "notes": "OCR in the function, Nova through the OIDC role, no stored key"
+ }
+}
