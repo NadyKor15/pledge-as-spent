@@ -106,8 +106,8 @@ describe("rereadDoubtfulRows", () => {
     const e = engine();
     expect(await rereadDoubtfulRows(white, rows(), e, ["tr", "en"])).toEqual(rows());
     expect(e.calls).toHaveLength(0);
-    const { recognizeRow: _, ...plain } = e;
-    expect(await rereadDoubtfulRows(white, rows(), plain as OcrEngine, ["ja"])).toEqual(rows());
+    const plain: OcrEngine = { recognize: e.recognize, close: e.close };
+    expect(await rereadDoubtfulRows(white, rows(), plain, ["ja"])).toEqual(rows());
   });
 
   it("cuts the row out twice as wide and a third taller, and stays inside the image at its edges", () => {
