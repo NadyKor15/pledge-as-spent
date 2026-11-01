@@ -809,6 +809,18 @@ test("finding 4: on a phone too the next step is big and Close asks", async ({ p
   await expect(page.getByRole("button", { name: "Keep it open" })).toBeVisible();
 });
 
+test("recheck: the buttons that confirm Close are on screen at 1440×900", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.getByRole("button", { name: "Close drive" }).click();
+  for (const name of ["Yes, close the drive", "Keep it open"]) {
+    const box = (await page.getByRole("button", { name }).boundingBox())!;
+    expect(box.y + box.height).toBeLessThanOrEqual(900);
+  }
+});
+
 test("finding 2, 3: waiting and hatched before the capture, spent and solid after, the sums do not move", async ({ page }) => {
   await openDemo(page);
   await page.getByRole("button", { name: "Use the sample receipt" }).click();

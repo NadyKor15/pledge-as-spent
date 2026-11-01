@@ -40,7 +40,7 @@ export function FooterWidget(params: AgWidgetParams) {
             ))}
           </p>
         )}
-        {rates && <p className="lg-rates">{rates}</p>}
+        {rates && <p className="lg-rates">{rates} · PayPal’s fees are paid from the drive’s balance, not from pledges</p>}
       </div>
       <div className="lg-book-acts">
         <button type="button" className="lg-open-book" aria-expanded={snap.bookOpen} onClick={() => store.setBookOpen(!snap.bookOpen)}>

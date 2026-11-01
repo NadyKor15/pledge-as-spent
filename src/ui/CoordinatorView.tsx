@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
 import { captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineName, lineViews, liveFeed, needById, nextStep, paypalActivity, payoutNote, receiptBadge, receiptChecks, shareGroups, type LineView, type NextStep } from "./derive";
@@ -512,6 +512,10 @@ function Activity({ view, busy, next, capture, line, error }: { view: DriveView;
 
 function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy: string | null; next: NextStep; close: () => void; error: ApiError | null }) {
   const [asking, setAsking] = useState(false);
+  const confirm = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (asking) confirm.current?.scrollIntoView?.({ block: "nearest" });
+  }, [asking]);
   const status = view.drive.status;
   const sub =
     status === "open"
@@ -530,7 +534,7 @@ function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy:
           See where the money went
         </Link>
       ) : asking && status === "open" && busy !== "close" ? (
-        <div className={s.confirm} role="group" aria-label="Confirm closing the drive">
+        <div className={s.confirm} ref={confirm} role="group" aria-label="Confirm closing the drive">
           <p>Close the drive? Shares still waiting are captured and unspent holds go back to donors.</p>
           <div className={s.confirmActs}>
             <button

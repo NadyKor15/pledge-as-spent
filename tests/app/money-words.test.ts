@@ -175,17 +175,17 @@ describe("#7 where the volunteer's money comes from", () => {
 
   it("before the capture: paid now, shares with the next batch, the payout fee from PayPal", () => {
     const v = fixture("open");
-    expect(payoutNote(v, attempt(v))).toBe("Haruto is paid now from the drive’s PayPal balance; donors’ shares are captured with the next batch. PayPal fees: payout ¥209.");
+    expect(payoutNote(v, attempt(v))).toBe("Haruto is paid now from the drive’s PayPal balance, before donors’ shares are captured with the next batch. That balance also pays PayPal’s fees, so donors pay only their share: payout ¥209.");
   });
 
   it("after the capture: the fees PayPal reported, nothing else", () => {
     const v = fixture("closed");
-    expect(payoutNote(v, attempt(v))).toBe("Haruto was paid from the drive’s PayPal balance; donors’ shares were captured after it. PayPal fees: payout ¥209, captures €0.51 + ¥265 + $1.05.");
+    expect(payoutNote(v, attempt(v))).toBe("Haruto was paid from the drive’s PayPal balance, before donors’ shares were captured. That balance also pays PayPal’s fees, so donors pay only their share: payout ¥209, captures €0.51 + ¥265 + $1.05.");
   });
 
   it("a fee PayPal did not report is not shown", () => {
     const v = fixture("open");
-    expect(payoutNote(v, { ...attempt(v), fee: undefined })).toBe("Haruto is paid now from the drive’s PayPal balance; donors’ shares are captured with the next batch.");
+    expect(payoutNote(v, { ...attempt(v), fee: undefined })).toBe("Haruto is paid now from the drive’s PayPal balance, before donors’ shares are captured with the next batch. That balance also pays PayPal’s fees, so donors pay only their share.");
   });
 });
 

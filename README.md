@@ -92,7 +92,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 698 unit and integration tests, 48 browser tests.
+30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 698 unit and integration tests, 49 browser tests.
 
 ## Run it
 
@@ -119,6 +119,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 
 - A PayPal hold lives 29 days at most, so a longer drive needs the donor to pledge again.
 - The volunteer still pays first and is reimbursed afterwards.
+- The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
 - Synthetic receipts and a fictional drive only. No real donations.
 - Need quantities are read correctly only 63.3% of the time on the held-out set, and a garbled item name can be refused as not needed. A refusal never overcharges a donor, but it can underpay a volunteer.
 - The blur missed 7 of 42 personal data items on the held-out set. A real drive needs a person to check a receipt before it is published.

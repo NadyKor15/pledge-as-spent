@@ -234,9 +234,10 @@ function captureFees(v: DriveView): string {
 export function payoutNote(v: DriveView, attempt: DriveView["payouts"][number]["attempts"][number]): string {
   const waiting = v.holds.some((h) => holdAmounts(h).waiting > 0);
   const who = v.drive.volunteerName ?? "The volunteer";
-  const source = waiting ? `${who} is paid now from the drive’s PayPal balance; donors’ shares are captured with the next batch.` : `${who} was paid from the drive’s PayPal balance; donors’ shares were captured after it.`;
+  const source = waiting ? `${who} is paid now from the drive’s PayPal balance, before donors’ shares are captured with the next batch.` : `${who} was paid from the drive’s PayPal balance, before donors’ shares were captured.`;
+  const bearer = "That balance also pays PayPal’s fees, so donors pay only their share";
   const fees = [attempt.fee ? `payout ${money(attempt.fee.currency, attempt.fee.minor)}` : "", captureFees(v) ? `captures ${captureFees(v)}` : ""].filter(Boolean);
-  return fees.length ? `${source} PayPal fees: ${fees.join(", ")}.` : source;
+  return fees.length ? `${source} ${bearer}: ${fees.join(", ")}.` : `${source} ${bearer}.`;
 }
 
 export interface Check {
