@@ -161,6 +161,32 @@ test("a file that is not a photo gets a plain refusal, nothing is sent", async (
   expect(posted).toBe(false);
 });
 
+test("receipt lines read in English first, the printed text stays small beside them", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await expect(page.locator(".co-pill b").first()).toContainText("Water 2 L");
+  const refused = page.locator(".co-rej");
+  await expect(refused.nth(0)).toContainText("Alcohol");
+  await expect(refused.nth(1)).toContainText("Gift card");
+  await expect(page.getByText("Canned peel")).toHaveCount(0);
+  await expect(refused.nth(0).locator("small")).toContainText("350");
+  if (process.env.SHOTS) {
+    await page.screenshot({ path: `${process.env.SHOTS}/coordinator-1280.png`, fullPage: true });
+    for (const role of ["donor", "volunteer"]) {
+      await page.goto(`/drive/${driveId}?as=${role}`);
+      await page.waitForLoadState("networkidle");
+      await page.screenshot({ path: `${process.env.SHOTS}/${role}-1280.png`, fullPage: true });
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const role of ["coordinator", "donor", "volunteer"]) {
+      await page.goto(`/drive/${driveId}?as=${role}`);
+      await page.waitForLoadState("networkidle");
+      await page.screenshot({ path: `${process.env.SHOTS}/${role}-390.png`, fullPage: true });
+    }
+  }
+});
+
 test("at 390 px neither the coordinator nor the donor screen is wider than the window", async ({ page }) => {
   const driveId = await openDemo(page);
   await page.getByRole("button", { name: "Use the sample receipt" }).click();

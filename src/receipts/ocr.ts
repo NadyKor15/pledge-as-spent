@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import type { CurrencyCode } from "../core/types";
 import { NOVA_MODELS, minorUnits, type Options } from "./bedrock";
-import { cleanLines, isNonProductRow, isQtyRow, qtyRow } from "./clean";
+import { cleanLines, hasNoWords, isNonProductRow, isQtyRow, qtyRow } from "./clean";
 import { readNumbers } from "./numbers";
 import { anchorPii, totalRow } from "./pii";
 import { prepImage, type Box, type PrepOptions } from "./prep";
@@ -269,7 +269,7 @@ function rowsBelow(rows: { text: string }[], at: number): { names: string[]; qty
  * The rows that are products: from the first row that ends in an amount down to the first totals row. A model
  * drops a row now and then and turns a continuation or a quantity row into a line of its own; the rows do neither.
  */
-function productRows(rows: { text: string; confidence?: number }[], exponent: number): number[] {
+export function productRows(rows: { text: string; confidence?: number }[], exponent: number): number[] {
   const texts = rows.map((r) => r.text);
   const amount = (t: string) => AMOUNT_ROW.test(t) && !isQtyRow(t);
   const negative = (t: string) => /-\s*[¥￥$€₺*]|[¥￥$€₺*]\s*-/.test(t);
@@ -279,7 +279,11 @@ function productRows(rows: { text: string; confidence?: number }[], exponent: nu
   for (const [i, t] of texts.entries()) {
     if (i === total) break;
     if (!amount(t)) continue;
-    if (isNonProductRow(t) && !negative(t)) break;
+    if (isNonProductRow(t) && !negative(t)) {
+      // A row of symbols is a garbled quantity row ("4 @ $1.49" as "4 6€ $1.49"), not the end of the products.
+      if (hasNoWords(t)) continue;
+      break;
+    }
     const n = lastNumber(t, exponent) ?? 0;
     // A subtotal whose label OCR could not read: a doubtful row with exactly the sum of the rows above it.
     if (out.length >= 2 && n === sum && (rows[i].confidence ?? 100) < REREAD_BELOW_CONFIDENCE) break;

@@ -114,6 +114,21 @@ export async function rereadDoubtfulRows(img: Rgba, lines: OcrLine[], engine: Oc
 
 // ------------------------------------------------------------------ digits
 
+const DIGIT_LOOKALIKE: Record<string, string> = { B: "8", O: "0", o: "0", S: "5", l: "1", I: "1", Z: "2" };
+
+/**
+ * An amount at the end of a row, as OCR garbles it on a compressed photo: a letter for a digit ("¥79B3") or a space
+ * after the decimal mark ("#500, 00"), or a tax mark ※ as two characters ("¥236%K"). Only the run right after a
+ * currency sign is touched, and it must already hold digits, so names and codes keep their letters. Such a row is
+ * otherwise not seen as an amount at all and is lost.
+ */
+export function tidyAmountTail(text: string): string {
+  const spaced = text.replace(/(\d[.,])\s(\d{2})(\s*\S?)$/, "$1$2$3");
+  return spaced.replace(/([¥￥$€₺£#*\\])(\s*)([\dBOoSlIZ][\dBOoSlIZ.,]*)(%\S|\S?)(\s*)$/, (all, sign: string, gap: string, run: string, mark: string, end: string) =>
+    /\d.*\d|\d{2}/.test(run) ? `${sign}${gap}${run.replace(/[BOoSlIZ]/g, (c) => DIGIT_LOOKALIKE[c])}${mark.length === 2 ? "※" : mark}${end}` : all,
+  );
+}
+
 interface Token {
   /** The number as printed. */
   text: string;
@@ -152,7 +167,8 @@ export function zeroMisread(seen: string, real: string): boolean {
  * Aligns all numbers of the OCR rows with all numbers Nova copied from the photo (the two rarely agree on rows, so
  * the alignment runs over the numbers) and corrects the OCR's zeros. Returns the rows and what was changed.
  */
-export function repairDigits(lines: OcrLine[], photoRows: string[]): { lines: OcrLine[]; repairs: { from: string; to: string }[] } {
+export function repairDigits(ocrLines: OcrLine[], photoRows: string[]): { lines: OcrLine[]; repairs: { from: string; to: string }[] } {
+  const lines = ocrLines.map((l) => ({ ...l, text: tidyAmountTail(l.text) }));
   const a = tokens(lines.map((l) => l.text));
   const b = tokens(photoRows);
   const score = (x: Token, y: Token) => (x.digits === y.digits ? 3 : zeroMisread(x.digits, y.digits) ? 2 : -2);

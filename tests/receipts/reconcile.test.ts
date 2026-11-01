@@ -1,3 +1,6 @@
+import type { OcrLine } from "../../src/receipts/ocr";
+import { productRows } from "../../src/receipts/ocr";
+import { repairDigits, tidyAmountTail } from "../../src/receipts/rows";
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 import { allocateTax, isTaxOnTop, reconcile } from "../../src/receipts/checks";
@@ -154,5 +157,39 @@ describe("tax flag that contradicts the arithmetic (hero total_mismatch)", () =>
   it("leaves a correct flag alone", () => {
     expect(isTaxOnTop(receipt({ lines, taxIncluded: false, taxMinor: 923, totalMinor: sum + 923 }))).toBe(true);
     expect(isTaxOnTop(receipt({ lines, taxIncluded: true, taxMinor: 923, totalMinor: sum }))).toBe(false);
+  });
+});
+
+describe("an amount OCR garbled on a compressed photo", () => {
+  it("reads a letter as the digit it looks like, right after a currency sign", () => {
+    expect(tidyAmountTail("北空の天然水 2L ¥79B3%")).toBe("北空の天然水 2L ¥7983%");
+    expect(tidyAmountTail("Milk $1O.50")).toBe("Milk $10.50");
+  });
+
+  it("takes a tax mark read as two characters for the mark", () => {
+    expect(tidyAmountTail("MMO 2L ¥236%K")).toBe("MMO 2L ¥236※");
+    expect(tidyAmountTail("値引 -¥40%K")).toBe("値引 -¥40※");
+  });
+
+  it("does not stop at a garbled quantity row between products", () => {
+    const rows = ["BREAD $2.79 F", "4 6€ $1.49", "WATER $5.07 F", "SUBTOTAL $7.86"].map((text) => ({ text }));
+    expect(productRows(rows, 2)).toEqual([0, 2]);
+  });
+
+  it("closes a space after the decimal mark at the end of a row", () => {
+    expect(tidyAmountTail("HEDIYE KARTI 500 TL #500, 00")).toBe("HEDIYE KARTI 500 TL #500,00");
+  });
+
+  it("leaves names, codes and rows without an amount alone", () => {
+    expect(tidyAmountTail("SONY BOSS 2L")).toBe("SONY BOSS 2L");
+    expect(tidyAmountTail("TEL 0123-45-6789")).toBe("TEL 0123-45-6789");
+    expect(tidyAmountTail("Coupon ¥OFF")).toBe("Coupon ¥OFF");
+    expect(tidyAmountTail("¥2,596")).toBe("¥2,596");
+  });
+
+  it("gets the real row of the photo back when the photo's copy agrees", () => {
+    const row = (text: string): OcrLine => ({ text, box: { x: 0, y: 0, w: 1, h: 0.01 }, words: [] });
+    const { lines } = repairDigits([row("北空の天然水 2L ¥79B3%")], ["• 2L ¥798"]);
+    expect(lines[0].text).toBe("北空の天然水 2L ¥798%");
   });
 });

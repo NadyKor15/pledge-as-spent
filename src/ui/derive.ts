@@ -35,6 +35,21 @@ export interface LineView {
   shares: LedgerRow[];
 }
 
+const RULE_LABEL: Record<string, string> = { alcohol: "Alcohol", tobacco: "Tobacco", gift_card: "Gift card" };
+
+/**
+ * What a printed line is called on the screens, English first: the need's label from the book, or the rule
+ * that refused it. Below it the model's own translation and the printed text. Nothing here is written by hand:
+ * a refused line keeps its rule's name, because a misread item name says nothing useful there.
+ */
+export function lineName(l: Pick<LineView, "line" | "need">): { title: string; detail: string; original: string } {
+  const rule = l.line.ruleCode ? RULE_LABEL[l.line.ruleCode] : undefined;
+  const translation = l.line.translationEn?.trim() ?? "";
+  const title = l.need?.displayLabel ?? rule ?? (translation || l.line.text);
+  const detail = rule || translation === title ? "" : translation;
+  return { title, detail, original: l.line.text === title ? "" : l.line.text };
+}
+
 /** Each printed line with its fate: the book first (funded / refused), else the classifier while the receipt waits. */
 export function lineViews(v: DriveView, r: Receipt): LineView[] {
   return r.lines.map((line) => {

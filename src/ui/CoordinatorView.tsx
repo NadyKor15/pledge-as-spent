@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
-import { captureState, focusReceipt, holdAmounts, holdStatusLabel, lineViews, liveFeed, needById, paypalActivity, receiptChecks, shareGroups, type LineView } from "./derive";
+import { captureState, focusReceipt, holdAmounts, holdStatusLabel, lineName, lineViews, liveFeed, needById, paypalActivity, receiptChecks, shareGroups, type LineView } from "./derive";
+import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader } from "./Header";
 import { Check, Clock, Cross, NeedIcon } from "./icons";
@@ -292,7 +293,8 @@ function ReceiptBody({
   return (
     <>
       <p className={s.msub}>
-        {r.merchant ?? "Unknown store"} · <b>{money(r.currency, r.total)}</b>
+        Store receipt · <b>{money(r.currency, r.total)}</b>
+        {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.8em", opacity: 0.62 }}>{r.merchant}</small>}
       </p>
       <div className={s.mbody}>
         <div className={s.receipt} data-flow="receipt">
@@ -317,11 +319,11 @@ function ReceiptBody({
                 {l.state === "approved" ? <Check size={25} color="var(--pill-ok)" /> : <Clock size={25} />}
                 <span>
                   <b>
-                    {l.line.text} · {money(r.currency, l.line.amount)}
+                    {lineName(l).title}
+                    {l.qty ? ` (${l.qty})` : ""} · {money(r.currency, l.line.amount)}
                   </b>
-                  <em>→</em>
-                  {l.need ? `${l.need.displayLabel}${l.qty ? ` (${l.qty})` : ""}` : "no need"}
                   {l.state === "pending" ? " · waiting" : l.state === "review" ? " · needs a decision" : ""}
+                  <LineOriginal line={l} />
                 </span>
               </div>
             ))}
@@ -330,9 +332,10 @@ function ReceiptBody({
                 <Cross size={25} color="var(--no)" />
                 <div className={s.t}>
                   <span className={s.t1}>
-                    {l.line.text} · {money(r.currency, l.line.amount)}
+                    {lineName(l).title} · {money(r.currency, l.line.amount)}
                   </span>
                   <span className={s.t2}>{l.reason}</span>
+                  <LineOriginal line={l} />
                 </div>
               </div>
             ))}
@@ -376,7 +379,8 @@ function Decision({
         askable.map((l) => (
           <label key={l.line.lineNo}>
             <input type="checkbox" checked={named.includes(l.line.lineNo)} onChange={(e) => setNamed((xs) => (e.target.checked ? [...xs, l.line.lineNo] : xs.filter((x) => x !== l.line.lineNo)))} />
-            Also approve line {l.line.lineNo}: {l.line.text}
+            Also approve line {l.line.lineNo}: {lineName(l).title}
+            <LineOriginal line={l} />
           </label>
         ))}
       <input type="text" value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Reason (required)" aria-label="Reason" maxLength={500} />

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
-import { lineViews, readLabel, receiptChecks, shareGroups } from "./derive";
+import { lineName, lineViews, readLabel, receiptChecks, shareGroups } from "./derive";
+import { LineOriginal } from "./LineOriginal";
 import { ago, money, ofCount, titleParts } from "./format";
 import { driveBadge, roleHref } from "./Header";
 import { Check, Clock, Cross, Info, NeedIcon } from "./icons";
@@ -221,7 +222,10 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
             )}
           </div>
           <div className={s.rCol}>
-            <div className={s.store}>{r.merchant ?? "Unknown store"}</div>
+            <div className={s.store}>
+              Store receipt
+              {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.72em", fontWeight: 400, opacity: 0.62 }}>{r.merchant}</small>}
+            </div>
             <div className={s.total}>{money(r.currency, r.total)}</div>
             <div className={s.lines}>
               {r.lines.length} {r.lines.length === 1 ? "line" : "lines"}
@@ -281,11 +285,12 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
             <Cross size={17.6} color="var(--rej-icon)" />
             <div className={s.rejTx}>
               <div className={s.t}>
-                {l.line.text}
+                {lineName(l).title}
                 <span className={s.dot}>·</span>
                 <span className={s.pr}>{money(r.currency, l.line.amount)}</span>
               </div>
               <div className={s.why}>{l.reason}</div>
+              <LineOriginal line={l} />
             </div>
           </div>
         ))}

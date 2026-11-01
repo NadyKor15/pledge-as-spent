@@ -39,12 +39,14 @@ export function qtyRow(text: string): { qty: number; unit: string } | null {
 
 const hasTotalsWord = (t: string) => CJK_TERMS.some((w) => t.includes(w)) || latin.test(t);
 
+/** Only digits, symbols and punctuation: a number or a rule line, not a product name. */
+export const hasNoWords = (text: string) => !/\p{L}/u.test(norm(text).replace(/[x×]/g, ""));
+
 export function isNonProductRow(text: string): boolean {
   const t = norm(text).trim();
   if (t === "") return true;
   if (isQtyRow(t)) return true;
-  // Only digits, symbols and punctuation: a number or a rule line, not a product name.
-  if (!/\p{L}/u.test(t.replace(/[x×]/g, ""))) return true;
+  if (hasNoWords(t)) return true;
   return hasTotalsWord(t);
 }
 

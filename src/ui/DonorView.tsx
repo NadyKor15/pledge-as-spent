@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { captureState, holdAmounts, holdStatusLabel, latestFunded, lineViews, needById, shareGroups, type ShareGroup } from "./derive";
+import { captureState, holdAmounts, holdStatusLabel, latestFunded, lineName, lineViews, needById, shareGroups, type ShareGroup } from "./derive";
+import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
 import { donorParts, lineRange, money, ofCount, pct, qtyText } from "./format";
 import { DesktopHeader, DriveTitle, driveBadge } from "./Header";
@@ -281,7 +282,8 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
     <section className={`${s.card} ${s.col} ${s.rcpt}`}>
       <h2>Verified receipt</h2>
       <div className={s.lead}>
-        {r.merchant ?? "Unknown store"} · <b>{money(r.currency, r.total)}</b> · {r.lines.length} lines
+        Store receipt · <b>{money(r.currency, r.total)}</b> · {r.lines.length} lines
+        {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.8em", opacity: 0.62 }}>{r.merchant}</small>}
       </div>
       <div className={s.rcBody}>
         <div className={s.rcPhoto} data-flow="receipt">
@@ -316,9 +318,10 @@ function ReceiptColumn({ view, receipt: r }: { view: DriveView; receipt: Receipt
               <Cross size={21.19} color="var(--no)" />
               <div className={s.liTxt}>
                 <b>
-                  Line {l.line.lineNo} · {l.line.text} · {money(r.currency, l.line.amount)}
+                  Line {l.line.lineNo} · {lineName(l).title} · {money(r.currency, l.line.amount)}
                 </b>
                 <span>{l.reason}</span>
+                <LineOriginal line={l} />
               </div>
             </div>
           ))}

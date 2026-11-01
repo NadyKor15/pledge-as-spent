@@ -20,10 +20,12 @@ import { FLAGS, add, flagStats, ratio, scoreReceipt, tally, type CheatFlag, type
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const RECEIPTS = path.join(ROOT, "eval/receipts");
+// The same sets after another route, such as tools/receipts/telegram-set.sh; the recordings stay in RECEIPTS.
+const SETS = process.env.EVAL_RECEIPTS_ROOT ? path.resolve(process.env.EVAL_RECEIPTS_ROOT) : RECEIPTS;
 
 export type SetName = "v1" | "adversarial" | "hero" | "holdout";
 
-export async function loadTruths(set: SetName, root = RECEIPTS): Promise<Truth[]> {
+export async function loadTruths(set: SetName, root = SETS): Promise<Truth[]> {
   const dir = path.join(root, set);
   const files = (await readdir(dir)).filter((f) => f.endsWith(".truth.json")).sort();
   return Promise.all(files.map(async (f) => Truth.parse(JSON.parse(await readFile(path.join(dir, f), "utf8")))));
@@ -46,11 +48,11 @@ export interface EvalInput {
 }
 
 export async function runEval(input: EvalInput) {
-  const root = input.root ?? RECEIPTS;
+  const root = input.root ?? SETS;
   const knownFp: KnownReceipt[] = [];
   for (const [i, k] of input.known.entries()) {
     const bytes = new Uint8Array(await readFile(path.join(root, k.set, k.image.file)));
-    knownFp.push({ ...fingerprint({ bytes, mediaType: "image/png" }, k.receipt), receiptId: k.id, uploadedAt: new Date(Date.UTC(2026, 10, 3, 0, i)).toISOString() });
+    knownFp.push({ ...fingerprint({ bytes, mediaType: k.image.mediaType }, k.receipt), receiptId: k.id, uploadedAt: new Date(Date.UTC(2026, 10, 3, 0, i)).toISOString() });
   }
 
   const scores: ReceiptScore[] = [];
@@ -236,7 +238,7 @@ ${r.errors.length ? `\n## Errors\n\n${r.errors.map((e) => `- ${e.id} (${e.stage}
 /** One replayable file per receipt: the reading, the classifications, what they cost, and any error. */
 async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0] & { trace?: ReadTrace | null }) {
   await mkdir(dir, { recursive: true });
-  const bytes = await readFile(path.join(RECEIPTS, x.truth.set, x.truth.image.file));
+  const bytes = await readFile(path.join(SETS, x.truth.set, x.truth.image.file));
   const sc = x.truth.locale === "ja" && x.truth.set === "hero" ? { ...SCENARIOS.ja, needs: HERO_NEEDS } : SCENARIOS[x.truth.locale];
   const rec = {
     receiptId: x.truth.id,
@@ -312,7 +314,7 @@ async function main() {
   const truths = await loadTruths(set);
   const ledgerBefore = cap ? await cap.ledger.total() : null;
   const known = set === "v1" ? truths : await loadTruths("v1");
-  const liveDir = live ? path.join(ROOT, "eval/live", name) : null;
+  const liveDir = live ? (process.env.EVAL_LIVE_DIR ? path.resolve(process.env.EVAL_LIVE_DIR) : path.join(ROOT, "eval/live", name)) : null;
   const result = await runEval({
     readerName: name,
     set,
@@ -331,7 +333,8 @@ async function main() {
   await engine.close();
   if (cap) result.spend.ledgerDeltaUsd = (await cap.ledger.total()) - ledgerBefore!;
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
-  const base = path.join(ROOT, "eval/results", `${result.reader}-${set}-${stamp}`);
+  const label = process.env.EVAL_LABEL ? `${process.env.EVAL_LABEL}-` : "";
+  const base = path.join(ROOT, "eval/results", `${result.reader}-${set}-${label}${stamp}`);
   await mkdir(path.dirname(base), { recursive: true });
   await writeFile(`${base}.json`, JSON.stringify(result, null, 1) + "\n");
   await writeFile(`${base}.md`, toMarkdown(result, stamp));
