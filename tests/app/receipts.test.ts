@@ -132,7 +132,7 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     const { drive, needs } = demoDrive(driveId, h.clock.now());
     const bytes = heroBytes();
     const input = { driveId, image: { bytes, mediaType: "image/png" as const }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() };
-    const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, spendCapUsd: 0 });
+    const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, spendCapUsd: 0, liveReadMs: 1000 });
     expect((await reading.read(input)).reader).toBe("cached:ocr-pro");
     const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [] })).svc;
     const id = (await svc.createDemoDrive({ driveId: "demo-recorded" })).drive.id;
@@ -150,6 +150,17 @@ describe("live reading limits: refused before any model call", () => {
     expect(live.sent).toEqual([]);
     expect(await h.db.db.select().from(receipts)).toHaveLength(0);
     expect(await h.db.db.select().from(spendLedger)).toHaveLength(1);
+  });
+
+  it("a reader that never answers ends in a plain answer with the sample hint, not a hung request", async () => {
+    const hanging: ConverseClient = { send: () => new Promise(() => {}) };
+    const pp = fakeSandbox();
+    const h = await harness({ fetch: pp.fetch, recordings: loadRecordings(), bedrock: () => hanging, pipeline: "nova-lite", limits: { liveReadMs: 30 } });
+    const driveId = (await h.svc.createDemoDrive({ driveId: "demo-hang" })).drive.id;
+    const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(79) }));
+    expect(e).toMatchObject({ status: 503, code: "reading_timeout" });
+    expect(e.extra).toMatchObject({ sample: { field: "sample", value: "hero" } });
+    expect(await h.db.db.select().from(receipts)).toHaveLength(0);
   });
 
   it("30 live readings a day per IP; the 31st is refused without a call", async () => {

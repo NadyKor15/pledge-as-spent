@@ -59,6 +59,8 @@ export interface Limits {
   maxImageBytes: number;
   /** A capture or payout without a webhook this long is looked up at PayPal. */
   lookupGraceMinutes: number;
+  /** See LiveLimits in reading.ts. */
+  liveReadMs: number;
 }
 
 export const DEFAULT_LIMITS: Limits = {
@@ -68,6 +70,7 @@ export const DEFAULT_LIMITS: Limits = {
   // Vercel caps a request body at 4.5 MB; the client compresses photos below this.
   maxImageBytes: 4 * 1024 * 1024,
   lookupGraceMinutes: 10,
+  liveReadMs: 150_000,
 };
 
 export interface ServiceDeps {

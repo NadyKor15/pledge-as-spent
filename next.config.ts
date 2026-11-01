@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
     "/api/drives/*/receipts": [
       "./node_modules/tesseract.js/src/**/*",
       "./node_modules/tesseract.js-core/*",
+      // The worker thread is started from a file path, so tracing cannot see what it requires.
+      "./node_modules/bmp-js/**/*",
+      "./node_modules/is-url/**/*",
+      "./node_modules/node-fetch/**/*",
+      "./node_modules/whatwg-url/**/*",
+      "./node_modules/tr46/**/*",
+      "./node_modules/webidl-conversions/**/*",
+      "./node_modules/regenerator-runtime/**/*",
+      "./node_modules/wasm-feature-detect/**/*",
+      "./node_modules/zlibjs/**/*",
     ],
   },
   turbopack: {

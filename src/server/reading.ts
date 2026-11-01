@@ -42,7 +42,11 @@ export interface Reading {
 export interface LiveLimits {
   liveReadsPerDay: number;
   spendCapUsd: number;
+  /** A live reading that takes longer ends in a plain answer: OCR runs in a worker thread that can die silently. */
+  liveReadMs: number;
 }
+
+class ReadingTimeout extends Error {}
 
 export interface LiveReading {
   pipeline: Pipeline;
@@ -188,9 +192,16 @@ export class ReceiptReading {
   }
 
   private async guard<T>(fn: () => Promise<T>): Promise<T> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const deadline = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(new ReadingTimeout()), this.limits.liveReadMs);
+    });
     try {
-      return await fn();
+      return await Promise.race([fn(), deadline]);
     } catch (e) {
+      if (e instanceof ReadingTimeout) {
+        throw new ServiceError(503, "reading_timeout", "The receipt reader did not answer in time. Try again, or use the sample receipt.", SAMPLE_HINT);
+      }
       if (e instanceof SpendCapExceeded) {
         throw new ServiceError(429, "spend_cap", "The demo's budget for live receipt reading is used up. Use the sample receipt.", SAMPLE_HINT);
       }
@@ -198,6 +209,8 @@ export class ReceiptReading {
         throw new ServiceError(422, "unreadable_by_model", "The receipt could not be read. Please retake the photo flat, in good light.");
       }
       throw e;
+    } finally {
+      clearTimeout(timer);
     }
   }
 }

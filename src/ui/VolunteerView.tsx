@@ -16,7 +16,7 @@ import "./volunteer.css";
 const s = classes("vo");
 
 /** Refusals that the sample receipt gets around: it needs no live reading. */
-const LIVE_LIMITS = new Set(["spend_cap", "live_limit", "live_reading_off"]);
+const LIVE_LIMITS = new Set(["spend_cap", "live_limit", "live_reading_off", "reading_timeout"]);
 
 function uploadErrorText(e: ApiError): string {
   // The platform's own 413 has no JSON body, so its text is not ours.
