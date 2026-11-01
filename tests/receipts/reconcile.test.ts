@@ -11,7 +11,7 @@ describe("reconcile", () => {
   it("rejects an inclusive receipt that is off by one", () => {
     const r = reconcile(receipt({ totalMinor: 1501 }));
     expect(r.ok).toBe(false);
-    expect(r.reasons[0]).toMatch(/add up to 1500 but the receipt total is 1501/);
+    expect(r.reasons[0]).toMatch(/add up to ¥1,500 but the printed total is ¥1,501/);
   });
 
   it("nets discount lines", () => {
@@ -52,7 +52,7 @@ describe("reconcile", () => {
 
   it("checks the printed subtotal against the lines", () => {
     expect(reconcile(receipt({ subtotalMinor: 1500 })).ok).toBe(true);
-    expect(reconcile(receipt({ subtotalMinor: 1400 })).reasons.join()).toMatch(/subtotal is 1400/);
+    expect(reconcile(receipt({ subtotalMinor: 1400 })).reasons.join()).toMatch(/subtotal is ¥1,400/);
   });
 
   it("flags a receipt with no lines", () => {

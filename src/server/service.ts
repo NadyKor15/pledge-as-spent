@@ -259,11 +259,19 @@ export class PledgeService {
   // ---- drives and pledges ----------------------------------------------------
 
   /** A fresh demo drive: the hero needs, three donor holds and the company match, authorized with the sandbox test card. */
-  async createDemoDrive(input: { ip?: string | null; driveId?: string; payoutEmail?: string | null } = {}): Promise<DriveView> {
+  /** True the first time a delivery id is seen: a platform repeats what it thinks was lost. */
+  async claimDelivery(id: string, type: string): Promise<boolean> {
+    const rows = await this.db.insert(webhookEvents).values({ id, eventType: type, verified: true, raw: {}, receivedAt: this.now() }).onConflictDoNothing().returning({ id: webhookEvents.id });
+    return rows.length > 0;
+  }
+
+  async createDemoDrive(input: { ip?: string | null; driveId?: string; payoutEmail?: string | null; enforceLimit?: boolean } = {}): Promise<DriveView> {
     this.gateway(); // no PayPal, no demo drive: refuse before anything is written
     const now = this.now();
     const ipHash = this.hashIp(input.ip);
-    if (!input.driveId) {
+    const given = input.driveId;
+    const isNew = !given || (input.enforceLimit && !(await this.db.select({ id: drives.id }).from(drives).where(eq(drives.id, given))).length);
+    if (isNew) {
       const since = new Date(parseTime(now) - 3_600_000).toISOString();
       const [row] = await this.db
         .select({ n: sql<number>`count(*)::int` })

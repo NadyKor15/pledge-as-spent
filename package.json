@@ -16,7 +16,8 @@
     "eval": "tsx tools/eval/run.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/db-migrate.ts",
-    "e2e:sandbox": "tsx scripts/e2e-sandbox.ts"
+    "e2e:sandbox": "tsx scripts/e2e-sandbox.ts",
+    "bot:poll": "tsx scripts/telegram-poll.ts"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "3.1153.0",

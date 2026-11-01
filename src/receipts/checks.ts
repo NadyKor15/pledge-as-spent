@@ -5,6 +5,7 @@ import type { Drive, Need } from "../core/types";
 import { hammingHex, semanticKey, sha256Hex, dHash } from "./hash";
 import { similarity } from "./text";
 import type { FundableLine, LineClassification, NeedProgress, ParsedReceipt, ReceiptImage } from "./types";
+import { money } from "../ui/format";
 
 // ---------------------------------------------------------------- totals
 
@@ -17,6 +18,8 @@ export interface Reconciliation {
   toleranceMinor: number;
   reasons: string[];
 }
+
+const shown = (currency: string | null, minor: number) => money(currency, minor) || String(minor);
 
 function linesSum(r: ParsedReceipt): number {
   return r.lines.reduce((s, l) => s + l.amountMinor, 0);
@@ -65,11 +68,11 @@ export function reconcile(r: ParsedReceipt): Reconciliation {
   const delta = expected === null ? null : r.totalMinor - expected;
   if (delta !== null && Math.abs(delta) > tolerance) {
     reasons.push(
-      `lines${onTop ? " plus tax" : ""} add up to ${expected} but the receipt total is ${r.totalMinor} (difference ${delta}, allowed ${tolerance})`,
+      `lines${onTop ? " plus tax" : ""} add up to ${shown(r.currency, expected!)} but the printed total is ${shown(r.currency, r.totalMinor)}`,
     );
   }
   if (r.subtotalMinor !== null && r.subtotalMinor !== sum) {
-    reasons.push(`lines add up to ${sum} but the printed subtotal is ${r.subtotalMinor}`);
+    reasons.push(`lines add up to ${shown(r.currency, sum)} but the printed subtotal is ${shown(r.currency, r.subtotalMinor)}`);
   }
   return { ok: reasons.length === 0, linesSumMinor: sum, expectedTotalMinor: expected, deltaMinor: delta, toleranceMinor: tolerance, reasons };
 }
