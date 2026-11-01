@@ -12,11 +12,12 @@ export type JournalCall = DriveView["paypal"][number];
 export type StatementView = Awaited<ReturnType<PledgeService["getStatement"]>>;
 export type Statement = StatementView["statement"];
 
-export type Role = "shelter" | "donor" | "volunteer" | "coordinator";
+export type Role = "shelter" | "donor" | "volunteer" | "coordinator" | "ledger";
 export const ROLES: { id: Role; label: string }[] = [
   { id: "shelter", label: "Shelter" },
   { id: "donor", label: "Donor" },
   { id: "volunteer", label: "Volunteer" },
   { id: "coordinator", label: "Coordinator" },
+  { id: "ledger", label: "Ledger" },
 ];
 export const isRole = (v: unknown): v is Role => ROLES.some((r) => r.id === v);

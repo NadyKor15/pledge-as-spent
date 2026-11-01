@@ -20,7 +20,7 @@ const s = classes("dn");
 const UNIT_WORD: Record<string, string> = { JPY: "yen", USD: "dollar", EUR: "euro", GBP: "pound" };
 
 /** The public drive page: needs with the PayPal pledge form (donor) or read-only (shelter). */
-export function DonorView({ view, role }: { view: DriveView; role: Role }) {
+export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role, "ledger"> }) {
   const page = useRef<HTMLDivElement>(null);
   const layer = useRef<SVGGElement>(null);
   const receipt = role === "donor" ? latestFunded(view) : null;

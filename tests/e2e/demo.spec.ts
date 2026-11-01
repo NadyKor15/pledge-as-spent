@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 
@@ -213,4 +215,278 @@ test("an unknown pledge and an unknown drive say so and lead back", async ({ pag
   await page.goto("/drive/nope?as=coordinator");
   await expect(page.getByRole("heading", { name: "No such drive" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Open a new demo drive" })).toBeVisible();
+});
+
+// The Ledger tab, on the two real snapshots of GET /api/drives and on a drive taken through the app.
+
+type Snapshot = "closed" | "open";
+
+const snapshot = (name: Snapshot) => readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8");
+
+async function openLedger(page: Page, name: Snapshot, body = snapshot(name)) {
+  const id = (JSON.parse(body) as { drive: { id: string } }).drive.id;
+  await page.route(`**/api/drives/${id}`, (r) => r.fulfill({ contentType: "application/json", body }));
+  await page.goto(`/drive/${id}?as=ledger`);
+  await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+  return id;
+}
+
+const totals = (page: Page) => page.locator(".ag-studio-value-widget-content");
+const bookRows = (page: Page) => page.locator(".ag-row");
+
+async function expectTotals(page: Page, third: string) {
+  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: third })).toHaveCount(1);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 10_000 });
+}
+
+/** Every pair of labels whose boxes touch; empty when nothing is laid over anything. */
+const crowded = (page: Page) =>
+  page.evaluate(() => {
+    const boxes = [...document.querySelectorAll("[data-label]")].map((e) => ({ text: e.textContent, r: e.getBoundingClientRect() }));
+    const out: string[] = [];
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const [a, b] = [boxes[i].r, boxes[j].r];
+        if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) out.push(`${boxes[i].text} × ${boxes[j].text}`);
+      }
+    }
+    return { count: boxes.length, out };
+  });
+
+const wider = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+const runningAnimations = (page: Page) => page.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length);
+
+for (const { width, height } of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  test(`ledger at ${width} px: closed drive, the money went back`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await openLedger(page, "closed");
+    await expectTotals(page, "Returned to donors");
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    const labels = await crowded(page);
+    expect(labels.count).toBeGreaterThan(8);
+    expect(labels.out).toEqual([]);
+    await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
+    await expect(page.locator(".lg-head")).toHaveCount(3);
+    const body = page.locator("body");
+    await expect(body).toContainText("$8.55");
+    await expect(body).toContainText("Refused: Alcohol ¥1,198 · Gift card ¥3,000");
+    await expect(page.locator("[data-need=water]")).toContainText("12 of 40 bottles");
+    await expect(page.locator("[data-need=diapers]")).toContainText("6 of 6");
+    await expect(page.locator("[data-need=batteries]")).toContainText("50 of 50");
+    await expect(page.locator(".lg-receipt")).toHaveAttribute("target", "_blank");
+  });
+
+  test(`ledger at ${width} px: open drive, the money is held and nothing says it returned`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await openLedger(page, "open");
+    await expectTotals(page, "Held");
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    expect((await crowded(page)).out).toEqual([]);
+    await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+    await expect(page.locator(".lg-spent .lg-line")).toHaveCount(3);
+    const body = page.locator("body");
+    await expect(body).toContainText("$8.55 held");
+    await expect(body).not.toContainText(/returned/i);
+    await expect(body).not.toContainText(/ back/);
+  });
+}
+
+test("ledger: pressing a donor lights up what they paid for and filters the book; pressing again clears", async ({ page }) => {
+  await openLedger(page, "closed");
+  await expect(bookRows(page)).toHaveCount(0);
+  const open = page.getByRole("button", { name: /Every line of the book/ });
+  await expect(open).toHaveAttribute("aria-expanded", "false");
+  await page.evaluate(() => document.querySelector(".lg-run")?.setAttribute("data-kept", "1"));
+  await open.click();
+  await expect(bookRows(page)).toHaveCount(20);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Charged", "PayPal capture", "Status"]);
+  await expect(page.locator(".lg-run")).toHaveAttribute("data-kept", "1");
+
+  const lena = page.locator("button[data-donor=Lena]");
+  await lena.click();
+  await expect(lena).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-need=water]")).toHaveClass(/is-on/);
+  await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-dim/);
+  await expect(page.locator(".lg-tags.is-dim")).toHaveCount(2);
+  await expect(bookRows(page)).toHaveCount(6);
+  await expect(page.locator(".ag-row").first()).toContainText("Water 2 L");
+  await expect(page.locator(".ag-row", { hasText: "Diapers size M" })).toHaveCount(0);
+
+  await lena.click();
+  await expect(lena).toHaveAttribute("aria-pressed", "false");
+  await expect(bookRows(page)).toHaveCount(20);
+  await expect(page.locator(".is-dim")).toHaveCount(0);
+
+  const diapers = page.locator("[data-need=diapers]");
+  await diapers.click();
+  await expect(diapers).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("button[data-donor=Mark]")).toHaveClass(/is-on/);
+  await expect(bookRows(page)).toHaveCount(6);
+  await diapers.click();
+  await expect(bookRows(page)).toHaveCount(20);
+});
+
+test("ledger: hovering lights up the pair without touching the book", async ({ page }) => {
+  await openLedger(page, "closed");
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(bookRows(page)).toHaveCount(20);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.locator("button[data-donor=Yuki]").hover();
+  await expect(page.locator("[data-need=batteries]")).toHaveClass(/is-on/);
+  await expect(page.locator("[data-need=water]")).toHaveClass(/is-dim/);
+  await expect(bookRows(page)).toHaveCount(20);
+  await page.mouse.move(700, 120);
+  await expect(page.locator(".is-dim")).toHaveCount(0);
+});
+
+test("ledger: the phone presses rows, and the book filters there too", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLedger(page, "closed");
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(bookRows(page)).toHaveCount(20);
+  expect(await wider(page)).toBeLessThanOrEqual(0);
+  const mark = page.locator("[data-donor-row=Mark]");
+  await mark.click();
+  await expect(mark).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
+  await expect(bookRows(page)).toHaveCount(6);
+  await mark.click();
+  await expect(bookRows(page)).toHaveCount(20);
+  const water = page.locator("[data-need=water]");
+  await water.click();
+  await expect(page.locator("[data-donor-row=Lena]")).toHaveClass(/is-on/);
+  await expect(bookRows(page)).toHaveCount(6);
+});
+
+test("ledger: the keyboard reaches the map through Studio's own stops, and Space presses a donor", async ({ page }) => {
+  await openLedger(page, "closed");
+  await page.locator(".lg-replay").focus();
+  await page.keyboard.press("Escape");
+  const stop = page.getByRole("group", { name: /^Money map/ });
+  await expect(stop).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".lg-map button").first()).toBeFocused();
+  await page.keyboard.press("Space");
+  await expect(page.locator(".lg-map button").first()).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".is-on").first()).toBeVisible();
+});
+
+test("ledger: reduced motion shows the finished picture at once and moves nothing", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openLedger(page, "closed");
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  expect(await runningAnimations(page)).toBe(0);
+  await expect(page.locator(".lg-part").first()).toBeHidden();
+  const offset = await page.locator(".lg-spent .lg-line").first().evaluate((e) => getComputedStyle(e).strokeDashoffset);
+  expect(parseFloat(offset)).toBe(0);
+});
+
+test("ledger: the numbers count up, the arcs draw, it all stops by itself, and Replay runs it again", async ({ page }) => {
+  await page.addInitScript(() => {
+    const seen = new Set<string>();
+    (window as unknown as { seen: Set<string> }).seen = seen;
+    new MutationObserver(() => {
+      for (const n of document.querySelectorAll(".ag-studio-value-widget-content")) seen.add(n.textContent ?? "");
+    }).observe(document, { subtree: true, childList: true, characterData: true });
+  });
+  await openLedger(page, "closed");
+  expect(await runningAnimations(page)).toBeGreaterThan(0);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  const inBetween = await page.evaluate(() => [...(window as unknown as { seen: Set<string> }).seen].filter((t) => /^¥[\d,]+$/.test(t) && !["¥10,783", "¥5,224", "¥5,559", "¥0"].includes(t)).length);
+  expect(inBetween).toBeGreaterThan(3);
+
+  await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
+  await page.waitForTimeout(500);
+  expect(await runningAnimations(page)).toBe(0);
+
+  await page.getByRole("button", { name: "Replay" }).click();
+  await expect(async () => expect(await runningAnimations(page)).toBeGreaterThan(0)).toPass({ timeout: 2_000 });
+  await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+});
+
+test("ledger: eight donors, an unknown place among them: nothing overlaps and everyone is on the screen", async ({ page }) => {
+  const drive = JSON.parse(snapshot("closed")) as { holds: Record<string, unknown>[]; closeReport: Record<string, unknown>[] };
+  const more: [string, string | null][] = [
+    ["Anna (Oslo)", "NO"],
+    ["Ben (Seattle)", "US"],
+    ["Chloe (Paris)", "FR"],
+    ["Dan (Sydney)", "AU"],
+    ["Sam (Nowhere)", null],
+  ];
+  more.forEach(([donorName, donorCountry], i) => {
+    const pledgeId = `extra${i}`;
+    drive.holds.splice(3, 0, { ...drive.holds[1], pledgeId, donorName, donorCountry });
+    drive.closeReport.splice(3, 0, { ...drive.closeReport[1], pledgeId, donorName });
+  });
+  const body = JSON.stringify(drive);
+  for (const { width, height } of [
+    { width: 1440, height: 900 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize({ width, height });
+    await openLedger(page, "closed", body);
+    // Each extra donor copies Mark: $30.00 at 151.20 is ¥4,536, five times over the ¥10,783.
+    await expect(totals(page).first()).toHaveText("¥33,463", { timeout: 15_000 });
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    expect((await crowded(page)).out).toEqual([]);
+    for (const name of ["Lena", "Mark", "Yuki", "Anna", "Ben", "Chloe", "Dan", "Sam"]) await expect(page.locator(".lg-map, .lg-donors").getByText(name).first()).toBeVisible();
+  }
+});
+
+test("ledger: the tab sits beside the others, and only it loads AG Studio", async ({ page }) => {
+  const bytes = new Map<string, number>();
+  page.on("response", async (res) => {
+    if (res.url().includes(".js")) bytes.set(res.url(), (await res.body().catch(() => Buffer.alloc(0))).length);
+  });
+  const id = await openLedger(page, "open");
+  const nav = page.getByRole("navigation", { name: "Role" });
+  await expect(nav.getByRole("link")).toHaveText(["Shelter", "Donor", "Volunteer", "Coordinator", "Ledger"]);
+  await expect(nav.getByRole("link", { name: "Ledger" })).toHaveAttribute("aria-current", "page");
+  await expect(page.locator(".ag-studio-root").first()).toBeAttached();
+
+  for (const role of ["shelter", "donor", "volunteer", "coordinator"]) {
+    const fresh = await page.context().newPage();
+    const loaded = new Map<string, number>();
+    fresh.on("response", async (res) => {
+      if (res.url().includes(".js")) loaded.set(res.url(), (await res.body().catch(() => Buffer.alloc(0))).length);
+    });
+    await fresh.route(`**/api/drives/${id}`, (r) => r.fulfill({ contentType: "application/json", body: snapshot("open") }));
+    await fresh.goto(`/drive/${id}?as=${role}`, { waitUntil: "networkidle" });
+    await expect(fresh.locator("header")).toBeVisible();
+    await expect(fresh.locator(".ag-studio-root")).toHaveCount(0);
+    const total = [...loaded.values()].reduce((a, b) => a + b, 0);
+    expect(total, role).toBeLessThan(800_000);
+    await fresh.close();
+  }
+  const ledgerTotal = [...bytes.values()].reduce((a, b) => a + b, 0);
+  expect(ledgerTotal).toBeGreaterThan(1_000_000);
+});
+
+test("ledger of a drive taken through the app: held before the close, returned after it", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.getByRole("button", { name: "Use the sample receipt" }).click();
+  await expect(page.locator(".co-pill")).toHaveCount(9);
+  await page.getByRole("navigation", { name: "Role" }).getByRole("link", { name: "Ledger" }).click();
+  await expect(page).toHaveURL(/as=ledger$/);
+  await expectTotals(page, "Held");
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+  const photo = page.locator(".lg-receipt img");
+  await expect(photo).toHaveJSProperty("complete", true);
+  expect(await photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+
+  await page.goto(`/drive/${driveId}?as=coordinator`);
+  await captureUntilCompleted(page);
+  await page.getByRole("button", { name: "Close drive — release unspent holds" }).click();
+  await expect(async () => {
+    await expect(page.getByRole("button", { name: "Drive closed" })).toBeVisible({ timeout: 2_000 });
+  }).toPass({ timeout: 45_000 });
+
+  await page.goto(`/drive/${driveId}?as=ledger`);
+  await expectTotals(page, "Returned to donors");
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
+  await expect(page.locator("body")).toContainText("$8.55 back");
 });

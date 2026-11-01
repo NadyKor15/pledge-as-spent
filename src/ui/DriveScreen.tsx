@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { use } from "react";
 import { useDrive } from "./api";
@@ -10,6 +11,9 @@ import { VolunteerView } from "./VolunteerView";
 import { DesktopStage } from "./stage";
 import { Failure, Loading } from "./states";
 import { isRole } from "./types";
+
+// AG Studio is by far the heaviest thing in the app, and only this tab needs it.
+const LedgerView = dynamic(() => import("./ledger/LedgerView").then((m) => m.LedgerView), { ssr: false, loading: () => <Loading /> });
 
 /** One drive, seen by the role in `?as=` (donor when absent). */
 export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
@@ -22,6 +26,7 @@ export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
     if (!d.error) return <Loading />;
     return <Failure title={d.error.status === 404 ? "No such drive" : "The drive could not be loaded"} message={d.error.message} />;
   }
+  if (role === "ledger") return <LedgerView view={d.view} />;
   if (role === "volunteer") {
     return (
       <>
