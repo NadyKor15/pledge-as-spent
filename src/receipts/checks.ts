@@ -204,6 +204,12 @@ export interface CheckInput {
   minConfidence?: number;
 }
 
+/** "demo-1a.r2" -> "receipt 2"; another drive's or a foreign id stays as it is. */
+const receiptName = (id: string) => {
+  const n = /\.r(\d+)$/.exec(id)?.[1];
+  return n ? `receipt ${n}` : id;
+};
+
 export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   const { receipt: r, drive } = input;
   const flags: ReceiptFlag[] = [];
@@ -214,7 +220,7 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
 
   if (input.fingerprint && input.known) {
     const dup = findDuplicate(input.fingerprint, input.known);
-    if (dup) add("duplicate", "block", `This receipt was already uploaded on ${dup.of.uploadedAt} (${dup.of.receiptId}).`);
+    if (dup) add("duplicate", "block", `This receipt was already uploaded on ${dup.of.uploadedAt.slice(0, 10)} as ${receiptName(dup.of.receiptId)}.`);
   }
 
   if (r.readability !== "unreadable") {
@@ -237,7 +243,7 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   // A product line the classifier never answered for is not funded: a person should know, not find it missing.
   const unanswered = input.classifications ? r.lines.filter((l) => l.amountMinor >= 0 && !input.classifications!.some((c) => c.lineNo === l.lineNo)).map((l) => l.lineNo) : [];
   const toConfirm = [...new Set([...doubtful, ...unanswered])].sort((a, b) => a - b);
-  if (toConfirm.length) add("low_confidence", "review", `Line ${toConfirm.join(", ")} need a person to confirm.`);
+  if (toConfirm.length) add("low_confidence", "review", `${toConfirm.length === 1 ? "Line" : "Lines"} ${toConfirm.join(", ")} ${toConfirm.length === 1 ? "needs" : "need"} a person to confirm.`);
   return flags;
 }
 

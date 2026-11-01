@@ -68,7 +68,7 @@ describe("checkReceipt", () => {
     const flags = checkReceipt({ receipt: receipt(), drive, fingerprint: { sha256: "a", dHash: null, semanticKey: null }, known });
     expect(flags).toHaveLength(1);
     expect(flags[0]).toMatchObject({ code: "duplicate", severity: "block" });
-    expect(flags[0].messageEn).toContain("2026-11-05T10:00:00Z");
+    expect(flags[0].messageEn).toBe("This receipt was already uploaded on 2026-11-05 as r-7.");
     expect(checkReceipt({ receipt: receipt(), drive, fingerprint: { sha256: "b", dHash: null, semanticKey: null }, known })).toEqual([]);
   });
 
@@ -82,5 +82,16 @@ describe("checkReceipt", () => {
   it("reports several problems at once", () => {
     const r = receipt({ purchasedAt: "2026-10-01T10:00:00", merchantAddress: "Elsewhere" });
     expect(codes(r)).toEqual(["pre_disaster", "out_of_zone"]);
+  });
+});
+
+describe("flag sentences a coordinator reads", () => {
+  it("name the first upload by day and number, and agree in number", () => {
+    const known: KnownReceipt[] = [{ receiptId: "demo-1a.r2", uploadedAt: "2026-11-01T01:52:54.622Z", sha256: "a", dHash: null, semanticKey: null }];
+    const flags = checkReceipt({ receipt: receipt(), drive, fingerprint: { sha256: "a", dHash: null, semanticKey: null }, known });
+    expect(flags[0].messageEn).toBe("This receipt was already uploaded on 2026-11-01 as receipt 2.");
+    const three = receipt({ lines: [line(1, 1000), line(2, 300), line(3, 100)], totalMinor: 1400 });
+    const left = checkReceipt({ receipt: three, drive, classifications: [cls(1)] }).find((f) => f.code === "low_confidence");
+    expect(left?.messageEn).toBe("Lines 2, 3 need a person to confirm.");
   });
 });

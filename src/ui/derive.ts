@@ -208,6 +208,11 @@ export function paypalActivity(v: DriveView): Activity[] {
     const prev = subjects.get(key);
     subjects.set(key, { first: prev?.first ?? c.ts, last: c.ts, status, ok: failed(c) ? false : null, build });
   }
+  // A webhook leaves no journal row, so the book holds PayPal's last word on a payout.
+  for (const a of v.payouts.flatMap((p) => p.attempts)) {
+    const s = subjects.get(a.senderBatchId);
+    if (s && a.status === "confirmed") subjects.set(a.senderBatchId, { ...s, status: "SUCCESS", ok: null });
+  }
   return [...subjects.entries()].map(([key, s]) => ({ key, first: s.first, last: s.last, ok: s.ok === false ? false : okStatus(s.status), ...s.build(s.status) }));
 }
 
@@ -239,6 +244,7 @@ export function readLabel(r: Receipt): string {
   const lines = `${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
   if (r.reader.startsWith("live:")) return `Read by AI · ${lines}`;
   if (r.reader === "copy") return `Read before · ${lines}`;
+  if (r.reader === "recorded") return `Sample reading · ${lines}`;
   return `Saved AI reading · ${lines}`;
 }
 
