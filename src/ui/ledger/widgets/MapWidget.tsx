@@ -72,15 +72,23 @@ function DonorMark({ p, dim, on, pick, store }: { p: PlacedDonor; dim: boolean; 
   );
 }
 
+/** How many of these widths, in order, fit into `room`. */
+function fitting(widths: number[], room: number) {
+  let used = 0;
+  let count = 0;
+  for (const width of widths) {
+    used += width;
+    if (used > room) break;
+    count += 1;
+  }
+  return count;
+}
+
 /** Donors with no room on the map, in one line: as many as fit, and an honest count of the rest. */
 function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; width: number; selected: Pick | null; press: (pick: Pick) => void }) {
   const text = (d: LedgerDonor) => `${d.spentText} · ${d.restText} ${d.restWord}`;
   const room = width - LISTED_LEFT - 90;
-  let used = 0;
-  const shown = donors.filter((d) => {
-    used += (d.label.length + text(d).length + 1) * 6.5 + 14;
-    return used <= room;
-  });
+  const shown = donors.slice(0, fitting(donors.map((d) => (d.label.length + text(d).length + 1) * 6.5 + 14), room));
   const more = donors.length - shown.length;
   return (
     <ul className="lg-listed" style={{ left: LISTED_LEFT }}>
@@ -173,7 +181,7 @@ export function MapWidget(params: AgWidgetParams) {
           Replay
         </button>
         {snap.stale && (
-          <button type="button" onClick={() => store.refresh()}>
+          <button type="button" onClick={store.refresh}>
             Refresh
           </button>
         )}

@@ -95,8 +95,14 @@ export class LedgerStore {
     if (stale !== this.snapshot.stale) this.set({ stale });
   };
 
+  private reread: () => void = () => {};
+
   /** What the Refresh link does; the drive's reader hands it over. */
-  refresh: () => void = () => {};
+  setRefresh(reread: () => void) {
+    this.reread = reread;
+  }
+
+  refresh = () => this.reread();
 
   /** New figures, and new lines for whatever is selected. */
   setModel(model: LedgerModel) {

@@ -212,7 +212,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
 
   useEffect(() => store.setModel(model), [store, model]);
   useEffect(() => {
-    store.refresh = () => void refresh();
+    store.setRefresh(() => void refresh());
     store.setStale(stale);
   }, [store, stale, refresh]);
 
