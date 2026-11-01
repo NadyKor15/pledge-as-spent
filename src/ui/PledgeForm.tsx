@@ -85,7 +85,11 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
       <p className={s.payNote}>PayPal will say “Pay” — your money is only held until a verified purchase</p>
       {CLIENT_ID ? (
         <div className={s.ppSlot}>
-          <PayPalScriptProvider key={currency} options={{ clientId: CLIENT_ID, intent: "authorize", currency, components: "buttons", commit: true }}>
+          {/* One form per need on a page: without its own namespace each provider tears down the others' buttons. */}
+          <PayPalScriptProvider
+            key={currency}
+            options={{ clientId: CLIENT_ID, intent: "authorize", currency, components: "buttons", commit: true, dataNamespace: `paypal_${needId}_${currency}` }}
+          >
             <PayPalButtons
               style={{ layout: "horizontal", color: "gold", shape: "rect", label: "paypal", height: 52, tagline: false }}
               disabled={minor === null}
