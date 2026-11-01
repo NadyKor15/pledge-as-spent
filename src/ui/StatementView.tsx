@@ -202,7 +202,9 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
         <h2 className={s.h2}>What your money bought</h2>
         {items.length === 0 && (
           <p className={s.empty}>
-            Nothing yet. {a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.
+            {a.total > 0 && b.authorized > 0 && a.held === 0
+              ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} was released at PayPal and never charged.`
+              : `Nothing yet. ${a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.`}
           </p>
         )}
         {items.map((i) => {
