@@ -174,7 +174,7 @@
 .co-closeBtn { display: block; flex: none; margin: 18px 0 18px 22px; width: 368.5px; min-height: 60px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--btn); background: var(--panel); color: var(--btn); font-size: 16.5px; font-weight: 600; text-align: center; line-height: 22px; text-decoration: none; }
 .co-closeBtn.co-closeMain { display: flex; align-items: center; justify-content: center; background: var(--btn-2); border-color: var(--btn-2); color: var(--on-btn); font-size: 18px; }
 .co-closeBtn:disabled { border-color: var(--card-line); background: var(--tag-off-bg); color: var(--ink-3); }
-.co-confirm { margin: 10px 18px 16px 22px; font-size: 16px; line-height: 22px; color: var(--ink); }
+.co-confirm { margin: 10px 18px 16px 22px; font-size: 16px; line-height: 22px; color: var(--ink); scroll-margin-bottom: 24px; }
 .co-confirmActs { margin-top: 10px; display: flex; gap: 10px; }
 .co-confirmActs button { flex: 1; min-height: 60px; padding: 4px 8px; border-radius: 8px; font-size: 15.5px; line-height: 19px; font-weight: 600; }
 .co-confirmActs button:disabled { opacity: .55; }
