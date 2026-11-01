@@ -35,6 +35,20 @@ Ledger $0.0007 to $1.2568. On C with Pro the main receipt had date 0/1, store 0.
 
 Lane spend: $2.0196 of the $2.20 allowed.
 
+## Mutations on the committed code (2026-11-01 00:55 UTC, commit eeaeae3)
+
+Each one applied once (counted), tests/receipts and tests/app/receipts.test.ts run, file restored from git, `git diff` clean afterwards.
+
+| Mutation | Failed tests |
+|---|---|
+| Forbidden rule on an "eligible" line off (R1) | 4 |
+| Sum check no longer blocks funding | 2 |
+| Sum check tolerance raised by 1000 | 7 |
+| Forbidden name no longer overrides the classifier | 1 |
+| Digit repair accepts any difference | 2 |
+| Saved answer not tied to needs and rules | 1 |
+| Unanswered line not flagged | 1 |
+
 ## What decided the design
 
 - Vision alone invents Japanese names ("レモンサワー" for water), so the store and the products come from OCR, not from a vision header as planned. The date does come from the photo.
