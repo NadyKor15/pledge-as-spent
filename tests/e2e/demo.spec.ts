@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
+import type { DriveView } from "../../src/ui/types";
 
 // SPEC-ui §3: open /, create the demo, take the sample receipt as coordinator,
 // see 9 approved / 2 rejected and ¥10,448, close the drive, see "released" on
@@ -497,7 +498,7 @@ test("ledger: the phone presses rows, and the book filters there too", async ({ 
 
 test("ledger: the keyboard reaches the map through Studio's own stops, and Space presses a donor", async ({ page }) => {
   await openLedger(page, "closed");
-  await page.locator(".lg-replay").focus();
+  await page.getByRole("button", { name: "Replay" }).focus();
   await page.keyboard.press("Escape");
   const stop = page.getByRole("group", { name: /^Money map/ });
   await expect(stop).toBeFocused();
@@ -624,4 +625,118 @@ test("ledger of a drive taken through the app: held before the close, returned a
   await expectTotals(page, "Returned to donors");
   await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
   await expect(page.locator("body")).toContainText("$8.55 back");
+});
+
+// Drives the two snapshots never show.
+
+const edited = (name: Snapshot, edit: (v: DriveView) => void) => {
+  const v = JSON.parse(snapshot(name)) as DriveView;
+  edit(v);
+  return JSON.stringify(v);
+};
+
+test("ledger, finding 5: two receipts with the same line keep both lines in the book", async ({ page }) => {
+  const body = edited("open", (v) => {
+    const copies = v.ledger.map((r) => ({ ...r, receiptId: `${r.receiptId}b`, rowId: `b/${r.rowId}` }));
+    v.ledger = [...v.ledger, ...copies];
+    v.receipts = [...v.receipts, { ...v.receipts[0], id: `${v.receipts[0].id}b` }];
+  });
+  await openLedger(page, "open", body);
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(book(page)).toBeVisible();
+  await expect(page.getByRole("grid")).toHaveAttribute("aria-rowcount", "41");
+  await page.locator("[data-need=water]").click();
+  await expect(bookRows(page)).toHaveCount(12);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Charged", "PayPal capture", "Status"]);
+});
+
+test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ page }) => {
+  const closed = snapshot("closed");
+  const closing = edited("closed", (v) => {
+    v.drive.status = "closing";
+  });
+  let reads = 0;
+  const id = (JSON.parse(closed) as { drive: { id: string } }).drive.id;
+  await page.route(`**/api/drives/${id}`, (r) => {
+    reads += 1;
+    return r.fulfill({ contentType: "application/json", body: reads < 2 ? closing : closed });
+  });
+  await page.goto(`/drive/${id}?as=ledger`);
+  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Held" })).toHaveCount(1, { timeout: 60_000 });
+  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Returned to donors" })).toHaveCount(1, { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+});
+
+test("ledger, finding 8: a donor with no lines yet says so instead of emptying the book", async ({ page }) => {
+  const body = edited("open", (v) => {
+    v.ledger = v.ledger.filter((r) => r.donorName !== "Lena (Berlin)");
+  });
+  await openLedger(page, "open", body);
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(book(page)).toBeVisible();
+  await page.locator("button[data-donor=Lena]").click();
+  await expect(page.getByText("No lines yet")).toBeVisible();
+  await page.locator("button[data-donor=Lena]").click();
+  await expect(page.getByText("No lines yet")).toHaveCount(0);
+  await expect(book(page)).toBeVisible();
+  await expect(bookRows(page)).toHaveCount(17);
+});
+
+for (const { width, height } of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  test(`ledger, finding 10: thirty donors at ${width} px stay readable`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    const body = edited("open", (v) => {
+      const extra = Array.from({ length: 27 }, (_, i) => ({ ...v.holds[1], pledgeId: `extra${i}`, donorName: `Donor${i} (Nowhere)`, donorCountry: i % 2 ? "US" : "DE" }));
+      v.holds.splice(3, 0, ...extra);
+    });
+    await openLedger(page, "open", body);
+    await expect(page.locator(".ag-studio-value-widget-content").first()).toBeVisible();
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    expect((await crowded(page)).out).toEqual([]);
+    if (width > 600) {
+      await expect(page.locator(".lg-more")).toHaveText(/^\+\d+ more$/);
+      const shown = await page.locator(".lg-listed li[data-label]").count();
+      const more = Number(/\d+/.exec((await page.locator(".lg-more").textContent()) ?? "")?.[0]);
+      const onMap = await page.locator(".lg-label").count();
+      // Everyone accounted for: on the map, in the line, or in the count. A donor may be in two of them.
+      expect(onMap + shown + more).toBeGreaterThanOrEqual(30);
+      expect(await page.locator(".lg-listed").evaluate((e) => e.scrollWidth - e.clientWidth)).toBeLessThanOrEqual(0);
+      const map = await page.locator(".lg-map").boundingBox();
+      const list = await page.locator(".lg-listed").boundingBox();
+      expect(list!.y + list!.height).toBeLessThanOrEqual(map!.y + map!.height);
+      expect(list!.height).toBeLessThan(40);
+    } else {
+      await expect(page.locator("[data-donor-row]")).toHaveCount(30);
+    }
+  });
+}
+
+test("ledger: Yuki withdrew from an open drive: the header, the note and the row agree", async ({ page }) => {
+  const body = edited("open", (v) => {
+    const h = v.holds.find((x) => x.donorName.startsWith("Yuki"))!;
+    Object.assign(h, { status: "voided", revoked: true, released: h.available, available: 0, capacityBase: 0 });
+  });
+  await openLedger(page, "open", body);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796", "+¥5,224"], { timeout: 15_000 });
+  await expect(page.getByText("¥1,763 already returned")).toBeVisible();
+  await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
+  await expect(page.locator(".lg-map")).toContainText("¥1,763 back");
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(1);
+  expect((await crowded(page)).out).toEqual([]);
+});
+
+test("ledger: a drive with no receipts draws no flow", async ({ page }) => {
+  const body = edited("open", (v) => {
+    v.ledger = [];
+    v.receipts = [];
+    for (const h of v.holds) Object.assign(h, { accrued: 0, available: h.authorized });
+  });
+  await openLedger(page, "open", body);
+  await expect(page.locator(".lg-spent .lg-line")).toHaveCount(0);
+  await expect(page.locator(".lg-map")).not.toContainText(/[€$¥]0(\.00)?\b/);
+  await expect(page.locator(".lg-map")).toContainText("$30.00 held");
+  await expect(page.locator(".lg-receipt")).toHaveCount(0);
 });

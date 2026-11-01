@@ -1,7 +1,7 @@
 import { toBase } from "@/core/money";
-import { holdAmounts, latestFunded, lineName, needById } from "../derive";
+import { holdById, latestFunded, lineName, needById } from "../derive";
 import { donorParts, money, ofCount, pct, shortName, titleParts } from "../format";
-import type { DriveView, Hold, Need } from "../types";
+import type { DriveView, Hold, LedgerRow, Need } from "../types";
 import { locate, type LonLat } from "./geo";
 
 // The Ledger tab reads the drive view and nothing else: every figure below is a
@@ -19,15 +19,16 @@ export interface LedgerDonor {
   at: LonLat | null;
   currency: string;
   spent: number;
-  /** Money that went back: released, not collected or reversed. */
+  /** Money that went back: all that was not spent, once the hold is over. */
   back: number;
-  /** Money the hold still keeps. */
+  /** Money a live hold still keeps. */
   held: number;
   spentText: string;
-  /** What did not go to the shelter, with the word for it: back on a closed hold, held on an open one. */
+  /** What did not go to the shelter, with the word for it. */
   restText: string;
   restWord: "back" | "held";
-  /** Weights for the arcs, in the drive's currency, so a euro and a yen compare. */
+  /** The same in the drive's currency: these add up to the totals, and weigh the arcs. */
+  pledgedBase: number;
   spentBase: number;
   restBase: number;
   needIds: string[];
@@ -69,11 +70,18 @@ export interface LedgerModel {
   phase: LedgerPhase;
   shelter: string;
   baseCurrency: string;
+  /** promised = spent + held + returned, exactly: each is the sum of the donors' own figures. */
   promised: number;
   spent: number;
-  /** Promised minus spent: back with the donors on a closed drive, still on hold on an open one. */
+  held: number;
+  returned: number;
+  /** The third total: what went back on a closed drive, what is still held on any other. */
   rest: number;
   restLabel: string;
+  /** The line under Held when part of the money has already gone back. */
+  restNote: string | null;
+  /** The line under Spent while shares are recorded but PayPal has not captured them. */
+  waitingNote: string | null;
   match: number;
   /** Null for a drive without a company match. */
   matchName: string | null;
@@ -97,27 +105,44 @@ export function shelterName(title: string): string {
   return titleParts(title).head.replace(/\bCommunity\s+/, "");
 }
 
-/** An amount of a pledge in the drive's currency, at the rate locked on that pledge. */
+/** An amount of a pledge in the drive's currency, rounded down as the core does for what a hold can cover. */
 function inBase(h: Pick<Hold, "fx" | "currency">, minor: number, base: string): number {
   if (h.currency === base) return minor;
-  return h.fx ? toBase(minor, h.fx) : 0;
+  return h.fx ? toBase(minor, h.fx, "floor") : 0;
 }
 
-function donorRow(v: DriveView, h: Hold, settled: boolean): LedgerDonor {
-  const report = v.closeReport.find((r) => r.pledgeId === h.pledgeId);
-  const a = holdAmounts(h);
-  // A closed hold has its final figures in the close report. Before the close that report
-  // counts only what PayPal captured, so an open hold is read from the hold itself.
-  const spent = settled && report ? report.spent : a.spent;
-  const back = settled && report ? report.released + report.uncollected + report.reversed : h.released + h.uncollected + h.reversed;
-  const held = settled ? 0 : a.held;
-  const restWord = held > 0 || !settled ? "held" : "back";
-  const rest = restWord === "held" ? held : back;
+/** A hold that can no longer pay and no longer keeps anything. */
+const OVER: Hold["status"][] = ["voided", "expired", "captured", "denied"];
+
+/** What a share cost in the donor's currency: nothing if never collected, less what PayPal took back. */
+const keptMinor = (r: LedgerRow) => (r.status === "uncollected" ? 0 : (r.amount ?? 0) - (r.reversed ?? 0));
+
+/** The same in the drive's currency. */
+function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
+  if (r.status === "uncollected") return 0;
+  const back = r.reversed ?? 0;
+  // All of it came back: nothing is left, whatever the rounding of each side says.
+  if (back > 0 && back >= (r.amount ?? 0)) return 0;
+  return back > 0 && h ? Math.max(0, r.base - inBase(h, back, base)) : r.base;
+}
+
+function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
+  const base = v.drive.baseCurrency;
+  const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.pledgeId === h.pledgeId);
+  const pledgedBase = inBase(h, h.authorized, base);
+  const spentBase = Math.min(
+    pledgedBase,
+    shares.reduce((sum, r) => sum + keptBase(r, h, base), 0),
+  );
+  const spent = Math.min(
+    h.authorized,
+    shares.reduce((sum, r) => sum + keptMinor(r), 0),
+  );
+  const rest = h.authorized - spent;
+  const over = closed || OVER.includes(h.status);
 
   const city = donorParts(h.donorName).place;
   const name = shortName(h.donorName);
-  const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.pledgeId === h.pledgeId);
-  const base = v.drive.baseCurrency;
   return {
     pledgeId: h.pledgeId,
     name,
@@ -126,28 +151,36 @@ function donorRow(v: DriveView, h: Hold, settled: boolean): LedgerDonor {
     at: locate(city, h.donorCountry),
     currency: h.currency,
     spent,
-    back,
-    held,
+    back: over ? rest : 0,
+    held: over ? 0 : rest,
     spentText: money(h.currency, spent),
     restText: money(h.currency, rest),
-    restWord,
-    spentBase: inBase(h, spent, base),
-    restBase: inBase(h, rest, base),
+    restWord: over ? "back" : "held",
+    pledgedBase,
+    spentBase,
+    restBase: pledgedBase - spentBase,
     needIds: [...new Set(shares.flatMap((r) => (r.needId ? [r.needId] : [])))],
     lineKeys: [...new Set(shares.map((r) => lineKey(r.receiptId, r.lineNo)))],
   };
 }
 
 function needRow(v: DriveView, n: Need): LedgerNeed {
-  const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.needId === n.needId);
+  const lines = v.ledger.filter((r) => r.needId === n.needId);
   return {
     needId: n.needId,
     label: n.displayLabel,
     count: ofCount(n.qtyCovered, n.qtyNeeded, n.unit),
     percent: Math.min(100, pct(n.qtyCovered, n.qtyNeeded)),
-    pledgeIds: [...new Set(shares.flatMap((r) => (r.pledgeId ? [r.pledgeId] : [])))],
-    lineKeys: [...new Set(shares.map((r) => lineKey(r.receiptId, r.lineNo)))],
+    pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [r.pledgeId] : [])))],
+    // Every line of the need: its refused and unfunded ones are part of its story.
+    lineKeys: [...new Set(lines.map((r) => lineKey(r.receiptId, r.lineNo)))],
   };
+}
+
+/** What PayPal has actually taken for a row, as the donor's statement counts it. */
+function chargedText(r: LedgerRow): string {
+  if (r.amount === null || !["captured", "partly_reversed", "reversed"].includes(r.status)) return "—";
+  return money(r.currency, r.amount - (r.reversed ?? 0)) || "—";
 }
 
 function bookRows(v: DriveView): LedgerBookRow[] {
@@ -171,7 +204,7 @@ function bookRows(v: DriveView): LedgerBookRow[] {
         need: need?.displayLabel ?? "Refused",
         payer: r.donorName ? shortName(r.donorName) : "—",
         share: r.base,
-        charged: r.amount === null ? "—" : money(r.currency, r.amount) || "—",
+        charged: chargedText(r),
         capture: r.captureId ?? "—",
         status: statusWords(r.status),
       };
@@ -194,25 +227,38 @@ function receiptPhoto(v: DriveView): string | null {
   return r?.image.url ?? null;
 }
 
+/** Shares recorded on donors' holds that PayPal has not been asked for, or has not confirmed, yet. */
+function waitingBase(v: DriveView): number {
+  const base = v.drive.baseCurrency;
+  return v.ledger.filter((r) => r.kind === "donor_share" && (r.status === "accrued" || r.status === "capture_pending")).reduce((sum, r) => sum + keptBase(r, holdById(v, r.pledgeId), base), 0);
+}
+
 /** Everything the Ledger tab shows. */
 export function deriveLedger(v: DriveView): LedgerModel {
   const base = v.drive.baseCurrency;
-  const holds = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0);
-  const closed = v.drive.status === "closed" && holds.every((h) => v.closeReport.find((r) => r.pledgeId === h.pledgeId)?.settled);
-  const promised = holds.reduce((sum, h) => sum + inBase(h, h.authorized, base), 0);
-  const spent = v.needs.reduce((sum, n) => sum + n.donorBase, 0);
+  const closed = v.drive.status === "closed";
+  const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed));
+  const sum = (pick: (d: LedgerDonor) => number) => donors.reduce((total, d) => total + pick(d), 0);
+  const held = sum((d) => (d.restWord === "held" ? d.restBase : 0));
+  const returned = sum((d) => (d.restWord === "back" ? d.restBase : 0));
+  const waiting = closed ? 0 : waitingBase(v);
   return {
     driveId: v.drive.id,
     phase: closed ? "closed" : "open",
     shelter: shelterName(v.drive.displayTitle),
     baseCurrency: base,
-    promised,
-    spent,
-    rest: promised - spent,
+    promised: sum((d) => d.pledgedBase),
+    spent: sum((d) => d.spentBase),
+    held,
+    returned,
+    rest: closed ? returned : held,
     restLabel: closed ? "Returned to donors" : "Held",
-    match: v.match.usedBase,
+    restNote: !closed && returned > 0 ? `${money(base, returned)} already returned` : null,
+    // The screens say shares are "captured once a day"; a drive may batch on another rhythm.
+    waitingNote: waiting > 0 ? `${money(base, waiting)} waiting for the ${v.drive.batch.maxAgeHours === 24 ? "daily" : "next"} capture` : null,
+    match: v.ledger.filter((r) => r.kind === "match_share").reduce((total, r) => total + keptBase(r, holdById(v, r.pledgeId), base), 0),
     matchName: v.match.holds[0]?.donorName ?? null,
-    donors: holds.map((h) => donorRow(v, h, closed)),
+    donors,
     needs: v.needs.map((n) => needRow(v, n)),
     refused: refusals(v),
     receiptUrl: receiptPhoto(v),

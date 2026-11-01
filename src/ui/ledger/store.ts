@@ -12,6 +12,8 @@ export interface LedgerSnapshot {
   /** Grows on Replay: everything animated is keyed on it, so the animation starts over. */
   run: number;
   bookOpen: boolean;
+  /** The drive is still changing and nothing is watching it: the screen offers a Refresh. */
+  stale: boolean;
 }
 
 export interface Focus {
@@ -46,7 +48,7 @@ export class LedgerStore {
   private filter: Filter | null = null;
 
   constructor(model: LedgerModel) {
-    this.snapshot = { model, selected: null, hovered: null, run: 0, bookOpen: false };
+    this.snapshot = { model, selected: null, hovered: null, run: 0, bookOpen: false, stale: false };
   }
 
   subscribe = (listener: () => void) => {
@@ -89,8 +91,21 @@ export class LedgerStore {
 
   setBookOpen = (bookOpen: boolean) => this.set({ bookOpen });
 
+  setStale = (stale: boolean) => {
+    if (stale !== this.snapshot.stale) this.set({ stale });
+  };
+
+  /** What the Refresh link does; the drive's reader hands it over. */
+  refresh: () => void = () => {};
+
+  /** New figures, and new lines for whatever is selected. */
   setModel(model: LedgerModel) {
+    const { selected, model: before } = this.snapshot;
+    if (model === before) return;
     this.set({ model });
+    if (!selected) return;
+    const lines = linesOf(model, selected);
+    if (lines.join() !== linesOf(before, selected).join()) this.filter?.(lines);
   }
 }
 

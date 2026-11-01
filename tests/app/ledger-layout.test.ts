@@ -53,6 +53,7 @@ function donor(i: number, city: string, country: string, spentBase: number, rest
     restWord: "back",
     spentBase,
     restBase,
+    pledgedBase: spentBase + restBase,
     needIds: [],
     lineKeys: [],
   };

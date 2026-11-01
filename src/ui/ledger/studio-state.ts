@@ -9,10 +9,14 @@ export const MAP_WIDGET = "ledger-map";
 export const SHELTER_WIDGET = "ledger-shelter";
 export const DONORS_WIDGET = "ledger-donors";
 export const FOOTER_WIDGET = "ledger-footer";
+export const NOTE_WIDGET = "ledger-note";
 
 const BOOK_WIDGET_ID = "book";
+export const NOTE_WAITING = "note-waiting";
+export const NOTE_REST = "note-rest";
 const PAGE_ID = "ledger";
 export const NEED_FIELD = "book.need";
+export const ORDER_FIELD = "book.order";
 
 export const COLORS = { ink: "#1C1B19", muted: "#55595F", spent: "#2F855A", spentText: "#256F4B", back: "#0A74C9", held: "#B7791F", refused: "#D0294A" };
 
@@ -70,7 +74,7 @@ export interface Metrics {
   stacked: boolean;
   /** Screen scale, 1 at the 1440 × 900 reference. */
   scale: number;
-  rows: { kpi: number; pair: number; match: number; map: number; shelter: number; donors: number; footer: number; book: number };
+  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; book: number };
 }
 
 const at = (xTrack: number, yTrack: number, xSpan: number, ySpan: number): AgWidgetLayoutState => ({ xTrack, yTrack, xSpan, ySpan });
@@ -89,13 +93,15 @@ function kpi(title: string, field: string, color: string, valuePx: number, title
   };
 }
 
-const COLUMNS: { id: string; aggregation?: undefined }[] = ["line", "item", "need", "payer", "share", "charged", "capture", "status"].map((c) => ({ id: `book.${c}` }));
+// Unaggregated columns are a GROUP BY, so two equal lines on two receipts would become one row.
+// `order` is unique per row: it stays in the query and leaves the screen (see ORDER_FIELD).
+const COLUMNS: { id: string; aggregation?: undefined }[] = ["line", "item", "need", "payer", "share", "charged", "capture", "status", "order"].map((c) => ({ id: `book.${c}` }));
 
 function book(): AgGridWidget {
   return {
     type: "grid",
     dataMapping: { cols: COLUMNS },
-    sort: [{ field: { id: "book.order" }, direction: "asc" }],
+    sort: [{ field: { id: ORDER_FIELD }, direction: "asc" }],
     format: {
       title: { enabled: false },
       style: { columnAutoSize: true },
@@ -119,12 +125,19 @@ export function ledgerState(m: LedgerModel, x: Metrics): AgReportState {
   const custom = (type: string, mapped?: object) => ({ type, dataMapping: mapped ?? {}, format: {} });
   const map = custom(MAP_WIDGET, { lineKey: [{ id: "book.lineKey" }] });
 
+  const note = (id: string, box: AgWidgetLayoutState) => place(id, custom(NOTE_WIDGET), box);
+
   // 48 tracks: fine enough to centre the "Company match" pair under the middle total.
   if (x.stacked) {
     place("kpi-promised", kpi("Promised", "totals.promised", COLORS.ink, 58, 21, "center"), at(0, 0, 48, r.kpi));
     place("kpi-spent", kpi("Spent on needs", "totals.spent", COLORS.spent, 38, 16, "center"), at(0, r.kpi, 24, r.pair));
     place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, 38, 16, "center"), at(24, r.kpi, 24, r.pair));
     let y = r.kpi + r.pair;
+    if (r.note) {
+      note(NOTE_WAITING, at(0, y, 24, r.note));
+      note(NOTE_REST, at(24, y, 24, r.note));
+      y += r.note;
+    }
     if (m.matchName) {
       place("match-label", matchLabel(15), at(0, y, 25, r.match));
       place("kpi-match", matchValue(15), at(25, y, 23, r.match));
@@ -143,13 +156,16 @@ export function ledgerState(m: LedgerModel, x: Metrics): AgReportState {
     const top = Math.round(74 * s);
     const label = Math.round(28 * s);
     const small = Math.round(21 * s);
-    place("kpi-promised", kpi("Promised", "totals.promised", COLORS.ink, top, label, "center"), at(0, 0, 16, r.kpi));
-    place("kpi-spent", kpi("Spent on needs", "totals.spent", COLORS.spent, top, label, "center"), at(16, 0, 16, r.kpi - r.match));
-    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, top, label, "center"), at(32, 0, 16, r.kpi));
+    const band = r.kpi - r.note;
+    place("kpi-promised", kpi("Promised", "totals.promised", COLORS.ink, top, label, "center"), at(0, 0, 16, band));
+    place("kpi-spent", kpi("Spent on needs", "totals.spent", COLORS.spent, top, label, "center"), at(16, 0, 16, band - r.match));
+    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
     if (m.matchName) {
-      place("match-label", matchLabel(small), at(16, r.kpi - r.match, 10, r.match));
-      place("kpi-match", matchValue(small), at(26, r.kpi - r.match, 6, r.match));
+      place("match-label", matchLabel(small), at(16, band - r.match, 10, r.match));
+      place("kpi-match", matchValue(small), at(26, band - r.match, 6, r.match));
     }
+    if (m.restNote) note(NOTE_REST, at(32, band - r.match, 16, r.match));
+    if (r.note) note(NOTE_WAITING, at(16, band, 16, r.note));
     place("map", map, at(0, r.kpi, 32, r.map));
     place("shelter", custom(SHELTER_WIDGET), at(32, r.kpi, 16, r.map));
     place("footer", custom(FOOTER_WIDGET), at(0, r.kpi + r.map, 48, r.footer));

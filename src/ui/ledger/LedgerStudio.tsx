@@ -9,12 +9,13 @@ import { money } from "../format";
 import { deriveLedger, type LedgerModel } from "./derive";
 import "./ledger.css";
 import { LedgerStore, linesOf } from "./store";
-import { DONORS_WIDGET, FOOTER_WIDGET, ledgerData, ledgerState, MAP_WIDGET, NEED_FIELD, SHELTER_WIDGET, type Metrics } from "./studio-state";
+import { DONORS_WIDGET, FOOTER_WIDGET, ledgerData, ledgerState, MAP_WIDGET, NEED_FIELD, NOTE_WIDGET, ORDER_FIELD, SHELTER_WIDGET, type Metrics } from "./studio-state";
 import { ledgerTheme } from "./theme";
 import type { DriveView } from "../types";
 import { DonorsWidget } from "./widgets/DonorsWidget";
 import { FooterWidget } from "./widgets/FooterWidget";
 import { MapWidget } from "./widgets/MapWidget";
+import { NoteWidget } from "./widgets/NoteWidget";
 import { ShelterWidget } from "./widgets/ShelterWidget";
 
 const noForm = (params: { createDefaults: (p: { dataMappingItems: never[] }) => never }) => params.createDefaults({ dataMappingItems: [] });
@@ -47,6 +48,7 @@ function holdColumns(api: GridApi, grid: Element) {
     const target = COLUMNS.map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
     const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
     if (off) api.setColumnWidths(target, true);
+    if (api.getColumn(ORDER_FIELD)?.isVisible()) api.setColumnsVisible([ORDER_FIELD], false);
   });
 }
 
@@ -78,6 +80,7 @@ const WIDGETS = createWidgets({
     { id: SHELTER_WIDGET, label: "Shelter", comp: ShelterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
     { id: DONORS_WIDGET, label: "Donors", comp: DonorsWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
     { id: FOOTER_WIDGET, label: "Bottom line", comp: FooterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+    { id: NOTE_WIDGET, label: "Note", comp: NoteWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
   ],
 } as never);
 
@@ -99,7 +102,7 @@ const sizeKey = () => `${document.documentElement.clientWidth}x${window.innerHei
 const BOOK_ROWS = 22;
 const bookHeight = (rows: number) => 60 + Math.min(rows, BOOK_ROWS) * 38;
 
-function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number }): Metrics {
+function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean }): Metrics {
   const bookRows = (rowHeight: number) => Math.ceil(bookHeight(counts.book) / rowHeight);
   if (stacked) {
     const rowHeight = 10;
@@ -107,6 +110,7 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       kpi: 12,
       pair: 9,
       match: 4,
+      note: counts.waiting || counts.rest ? 4 : 0,
       map: Math.ceil((Math.min(width, 640) * 0.56) / rowHeight),
       shelter: Math.ceil((64 + counts.needs * 104) / rowHeight),
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
@@ -116,7 +120,9 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
     return { rowHeight, stacked, scale: 1, rows };
   }
   const rowHeight = 10 * scale;
-  return { rowHeight, stacked, scale, rows: { kpi: 19, pair: 0, match: 4, map: 56, shelter: 56, donors: 0, footer: 9, book: bookRows(rowHeight) } };
+  // The line under Spent takes its height from the map, so the page stays one screen tall.
+  const note = counts.waiting ? 3 : 0;
+  return { rowHeight, stacked, scale, rows: { kpi: 19 + note, pair: 0, match: 4, note, map: 56 - note, shelter: 56 - note, donors: 0, footer: 9, book: bookRows(rowHeight) } };
 }
 
 function useMetrics(stacked: boolean, model: LedgerModel): Metrics {
@@ -129,13 +135,15 @@ function useMetrics(stacked: boolean, model: LedgerModel): Metrics {
   const needs = model.needs.length;
   const donors = model.donors.length;
   const book = model.book.length;
-  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book }), [stacked, width, scale, needs, donors, book]);
+  const waiting = model.waitingNote !== null;
+  const rest = model.restNote !== null;
+  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book, waiting, rest }), [stacked, width, scale, needs, donors, book, waiting, rest]);
 }
 
 /** Page height in tracks, without the book: the report never scrolls inside itself. */
 function bodyRows(m: Metrics, matched: boolean) {
   const r = m.rows;
-  return m.stacked ? r.kpi + r.pair + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer;
+  return m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer;
 }
 
 function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerModel, run: number, layoutKey: string) {
@@ -189,7 +197,7 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
 }
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
-export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: boolean }) {
+export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown> }) {
   // The drive is re-read every few seconds after an action. The same figures must stay the same
   // object, or every read would rebuild Studio's data and start the count over.
   const json = useMemo(() => JSON.stringify(deriveLedger(view)), [view]);
@@ -203,6 +211,10 @@ export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: bool
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => store.setModel(model), [store, model]);
+  useEffect(() => {
+    store.refresh = () => void refresh();
+    store.setStale(stale);
+  }, [store, stale, refresh]);
 
   const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}`;
   useCountUp(root, model, run, layoutKey);
@@ -222,11 +234,17 @@ export function LedgerStudio({ view, stacked }: { view: DriveView; stacked: bool
   // A filtered book is shorter than its widget: the frame ends with its last row.
   const body = bodyRows(metrics, model.matchName !== null) * metrics.rowHeight + 4;
   const whole = body + metrics.rows.book * metrics.rowHeight;
-  const height = body + (bookOpen ? bookHeight(picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length) : 0);
+  const lines = picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length;
+  const height = body + (bookOpen ? bookHeight(lines) : 0);
 
   return (
     <div className="lg-screen" ref={root} data-phase={model.phase} data-stacked={stacked} style={{ "--s": metrics.scale } as CSSProperties}>
-      <div className="lg-frame" data-book={bookOpen ? "open" : "closed"} style={{ height }}>
+      <div className="lg-frame" data-book={bookOpen && lines > 0 ? "open" : "closed"} style={{ height }}>
+        {bookOpen && lines === 0 && (
+          <p className="lg-nolines" style={{ top: body }}>
+            No lines yet
+          </p>
+        )}
         {stacked ? (
           <i className="lg-rule lg-rule-pair" />
         ) : (

@@ -2,6 +2,7 @@
 
 import type { AgWidgetField, AgWidgetParams } from "ag-studio";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import type { LedgerDonor } from "../derive";
 import land from "../land.json";
 import { landPath, planMap, type Arc, type PlacedDonor } from "../layout";
 import { focusOf, type LedgerContext, type Pick } from "../store";
@@ -11,6 +12,7 @@ import { useWidget } from "./useWidget";
 // second SVG; labels and pills in HTML, so they are real buttons and real text.
 
 const COMPACT_BELOW = 620;
+const LISTED_LEFT = 130;
 
 function useSize(ref: React.RefObject<HTMLElement | null>) {
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -67,6 +69,30 @@ function DonorMark({ p, dim, on, pick, store }: { p: PlacedDonor; dim: boolean; 
       <circle className={held ? "lg-ring lg-ring-held" : "lg-ring"} cx={p.x} cy={p.y} r={8} />
       <circle className="lg-dot" cx={p.x} cy={p.y} r={4.4} />
     </g>
+  );
+}
+
+/** Donors with no room on the map, in one line: as many as fit, and an honest count of the rest. */
+function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; width: number; selected: Pick | null; press: (pick: Pick) => void }) {
+  const text = (d: LedgerDonor) => `${d.spentText} · ${d.restText} ${d.restWord}`;
+  const room = width - LISTED_LEFT - 90;
+  let used = 0;
+  const shown = donors.filter((d) => {
+    used += (d.label.length + text(d).length + 1) * 6.5 + 14;
+    return used <= room;
+  });
+  const more = donors.length - shown.length;
+  return (
+    <ul className="lg-listed" style={{ left: LISTED_LEFT }}>
+      {shown.map((d) => (
+        <li key={d.pledgeId} data-label>
+          <button type="button" aria-pressed={selected?.kind === "donor" && selected.pledgeId === d.pledgeId} onClick={() => press({ kind: "donor", pledgeId: d.pledgeId })}>
+            <b>{d.label}</b> {text(d)}
+          </button>
+        </li>
+      ))}
+      {more > 0 && <li className="lg-more">+{more} more</li>}
+    </ul>
   );
 }
 
@@ -141,20 +167,17 @@ export function MapWidget(params: AgWidgetParams) {
           })}
         </div>
       )}
-      {plan && plan.listed.length > 0 && !compact && (
-        <ul className="lg-listed">
-          {plan.listed.map((d) => (
-            <li key={d.pledgeId}>
-              <button type="button" aria-pressed={snap.selected?.kind === "donor" && snap.selected.pledgeId === d.pledgeId} onClick={() => store.toggle({ kind: "donor", pledgeId: d.pledgeId })}>
-                <b>{d.label}</b> {d.spentText} spent · {d.restText} {d.restWord}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      <button type="button" className="lg-replay" onClick={store.replay}>
-        Replay
-      </button>
+      {plan && plan.listed.length > 0 && !compact && <Listed donors={plan.listed} width={width} selected={snap.selected} press={store.toggle} />}
+      <span className="lg-links">
+        <button type="button" onClick={store.replay}>
+          Replay
+        </button>
+        {snap.stale && (
+          <button type="button" onClick={() => store.refresh()}>
+            Refresh
+          </button>
+        )}
+      </span>
     </div>
   );
 }

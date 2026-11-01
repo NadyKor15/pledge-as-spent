@@ -52,10 +52,16 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-pill-spent { background: #1F7A4D; }
 .lg-pill-back { background: var(--back); animation-delay: 2.1s; }
 .lg-pill-held { background: #FBF0DA; color: var(--held-text); box-shadow: inset 0 0 0 1.5px var(--held); }
-.lg-replay { position: absolute; left: 14px; bottom: 10px; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-.lg-listed { position: absolute; left: 90px; right: 12px; bottom: 8px; display: flex; flex-wrap: wrap; gap: 4px 14px; list-style: none; font-size: 12.5px; color: var(--muted); }
+.lg-links { position: absolute; left: 14px; bottom: 10px; display: flex; gap: 14px; }
+.lg-links button { color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.lg-listed { position: absolute; right: 12px; bottom: 8px; display: flex; flex-wrap: nowrap; gap: 14px; list-style: none; overflow: hidden; white-space: nowrap; font-size: 12.5px; color: var(--muted); }
 .lg-listed b { font-weight: 600; color: var(--ink); }
 .lg-listed button[aria-pressed="true"] { text-decoration: underline; }
+
+.lg-note { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: calc(18px * var(--s)); line-height: 1.25; color: #4A5160; }
+.lg-note-rest { color: var(--back); }
+[data-stacked="true"] .lg-note { padding: 0 8px; font-size: 13px; align-items: flex-start; }
+.lg-nolines { position: absolute; z-index: 3; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 15px; }
 
 /* Cards */
 .lg-card { position: absolute; inset: 0; background: #FFFFFF; border-radius: 16px; box-shadow: 0 2px 14px rgba(40, 36, 28, .08), 0 0 0 1px rgba(40, 36, 28, .04); }

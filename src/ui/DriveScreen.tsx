@@ -26,7 +26,7 @@ export function DriveScreen({ params }: { params: Promise<{ id: string }> }) {
     if (!d.error) return <Loading />;
     return <Failure title={d.error.status === 404 ? "No such drive" : "The drive could not be loaded"} message={d.error.message} />;
   }
-  if (role === "ledger") return <LedgerView view={d.view} />;
+  if (role === "ledger") return <LedgerView view={d.view} following={d.following} refresh={d.refresh} follow={d.follow} />;
   if (role === "volunteer") {
     return (
       <>
