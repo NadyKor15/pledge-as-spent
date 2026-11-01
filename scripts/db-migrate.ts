@@ -4,6 +4,10 @@
 //
 //   DATABASE_URL=postgres://… npm run db:migrate
 //   npm run db:migrate            (local: pglite:.data/pglite)
+//
+// On Vercel the `vercel-build` script runs this before `next build`: the database
+// URL is a Sensitive variable, readable only inside the build and the functions.
+// A failed migration fails the build, so the running deployment stays up.
 
 import path from "node:path";
 import { openDatabase } from "../src/db/client";
