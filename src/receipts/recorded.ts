@@ -33,7 +33,9 @@ const NO_COST = (model: string): ModelUsage => ({ model, tokensIn: 0, tokensOut:
 /** Identity of a classification: the parsed receipt plus the needs and rules its lines were matched against. */
 export function classificationKey(parsed: ParsedReceipt, needs: Pick<Need, "id" | "label" | "unit" | "qtyNeeded">[], rules: string): string {
   const basis = JSON.stringify({
-    receipt: receiptKey(parsed),
+    // Without the personal-data boxes: they do not bear on the lines, and their floats do not survive
+    // the bundler's JSON reader to the last digit, so a saved answer would never match in production.
+    receipt: receiptKey({ ...parsed, pii: [] }),
     needs: needs.map((n) => [n.id, n.label, n.unit, n.qtyNeeded]),
     rules,
   });
