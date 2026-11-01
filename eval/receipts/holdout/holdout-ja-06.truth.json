@@ -1,0 +1,477 @@
+{
+ "id": "holdout-ja-06",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8065,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-06.png",
+  "sha256": "05a47266145693f438dc134840d7dad802ce11786c401555ad162649ad451569",
+  "mediaType": "image/png",
+  "width": 614,
+  "height": 1065
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T08:40:00",
+  "receiptNumber": "0974",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 1,
+    "unitPriceMinor": 858,
+    "amountMinor": 858,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "テープおむつ S 60枚",
+    "translationEn": "Tape diapers S, 60 count (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1180,
+    "amountMinor": 1180,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 1,
+    "unitPriceMinor": 178,
+    "amountMinor": 178,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いわし蒲焼 缶",
+    "translationEn": "Grilled sardines, can",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "値引",
+    "translationEn": "Discount on Grilled sardines, can",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -50,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3882,
+  "taxMinor": 322,
+  "taxIncluded": true,
+  "totalMinor": 3882,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8899",
+    "bbox": {
+     "x": 0.5923,
+     "y": 0.7003,
+     "w": 0.2359,
+     "h": 0.0185
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ",
+    "bbox": {
+     "x": 0.2006,
+     "y": 0.7886,
+     "w": 0.0865,
+     "h": 0.0168
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "9198 9462 2170",
+    "bbox": {
+     "x": 0.6258,
+     "y": 0.8075,
+     "w": 0.2057,
+     "h": 0.0175
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tape diapers S, 60 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Grilled sardines, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "canned",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Grilled sardines, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-06",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8065,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-08T08:40:00",
+  "receiptNumber": "0974",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "おいしい水 2L",
+     "6本入"
+    ],
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 1,
+    "unitMinor": 858,
+    "amountMinor": 858,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "テープおむつ S 60枚"
+    ],
+    "translationEn": "Tape diapers S, 60 count (wrong size)",
+    "qty": 1,
+    "unitMinor": 1180,
+    "amountMinor": 1180,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tape diapers S, 60 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ゼリー飲料"
+    ],
+    "translationEn": "Jelly drink",
+    "qty": 1,
+    "unitMinor": 178,
+    "amountMinor": 178,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Jelly drink is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "いわし蒲焼 缶"
+    ],
+    "translationEn": "Grilled sardines, can",
+    "qty": 3,
+    "unitMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Grilled sardines, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Grilled sardines, can",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -50,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Grilled sardines, can counts toward Canned food."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "単三アルカリ 8本パック"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "山里の湧水 2L"
+    ],
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1766,
+    "taxMinor": 130
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2116,
+    "taxMinor": 192
+   }
+  ],
+  "taxMinor": 322,
+  "subtotalMinor": 3882,
+  "totalMinor": 3882,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "8899"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************8899"
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "9198 9462 2170"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.484,
+   "rotX": -3.073,
+   "rotY": -3.067,
+   "perspective": 1295,
+   "blurPx": 0.571,
+   "noise": 0.039,
+   "lightAngle": 18,
+   "lightStrength": 0.29,
+   "glare": {
+    "x": 0.771,
+    "y": 0.124,
+    "strength": 0.183
+   },
+   "creases": [
+    {
+     "x": 0.633,
+     "y": 0.757,
+     "angle": -62,
+     "width": 27,
+     "length": 374,
+     "strength": 0.073
+    },
+    {
+     "x": 0.143,
+     "y": 0.121,
+     "angle": -37,
+     "width": 38,
+     "length": 590,
+     "strength": 0.089
+    },
+    {
+     "x": 0.165,
+     "y": 0.698,
+     "angle": 10,
+     "width": 62,
+     "length": 265,
+     "strength": 0.07
+    },
+    {
+     "x": 0.378,
+     "y": 0.325,
+     "angle": -37,
+     "width": 57,
+     "length": 453,
+     "strength": 0.101
+    },
+    {
+     "x": 0.611,
+     "y": 0.502,
+     "angle": -38,
+     "width": 36,
+     "length": 357,
+     "strength": 0.073
+    },
+    {
+     "x": 0.439,
+     "y": 0.418,
+     "angle": -28,
+     "width": 56,
+     "length": 302,
+     "strength": 0.075
+    },
+    {
+     "x": 0.599,
+     "y": 0.682,
+     "angle": -68,
+     "width": 54,
+     "length": 435,
+     "strength": 0.069
+    },
+    {
+     "x": 0.428,
+     "y": 0.552,
+     "angle": 13,
+     "width": 29,
+     "length": 625,
+     "strength": 0.067
+    },
+    {
+     "x": 0.841,
+     "y": 0.887,
+     "angle": -51,
+     "width": 41,
+     "length": 419,
+     "strength": 0.057
+    }
+   ],
+   "desk": "wood",
+   "seed": 8072
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -6,3 +6,4 @@ eval/receipts/v1
 eval/receipts/adversarial
 tsconfig.tsbuildinfo
 .data
+eval/receipts/holdout

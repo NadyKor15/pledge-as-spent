@@ -47,7 +47,7 @@ export type PhotoParams = z.infer<typeof PhotoParams>;
 
 export const ReceiptSpec = z.object({
   id: z.string(),
-  set: z.enum(["v1", "adversarial", "hero"]),
+  set: z.enum(["v1", "adversarial", "hero", "holdout"]),
   locale: z.enum(["ja", "tr", "es", "en"]),
   seed: z.number().int(),
   store: z.object({

@@ -1,6 +1,7 @@
 // The three receipt sets, built deterministically from fixed seeds.
 
-import { CATALOG, OUTSIDE_STORES, STORES, type Item } from "./catalog";
+import { CATALOG, OUTSIDE_STORES, STORES, type Catalog, type Item } from "./catalog";
+import { HOLDOUT_CATALOG } from "./catalog-holdout";
 import { Rng } from "./rng";
 import { LOCALES, type Locale } from "./scenario";
 import { buildSpec, type Entry, type PhotoParams, type ReceiptSpec } from "./spec";
@@ -39,10 +40,12 @@ interface Mix {
   discount?: boolean;
   /** Force these rejected kinds. */
   rules?: ("alcohol" | "tobacco" | "gift_card")[];
+  /** Another shelf instead of the tuned catalog. */
+  catalog?: Catalog;
 }
 
 function pickEntries(rng: Rng, locale: Locale, mix: Mix): Entry[] {
-  const cat = CATALOG[locale];
+  const cat = mix.catalog ?? CATALOG[locale];
   const qty = (it: Item) => (it.qtys ? rng.pick(it.qtys) : rng.pick([1, 1, 1, 2]));
   const entry = (it: Item): Entry => ({ item: it, qty: qty(it), abbr: !!it.abbr && rng.chance(0.5) });
   const entries: Entry[] = [
@@ -107,6 +110,24 @@ export function buildV1(): ReceiptSpec[] {
       const included = locale === "ja" ? i % 2 === 0 : locale !== "en";
       const mix: Mix = { rejected: i % 3 === 2 ? 1 : 0, discount: i % 3 === 1 || (locale !== "ja" && i % 2 === 0) };
       out.push(receipt(id, "v1", locale, SEED_BASE[locale] + i, included, mix));
+    }
+  }
+  return out;
+}
+
+/**
+ * Held-out receipts: fresh seeds and a shelf of products nothing was tuned on.
+ * Run once per reader for the number in the README; never tune on the result.
+ */
+export function buildHoldout(): ReceiptSpec[] {
+  const counts: Record<Locale, number> = { ja: 8, tr: 4, es: 4, en: 4 };
+  const out: ReceiptSpec[] = [];
+  for (const locale of LOCALES) {
+    for (let i = 0; i < counts[locale]; i++) {
+      const id = `holdout-${locale}-${String(i + 1).padStart(2, "0")}`;
+      const included = locale === "ja" ? i % 2 === 1 : locale !== "en";
+      const mix: Mix = { catalog: HOLDOUT_CATALOG[locale], rejected: i % 2 === 0 ? 1 : 0, discount: i % 3 === 2 };
+      out.push(receipt(id, "holdout", locale, SEED_BASE[locale] + 7000 + i * 13, included, mix));
     }
   }
   return out;

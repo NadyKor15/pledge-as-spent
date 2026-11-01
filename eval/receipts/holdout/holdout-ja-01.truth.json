@@ -1,0 +1,320 @@
+{
+ "id": "holdout-ja-01",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8000,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-01.png",
+  "sha256": "e6f19800c6190235557bbe274973dddc2a241b0f08c444dc8350c61972194046",
+  "mediaType": "image/png",
+  "width": 633,
+  "height": 899
+ },
+ "receipt": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:13:00",
+  "receiptNumber": "7283",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "プリペイドカード 5,000円",
+    "translationEn": "Prepaid card 5,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 1,
+    "unitPriceMinor": 138,
+    "amountMinor": 138,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 6854,
+  "taxMinor": 148,
+  "taxIncluded": false,
+  "totalMinor": 7002,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4980",
+    "bbox": {
+     "x": 0.567,
+     "y": 0.6449,
+     "w": 0.2289,
+     "h": 0.0299
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ",
+    "bbox": {
+     "x": 0.1744,
+     "y": 0.7271,
+     "w": 0.0849,
+     "h": 0.0232
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "4918 7675 3547",
+    "bbox": {
+     "x": 0.584,
+     "y": 0.772,
+     "w": 0.1992,
+     "h": 0.0286
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-01",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8000,
+  "store": {
+   "name": "ドラッグ ヒカリ",
+   "branch": "北空中央店",
+   "address": [
+    "空川県北空市中央3-5-12"
+   ],
+   "city": "北空",
+   "phone": "0123-33-7788",
+   "taxId": "T0000100000634"
+  },
+  "purchasedAt": "2026-11-08T10:13:00",
+  "receiptNumber": "7283",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "おいしい水 2L",
+     "6本入"
+    ],
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "プリペイドカード 5,000円"
+    ],
+    "translationEn": "Prepaid card 5,000 yen",
+    "qty": 1,
+    "unitMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "山里の湧水 2L"
+    ],
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 1,
+    "unitMinor": 138,
+    "amountMinor": 138,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1854,
+    "taxMinor": 148
+   }
+  ],
+  "taxMinor": 148,
+  "subtotalMinor": 6854,
+  "totalMinor": 7002,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "4980"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4980"
+   },
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ"
+   },
+   {
+    "kind": "member_id",
+    "text": "4918 7675 3547"
+   }
+  ],
+  "photo": {
+   "rotZ": 3.392,
+   "rotX": -4.278,
+   "rotY": -1.693,
+   "perspective": 1323,
+   "blurPx": 0.66,
+   "noise": 0.037,
+   "lightAngle": 222,
+   "lightStrength": 0.235,
+   "glare": {
+    "x": 0.499,
+    "y": 0.238,
+    "strength": 0.162
+   },
+   "creases": [
+    {
+     "x": 0.591,
+     "y": 0.355,
+     "angle": -48,
+     "width": 45,
+     "length": 600,
+     "strength": 0.083
+    },
+    {
+     "x": 0.382,
+     "y": 0.326,
+     "angle": -29,
+     "width": 62,
+     "length": 431,
+     "strength": 0.06
+    },
+    {
+     "x": 0.434,
+     "y": 0.764,
+     "angle": -65,
+     "width": 31,
+     "length": 527,
+     "strength": 0.088
+    },
+    {
+     "x": 0.866,
+     "y": 0.372,
+     "angle": 17,
+     "width": 68,
+     "length": 368,
+     "strength": 0.056
+    },
+    {
+     "x": 0.867,
+     "y": 0.758,
+     "angle": -61,
+     "width": 48,
+     "length": 241,
+     "strength": 0.068
+    },
+    {
+     "x": 0.664,
+     "y": 0.331,
+     "angle": -23,
+     "width": 26,
+     "length": 448,
+     "strength": 0.109
+    },
+    {
+     "x": 0.767,
+     "y": 0.659,
+     "angle": 49,
+     "width": 64,
+     "length": 226,
+     "strength": 0.108
+    },
+    {
+     "x": 0.766,
+     "y": 0.764,
+     "angle": 32,
+     "width": 68,
+     "length": 621,
+     "strength": 0.112
+    }
+   ],
+   "desk": "slate",
+   "seed": 8007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

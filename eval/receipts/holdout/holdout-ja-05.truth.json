@@ -1,0 +1,433 @@
+{
+ "id": "holdout-ja-05",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8052,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-05.png",
+  "sha256": "e8f3f800499892ca17ae1ac8cb72eb14b369cab634777056436d5c7e5f71f800",
+  "mediaType": "image/png",
+  "width": 617,
+  "height": 979
+ },
+ "receipt": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T10:07:00",
+  "receiptNumber": "3842",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "歯ブラシ 3本",
+    "translationEn": "Toothbrushes, 3 count",
+    "qty": 1,
+    "unitPriceMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "プリペイドカード 5,000円",
+    "translationEn": "Prepaid card 5,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 3,
+    "unitPriceMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 2,
+    "unitPriceMinor": 1480,
+    "amountMinor": 2960,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 1,
+    "unitPriceMinor": 858,
+    "amountMinor": 858,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 10772,
+  "taxMinor": 544,
+  "taxIncluded": false,
+  "totalMinor": 11316,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes, 3 count is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blanket 140x200 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-05",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8052,
+  "store": {
+   "name": "ドラッグ ヒカリ",
+   "branch": "北空中央店",
+   "address": [
+    "空川県北空市中央3-5-12"
+   ],
+   "city": "北空",
+   "phone": "0123-33-7788",
+   "taxId": "T0000100000634"
+  },
+  "purchasedAt": "2026-11-07T10:07:00",
+  "receiptNumber": "3842",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "歯ブラシ 3本"
+    ],
+    "translationEn": "Toothbrushes, 3 count",
+    "qty": 1,
+    "unitMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toothbrushes, 3 count is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単三アルカリ 8本パック"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "プリペイドカード 5,000円"
+    ],
+    "translationEn": "Prepaid card 5,000 yen",
+    "qty": 1,
+    "unitMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "山里の湧水 2L"
+    ],
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 3,
+    "unitMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ゼリー飲料"
+    ],
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Jelly drink is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "フリース毛布 140x200"
+    ],
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 2,
+    "unitMinor": 1480,
+    "amountMinor": 2960,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece blanket 140x200 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "おいしい水 2L",
+     "6本入"
+    ],
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 1,
+    "unitMinor": 858,
+    "amountMinor": 858,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1628,
+    "taxMinor": 130
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 4144,
+    "taxMinor": 414
+   }
+  ],
+  "taxMinor": 544,
+  "subtotalMinor": 10772,
+  "totalMinor": 11316,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 12000,
+   "changeMinor": 684,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -1.916,
+   "rotX": 2.917,
+   "rotY": -1.811,
+   "perspective": 1148,
+   "blurPx": 0.76,
+   "noise": 0.04,
+   "lightAngle": 120,
+   "lightStrength": 0.385,
+   "glare": {
+    "x": 0.101,
+    "y": 0.51,
+    "strength": 0.208
+   },
+   "creases": [
+    {
+     "x": 0.407,
+     "y": 0.75,
+     "angle": -28,
+     "width": 61,
+     "length": 222,
+     "strength": 0.062
+    },
+    {
+     "x": 0.297,
+     "y": 0.255,
+     "angle": -36,
+     "width": 64,
+     "length": 244,
+     "strength": 0.078
+    },
+    {
+     "x": 0.831,
+     "y": 0.189,
+     "angle": 20,
+     "width": 69,
+     "length": 567,
+     "strength": 0.099
+    },
+    {
+     "x": 0.189,
+     "y": 0.668,
+     "angle": -60,
+     "width": 51,
+     "length": 380,
+     "strength": 0.06
+    },
+    {
+     "x": 0.376,
+     "y": 0.623,
+     "angle": 55,
+     "width": 42,
+     "length": 630,
+     "strength": 0.071
+    },
+    {
+     "x": 0.275,
+     "y": 0.879,
+     "angle": 10,
+     "width": 64,
+     "length": 243,
+     "strength": 0.113
+    },
+    {
+     "x": 0.237,
+     "y": 0.1,
+     "angle": 43,
+     "width": 68,
+     "length": 425,
+     "strength": 0.052
+    },
+    {
+     "x": 0.787,
+     "y": 0.273,
+     "angle": -62,
+     "width": 67,
+     "length": 550,
+     "strength": 0.111
+    },
+    {
+     "x": 0.438,
+     "y": 0.402,
+     "angle": -6,
+     "width": 45,
+     "length": 525,
+     "strength": 0.098
+    }
+   ],
+   "desk": "slate",
+   "seed": 8059
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -1,5 +1,5 @@
 // Benchmark: how well a reader + classifier pass the receipt sets, scored against ground truth.
-//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix --set v1|adversarial|hero [--classifier <same choices>]
+//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix --set v1|adversarial|hero|holdout [--classifier <same choices>]
 // Writes eval/results/<reader>-<set>-<UTC>.json and .md. The recorded reader replays the ground truth, so it must score 100 %.
 
 import { createHash } from "node:crypto";
@@ -21,7 +21,7 @@ import { FLAGS, add, flagStats, ratio, scoreReceipt, tally, type CheatFlag, type
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const RECEIPTS = path.join(ROOT, "eval/receipts");
 
-export type SetName = "v1" | "adversarial" | "hero";
+export type SetName = "v1" | "adversarial" | "hero" | "holdout";
 
 export async function loadTruths(set: SetName, root = RECEIPTS): Promise<Truth[]> {
   const dir = path.join(root, set);
@@ -293,7 +293,7 @@ async function main() {
   const arg = (n: string) => (args.includes(`--${n}`) ? args[args.indexOf(`--${n}`) + 1] : undefined);
   const readerChoice = arg("reader") as Choice | undefined;
   const set = arg("set") as SetName | undefined;
-  if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero"].includes(set)) {
+  if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero", "holdout"].includes(set)) {
     throw new Error(`usage: npm run eval -- --reader ${CHOICES.join("|")} --set v1|adversarial|hero [--classifier ${CHOICES.join("|")}]`);
   }
   const classifierChoice = (arg("classifier") as Choice | undefined) ?? classifierFor(readerChoice);

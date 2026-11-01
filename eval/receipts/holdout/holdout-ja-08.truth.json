@@ -1,0 +1,381 @@
+{
+ "id": "holdout-ja-08",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8091,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-08.png",
+  "sha256": "ebdff881ef2be1a0ebda1edf80226dad5eeb6c309c022a8ecbd94aa7a9c896a7",
+  "mediaType": "image/png",
+  "width": 623,
+  "height": 976
+ },
+ "receipt": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T13:32:00",
+  "receiptNumber": "3565",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ふんわりテープ M 40枚",
+    "translationEn": "Fluffy tape diapers M, 40 count",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "歯ブラシ 3本",
+    "translationEn": "Toothbrushes, 3 count",
+    "qty": 1,
+    "unitPriceMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 7096,
+  "taxMinor": 609,
+  "taxIncluded": true,
+  "totalMinor": 7096,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************5268",
+    "bbox": {
+     "x": 0.5649,
+     "y": 0.7727,
+     "w": 0.2331,
+     "h": 0.0238
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blanket 140x200 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fluffy tape diapers M, 40 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes, 3 count is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-08",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8091,
+  "store": {
+   "name": "ホームセンター ツバメ",
+   "branch": "北空東店",
+   "address": [
+    "空川県北空市東町7-20"
+   ],
+   "city": "北空",
+   "phone": "0123-55-1100",
+   "taxId": "T0000100000712"
+  },
+  "purchasedAt": "2026-11-09T13:32:00",
+  "receiptNumber": "3565",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "ゼリー飲料"
+    ],
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Jelly drink is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単三アルカリ 8本パック"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 2,
+    "unitMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "フリース毛布 140x200"
+    ],
+    "translationEn": "Fleece blanket 140x200",
+    "qty": 1,
+    "unitMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece blanket 140x200 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ふんわりテープ M 40枚"
+    ],
+    "translationEn": "Fluffy tape diapers M, 40 count",
+    "qty": 2,
+    "unitMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fluffy tape diapers M, 40 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "おいしい水 2L",
+     "6本入"
+    ],
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "歯ブラシ 3本"
+    ],
+    "translationEn": "Toothbrushes, 3 count",
+    "qty": 1,
+    "unitMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toothbrushes, 3 count is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 2072,
+    "taxMinor": 153
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 5024,
+    "taxMinor": 456
+   }
+  ],
+  "taxMinor": 609,
+  "subtotalMinor": 7096,
+  "totalMinor": 7096,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "5268"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************5268"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.304,
+   "rotX": 3.075,
+   "rotY": 2.875,
+   "perspective": 1595,
+   "blurPx": 0.336,
+   "noise": 0.046,
+   "lightAngle": 61,
+   "lightStrength": 0.327,
+   "glare": {
+    "x": 0.891,
+    "y": 0.266,
+    "strength": 0.127
+   },
+   "creases": [
+    {
+     "x": 0.579,
+     "y": 0.54,
+     "angle": -55,
+     "width": 53,
+     "length": 512,
+     "strength": 0.06
+    },
+    {
+     "x": 0.85,
+     "y": 0.327,
+     "angle": 31,
+     "width": 42,
+     "length": 310,
+     "strength": 0.118
+    },
+    {
+     "x": 0.081,
+     "y": 0.516,
+     "angle": 60,
+     "width": 67,
+     "length": 591,
+     "strength": 0.12
+    },
+    {
+     "x": 0.231,
+     "y": 0.18,
+     "angle": -20,
+     "width": 49,
+     "length": 500,
+     "strength": 0.092
+    },
+    {
+     "x": 0.664,
+     "y": 0.41,
+     "angle": 37,
+     "width": 68,
+     "length": 391,
+     "strength": 0.057
+    }
+   ],
+   "desk": "cloth",
+   "seed": 8098
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

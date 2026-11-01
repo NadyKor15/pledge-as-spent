@@ -1,0 +1,376 @@
+{
+ "id": "holdout-ja-04",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8039,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-04.png",
+  "sha256": "6afeeb111224ceb847a8a6f8805ccdfd41b420743880c25d07956b21b517cc9f",
+  "mediaType": "image/png",
+  "width": 633,
+  "height": 1003
+ },
+ "receipt": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:56:00",
+  "receiptNumber": "5824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "レトルトカレー",
+    "translationEn": "Retort curry",
+    "qty": 1,
+    "unitPriceMinor": 228,
+    "amountMinor": 228,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いわし蒲焼 缶",
+    "translationEn": "Grilled sardines, can",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3080,
+  "taxMinor": 228,
+  "taxIncluded": true,
+  "totalMinor": 3080,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1354",
+    "bbox": {
+     "x": 0.5651,
+     "y": 0.6851,
+     "w": 0.2271,
+     "h": 0.0242
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.1583,
+     "y": 0.7691,
+     "w": 0.0779,
+     "h": 0.0204
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "4633 1577 4131",
+    "bbox": {
+     "x": 0.5846,
+     "y": 0.8036,
+     "w": 0.1999,
+     "h": 0.0227
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Retort curry is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Grilled sardines, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-04",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8039,
+  "store": {
+   "name": "ミナト生活館",
+   "branch": "北空店",
+   "address": [
+    "空川県北空市港町2-8-1"
+   ],
+   "city": "北空",
+   "phone": "0123-45-6789",
+   "taxId": "T0000100000427"
+  },
+  "purchasedAt": "2026-11-08T10:56:00",
+  "receiptNumber": "5824",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "山里の湧水 2L"
+    ],
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "レトルトカレー"
+    ],
+    "translationEn": "Retort curry",
+    "qty": 1,
+    "unitMinor": 228,
+    "amountMinor": 228,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Retort curry is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ゼリー飲料"
+    ],
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Jelly drink is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "いわし蒲焼 缶"
+    ],
+    "translationEn": "Grilled sardines, can",
+    "qty": 3,
+    "unitMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Grilled sardines, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "おいしい水 2L",
+     "6本入"
+    ],
+    "translationEn": "Tasty water 2 L, box of 6",
+    "qty": 2,
+    "unitMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tasty water 2 L, box of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 3080,
+    "taxMinor": 228
+   }
+  ],
+  "taxMinor": 228,
+  "subtotalMinor": 3080,
+  "totalMinor": 3080,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1354"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1354"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "4633 1577 4131"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.962,
+   "rotX": 3.125,
+   "rotY": 4.653,
+   "perspective": 1143,
+   "blurPx": 0.674,
+   "noise": 0.065,
+   "lightAngle": 319,
+   "lightStrength": 0.15,
+   "glare": {
+    "x": 0.868,
+    "y": 0.086,
+    "strength": 0.195
+   },
+   "creases": [
+    {
+     "x": 0.295,
+     "y": 0.119,
+     "angle": 26,
+     "width": 56,
+     "length": 339,
+     "strength": 0.06
+    },
+    {
+     "x": 0.661,
+     "y": 0.578,
+     "angle": 64,
+     "width": 54,
+     "length": 264,
+     "strength": 0.116
+    },
+    {
+     "x": 0.939,
+     "y": 0.949,
+     "angle": 51,
+     "width": 55,
+     "length": 374,
+     "strength": 0.079
+    },
+    {
+     "x": 0.6,
+     "y": 0.461,
+     "angle": -52,
+     "width": 45,
+     "length": 617,
+     "strength": 0.073
+    },
+    {
+     "x": 0.846,
+     "y": 0.35,
+     "angle": 53,
+     "width": 56,
+     "length": 592,
+     "strength": 0.056
+    },
+    {
+     "x": 0.222,
+     "y": 0.399,
+     "angle": -35,
+     "width": 60,
+     "length": 621,
+     "strength": 0.111
+    }
+   ],
+   "desk": "slate",
+   "seed": 8046
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -1,0 +1,360 @@
+{
+ "id": "holdout-tr-01",
+ "set": "holdout",
+ "locale": "tr",
+ "seed": 9000,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout-tr-01.png",
+  "sha256": "5ce22a03d0ff14c10dad04bb9dbecb7468046c7fbd2191fe9b0baad8269e0d12",
+  "mediaType": "image/png",
+  "width": 620,
+  "height": 821
+ },
+ "receipt": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-07T17:10:00",
+  "receiptNumber": "5641",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DOĞAL KAYNAK 5 LİTRE",
+    "translationEn": "Natural spring water 5 litres",
+    "qty": 2,
+    "unitPriceMinor": 2690,
+    "amountMinor": 5380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA batteries, 6 count",
+    "qty": 1,
+    "unitPriceMinor": 11490,
+    "amountMinor": 11490,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500 g",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SİGARA UZUN 20'Lİ",
+    "translationEn": "Long cigarettes, 20",
+    "qty": 1,
+    "unitPriceMinor": 9900,
+    "amountMinor": 9900,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 6763,
+  "taxIncluded": true,
+  "totalMinor": 56570,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 9318",
+    "bbox": {
+     "x": 0.1986,
+     "y": 0.721,
+     "w": 0.2763,
+     "h": 0.0305
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.2026,
+     "y": 0.8076,
+     "w": 0.1895,
+     "h": 0.0275
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5916873187",
+    "bbox": {
+     "x": 0.6891,
+     "y": 0.7648,
+     "w": 0.1507,
+     "h": 0.0268
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural spring water 5 litres counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, 6 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese 500 g is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-tr-01",
+  "set": "holdout",
+  "locale": "tr",
+  "seed": 9000,
+  "store": {
+   "name": "SÜPER YILDIZ MARKET",
+   "address": [
+    "Çarşı Cd. No:12",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 42",
+   "taxId": "VKN: 0000000042"
+  },
+  "purchasedAt": "2026-11-07T17:10:00",
+  "receiptNumber": "5641",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "DOĞAL KAYNAK 5 LİTRE"
+    ],
+    "translationEn": "Natural spring water 5 litres",
+    "qty": 2,
+    "unitMinor": 2690,
+    "amountMinor": 5380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Natural spring water 5 litres counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ALKALİN AA 6 ADET"
+    ],
+    "translationEn": "Alkaline AA batteries, 6 count",
+    "qty": 1,
+    "unitMinor": 11490,
+    "amountMinor": 11490,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, 6 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BEYAZ PEYNİR 500 GR"
+    ],
+    "translationEn": "White cheese 500 g",
+    "qty": 2,
+    "unitMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "White cheese 500 g is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SİGARA UZUN 20'Lİ"
+    ],
+    "translationEn": "Long cigarettes, 20",
+    "qty": 1,
+    "unitMinor": 9900,
+    "amountMinor": 9900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 35180,
+    "taxMinor": 3198
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 21390,
+    "taxMinor": 3565
+   }
+  ],
+  "taxMinor": 6763,
+  "subtotalMinor": null,
+  "totalMinor": 56570,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9318"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 9318"
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN"
+   },
+   {
+    "kind": "member_id",
+    "text": "5916873187"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.597,
+   "rotX": 3.684,
+   "rotY": -4.356,
+   "perspective": 1418,
+   "blurPx": 0.405,
+   "noise": 0.056,
+   "lightAngle": 267,
+   "lightStrength": 0.158,
+   "glare": {
+    "x": 0.604,
+    "y": 0.15,
+    "strength": 0.1
+   },
+   "creases": [
+    {
+     "x": 0.144,
+     "y": 0.24,
+     "angle": 49,
+     "width": 44,
+     "length": 646,
+     "strength": 0.055
+    },
+    {
+     "x": 0.816,
+     "y": 0.153,
+     "angle": 13,
+     "width": 38,
+     "length": 573,
+     "strength": 0.105
+    },
+    {
+     "x": 0.378,
+     "y": 0.679,
+     "angle": -13,
+     "width": 43,
+     "length": 433,
+     "strength": 0.105
+    },
+    {
+     "x": 0.419,
+     "y": 0.921,
+     "angle": 4,
+     "width": 34,
+     "length": 550,
+     "strength": 0.055
+    },
+    {
+     "x": 0.395,
+     "y": 0.189,
+     "angle": 50,
+     "width": 42,
+     "length": 589,
+     "strength": 0.118
+    },
+    {
+     "x": 0.086,
+     "y": 0.375,
+     "angle": 43,
+     "width": 64,
+     "length": 372,
+     "strength": 0.087
+    },
+    {
+     "x": 0.163,
+     "y": 0.864,
+     "angle": -17,
+     "width": 61,
+     "length": 320,
+     "strength": 0.054
+    },
+    {
+     "x": 0.209,
+     "y": 0.921,
+     "angle": -67,
+     "width": 26,
+     "length": 272,
+     "strength": 0.067
+    }
+   ],
+   "desk": "slate",
+   "seed": 9007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

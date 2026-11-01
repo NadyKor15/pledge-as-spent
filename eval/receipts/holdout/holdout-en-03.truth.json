@@ -1,0 +1,410 @@
+{
+ "id": "holdout-en-03",
+ "set": "holdout",
+ "locale": "en",
+ "seed": 11026,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout-en-03.png",
+  "sha256": "3055709c4349bab04b7a958e792b905d66cfc07a08dd741b28eb9b2bdb3cf89c",
+  "mediaType": "image/png",
+  "width": 614,
+  "height": 930
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-07T08:11:00",
+  "receiptNumber": "9481",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PLUSH BLANKET TWIN",
+    "translationEn": "Plush blanket, twin",
+    "qty": 2,
+    "unitPriceMinor": 1799,
+    "amountMinor": 3598,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "AA cells, 12 count",
+    "qty": 2,
+    "unitPriceMinor": 1099,
+    "amountMinor": 2198,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COUPON",
+    "translationEn": "Discount on AA cells, 12 count",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -220,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "HARD SELTZER 12PK",
+    "translationEn": "Hard seltzer, 12 pack",
+    "qty": 1,
+    "unitPriceMinor": 1799,
+    "amountMinor": 1799,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PEANUT BUTTER 16OZ",
+    "translationEn": "Peanut butter 16 oz",
+    "qty": 2,
+    "unitPriceMinor": 289,
+    "amountMinor": 578,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 6,
+    "unitPriceMinor": 139,
+    "amountMinor": 834,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8787,
+  "taxMinor": 535,
+  "taxIncluded": false,
+  "totalMinor": 9322,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9259",
+    "bbox": {
+     "x": 0.5746,
+     "y": 0.6849,
+     "w": 0.2353,
+     "h": 0.0237
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.1632,
+     "y": 0.7778,
+     "w": 0.1798,
+     "h": 0.0226
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8304869469",
+    "bbox": {
+     "x": 0.6574,
+     "y": 0.8121,
+     "w": 0.1476,
+     "h": 0.0219
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Plush blanket, twin counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA cells, 12 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA cells, 12 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Peanut butter 16 oz is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-en-03",
+  "set": "holdout",
+  "locale": "en",
+  "seed": 11026,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-07T08:11:00",
+  "receiptNumber": "9481",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "PLUSH BLANKET TWIN"
+    ],
+    "translationEn": "Plush blanket, twin",
+    "qty": 2,
+    "unitMinor": 1799,
+    "amountMinor": 3598,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Plush blanket, twin counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DOUBLE A CELLS 12CT"
+    ],
+    "translationEn": "AA cells, 12 count",
+    "qty": 2,
+    "unitMinor": 1099,
+    "amountMinor": 2198,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA cells, 12 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on AA cells, 12 count",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -220,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA cells, 12 count counts toward AA batteries."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "HARD SELTZER 12PK"
+    ],
+    "translationEn": "Hard seltzer, 12 pack",
+    "qty": 1,
+    "unitMinor": 1799,
+    "amountMinor": 1799,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PEANUT BUTTER 16OZ"
+    ],
+    "translationEn": "Peanut butter 16 oz",
+    "qty": 2,
+    "unitMinor": 289,
+    "amountMinor": 578,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Peanut butter 16 oz is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DISTILLED WTR 1GAL"
+    ],
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 6,
+    "unitMinor": 139,
+    "amountMinor": 834,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 7375,
+    "taxMinor": 535
+   }
+  ],
+  "taxMinor": 535,
+  "subtotalMinor": 8787,
+  "totalMinor": 9322,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9259"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9259"
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "8304869469"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.763,
+   "rotX": 2.02,
+   "rotY": 2.403,
+   "perspective": 1524,
+   "blurPx": 0.363,
+   "noise": 0.042,
+   "lightAngle": 186,
+   "lightStrength": 0.324,
+   "glare": {
+    "x": 0.264,
+    "y": 0.39,
+    "strength": 0.157
+   },
+   "creases": [
+    {
+     "x": 0.657,
+     "y": 0.115,
+     "angle": 67,
+     "width": 42,
+     "length": 512,
+     "strength": 0.09
+    },
+    {
+     "x": 0.232,
+     "y": 0.373,
+     "angle": 60,
+     "width": 53,
+     "length": 474,
+     "strength": 0.067
+    },
+    {
+     "x": 0.945,
+     "y": 0.759,
+     "angle": -11,
+     "width": 27,
+     "length": 576,
+     "strength": 0.071
+    },
+    {
+     "x": 0.413,
+     "y": 0.4,
+     "angle": 17,
+     "width": 68,
+     "length": 331,
+     "strength": 0.104
+    },
+    {
+     "x": 0.063,
+     "y": 0.304,
+     "angle": -62,
+     "width": 53,
+     "length": 269,
+     "strength": 0.092
+    },
+    {
+     "x": 0.865,
+     "y": 0.082,
+     "angle": 36,
+     "width": 33,
+     "length": 228,
+     "strength": 0.102
+    }
+   ],
+   "desk": "wood",
+   "seed": 11033
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

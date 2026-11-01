@@ -1,0 +1,426 @@
+{
+ "id": "holdout-tr-04",
+ "set": "holdout",
+ "locale": "tr",
+ "seed": 9039,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout-tr-04.png",
+  "sha256": "90c97064025463788cecb3ad863d3e9d5f511d5e6cc1487ecf3e1daf542127fb",
+  "mediaType": "image/png",
+  "width": 633,
+  "height": 936
+ },
+ "receipt": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-05T12:48:00",
+  "receiptNumber": "4657",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DİŞ FIRÇASI",
+    "translationEn": "Toothbrush",
+    "qty": 2,
+    "unitPriceMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOĞAL KAYNAK 5 LİTRE",
+    "translationEn": "Natural spring water 5 litres",
+    "qty": 3,
+    "unitPriceMinor": 2690,
+    "amountMinor": 8070,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POLAR BATTANİYE 150X200",
+    "translationEn": "Fleece blanket 150x200",
+    "qty": 1,
+    "unitPriceMinor": 52900,
+    "amountMinor": 52900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton diapers number 4, 40 count",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500 g",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA batteries, 6 count",
+    "qty": 2,
+    "unitPriceMinor": 11490,
+    "amountMinor": 22980,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 28053,
+  "taxIncluded": true,
+  "totalMinor": 185530,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.2103,
+     "y": 0.8338,
+     "w": 0.1925,
+     "h": 0.0289
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7221824956",
+    "bbox": {
+     "x": 0.6941,
+     "y": 0.7874,
+     "w": 0.1446,
+     "h": 0.0262
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural spring water 5 litres counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blanket 150x200 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Cotton diapers number 4, 40 count counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese 500 g is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, 6 count counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-tr-04",
+  "set": "holdout",
+  "locale": "tr",
+  "seed": 9039,
+  "store": {
+   "name": "SÜPER YILDIZ MARKET",
+   "address": [
+    "Çarşı Cd. No:12",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 42",
+   "taxId": "VKN: 0000000042"
+  },
+  "purchasedAt": "2026-11-05T12:48:00",
+  "receiptNumber": "4657",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "DİŞ FIRÇASI"
+    ],
+    "translationEn": "Toothbrush",
+    "qty": 2,
+    "unitMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toothbrush is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DOĞAL KAYNAK 5 LİTRE"
+    ],
+    "translationEn": "Natural spring water 5 litres",
+    "qty": 3,
+    "unitMinor": 2690,
+    "amountMinor": 8070,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Natural spring water 5 litres counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "POLAR BATTANİYE 150X200"
+    ],
+    "translationEn": "Fleece blanket 150x200",
+    "qty": 1,
+    "unitMinor": 52900,
+    "amountMinor": 52900,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece blanket 150x200 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAMUKLU BEZ 4 NUMARA 40 ADET"
+    ],
+    "translationEn": "Cotton diapers number 4, 40 count",
+    "qty": 2,
+    "unitMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Cotton diapers number 4, 40 count counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BEYAZ PEYNİR 500 GR"
+    ],
+    "translationEn": "White cheese 500 g",
+    "qty": 2,
+    "unitMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "White cheese 500 g is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ALKALİN AA 6 ADET"
+    ],
+    "translationEn": "Alkaline AA batteries, 6 count",
+    "qty": 2,
+    "unitMinor": 11490,
+    "amountMinor": 22980,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, 6 count counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 37870,
+    "taxMinor": 3443
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 147660,
+    "taxMinor": 24610
+   }
+  ],
+  "taxMinor": 28053,
+  "subtotalMinor": null,
+  "totalMinor": 185530,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 186000,
+   "changeMinor": 470,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN"
+   },
+   {
+    "kind": "member_id",
+    "text": "7221824956"
+   }
+  ],
+  "photo": {
+   "rotZ": -3.285,
+   "rotX": 4.468,
+   "rotY": 2.976,
+   "perspective": 1172,
+   "blurPx": 0.415,
+   "noise": 0.04,
+   "lightAngle": 100,
+   "lightStrength": 0.225,
+   "glare": {
+    "x": 0.442,
+    "y": 0.424,
+    "strength": 0.164
+   },
+   "creases": [
+    {
+     "x": 0.543,
+     "y": 0.151,
+     "angle": 51,
+     "width": 64,
+     "length": 374,
+     "strength": 0.105
+    },
+    {
+     "x": 0.172,
+     "y": 0.228,
+     "angle": 7,
+     "width": 49,
+     "length": 599,
+     "strength": 0.086
+    },
+    {
+     "x": 0.214,
+     "y": 0.336,
+     "angle": 66,
+     "width": 52,
+     "length": 261,
+     "strength": 0.067
+    },
+    {
+     "x": 0.847,
+     "y": 0.762,
+     "angle": 0,
+     "width": 36,
+     "length": 570,
+     "strength": 0.104
+    },
+    {
+     "x": 0.771,
+     "y": 0.139,
+     "angle": 39,
+     "width": 57,
+     "length": 393,
+     "strength": 0.115
+    },
+    {
+     "x": 0.819,
+     "y": 0.923,
+     "angle": 58,
+     "width": 34,
+     "length": 249,
+     "strength": 0.062
+    },
+    {
+     "x": 0.096,
+     "y": 0.371,
+     "angle": -53,
+     "width": 38,
+     "length": 378,
+     "strength": 0.089
+    },
+    {
+     "x": 0.34,
+     "y": 0.767,
+     "angle": -62,
+     "width": 42,
+     "length": 591,
+     "strength": 0.111
+    },
+    {
+     "x": 0.933,
+     "y": 0.846,
+     "angle": -57,
+     "width": 43,
+     "length": 253,
+     "strength": 0.062
+    }
+   ],
+   "desk": "slate",
+   "seed": 9046
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

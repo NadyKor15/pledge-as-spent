@@ -1,0 +1,294 @@
+{
+ "id": "holdout-en-01",
+ "set": "holdout",
+ "locale": "en",
+ "seed": 11000,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout-en-01.png",
+  "sha256": "1d7167761e7cdcbf79b16568a5bd0b4deb8ba7d07d88b296afae6e21443b18ad",
+  "mediaType": "image/png",
+  "width": 624,
+  "height": 760
+ },
+ "receipt": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Tiny Steps diapers size 3, 52 count",
+    "qty": 2,
+    "unitPriceMinor": 1899,
+    "amountMinor": 3798,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 4,
+    "unitPriceMinor": 139,
+    "amountMinor": 556,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PREPAID VISA $50",
+    "translationEn": "Prepaid card $50",
+    "qty": 1,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PEANUT BUTTER 16OZ",
+    "translationEn": "Peanut butter 16 oz",
+    "qty": 1,
+    "unitPriceMinor": 289,
+    "amountMinor": 289,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 9643,
+  "taxMinor": 275,
+  "taxIncluded": false,
+  "totalMinor": 9918,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tiny Steps diapers size 3, 52 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Peanut butter 16 oz is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-en-01",
+  "set": "holdout",
+  "locale": "en",
+  "seed": 11000,
+  "store": {
+   "name": "BRINDLEWOOD GROCERY",
+   "address": [
+    "210 Mill Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0042"
+  },
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "TINY STEPS DIAPER SZ3 52CT"
+    ],
+    "translationEn": "Tiny Steps diapers size 3, 52 count",
+    "qty": 2,
+    "unitMinor": 1899,
+    "amountMinor": 3798,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tiny Steps diapers size 3, 52 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DISTILLED WTR 1GAL"
+    ],
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 4,
+    "unitMinor": 139,
+    "amountMinor": 556,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PREPAID VISA $50"
+    ],
+    "translationEn": "Prepaid card $50",
+    "qty": 1,
+    "unitMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PEANUT BUTTER 16OZ"
+    ],
+    "translationEn": "Peanut butter 16 oz",
+    "qty": 1,
+    "unitMinor": 289,
+    "amountMinor": 289,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Peanut butter 16 oz is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 3798,
+    "taxMinor": 275
+   }
+  ],
+  "taxMinor": 275,
+  "subtotalMinor": 9643,
+  "totalMinor": 9918,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 10000,
+   "changeMinor": 82,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": 3.335,
+   "rotX": -3.936,
+   "rotY": -4.878,
+   "perspective": 1289,
+   "blurPx": 0.689,
+   "noise": 0.045,
+   "lightAngle": 189,
+   "lightStrength": 0.202,
+   "glare": {
+    "x": 0.65,
+    "y": 0.185,
+    "strength": 0.111
+   },
+   "creases": [
+    {
+     "x": 0.776,
+     "y": 0.651,
+     "angle": 45,
+     "width": 59,
+     "length": 630,
+     "strength": 0.076
+    },
+    {
+     "x": 0.074,
+     "y": 0.801,
+     "angle": 38,
+     "width": 50,
+     "length": 326,
+     "strength": 0.08
+    },
+    {
+     "x": 0.352,
+     "y": 0.429,
+     "angle": 41,
+     "width": 29,
+     "length": 434,
+     "strength": 0.115
+    },
+    {
+     "x": 0.835,
+     "y": 0.623,
+     "angle": 28,
+     "width": 58,
+     "length": 260,
+     "strength": 0.083
+    },
+    {
+     "x": 0.261,
+     "y": 0.478,
+     "angle": -22,
+     "width": 47,
+     "length": 266,
+     "strength": 0.098
+    },
+    {
+     "x": 0.46,
+     "y": 0.053,
+     "angle": -59,
+     "width": 39,
+     "length": 489,
+     "strength": 0.082
+    }
+   ],
+   "desk": "slate",
+   "seed": 11007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

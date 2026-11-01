@@ -1,0 +1,390 @@
+{
+ "id": "holdout-es-01",
+ "set": "holdout",
+ "locale": "es",
+ "seed": 10000,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout-es-01.png",
+  "sha256": "65b0ff9124f7f450e151b68c5d2e76b666a7521448067dda5987edc152ea1c61",
+  "mediaType": "image/png",
+  "width": 617,
+  "height": 859
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T13:21:00",
+  "receiptNumber": "3875",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 479,
+    "amountMinor": 479,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 2,
+    "unitPriceMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "CEPILLO DENTAL",
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitPriceMinor": 215,
+    "amountMinor": 215,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "CIGARRILLOS 20U",
+    "translationEn": "Cigarettes, 20",
+    "qty": 1,
+    "unitPriceMinor": 520,
+    "amountMinor": 520,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+    "translationEn": "Spring water 1.5 litres",
+    "qty": 4,
+    "unitPriceMinor": 72,
+    "amountMinor": 288,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 409,
+  "taxIncluded": true,
+  "totalMinor": 3392,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.1644,
+     "y": 0.8031,
+     "w": 0.2052,
+     "h": 0.0285
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8558059859",
+    "bbox": {
+     "x": 0.6565,
+     "y": 0.7919,
+     "w": 0.1505,
+     "h": 0.0267
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1.5 litres counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-es-01",
+  "set": "holdout",
+  "locale": "es",
+  "seed": 10000,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-05T13:21:00",
+  "receiptNumber": "3875",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "PILAS C LR14 2U"
+    ],
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 1,
+    "unitMinor": 479,
+    "amountMinor": 479,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑAL DORMILÓN TALLA 3 40UD"
+    ],
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 2,
+    "unitMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "CEPILLO DENTAL"
+    ],
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitMinor": 215,
+    "amountMinor": 215,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toothbrush is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "CIGARRILLOS 20U"
+    ],
+    "translationEn": "Cigarettes, 20",
+    "qty": 1,
+    "unitMinor": 520,
+    "amountMinor": 520,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA DE MANANTIAL 1,5 LITROS"
+    ],
+    "translationEn": "Spring water 1.5 litres",
+    "qty": 4,
+    "unitMinor": 72,
+    "amountMinor": 288,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1.5 litres counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 2178,
+    "taxMinor": 198
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 1214,
+    "taxMinor": 211
+   }
+  ],
+  "taxMinor": 409,
+  "subtotalMinor": null,
+  "totalMinor": 3392,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 4000,
+   "changeMinor": 608,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI"
+   },
+   {
+    "kind": "member_id",
+    "text": "8558059859"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.263,
+   "rotX": 2.891,
+   "rotY": -3.36,
+   "perspective": 1274,
+   "blurPx": 0.8,
+   "noise": 0.061,
+   "lightAngle": 109,
+   "lightStrength": 0.327,
+   "glare": {
+    "x": 0.466,
+    "y": 0.372,
+    "strength": 0.11
+   },
+   "creases": [
+    {
+     "x": 0.266,
+     "y": 0.19,
+     "angle": 5,
+     "width": 27,
+     "length": 436,
+     "strength": 0.052
+    },
+    {
+     "x": 0.689,
+     "y": 0.492,
+     "angle": -38,
+     "width": 68,
+     "length": 490,
+     "strength": 0.058
+    },
+    {
+     "x": 0.693,
+     "y": 0.707,
+     "angle": 18,
+     "width": 57,
+     "length": 578,
+     "strength": 0.053
+    },
+    {
+     "x": 0.67,
+     "y": 0.217,
+     "angle": 56,
+     "width": 67,
+     "length": 516,
+     "strength": 0.103
+    },
+    {
+     "x": 0.327,
+     "y": 0.349,
+     "angle": 32,
+     "width": 31,
+     "length": 451,
+     "strength": 0.061
+    },
+    {
+     "x": 0.89,
+     "y": 0.838,
+     "angle": 59,
+     "width": 56,
+     "length": 354,
+     "strength": 0.109
+    },
+    {
+     "x": 0.106,
+     "y": 0.052,
+     "angle": 61,
+     "width": 40,
+     "length": 413,
+     "strength": 0.061
+    },
+    {
+     "x": 0.125,
+     "y": 0.883,
+     "angle": -68,
+     "width": 28,
+     "length": 231,
+     "strength": 0.062
+    },
+    {
+     "x": 0.387,
+     "y": 0.613,
+     "angle": 57,
+     "width": 34,
+     "length": 290,
+     "strength": 0.054
+    }
+   ],
+   "desk": "wood",
+   "seed": 10007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

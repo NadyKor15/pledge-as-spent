@@ -1,0 +1,374 @@
+{
+ "id": "holdout-es-02",
+ "set": "holdout",
+ "locale": "es",
+ "seed": 10013,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout-es-02.png",
+  "sha256": "108dd4ec0c873388e78a0241b86b1ac657ee2b4d6f8f49a98b7c61a6ab731281",
+  "mediaType": "image/png",
+  "width": 608,
+  "height": 874
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T11:25:00",
+  "receiptNumber": "4110",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CEPILLO DENTAL",
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitPriceMinor": 215,
+    "amountMinor": 215,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BLISTER 6 PILAS AA",
+    "translationEn": "Blister of 6 AA batteries",
+    "qty": 1,
+    "unitPriceMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 2,
+    "unitPriceMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+    "translationEn": "Spring water 1.5 litres",
+    "qty": 2,
+    "unitPriceMinor": 72,
+    "amountMinor": 144,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 862,
+  "taxIncluded": true,
+  "totalMinor": 5936,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": {
+     "x": 0.1954,
+     "y": 0.814,
+     "w": 0.2041,
+     "h": 0.0217
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "7026242380",
+    "bbox": {
+     "x": 0.6823,
+     "y": 0.7832,
+     "w": 0.1484,
+     "h": 0.0215
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blister of 6 AA batteries counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sofa blanket 150x200 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1.5 litres counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-es-02",
+  "set": "holdout",
+  "locale": "es",
+  "seed": 10013,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-04T11:25:00",
+  "receiptNumber": "4110",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "CEPILLO DENTAL"
+    ],
+    "translationEn": "Toothbrush",
+    "qty": 1,
+    "unitMinor": 215,
+    "amountMinor": 215,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Toothbrush is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BLISTER 6 PILAS AA"
+    ],
+    "translationEn": "Blister of 6 AA batteries",
+    "qty": 1,
+    "unitMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blister of 6 AA batteries counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COBERTOR SOFÁ 150X200"
+    ],
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sofa blanket 150x200 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑAL DORMILÓN TALLA 3 40UD"
+    ],
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 2,
+    "unitMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AGUA DE MANANTIAL 1,5 LITROS"
+    ],
+    "translationEn": "Spring water 1.5 litres",
+    "qty": 2,
+    "unitMinor": 72,
+    "amountMinor": 144,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1.5 litres counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 2034,
+    "taxMinor": 185
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 3902,
+    "taxMinor": 677
+   }
+  ],
+  "taxMinor": 862,
+  "subtotalMinor": null,
+  "totalMinor": 5936,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 6000,
+   "changeMinor": 64,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO"
+   },
+   {
+    "kind": "member_id",
+    "text": "7026242380"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.422,
+   "rotX": -4.167,
+   "rotY": -2.525,
+   "perspective": 1452,
+   "blurPx": 0.358,
+   "noise": 0.07,
+   "lightAngle": 77,
+   "lightStrength": 0.35,
+   "glare": {
+    "x": 0.502,
+    "y": 0.556,
+    "strength": 0.101
+   },
+   "creases": [
+    {
+     "x": 0.665,
+     "y": 0.568,
+     "angle": -23,
+     "width": 49,
+     "length": 530,
+     "strength": 0.113
+    },
+    {
+     "x": 0.56,
+     "y": 0.338,
+     "angle": -35,
+     "width": 46,
+     "length": 580,
+     "strength": 0.068
+    },
+    {
+     "x": 0.673,
+     "y": 0.861,
+     "angle": 48,
+     "width": 42,
+     "length": 547,
+     "strength": 0.086
+    },
+    {
+     "x": 0.686,
+     "y": 0.349,
+     "angle": 52,
+     "width": 32,
+     "length": 271,
+     "strength": 0.096
+    },
+    {
+     "x": 0.3,
+     "y": 0.758,
+     "angle": 43,
+     "width": 57,
+     "length": 476,
+     "strength": 0.063
+    },
+    {
+     "x": 0.226,
+     "y": 0.947,
+     "angle": 7,
+     "width": 55,
+     "length": 533,
+     "strength": 0.071
+    },
+    {
+     "x": 0.735,
+     "y": 0.932,
+     "angle": 12,
+     "width": 62,
+     "length": 575,
+     "strength": 0.053
+    }
+   ],
+   "desk": "cloth",
+   "seed": 10020
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

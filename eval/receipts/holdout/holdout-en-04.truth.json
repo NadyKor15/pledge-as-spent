@@ -1,0 +1,330 @@
+{
+ "id": "holdout-en-04",
+ "set": "holdout",
+ "locale": "en",
+ "seed": 11039,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout-en-04.png",
+  "sha256": "497f4c2f5d5296ac68a5cb31816891497cd3168f42d9f0a7e1e08350fd52185d",
+  "mediaType": "image/png",
+  "width": 612,
+  "height": 841
+ },
+ "receipt": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T20:12:00",
+  "receiptNumber": "6353",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 3,
+    "unitPriceMinor": 139,
+    "amountMinor": 417,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "AA cells, 12 count",
+    "qty": 1,
+    "unitPriceMinor": 1099,
+    "amountMinor": 1099,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "C BATTERY 4PK",
+    "translationEn": "C batteries, 4 pack (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 899,
+    "amountMinor": 1798,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Tiny Steps diapers size 3, 52 count",
+    "qty": 1,
+    "unitPriceMinor": 1899,
+    "amountMinor": 1899,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 5213,
+  "taxMinor": 348,
+  "taxIncluded": false,
+  "totalMinor": 5561,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9447",
+    "bbox": {
+     "x": 0.5767,
+     "y": 0.6509,
+     "w": 0.2352,
+     "h": 0.0266
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1615,
+     "y": 0.7537,
+     "w": 0.182,
+     "h": 0.0253
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3156000307",
+    "bbox": {
+     "x": 0.6597,
+     "y": 0.7921,
+     "w": 0.1477,
+     "h": 0.0243
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA cells, 12 count counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries, 4 pack (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tiny Steps diapers size 3, 52 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-en-04",
+  "set": "holdout",
+  "locale": "en",
+  "seed": 11039,
+  "store": {
+   "name": "CORNER PHARMACY #14",
+   "address": [
+    "3 Elm Court",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0063"
+  },
+  "purchasedAt": "2026-11-06T20:12:00",
+  "receiptNumber": "6353",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "DISTILLED WTR 1GAL"
+    ],
+    "translationEn": "Distilled water 1 gallon",
+    "qty": 3,
+    "unitMinor": 139,
+    "amountMinor": 417,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Distilled water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DOUBLE A CELLS 12CT"
+    ],
+    "translationEn": "AA cells, 12 count",
+    "qty": 1,
+    "unitMinor": 1099,
+    "amountMinor": 1099,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA cells, 12 count counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "C BATTERY 4PK"
+    ],
+    "translationEn": "C batteries, 4 pack (wrong size)",
+    "qty": 2,
+    "unitMinor": 899,
+    "amountMinor": 1798,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "C batteries, 4 pack (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TINY STEPS DIAPER SZ3 52CT"
+    ],
+    "translationEn": "Tiny Steps diapers size 3, 52 count",
+    "qty": 1,
+    "unitMinor": 1899,
+    "amountMinor": 1899,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Tiny Steps diapers size 3, 52 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 4796,
+    "taxMinor": 348
+   }
+  ],
+  "taxMinor": 348,
+  "subtotalMinor": 5213,
+  "totalMinor": 5561,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9447"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9447"
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "3156000307"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.851,
+   "rotX": 3.285,
+   "rotY": 3.527,
+   "perspective": 1315,
+   "blurPx": 0.5,
+   "noise": 0.058,
+   "lightAngle": 232,
+   "lightStrength": 0.371,
+   "glare": {
+    "x": 0.383,
+    "y": 0.469,
+    "strength": 0.151
+   },
+   "creases": [
+    {
+     "x": 0.81,
+     "y": 0.714,
+     "angle": -30,
+     "width": 65,
+     "length": 369,
+     "strength": 0.109
+    },
+    {
+     "x": 0.619,
+     "y": 0.931,
+     "angle": 23,
+     "width": 31,
+     "length": 625,
+     "strength": 0.062
+    },
+    {
+     "x": 0.062,
+     "y": 0.067,
+     "angle": -47,
+     "width": 58,
+     "length": 429,
+     "strength": 0.089
+    },
+    {
+     "x": 0.057,
+     "y": 0.642,
+     "angle": 26,
+     "width": 70,
+     "length": 256,
+     "strength": 0.069
+    },
+    {
+     "x": 0.942,
+     "y": 0.182,
+     "angle": 55,
+     "width": 68,
+     "length": 315,
+     "strength": 0.092
+    }
+   ],
+   "desk": "cloth",
+   "seed": 11046
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -1,0 +1,294 @@
+{
+ "id": "holdout-ja-02",
+ "set": "holdout",
+ "locale": "ja",
+ "seed": 8013,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout-ja-02.png",
+  "sha256": "3e8655958825fd3e0286dbde6ba88729613dbcd428f4d67e828e9a444201d69b",
+  "mediaType": "image/png",
+  "width": 630,
+  "height": 939
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T15:36:00",
+  "receiptNumber": "5508",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 1,
+    "unitPriceMinor": 468,
+    "amountMinor": 468,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ふんわりテープ M 40枚",
+    "translationEn": "Fluffy tape diapers M, 40 count",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3104,
+  "taxMinor": 277,
+  "taxIncluded": true,
+  "totalMinor": 3104,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ",
+    "bbox": {
+     "x": 0.2095,
+     "y": 0.7645,
+     "w": 0.0876,
+     "h": 0.0227
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "6199 0211 6709",
+    "bbox": {
+     "x": 0.6314,
+     "y": 0.7674,
+     "w": 0.1987,
+     "h": 0.0272
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fluffy tape diapers M, 40 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-ja-02",
+  "set": "holdout",
+  "locale": "ja",
+  "seed": 8013,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-09T15:36:00",
+  "receiptNumber": "5508",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "単三アルカリ 8本パック"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 8",
+    "qty": 1,
+    "unitMinor": 468,
+    "amountMinor": 468,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 8 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ふんわりテープ M 40枚"
+    ],
+    "translationEn": "Fluffy tape diapers M, 40 count",
+    "qty": 2,
+    "unitMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fluffy tape diapers M, 40 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "山里の湧水 2L"
+    ],
+    "translationEn": "Mountain village spring water 2 L",
+    "qty": 2,
+    "unitMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Mountain village spring water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 276,
+    "taxMinor": 20
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2828,
+    "taxMinor": 257
+   }
+  ],
+  "taxMinor": 277,
+  "subtotalMinor": 3104,
+  "totalMinor": 3104,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 4000,
+   "changeMinor": 896,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ"
+   },
+   {
+    "kind": "member_id",
+    "text": "6199 0211 6709"
+   }
+  ],
+  "photo": {
+   "rotZ": -3.037,
+   "rotX": -1.544,
+   "rotY": 2.795,
+   "perspective": 1450,
+   "blurPx": 0.452,
+   "noise": 0.042,
+   "lightAngle": 83,
+   "lightStrength": 0.386,
+   "glare": {
+    "x": 0.491,
+    "y": 0.409,
+    "strength": 0.164
+   },
+   "creases": [
+    {
+     "x": 0.459,
+     "y": 0.798,
+     "angle": -22,
+     "width": 26,
+     "length": 396,
+     "strength": 0.085
+    },
+    {
+     "x": 0.879,
+     "y": 0.483,
+     "angle": 20,
+     "width": 55,
+     "length": 320,
+     "strength": 0.104
+    },
+    {
+     "x": 0.332,
+     "y": 0.477,
+     "angle": -59,
+     "width": 33,
+     "length": 247,
+     "strength": 0.075
+    },
+    {
+     "x": 0.372,
+     "y": 0.245,
+     "angle": 42,
+     "width": 49,
+     "length": 240,
+     "strength": 0.068
+    },
+    {
+     "x": 0.368,
+     "y": 0.787,
+     "angle": 34,
+     "width": 62,
+     "length": 329,
+     "strength": 0.054
+    },
+    {
+     "x": 0.326,
+     "y": 0.766,
+     "angle": 6,
+     "width": 62,
+     "length": 383,
+     "strength": 0.105
+    }
+   ],
+   "desk": "cloth",
+   "seed": 8020
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

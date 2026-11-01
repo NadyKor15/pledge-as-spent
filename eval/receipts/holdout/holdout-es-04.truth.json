@@ -1,0 +1,336 @@
+{
+ "id": "holdout-es-04",
+ "set": "holdout",
+ "locale": "es",
+ "seed": 10039,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout-es-04.png",
+  "sha256": "69a92b3ac058d679f32b5ceb0608da7e5777ce2d71dc6af0aacc07774c47689c",
+  "mediaType": "image/png",
+  "width": 612,
+  "height": 833
+ },
+ "receipt": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T12:57:00",
+  "receiptNumber": "7337",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 479,
+    "amountMinor": 958,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ATÚN EN ACEITE PACK 3",
+    "translationEn": "Tuna in oil, pack of 3",
+    "qty": 1,
+    "unitPriceMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 1,
+    "unitPriceMinor": 945,
+    "amountMinor": 945,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 842,
+  "taxIncluded": true,
+  "totalMinor": 5490,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 6439",
+    "bbox": {
+     "x": 0.1855,
+     "y": 0.7276,
+     "w": 0.2857,
+     "h": 0.0308
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.1886,
+     "y": 0.8129,
+     "w": 0.2117,
+     "h": 0.0293
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5755114861",
+    "bbox": {
+     "x": 0.6846,
+     "y": 0.7695,
+     "w": 0.1463,
+     "h": 0.0265
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tuna in oil, pack of 3 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sofa blanket 150x200 counts toward Blankets.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-es-04",
+  "set": "holdout",
+  "locale": "es",
+  "seed": 10039,
+  "store": {
+   "name": "SUPERMERCADO EL FARO",
+   "address": [
+    "Av. del Río 45",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 057",
+   "taxId": "CIF B00000057"
+  },
+  "purchasedAt": "2026-11-05T12:57:00",
+  "receiptNumber": "7337",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "PILAS C LR14 2U"
+    ],
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 2,
+    "unitMinor": 479,
+    "amountMinor": 958,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ATÚN EN ACEITE PACK 3"
+    ],
+    "translationEn": "Tuna in oil, pack of 3",
+    "qty": 1,
+    "unitMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tuna in oil, pack of 3 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑAL DORMILÓN TALLA 3 40UD"
+    ],
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 1,
+    "unitMinor": 945,
+    "amountMinor": 945,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COBERTOR SOFÁ 150X200"
+    ],
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sofa blanket 150x200 counts toward Blankets."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 1334,
+    "taxMinor": 121
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 4156,
+    "taxMinor": 721
+   }
+  ],
+  "taxMinor": 842,
+  "subtotalMinor": null,
+  "totalMinor": 5490,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "6439"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 6439"
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI"
+   },
+   {
+    "kind": "member_id",
+    "text": "5755114861"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.903,
+   "rotX": 2.479,
+   "rotY": 4.758,
+   "perspective": 1335,
+   "blurPx": 0.61,
+   "noise": 0.064,
+   "lightAngle": 329,
+   "lightStrength": 0.21,
+   "glare": {
+    "x": 0.515,
+    "y": 0.069,
+    "strength": 0.096
+   },
+   "creases": [
+    {
+     "x": 0.852,
+     "y": 0.827,
+     "angle": -5,
+     "width": 58,
+     "length": 376,
+     "strength": 0.115
+    },
+    {
+     "x": 0.163,
+     "y": 0.557,
+     "angle": 53,
+     "width": 47,
+     "length": 421,
+     "strength": 0.07
+    },
+    {
+     "x": 0.904,
+     "y": 0.437,
+     "angle": 16,
+     "width": 51,
+     "length": 307,
+     "strength": 0.111
+    },
+    {
+     "x": 0.648,
+     "y": 0.624,
+     "angle": -26,
+     "width": 53,
+     "length": 228,
+     "strength": 0.074
+    },
+    {
+     "x": 0.283,
+     "y": 0.739,
+     "angle": 36,
+     "width": 56,
+     "length": 479,
+     "strength": 0.083
+    }
+   ],
+   "desk": "wood",
+   "seed": 10046
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

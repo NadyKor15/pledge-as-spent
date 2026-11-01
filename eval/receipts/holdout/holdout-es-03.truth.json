@@ -1,0 +1,444 @@
+{
+ "id": "holdout-es-03",
+ "set": "holdout",
+ "locale": "es",
+ "seed": 10026,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout-es-03.png",
+  "sha256": "18f3134d1e0227f06ef266bd3701a201ee2f2b385c026054fe7fa3d8467e0383",
+  "mediaType": "image/png",
+  "width": 623,
+  "height": 889
+ },
+ "receipt": {
+  "merchantName": "BAZAR ALBORADA S.L.",
+  "merchantAddress": "C/ Mayor 12, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-08T11:57:00",
+  "receiptNumber": "7643",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CIGARRILLOS 20U",
+    "translationEn": "Cigarettes, 20",
+    "qty": 1,
+    "unitPriceMinor": 520,
+    "amountMinor": 520,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BLISTER 6 PILAS AA",
+    "translationEn": "Blister of 6 AA batteries",
+    "qty": 1,
+    "unitPriceMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 479,
+    "amountMinor": 479,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Discount on C batteries LR14, 2 count (wrong size)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -48,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 1,
+    "unitPriceMinor": 945,
+    "amountMinor": 945,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ATÚN EN ACEITE PACK 3",
+    "translationEn": "Tuna in oil, pack of 3",
+    "qty": 1,
+    "unitPriceMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 926,
+  "taxIncluded": true,
+  "totalMinor": 5972,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 8190",
+    "bbox": {
+     "x": 0.1623,
+     "y": 0.7335,
+     "w": 0.2823,
+     "h": 0.0277
+    }
+   },
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": {
+     "x": 0.1562,
+     "y": 0.8123,
+     "w": 0.2096,
+     "h": 0.0254
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "0095831242",
+    "bbox": {
+     "x": 0.6492,
+     "y": 0.7959,
+     "w": 0.1444,
+     "h": 0.0237
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sofa blanket 150x200 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Blister of 6 AA batteries counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tuna in oil, pack of 3 is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout-es-03",
+  "set": "holdout",
+  "locale": "es",
+  "seed": 10026,
+  "store": {
+   "name": "BAZAR ALBORADA S.L.",
+   "address": [
+    "C/ Mayor 12",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 042",
+   "taxId": "CIF B00000042"
+  },
+  "purchasedAt": "2026-11-08T11:57:00",
+  "receiptNumber": "7643",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "CIGARRILLOS 20U"
+    ],
+    "translationEn": "Cigarettes, 20",
+    "qty": 1,
+    "unitMinor": 520,
+    "amountMinor": 520,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COBERTOR SOFÁ 150X200"
+    ],
+    "translationEn": "Sofa blanket 150x200",
+    "qty": 2,
+    "unitMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sofa blanket 150x200 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BLISTER 6 PILAS AA"
+    ],
+    "translationEn": "Blister of 6 AA batteries",
+    "qty": 1,
+    "unitMinor": 489,
+    "amountMinor": 489,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Blister of 6 AA batteries counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS C LR14 2U"
+    ],
+    "translationEn": "C batteries LR14, 2 count (wrong size)",
+    "qty": 1,
+    "unitMinor": 479,
+    "amountMinor": 479,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DTO. PROMOCIÓN"
+    ],
+    "translationEn": "Discount on C batteries LR14, 2 count (wrong size)",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -48,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "C batteries LR14, 2 count (wrong size) is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "PAÑAL DORMILÓN TALLA 3 40UD"
+    ],
+    "translationEn": "Sleepy diapers size 3, 40 count",
+    "qty": 1,
+    "unitMinor": 945,
+    "amountMinor": 945,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sleepy diapers size 3, 40 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ATÚN EN ACEITE PACK 3"
+    ],
+    "translationEn": "Tuna in oil, pack of 3",
+    "qty": 1,
+    "unitMinor": 389,
+    "amountMinor": 389,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Tuna in oil, pack of 3 is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 1334,
+    "taxMinor": 121
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 4638,
+    "taxMinor": 805
+   }
+  ],
+  "taxMinor": 926,
+  "subtotalMinor": null,
+  "totalMinor": 5972,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "8190"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 8190"
+   },
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO"
+   },
+   {
+    "kind": "member_id",
+    "text": "0095831242"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.655,
+   "rotX": 2.422,
+   "rotY": 4.352,
+   "perspective": 1179,
+   "blurPx": 0.474,
+   "noise": 0.043,
+   "lightAngle": 119,
+   "lightStrength": 0.239,
+   "glare": {
+    "x": 0.135,
+    "y": 0.417,
+    "strength": 0.177
+   },
+   "creases": [
+    {
+     "x": 0.56,
+     "y": 0.679,
+     "angle": 37,
+     "width": 49,
+     "length": 290,
+     "strength": 0.071
+    },
+    {
+     "x": 0.394,
+     "y": 0.297,
+     "angle": -26,
+     "width": 41,
+     "length": 617,
+     "strength": 0.096
+    },
+    {
+     "x": 0.797,
+     "y": 0.161,
+     "angle": 35,
+     "width": 44,
+     "length": 585,
+     "strength": 0.093
+    },
+    {
+     "x": 0.834,
+     "y": 0.58,
+     "angle": -62,
+     "width": 59,
+     "length": 469,
+     "strength": 0.082
+    },
+    {
+     "x": 0.345,
+     "y": 0.299,
+     "angle": 6,
+     "width": 45,
+     "length": 304,
+     "strength": 0.109
+    }
+   ],
+   "desk": "wood",
+   "seed": 10033
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}
