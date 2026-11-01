@@ -22,3 +22,20 @@ The prompts were tuned on the v1, adversarial and hero sets, so the figures for 
 Receipt reading (2026-11-01, Tesseract + Nova Pro v1 live, synthetic receipts: 1 main, 30 in 4 languages, 13 adversarial): line F1 100.0 / 100.0 / 99.1, Japanese 100.0, line class 140/143 on the 30, forbidden goods rejected 25/25 with 0 funded, about $0.0069 per receipt. The prompts were tuned on these sets.
 
 Details: `eval/results/reading-summary-20261101.md`. Journal: `docs/reading-rounds.md`.
+
+
+## The same held-out set after Telegram's compression
+
+A photo sent to the bot arrives as JPEG, at most 1280 px on the long side, quality 87, 4:2:0 colour. The first real photo lost one line of eleven: OCR read `¥798※` as `¥79B3%`, so the row was not seen as an amount. Three general repairs followed (`tidyAmountTail`, `productRows`), tuned on the v1 set only.
+
+`tools/receipts/telegram-set.sh` with `RESAMPLE=on` makes the same 20 receipts with those values plus an unfiltered 1 % resample, the closest match found to the real photo (35 dB). It is an emulation: nothing was sent through Telegram. `ocr-pro`, one run, 2026-11-01 02:57Z, `eval/results/ocr-pro-holdout-telegram-resampled-20261101T025730Z.md`.
+
+| Metric | Compressed | Original PNG |
+|---|---|---|
+| Product rows kept by OCR, of 103 | 101 (98 before the repairs) | 101 |
+| Line F1 | 95.6 % | 95.6 % |
+| Receipt total exact | 20/20 | 20/20 |
+| Date exact | 20/20 | 20/20 |
+| Line class (verdict + need) | 81.6 % | 81.6 % |
+| Rule lines funded by mistake | 0 | 0 |
+| Readings that differ from the PNG run | 18 of 20 | |
