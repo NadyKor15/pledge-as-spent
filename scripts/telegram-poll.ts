@@ -6,7 +6,8 @@
 //   APP_BASE_URL         origin for drive links; empty on a local run with its own database
 //   POLL_LOG             pulse log file (default: .data/telegram-poll.log)
 //   POLL_HOURS           stop after this many hours (default 6)
-import { appendFileSync, mkdirSync } from "node:fs";
+//   POLL_STOP_FILE       creating this file stops the runner at its next tick (default: .data/telegram-poll.stop)
+import { appendFileSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import { getService } from "../src/server/runtime";
 import { handleTelegramUpdate } from "../src/server/telegram";
@@ -17,6 +18,7 @@ const logFile = process.env.POLL_LOG ?? ".data/telegram-poll.log";
 mkdirSync(path.dirname(logFile), { recursive: true });
 const pulse = (m: string) => appendFileSync(logFile, `${new Date().toISOString()} ${m}\n`);
 
+const stopFile = process.env.POLL_STOP_FILE ?? ".data/telegram-poll.stop";
 const WAIT_S = 25;
 const MAX_FAILURES = 5;
 const deadline = Date.now() + Number(process.env.POLL_HOURS ?? 6) * 3_600_000;
@@ -42,6 +44,11 @@ async function main() {
   let offset = 0;
   let failures = 0;
   while (Date.now() < deadline) {
+    if (existsSync(stopFile)) {
+      rmSync(stopFile);
+      pulse("stop file seen");
+      process.exit(0);
+    }
     try {
       const got = await api("getUpdates", `?timeout=${WAIT_S}&offset=${offset}&allowed_updates=${encodeURIComponent('["message","callback_query"]')}`);
       if (!got.ok) throw new Error(`getUpdates refused ${got.error_code}`);
