@@ -258,6 +258,7 @@ export function liveFeed(v: DriveView, n: number): { key: string; ok: boolean | 
 export function readLabel(r: Receipt): string {
   const lines = `${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
   if (r.reader.startsWith("live:")) return `Read by AI · ${lines}`;
+  if (r.reader.startsWith("recognized:")) return `Recognized as the sample, saved reading · ${lines}`;
   if (r.reader === "copy") return `Read before · ${lines}`;
   if (r.reader === "recorded") return `Sample reading · ${lines}`;
   return `Saved AI reading · ${lines}`;

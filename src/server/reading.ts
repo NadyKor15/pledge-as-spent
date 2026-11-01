@@ -4,6 +4,7 @@ import type { Db } from "../db/client";
 import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
+import { hammingHex } from "../receipts/hash";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
 import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
@@ -24,7 +25,13 @@ import { PgSpendLedger } from "./spend";
 export type Pipeline = "ocr-lite" | "ocr-pro" | "nova-lite";
 export const PIPELINES: readonly Pipeline[] = ["ocr-lite", "ocr-pro", "nova-lite"];
 
-export type ReaderSource = "copy" | "recorded" | `cached:${string}` | `live:${Pipeline}`;
+export type ReaderSource = "copy" | "recorded" | `cached:${string}` | `recognized:${string}` | `live:${Pipeline}`;
+
+/**
+ * How far, in bits of 256, a photo may look from the shipped sample and still be taken for it. Recompressed copies
+ * sit at 4-7 bits and the nearest other receipt of 63 at 59 (tests/app/sample-recognition.test.ts holds both).
+ */
+export const SAMPLE_MAX_DISTANCE = 16;
 
 export interface StoredClassification {
   /** Hash of the parsed receipt + the drive's needs and rules the lines were matched against. */
@@ -59,17 +66,19 @@ export interface LiveReading {
 export interface SavedAnswer {
   pipeline: string;
   imageSha256: string;
+  /** Perceptual hash of the same photo: messengers recompress it, so its bytes do not survive the trip. */
+  imageDHash?: string;
   reading: ParsedReceipt;
   classifications: LineClassification[];
   /** classificationKey of the run: the lines were matched against these needs and rules, and no others. */
   classifiedFor: string;
 }
 
-const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), reading: ParsedReceipt, classifications: z.array(LineClassification), classifiedFor: z.string() });
+const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), imageDHash: z.string().optional(), reading: ParsedReceipt, classifications: z.array(LineClassification), classifiedFor: z.string() });
 
 export function savedAnswer(json: unknown, pipeline: string): SavedAnswer {
   const f = SavedFile.parse(json);
-  return { pipeline, imageSha256: f.imageSha256, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor };
+  return { pipeline, imageSha256: f.imageSha256, imageDHash: f.imageDHash, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor };
 }
 
 /** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
@@ -84,6 +93,8 @@ export interface ReadInput {
   baseCurrency: CurrencyCode;
   ipHash: string;
   now: string;
+  /** Demo drives only: a recompressed copy of the shipped sample gets its saved reading, and says so. */
+  sampleLook?: string | null;
 }
 
 export const SAMPLE_HINT = {
@@ -124,11 +135,13 @@ export class ReceiptReading {
 
     const key = (p: ParsedReceipt) => classificationKey(p, input.needs, input.rules);
 
-    const saved = this.answers.get(input.sha256);
+    const look = input.sampleLook;
+    const exact = this.answers.get(input.sha256);
+    const saved = exact ?? (look ? [...this.answers.values()].find((a) => a.imageDHash && hammingHex(a.imageDHash, look) <= SAMPLE_MAX_DISTANCE) : undefined);
     if (saved) {
       const parsed = structuredClone(saved.reading);
       if (key(parsed) !== saved.classifiedFor) return this.classifyLive(input, parsed, []);
-      return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `cached:${saved.pipeline}`, usage: [] };
+      return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [] };
     }
 
     if (Object.hasOwn(this.recordings.readings, input.sha256)) {

@@ -94,7 +94,8 @@ async function report(svc: PledgeService, tools: ReturnType<typeof chatTools>, d
   const approved = fates.filter((l) => l.shares.length > 0).length;
   const refused = fates.filter((l) => l.state === "rejected");
   const reasons = [...new Set(refused.map((l) => l.reason).filter(Boolean))].join(" ");
-  const head = `Receipt: ${receipt.lines.length} lines, ${money(receipt.currency, receipt.total) || "total not read"}.`;
+  const sample = receipt.reader.startsWith("recognized:") ? "I recognized our sample receipt, so this is its saved, checked reading. A photo of your own is read live.\n\n" : "";
+  const head = `${sample}Receipt: ${receipt.lines.length} lines, ${money(receipt.currency, receipt.total) || "total not read"}.`;
   if (receipt.status === "funded") {
     const why = reasons ? `\nRefused: ${reasons}` : "";
     const payout = paid ? `${money(receipt.currency, paid)} goes to the volunteer through PayPal Payouts. ` : "";

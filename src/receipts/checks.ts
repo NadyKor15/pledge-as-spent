@@ -213,6 +213,12 @@ const receiptName = (id: string) => {
   return n ? `receipt ${n}` : id;
 };
 
+/** A need's quantity is a whole multiple of the printed quantity, at most one pack size per unit. */
+const quantityFits = (needQty: number, printed: number, maxPack: number) => {
+  const per = needQty / printed;
+  return Number.isInteger(per) && per >= 1 && per <= maxPack;
+};
+
 export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   const { receipt: r, drive } = input;
   const flags: ReceiptFlag[] = [];
@@ -245,7 +251,9 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   const doubtful = (input.classifications ?? []).filter((c) => c.verdict === "review" || c.confidence < min).map((c) => c.lineNo);
   // A product line the classifier never answered for is not funded: a person should know, not find it missing.
   const unanswered = input.classifications ? r.lines.filter((l) => l.amountMinor >= 0 && !input.classifications!.some((c) => c.lineNo === l.lineNo)).map((l) => l.lineNo) : [];
-  const toConfirm = [...new Set([...doubtful, ...unanswered])].sort((a, b) => a - b);
+  // A quantity that does not fit the printed one is held for a person in toFundableLines: then a person must be asked.
+  const misfit = (input.classifications ?? []).filter((c) => c.verdict === "eligible" && c.needId && !c.ruleCode && c.needQty !== null && !quantityFits(c.needQty, r.lines.find((l) => l.lineNo === c.lineNo)?.qty ?? 1, MAX_PACK_SIZE)).map((c) => c.lineNo);
+  const toConfirm = [...new Set([...doubtful, ...unanswered, ...misfit])].sort((a, b) => a - b);
   if (toConfirm.length) add("low_confidence", "review", `${toConfirm.length === 1 ? "Line" : "Lines"} ${toConfirm.join(", ")} ${toConfirm.length === 1 ? "needs" : "need"} a person to confirm.`);
   return flags;
 }
@@ -427,8 +435,7 @@ export function toFundableLines(
     }
     if (!held) {
       const printed = lineByNo.get(lineNo)!.qty ?? 1;
-      const per = c.needQty / printed;
-      if (!Number.isInteger(per) || per < 1 || per > maxPack) {
+      if (!quantityFits(c.needQty, printed, maxPack)) {
         held = { code: "review", reasonEn: `The quantity ${c.needQty} does not fit the printed quantity ${printed} (a whole multiple, at most ${maxPack} per unit).` };
       }
     }

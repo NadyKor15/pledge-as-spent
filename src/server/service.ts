@@ -506,7 +506,7 @@ export class PledgeService {
     const ipHash = this.hashIp(input.ip);
     const now = this.now();
     const needs = state.needIds.map((id) => state.needs[id]);
-    const reading = await this.reading.read({ driveId, image, sha256: sha, needs, rules: state.drive!.rules, baseCurrency: state.drive!.baseCurrency, ipHash, now });
+    const reading = await this.reading.read({ driveId, image, sha256: sha, needs, rules: state.drive!.rules, baseCurrency: state.drive!.baseCurrency, ipHash, now, sampleLook: row.demo ? dh : null });
     const redaction = redactImage(image, reading.parsed.pii);
 
     const { receiptId, cmds } = await withDrive(this.db, driveId, async (b) => {

@@ -74,6 +74,8 @@ describe("checkReceipt", () => {
 
   it("sends doubtful classifications to review", () => {
     expect(codes(receipt(), { classifications: [cls(1), cls(2, { confidence: 0.5 })] })).toEqual(["low_confidence"]);
+    // A quantity held for a person must reach a person: the receipt may not go through without that line.
+    expect(codes(receipt(), { classifications: [cls(1, { needId: "water", needQty: 29 }), cls(2)] })).toEqual(["low_confidence"]);
     expect(codes(receipt(), { classifications: [cls(1, { verdict: "review", ruleCode: "unclear" })] })).toEqual(["low_confidence"]);
     expect(codes(receipt(), { classifications: [cls(1, { confidence: 0.7 }), cls(2)] })).toEqual([]);
     expect(codes(receipt(), { classifications: [cls(1, { confidence: 0.8 })], minConfidence: 0.9 })).toEqual(["low_confidence"]);

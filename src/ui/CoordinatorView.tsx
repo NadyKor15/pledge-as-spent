@@ -295,6 +295,7 @@ function ReceiptBody({
       <p className={s.msub}>
         Store receipt · <b>{money(r.currency, r.total)}</b>
         {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.8em", opacity: 0.62 }}>{r.merchant}</small>}
+        {r.reader.startsWith("recognized:") && <small style={{ marginLeft: 8, fontSize: "0.8em" }}>Recognized as the sample: saved, checked reading</small>}
       </p>
       <div className={s.mbody}>
         <div className={s.receipt} data-flow="receipt">
