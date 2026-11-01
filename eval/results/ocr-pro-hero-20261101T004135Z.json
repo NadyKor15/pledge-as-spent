@@ -1,0 +1,176 @@
+{
+ "reader": "ocr-pro",
+ "set": "hero",
+ "receipts": 1,
+ "scoredReceipts": 1,
+ "errors": [],
+ "lines": {
+  "precision": 1,
+  "recall": 1,
+  "f1": 1,
+  "tp": 11,
+  "fp": 0,
+  "fn": 0
+ },
+ "lineAmountExact": {
+  "num": 11,
+  "den": 11,
+  "rate": 1
+ },
+ "totalExact": {
+  "num": 1,
+  "den": 1,
+  "rate": 1
+ },
+ "dateExact": {
+  "num": 1,
+  "den": 1,
+  "rate": 1
+ },
+ "dateTimeExact": {
+  "num": 1,
+  "den": 1,
+  "rate": 1
+ },
+ "merchant": {
+  "meanSimilarity": 1,
+  "atLeast80": {
+   "num": 1,
+   "den": 1,
+   "rate": 1
+  }
+ },
+ "lineClass": {
+  "num": 11,
+  "den": 11,
+  "rate": 1
+ },
+ "needQty": {
+  "num": 9,
+  "den": 9,
+  "rate": 1
+ },
+ "ruleLines": {
+  "num": 2,
+  "den": 2,
+  "rate": 1,
+  "fundedByMistake": 0
+ },
+ "pii": {
+  "found": {
+   "num": 1,
+   "den": 3,
+   "rate": 0.3333333333333333
+  },
+  "covered": {
+   "num": 3,
+   "den": 3,
+   "rate": 1
+  },
+  "meanIou": 0.786607662
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 1,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {},
+ "byLanguage": {
+  "ja": {
+   "precision": 1,
+   "recall": 1,
+   "f1": 1,
+   "totalExact": {
+    "num": 1,
+    "den": 1,
+    "rate": 1
+   }
+  }
+ },
+ "latency": {
+  "readerMedianMs": 10649,
+  "receiptMedianMs": 14147
+ },
+ "spend": {
+  "ledgerDeltaUsd": 0.012181000000000441,
+  "calls": 2,
+  "tokensIn": 8869,
+  "tokensOut": 1589,
+  "usdActual": 0.012180999999999999,
+  "usdCeiling": 0.052474999999999994
+ },
+ "perReceipt": [
+  {
+   "id": "hero-ja-01",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 11,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 11,
+     "den": 11
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 11,
+     "den": 11
+    },
+    "needQty": {
+     "num": 9,
+     "den": 9
+    },
+    "ruleLines": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 3,
+     "den": 3
+    },
+    "piiIou": [
+     0.786607662
+    ]
+   }
+  }
+ ]
+}

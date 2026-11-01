@@ -12,54 +12,45 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "PAPEL HIGIÉNICO 12R 4,49 A",
-    "translationEn": "Toilet paper 12R",
-    "qty": 12,
-    "unitPriceMinor": 449,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 449,
-    "taxRateBp": 2100
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "PILA AA ALCALINA 4U 6,98 A",
-    "translationEn": "AA alkaline battery 4U",
-    "qty": 4,
-    "unitPriceMinor": 698,
-    "amountMinor": 698,
-    "taxRateBp": 2100
-   },
-   {
-    "lineNo": 3,
-    "rawText": "2x 3,49",
-    "translationEn": "2x 3,49",
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline battery 4-pack",
     "qty": 2,
     "unitPriceMinor": 349,
     "amountMinor": 698,
-    "taxRateBp": 2100
+    "taxRateBp": null
    },
    {
-    "lineNo": 4,
-    "rawText": "PILAS AA LR6 8U 5,99 A",
-    "translationEn": "AA LR6 batteries 8U",
-    "qty": 8,
-    "unitPriceMinor": 599,
+    "lineNo": 3,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 batteries 8-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 599,
-    "taxRateBp": 2100
+    "taxRateBp": null
    }
   ],
-  "subtotalMinor": 1443,
+  "subtotalMinor": null,
   "taxMinor": 303,
   "taxIncluded": true,
   "totalMinor": 1746,
   "pii": [
    {
     "kind": "card_number",
-    "text": "5572",
+    "text": "Ao aloja ola 5572",
     "bbox": {
-     "x": 0.38563066642553023,
-     "y": 0.7688885832487597,
-     "w": 0.055846342061422416,
-     "h": 0.018360247613748992
+     "x": 0.16690612933781596,
+     "y": 0.7595378022317777,
+     "w": 0.2745708791491367,
+     "h": 0.02771102863073105
     }
    }
   ],
@@ -78,50 +69,106 @@
   {
    "lineNo": 2,
    "needId": "batteries",
-   "needQty": 4,
+   "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "reasonEn": "AA alkaline batteries in a 4-pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The description 2x 3,49 is unclear and needs further review.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 4,
    "needId": "batteries",
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA LR6 batteries count toward the batteries need.",
+   "reasonEn": "AA LR6 batteries in an 8-pack count toward the batteries need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "1830ed7217584c24e706ab445d35685249250db9e72e12d1ea4b870596e70eb6",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1091,
-   "tokensOut": 344,
-   "usdCeiling": 0.016562,
-   "usdActual": 0.001974
+   "tokensIn": 2525,
+   "tokensOut": 447,
+   "usdCeiling": 0.024713,
+   "usdActual": 0.00345
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1137,
-   "tokensOut": 170,
-   "usdCeiling": 0.016422,
-   "usdActual": 0.001454
+   "tokensIn": 1852,
+   "tokensOut": 142,
+   "usdCeiling": 0.018994,
+   "usdActual": 0.001936
   }
  ],
  "latencyMs": {
-  "read": 5230,
-  "classify": 1512
+  "read": 4265,
+  "classify": 1346
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alboraday",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 8426",
+   "04/11/2026 20:36",
+   "CAJA 05",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 A",
+   "PILA AA ALCALINA 4U",
+   "6,98 A",
+   "2 X 3,49",
+   "PILAS AA LR6 8U",
+   "5,99 A",
+   "TOTAL (IVA INCLUIDO)",
+   "17,46 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

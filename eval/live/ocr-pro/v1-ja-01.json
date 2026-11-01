@@ -3,42 +3,33 @@
  "set": "v1",
  "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
  "reading": {
-  "merchantName": "ホームセンターツバメ",
+  "merchantName": "ホームセンターツバメ 北空東店",
   "merchantAddress": "空川県北空市東町 7-29",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-09T16:52:00",
-  "receiptNumber": "4986",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "ベビーラブパンツ M 38 枚 ¥1,098",
-    "translationEn": "Baby Love Pants M 38 pieces",
+    "rawText": "ベビーラブパンツ M 38 枚",
+    "translationEn": "Baby love pants M 38 pieces",
     "qty": 1,
-    "unitPriceMinor": 1098,
+    "unitPriceMinor": 108,
     "amountMinor": 1098,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "ミネラルウォーター ¥648※ 2L ペット",
-    "translationEn": "Mineral water 2L bottle",
-    "qty": 1,
-    "unitPriceMinor": 648,
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral water 2L",
+    "qty": 6,
+    "unitPriceMinor": 108,
     "amountMinor": 648,
     "taxRateBp": 800
-   },
-   {
-    "lineNo": 3,
-    "rawText": "6 点 x 単 168",
-    "translationEn": "6 items x unit 168",
-    "qty": 6,
-    "unitPriceMinor": 168,
-    "amountMinor": 168,
-    "taxRateBp": null
    }
   ],
-  "subtotalMinor": 1746,
+  "subtotalMinor": null,
   "taxMinor": 147,
   "taxIncluded": false,
   "totalMinor": 1746,
@@ -63,47 +54,140 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby Love Pants M matches the need for baby diapers size M.",
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mineral water 2L bottle matches the need for drinking water 2 L.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "The receipt line does not specify the type of batteries, and only AA batteries are needed.",
+   "reasonEn": "Mineral water 2L counts toward the water need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "2504aae6a02ba6e0ca5f11b9eb0fa02b496fbe30b3b19fb111ea69a720d51354",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1142,
-   "tokensOut": 297,
-   "usdCeiling": 0.016514,
-   "usdActual": 0.001864
+   "tokensIn": 3170,
+   "tokensOut": 431,
+   "usdCeiling": 0.024666,
+   "usdActual": 0.003915
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1105,
-   "tokensOut": 144,
-   "usdCeiling": 0.016358,
-   "usdActual": 0.001345
+   "tokensIn": 1825,
+   "tokensOut": 93,
+   "usdCeiling": 0.018909,
+   "usdActual": 0.001758
   }
  ],
  "latencyMs": {
-  "read": 5769,
-  "classify": 1418
+  "read": 4434,
+  "classify": 1396
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 19999199900712",
+   "2926 年 11 月 98 日 (日 ) 16:52",
+   "レジ 91 No.4986",
+   "ベビーラブパンツ M 38 枚 ¥1,098",
+   "ミネラルウォーター ¥648※",
+   "2L ペット",
+   "6 点 x 単 168",
+   "小計 (2 点 ) ¥1,746",
+   "8* 対象 ¥648",
+   "19*% 対象 ¥1,098",
+   "(内消費税等 8* ¥48 )",
+   "(内消費税等 19* ¥99)",
+   "ait ¥1,746",
+   "クレジットキキ本キキネネキネネネ 1020",
+   "お支払い ¥1,746",
+   "※ は埋減税率 (8*) 対象商品です",
+   "ご来店ありがとうこございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 19999199900712",
+   "2926 年 11 月 98 日 (日 ) 16:52",
+   "レジ 91 No.4986",
+   "ベビーラブパンツ M 38 枚 ¥1,098",
+   "ミネラルウォーター ¥648※",
+   "2L ペット",
+   "6 点 x 単 168",
+   "小計 (2 点 ) ¥1,746",
+   "8* 対象 ¥648",
+   "19*% 対象 ¥1,098",
+   "(内消費税等 8* ¥48 )",
+   "(内消費税等 19* ¥99)",
+   "ait ¥1,746",
+   "クレジットキキ本キキネネキネネネ 1020",
+   "お支払い ¥1,746",
+   "※ は埋減税率 (8*) 対象商品です",
+   "ご来店ありがとうこございました"
+  ],
+  "photoNumbers": [
+   "ーあいぱー らいく",
+   "•",
+   "TEL 0123-55-1100",
+   "• T0000100000712",
+   "2026年11月08日(•) 16:52",
+   "•01",
+   "No.4086",
+   "• • 38¥ ¥1,098",
+   "• ¥648",
+   "2L•",
+   "6• x #108",
+   "• (2•) ¥1,746",
+   "8• ¥648",
+   "10• ¥1,098",
+   "(• 8% ¥48)",
+   "(• 10% ¥99)",
+   "• ¥1,746",
+   "• 1020",
+   "• ¥1,746",
+   "•(8)•"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "91",
+    "to": "01"
+   },
+   {
+    "from": "4986",
+    "to": "4086"
+   },
+   {
+    "from": "168",
+    "to": "108"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

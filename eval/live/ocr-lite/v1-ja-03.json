@@ -7,22 +7,22 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-04-11T13:23:00",
+  "purchasedAt": "2026-11-06T13:23:00",
   "receiptNumber": "5144",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "日本酒 729mt",
-    "translationEn": "Japanese sake 729ml",
+    "rawText": "日本酒 720mt",
+    "translationEn": "Japanese sake 720ml",
     "qty": 1,
-    "unitPriceMinor": 1489,
-    "amountMinor": 1489,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
     "taxRateBp": 800
    },
    {
     "lineNo": 2,
     "rawText": "北空の天然水 2L 6 本ケース",
-    "translationEn": "Natural water from Hokusou 2L 6 case",
+    "translationEn": "Hoku Sora Natural Water 2L 6-pack",
     "qty": 2,
     "unitPriceMinor": 798,
     "amountMinor": 1596,
@@ -30,30 +30,30 @@
    },
    {
     "lineNo": 3,
-    "rawText": "ソフトキッズおむつ L",
-    "translationEn": "Soft kids diaper L",
-    "qty": 34,
-    "unitPriceMinor": null,
+    "rawText": "ソフトキッズおむつ L 34 枚",
+    "translationEn": "Soft Kids Diapers L 34 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
     "amountMinor": 2596,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
     "rawText": "単 3 電池 19 本入",
-    "translationEn": "Single 3 battery 19 pack",
-    "qty": 19,
-    "unitPriceMinor": null,
+    "translationEn": "AA Batteries 19 pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
     "amountMinor": 1194,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "ソフトキッズおむつ M",
-    "translationEn": "Soft kids diaper M",
-    "qty": 44,
-    "unitPriceMinor": null,
+    "rawText": "ソフトキッズおむつ M 44K",
+    "translationEn": "Soft Kids Diapers M 44K",
+    "qty": 1,
+    "unitPriceMinor": 1298,
     "amountMinor": 1298,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 8164,
@@ -81,29 +81,175 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Japanese sake is an alcohol product and is not funded by the drive.",
+   "reasonEn": "Japanese sake is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size L diapers are not the size this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 57,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M diapers count toward the diapers need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "6a98574ff4980cf33c0be52b9337fff0754a9ce8e583cdfcaf04ad5b612f1577",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1207,
-   "tokensOut": 411,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000171
+   "tokensIn": 3133,
+   "tokensOut": 681,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.000352
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1182,
-   "tokensOut": 60,
-   "usdCeiling": 0.001243,
-   "usdActual": 0.000085
+   "tokensIn": 1965,
+   "tokensOut": 205,
+   "usdCeiling": 0.001444,
+   "usdActual": 0.000167
   }
  ],
  "latencyMs": {
-  "read": 3357,
-  "classify": 631
+  "read": 4779,
+  "classify": 1788
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9042",
+   "登録番号 T9999199699551",
+   "20264F115 068 (#) 13:23",
+   "レジ 92 No.5144",
+   "日本酒 729mt ¥1,489",
+   "北空の天然水 2L ¥1,596※",
+   "6 本ケース",
+   "2m x 単 798",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 点 x 1,298",
+   "単 3 電池 19 本入 ¥1,194",
+   "3 点 x M398",
+   "ソフトキッズおむつ M 44K ¥1,298",
+   "小計 (5 点 ) ¥8,164",
+   "BTR ¥1,596",
+   "19% 対象 ¥6,568",
+   "(内消費税等 8* ¥118)",
+   "(内消費税等 19* Y597)",
+   "合計 ¥8,164",
+   "クレジット FA AAA AAIAAKG O48",
+   "お支払い ¥8,164",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9042",
+   "登録番号 T9999199699551",
+   "20264F115 068 (#) 13:23",
+   "レジ 92 No.5144",
+   "日本酒 729mt ¥1,489",
+   "北空の天然水 2L ¥1,596※",
+   "6 本ケース",
+   "2m x 単 798",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 点 x 1,298",
+   "単 3 電池 19 本入 ¥1,194",
+   "3 点 x M398",
+   "ソフトキッズおむつ M 44K ¥1,298",
+   "小計 (5 点 ) ¥8,164",
+   "BTR ¥1,596",
+   "19% 対象 ¥6,568",
+   "(内消費税等 8* ¥118)",
+   "(内消費税等 19* Y597)",
+   "合計 ¥8,164",
+   "クレジット FA AAA AAIAAKG O48",
+   "お支払い ¥8,164",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "2026年11月06日(月) 13:23",
+   "No.5144",
+   "•",
+   "720ml ¥1,480",
+   "2L ¥1,596*",
+   "6円引き",
+   "2回 x ¥798",
+   "¥77円引き 生ビール L 34個 ¥2,596",
+   "2回 x ¥1,298",
+   "3個 x ¥398 ¥1,194",
+   "¥77円引き 生ビール M 44個 ¥1,298",
+   "• (5人)",
+   "¥8,164",
+   "8人 ¥1,596",
+   "10人 ¥6,568",
+   "(ポイント還元 8% ¥118)",
+   "(ポイント還元 10% ¥597)",
+   "¥8,164"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "20264",
+    "to": "2026"
+   },
+   {
+    "from": "115",
+    "to": "11"
+   },
+   {
+    "from": "068",
+    "to": "06"
+   },
+   {
+    "from": "729",
+    "to": "720"
+   },
+   {
+    "from": "1,489",
+    "to": "1,480"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

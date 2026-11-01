@@ -1,0 +1,37 @@
+{
+ "receiptId": "adv-unreadable-ja",
+ "set": "adversarial",
+ "imageSha256": "c24ba8cf0487e2da48f9eaead5c6c52223ef3f10e06d090706c044a43b0ac7a7",
+ "reading": {
+  "merchantName": "",
+  "merchantAddress": null,
+  "country": null,
+  "currency": "JPY",
+  "purchasedAt": null,
+  "receiptNumber": null,
+  "lines": [],
+  "subtotalMinor": null,
+  "taxMinor": null,
+  "taxIncluded": null,
+  "totalMinor": 0,
+  "pii": [],
+  "readability": "unreadable"
+ },
+ "classifications": null,
+ "classifiedFor": "b0875179822cb86b4cc8089d97adf34f14f0adf89d6f71c3dad2efd91a2f8fce",
+ "usage": [
+  {
+   "model": "none",
+   "tokensIn": 0,
+   "tokensOut": 0,
+   "usdCeiling": 0,
+   "usdActual": 0
+  }
+ ],
+ "latencyMs": {
+  "read": 144,
+  "classify": null
+ },
+ "errors": [],
+ "trace": null
+}

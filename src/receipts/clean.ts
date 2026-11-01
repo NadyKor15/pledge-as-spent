@@ -21,15 +21,31 @@ const norm = (s: string) => s.normalize("NFKC").toLowerCase();
  * A row that only gives a quantity and a unit price ("4点 x 単118", "2 x 24,50", "6 @ $1.49"), also when OCR turned
  * the character after the quantity into noise ("4m x 単 458").
  */
-const QTY_ROW = /^\s*\d+\s*\S{0,3}\s*[x×@]\s*\S{0,2}\s*[\d.,]+\s*$/i;
+const QTY_ROW = /^\s*(\d+)\s*\S{0,3}\s*[x×@]\s*\D{0,2}\s*([\d.,]+)\s*$/i;
+
+/** Two bare numbers around an x are a size ("130X160"), not a quantity and a price. */
+const DIMENSIONS = /^\s*\d{2,3}\s*[x×]\s*\d{2,3}\s*$/i;
+
+export const isQtyRow = (text: string) => {
+  const t = text.normalize("NFKC");
+  return QTY_ROW.test(t) && !DIMENSIONS.test(t);
+};
+
+/** The quantity and the unit price as printed on such a row. */
+export function qtyRow(text: string): { qty: number; unit: string } | null {
+  const m = isQtyRow(text) ? text.normalize("NFKC").match(QTY_ROW) : null;
+  return m ? { qty: Number(m[1]), unit: m[2] } : null;
+}
+
+const hasTotalsWord = (t: string) => CJK_TERMS.some((w) => t.includes(w)) || latin.test(t);
 
 export function isNonProductRow(text: string): boolean {
   const t = norm(text).trim();
   if (t === "") return true;
-  if (QTY_ROW.test(t)) return true;
+  if (isQtyRow(t)) return true;
   // Only digits, symbols and punctuation: a number or a rule line, not a product name.
   if (!/\p{L}/u.test(t.replace(/[x×]/g, ""))) return true;
-  return CJK_TERMS.some((w) => t.includes(w)) || latin.test(t);
+  return hasTotalsWord(t);
 }
 
 const DISCOUNT = /値引|割引|coupon|discount|dto\b|dto\.|descuento|promoci|indirim|iskonto|desc\./i;
@@ -39,7 +55,8 @@ const DISCOUNT = /値引|割引|coupon|discount|dto\b|dto\.|descuento|promoci|in
  * minus sign), and renumbers. Returns the input unchanged when every row would be dropped.
  */
 export function cleanLines<T extends { rawText: string; amountMinor: unknown; lineNo?: unknown }>(lines: T[]): T[] {
-  const kept = lines.filter((l) => (typeof l.amountMinor === "number" && l.amountMinor < 0) || !isNonProductRow(l.rawText));
+  // A negative row is a discount even when OCR lost its word, but "TOPKDV" with a sign a model gave it is not.
+  const kept = lines.filter((l) => !isNonProductRow(l.rawText) || (typeof l.amountMinor === "number" && l.amountMinor < 0 && (DISCOUNT.test(norm(l.rawText)) || !hasTotalsWord(norm(l.rawText)))));
   if (kept.length === 0) return lines;
   return kept.map((l, i) => ({
     ...l,

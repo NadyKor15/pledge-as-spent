@@ -1,0 +1,300 @@
+{
+ "receiptId": "v1-tr-06",
+ "set": "v1",
+ "imageSha256": "3359daa4017ba7a9b073d08f9afe3a8f02c9dda082a2a588b6499bd1b69f351d",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-04T20:01:00",
+  "receiptNumber": "9276",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries 10-pack",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "SÜT 1",
+    "translationEn": "Milk 1",
+    "qty": 2,
+    "unitPriceMinor": 3850,
+    "amountMinor": 7700,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "EKMEK %01",
+    "translationEn": "",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TRY",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Cute baby diapers 20-pack",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 15622,
+  "taxIncluded": false,
+  "totalMinor": 150590,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.6854805268740041,
+     "y": 0.7841602907405788,
+     "w": 0.1414138930939769,
+     "h": 0.01786594428025512
+    }
+   },
+   {
+    "kind": "name",
+    "text": "EMRE KARAGÖZ",
+    "bbox": {
+     "x": 0.20897763523055118,
+     "y": 0.8242164033801167,
+     "w": 0.17270922157110807,
+     "h": 0.021673405882342123
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "5207652834",
+    "bbox": {
+     "x": 0.6854805268740041,
+     "y": 0.7841602907405788,
+     "w": 0.1414138930939769,
+     "h": 0.01786594428025512
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 10-pack of AA batteries counts toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 20-pack of size 4 baby diapers counts toward the diapers need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "b6058a9551a76ecdfadc205b60be385ff084fb7de71507e990b8f5666d6f643b",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3122,
+   "tokensOut": 943,
+   "usdCeiling": 0.017715,
+   "usdActual": 0.003144
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1972,
+   "tokensOut": 248,
+   "usdCeiling": 0.019283,
+   "usdActual": 0.002371
+  }
+ ],
+ "latencyMs": {
+  "read": 7457,
+  "classify": 2091
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 04.11.2026 20:01 FİŞ NO: 9276",
+   "AA PİL 10'LU PAKET 420 *169,90",
+   "SÜT 1.7 “10 *77,00",
+   "2 x 38,50",
+   "KAYNAK SU 5 LT “10 *49,00",
+   "2 x 24,50",
+   "EKMEK %01 *12,00",
+   "HEDİYE KARTI 500 TL *500,00",
+   "SEVİMLİ BEBEK BEZİ «20 *698,00",
+   "NO:4 JUMBO 42'Lİ",
+   "2 x 349,00",
+   "KDV %1 MATRAH 11,88 *0,12",
+   "KDV %1@ MATRAH 114,55 “11,45",
+   "KDV %2@ MATRAH 723,25 «144,65",
+   "TOPKDV *156,22",
+   "TOPLAM *1.505,90",
+   "NAKİT *1.510,00",
+   "PARA USTU *4,10",
+   "MÜŞTERİ KARTI 5207652834",
+   "EMRE KARAGÖZ",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yıldızova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 04.11.2026 20:01 FİŞ NO: 9276",
+   "AA PİL 10'LU PAKET 420 *169,90",
+   "SÜT 1.7 “10 *77,00",
+   "2 x 38,50",
+   "KAYNAK SU 5 LT “10 *49,00",
+   "2 x 24,50",
+   "EKMEK %01 *12,00",
+   "HEDİYE KARTI 500 TL *500,00",
+   "SEVİMLİ BEBEK BEZİ «20 *698,00",
+   "NO:4 JUMBO 42'Lİ",
+   "2 x 349,00",
+   "KDV %1 MATRAH 11,88 *0,12",
+   "KDV %1@ MATRAH 114,55 “11,45",
+   "KDV %2@ MATRAH 723,25 «144,65",
+   "TOPKDV *156,22",
+   "TOPLAM *1.505,90",
+   "NAKİT *1.510,00",
+   "PARA USTU *4,10",
+   "MÜŞTERİ KARTI 5207652834",
+   "EMRE KARAGÖZ",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayl Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 00000000057",
+   "TARIH: 04.11.2026 20:01",
+   "FIS NO: 9276",
+   "•",
+   "AA PÍL 10'LU PAKET",
+   "%20 *169,90",
+   "SÜT 1 LT",
+   "%10 *77,00",
+   "2 X 38,50",
+   "KAYNAKSU 5 LT",
+   "%10 *49,00",
+   "2 X 24,50",
+   "EKMEK",
+   "%01 *12,00",
+   "HEDÍYE KARTI 500 TL",
+   "*500,00",
+   "SEVÍMLÍ BEBÉK BESÍ",
+   "%20 *698,00",
+   "NO:4 JUMBO 42'LÍ",
+   "2 X 349,00",
+   "•",
+   "KDV %1 MATRAH 11,88",
+   "*0,12",
+   "KDV %10 MATRAH 114,55",
+   "*11,45",
+   "KDV %20 MATRAH 723,25",
+   "*144,65",
+   "TOPKDV",
+   "*156,22",
+   "TOPLAM",
+   "*1.505,90",
+   "•",
+   "*1.510,00"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "1.7",
+    "to": "1"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
+}

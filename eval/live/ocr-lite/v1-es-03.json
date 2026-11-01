@@ -7,31 +7,31 @@
   "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
-  "purchasedAt": "2026-09-11T20:27:00",
+  "purchasedAt": "2026-11-09T20:27:00",
   "receiptNumber": "2894",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "Water 1.5L pack 6",
-    "qty": 6,
+    "qty": 3,
     "unitPriceMinor": 329,
     "amountMinor": 987,
     "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "PAÑAL BEBÉ T3",
-    "translationEn": "Baby diaper T3",
-    "qty": 44,
-    "unitPriceMinor": null,
+    "rawText": "PAÑAL BEBÉ T3 44U",
+    "translationEn": "Baby diaper T3 44U",
+    "qty": 2,
+    "unitPriceMinor": 895,
     "amountMinor": 1790,
     "taxRateBp": 1000
    },
    {
     "lineNo": 3,
     "rawText": "TABACO LIAR CAJETILLA",
-    "translationEn": "Tobacco Liar pack",
+    "translationEn": "Tobacco cigar pack",
     "qty": 1,
     "unitPriceMinor": 460,
     "amountMinor": 460,
@@ -39,10 +39,10 @@
    },
    {
     "lineNo": 4,
-    "rawText": "PAÑALES T3 PANTS",
-    "translationEn": "Diapers T3 pants",
-    "qty": 36,
-    "unitPriceMinor": 21,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Diapers T3 pants 36U",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 749,
     "taxRateBp": 1000
    },
@@ -50,25 +50,25 @@
     "lineNo": 5,
     "rawText": "DTO. PROMOCIÓN",
     "translationEn": "Promotion discount",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -112,
-    "taxRateBp": null
+    "taxRateBp": 1000
    }
   ],
-  "subtotalMinor": 3104,
+  "subtotalMinor": null,
   "taxMinor": 770,
   "taxIncluded": true,
   "totalMinor": 3874,
   "pii": [
    {
-    "kind": "other",
+    "kind": "card_number",
     "text": "RK dom tato 2040",
     "bbox": {
-     "x": 0.38968913838073194,
-     "y": 0.7967212174453442,
-     "w": 0.05729426959056755,
-     "h": 0.016298731032148295
+     "x": 0.16568560003833283,
+     "y": 0.7924838261413731,
+     "w": 0.28129780793296666,
+     "h": 0.021381893478066183
     }
    }
   ],
@@ -78,19 +78,19 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 6,
+   "needQty": 18,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Water 1.5L pack 6 counts toward the water need.",
+   "reasonEn": "Water in 1.5L bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "diapers",
-   "needQty": 44,
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diaper T3 counts toward the diapers need.",
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -99,47 +99,125 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "tobacco",
-   "reasonEn": "Tobacco is not a funded item.",
+   "reasonEn": "Tobacco is not funded by this drive.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
    "needId": "diapers",
-   "needQty": 36,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Diapers T3 pants count toward the diapers need.",
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Promotion discount does not count toward any need.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discount lines do not contribute to the needs and their effect on the total is unclear.",
+   "confidence": 0.5
   }
  ],
+ "classifiedFor": "c53e996e2e6117f0d49d7546976f4943df50a320a5dae7dee9660ab762f8c711",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1153,
-   "tokensOut": 383,
-   "usdCeiling": 0.001249,
-   "usdActual": 0.000161
+   "tokensIn": 3838,
+   "tokensOut": 697,
+   "usdCeiling": 0.0018610000000000002,
+   "usdActual": 0.000397
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1146,
-   "tokensOut": 224,
-   "usdCeiling": 0.001239,
-   "usdActual": 0.000123
+   "tokensIn": 1929,
+   "tokensOut": 213,
+   "usdCeiling": 0.00144,
+   "usdActual": 0.000167
   }
  ],
  "latencyMs": {
-  "read": 3658,
-  "classify": 1567
+  "read": 4811,
+  "classify": 1587
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 2894",
+   "09/11/2026 20:27 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 9,87 A",
+   "3 x 3,29",
+   "PAÑAL BEBÉ T3 44U 17,90 A",
+   "2x 8,95",
+   "TABACO LIAR CAJETILLA 4,60 B",
+   "PAÑALES T3 PANTS 36U 7,49 A",
+   "DTO. PROMOCIÓN -1,12 A",
+   "TOTAL (IVA INCLUIDO) 38,74 EUR",
+   "A IVA 10% BASE 31,04 CUOTA 3,10",
+   "B IVA 21% BASE 3,80 CUOTA 0,80",
+   "PAGO TARJETA 38,74",
+   "RK dom tato 2040",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 2894",
+   "09/11/2026 20:27 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "AGUA 1,5L PACK 6 9,87 A",
+   "3 x 3,29",
+   "PAÑAL BEBÉ T3 44U 17,90 A",
+   "2x 8,95",
+   "TABACO LIAR CAJETILLA 4,60 B",
+   "PAÑALES T3 PANTS 36U 7,49 A",
+   "DTO. PROMOCIÓN -1,12 A",
+   "TOTAL (IVA INCLUIDO) 38,74 EUR",
+   "A IVA 10% BASE 31,04 CUOTA 3,10",
+   "B IVA 21% BASE 3,80 CUOTA 0,80",
+   "PAGO TARJETA 38,74",
+   "RK dom tato 2040",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Río 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 2894",
+   "09/11/2026 20:27",
+   "CAJA 01",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "AGUA 1,5L PACK 6",
+   "9,87 A",
+   "3 X 3,29",
+   "PAÑAL BEBÉ T3 44U",
+   "17,90 A",
+   "2 X 8,95",
+   "TABACO LIAR CAJETILLA",
+   "4,60 B",
+   "PAÑALES T3 PANTS 36U",
+   "7,49 A",
+   "DTO. PROMOCIÓN",
+   "-1,12 A",
+   "TOTAL (IVA INCLUIDO)",
+   "38,74 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

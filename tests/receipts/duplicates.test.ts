@@ -66,6 +66,16 @@ describe("findDuplicate", () => {
   const fp = fingerprint(img, r);
   const known = (over: Partial<KnownReceipt>): KnownReceipt => ({ receiptId: "old", uploadedAt: "2026-11-05T10:00:00Z", sha256: "x", dHash: null, semanticKey: null, ...over });
 
+  it("the same receipt read with a letter wrong is still the same receipt; another store at the same minute and total is not", () => {
+    const fp = (name: string) => ({ sha256: "new", dHash: null, semanticKey: semanticKey(receipt({ merchantName: name, totalMinor: 36761 })) });
+    const old = known({ semanticKey: semanticKey(receipt({ merchantName: "SÜPER YILDIZ MARKET", totalMinor: 36761 })) });
+    expect(findDuplicate(fp("SUPER YILDIZ MARKET"), [old])?.kind).toBe("semantic");
+    expect(findDuplicate(fp("BRINDLEWOOD GROCERY"), [old])).toBeNull();
+    const other = known({ semanticKey: semanticKey(receipt({ merchantName: "SÜPER YILDIZ MARKET", totalMinor: 36762 })) });
+    expect(findDuplicate(fp("SÜPER YILDIZ MARKET"), [other])).toBeNull();
+    expect(findDuplicate({ sha256: "new", dHash: null, semanticKey: null }, [old])).toBeNull();
+  });
+
   it("matches identical bytes", () => {
     expect(findDuplicate(fp, [known({ sha256: fp.sha256 })])?.kind).toBe("sha256");
   });

@@ -1,0 +1,312 @@
+{
+ "receiptId": "v1-ja-07",
+ "set": "v1",
+ "imageSha256": "c36ee5b563ff34b344c73f3cf9a01d739814cdfa767b365135e008996b1eea16",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T20:57:00",
+  "receiptNumber": "7048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Natural water from Kitasora 2L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ディッシュ SH",
+    "translationEn": "Dish SH",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ビー-7 ルツ M",
+    "translationEn": "B-7 Lutz M",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YH 3 缶パック",
+    "translationEn": "YH 3 can pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 458,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ソフトキッズおむつ L 34 枚",
+    "translationEn": "Soft kids diapers L 34 pieces",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18K お試しレパック",
+    "translationEn": "Paper diapers M 18K trial repack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 598,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "A 1L",
+    "translationEn": "A 1L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 6886,
+  "taxIncluded": false,
+  "totalMinor": 8340,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9739 4221 9384",
+    "bbox": {
+     "x": 0.6312210108555011,
+     "y": 0.817192852042725,
+     "w": 0.21261316854796275,
+     "h": 0.016124101440478267
+    }
+   },
+   {
+    "kind": "name",
+    "text": "BR Wy",
+    "bbox": {
+     "x": 0.19514895181589098,
+     "y": 0.7983614535598339,
+     "w": 0.07739860789374714,
+     "h": 0.014839347982504303
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dish is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 3-can pack counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size L diapers are not the size this drive needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A trial repack of baby diapers size M counts toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A 1L item is not one of the listed needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "aaeae250574b42092ef13ff84e2719a362f44a5b4352c20a415dcfd9a953475d",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3188,
+   "tokensOut": 766,
+   "usdCeiling": 0.017605000000000003,
+   "usdActual": 0.003008
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2018,
+   "tokensOut": 289,
+   "usdCeiling": 0.019414,
+   "usdActual": 0.002539
+  }
+ ],
+ "latencyMs": {
+  "read": 6398,
+  "classify": 2353
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T9999199999551",
+   "2026 年 1 月 4 日 ( 水 ) 20:57",
+   "レジ 94 No.7948",
+   "北空の天然水 2L ¥798%",
+   "6 本ケース",
+   "ディッシュ SH ¥398",
+   "ビー-7 ルツ M ¥3,294",
+   "34 x 単 1.698",
+   "YH 3 缶パック Y458※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2m x M1,298",
+   "紙おむつ M 18K ¥598",
+   "お試しレパック",
+   "A 1L Y198※",
+   "att (7m) Y8,349",
+   "BAR Y1,454",
+   "10% Y6,886",
+   "(ABRRE 8x 時",
+   "(ABRRE 10% ¥626)",
+   "合計 ¥8,346",
+   "em ¥9,000",
+   "“shea ¥660",
+   "Ee 時",
+   "BR Wy",
+   "会員番号 9739 4221 9384",
+   "ae eee",
+   "= ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T9999199999551",
+   "2026 年 1 月 4 日 ( 水 ) 20:57",
+   "レジ 94 No.7948",
+   "北空の天然水 2L ¥798%",
+   "6 本ケース",
+   "ディッシュ SH ¥398",
+   "ビー-7 ルツ M ¥3,294",
+   "34 x 単 1.698",
+   "YH 3 缶パック Y458※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2m x M1,298",
+   "紙おむつ M 18K ¥598",
+   "お試しレパック",
+   "A 1L Y198※",
+   "att (7m) Y8,349",
+   "BAR Y1,454",
+   "10% Y6,886",
+   "(ABRRE 8x 時",
+   "(ABRRE 10% ¥626)",
+   "合計 ¥8,346",
+   "em ¥9,000",
+   "“shea ¥660",
+   "Ee 時",
+   "ミシマレン様",
+   "会員番号 9739 4221 9384",
+   "(8和)対象剖品です",
+   "= ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-22-0042",
+   "T000010000551",
+   "2026年11月04日(月) 20:57",
+   "No.7048",
+   "L304",
+   "¥798*",
+   "2L",
+   "6円-2",
+   "¥398",
+   "¥3,294",
+   "3円 x ¥1,098",
+   "¥458*",
+   "¥2,596",
+   "2円 x ¥1,298",
+   "¥598",
+   "¥198*",
+   "¥8,340",
+   "8%税",
+   "¥1,454",
+   "10%税",
+   "¥6,886",
+   "(非課税 8%",
+   "¥107)",
+   "(非課税 10%",
+   "¥626)",
+   "¥8,340",
+   "¥9,000"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "7948",
+    "to": "7048"
+   },
+   {
+    "from": "34",
+    "to": "3"
+   },
+   {
+    "from": "1.698",
+    "to": "1,098"
+   },
+   {
+    "from": "8,349",
+    "to": "8,340"
+   },
+   {
+    "from": "8,346",
+    "to": "8,340"
+   }
+  ]
+ }
+}

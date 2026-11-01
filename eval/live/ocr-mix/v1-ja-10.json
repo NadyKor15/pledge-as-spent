@@ -1,0 +1,218 @@
+{
+ "receiptId": "v1-ja-10",
+ "set": "v1",
+ "imageSha256": "2b271126d14fcd00398a19b25378a7d72803fc89f1c0565bbb9d2c91593e0481",
+ "reading": {
+  "merchantName": "ドラッグヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央 3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:25:00",
+  "receiptNumber": "4599",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Natural water 2L",
+    "qty": 2,
+    "unitPriceMinor": 128,
+    "amountMinor": 256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ソフトキッズおむつ M 44 枚",
+    "translationEn": "Soft kids diapers M 44 pieces",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単 3 形 4 本入 Sa x M258",
+    "translationEn": "AA batteries 4 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1290,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ベビーラブパンツ M 38%",
+    "translationEn": "Baby love pants M 38%",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 3942,
+  "taxMinor": 388,
+  "taxIncluded": false,
+  "totalMinor": 4330,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "1606 3023 4322",
+    "bbox": {
+     "x": 0.5856243530253546,
+     "y": 0.7839811055137647,
+     "w": 0.19618012219009173,
+     "h": 0.022804361732765344
+    }
+   },
+   {
+    "kind": "name",
+    "text": "SY ゆ",
+    "bbox": {
+     "x": 0.17802792772811915,
+     "y": 0.7359512605684534,
+     "w": 0.0556806744784889,
+     "h": 0.014788908986145821
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M baby diapers count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 4 AA batteries counts toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby love pants in size M count toward the diapers need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "85884dc4aa6fd5a79fadbe8cb111d1b4e97d460081cd27f4780e3b08805c26ea",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3680,
+   "tokensOut": 436,
+   "usdCeiling": 0.017563000000000002,
+   "usdActual": 0.00223
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1911,
+   "tokensOut": 175,
+   "usdCeiling": 0.01913,
+   "usdActual": 0.002089
+  }
+ ],
+ "latencyMs": {
+  "read": 4350,
+  "classify": 1548
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199990634",
+   "2926 年 11 月 97 日 ( 土 ) 13:25",
+   "レジ 95 No.4599",
+   "北空の天然水 2L ¥256※",
+   "2 点 x 単 128",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "単 3 形 4 本入 ¥1,298",
+   "Sa x M258",
+   "ベビーラブパンツ M 38% ¥1,098",
+   "小計 (4 点 ) ¥3,942",
+   "外税 8* 対象 ¥256 消費税 ¥29",
+   "AR10% 対象 ¥3,686 消費税 ¥368",
+   "合計 ¥4,330",
+   "お預り ¥5,000",
+   "お釣り ¥670",
+   "ポイントカード 3",
+   "SY ゆ様",
+   "会員番号 1606 3023 4322",
+   "KSEE (8s) NRBATT 3",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9999199990634",
+   "2926 年 11 月 97 日 ( 土 ) 13:25",
+   "レジ 95 No.4599",
+   "北空の天然水 2L ¥256※",
+   "2 点 x 単 128",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "単 3 形 4 本入 ¥1,298",
+   "Sa x M258",
+   "ベビーラブパンツ M 38% ¥1,098",
+   "小計 (4 点 ) ¥3,942",
+   "外税 8* 対象 ¥256 消費税 ¥29",
+   "AR10% 対象 ¥3,686 消費税 ¥368",
+   "合計 ¥4,330",
+   "お預り ¥5,000",
+   "お釣り ¥670",
+   "ポイントカード 3",
+   "ミシマルン本",
+   "会員番号 1606 3023 4322",
+   "KSEE (8s) NRBATT 3",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "TEL 0123-33-7788 2026年11月07日(火) 13:25 No.4599 ¥256* 2L 2回 x ¥128 ¥1,298 ¥1,290 ¥1,098 ¥3,942 ¥256 ¥20 ¥3,686 ¥368 ¥4,330"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "97",
+    "to": "07"
+   },
+   {
+    "from": "1,298",
+    "to": "1,290"
+   },
+   {
+    "from": "29",
+    "to": "20"
+   }
+  ]
+ }
+}

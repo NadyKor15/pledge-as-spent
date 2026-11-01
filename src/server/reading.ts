@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { z } from "zod";
 import { and, asc, eq, gt, isNotNull, like, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
@@ -6,9 +5,11 @@ import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
-import { receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
+import { RefiningClassifier } from "../receipts/quantity";
+import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
+import heroAnswer from "../../eval/live/shipped/hero-ja-01.json";
 import { ServiceError } from "./errors";
 import { PgSpendLedger } from "./spend";
 
@@ -50,20 +51,25 @@ export interface LiveReading {
   ocr?: () => OcrEngine;
 }
 
-/** A real pipeline's saved answer for one photo (eval/live/<pipeline>/<receipt>.json). Never a hand-written reading. */
+/** A real pipeline's saved answer for one photo (a copy of eval/live/<pipeline>/<receipt>.json in eval/live/shipped/, so a new benchmark run does not change the demo). Never a hand-written reading. */
 export interface SavedAnswer {
   pipeline: string;
   imageSha256: string;
   reading: ParsedReceipt;
   classifications: LineClassification[];
+  /** classificationKey of the run: the lines were matched against these needs and rules, and no others. */
+  classifiedFor: string;
 }
 
-const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), reading: ParsedReceipt, classifications: z.array(LineClassification) });
+const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), reading: ParsedReceipt, classifications: z.array(LineClassification), classifiedFor: z.string() });
 
 export function savedAnswer(json: unknown, pipeline: string): SavedAnswer {
   const f = SavedFile.parse(json);
-  return { pipeline, imageSha256: f.imageSha256, reading: f.reading, classifications: f.classifications };
+  return { pipeline, imageSha256: f.imageSha256, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor };
 }
+
+/** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro")];
 
 export interface ReadInput {
   driveId: string;
@@ -86,14 +92,7 @@ export const SAMPLE_HINT = {
 
 const LANGUAGES: Partial<Record<CurrencyCode, string[]>> = { JPY: ["ja", "en"], EUR: ["es", "en"], USD: ["en"] };
 
-export function classificationKey(parsed: ParsedReceipt, needs: Need[], rules: string): string {
-  const basis = JSON.stringify({
-    receipt: receiptKey(parsed),
-    needs: needs.map((n) => [n.id, n.label, n.unit, n.qtyNeeded]),
-    rules,
-  });
-  return createHash("sha256").update(basis).digest("hex");
-}
+export { classificationKey };
 
 export class ReceiptReading {
   private readonly answers: Map<string, SavedAnswer>;
@@ -104,7 +103,7 @@ export class ReceiptReading {
     private readonly limits: LiveLimits,
     private readonly live?: LiveReading,
   ) {
-    this.answers = new Map((sources.answers ?? []).map((a) => [a.imageSha256, a]));
+    this.answers = new Map((sources.answers ?? SHIPPED_ANSWERS).map((a) => [a.imageSha256, a]));
     this.recordings = sources.recordings ?? { readings: {}, classifications: {} };
   }
   private readonly recordings: Recordings;
@@ -124,7 +123,8 @@ export class ReceiptReading {
     const saved = this.answers.get(input.sha256);
     if (saved) {
       const parsed = structuredClone(saved.reading);
-      return { parsed, classified: { key: key(parsed), lines: structuredClone(saved.classifications) }, reader: `cached:${saved.pipeline}`, usage: [] };
+      if (key(parsed) !== saved.classifiedFor) return this.classifyLive(input, parsed, []);
+      return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `cached:${saved.pipeline}`, usage: [] };
     }
 
     if (Object.hasOwn(this.recordings.readings, input.sha256)) {
@@ -184,7 +184,7 @@ export class ReceiptReading {
     const classifier = new BedrockNovaClassifier({ client, cap, modelId });
     if (pipeline === "nova-lite") return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier, pipeline };
     if (!this.live.ocr) throw new ServiceError(503, "live_reading_off", "The OCR engine is not configured on this server. Use the sample receipt.", SAMPLE_HINT);
-    return { reader: new OcrNovaReader({ client, cap, modelId, engine: this.live.ocr() }), classifier, pipeline };
+    return { reader: new OcrNovaReader({ client, cap, modelId, engine: this.live.ocr() }), classifier: new RefiningClassifier(classifier), pipeline };
   }
 
   private async guard<T>(fn: () => Promise<T>): Promise<T> {

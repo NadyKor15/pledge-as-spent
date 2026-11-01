@@ -222,8 +222,11 @@ export interface Prepared {
   /** A box in fractions of the prepared image -> a box in fractions of the original photo. */
   toOriginal(box: Box): Box;
   png(): Uint8Array;
-  /** One tile for a receipt up to 1.9 times as tall as wide, two up to 3.0, three above; 15 % overlap. */
-  tiles(overlap?: number): Tile[];
+  /**
+   * One tile for a receipt up to 1.9 times as tall as wide, two up to 3.0, three above; 15 % overlap.
+   * `bottom` (a fraction of the prepared image) leaves out everything below it.
+   */
+  tiles(overlap?: number, bottom?: number): Tile[];
 }
 
 export function encodeJpeg(r: Rgba, quality = 92): Uint8Array {
@@ -289,13 +292,14 @@ export function prepImage(image: ReceiptImage, opts: PrepOptions = {}): Prepared
     tiltDeg: tilt,
     toOriginal: (b) => mapBox(b, prepared.width, prepared.height),
     png: () => PNG.sync.write(Object.assign(new PNG({ width: prepared.width, height: prepared.height }), { data: Buffer.from(prepared.data) })),
-    tiles(overlap = 0.15) {
-      const ratio = prepared.height / prepared.width;
+    tiles(overlap = 0.15, bottom = 1) {
+      const height = Math.max(1, Math.min(prepared.height, Math.round(prepared.height * bottom)));
+      const ratio = height / prepared.width;
       const n = ratio > 3.0 ? 3 : ratio > 1.9 ? 2 : 1;
-      const tileH = Math.round(prepared.height / (n - (n - 1) * overlap));
+      const tileH = Math.round(height / (n - (n - 1) * overlap));
       return Array.from({ length: n }, (_, i) => {
-        const y0 = n === 1 ? 0 : Math.round(((prepared.height - tileH) * i) / (n - 1));
-        const y1 = Math.min(prepared.height, y0 + tileH);
+        const y0 = n === 1 ? 0 : Math.round(((height - tileH) * i) / (n - 1));
+        const y1 = Math.min(height, y0 + tileH);
         return {
           bytes: encodeJpeg(crop(prepared, 0, y0, prepared.width, y1)),
           mediaType: "image/jpeg" as const,

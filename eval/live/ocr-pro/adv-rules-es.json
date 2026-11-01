@@ -4,7 +4,7 @@
  "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
  "reading": {
   "merchantName": "FERRETERIA LA LLAVE",
-  "merchantAddress": "Plaza Nueva 3",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-09T12:24:00",
@@ -12,79 +12,79 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "LECHE ENTERA 1L 0,99 A",
+    "rawText": "LECHE ENTERA 1L",
     "translationEn": "Whole milk 1L",
     "qty": 1,
-    "unitPriceMinor": 99,
+    "unitPriceMinor": null,
     "amountMinor": 99,
     "taxRateBp": 400
    },
    {
     "lineNo": 2,
-    "rawText": "AGUA 1,5L PACK 6 3,29 B",
+    "rawText": "AGUA 1,5L PACK 6",
     "translationEn": "Water 1.5L pack of 6",
-    "qty": 6,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 329,
     "taxRateBp": 1000
    },
    {
     "lineNo": 3,
-    "rawText": "AGUA FUENTE CLARA 3,90 B BOTELLA 1,5 L",
-    "translationEn": "Fuente Clara water 1.5L bottle",
-    "qty": 1,
-    "unitPriceMinor": null,
-    "amountMinor": 63,
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "Fuente Clara water",
+    "qty": 6,
+    "unitPriceMinor": 65,
+    "amountMinor": 390,
     "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "AGUA MINERAL 1,5L 3,54 B 6 x 0,59",
+    "rawText": "AGUA MINERAL 1,5L",
     "translationEn": "Mineral water 1.5L",
     "qty": 6,
-    "unitPriceMinor": null,
-    "amountMinor": 65,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
     "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "TARJETA REGALO 50 50,00",
+    "rawText": "TARJETA REGALO 50",
     "translationEn": "Gift card 50",
     "qty": 1,
-    "unitPriceMinor": 5000,
+    "unitPriceMinor": null,
     "amountMinor": 5000,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
-    "rawText": "PAPEL HIGIÉNICO 12R 4,49 C",
+    "rawText": "PAPEL HIGIÉNICO 12R",
     "translationEn": "Toilet paper 12 rolls",
-    "qty": 12,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 449,
     "taxRateBp": 2100
    },
    {
     "lineNo": 7,
-    "rawText": "PILA AA ALCALINA 4U 6,98 C 2 x 3,49",
+    "rawText": "PILA AA ALCALINA 4U",
     "translationEn": "AA alkaline battery 4 pack",
-    "qty": 4,
-    "unitPriceMinor": null,
-    "amountMinor": 65,
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
     "taxRateBp": 2100
    },
    {
     "lineNo": 8,
-    "rawText": "CERVEZA ALBORADA 6X33 4,89 C",
+    "rawText": "CERVEZA ALBORADA 6X33",
     "translationEn": "Alborada beer 6x33cl",
-    "qty": 6,
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 65,
+    "amountMinor": 489,
     "taxRateBp": 2100
    },
    {
     "lineNo": 9,
-    "rawText": "TABACO LIAR CAJETILLA 4,60 C",
+    "rawText": "TABACO LIAR CAJETILLA",
     "translationEn": "Rolling tobacco pack",
     "qty": 1,
     "unitPriceMinor": null,
@@ -92,29 +92,29 @@
     "taxRateBp": 2100
    }
   ],
-  "subtotalMinor": 8173,
-  "taxMinor": 1095,
+  "subtotalMinor": null,
+  "taxMinor": null,
   "taxIncluded": true,
   "totalMinor": 8268,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "JOR tok Jock 0888",
-    "bbox": {
-     "x": 0.41755136794661035,
-     "y": 0.7727939151496884,
-     "w": 0.0567990427263233,
-     "h": 0.012796911671176026
-    }
-   },
-   {
     "kind": "member_id",
-    "text": "socio 9618947969",
+    "text": "9618947969",
     "bbox": {
      "x": 0.684563689052583,
      "y": 0.8095824145853336,
      "w": 0.1433755912565743,
      "h": 0.014924809804065853
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "JOR tok Jock 0888",
+    "bbox": {
+     "x": 0.203349200437963,
+     "y": 0.7727939151496884,
+     "w": 0.27100121023497065,
+     "h": 0.01643526933308226
     }
    },
    {
@@ -137,29 +137,207 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Whole milk is not a listed need.",
-   "confidence": 1
+   "reasonEn": "Whole milk is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are not funded by this drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is alcohol, which this drive does not fund.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Rolling tobacco is not funded by this drive.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "b4e4fa35ea9d60079bc91b9822882a1609e5d88c77e2a205d3001f6008f4e304",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1265,
-   "tokensOut": 701,
-   "usdCeiling": 0.016853,
-   "usdActual": 0.003255
+   "tokensIn": 3227,
+   "tokensOut": 820,
+   "usdCeiling": 0.025004000000000002,
+   "usdActual": 0.0052060000000000006
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1394,
-   "tokensOut": 357,
-   "usdCeiling": 0.017089,
-   "usdActual": 0.002258
+   "tokensIn": 2090,
+   "tokensOut": 399,
+   "usdCeiling": 0.019667,
+   "usdActual": 0.002949
   }
  ],
  "latencyMs": {
-  "read": 8472,
-  "classify": 3402
+  "read": 6583,
+  "classify": 3167
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 7948",
+   "09/11/2026 12:24 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "LECHE ENTERA 1L 0,99 A",
+   "AGUA 1,5L PACK 6 3,29 B",
+   "AGUA FUENTE CLARA 3,90 B",
+   "BOTELLA 1,5 L",
+   "6 x 0,65",
+   "AGUA MINERAL 1,5L 3,54 B",
+   "6 x 0,59",
+   "TARJETA REGALO 50 50,00",
+   "PAPEL HIGIÉNICO 12R 4,49 C",
+   "PILA AA ALCALINA 4U 6,98 C",
+   "2 x 3,49",
+   "CERVEZA ALBORADA 6X33 4,89 C",
+   "TABACO LIAR CAJETILLA 4,60 C",
+   "TOTAL (IVA INCLUIDO) 82,68 EUR",
+   "A IVA 4% BASE 0,95 CUOTA 0,04",
+   "B IVA 10% BASE 9,75 CUOTA 0,98",
+   "C IVA 21% BASE 17,32 CUOTA 3,64",
+   "PAGO TARJETA 82,68",
+   "JOR tok Jock 0888",
+   "socio 9618947969",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA N2 7948",
+   "09/11/2026 12:24 CAJA 01",
+   "DESCRIPCIÓN IMPORTE",
+   "LECHE ENTERA 1L 0,99 A",
+   "AGUA 1,5L PACK 6 3,29 B",
+   "AGUA FUENTE CLARA 3,90 B",
+   "BOTELLA 1,5 L",
+   "6 x 0,65",
+   "AGUA MINERAL 1,5L 3,54 B",
+   "6 x 0,59",
+   "TARJETA REGALO 50 50,00",
+   "PAPEL HIGIÉNICO 12R 4,49 C",
+   "PILA AA ALCALINA 4U 6,98 C",
+   "2 x 3,49",
+   "CERVEZA ALBORADA 6X33 4,89 C",
+   "TABACO LIAR CAJETILLA 4,60 C",
+   "TOTAL (IVA INCLUIDO) 82,68 EUR",
+   "A IVA 4% BASE 0,95 CUOTA 0,04",
+   "B IVA 10% BASE 9,75 CUOTA 0,98",
+   "C IVA 21% BASE 17,32 CUOTA 3,64",
+   "PAGO TARJETA 82,68",
+   "JOR tok Jock 0888",
+   "socio 9618947969",
+   "MARCOS ALBERDI",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "FERRETERÍA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alboraday",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA",
+   "N° 7948",
+   "09/11/2026 12:24",
+   "CAJA 01",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "LECHE ENTERA 1L",
+   "0,99 A",
+   "AGUA 1,5L PACK 6",
+   "3,29 B",
+   "AGUA FUENTE CLARA",
+   "3,90 B",
+   "BOTELLA 1,5 L",
+   "6 x 0,65",
+   "AGUA MINERAL 1,5L",
+   "3,54 B",
+   "6 x 0,59",
+   "TARJETA REGALO 50",
+   "50,00",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 C",
+   "PILA AA ALCALINAA 4U",
+   "6,98 C",
+   "2 x 3,49",
+   "CERVEZA ALBORADA 6X33",
+   "4,89 C",
+   "TABACO LIAR CAJETILLA",
+   "4,60 C",
+   "TOTAL (IVA INCLUIDO)",
+   "82,68 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

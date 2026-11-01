@@ -7,53 +7,53 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-04-11T13:23:00",
+  "purchasedAt": "2026-11-06T13:23:00",
   "receiptNumber": "5144",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "日本酒 729mt ¥1,489",
-    "translationEn": "Japanese sake 729ml",
+    "rawText": "日本酒 720mt",
+    "translationEn": "Japanese sake 720 ml",
     "qty": 1,
-    "unitPriceMinor": 1489,
-    "amountMinor": 1489,
-    "taxRateBp": 1000
+    "unitPriceMinor": null,
+    "amountMinor": 1480,
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "北空の天然水 2L ¥1,596※ 6 本ケース",
-    "translationEn": "Natural water from Hokuku 2L",
-    "qty": 6,
-    "unitPriceMinor": null,
+    "rawText": "北空の天然水 2L 6 本ケース",
+    "translationEn": "Kitakara natural water 2L",
+    "qty": 2,
+    "unitPriceMinor": 798,
     "amountMinor": 1596,
-    "taxRateBp": 800
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ソフトキッズおむつ L 34 枚 ¥2,596 2 点 x 1,298",
-    "translationEn": "Soft kids diapers L 34 pieces",
+    "rawText": "ソフトキッズおむつ L 34 枚",
+    "translationEn": "Soft kids diaper L 34 pieces",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "単 3 電池 19 本入 ¥1,194 3 点 x M398",
-    "translationEn": "AA batteries 19 pack",
+    "rawText": "単 3 電池 10 本入",
+    "translationEn": "AA battery 10 pack",
     "qty": 3,
     "unitPriceMinor": 398,
     "amountMinor": 1194,
-    "taxRateBp": 1000
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "ソフトキッズおむつ M 44K ¥1,298",
-    "translationEn": "Soft kids diapers M 44 pack",
+    "rawText": "ソフトキッズおむつ M 44K",
+    "translationEn": "Soft kids diaper M 44K",
     "qty": 1,
-    "unitPriceMinor": 1298,
+    "unitPriceMinor": null,
     "amountMinor": 1298,
-    "taxRateBp": 1000
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 8164,
@@ -81,35 +81,35 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded in this disaster-relief drive.",
-   "confidence": 1
+   "reasonEn": "Japanese sake is alcohol, which this drive does not fund.",
+   "confidence": 0.98
   },
   {
    "lineNo": 2,
    "needId": "water",
-   "needQty": 6,
+   "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Natural water from Hokuku 2L counts toward the drinking water need.",
-   "confidence": 1
+   "reasonEn": "Kitakara natural water 2L counts toward the water need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 3,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Only size M diapers are needed, not size L.",
-   "confidence": 1
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size L diapers are not the size this drive needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": "batteries",
-   "needQty": 57,
+   "needQty": 30,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "AA batteries count toward the batteries need.",
-   "confidence": 1
+   "confidence": 0.9
   },
   {
    "lineNo": 5,
@@ -117,29 +117,174 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Soft kids diapers M 44 pack counts toward the diapers need.",
-   "confidence": 1
+   "reasonEn": "Size M baby diapers count toward the diapers need.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "1f49d683723060abfeae8c84f23586e639f02badee8739b9c7916ed6259f3e85",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1207,
-   "tokensOut": 454,
-   "usdCeiling": 0.016598,
-   "usdActual": 0.002418
+   "tokensIn": 3133,
+   "tokensOut": 821,
+   "usdCeiling": 0.024746,
+   "usdActual": 0.005133
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1241,
+   "tokensIn": 1959,
    "tokensOut": 203,
-   "usdCeiling": 0.016645,
-   "usdActual": 0.001642
+   "usdCeiling": 0.019244,
+   "usdActual": 0.002217
   }
  ],
  "latencyMs": {
-  "read": 5936,
-  "classify": 1833
+  "read": 7404,
+  "classify": 1769
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9042",
+   "登録番号 T9999199699551",
+   "20264F115 068 (#) 13:23",
+   "レジ 92 No.5144",
+   "日本酒 729mt ¥1,489",
+   "北空の天然水 2L ¥1,596※",
+   "6 本ケース",
+   "2m x 単 798",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 点 x 1,298",
+   "単 3 電池 19 本入 ¥1,194",
+   "3 点 x M398",
+   "ソフトキッズおむつ M 44K ¥1,298",
+   "小計 (5 点 ) ¥8,164",
+   "BTR ¥1,596",
+   "19% 対象 ¥6,568",
+   "(内消費税等 8* ¥118)",
+   "(内消費税等 19* Y597)",
+   "合計 ¥8,164",
+   "クレジット FA AAA AAIAAKG O48",
+   "お支払い ¥8,164",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9042",
+   "登録番号 T9999199699551",
+   "20264F115 068 (#) 13:23",
+   "レジ 92 No.5144",
+   "日本酒 729mt ¥1,489",
+   "北空の天然水 2L ¥1,596※",
+   "6 本ケース",
+   "2m x 単 798",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 点 x 1,298",
+   "単 3 電池 19 本入 ¥1,194",
+   "3 点 x M398",
+   "ソフトキッズおむつ M 44K ¥1,298",
+   "小計 (5 点 ) ¥8,164",
+   "BTR ¥1,596",
+   "19% 対象 ¥6,568",
+   "(内消費税等 8* ¥118)",
+   "(内消費税等 19* Y597)",
+   "合計 ¥8,164",
+   "クレジット FA AAA AAIAAKG O48",
+   "お支払い ¥8,164",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "•",
+   "•",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月06日(•) 13:23",
+   "•02",
+   "No.5144",
+   "• 720ml",
+   "¥1,480",
+   "• 2L",
+   "¥1,596×",
+   "6•-2",
+   "2• x ¥798",
+   "• L 34•",
+   "¥2,596",
+   "2• x ¥1,298",
+   "• 10•",
+   "¥1,194",
+   "3• x ¥398",
+   "• M 44•",
+   "¥1,298",
+   "• (5•)",
+   "¥8,164",
+   "8•",
+   "¥1,596",
+   "10•",
+   "¥6,568",
+   "(• 8%",
+   "¥118)",
+   "(• 10%",
+   "¥597)",
+   "•",
+   "¥8,164"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9042",
+    "to": "0042"
+   },
+   {
+    "from": "9999199699551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "20264",
+    "to": "2026"
+   },
+   {
+    "from": "115",
+    "to": "11"
+   },
+   {
+    "from": "068",
+    "to": "06"
+   },
+   {
+    "from": "92",
+    "to": "02"
+   },
+   {
+    "from": "729",
+    "to": "720"
+   },
+   {
+    "from": "1,489",
+    "to": "1,480"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

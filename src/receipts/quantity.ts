@@ -17,7 +17,7 @@ export function packCount(text: string): number | null {
   const t = norm(text);
   const patterns = [
     /(\d{1,3})\s*(?:本|缶|個|袋|箱|ロール)\s*(?:入り?|パック|ケース|セット)?/,
-    /(\d{1,3})\s*['’´]\s*l[üuıi]\b/,
+    /(\d{1,3})\s*['’´]\s*l[üuıi](?![\p{L}\p{N}])/u,
     /(?<![\p{L}\p{N}])(\d{1,3})\s*(?:pk|ct|pcs|pc|pack|count|u)(?![\p{L}\p{N}])/u,
     /(?<![\p{L}\p{N}])(?:pack|pk)\s*(\d{1,3})(?![\p{L}\p{N}])/u,
   ];
@@ -55,6 +55,8 @@ const FORBIDDEN: Record<"alcohol" | "tobacco" | "gift_card", { cjk: string[]; la
     latin: ["gift card", "giftcard", "gift voucher", "voucher", "gift certificate", "prepaid card", "tarjeta regalo", "cheque regalo", "tarjeta de regalo", "hediye kartı", "hediye çeki", "hediye kart"],
   },
 };
+/** OCR takes the dakuten of ビ for a handakuten or doubles the kana: 缶ピール, 缶ビピール. Only where a drink's size or can stands next to it, so ピール (peel) and ヒール (heel) pass. */
+const BEER_MISREAD = /[ヒビピ]{1,2}ー[ルレ].*(?:\d\s*m[l1t]|缶)|缶.*[ヒビピ]{1,2}ー[ルレ]/;
 const NON_ALCOHOLIC = /ノンアルコール|non[- ]?alcoholic|alcohol[- ]free|sin alcohol|alkolsüz|0[.,]0\s*%|shirley|root beer|ginger (?:beer|ale)|gingerale/i;
 const toRe = (words: string[]) => new RegExp(`(?<![\\p{L}\\p{N}])(?:${words.map(norm).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\p{L}\\p{N}])`, "u");
 const LATIN_RE = Object.fromEntries(Object.entries(FORBIDDEN).map(([k, v]) => [k, toRe(v.latin)])) as Record<keyof typeof FORBIDDEN, RegExp>;
@@ -65,6 +67,7 @@ export function forbiddenCategory(text: string): "alcohol" | "tobacco" | "gift_c
   for (const k of ["gift_card", "tobacco", "alcohol"] as const) {
     if (k === "alcohol" && NON_ALCOHOLIC.test(t)) continue;
     if (FORBIDDEN[k].cjk.some((w) => t.includes(w)) || LATIN_RE[k].test(t)) return k;
+    if (k === "alcohol" && BEER_MISREAD.test(t)) return k;
   }
   return null;
 }
@@ -89,6 +92,8 @@ export function refineClassifications(receipt: ParsedReceipt, needs: Need[], lab
     if (hint && c.ruleCode !== hint) {
       return { ...c, verdict: "rejected", needId: null, needQty: null, ruleCode: hint, reasonEn: GENERIC_REASON[hint], confidence: Math.max(c.confidence, 0.9) };
     }
+    // A refused line names no need, whatever need a model said it almost was.
+    if (c.verdict === "rejected" && (c.needId !== null || c.needQty !== null)) return { ...c, needId: null, needQty: null };
     if (c.verdict === "eligible" && c.needId) {
       const need = needs.find((n) => n.id === c.needId);
       const derived = need ? deriveNeedQty(line, need) : null;

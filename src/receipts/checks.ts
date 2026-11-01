@@ -3,6 +3,7 @@
 
 import type { Drive, Need } from "../core/types";
 import { hammingHex, semanticKey, sha256Hex, dHash } from "./hash";
+import { similarity } from "./text";
 import type { FundableLine, LineClassification, NeedProgress, ParsedReceipt, ReceiptImage } from "./types";
 
 // ---------------------------------------------------------------- totals
@@ -136,6 +137,21 @@ export function fingerprint(image: ReceiptImage, receipt: ParsedReceipt): Receip
 
 export type DuplicateKind = "sha256" | "phash" | "semantic";
 
+/** How alike two readings of one store's name must be. Below it, the same minute and total are a coincidence of two stores. */
+const SAME_STORE = 0.7;
+
+/**
+ * The same receipt read twice: same minute, same total and the store read about the same. A second photo is a second
+ * reading, and a reader gets a letter wrong now and then ("SUPER" for "SÜPER").
+ */
+function sameMeaning(a: string | null, b: string | null): boolean {
+  if (a === null || b === null) return false;
+  if (a === b) return true;
+  const [storeA, ...restA] = a.split("|");
+  const [storeB, ...restB] = b.split("|");
+  return restA.join("|") === restB.join("|") && similarity(storeA, storeB) >= SAME_STORE;
+}
+
 export function findDuplicate(
   fp: ReceiptFingerprint,
   known: KnownReceipt[],
@@ -144,7 +160,7 @@ export function findDuplicate(
   const earliest = (list: KnownReceipt[]) => list.reduce<KnownReceipt | null>((a, b) => (a && a.uploadedAt <= b.uploadedAt ? a : b), null);
   const tests: [DuplicateKind, (k: KnownReceipt) => boolean][] = [
     ["sha256", (k) => k.sha256 === fp.sha256],
-    ["semantic", (k) => fp.semanticKey !== null && k.semanticKey === fp.semanticKey],
+    ["semantic", (k) => sameMeaning(fp.semanticKey, k.semanticKey)],
     ["phash", (k) => fp.dHash !== null && k.dHash !== null && hammingHex(fp.dHash, k.dHash) <= maxDistance],
   ];
   for (const [kind, test] of tests) {
@@ -176,7 +192,8 @@ export interface ReceiptFlag {
 
 export const DEFAULT_MIN_CONFIDENCE = 0.7;
 
-const norm = (s: string) => s.normalize("NFKC").toLowerCase();
+// Accents and the Turkish dotless i are the first things a reader gets wrong: "Yildizova" is the zone's Yıldızova.
+const norm = (s: string) => s.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().replace(/ı/g, "i");
 
 export interface CheckInput {
   receipt: ParsedReceipt;
@@ -216,8 +233,11 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   }
 
   const min = input.minConfidence ?? DEFAULT_MIN_CONFIDENCE;
-  const doubtful = (input.classifications ?? []).filter((c) => c.verdict === "review" || c.confidence < min);
-  if (doubtful.length) add("low_confidence", "review", `Line ${doubtful.map((c) => c.lineNo).join(", ")} need a person to confirm.`);
+  const doubtful = (input.classifications ?? []).filter((c) => c.verdict === "review" || c.confidence < min).map((c) => c.lineNo);
+  // A product line the classifier never answered for is not funded: a person should know, not find it missing.
+  const unanswered = input.classifications ? r.lines.filter((l) => l.amountMinor >= 0 && !input.classifications!.some((c) => c.lineNo === l.lineNo)).map((l) => l.lineNo) : [];
+  const toConfirm = [...new Set([...doubtful, ...unanswered])].sort((a, b) => a - b);
+  if (toConfirm.length) add("low_confidence", "review", `Line ${toConfirm.join(", ")} need a person to confirm.`);
   return flags;
 }
 

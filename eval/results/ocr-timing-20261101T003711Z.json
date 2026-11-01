@@ -1,0 +1,610 @@
+{
+ "when": "2026-11-01T00:37:11.125Z",
+ "host": "Mac Studio, shared; one tesseract worker, one process",
+ "photos": 44,
+ "cold": [
+  {
+   "id": "hero-ja-01",
+   "langs": "ja+en",
+   "wallMs": 1324,
+   "cpuS": 1.82
+  },
+  {
+   "id": "v1-en-01",
+   "langs": "en",
+   "wallMs": 435,
+   "cpuS": 0.71
+  },
+  {
+   "id": "v1-es-01",
+   "langs": "es+en",
+   "wallMs": 672,
+   "cpuS": 1.01
+  },
+  {
+   "id": "v1-ja-01",
+   "langs": "ja+en",
+   "wallMs": 710,
+   "cpuS": 1.03
+  },
+  {
+   "id": "v1-tr-01",
+   "langs": "tr+en",
+   "wallMs": 550,
+   "cpuS": 0.87
+  },
+  {
+   "id": "adv-outofzone-es",
+   "langs": "es+en",
+   "wallMs": 502,
+   "cpuS": 0.81
+  },
+  {
+   "id": "adv-outofzone-ja",
+   "langs": "ja+en",
+   "wallMs": 991,
+   "cpuS": 1.33
+  },
+  {
+   "id": "adv-predisaster-en",
+   "langs": "en",
+   "wallMs": 456,
+   "cpuS": 0.76
+  },
+  {
+   "id": "adv-predisaster-ja",
+   "langs": "ja+en",
+   "wallMs": 718,
+   "cpuS": 1.02
+  },
+  {
+   "id": "adv-reshot-en-03",
+   "langs": "en",
+   "wallMs": 468,
+   "cpuS": 0.79
+  },
+  {
+   "id": "adv-reshot-ja-04",
+   "langs": "ja+en",
+   "wallMs": 957,
+   "cpuS": 1.32
+  },
+  {
+   "id": "adv-reshot-tr-02",
+   "langs": "tr+en",
+   "wallMs": 547,
+   "cpuS": 0.87
+  },
+  {
+   "id": "adv-rules-en",
+   "langs": "en",
+   "wallMs": 536,
+   "cpuS": 0.84
+  },
+  {
+   "id": "adv-rules-es",
+   "langs": "es+en",
+   "wallMs": 710,
+   "cpuS": 1.05
+  },
+  {
+   "id": "adv-rules-ja",
+   "langs": "ja+en",
+   "wallMs": 1100,
+   "cpuS": 1.48
+  },
+  {
+   "id": "adv-rules-tr",
+   "langs": "tr+en",
+   "wallMs": 632,
+   "cpuS": 0.92
+  },
+  {
+   "id": "adv-unreadable-ja",
+   "langs": "ja+en",
+   "wallMs": 341,
+   "cpuS": 0.55
+  },
+  {
+   "id": "adv-unreadable-tr",
+   "langs": "tr+en",
+   "wallMs": 300,
+   "cpuS": 0.52
+  }
+ ],
+ "warm": {
+  "ocrWallMsMedian": 462,
+  "ocrWallMsMax": 880,
+  "ocrCpuSMedian": 0.53,
+  "ocrCpuSMax": 0.94,
+  "prepMsMedian": 89,
+  "prepMsMax": 105
+ },
+ "peakRssMb": 478,
+ "rows": [
+  {
+   "id": "hero-ja-01",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 142,
+   "ocrWallMs": 1324,
+   "ocrCpuS": 1.82,
+   "lines": 41,
+   "rssMb": 358
+  },
+  {
+   "id": "v1-en-01",
+   "locale": "en",
+   "langs": "en",
+   "first": true,
+   "prepMs": 114,
+   "ocrWallMs": 435,
+   "ocrCpuS": 0.71,
+   "lines": 21,
+   "rssMb": 321
+  },
+  {
+   "id": "v1-en-02",
+   "locale": "en",
+   "langs": "en",
+   "first": false,
+   "prepMs": 89,
+   "ocrWallMs": 376,
+   "ocrCpuS": 0.49,
+   "lines": 25,
+   "rssMb": 359
+  },
+  {
+   "id": "v1-en-03",
+   "locale": "en",
+   "langs": "en",
+   "first": false,
+   "prepMs": 80,
+   "ocrWallMs": 341,
+   "ocrCpuS": 0.36,
+   "lines": 21,
+   "rssMb": 382
+  },
+  {
+   "id": "v1-en-04",
+   "locale": "en",
+   "langs": "en",
+   "first": false,
+   "prepMs": 85,
+   "ocrWallMs": 336,
+   "ocrCpuS": 0.37,
+   "lines": 25,
+   "rssMb": 379
+  },
+  {
+   "id": "v1-en-05",
+   "locale": "en",
+   "langs": "en",
+   "first": false,
+   "prepMs": 84,
+   "ocrWallMs": 349,
+   "ocrCpuS": 0.42,
+   "lines": 24,
+   "rssMb": 383
+  },
+  {
+   "id": "v1-en-06",
+   "locale": "en",
+   "langs": "en",
+   "first": false,
+   "prepMs": 93,
+   "ocrWallMs": 364,
+   "ocrCpuS": 0.42,
+   "lines": 27,
+   "rssMb": 391
+  },
+  {
+   "id": "v1-es-01",
+   "locale": "es",
+   "langs": "es+en",
+   "first": true,
+   "prepMs": 93,
+   "ocrWallMs": 672,
+   "ocrCpuS": 1.01,
+   "lines": 28,
+   "rssMb": 403
+  },
+  {
+   "id": "v1-es-02",
+   "locale": "es",
+   "langs": "es+en",
+   "first": false,
+   "prepMs": 95,
+   "ocrWallMs": 500,
+   "ocrCpuS": 0.57,
+   "lines": 26,
+   "rssMb": 413
+  },
+  {
+   "id": "v1-es-03",
+   "locale": "es",
+   "langs": "es+en",
+   "first": false,
+   "prepMs": 85,
+   "ocrWallMs": 413,
+   "ocrCpuS": 0.47,
+   "lines": 21,
+   "rssMb": 417
+  },
+  {
+   "id": "v1-es-04",
+   "locale": "es",
+   "langs": "es+en",
+   "first": false,
+   "prepMs": 74,
+   "ocrWallMs": 311,
+   "ocrCpuS": 0.36,
+   "lines": 17,
+   "rssMb": 418
+  },
+  {
+   "id": "v1-es-05",
+   "locale": "es",
+   "langs": "es+en",
+   "first": false,
+   "prepMs": 88,
+   "ocrWallMs": 413,
+   "ocrCpuS": 0.47,
+   "lines": 25,
+   "rssMb": 421
+  },
+  {
+   "id": "v1-es-06",
+   "locale": "es",
+   "langs": "es+en",
+   "first": false,
+   "prepMs": 83,
+   "ocrWallMs": 381,
+   "ocrCpuS": 0.43,
+   "lines": 22,
+   "rssMb": 421
+  },
+  {
+   "id": "v1-ja-01",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 87,
+   "ocrWallMs": 710,
+   "ocrCpuS": 1.03,
+   "lines": 21,
+   "rssMb": 413
+  },
+  {
+   "id": "v1-ja-02",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 86,
+   "ocrWallMs": 628,
+   "ocrCpuS": 0.77,
+   "lines": 20,
+   "rssMb": 458
+  },
+  {
+   "id": "v1-ja-03",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 89,
+   "ocrWallMs": 666,
+   "ocrCpuS": 0.74,
+   "lines": 26,
+   "rssMb": 465
+  },
+  {
+   "id": "v1-ja-04",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 93,
+   "ocrWallMs": 680,
+   "ocrCpuS": 0.74,
+   "lines": 25,
+   "rssMb": 472
+  },
+  {
+   "id": "v1-ja-05",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 91,
+   "ocrWallMs": 609,
+   "ocrCpuS": 0.66,
+   "lines": 27,
+   "rssMb": 474
+  },
+  {
+   "id": "v1-ja-06",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 101,
+   "ocrWallMs": 758,
+   "ocrCpuS": 0.84,
+   "lines": 29,
+   "rssMb": 462
+  },
+  {
+   "id": "v1-ja-07",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 104,
+   "ocrWallMs": 880,
+   "ocrCpuS": 0.94,
+   "lines": 31,
+   "rssMb": 467
+  },
+  {
+   "id": "v1-ja-08",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 101,
+   "ocrWallMs": 724,
+   "ocrCpuS": 0.77,
+   "lines": 28,
+   "rssMb": 476
+  },
+  {
+   "id": "v1-ja-09",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 93,
+   "ocrWallMs": 628,
+   "ocrCpuS": 0.67,
+   "lines": 24,
+   "rssMb": 475
+  },
+  {
+   "id": "v1-ja-10",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 92,
+   "ocrWallMs": 598,
+   "ocrCpuS": 0.64,
+   "lines": 24,
+   "rssMb": 477
+  },
+  {
+   "id": "v1-ja-11",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 92,
+   "ocrWallMs": 597,
+   "ocrCpuS": 0.66,
+   "lines": 25,
+   "rssMb": 478
+  },
+  {
+   "id": "v1-ja-12",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": false,
+   "prepMs": 87,
+   "ocrWallMs": 630,
+   "ocrCpuS": 0.7,
+   "lines": 24,
+   "rssMb": 477
+  },
+  {
+   "id": "v1-tr-01",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": true,
+   "prepMs": 83,
+   "ocrWallMs": 550,
+   "ocrCpuS": 0.87,
+   "lines": 19,
+   "rssMb": 412
+  },
+  {
+   "id": "v1-tr-02",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": false,
+   "prepMs": 91,
+   "ocrWallMs": 452,
+   "ocrCpuS": 0.53,
+   "lines": 20,
+   "rssMb": 418
+  },
+  {
+   "id": "v1-tr-03",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": false,
+   "prepMs": 105,
+   "ocrWallMs": 551,
+   "ocrCpuS": 0.6,
+   "lines": 28,
+   "rssMb": 425
+  },
+  {
+   "id": "v1-tr-04",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": false,
+   "prepMs": 80,
+   "ocrWallMs": 426,
+   "ocrCpuS": 0.47,
+   "lines": 22,
+   "rssMb": 427
+  },
+  {
+   "id": "v1-tr-05",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": false,
+   "prepMs": 81,
+   "ocrWallMs": 447,
+   "ocrCpuS": 0.51,
+   "lines": 22,
+   "rssMb": 427
+  },
+  {
+   "id": "v1-tr-06",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": false,
+   "prepMs": 90,
+   "ocrWallMs": 462,
+   "ocrCpuS": 0.53,
+   "lines": 26,
+   "rssMb": 369
+  },
+  {
+   "id": "adv-outofzone-es",
+   "locale": "es",
+   "langs": "es+en",
+   "first": true,
+   "prepMs": 86,
+   "ocrWallMs": 502,
+   "ocrCpuS": 0.81,
+   "lines": 18,
+   "rssMb": 353
+  },
+  {
+   "id": "adv-outofzone-ja",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 98,
+   "ocrWallMs": 991,
+   "ocrCpuS": 1.33,
+   "lines": 28,
+   "rssMb": 410
+  },
+  {
+   "id": "adv-predisaster-en",
+   "locale": "en",
+   "langs": "en",
+   "first": true,
+   "prepMs": 90,
+   "ocrWallMs": 456,
+   "ocrCpuS": 0.76,
+   "lines": 22,
+   "rssMb": 338
+  },
+  {
+   "id": "adv-predisaster-ja",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 85,
+   "ocrWallMs": 718,
+   "ocrCpuS": 1.02,
+   "lines": 20,
+   "rssMb": 372
+  },
+  {
+   "id": "adv-reshot-en-03",
+   "locale": "en",
+   "langs": "en",
+   "first": true,
+   "prepMs": 87,
+   "ocrWallMs": 468,
+   "ocrCpuS": 0.79,
+   "lines": 21,
+   "rssMb": 346
+  },
+  {
+   "id": "adv-reshot-ja-04",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 88,
+   "ocrWallMs": 957,
+   "ocrCpuS": 1.32,
+   "lines": 25,
+   "rssMb": 418
+  },
+  {
+   "id": "adv-reshot-tr-02",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": true,
+   "prepMs": 89,
+   "ocrWallMs": 547,
+   "ocrCpuS": 0.87,
+   "lines": 19,
+   "rssMb": 366
+  },
+  {
+   "id": "adv-rules-en",
+   "locale": "en",
+   "langs": "en",
+   "first": true,
+   "prepMs": 103,
+   "ocrWallMs": 536,
+   "ocrCpuS": 0.84,
+   "lines": 29,
+   "rssMb": 358
+  },
+  {
+   "id": "adv-rules-es",
+   "locale": "es",
+   "langs": "es+en",
+   "first": true,
+   "prepMs": 102,
+   "ocrWallMs": 710,
+   "ocrCpuS": 1.05,
+   "lines": 30,
+   "rssMb": 355
+  },
+  {
+   "id": "adv-rules-ja",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 98,
+   "ocrWallMs": 1100,
+   "ocrCpuS": 1.48,
+   "lines": 30,
+   "rssMb": 417
+  },
+  {
+   "id": "adv-rules-tr",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": true,
+   "prepMs": 94,
+   "ocrWallMs": 632,
+   "ocrCpuS": 0.92,
+   "lines": 23,
+   "rssMb": 360
+  },
+  {
+   "id": "adv-unreadable-ja",
+   "locale": "ja",
+   "langs": "ja+en",
+   "first": true,
+   "prepMs": 79,
+   "ocrWallMs": 341,
+   "ocrCpuS": 0.55,
+   "lines": 2,
+   "rssMb": 378
+  },
+  {
+   "id": "adv-unreadable-tr",
+   "locale": "tr",
+   "langs": "tr+en",
+   "first": true,
+   "prepMs": 72,
+   "ocrWallMs": 300,
+   "ocrCpuS": 0.52,
+   "lines": 2,
+   "rssMb": 358
+  }
+ ]
+}

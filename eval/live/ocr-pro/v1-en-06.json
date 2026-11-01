@@ -12,93 +12,66 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AA BATTERY 8PK $7.99 T",
-    "translationEn": "AA Battery 8 pack",
-    "qty": 8,
-    "unitPriceMinor": 799,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries 8 pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 799,
-    "taxRateBp": 1000
+    "taxRateBp": 725
    },
    {
     "lineNo": 2,
-    "rawText": "DIAPERS SZ 5 72CT $24.99 T",
+    "rawText": "DIAPERS SZ 5 72CT",
     "translationEn": "Diapers size 5 72 count",
-    "qty": 72,
-    "unitPriceMinor": 2499,
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 2499,
-    "taxRateBp": 1000
+    "taxRateBp": 725
    },
    {
     "lineNo": 3,
-    "rawText": "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
-    "translationEn": "Softies Diapers size 3 38 count",
-    "qty": 38,
-    "unitPriceMinor": 3747,
-    "amountMinor": 3747,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "3 @ $12.49",
-    "translationEn": "3 items at $12.49 each",
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3 38 count",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
-    "taxRateBp": 1000
+    "taxRateBp": 725
    },
    {
-    "lineNo": 5,
-    "rawText": "SPRING WATER 1GAL $5.96 F",
+    "lineNo": 4,
+    "rawText": "SPRING WATER 1GAL",
     "translationEn": "Spring water 1 gallon",
-    "qty": 1,
-    "unitPriceMinor": 596,
-    "amountMinor": 596,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 6,
-    "rawText": "4 @ $1.49",
-    "translationEn": "4 items at $1.49 each",
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
-    "taxRateBp": 0
+    "taxRateBp": null
    },
    {
-    "lineNo": 7,
-    "rawText": "BREAD WHEAT $2.79 F",
+    "lineNo": 5,
+    "rawText": "BREAD WHEAT",
     "translationEn": "Bread wheat",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 279,
     "amountMinor": 279,
-    "taxRateBp": 0
+    "taxRateBp": null
    },
    {
-    "lineNo": 8,
-    "rawText": "DEER CREEK WATER $5.07 F 1 GALLON JUG",
+    "lineNo": 6,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
     "translationEn": "Deer Creek water 1 gallon jug",
-    "qty": 1,
-    "unitPriceMinor": 507,
-    "amountMinor": 507,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 9,
-    "rawText": "3 @ $1.69",
-    "translationEn": "3 items at $1.69 each",
     "qty": 3,
     "unitPriceMinor": 169,
     "amountMinor": 507,
-    "taxRateBp": 0
+    "taxRateBp": null
    },
    {
-    "lineNo": 10,
-    "rawText": "GIFT CARD $25 $25.00 F",
-    "translationEn": "Gift card $25",
-    "qty": null,
-    "unitPriceMinor": 2500,
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift card",
+    "qty": 100,
+    "unitPriceMinor": 25,
     "amountMinor": 2500,
-    "taxRateBp": 0
+    "taxRateBp": null
    }
   ],
   "subtotalMinor": 10927,
@@ -107,16 +80,6 @@
   "totalMinor": 11438,
   "pii": [
    {
-    "kind": "name",
-    "text": "JORDAN WELLS",
-    "bbox": {
-     "x": 0.16523967758436178,
-     "y": 0.7829088042287824,
-     "w": 0.1737361164885952,
-     "h": 0.017643321518208244
-    }
-   },
-   {
     "kind": "member_id",
     "text": "3694265361",
     "bbox": {
@@ -124,6 +87,16 @@
      "y": 0.8234253009110816,
      "w": 0.14579449754828788,
      "h": 0.0170428097535954
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.16523967758436178,
+     "y": 0.7829088042287824,
+     "w": 0.1737361164885952,
+     "h": 0.017643321518208244
     }
    }
   ],
@@ -136,7 +109,7 @@
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries in 8 pack count toward the batteries need.",
+   "reasonEn": "AA batteries in an 8 pack count toward the batteries need.",
    "confidence": 0.95
   },
   {
@@ -145,101 +118,159 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Diapers size 5 do not match the listed need for size 3 diapers.",
+   "reasonEn": "Diapers size 5 are not the size this drive needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
    "needId": "diapers",
-   "needQty": 38,
+   "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Softies Diapers size 3 38 count match the listed need for size 3 diapers.",
+   "reasonEn": "Softies diapers size 3 count toward the diapers need.",
    "confidence": 0.95
   },
   {
    "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The items are not clearly identified, so their eligibility cannot be determined.",
-   "confidence": 0.5
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Spring water 1 gallon counts toward the water need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread wheat is not one of the needs.",
    "confidence": 0.95
   },
   {
    "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The items are not clearly identified, so their eligibility cannot be determined.",
-   "confidence": 0.5
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 7,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Bread wheat does not match any listed need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": "water",
-   "needQty": 1,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Deer Creek water 1 gallon jug counts toward the water need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "The items are not clearly identified, so their eligibility cannot be determined.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
    "ruleCode": "gift_card",
-   "reasonEn": "Gift cards are not funded according to the drive rules.",
-   "confidence": 1
+   "reasonEn": "Gift cards are not funded by this drive.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "21e050866203401eea66ff950162179bd003061b80a8065284c07e169ad25585",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1164,
-   "tokensOut": 687,
-   "usdCeiling": 0.01671,
-   "usdActual": 0.00313
+   "tokensIn": 2961,
+   "tokensOut": 910,
+   "usdCeiling": 0.024862,
+   "usdActual": 0.005281
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1400,
-   "tokensOut": 415,
-   "usdCeiling": 0.017167,
-   "usdActual": 0.002448
+   "tokensIn": 1994,
+   "tokensOut": 294,
+   "usdCeiling": 0.019447,
+   "usdActual": 0.002536
   }
  ],
  "latencyMs": {
-  "read": 8426,
-  "classify": 3842
+  "read": 7380,
+  "classify": 2374
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/03/2026 01:41 PM REG 06",
+   "TRANS #2492",
+   "AA BATTERY 8PK $7.99 T",
+   "DIAPERS SZ 5 72CT $24.99 T",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "BREAD WHEAT $2.79 F",
+   "DEER CREEK WATER $5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "GIFT CARD $25 $25.00 F",
+   "SUBTOTAL $109.27",
+   "SALES TAX 7.25% $5.11",
+   "TOTAL $114.38",
+   "CASH $120.00",
+   "CHANGE $5.62",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 3694265361",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/03/2026 01:41 PM REG 06",
+   "TRANS #2492",
+   "AA BATTERY 8PK $7.99 T",
+   "DIAPERS SZ 5 72CT $24.99 T",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "BREAD WHEAT $2.79 F",
+   "DEER CREEK WATER $5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "GIFT CARD $25 $25.00 F",
+   "SUBTOTAL $109.27",
+   "SALES TAX 7.25% $5.11",
+   "TOTAL $114.38",
+   "CASH $120.00",
+   "CHANGE $5.62",
+   "REWARDS MEMBER",
+   "JORDAN WELLS",
+   "MEMBER # 3694265361",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU ~ COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/03/2026 01:41 PM REG 06",
+   "TRANS #2492",
+   "AA BATTERY 8PK $7.99 T",
+   "DIAPERS SZ 5 72CT $24.99 T",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "BREAD WHEAT $2.79 F",
+   "DEER CREEK WATER $5.07 F",
+   "1 GALLON JUG",
+   "3 @ $1.69",
+   "GIFT CARD $25 $25.00 F",
+   "SUBTOTAL $109.27",
+   "SALES TAX 7.25% $5.11",
+   "TOTAL $114.38"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

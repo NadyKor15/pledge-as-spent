@@ -9,7 +9,7 @@ describe("pack size from the name", () => {
   it("reads the pack count in the four languages", () => {
     const cases: [string, number | null][] = [
       ["アルカリ乾電池 単3 20本入", 20], ["水 2L 6本ケース", 6], ["ツナ缶 3缶パック", 3], ["単3 ばら", null], ["ミネラルウォーター 2L", null],
-      ["AA PİL 10'LU PAKET", 10], ["SEVİMLİ NO:4 JUMBO 42'Lİ", 42], ["KAYNAK SU 5 LT", null],
+      ["AA PİL 10'LU PAKET", 10], ["AA KALEM PİL 4'LÜ", 4], ["SEVİMLİ NO:4 JUMBO 42'Lİ", 42], ["KAYNAK SU 5 LT", null],
       ["PILAS AA LR6 8U", 8], ["AGUA 1,5L PACK 6", 6], ["AGUA MINERAL 1,5L", null],
       ["AA ALKALINE 24PK", 24], ["PURE WTR 1GAL 4CT", 4], ["SPRING WATER 1GAL", null], ["FLEECE THROW", null],
     ];
@@ -41,6 +41,11 @@ describe("needQty from the printed row", () => {
 });
 
 describe("forbidden categories by name", () => {
+  it("catches beer whose kana OCR misread, only next to a can or a size", () => {
+    for (const t of ["缶ピール 350m 6 缶", "缶ビピール 350ml 6缶", "ヒール 500ml"]) expect(forbiddenCategory(t), t).toBe("alcohol");
+    for (const t of ["オレンジピール 80g", "ヒール 靴用", "シール 6枚"]) expect(forbiddenCategory(t), t).toBeNull();
+  });
+
   it("finds alcohol, tobacco and gift cards in four languages and leaves everything else", () => {
     const yes: [string, string][] = [["缶ビール 350ml", "alcohol"], ["日本酒 720ml", "alcohol"], ["RAKI 70 CL", "alcohol"], ["VINO TINTO", "alcohol"], ["LAGER 6PK", "alcohol"], ["YILDIZ SİGARA", "tobacco"], ["TABACO LIAR", "tobacco"], ["CIGARETTES", "tobacco"], ["たばこ", "tobacco"], ["ギフトカード 3,000円", "gift_card"], ["TARJETA REGALO 50", "gift_card"], ["HEDİYE KARTI 500 TL", "gift_card"], ["GIFT CARD $25", "gift_card"], ["商品券", "gift_card"]];
     for (const [t, k] of yes) expect(forbiddenCategory(t), t).toBe(k);
@@ -61,6 +66,11 @@ describe("refining a classifier's answer", () => {
     expect(out[3]).toEqual(labels[3]); // a discount is left alone
     expect(water.id).toBe("water");
   });
+  it("clears the need of a refused line, so nothing downstream reads it as that need", () => {
+    const l = [cls(1, { verdict: "rejected", needId: "diapers", needQty: 2, ruleCode: "not_in_needs", reasonEn: "Wrong size." })];
+    expect(refineClassifications(receipt({ lines: [{ ...line(1, 500), rawText: "PAÑALES T4" }] }), needs, l)[0]).toMatchObject({ verdict: "rejected", needId: null, needQty: null, ruleCode: "not_in_needs" });
+  });
+
   it("keeps a rejected line's own rule code when it already names the right one", () => {
     const l = [cls(1), cls(2, { verdict: "rejected", needId: null, needQty: null, ruleCode: "alcohol", reasonEn: "Beer.", confidence: 0.5 }), cls(3), cls(4)];
     expect(refineClassifications(r, needs, l)[1]).toEqual(l[1]);

@@ -1,0 +1,212 @@
+{
+ "receiptId": "v1-tr-04",
+ "set": "v1",
+ "imageSha256": "57525c6e67184d9fce7de878f407d7aadfdfa1ab18b7f8b1a9f735b25bbbb618",
+ "reading": {
+  "merchantName": "GOLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7, Yildizova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T08:26:00",
+  "receiptNumber": "8832",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diapers size 3, 44 pack",
+    "qty": 1,
+    "unitPriceMinor": 27900,
+    "amountMinor": 27900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "KAYNAK SU @,5L 12'Lİ",
+    "translationEn": "Spring water 0.5L, 12 pack",
+    "qty": 1,
+    "unitPriceMinor": 5490,
+    "amountMinor": 5490,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4, 20 pack",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries, 10 pack",
+    "qty": 1,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 17644,
+  "taxIncluded": false,
+  "totalMinor": 108360,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "i soe bb took 6869",
+    "bbox": {
+     "x": 0.10402509287930321,
+     "y": 0.7818035175885857,
+     "w": 0.36573063139600076,
+     "h": 0.030329273787050304
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby diapers size 3 are not the size 4 this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spring water in 0.5L bottles is not the 5L size this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "3b06780c84c7e92432f6f949e9e4396981b5afaf1c60c7d1190ef7720d631b3e",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3963,
+   "tokensOut": 779,
+   "usdCeiling": 0.017619000000000003,
+   "usdActual": 0.002835
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1920,
+   "tokensOut": 197,
+   "usdCeiling": 0.019137,
+   "usdActual": 0.002166
+  }
+ ],
+ "latencyMs": {
+  "read": 6774,
+  "classify": 2045
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "Si SAE",
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 09.11.2026 08:26 FİŞ NO: 8832",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "KAYNAK SU @,5L 12'Lİ %10 *54,90",
+   "MİNİ BEBEK BEZİ 4 NO «20 *579,80",
+   "2 x 289,90",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "KDV %1@ MATRAH 49,91 *4,99",
+   "| KDV 20 MATRAH 857,25 *171,45",
+   "I TOPKDV *176,44",
+   "TOPLAM *1.083,60",
+   "\\ KREDİ KARTI *1.083,60",
+   "i soe bb took 6869",
+   "h TEŞEKKÜR EDERİZ",
+   "|",
+   "he",
+   "he"
+  ],
+  "reread": [
+   "Si SAE",
+   "GOLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARİH: 09.11.2026 08:26 FİŞ NO: 8832",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "KAYNAK SU @,5L 12'Lİ %10 *54,90",
+   "MİNİ BEBEK BEZİ 4 NO «20 *579,80",
+   "2 x 289,90",
+   "AA PİL 10'LU PAKET «20 *169,90",
+   "KDV %1@ MATRAH 49,91 *4,99",
+   "| KDV 20 MATRAH 857,25 *171,45",
+   "I TOPKDV *176,44",
+   "TOPLAM *1.083,60",
+   "\\ KREDİ KARTI *1.083,60",
+   "i soe bb took 6869",
+   "h TEŞEKKÜR EDERİZ",
+   "|",
+   "he",
+   "he"
+  ],
+  "photoNumbers": [
+   "GÖLPINAR TOPTAN GIDA",
+   "Sanayi Sk. No:7",
+   "Yildizova",
+   "TEL 0 555 000 00 57",
+   "VKN: 0000000057",
+   "TARIH: 09.11.2026 08:26",
+   "FIS NO: 8832",
+   "BEBÉK BEZI 3 NO 44'LÜ",
+   "%20 *279,00",
+   "KAYNA K SU 0,5L 12'Lİ",
+   "%10 *54,90",
+   "MİNİ BEBÉK BEZI 4 NO",
+   "%20 *579,80",
+   "2 X 289,90",
+   "AA PİL 10'LU PAKET",
+   "%20 *169,90",
+   "KDV %10 MATRAH 49,91",
+   "*4,99",
+   "KDV %20 MATRAH 857,25",
+   "*171,45",
+   "TOPKDV",
+   "*176,44",
+   "TOPLAM",
+   "*1.083,60",
+   "*1 083,60"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
+}

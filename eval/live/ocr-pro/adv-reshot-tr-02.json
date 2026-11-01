@@ -4,7 +4,7 @@
  "imageSha256": "557c217f97d2aec4f34043854b254e36abfdf9e8bd478dfdafcb306f936daf49",
  "reading": {
   "merchantName": "SUPER YILDIZ MARKET",
-  "merchantAddress": "Çarşı Cd. No:12",
+  "merchantAddress": "Çarşı Cd. No:12, Merkez / Yıldızova",
   "country": "TR",
   "currency": "TRY",
   "purchasedAt": "2026-11-06T14:36:00",
@@ -12,75 +12,37 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "DAĞ SUYU SL «10 *21,98",
-    "translationEn": "",
-    "qty": 10,
-    "unitPriceMinor": 2198,
-    "amountMinor": 2198,
-    "taxRateBp": null
+    "rawText": "DAĞ SUYU SL",
+    "translationEn": "Mountain water",
+    "qty": 1,
+    "unitPriceMinor": 2190,
+    "amountMinor": 2190,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 2,
-    "rawText": "İNDİRİM “19 *-3,29",
-    "translationEn": "",
-    "qty": 19,
-    "unitPriceMinor": -329,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": -329,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "SEVİMLİ BEBEK BEZİ «20 *349,00",
-    "translationEn": "",
-    "qty": 20,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Cute baby diaper",
+    "qty": 1,
     "unitPriceMinor": 34900,
     "amountMinor": 34900,
     "taxRateBp": null
-   },
-   {
-    "lineNo": 4,
-    "rawText": "KDV %1@ MATRAH 16,92 *1,69",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 1692,
-    "amountMinor": 1692,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 5,
-    "rawText": "KDV %2@ MATRAH 290,83 «58,17",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 29083,
-    "amountMinor": 5817,
-    "taxRateBp": 2000
    }
   ],
-  "subtotalMinor": 30775,
+  "subtotalMinor": null,
   "taxMinor": 5986,
   "taxIncluded": false,
   "totalMinor": 36761,
   "pii": [
-   {
-    "kind": "phone",
-    "text": "0 555 000 00 42",
-    "bbox": {
-     "x": 0.432030393443961,
-     "y": 0.2576675134583382,
-     "w": 0.21603361723754766,
-     "h": 0.023847145227837208
-    }
-   },
-   {
-    "kind": "card_number",
-    "text": "seek aölek tok 7374",
-    "bbox": {
-     "x": 0.3924558988224552,
-     "y": 0.7051378402800667,
-     "w": 0.056354985166649496,
-     "h": 0.01765403081649153
-    }
-   },
    {
     "kind": "member_id",
     "text": "7724103405",
@@ -89,6 +51,16 @@
      "y": 0.7673971420991136,
      "w": 0.1422749246876549,
      "h": 0.02270512533010627
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek aölek tok 7374",
+    "bbox": {
+     "x": 0.16527043714355732,
+     "y": 0.6963326640081534,
+     "w": 0.28354044684554736,
+     "h": 0.029043440302742196
     }
    },
    {
@@ -102,38 +74,145 @@
     }
    }
   ],
-  "readability": "poor"
+  "readability": "good"
  },
  "classifications": [
   {
-   "lineNo": 5,
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mountain water in a 5 L bottle counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
    "needId": null,
    "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item does not match any of the listed needs.",
-   "confidence": 0.95
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line is unclear and requires further review.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Cute baby diaper size 4 counts toward the diapers need.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "00e4bcd1fc3f64c9fc7e06ccf606e4da62a01f04c3adb7d72fcdb3fb2f1b280a",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1155,
-   "tokensOut": 449,
-   "usdCeiling": 0.016593,
-   "usdActual": 0.002361
+   "tokensIn": 2657,
+   "tokensOut": 702,
+   "usdCeiling": 0.024746,
+   "usdActual": 0.004372
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1164,
-   "tokensOut": 206,
-   "usdCeiling": 0.016475,
-   "usdActual": 0.00159
+   "tokensIn": 1838,
+   "tokensOut": 130,
+   "usdCeiling": 0.018959,
+   "usdActual": 0.001886
   }
  ],
  "latencyMs": {
-  "read": 7055,
-  "classify": 1966
+  "read": 5484,
+  "classify": 1625
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU SL «10 *21,98",
+   "İNDİRİM “19 *-3,29",
+   "SEVİMLİ BEBEK BEZİ «20 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV %2@ MATRAH 290,83 «58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDI KARTI *367,61",
+   "seek aölek tok 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "SUPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU SL «10 *21,98",
+   "İNDİRİM “19 *-3,29",
+   "SEVİMLİ BEBEK BEZİ «20 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV %2@ MATRAH 290,83 «58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDI KARTI *367,61",
+   "seek aölek tok 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarş1 Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 06.11.2026 14:36",
+   "FİŞ NO: 9824",
+   "DAĞ SUYU 5 L",
+   "%10 *21,90",
+   "İNDİRİM",
+   "%10 *-3,29",
+   "SEVİMLİ BEBEK BEZİ",
+   "%20 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %10 MATRAH 16,92",
+   "*1,69",
+   "KDV %20 MATRAH 290,83",
+   "*58,17",
+   "TOPKDV",
+   "*59,86",
+   "TOPLAM",
+   "*367,61",
+   "*367,61"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "21,98",
+    "to": "21,90"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
 }

@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市中央 3-5-12",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-09-27T11:20:00",
+  "purchasedAt": "2026-10-27T11:20:00",
   "receiptNumber": "3996",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "NC-37 ルツ M ¥1,098 —",
-    "translationEn": "",
+    "rawText": "NC-37 ルツ M",
+    "translationEn": "NC-37 Ruts M",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -21,44 +21,26 @@
    },
    {
     "lineNo": 2,
-    "rawText": "単 3 電池 19 本入 ¥796",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 796,
-    "amountMinor": 796,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 3,
-    "rawText": "2 点 x 単 398",
-    "translationEn": "",
+    "rawText": "単 3 電池 10 本入",
+    "translationEn": "AA battery 10 pack",
     "qty": 2,
     "unitPriceMinor": 398,
     "amountMinor": 796,
     "taxRateBp": null
    },
    {
-    "lineNo": 4,
-    "rawText": "ボタン電池 CR2032 ¥398",
-    "translationEn": "",
+    "lineNo": 3,
+    "rawText": "ボタン電池 CR2032",
+    "translationEn": "Button battery CR2032",
     "qty": 1,
     "unitPriceMinor": 398,
     "amountMinor": 398,
     "taxRateBp": null
    },
    {
-    "lineNo": 5,
-    "rawText": "単 4 アルカリ乾電池 4 本入 ¥476",
-    "translationEn": "",
-    "qty": 1,
-    "unitPriceMinor": 476,
-    "amountMinor": 476,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 6,
-    "rawText": "2 点 x 単 238",
-    "translationEn": "",
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline dry cell 4 pack",
     "qty": 2,
     "unitPriceMinor": 238,
     "amountMinor": 476,
@@ -72,12 +54,12 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "クレジット本キキ本末本本ネネネネ 9728",
+    "text": "本 キキ 本 末 本 本 ネネ ネネ 9728",
     "bbox": {
-     "x": 0.7437940769692758,
-     "y": 0.7670951868821632,
-     "w": 0.05169052448343103,
-     "h": 0.016940915056342987
+     "x": 0.5646413473007564,
+     "y": 0.7571909091810168,
+     "w": 0.23106077064264174,
+     "h": 0.035363474045762455
     }
    }
   ],
@@ -91,73 +73,159 @@
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "Baby diapers size M count toward the diapers need.",
-   "confidence": 0.95
+   "confidence": 0.9
   },
   {
    "lineNo": 2,
    "needId": "batteries",
-   "needQty": 19,
+   "needQty": 20,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
-   "confidence": 0.95
+   "reasonEn": "A pack of 10 AA batteries counts as 20 toward the batteries need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
-   "needId": "batteries",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Button batteries are not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Button batteries do not count toward the batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "AAA batteries do not count toward the batteries need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": "batteries",
-   "needQty": 2,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA batteries count toward the batteries need.",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "c80ef126f6fbb6c386339dab3d63d0d572a9c7dde213056e4c6e01d6f7366bf2",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1148,
-   "tokensOut": 372,
-   "usdCeiling": 0.016514,
-   "usdActual": 0.002109
+   "tokensIn": 3689,
+   "tokensOut": 617,
+   "usdCeiling": 0.024666,
+   "usdActual": 0.004926
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1190,
-   "tokensOut": 235,
-   "usdCeiling": 0.016554,
-   "usdActual": 0.001704
+   "tokensIn": 1905,
+   "tokensOut": 170,
+   "usdCeiling": 0.019112,
+   "usdActual": 0.002068
   }
  ],
  "latencyMs": {
-  "read": 5740,
-  "classify": 2299
+  "read": 5377,
+  "classify": 1549
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ドラッグヒカリ",
+   "北空中央店 j",
+   "空川県北空市中央 3-5-12",
+   "TEL 9123-33-7788",
+   "登録番号 T9969196990634",
+   "2926 年 19 月 27 日 ( 火 ) 11:20",
+   "レジ 94 No.3996",
+   "NC-37 ルツ M ¥1,098 —",
+   "単 3 電池 19 本入 ¥796",
+   "2 点 x 単 398",
+   "ボタン電池 CR2032 ¥398",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥2,768",
+   "16*% 対象 ¥2,768",
+   "(内消費税等 19* ¥251)",
+   "合計 ¥2,768",
+   "クレジット本キキ本末本本ネネネネ 9728",
+   "お支払い ¥2,768",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "カフェ ド クリエ",
+   "東京都新宿区西新宿3-5-12",
+   "TEL 0123-33-7788",
+   "レシート番号 T00001000000634",
+   "2026年10月27日(木) 11:20",
+   "レジ04",
+   "No.3996",
+   "•-• M",
+   "¥1,098",
+   "• 10• ¥796",
+   "2• x ¥398",
+   "• CR2032",
+   "¥398",
+   "• 4• 4•",
+   "¥476",
+   "2• x ¥238",
+   "• (4•)",
+   "¥2,768",
+   "10%•",
+   "¥2,768",
+   "(• 10%",
+   "¥251)",
+   "•",
+   "¥2,768"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

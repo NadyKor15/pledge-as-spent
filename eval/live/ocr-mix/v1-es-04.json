@@ -1,0 +1,174 @@
+{
+ "receiptId": "v1-es-04",
+ "set": "v1",
+ "imageSha256": "0d464b243050cf05623d6ce260f1b35ec1d1ff9f56d535b03f3feb83fff20f25",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T20:36:00",
+  "receiptNumber": "8426",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12R",
+    "qty": 1,
+    "unitPriceMinor": 449,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline battery 4U",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA LR6 batteries 8U",
+    "qty": 1,
+    "unitPriceMinor": 599,
+    "amountMinor": 599,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 303,
+  "taxIncluded": true,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "Ao aloja ola 5572",
+    "bbox": {
+     "x": 0.16690612933781596,
+     "y": 0.7595378022317777,
+     "w": 0.2745708791491367,
+     "h": 0.02771102863073105
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA LR6 batteries count toward the batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "b9043cfc75e62de26bde7cb29225ee7c1c4ad528baaa33087836cf4a09725d14",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2525,
+   "tokensOut": 479,
+   "usdCeiling": 0.017554,
+   "usdActual": 0.002047
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1849,
+   "tokensOut": 130,
+   "usdCeiling": 0.018982,
+   "usdActual": 0.001895
+  }
+ ],
+ "latencyMs": {
+  "read": 4466,
+  "classify": 1209
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "reread": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA N2 8426",
+   "04/11/2026 20:36 CAJA 05",
+   "DESCRIPCIÓN IMPORTE",
+   "PAPEL HIGIÉNICO 12R 4,49 A",
+   "PILA AA ALCALINA 4U 6,98 A",
+   "2x 3,49",
+   "PILAS AA LR6 8U 5,99 A",
+   "TOTAL (IVA INCLUIDO) 17,46 EUR",
+   "A IVA 21% BASE 14,43 CUOTA 3,03",
+   "PAGO TARJETA 17,46",
+   "Ao aloja ola 5572",
+   "GRACIAS POR SU VISITA"
+  ],
+  "photoNumbers": [
+   "SUPERMERCADO EL FARO",
+   "Av. del Rio 45",
+   "00000 Villa Alborada",
+   "TEL 900 000 057",
+   "CIF B00000057",
+   "FACTURA SIMPLIFICADA",
+   "N° 8426",
+   "04/11/2026 20:36",
+   "CAJA 05",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "PAPEL HIGIÉNICO 12R",
+   "4,49 A",
+   "PILA AA ALCALINÁ 4U",
+   "6,98 A",
+   "2 X 3,49",
+   "PILAS AA LR6 8U",
+   "5,99 A",
+   "TOTAL (IVA INCLUIDO)",
+   "17,46 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

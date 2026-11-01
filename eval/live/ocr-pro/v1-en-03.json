@@ -12,47 +12,38 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "SPRING WATER 1GAL $5.96 F",
+    "rawText": "SPRING WATER 1GAL",
     "translationEn": "Spring water 1 gal",
-    "qty": 1,
-    "unitPriceMinor": 596,
-    "amountMinor": 596,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 2,
-    "rawText": "4 @ $1.49",
-    "translationEn": "4 x $1.49",
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
     "taxRateBp": 0
    },
    {
-    "lineNo": 3,
-    "rawText": "LAGER 6PK BTL $9.99 T",
-    "translationEn": "Lager 6-pack bottle",
-    "qty": null,
-    "unitPriceMinor": 999,
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
     "amountMinor": 999,
-    "taxRateBp": 725
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries 24-pack",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1599,
+    "taxRateBp": 1000
    },
    {
     "lineNo": 4,
-    "rawText": "AA ALKALINE 24PK $15.99 T",
-    "translationEn": "AA alkaline 24-pack",
-    "qty": null,
-    "unitPriceMinor": 1599,
-    "amountMinor": 1599,
-    "taxRateBp": 725
-   },
-   {
-    "lineNo": 5,
-    "rawText": "COUPON $2.40",
+    "rawText": "COUPON",
     "translationEn": "Coupon",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 149,
+    "amountMinor": -240,
     "taxRateBp": null
    }
   ],
@@ -62,13 +53,23 @@
   "totalMinor": 3125,
   "pii": [
    {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": {
+     "x": 0.684640522875817,
+     "y": 0.7762890783597239,
+     "w": 0.1470588235294118,
+     "h": 0.01705237515225333
+    }
+   },
+   {
     "kind": "card_number",
     "text": "pec AL1OS",
     "bbox": {
-     "x": 0.7543572984749456,
-     "y": 0.6358099878197321,
-     "w": 0.07298474945533762,
-     "h": 0.01705237515225333
+     "x": 0.5909586056644881,
+     "y": 0.6325619163621599,
+     "w": 0.2363834422657951,
+     "h": 0.02842062525375577
     }
    },
    {
@@ -80,16 +81,6 @@
      "w": 0.1721132897603486,
      "h": 0.01786439301664633
     }
-   },
-   {
-    "kind": "member_id",
-    "text": "8646828725",
-    "bbox": {
-     "x": 0.684640522875817,
-     "y": 0.7762890783597239,
-     "w": 0.1470588235294118,
-     "h": 0.01705237515225333
-    }
    }
   ],
   "readability": "good"
@@ -98,7 +89,7 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
    "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
@@ -109,57 +100,116 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "The item is not listed as a need.",
-   "confidence": 0.95
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is alcohol, which this drive does not fund.",
+   "confidence": 0.98
   },
   {
    "lineNo": 3,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Alcohol is not funded.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
    "needId": "batteries",
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA alkaline batteries in 24-pack count toward the batteries need.",
-   "confidence": 0.95
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.9
   },
   {
-   "lineNo": 5,
+   "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "other_rule",
-   "reasonEn": "Coupons are not funded.",
+   "reasonEn": "Coupons are not funded by this drive.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "c02e3caeb4da95b95c535edf4fae8cbfb0f00b49ebff119d74c653c6d4bdc7f0",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1092,
-   "tokensOut": 379,
-   "usdCeiling": 0.016594,
-   "usdActual": 0.002086
+   "tokensIn": 2625,
+   "tokensOut": 505,
+   "usdCeiling": 0.024746,
+   "usdActual": 0.0037159999999999997
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1154,
-   "tokensOut": 196,
-   "usdCeiling": 0.016523,
-   "usdActual": 0.00155
+   "tokensIn": 1861,
+   "tokensOut": 163,
+   "usdCeiling": 0.019064,
+   "usdActual": 0.00201
   }
  ],
  "latencyMs": {
-  "read": 6266,
-  "classify": 1804
+  "read": 4924,
+  "classify": 1475
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "REG 01",
+   "11/04/2026 10:36 AM",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON -$2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

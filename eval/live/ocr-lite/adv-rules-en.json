@@ -12,107 +12,71 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "AA BATTERY 8PK $23.97 T",
-    "translationEn": "AA Battery 8PK",
-    "qty": 8,
-    "unitPriceMinor": null,
-    "amountMinor": 2397,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 2,
-    "rawText": "3 @ $7.99",
-    "translationEn": "3 @ $7.99",
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA battery 8-pack",
     "qty": 3,
     "unitPriceMinor": 799,
     "amountMinor": 2397,
     "taxRateBp": 800
    },
    {
-    "lineNo": 3,
-    "rawText": "LAGER 6PK BTL $9.99 T",
-    "translationEn": "Lager 6PK BTL",
-    "qty": 6,
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "lager 6-pack bottle",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 999,
     "taxRateBp": 800
    },
    {
-    "lineNo": 4,
-    "rawText": "WATER 24PK.5L $4.99 F",
-    "translationEn": "Water 24PK .5L",
-    "qty": 24,
+    "lineNo": 3,
+    "rawText": "WATER 24PK .5L",
+    "translationEn": "water 24-pack 0.5L",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 499,
-    "taxRateBp": 800
+    "taxRateBp": 0
    },
    {
-    "lineNo": 5,
-    "rawText": "FLEECE THROW $59.96 T",
-    "translationEn": "Fleece Throw",
-    "qty": 1,
-    "unitPriceMinor": 5996,
-    "amountMinor": 5996,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 6,
-    "rawText": "4 @ $14.99",
-    "translationEn": "4 @ $14.99",
+    "lineNo": 4,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "fleece throw",
     "qty": 4,
     "unitPriceMinor": 1499,
     "amountMinor": 5996,
     "taxRateBp": 800
    },
    {
-    "lineNo": 7,
-    "rawText": "AA ALKALINE 24PK $31.98 T",
-    "translationEn": "AA Alkaline 24PK",
-    "qty": 24,
-    "unitPriceMinor": null,
-    "amountMinor": 3198,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 8,
-    "rawText": "2 @ $15.99",
-    "translationEn": "2 @ $15.99",
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline 24-pack",
     "qty": 2,
     "unitPriceMinor": 1599,
     "amountMinor": 3198,
     "taxRateBp": 800
    },
    {
-    "lineNo": 9,
-    "rawText": "SPIRAL NOTEBOOK $3.98 T",
-    "translationEn": "Spiral Notebook",
-    "qty": 1,
-    "unitPriceMinor": 398,
-    "amountMinor": 398,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 10,
-    "rawText": "2 @ $1.99",
-    "translationEn": "2 @ $1.99",
+    "lineNo": 6,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "spiral notebook",
     "qty": 2,
     "unitPriceMinor": 199,
     "amountMinor": 398,
     "taxRateBp": 800
    },
    {
-    "lineNo": 11,
-    "rawText": "GIFT CARD $25 $25.08 F",
-    "translationEn": "Gift Card $25",
-    "qty": 1,
-    "unitPriceMinor": 2508,
-    "amountMinor": 2508,
-    "taxRateBp": 800
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "gift card $25",
+    "qty": 100,
+    "unitPriceMinor": 25,
+    "amountMinor": 2500,
+    "taxRateBp": 0
    },
    {
-    "lineNo": 12,
-    "rawText": "CIGARETTES MENTHOL $8.49 T",
-    "translationEn": "Cigarettes Menthol",
+    "lineNo": 8,
+    "rawText": "CIGARETTES MENTHOL",
+    "translationEn": "cigarettes menthol",
     "qty": 1,
     "unitPriceMinor": 849,
     "amountMinor": 849,
@@ -120,18 +84,28 @@
    }
   ],
   "subtotalMinor": 16836,
-  "taxMinor": 1083,
+  "taxMinor": 1003,
   "taxIncluded": false,
   "totalMinor": 17839,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "************5400",
+    "kind": "member_id",
+    "text": "8224286873",
     "bbox": {
-     "x": 0.7838681703846141,
+     "x": 0.6917586686454704,
+     "y": 0.8070367177914991,
+     "w": 0.1399822084480451,
+     "h": 0.016378467621502524
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "eoooeioioioik§ 5.4.0",
+    "bbox": {
+     "x": 0.5973370150892672,
      "y": 0.6918083248804962,
-     "w": 0.04559597841775609,
-     "h": 0.02039352048673826
+     "w": 0.232127133713103,
+     "h": 0.02550482903600304
     }
    },
    {
@@ -143,16 +117,6 @@
      "w": 0.16522855647610327,
      "h": 0.016410124076442156
     }
-   },
-   {
-    "kind": "member_id",
-    "text": "8224286873",
-    "bbox": {
-     "x": 0.6917586686454704,
-     "y": 0.8070367177914991,
-     "w": 0.1399822084480451,
-     "h": 0.016378467621502524
-    }
    }
   ],
   "readability": "good"
@@ -161,19 +125,19 @@
   {
    "lineNo": 1,
    "needId": "batteries",
-   "needQty": 8,
+   "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are listed as a need and match the item.",
+   "reasonEn": "AA battery 8-pack counts toward the AA batteries need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
-   "needId": "blankets",
-   "needQty": 3,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Fleece Throw is a blanket and matches the need.",
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is alcohol, which this drive does not fund.",
    "confidence": 0.95
   },
   {
@@ -181,26 +145,26 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Lager is an alcoholic beverage and is not a need.",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Water in 0.5L jugs does not match the 1 gallon jugs needed.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
-   "needId": "water",
-   "needQty": 12,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Water in.5L packs does not match the need for 1 gallon jugs.",
+   "needId": "blankets",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw counts toward the blankets need.",
    "confidence": 0.95
   },
   {
    "lineNo": 5,
-   "needId": "blankets",
-   "needQty": 1,
+   "needId": "batteries",
+   "needQty": 48,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Fleece Throw is a blanket and matches the need.",
+   "reasonEn": "AA alkaline 24-pack counts toward the AA batteries need.",
    "confidence": 0.95
   },
   {
@@ -208,84 +172,160 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "4 @ $14.99 does not match any need.",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A spiral notebook is not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 7,
-   "needId": "batteries",
-   "needQty": 24,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "AA Alkaline batteries are listed as a need and match the item.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A gift card is not funded by this drive.",
+   "confidence": 0.98
   },
   {
    "lineNo": 8,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "2 @ $15.99 does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 9,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Spiral Notebook does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 10,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "2 @ $1.99 does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 11,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "Gift Card is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 12,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
    "ruleCode": "tobacco",
-   "reasonEn": "Cigarettes are a tobacco product and are not a need.",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "7e56bbc98644e55568412b3797e211ab789d560ace47a67fd1713f323055765d",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1189,
-   "tokensOut": 898,
-   "usdCeiling": 0.001257,
-   "usdActual": 0.000287
+   "tokensIn": 3118,
+   "tokensOut": 1168,
+   "usdCeiling": 0.0018679999999999999,
+   "usdActual": 0.000468
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1463,
-   "tokensOut": 558,
-   "usdCeiling": 0.001295,
-   "usdActual": 0.000222
+   "tokensIn": 2016,
+   "tokensOut": 329,
+   "usdCeiling": 0.001463,
+   "usdActual": 0.0002
   }
  ],
  "latencyMs": {
-  "read": 6624,
-  "classify": 3668
+  "read": 6704,
+  "classify": 2141
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "HARBOR HARDWARE & HOME",
+   "88 Station Road",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0057",
+   "11/06/2026 12:58 PM REG @5",
+   "TRANS #2147",
+   "AA BATTERY 8PK $23.97 T",
+   "3 @ $7.99",
+   "LAGER 6PK BTL $9.99 T",
+   "WATER 24PK .5L $4.99 F",
+   "FLEECE THROW $59.96 T",
+   "BLANKET",
+   "4 @ $14.99",
+   "AA ALKALINE 24PK $31.98 T",
+   "2 @ $15.99",
+   "SPIRAL NOTEBOOK $3.98 T",
+   "2 @ $1.99",
+   "GIFT CARD $25 $25.08 F",
+   "CIGARETTES MENTHOL $8.49 T",
+   "SUBTOTAL $168.36",
+   "SALES TAX 7.25% $10.83",
+   "TOTAL $178.39",
+   "VISA eoooeioioioik§ 5.4.0",
+   "APPROVED $178.39",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 8224286873",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU — COME AGAIN"
+  ],
+  "reread": [
+   "HARBOR HARDWARE & HOME",
+   "88 Station Road",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0057",
+   "11/06/2026 12:58 PM REG @5",
+   "TRANS #2147",
+   "AA BATTERY 8PK $23.97 T",
+   "3 @ $7.99",
+   "LAGER 6PK BTL $9.99 T",
+   "WATER 24PK .5L $4.99 F",
+   "FLEECE THROW $59.96 T",
+   "BLANKET",
+   "4 @ $14.99",
+   "AA ALKALINE 24PK $31.98 T",
+   "2 @ $15.99",
+   "SPIRAL NOTEBOOK $3.98 T",
+   "2 @ $1.99",
+   "GIFT CARD $25 $25.08 F",
+   "CIGARETTES MENTHOL $8.49 T",
+   "SUBTOTAL $168.36",
+   "SALES TAX 7.25% $10.83",
+   "TOTAL $178.39",
+   "VISA eoooeioioioik§ 5.4.0",
+   "APPROVED $178.39",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 8224286873",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU — COME AGAIN"
+  ],
+  "photoNumbers": [
+   "HARBOR HARDWARE & HOME",
+   "88 Station Road",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0057",
+   "11/06/2026 12:58 PM",
+   "REG 05",
+   "TRANS #2147",
+   "AA BATTERY 8PK",
+   "$23.97 T",
+   "3 @ $7.99",
+   "LAGER 6PK BTL",
+   "$9.99 T",
+   "WATER 24PK.5L",
+   "$4.99 F",
+   "FLEECE THROW",
+   "$59.96 T",
+   "BLANKET",
+   "4 @ $14.99",
+   "AA ALKALINE 24PK",
+   "$31.98 T",
+   "2 @ $15.99",
+   "SPIRAL NOTEBOOK",
+   "$3.98 T",
+   "2 @ $1.99",
+   "GIFT CARD $25",
+   "$25.00 F",
+   "CIGARETTES MENTHOL",
+   "$8.49 T",
+   "SUBTOTAL",
+   "$168.36",
+   "SALES TAX 7.25%",
+   "$10.03",
+   "TOTAL",
+   "$178.39"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "25.08",
+    "to": "25.00"
+   },
+   {
+    "from": "10.83",
+    "to": "10.03"
+   }
+  ]
+ }
 }

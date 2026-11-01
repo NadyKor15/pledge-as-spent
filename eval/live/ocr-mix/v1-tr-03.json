@@ -1,0 +1,352 @@
+{
+ "receiptId": "v1-tr-03",
+ "set": "v1",
+ "imageSha256": "bd6414b76a006f8bb9bf8953093a586461411c506be2f9a5472c8bd0582047b2",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-09T19:17:00",
+  "receiptNumber": "9609",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BEBEK BEZİ 3 NO 44'LÜ",
+    "translationEn": "Baby diaper size 3 pack of 44",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 27900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "EKMEK 301",
+    "translationEn": "Bread",
+    "qty": 3,
+    "unitPriceMinor": 1200,
+    "amountMinor": 3600,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Single blanket",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 44900,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "DEFTER AS",
+    "translationEn": "Notebook",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 4200,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diaper size 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "AA KALEM PİL 4'LÜ",
+    "translationEn": "AA batteries pack of 4",
+    "qty": 2,
+    "unitPriceMinor": 7990,
+    "amountMinor": 15980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -799,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "KAYNAK SU 5 LT",
+    "translationEn": "Spring water 5 L",
+    "qty": 4,
+    "unitPriceMinor": 2450,
+    "amountMinor": 9800,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 25954,
+  "taxIncluded": false,
+  "totalMinor": 213561,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "Aololok eK KK 9366",
+    "bbox": {
+     "x": 0.18974523539939864,
+     "y": 0.8357996668638746,
+     "w": 0.2813991354452283,
+     "h": 0.01986006611453528
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size 3 diapers are not the size this drive needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Bread is not one of the needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A single blanket counts toward the blankets need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Notebooks are not one of the needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mini baby diapers size 4 count toward the diapers need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 4 AA batteries counts 4 toward the batteries need.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Discounts are not classified.",
+   "confidence": 0
+  },
+  {
+   "lineNo": 9,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 5 L bottles counts toward the water need.",
+   "confidence": 1
+  }
+ ],
+ "classifiedFor": "2befcce58c0f1769c77bceb6458be0b41f9e603b0020031d491508bc915f4c7c",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3337,
+   "tokensOut": 1312,
+   "usdCeiling": 0.017792000000000002,
+   "usdActual": 0.004239
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2080,
+   "tokensOut": 341,
+   "usdCeiling": 0.019607,
+   "usdActual": 0.002755
+  }
+ ],
+ "latencyMs": {
+  "read": 9340,
+  "classify": 2673
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "sanan dual iŞ",
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 09 42",
+   "VKN: 0000000042",
+   "TARİH: 09.11.2026 19:17 FİŞ NO: 9609",
+   "HEDİYE KARTI 500 TL *500,00",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "EKMEK 301 *36,00",
+   "3 x 12,00",
+   "BATTANİYE TEK KİŞİLİK 420 *449,00",
+   "DEFTER AS «20 *42,00",
+   "MİNİ BEBEK BEZİ 4 NO 520 *579,80",
+   "2 x 289,90",
+   "AA KALEM PİL 4'LÜ 420 *159,80",
+   "2 x 79,98",
+   "İNDİRİM «20 *-7,99",
+   "KAYNAK SU 5 LT »10 *98,00",
+   "4x 24,50",
+   "KDV %1 MATRAH 35,64 *0,36",
+   "KDV %1@ MATRAH 89,09 *8,91",
+   "KDV %2@ MATRAH 1.251,34 «250,27",
+   "TOPKDV *259,54",
+   "TOPLAM *2.135,61",
+   "KREDİ KARTI *2.135,61",
+   "Aololok eK KK 9366",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "sanan dual iŞ",
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL © 555 000 09 42",
+   "VKN: 0000000042",
+   "TARİH: 09.11.2026 19:17 FİŞ NO: 9609",
+   "HEDİYE KARTI 500 TL *500,00",
+   "BEBEK BEZİ 3 NO 44'LÜ «20 *279,00",
+   "EKMEK 301 *36,00",
+   "3 x 12,00",
+   "BATTANİYE TEK KİŞİLİK 420 *449,00",
+   "DEFTER AS «20 *42,00",
+   "MİNİ BEBEK BEZİ 4 NO 520 *579,80",
+   "2 x 289,90",
+   "AA KALEM PİL 4'LÜ 420 *159,80",
+   "2 x 79,98",
+   "İNDİRİM «20 *-7,99",
+   "KAYNAK SU 5 LT »10 *98,00",
+   "4x 24,50",
+   "KDV %1 MATRAH 35,64 *0,36",
+   "KDV %1@ MATRAH 89,09 *8,91",
+   "KDV %2@ MATRAH 1.251,34 «250,27",
+   "TOPKDV *259,54",
+   "TOPLAM *2.135,61",
+   "KREDİ KARTI *2.135,61",
+   "Aololok eK KK 9366",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yildizova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 09.11.2026 19:17",
+   "FIS NO: 9609",
+   "HEDÍYE KARTI 500 TL",
+   "*500,00",
+   "BEBÉK BEZI 3 NO 44'LÜ",
+   "%20 *279,00",
+   "EKMEK",
+   "%01 *36,00",
+   "3 X 12,00",
+   "BATTIÑÍYE TEK KISILIK",
+   "%20 *449,00",
+   "DEFTER A5",
+   "%20 *42,00",
+   "MINÍ BEBÉK BEZI 4 NO",
+   "%20 *579,80",
+   "2 X 289,90",
+   "AA KALEM PÍL 4'LÜ",
+   "%20 *159,80",
+   "2 X 79,90",
+   "ÍNDÍRÍM",
+   "%20 *-7,99",
+   "KAYNAK SU 5 LT",
+   "%10 *98,00",
+   "4 X 24,50",
+   "KDV %1 MATRAH 35,64",
+   "*0,36",
+   "KDV %10 MATRAH 89,09",
+   "*8,91",
+   "KDV %20 MATRAH 1.251,34",
+   "*250,27",
+   "TOPKDV",
+   "*259,54",
+   "TOPLAM",
+   "*2.135,61"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "09",
+    "to": "00"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "520",
+    "to": "20"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "79,98",
+    "to": "79,90"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   },
+   {
+    "from": "2",
+    "to": "20"
+   }
+  ]
+ }
+}

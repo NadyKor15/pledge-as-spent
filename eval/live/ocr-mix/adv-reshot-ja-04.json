@@ -1,0 +1,225 @@
+{
+ "receiptId": "adv-reshot-ja-04",
+ "set": "adversarial",
+ "imageSha256": "1858cec297f7a0cc4bfd44a28fe17bbf4b83ec090ce837c542859a22a9f298b5",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "パピ -7 パツ M",
+    "translationEn": "Papy -7 Pats M",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ツナ缶 3 缶バック",
+    "translationEn": "Tuna can 3 can pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮缶詰",
+    "translationEn": "",
+    "qty": 12,
+    "unitPriceMinor": 188,
+    "amountMinor": 2256,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline dry cell 4 pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
+    "amountMinor": 476,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5662,
+  "taxMinor": 484,
+  "taxIncluded": false,
+  "totalMinor": 6146,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "3846 7326 4188",
+    "bbox": {
+     "x": 0.592554468707096,
+     "y": 0.785535943079337,
+     "w": 0.2001494926398356,
+     "h": 0.020425790837085955
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "米村 玉村 玉 玉 本 本 キキ キキ 4414",
+    "bbox": {
+     "x": 0.5718404342022275,
+     "y": 0.6580215610365645,
+     "w": 0.2308483076497888,
+     "h": 0.03070511543801957
+    }
+   },
+   {
+    "kind": "name",
+    "text": "in by",
+    "bbox": {
+     "x": 0.17618214099883614,
+     "y": 0.7439768671549934,
+     "w": 0.07277873740318577,
+     "h": 0.01599464263864392
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans count toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned mackerel in miso counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "32f4e3e33e650fd095065571188d919d706481096ec77b8f74da7e8eafb7a9bc",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 2952,
+   "tokensOut": 568,
+   "usdCeiling": 0.017583,
+   "usdActual": 0.0025830000000000002
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1905,
+   "tokensOut": 167,
+   "usdCeiling": 0.019089,
+   "usdActual": 0.002058
+  }
+ ],
+ "latencyMs": {
+  "read": 5496,
+  "classify": 1513
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "in by 様",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "ミシマルン本",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "2026年11月04日(月) 19:56",
+   "No.4093",
+   "•",
+   "• ¥1,098",
+   "• ¥1,832*",
+   "4 x ¥458",
+   "• ¥2,256*",
+   "12 x ¥188",
+   "¥476",
+   "2 x ¥238",
+   "•",
+   "• ¥5,662",
+   "¥4,088",
+   "¥1,574",
+   "¥327",
+   "¥157",
+   "¥6,146"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
+}

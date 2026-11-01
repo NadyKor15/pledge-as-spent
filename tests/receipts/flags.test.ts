@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { checkReceipt, type KnownReceipt } from "../../src/receipts/checks";
-import { cls, drive, receipt } from "./fixtures";
+import { cls, drive, line, receipt } from "./fixtures";
 
 const codes = (r = receipt(), extra: Partial<Parameters<typeof checkReceipt>[0]> = {}) =>
   checkReceipt({ receipt: r, drive, ...extra }).map((f) => f.code);
@@ -8,6 +8,21 @@ const codes = (r = receipt(), extra: Partial<Parameters<typeof checkReceipt>[0]>
 describe("checkReceipt", () => {
   it("passes a clean receipt", () => {
     expect(codes()).toEqual([]);
+  });
+
+  it("finds the zone in an address read without its accents or dotless i, and no further", () => {
+    const d = { ...drive, zone: ["Yıldızova", "Villa Alborada"] };
+    expect(codes(receipt({ merchantAddress: "Sanayi Sk. No:7, Yildizova" }), { drive: d })).not.toContain("out_of_zone");
+    expect(codes(receipt({ merchantAddress: "Plaza 3, VILLA ALBORADÁ" }), { drive: d })).not.toContain("out_of_zone");
+    expect(codes(receipt({ merchantAddress: "Liman Cd. 1, Denizbahçe" }), { drive: d })).toContain("out_of_zone");
+  });
+
+  it("a product line the classifier never answered for goes to a person; a discount line need not", () => {
+    const r = receipt({ lines: [line(1, 1000), line(2, 500), { ...line(3, -100) }], totalMinor: 1400 });
+    const flags = checkReceipt({ receipt: r, drive, classifications: [cls(1)] });
+    expect(flags.find((f) => f.code === "low_confidence")?.messageEn).toMatch(/^Line 2 need/);
+    expect(codes(r, { classifications: [cls(1), cls(2)] })).not.toContain("low_confidence");
+    expect(codes(r)).not.toContain("low_confidence"); // no classifications at all: not this check's question
   });
 
   it("blocks an unreadable photo and asks for a retake", () => {
@@ -60,7 +75,7 @@ describe("checkReceipt", () => {
   it("sends doubtful classifications to review", () => {
     expect(codes(receipt(), { classifications: [cls(1), cls(2, { confidence: 0.5 })] })).toEqual(["low_confidence"]);
     expect(codes(receipt(), { classifications: [cls(1, { verdict: "review", ruleCode: "unclear" })] })).toEqual(["low_confidence"]);
-    expect(codes(receipt(), { classifications: [cls(1, { confidence: 0.7 })] })).toEqual([]);
+    expect(codes(receipt(), { classifications: [cls(1, { confidence: 0.7 }), cls(2)] })).toEqual([]);
     expect(codes(receipt(), { classifications: [cls(1, { confidence: 0.8 })], minConfidence: 0.9 })).toEqual(["low_confidence"]);
   });
 

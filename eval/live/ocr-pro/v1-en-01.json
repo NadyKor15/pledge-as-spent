@@ -12,26 +12,26 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "SOFTIES DIAPERS SZ 3 38CT $24.98 T",
-    "translationEn": "Softies Diapers Size 3, 38 count",
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3",
     "qty": 2,
     "unitPriceMinor": 1249,
     "amountMinor": 2498,
-    "taxRateBp": 800
+    "taxRateBp": 725
    },
    {
     "lineNo": 2,
-    "rawText": "COUPON -$1.25",
+    "rawText": "COUPON -",
     "translationEn": "Coupon",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -125,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "SPRING WATER 1GAL $2.98 F",
-    "translationEn": "Spring Water 1 gallon",
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
     "qty": 2,
     "unitPriceMinor": 149,
     "amountMinor": 298,
@@ -39,30 +39,19 @@
    },
    {
     "lineNo": 4,
-    "rawText": "DEER CREEK WATER $16.90 F 1 GALLON JUG",
-    "translationEn": "Deer Creek Water 1 gallon jug",
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek water 1 gallon jug",
     "qty": 10,
     "unitPriceMinor": 169,
     "amountMinor": 1690,
-    "taxRateBp": 800
+    "taxRateBp": 725
    }
   ],
   "subtotalMinor": 4361,
   "taxMinor": 172,
   "taxIncluded": false,
   "totalMinor": 4533,
-  "pii": [
-   {
-    "kind": "phone",
-    "text": "(555) 010-0042",
-    "bbox": {
-     "x": 0.4356545527897126,
-     "y": 0.24787170788550647,
-     "w": 0.20335852652876746,
-     "h": 0.019717015196399484
-    }
-   }
-  ],
+  "pii": [],
   "readability": "good"
  },
  "classifications": [
@@ -72,7 +61,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Softies Diapers Size 3, 38 count are eligible as they match the need for Baby diapers size 3.",
+   "reasonEn": "Size 3 diapers count toward the diapers need.",
    "confidence": 0.95
   },
   {
@@ -81,7 +70,7 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "The coupon is not clearly linked to a specific need or rule.",
+   "reasonEn": "The coupon's effect on the receipt total is unclear.",
    "confidence": 0.5
   },
   {
@@ -90,7 +79,7 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Spring Water 1 gallon is eligible as it matches the need for Drinking water 1 gallon.",
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -99,29 +88,104 @@
    "needQty": 10,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Deer Creek Water 1 gallon jug is eligible as it matches the need for Drinking water 1 gallon.",
+   "reasonEn": "Deer Creek water in 1 gallon jugs counts toward the water need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "ffd2fa0335deac9b9edd16b87adfd369fd239c9095b113ac60b831cb702f5fff",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1088,
-   "tokensOut": 330,
-   "usdCeiling": 0.016581,
-   "usdActual": 0.001926
+   "tokensIn": 3629,
+   "tokensOut": 526,
+   "usdCeiling": 0.024733,
+   "usdActual": 0.004586
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1134,
-   "tokensOut": 203,
-   "usdCeiling": 0.016483,
-   "usdActual": 0.001557
+   "tokensIn": 1874,
+   "tokensOut": 175,
+   "usdCeiling": 0.019108,
+   "usdActual": 0.002059
   }
  ],
  "latencyMs": {
-  "read": 4828,
-  "classify": 1820
+  "read": 5265,
+  "classify": 1618
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/08/2026 07:34 PM REG @5",
+   "TRANS #8713",
+   "SOFTIES DIAPERS SZ 3 38CT $24.98 T",
+   "2 @ $12.49",
+   "COUPON -$1.25",
+   "SPRING WATER 1GAL $2.98 F",
+   "2 @ $1.49",
+   "DEER CREEK WATER $16.90 F",
+   "1 GALLON JUG",
+   "10 @ $1.69",
+   "SUBTOTAL $43.61",
+   "SALES TAX 7.25% $1.72",
+   "TOTAL $45.33",
+   "CASH $50.00",
+   "CHANGE $4.67",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/08/2026 07:34 PM REG @5",
+   "TRANS #8713",
+   "SOFTIES DIAPERS SZ 3 38CT $24.98 T",
+   "2 @ $12.49",
+   "COUPON -$1.25",
+   "SPRING WATER 1GAL $2.98 F",
+   "2 @ $1.49",
+   "DEER CREEK WATER $16.90 F",
+   "1 GALLON JUG",
+   "10 @ $1.69",
+   "SUBTOTAL $43.61",
+   "SALES TAX 7.25% $1.72",
+   "TOTAL $45.33",
+   "CASH $50.00",
+   "CHANGE $4.67",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/08/2026 07:34 PM",
+   "REG 05",
+   "TRANS #8713",
+   "SOFTIES DIAPERS SZ 3 38CT",
+   "2 @ $12.49",
+   "COUPON",
+   "-$1.25",
+   "SPRING WATER 1GAL",
+   "2 @ $1.49",
+   "DEER CREEK WATER",
+   "1 GALLON JUG",
+   "10 @ $1.69",
+   "SUBTOTAL",
+   "$43.61",
+   "SALES TAX 7.25%",
+   "$1.72",
+   "TOTAL",
+   "$45.33"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

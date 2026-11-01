@@ -7,7 +7,7 @@
   "merchantAddress": "çarşı Cd. No:12 Merkez / Yıldızova",
   "country": "TR",
   "currency": "TRY",
-  "purchasedAt": "2026-06-11T14:36:00",
+  "purchasedAt": "2026-11-06T14:36:00",
   "receiptNumber": "9824",
   "lines": [
    {
@@ -24,80 +24,25 @@
     "rawText": "İNDİRİM",
     "translationEn": "Discount",
     "qty": 1,
-    "unitPriceMinor": -329,
+    "unitPriceMinor": null,
     "amountMinor": -329,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "SEVİMLİ BEBEK BEZİ 420",
-    "translationEn": "Lovely baby diaper 420",
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Lovely baby diaper",
     "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 34900,
     "taxRateBp": 1000
-   },
-   {
-    "lineNo": 4,
-    "rawText": "KDV %1@ MATRAH 16,92",
-    "translationEn": "VAT 1% on 16.92",
-    "qty": 1,
-    "unitPriceMinor": 169,
-    "amountMinor": 169,
-    "taxRateBp": 10
-   },
-   {
-    "lineNo": 5,
-    "rawText": "KDV *20 MATRAH 290,83",
-    "translationEn": "VAT 20% on 290.83",
-    "qty": 1,
-    "unitPriceMinor": 5817,
-    "amountMinor": 5817,
-    "taxRateBp": 2000
-   },
-   {
-    "lineNo": 6,
-    "rawText": "TOPKDV *59,86",
-    "translationEn": "Total VAT 59.86",
-    "qty": 1,
-    "unitPriceMinor": 5986,
-    "amountMinor": 5986,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "TOPLAM *367,61",
-    "translationEn": "Total 367.61",
-    "qty": 1,
-    "unitPriceMinor": 36761,
-    "amountMinor": 36761,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 8,
-    "rawText": "KREDİ KARTI *367,61",
-    "translationEn": "Credit card 367.61",
-    "qty": 1,
-    "unitPriceMinor": 36761,
-    "amountMinor": 36761,
-    "taxRateBp": null
    }
   ],
-  "subtotalMinor": 349,
-  "taxMinor": 1692,
+  "subtotalMinor": null,
+  "taxMinor": 1289,
   "taxIncluded": false,
   "totalMinor": 36761,
   "pii": [
-   {
-    "kind": "card_number",
-    "text": "************7374",
-    "bbox": {
-     "x": 0.4186147445751614,
-     "y": 0.7051339923013621,
-     "w": 0.05551050346820369,
-     "h": 0.017443257796754152
-    }
-   },
    {
     "kind": "member_id",
     "text": "7724103405",
@@ -106,6 +51,16 @@
      "y": 0.7490650033733007,
      "w": 0.1443720893437057,
      "h": 0.02078928724382334
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "eK aplik doe 7374",
+    "bbox": {
+     "x": 0.20341981974412612,
+     "y": 0.7051339923013621,
+     "w": 0.27070542829923894,
+     "h": 0.025546292963752992
     }
    },
    {
@@ -128,92 +83,136 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mountain water 5 L counts toward the drinking water need.",
+   "reasonEn": "Mountain water in 5 L bottles counts toward the water need.",
    "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": null,
    "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Discount line, cannot determine its impact.",
-   "confidence": 0.5
+   "verdict": "rejected",
+   "ruleCode": "other_rule",
+   "reasonEn": "Discounts do not count toward any need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
    "needId": "diapers",
-   "needQty": 420,
+   "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Lovely baby diaper 420 counts toward the baby diapers size 4 need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "VAT line, cannot determine its impact.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "VAT line, cannot determine its impact.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Total VAT line, cannot determine its impact.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Total amount line, cannot determine its impact.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 8,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Payment method line, cannot determine its impact.",
-   "confidence": 0.5
+   "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "0286372b1bf59071df5106ac48b600973be08fccc11dd7d7633480bea6f2319b",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1161,
-   "tokensOut": 657,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000227
+   "tokensIn": 2662,
+   "tokensOut": 794,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.00035
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1303,
-   "tokensOut": 292,
-   "usdCeiling": 0.001262,
-   "usdActual": 0.000148
+   "tokensIn": 1843,
+   "tokensOut": 126,
+   "usdCeiling": 0.001422,
+   "usdActual": 0.000141
   }
  ],
  "latencyMs": {
-  "read": 3676,
-  "classify": 2021
+  "read": 5323,
+  "classify": 991
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "RT",
+   "SUPER YILDIZ MARKET",
+   "çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU 5 L “19 #21,90",
+   "İNDİRİM #10 *-3,29",
+   "SEVİMLİ BEBEK BEZİ 420 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV *20 MATRAH 290,83 *58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDİ KARTI *367,61",
+   "eK aplik doe 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "reread": [
+   "RT",
+   "SUPER YILDIZ MARKET",
+   "çarşı Cd. No:12",
+   "Merkez / Yıldızova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARİH: 06.11.2026 14:36 FİŞ NO: 9824",
+   "DAĞ SUYU 5 L “19 #21,90",
+   "İNDİRİM #10 *-3,29",
+   "SEVİMLİ BEBEK BEZİ 420 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "KDV %1@ MATRAH 16,92 *1,69",
+   "KDV *20 MATRAH 290,83 *58,17",
+   "TOPKDV *59,86",
+   "TOPLAM *367,61",
+   "KREDİ KARTI *367,61",
+   "eK aplik doe 7374",
+   "MÜŞTERİ KARTI 7724103405",
+   "AYŞE DEMİRKAN",
+   "TEŞEKKÜR EDERİZ"
+  ],
+  "photoNumbers": [
+   "SÜPER YILDIZ MARKET",
+   "Çarşı Cd. No:12",
+   "Merkez / Yildizova",
+   "TEL 0 555 000 00 42",
+   "VKN: 0000000042",
+   "TARIH: 06.11.2026 14:36",
+   "FiS NO: 9824",
+   "•",
+   "DAĞ SUYU 5 L",
+   "%10 *21,90",
+   "İNDİRİM",
+   "%10 *-3,29",
+   "SEVİMLİ BEBEK BESİ",
+   "%20 *349,00",
+   "NO:4 JUMBO 42'Lİ",
+   "•",
+   "KDV %10 MATRAH 16,92",
+   "*1,69",
+   "KDV %20 MATRAH 290,83",
+   "*58,17",
+   "TOPKDV",
+   "*59,86",
+   "TOPLAM",
+   "*367,61",
+   "•"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "420",
+    "to": "20"
+   },
+   {
+    "from": "1",
+    "to": "10"
+   }
+  ]
+ }
 }

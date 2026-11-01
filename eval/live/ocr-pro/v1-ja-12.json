@@ -3,8 +3,8 @@
  "set": "v1",
  "imageSha256": "7486161069349df47ea3f79da77e45d35ca2d3fb028bce3ef5c9d4f65a1a80f8",
  "reading": {
-  "merchantName": "ホームセンターツバメ",
-  "merchantAddress": "北空東店 空川県北空市東町 7-26",
+  "merchantName": "ホームセンターツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町 7-26",
   "country": "JP",
   "currency": "JPY",
   "purchasedAt": "2026-11-07T19:48:00",
@@ -12,7 +12,7 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パビ - デルツ M ¥1,098",
+    "rawText": "ぐビーラプがンツ M",
     "translationEn": "",
     "qty": 1,
     "unitPriceMinor": 1098,
@@ -21,34 +21,34 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ギフトカード 3,000F Y3,999",
-    "translationEn": "",
+    "rawText": "ギフトカード 3,000F",
+    "translationEn": "Gift card 3,000F",
     "qty": 1,
-    "unitPriceMinor": 3999,
-    "amountMinor": 3999,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
     "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "ティッシュ 5 箱 ¥398",
-    "translationEn": "",
-    "qty": 5,
-    "unitPriceMinor": null,
+    "rawText": "ティッシュ 5 箱",
+    "translationEn": "Tissue 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": 398,
     "amountMinor": 398,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "ミ多 7 ォター 2L Y¥648※",
-    "translationEn": "",
-    "qty": 2,
-    "unitPriceMinor": null,
+    "rawText": "ミ多 7 ォター 2L",
+    "translationEn": "Mita 7 water 2L",
+    "qty": 6,
+    "unitPriceMinor": 108,
     "amountMinor": 648,
     "taxRateBp": null
    }
   ],
   "subtotalMinor": 5144,
-  "taxMinor": 648,
+  "taxMinor": 200,
   "taxIncluded": false,
   "totalMinor": 5344,
   "pii": [
@@ -63,7 +63,7 @@
     }
    }
   ],
-  "readability": "poor"
+  "readability": "good"
  },
  "classifications": [
   {
@@ -72,8 +72,8 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Baby diapers size M are a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.8
   },
   {
    "lineNo": 2,
@@ -90,38 +90,140 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Tissues are not a listed need.",
-   "confidence": 1
+   "reasonEn": "Tissues are not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": "water",
-   "needQty": 2,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Drinking water 2 L is a listed need.",
-   "confidence": 0.95
+   "reasonEn": "Drinking water in the 2 L size counts toward the water need.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "e1086a09f277976428364bcd7e6edb0c073be27ba2445ff2fde928c8205eee26",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1177,
-   "tokensOut": 290,
-   "usdCeiling": 0.016565,
-   "usdActual": 0.00187
+   "tokensIn": 3673,
+   "tokensOut": 503,
+   "usdCeiling": 0.024716000000000002,
+   "usdActual": 0.004548
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1115,
-   "tokensOut": 155,
-   "usdCeiling": 0.016377,
-   "usdActual": 0.001388
+   "tokensIn": 1893,
+   "tokensOut": 159,
+   "usdCeiling": 0.019073,
+   "usdActual": 0.002023
   }
  ],
  "latencyMs": {
-  "read": 4993,
-  "classify": 1444
+  "read": 5267,
+  "classify": 1564
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "パビ - デルツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "SRW ®",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-26",
+   "TEL @123-55-1100",
+   "登録番号 T9990199999712",
+   "2926 年 11 月 67 日 ( 土 ) 19:48",
+   "レジ 95 No.2816",
+   "ぐビーラプがンツ M ¥1,098",
+   "ギフトカード 3,000F Y3,999",
+   "ティッシュ 5 箱 ¥398",
+   "ミ多 7 ォター 2L Y¥648※",
+   "6m x 単 198",
+   "小計 (4 点 ) ¥5,144",
+   "外税 8* WR ¥648 消費税 51",
+   "外税 10* WR ¥1,496 消費税 ¥149",
+   "非課税対象 ¥3,000",
+   "合計 ¥5,344",
+   "お預り ¥6,000",
+   "お釣り ¥656",
+   "ポイントカード",
+   "ミタマルン柏",
+   "会員番号 1081 2345 8996",
+   "‘s KERB (85) NRBRTT",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "ーーーーーーーーーーー",
+   "•",
+   "TEL 0123-55-1100",
+   "•",
+   "• T00001000000712",
+   "2026年11月07日(•) 19:48",
+   "•",
+   "No.2816",
+   "• M",
+   "¥1,098",
+   "• 3,000円",
+   "¥3,000",
+   "• 5個",
+   "¥398",
+   "• 2L",
+   "¥648×",
+   "6個 x ¥108",
+   "• (4個)",
+   "¥5,144",
+   "• ¥648",
+   "• ¥149",
+   "• ¥1,496",
+   "• ¥3,000",
+   "•",
+   "¥5,344",
+   "•"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "67",
+    "to": "07"
+   },
+   {
+    "from": "3,999",
+    "to": "3,000"
+   },
+   {
+    "from": "198",
+    "to": "108"
+   }
+  ]
+ }
 }

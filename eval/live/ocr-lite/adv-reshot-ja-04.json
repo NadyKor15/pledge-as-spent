@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-04-07T19:56:00",
+  "purchasedAt": "2026-11-04T19:56:00",
   "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パピ -7 パツ",
-    "translationEn": "Papier -7 Pat",
+    "rawText": "パピ -7 パツ M",
+    "translationEn": "Papier towels 7 packs",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -22,46 +22,36 @@
    {
     "lineNo": 2,
     "rawText": "ツナ缶 3 缶バック",
-    "translationEn": "Canned tuna 3 cans pack",
-    "qty": 3,
-    "unitPriceMinor": null,
+    "translationEn": "Canned tuna 3 cans",
+    "qty": 4,
+    "unitPriceMinor": 458,
     "amountMinor": 1832,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
     "rawText": "さば味噌煮缶詰",
-    "translationEn": "Miso-pickled mackerel in a can",
-    "qty": 1,
-    "unitPriceMinor": 2256,
+    "translationEn": "Mackerel miso stew canned",
+    "qty": 12,
+    "unitPriceMinor": 188,
     "amountMinor": 2256,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "Single 4 Alkaline dry batteries 4-pack",
-    "qty": 12,
-    "unitPriceMinor": null,
+    "translationEn": "AAA alkaline dry battery 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
     "amountMinor": 476,
     "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 485,
+  "taxMinor": 484,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
-   {
-    "kind": "card_number",
-    "text": "4414",
-    "bbox": {
-     "x": 0.7473766010829886,
-     "y": 0.6641283535117284,
-     "w": 0.055312140769027685,
-     "h": 0.02459832296285569
-    }
-   },
    {
     "kind": "member_id",
     "text": "3846 7326 4188",
@@ -70,6 +60,26 @@
      "y": 0.785535943079337,
      "w": 0.2001494926398356,
      "h": 0.020425790837085955
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "米村 玉村 玉 玉 本 本 キキ キキ 4414",
+    "bbox": {
+     "x": 0.5718404342022275,
+     "y": 0.6580215610365645,
+     "w": 0.2308483076497888,
+     "h": 0.03070511543801957
+    }
+   },
+   {
+    "kind": "name",
+    "text": "in by",
+    "bbox": {
+     "x": 0.17618214099883614,
+     "y": 0.7439768671549934,
+     "w": 0.07277873740318577,
+     "h": 0.01599464263864392
     }
    }
   ],
@@ -81,57 +91,135 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "This line does not match any of the listed needs and is not a valid item for the drive.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Paper towels are not one of the needs.",
    "confidence": 0.9
   },
   {
    "lineNo": 2,
    "needId": "canned",
-   "needQty": 3,
+   "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Canned tuna matches the canned food need.",
+   "reasonEn": "Canned tuna counts toward the canned food need.",
    "confidence": 0.95
   },
   {
    "lineNo": 3,
-   "needId": "batteries",
-   "needQty": 4,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
+   "reasonEn": "Mackerel miso stew canned is not one of the needs.",
    "confidence": 0.9
   },
   {
    "lineNo": 4,
-   "needId": "batteries",
-   "needQty": 4,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Single 4 Alkaline dry batteries do not match the AA battery need.",
-   "confidence": 0.95
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "28632b254d2e12eec86f0629e9f5cf971ec93f2539460b54f76dab9823668396",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1221,
-   "tokensOut": 410,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000172
+   "tokensIn": 2952,
+   "tokensOut": 641,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.000331
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1149,
-   "tokensOut": 200,
-   "usdCeiling": 0.001235,
-   "usdActual": 0.000117
+   "tokensIn": 1913,
+   "tokensOut": 163,
+   "usdCeiling": 0.001434,
+   "usdActual": 0.000154
   }
  ],
  "latencyMs": {
-  "read": 4242,
-  "classify": 1422
+  "read": 5070,
+  "classify": 1296
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "in by 様",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 9123-22-9942",
+   "登録番号 T9999199999551",
+   "202647115048 (x) 19:56",
+   "レジ 91 No.4093",
+   "パピ -7 パツ M ¥1,098",
+   "ツナ缶 3 缶バック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌煮缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2 点 x 単 238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 10* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット米村玉村玉玉本本キキキキ 4414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "ミシマルン本",
+   "会員番号 3846 7326 4188",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "2026年11月04日(月) 19:56",
+   "No.4093",
+   "•",
+   "• ¥1,098",
+   "• ¥1,832*",
+   "4 x ¥458",
+   "• ¥2,256*",
+   "12 x ¥188",
+   "¥476",
+   "2 x ¥238",
+   "•",
+   "• ¥5,662",
+   "¥4,088",
+   "¥1,574",
+   "¥327",
+   "¥157",
+   "¥6,146"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

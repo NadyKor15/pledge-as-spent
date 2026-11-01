@@ -4,7 +4,7 @@
  "imageSha256": "bc64dcf12265afc7041102e734a5e86c1cd4a5d9a8ca9fcdfc1509255d746a06",
  "reading": {
   "merchantName": "FERRETERIA LA LLAVE",
-  "merchantAddress": "Plaza Nueva 3",
+  "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
   "country": "ES",
   "currency": "EUR",
   "purchasedAt": "2026-11-07T08:08:00",
@@ -12,64 +12,75 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "GALLETAS MARÍA 1,45 B",
-    "translationEn": "MARIA COOKIES",
+    "rawText": "GALLETAS MARÍA",
+    "translationEn": "Maria biscuits",
     "qty": 1,
-    "unitPriceMinor": 145,
+    "unitPriceMinor": null,
     "amountMinor": 145,
-    "taxRateBp": 400
+    "taxRateBp": null
    },
    {
     "lineNo": 2,
-    "rawText": "PILAS AA LR6 8U 17,97 €",
-    "translationEn": "AA LR6 BATTERIES 8U",
-    "qty": 8,
-    "unitPriceMinor": null,
+    "rawText": "PILAS AA LR6 8U",
+    "translationEn": "AA batteries",
+    "qty": 3,
+    "unitPriceMinor": 599,
     "amountMinor": 1797,
-    "taxRateBp": 2100
+    "taxRateBp": null
    },
    {
     "lineNo": 3,
-    "rawText": "AGUA FUENTE CLARA 1,30 B BOTELLA 1,5 L 2x0,65",
-    "translationEn": "FUENTE CLARA WATER 1.30 B BOTTLE 1.5 L",
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "Fuente Clara water",
     "qty": 2,
-    "unitPriceMinor": null,
-    "amountMinor": 63,
-    "taxRateBp": 1000
+    "unitPriceMinor": 65,
+    "amountMinor": 130,
+    "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "PILAS AAA 4U 3,29 €",
-    "translationEn": "AAA BATTERIES 4U",
-    "qty": 4,
+    "rawText": "PILAS AAA 4U",
+    "translationEn": "AAA batteries",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 329,
-    "taxRateBp": 2100
+    "taxRateBp": null
    },
    {
     "lineNo": 5,
-    "rawText": "DTO. PROMOCIÓN 0,49 C",
-    "translationEn": "PROMOTION DISCOUNT",
-    "qty": null,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 49,
+    "amountMinor": -49,
     "taxRateBp": null
    },
    {
     "lineNo": 6,
-    "rawText": "LECHE ENTERA 1L 0,99 A",
-    "translationEn": "WHOLE MILK 1L",
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "Whole milk",
     "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": 99,
-    "taxRateBp": 2100
+    "taxRateBp": null
    }
   ],
-  "subtotalMinor": 2356,
-  "taxMinor": 96,
+  "subtotalMinor": null,
+  "taxMinor": 1008,
   "taxIncluded": true,
   "totalMinor": 2451,
-  "pii": [],
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "Na y ARS AA AAA",
+    "bbox": {
+     "x": 0.11992449976523814,
+     "y": 0.9369888766524633,
+     "w": 0.7598789533126524,
+     "h": 0.03225317745826539
+    }
+   }
+  ],
   "readability": "good"
  },
  "classifications": [
@@ -79,17 +90,17 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Maria cookies are not a listed need.",
-   "confidence": 1
+   "reasonEn": "Maria biscuits are not one of the listed needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 2,
    "needId": "batteries",
-   "needQty": 8,
+   "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA batteries are a listed need.",
-   "confidence": 1
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 3,
@@ -97,8 +108,8 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "1.5 L water bottles are a listed need.",
-   "confidence": 1
+   "reasonEn": "Drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
   },
   {
    "lineNo": 4,
@@ -106,8 +117,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "AAA batteries are not a listed need.",
-   "confidence": 1
+   "reasonEn": "AAA batteries are not the type this drive needs.",
+   "confidence": 0.95
   },
   {
    "lineNo": 5,
@@ -115,8 +126,8 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items.",
-   "confidence": 0.5
+   "reasonEn": "The promotion discount is unclear and needs review.",
+   "confidence": 0.95
   },
   {
    "lineNo": 6,
@@ -124,29 +135,125 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Whole milk is not a listed need.",
-   "confidence": 1
+   "reasonEn": "Whole milk is not one of the listed needs.",
+   "confidence": 0.95
   }
  ],
+ "classifiedFor": "e60fd4105cea10c0b383519eb6c5bc587635bd4aed007ef83b8475a20f2c82a6",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1184,
-   "tokensOut": 432,
-   "usdCeiling": 0.016728,
-   "usdActual": 0.00233
+   "tokensIn": 3725,
+   "tokensOut": 578,
+   "usdCeiling": 0.024879000000000002,
+   "usdActual": 0.00483
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1241,
-   "tokensOut": 216,
-   "usdCeiling": 0.016697,
-   "usdActual": 0.001684
+   "tokensIn": 1931,
+   "tokensOut": 239,
+   "usdCeiling": 0.019282,
+   "usdActual": 0.00231
   }
  ],
  "latencyMs": {
-  "read": 6703,
-  "classify": 1885
+  "read": 5520,
+  "classify": 2018
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "90000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA Ne 2375",
+   "07/11/2026 08:08 CAJA 03",
+   "DESCRIPCIÓN IMPORTE",
+   "GALLETAS MARÍA 1,45 B",
+   "PILAS AA LR6 8U 17,97 €",
+   "3x 5,99",
+   "AGUA FUENTE CLARA 1,30 B",
+   "BOTELLA 1,5 L",
+   "2x0,65",
+   "PILAS AAA 4U 3,29 €",
+   "DTO. PROMOCIÓN 0,49 C",
+   "LECHE ENTERA 1L 0,99 A",
+   "TOTAL (IVA INCLUIDO) 24,51 EUR",
+   "f A IVA 4% BASE 0,95 CUOTA 0,04",
+   "] B IVA 10% BASE 2,50 CUOTA 0,25",
+   "A C IVA 21% BASE 17,17 CUOTA 3,60",
+   "IN EFECTIVO 30,00",
+   "k CAMBIO 5,49",
+   "o GRACIAS POR SU VISITA",
+   "i",
+   "Na y ARS AA AAA"
+  ],
+  "reread": [
+   "FERRETERIA LA LLAVE",
+   "Plaza Nueva 3",
+   "90000 Villa Alborada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA Ne 2375",
+   "07/11/2026 08:08 CAJA 03",
+   "DESCRIPCIÓN IMPORTE",
+   "GALLETAS MARÍA 1,45 B",
+   "PILAS AA LR6 8U 17,97 €",
+   "3x 5,99",
+   "AGUA FUENTE CLARA 1,30 B",
+   "BOTELLA 1,5 L",
+   "2x0,65",
+   "PILAS AAA 4U 3,29 €",
+   "DTO. PROMOCIÓN 0,49 C",
+   "LECHE ENTERA 1L 0,99 A",
+   "TOTAL (IVA INCLUIDO) 24,51 EUR",
+   "f A IVA 4% BASE 0,95 CUOTA 0,04",
+   "] B IVA 10% BASE 2,50 CUOTA 0,25",
+   "A C IVA 21% BASE 17,17 CUOTA 3,60",
+   "IN EFECTIVO 30,00",
+   "k CAMBIO 5,49",
+   "o GRACIAS POR SU VISITA",
+   "i",
+   "Na y ARS AA AAA"
+  ],
+  "photoNumbers": [
+   "FERRETERÍA LA LLAVE",
+   "Plaza Nueva 3",
+   "00000 Villa Alboraada",
+   "TEL 900 000 063",
+   "CIF B00000063",
+   "FACTURA SIMPLIFICADA",
+   "N° 2375",
+   "07/11/2026 08:08",
+   "CAJA 03",
+   "DESCRIPCIÓN",
+   "IMPORTE",
+   "GALLETAS MARÍA",
+   "1,45 B",
+   "PILAS AA LR6 8U",
+   "17,97 C",
+   "3 x 5,99",
+   "AGUA FUENTE CLARA",
+   "1,30 B",
+   "BOTELLA 1,5 L",
+   "2 x 0,65",
+   "PILAS AAA 4U",
+   "3,29 C",
+   "DTO. PROMOCIÓN",
+   "-0,49 C",
+   "LECHE ENTERA 1L",
+   "0,99 A",
+   "TOTAL (IVA INCLUIDO)",
+   "24,51 EUR"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "90000",
+    "to": "00000"
+   }
+  ]
+ }
 }

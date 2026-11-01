@@ -1,0 +1,276 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "潮風マート 海風店",
+  "merchantAddress": "海原県海風市浜通 5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ人缶 3 缶パック",
+    "translationEn": "Tuna canned 3 can pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5 箱",
+    "translationEn": "Tissue 5 boxes",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 128,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1L",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池単 3 2 本入",
+    "translationEn": "Alkaline dry cell AA 2 pack",
+    "qty": 2,
+    "unitPriceMinor": 3698,
+    "amountMinor": 1396,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral water 2L bottle",
+    "qty": 3,
+    "unitPriceMinor": 198,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 377,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664",
+    "bbox": {
+     "x": 0.5903603694396546,
+     "y": 0.7995419372689613,
+     "w": 0.19911730491481539,
+     "h": 0.018149261287994656
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "ERP 1 033",
+    "bbox": {
+     "x": 0.5693283771530914,
+     "y": 0.6827808439426652,
+     "w": 0.23172391397769143,
+     "h": 0.027097187390388133
+    }
+   },
+   {
+    "kind": "name",
+    "text": "FHI Wy",
+    "bbox": {
+     "x": 0.17694381735547585,
+     "y": 0.7606543948169391,
+     "w": 0.08305350012228255,
+     "h": 0.015156609789533704
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna canned in a 3 can pack counts toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissue is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in 2L bottles counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "7ab3cf43f66e53a44900ccab248d30f524ef9314915278fe8062b8be3b645eed",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3124,
+   "tokensOut": 509,
+   "usdCeiling": 0.017609000000000003,
+   "usdActual": 0.0023599999999999997
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1969,
+   "tokensOut": 244,
+   "usdCeiling": 0.019293,
+   "usdActual": 0.002356
+  }
+ ],
+ "latencyMs": {
+  "read": 5163,
+  "classify": 2128
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "潮風マート",
+   "海風店",
+   "海原県海風市浜通 5-1",
+   "TEL 0456-78-1234",
+   "登録番号 T19999199999899",
+   "2026 年 11 月 95 日 ( 木 ) 12:43",
+   "レジ 92 No .4198",
+   "ツナ人缶 3 缶パック ¥1,832※",
+   "4 点 x 単 458",
+   "ティッシュ 5 箱 ¥398",
+   "チョコレート ¥128%",
+   "牛乳 1L ¥198※",
+   "アルカリ乾電池単 3 2 本入 ¥1,396",
+   "2m x 3698",
+   "ミネラルウォーター ¥324※",
+   "2L ペット",
+   "3 点 x 単 198",
+   "小計 (6 点 ) ¥4,276",
+   "外税 8* WR ¥2,482 消費税 ¥198",
+   "外税 1* 対象 ¥1,794 消費税 ¥179",
+   "合計 ¥4,653",
+   "クレジット ERP 1 033",
+   "お支払い ¥4,653",
+   "ポイントカード",
+   "FHI Wy 様",
+   "会員番号 5449 1448 4664",
+   "※ は軽減税率 (8*) 対象商品です",
+   "で来店ありがとうございました"
+  ],
+  "reread": [
+   "潮風マート",
+   "海風店",
+   "海原県海風市浜通 5-1",
+   "TEL 0456-78-1234",
+   "登録番号 T19999199999899",
+   "2026 年 11 月 95 日 ( 木 ) 12:43",
+   "レジ 92 No .4198",
+   "ツナ人缶 3 缶パック ¥1,832※",
+   "4 点 x 単 458",
+   "ティッシュ 5 箱 ¥398",
+   "チョコレート ¥128%",
+   "牛乳 1L ¥198※",
+   "アルカリ乾電池単 3 2 本入 ¥1,396",
+   "2m x 3698",
+   "ミネラルウォーター ¥324※",
+   "2L ペット",
+   "3 点 x 単 198",
+   "小計 (6 点 ) ¥4,276",
+   "外税 8* WR ¥2,482 消費税 ¥198",
+   "外税 1* 対象 ¥1,794 消費税 ¥179",
+   "合計 ¥4,653",
+   "クレジット ERP 1 033",
+   "お支払い ¥4,653",
+   "ポイントカード",
+   "ラライッリン様",
+   "会員番号 5449 1448 4664",
+   "※ は軽減税率 (8*) 対象商品です",
+   "で来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "TEL 0456-78-1234",
+   "T0000100000899",
+   "2026年11月05日(日) 12:43",
+   "No.4108",
+   "¥1,832*",
+   "4 x ¥458",
+   "¥398",
+   "¥128*",
+   "¥198*",
+   "¥1,396",
+   "2 x ¥698",
+   "¥324*",
+   "¥4,276",
+   "¥2,482",
+   "¥1,794",
+   "¥179",
+   "¥4,653"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "95",
+    "to": "05"
+   },
+   {
+    "from": "4198",
+    "to": "4108"
+   }
+  ]
+ }
+}

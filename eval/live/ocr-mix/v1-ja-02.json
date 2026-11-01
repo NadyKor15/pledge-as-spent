@@ -1,0 +1,212 @@
+{
+ "receiptId": "v1-ja-02",
+ "set": "v1",
+ "imageSha256": "6226e6b9dbda7a46ace78e6025bfaf780df59b0ad73b3442f1a0cd71d0e343be",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町 2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T09:19:00",
+  "receiptNumber": "9397",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "YS 3 缶パバック",
+    "translationEn": "YS 3 can pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "毛布シングル",
+    "translationEn": "Single blanket",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "アルカリ乾電池単 3 20 本入",
+    "translationEn": "Alkaline dry cell AA 20 pack",
+    "qty": 1,
+    "unitPriceMinor": 698,
+    "amountMinor": 698,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "値引 -",
+    "translationEn": "Discount",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": -100,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4410,
+  "taxMinor": 403,
+  "taxIncluded": false,
+  "totalMinor": 4813,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**********0000",
+    "bbox": {
+     "x": 0.7630429735821247,
+     "y": 0.7314945386574702,
+     "w": 0.04759630238063983,
+     "h": 0.02801955119608479
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 3 cans counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A single blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack of 20 AA batteries counts toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The discount line is not clearly linked to a specific need.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "a4a884ec3e9bd2cf77a1f9f503a97e1d0fa30bccabba0760ef681dfb26cf3fc8",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3779,
+   "tokensOut": 587,
+   "usdCeiling": 0.017498000000000003,
+   "usdActual": 0.0023520000000000004
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1885,
+   "tokensOut": 170,
+   "usdCeiling": 0.01908,
+   "usdActual": 0.002052
+  }
+ ],
+ "latencyMs": {
+  "read": 4935,
+  "classify": 1565
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T9990109699427",
+   "2926 年 11 月 94 日 ( 水 ) 99:19",
+   "レジ 96 No.9397",
+   "YS 3 缶パバック ¥1,832%",
+   "4m x 単 458",
+   "毛布シングル ¥1,980",
+   "アルカリ乾電池単 3 26 本入 Y698",
+   "値引 -¥100",
+   "小計 (3 点 ) ¥4,410",
+   "外税 8* 対象 ¥1,832 消費税 ¥146",
+   "外税 16* 対象 ¥2,578 消費税 ¥257",
+   "合計 ¥4,813",
+   "お預り ¥5,000",
+   "お釣り ¥187",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "reread": [
+   "ミナト生活館",
+   "北空店",
+   "空川県北空市港町 2-8-1",
+   "TEL 9123-45-6789",
+   "登録番号 T9990109699427",
+   "2926 年 11 月 94 日 ( 水 ) 99:19",
+   "レジ 96 No.9397",
+   "YS 3 缶パバック ¥1,832%",
+   "4m x 単 458",
+   "毛布シングル ¥1,980",
+   "アルカリ乾電池単 3 26 本入 Y698",
+   "値引 -¥100",
+   "小計 (3 点 ) ¥4,410",
+   "外税 8* 対象 ¥1,832 消費税 ¥146",
+   "外税 16* 対象 ¥2,578 消費税 ¥257",
+   "合計 ¥4,813",
+   "お預り ¥5,000",
+   "お釣り ¥187",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうさざいました"
+  ],
+  "photoNumbers": [
+   "コンビニエンスストア 店舗情報 東京都新宿区高田馬場2-8-1 TEL 0123-45-6789 店舗番号 T0000100000427 -------------------------------------- 2026年11月04日(土) 09:19 レジ番号06 No.9397 -------------------------------------- 焼き鳥 3本盛り合わせ ¥1,832× 4本 x ¥458 焼き鳥 合計 ¥1,980 焼き鳥定食 #3 20才 ¥698 割引 ¥100 -------------------------------------- 合計 (3人) ¥4,410 消費税8% 税込 ¥1,832 消費税10% 税込 ¥2,578 合計 ¥4,813"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9123",
+    "to": "0123"
+   },
+   {
+    "from": "9990109699427",
+    "to": "0000100000427"
+   },
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "99",
+    "to": "09"
+   },
+   {
+    "from": "96",
+    "to": "06"
+   },
+   {
+    "from": "26",
+    "to": "20"
+   },
+   {
+    "from": "16",
+    "to": "10"
+   }
+  ]
+ }
+}

@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2026-11-09T19:20:00",
-  "receiptNumber": "7892",
+  "purchasedAt": "2026-11-08T19:20:00",
+  "receiptNumber": "7802",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "北空の天然水 2L ¥384※",
-    "translationEn": "Natural water from Kitasora 2L",
+    "rawText": "北空の天然水 2L",
+    "translationEn": "Natural water 2L",
     "qty": 3,
     "unitPriceMinor": 128,
     "amountMinor": 384,
@@ -21,25 +21,25 @@
    },
    {
     "lineNo": 2,
-    "rawText": "ソフトキッズおむつ M 44K ¥2,596",
+    "rawText": "ソフトキッズおむつ M 44K",
     "translationEn": "Soft kids diapers M 44K",
     "qty": 2,
     "unitPriceMinor": 1298,
     "amountMinor": 2596,
-    "taxRateBp": 1900
+    "taxRateBp": 1000
    },
    {
     "lineNo": 3,
-    "rawText": "65) -¥130",
-    "translationEn": "Discount",
-    "qty": null,
+    "rawText": "65) -",
+    "translationEn": "",
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -130,
     "taxRateBp": null
    },
    {
     "lineNo": 4,
-    "rawText": "カップ麺 ¥316※",
+    "rawText": "カップ麺",
     "translationEn": "Cup noodles",
     "qty": 2,
     "unitPriceMinor": 158,
@@ -48,10 +48,10 @@
    },
    {
     "lineNo": 5,
-    "rawText": "チョコレート ¥128※",
+    "rawText": "チョコレート",
     "translationEn": "Chocolate",
     "qty": 1,
-    "unitPriceMinor": 128,
+    "unitPriceMinor": null,
     "amountMinor": 128,
     "taxRateBp": 800
    }
@@ -63,16 +63,16 @@
   "pii": [
    {
     "kind": "card_number",
-    "text": "3485",
+    "text": "玉林 本 ネ ネネ ネネ 3485",
     "bbox": {
-     "x": 0.7764725010993994,
+     "x": 0.5953663156269012,
      "y": 0.745531103958963,
-     "w": 0.05505278576285555,
-     "h": 0.024821283469071198
+     "w": 0.23615897123535368,
+     "h": 0.026528629278498972
     }
    }
   ],
-  "readability": "poor"
+  "readability": "good"
  },
  "classifications": [
   {
@@ -81,7 +81,7 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Natural water from Kitasora 2L matches the drinking water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -90,16 +90,16 @@
    "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Soft kids diapers M 44K matches the baby diapers size M need.",
-   "confidence": 0.95
+   "reasonEn": "Size M baby diapers count toward the diapers need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
    "needId": null,
    "needQty": null,
    "verdict": "review",
-   "ruleCode": null,
-   "reasonEn": "Discounts need to be reviewed to ensure they apply to eligible items.",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and cannot be matched to a need or a rule.",
    "confidence": 0.5
   },
   {
@@ -107,39 +107,143 @@
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Cup noodles do not match any of the listed needs. rule=not_in_needs",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cup noodles are not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": null,
-   "reasonEn": "Chocolate does not match any of the listed needs. rule=not_in_needs",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not one of the listed needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "2a0cea0ab2476b6db986cc14dc24c7532e47fe585dd3d64980805749fccf2c07",
  "usage": [
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1183,
-   "tokensOut": 357,
-   "usdCeiling": 0.016556,
-   "usdActual": 0.002089
+   "tokensIn": 3079,
+   "tokensOut": 596,
+   "usdCeiling": 0.024708,
+   "usdActual": 0.00437
   },
   {
    "model": "amazon.nova-pro-v1:0",
-   "tokensIn": 1169,
-   "tokensOut": 207,
-   "usdCeiling": 0.01654,
-   "usdActual": 0.001598
+   "tokensIn": 1908,
+   "tokensOut": 203,
+   "usdCeiling": 0.019154,
+   "usdActual": 0.002176
   }
  ],
  "latencyMs": {
-  "read": 5608,
-  "classify": 1930
+  "read": 5310,
+  "classify": 2619
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "SMES 1000100000551",
+   "2026 年 11 月 98 日 (日 ) 19:20",
+   "レジ 692 No. 7892",
+   "北空の天然水 2L ¥384※",
+   "3 点 x 単 128",
+   "ソフトキッズおむつ M 44K ¥2,596",
+   "2m x 1,298",
+   "65) -¥130",
+   "カップ麺 ¥316※",
+   "2m x 単 158",
+   "チョコレート ¥128※",
+   "小計 (4 点 ) ¥3,294",
+   "BTR ¥828",
+   "19% 対象 ¥2,466",
+   "(内消費税等 8* ¥61)",
+   "(内消費税等 19* ¥224)",
+   "合計 W3,294",
+   "クレジット玉林本ネネネネネ 3485",
+   "お支払い ¥3,294",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "SMES 1000100000551",
+   "2026 年 11 月 98 日 (日 ) 19:20",
+   "レジ 692 No. 7892",
+   "北空の天然水 2L ¥384※",
+   "3 点 x 単 128",
+   "ソフトキッズおむつ M 44K ¥2,596",
+   "2m x 1,298",
+   "65) -¥130",
+   "カップ麺 ¥316※",
+   "2m x 単 158",
+   "チョコレート ¥128※",
+   "小計 (4 点 ) ¥3,294",
+   "BTR ¥828",
+   "19% 対象 ¥2,466",
+   "(内消費税等 8* ¥61)",
+   "(内消費税等 19* ¥224)",
+   "合計 W3,294",
+   "クレジット玉林本ネネネネネ 3485",
+   "お支払い ¥3,294",
+   "※ は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "•",
+   "TEL 0123-22-0042",
+   "TEL 0123-22-0042",
+   "• T0000100000551",
+   "2026年11月08日(•) 19:20",
+   "•02",
+   "No.7802",
+   "• 2L ¥384",
+   "3 x #128",
+   "• M 44 ¥2,596",
+   "2 x #1,298",
+   "•",
+   "-¥130",
+   "• ¥316",
+   "2 x #158",
+   "• ¥128",
+   "• (4) ¥3,294",
+   "8% ¥828",
+   "10% ¥2,466",
+   "(• 8% ¥61)",
+   "(• 10% ¥224)",
+   "¥3,294"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "1000100000551",
+    "to": "0000100000551"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "7892",
+    "to": "7802"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
 }

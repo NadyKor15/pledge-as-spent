@@ -1,0 +1,311 @@
+{
+ "receiptId": "v1-ja-06",
+ "set": "v1",
+ "imageSha256": "4a707636262290b3fbc49cba60d810fedf1fbc6d302d4623437d7e15a437196c",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通 1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T15:34:00",
+  "receiptNumber": "6753",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単 4 アルカリ乾電池 4 本入",
+    "translationEn": "AAA alkaline dry cell 4 pack",
+    "qty": 1,
+    "unitPriceMinor": 238,
+    "amountMinor": 238,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "おしりふふき 80K",
+    "translationEn": "Baby wipes 80 pack",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "さば味噌煮缶詰",
+    "translationEn": "Mackerel miso canned",
+    "qty": 6,
+    "unitPriceMinor": 188,
+    "amountMinor": 1128,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "日本酒 729ml",
+    "translationEn": "Sake 729ml",
+    "qty": 1,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1L",
+    "qty": 1,
+    "unitPriceMinor": 198,
+    "amountMinor": 198,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melting snow water 2L",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "ソフトキッズおむつ M 44 枚",
+    "translationEn": "Soft kids diapers M 44 pack",
+    "qty": 1,
+    "unitPriceMinor": 1298,
+    "amountMinor": 1298,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 8,
+    "rawText": "ミネラルウォーターフフL 2L",
+    "translationEn": "",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5896,
+  "taxMinor": 535,
+  "taxIncluded": false,
+  "totalMinor": 6431,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "9648 0870 8321",
+    "bbox": {
+     "x": 0.6311037262785137,
+     "y": 0.7900209454473106,
+     "w": 0.19425090888523322,
+     "h": 0.01776420480556573
+    }
+   },
+   {
+    "kind": "name",
+    "text": "SY Ly",
+    "bbox": {
+     "x": 0.21331433972277544,
+     "y": 0.786742521292502,
+     "w": 0.07201109121160651,
+     "h": 0.012983404301675994
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the same as AA batteries, which are the only batteries this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Canned food is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Sake is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Melting snow water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in the 2 L size counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "bd37ca6a34817b35ecea686922bd7526437d5703df881ce445433a599cf7f13a",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3225,
+   "tokensOut": 848,
+   "usdCeiling": 0.017643000000000002,
+   "usdActual": 0.0035450000000000004
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 2057,
+   "tokensOut": 332,
+   "usdCeiling": 0.019501,
+   "usdActual": 0.002708
+  }
+ ],
+ "latencyMs": {
+  "read": 6781,
+  "classify": 2640
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199999551",
+   "2926 年 11 月 67 日 ( 土 ) 15:34",
+   "レジ 94 No.6753",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "おしりふふき 80K ¥198",
+   "さば味噌煮缶詰 ¥1,128※",
+   "6 点 x 単 188",
+   "日本酒 729ml ¥1,489",
+   "牛乳 1L ¥198※",
+   "雪解けの水 2L ¥798※",
+   "6 点 x 単 118",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "ミ 1 胞オケー 2L ¥648※",
+   "6 点 x F108",
+   "小計 (8 点 ) ¥5,896",
+   "外税 8* 対象 ¥2,682 消費税 ¥214",
+   "外税 19* 対象 ¥3,214 消費税 ¥321",
+   "合計 ¥6,431",
+   "お預り ¥7,000",
+   "お釣り ¥569",
+   "ポイントカード",
+   "SY Ly 様",
+   "会員番号 9648 0870 8321",
+   "は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL 0123-22-0042",
+   "登録番号 T9999199999551",
+   "2926 年 11 月 67 日 ( 土 ) 15:34",
+   "レジ 94 No.6753",
+   "単 4 アルカリ乾電池 4 本入 ¥238",
+   "おしりふふき 80K ¥198",
+   "さば味噌煮缶詰 ¥1,128※",
+   "6 点 x 単 188",
+   "日本酒 729ml ¥1,489",
+   "牛乳 1L ¥198※",
+   "雪解けの水 2L ¥798※",
+   "6 点 x 単 118",
+   "ソフトキッズおむつ M 44 枚 ¥1,298",
+   "ミネラルウォーターフフL 2L \\648※",
+   "6 点 x F108",
+   "小計 (8 点 ) ¥5,896",
+   "外税 8* 対象 ¥2,682 消費税 ¥214",
+   "外税 19* 対象 ¥3,214 消費税 ¥321",
+   "合計 ¥6,431",
+   "お預り ¥7,000",
+   "お釣り ¥569",
+   "ポイントカード",
+   "SY Ly 様",
+   "会員番号 9648 0870 8321",
+   "は軽減税率 (8*) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "2026年11月07日(火) 15:34",
+   "No.6753",
+   "¥238",
+   "¥198",
+   "¥1,128*",
+   "6 x ¥188",
+   "¥1,480",
+   "¥198*",
+   "¥708*",
+   "6 x ¥118",
+   "¥1,298",
+   "¥648*",
+   "¥5,896",
+   "¥2,682",
+   "¥3,214",
+   "¥6,431"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "67",
+    "to": "07"
+   },
+   {
+    "from": "1,489",
+    "to": "1,480"
+   },
+   {
+    "from": "798",
+    "to": "708"
+   }
+  ]
+ }
+}

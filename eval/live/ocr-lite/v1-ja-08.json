@@ -3,7 +3,7 @@
  "set": "v1",
  "imageSha256": "ecd260d77bcd9f88167244c7296d265ace36ccc57b2e4b2425e79dcaaa28523f",
  "reading": {
-  "merchantName": "ホームセンターツバメ",
+  "merchantName": "ホームセンターツバメ 北空東店",
   "merchantAddress": "空川県北空市東町 7-29",
   "country": "JP",
   "currency": "JPY",
@@ -21,9 +21,9 @@
    },
    {
     "lineNo": 2,
-    "rawText": "値引",
+    "rawText": "値引 -",
     "translationEn": "Discount",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
     "amountMinor": -40,
     "taxRateBp": null
@@ -32,7 +32,7 @@
     "lineNo": 3,
     "rawText": "ポタン電池 CR2632",
     "translationEn": "Battery CR2632",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 398,
     "amountMinor": 398,
     "taxRateBp": 800
@@ -41,63 +41,35 @@
     "lineNo": 4,
     "rawText": "雪解けの水 2L",
     "translationEn": "Melting water 2L",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": 118,
     "amountMinor": 118,
     "taxRateBp": 800
    },
    {
     "lineNo": 5,
-    "rawText": "ソフトキッズおむつ L",
+    "rawText": "ソフトキッズおむつ L 34 枚",
     "translationEn": "Soft kids diaper L",
-    "qty": 34,
-    "unitPriceMinor": null,
+    "qty": 2,
+    "unitPriceMinor": 1298,
     "amountMinor": 2596,
     "taxRateBp": 800
    },
    {
     "lineNo": 6,
-    "rawText": "2 x 1,298",
-    "translationEn": "",
+    "rawText": "ノンアルコールピール 350mL",
+    "translationEn": "Non-alcoholic peel 350mL",
     "qty": 2,
-    "unitPriceMinor": 1298,
-    "amountMinor": 2596,
-    "taxRateBp": null
-   },
-   {
-    "lineNo": 7,
-    "rawText": "ノンアルコールピール 359mL",
-    "translationEn": "Non-alcohol peel 359mL",
-    "qty": null,
-    "unitPriceMinor": 256,
+    "unitPriceMinor": 128,
     "amountMinor": 256,
     "taxRateBp": 800
-   },
-   {
-    "lineNo": 8,
-    "rawText": "2 点 x M128",
-    "translationEn": "",
-    "qty": 3,
-    "unitPriceMinor": 128,
-    "amountMinor": 384,
-    "taxRateBp": null
    }
   ],
   "subtotalMinor": 3712,
-  "taxMinor": 57,
+  "taxMinor": 356,
   "taxIncluded": false,
   "totalMinor": 4068,
   "pii": [
-   {
-    "kind": "card_number",
-    "text": "4464************",
-    "bbox": {
-     "x": 0.7664904746754353,
-     "y": 0.672973546390819,
-     "w": 0.05716021844938335,
-     "h": 0.02092585703182237
-    }
-   },
    {
     "kind": "member_id",
     "text": "8870 6749 4333",
@@ -106,6 +78,16 @@
      "y": 0.791436219878018,
      "w": 0.19721026570100508,
      "h": 0.020282257861705677
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "キキ キキ キキ ネ キ キネ キネ 4464",
+    "bbox": {
+     "x": 0.5987416814358218,
+     "y": 0.672973546390819,
+     "w": 0.2249090116889968,
+     "h": 0.02644761964235398
     }
    }
   ],
@@ -118,7 +100,7 @@
    "needQty": 3,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Natural water 2L counts toward the water need.",
+   "reasonEn": "Natural water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -127,8 +109,8 @@
    "needQty": null,
    "verdict": "review",
    "ruleCode": "unclear",
-   "reasonEn": "Discount line, cannot determine its impact on eligibility.",
-   "confidence": 0.5
+   "reasonEn": "Discount line, cannot tell if it affects the eligibility of the next line.",
+   "confidence": 0.7
   },
   {
    "lineNo": 3,
@@ -136,8 +118,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Battery CR2632 does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "CR2632 batteries are not the AA type this drive needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
@@ -145,7 +127,7 @@
    "needQty": 1,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Melting water 2L counts toward the water need.",
+   "reasonEn": "Melting water in the 2 L size counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -154,56 +136,148 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Soft kids diaper L does not match any listed need.",
-   "confidence": 0.95
+   "reasonEn": "Size L diapers are not the size this drive needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "review",
-   "ruleCode": "unclear",
-   "reasonEn": "Cannot determine the item from the given text.",
-   "confidence": 0.5
-  },
-  {
-   "lineNo": 7,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "alcohol",
-   "reasonEn": "Non-alcohol peel is not funded as it is an alcohol product.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 8,
-   "needId": "batteries",
-   "needQty": 3,
+   "needId": "water",
+   "needQty": 2,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "M128 batteries match the AA batteries need.",
+   "reasonEn": "Non-alcoholic peel is not alcohol, and counts toward the water need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "331b834b11a93b1790184efd1b6858caba621f01a5015fedaf1920c80426914a",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1226,
-   "tokensOut": 507,
-   "usdCeiling": 0.001247,
-   "usdActual": 0.000195
+   "tokensIn": 3091,
+   "tokensOut": 692,
+   "usdCeiling": 0.001859,
+   "usdActual": 0.00035099999999999997
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1251,
-   "tokensOut": 325,
-   "usdCeiling": 0.001259,
-   "usdActual": 0.000153
+   "tokensIn": 1968,
+   "tokensOut": 258,
+   "usdCeiling": 0.001447,
+   "usdActual": 0.00018
   }
  ],
  "latencyMs": {
-  "read": 3074,
-  "classify": 2229
+  "read": 5363,
+  "classify": 1842
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 T9999199999712",
+   "20267115048 (2%) 99:25",
+   "レジ 91 No.5482",
+   "北空の天然水 2L ¥384※",
+   "3 点 x M128",
+   "値引 -¥40※",
+   "ポタン電池 CR2632 ¥398",
+   "雪解けの水 2L ¥118※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 x 1,298",
+   "ノンアルコールピール ¥256※",
+   "359mL",
+   "2 点 x M128",
+   "小計 (Smt) ¥3,712",
+   "外税 8* 対象 ¥718 消費税 ¥57",
+   "外税 1* 対象 ¥2,994 消費税 Y299",
+   "合計 ¥4,068",
+   "クレジットキキキキキキネキキネキネ 4464",
+   "お支払い ¥4,968",
+   "ポイントカード",
+   "By by ®",
+   "会員番号 8870 6749 4333",
+   "ee pst ※ は軽洲税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 T9999199999712",
+   "20267115048 (2%) 99:25",
+   "レジ 91 No.5482",
+   "北空の天然水 2L ¥384※",
+   "3 点 x M128",
+   "値引 -¥40※",
+   "ポタン電池 CR2632 ¥398",
+   "雪解けの水 2L ¥118※",
+   "ソフトキッズおむつ L 34 枚 ¥2,596",
+   "2 x 1,298",
+   "ノンアルコールピール ¥256※",
+   "359mL",
+   "2 点 x M128",
+   "小計 (Smt) ¥3,712",
+   "外税 8* 対象 ¥718 消費税 ¥57",
+   "外税 1* 対象 ¥2,994 消費税 Y299",
+   "合計 ¥4,068",
+   "クレジットキキキキキキネキキネキネ 4464",
+   "お支払い ¥4,968",
+   "ポイントカード",
+   "ミシマルン株",
+   "会員番号 8870 6749 4333",
+   "ee pst ※ は軽洲税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "-4- - \"15x",
+   "-",
+   "TEL 0123-55-1100",
+   "T0000100000712",
+   "2026#11#04( ) 09:25",
+   "01",
+   "No.5482",
+   "x 2L",
+   "¥384*",
+   "3 x ¥128",
+   "¥51",
+   "-¥40*",
+   "¥398",
+   "x 2L",
+   "¥118*",
+   "¥2,596",
+   "2 x ¥1,298",
+   "¥256*",
+   "350ml",
+   "2 x ¥128",
+   "¥3,712",
+   "¥718",
+   "¥57",
+   "¥2,994",
+   "¥299",
+   "¥4,068"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "9999199999712",
+    "to": "0000100000712"
+   },
+   {
+    "from": "99",
+    "to": "09"
+   },
+   {
+    "from": "91",
+    "to": "01"
+   },
+   {
+    "from": "359",
+    "to": "350"
+   }
+  ]
+ }
 }

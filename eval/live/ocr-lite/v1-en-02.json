@@ -12,75 +12,66 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "SPRING WATER 1GAL $8.94 F",
-    "translationEn": "Spring Water 1GAL",
-    "qty": 1,
-    "unitPriceMinor": 894,
-    "amountMinor": 894,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 2,
-    "rawText": "6 @ $1.49",
-    "translationEn": "6 @ $1.49",
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
     "qty": 6,
     "unitPriceMinor": 149,
     "amountMinor": 894,
-    "taxRateBp": 0
+    "taxRateBp": 1000
    },
    {
-    "lineNo": 3,
-    "rawText": "AAA BATTERY 8PK $7.99 T",
-    "translationEn": "AAA Battery 8PK",
+    "lineNo": 2,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA battery 8 pk",
     "qty": 1,
-    "unitPriceMinor": 799,
+    "unitPriceMinor": null,
     "amountMinor": 799,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 4,
-    "rawText": "COUPON -$1.20",
+    "lineNo": 3,
+    "rawText": "COUPON -",
     "translationEn": "Coupon -$1.20",
     "qty": 1,
-    "unitPriceMinor": -120,
+    "unitPriceMinor": null,
     "amountMinor": -120,
-    "taxRateBp": 0
+    "taxRateBp": null
    },
    {
-    "lineNo": 5,
-    "rawText": "AA ALKALINE 24PK $15.99 T",
-    "translationEn": "AA Alkaline 24PK",
+    "lineNo": 4,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline 24 pk",
     "qty": 1,
-    "unitPriceMinor": 1599,
+    "unitPriceMinor": null,
     "amountMinor": 1599,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 6,
-    "rawText": "2 @ $2.79",
-    "translationEn": "2 @ $2.79",
+    "lineNo": 5,
+    "rawText": "BREAD WHEAT",
+    "translationEn": "Bread wheat",
     "qty": 2,
     "unitPriceMinor": 279,
     "amountMinor": 558,
-    "taxRateBp": 0
+    "taxRateBp": 1000
    },
    {
-    "lineNo": 7,
-    "rawText": "AA BATTERY 8PK $7.99 T",
-    "translationEn": "AA Battery 8PK",
+    "lineNo": 6,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA battery 8 pk",
     "qty": 1,
-    "unitPriceMinor": 799,
+    "unitPriceMinor": null,
     "amountMinor": 799,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 8,
-    "rawText": "MILK 1GAL $3.89 F",
-    "translationEn": "Milk 1GAL",
+    "lineNo": 7,
+    "rawText": "MILK 1GAL",
+    "translationEn": "Milk 1 gal",
     "qty": 1,
     "unitPriceMinor": 389,
     "amountMinor": 389,
-    "taxRateBp": 0
+    "taxRateBp": 1000
    }
   ],
   "subtotalMinor": 4918,
@@ -89,13 +80,23 @@
   "totalMinor": 5141,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "************496",
+    "kind": "member_id",
+    "text": "2899736096",
     "bbox": {
-     "x": 0.7673097231761855,
-     "y": 0.6817959315377361,
-     "w": 0.044566349742533595,
-     "h": 0.022355644217385007
+     "x": 0.653864354978127,
+     "y": 0.8063347216193105,
+     "w": 0.14467421409524128,
+     "h": 0.017908676672401147
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "SRK 2 496",
+    "bbox": {
+     "x": 0.573756707388636,
+     "y": 0.67632857776857,
+     "w": 0.23811936553008306,
+     "h": 0.02782299798655108
     }
    },
    {
@@ -107,16 +108,6 @@
      "w": 0.16949883469972674,
      "h": 0.017882431016436606
     }
-   },
-   {
-    "kind": "member_id",
-    "text": "2899736096",
-    "bbox": {
-     "x": 0.653864354978127,
-     "y": 0.8063347216193105,
-     "w": 0.14467421409524128,
-     "h": 0.017908676672401147
-    }
    }
   ],
   "readability": "good"
@@ -125,10 +116,10 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 6,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Spring Water 1GAL matches the need for drinking water 1 gallon.",
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
    "confidence": 0.95
   },
   {
@@ -137,8 +128,8 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "6 @ $1.49 does not match any need.",
-   "confidence": 0.95
+   "reasonEn": "AAA batteries are not the size this drive needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
@@ -146,74 +137,155 @@
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "AAA Battery 8PK does not match any need.",
-   "confidence": 0.95
+   "reasonEn": "A coupon is not one of the needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "not_in_needs",
-   "reasonEn": "Coupon -$1.20 does not match any need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
    "needId": "batteries",
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Alkaline 24PK matches the need for AA batteries.",
+   "reasonEn": "AA batteries count toward the batteries need.",
    "confidence": 0.95
   },
   {
-   "lineNo": 6,
+   "lineNo": 5,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "2 @ $2.79 does not match any need.",
-   "confidence": 0.95
+   "reasonEn": "Bread is not one of the needs.",
+   "confidence": 0.9
   },
   {
-   "lineNo": 7,
+   "lineNo": 6,
    "needId": "batteries",
    "needQty": 8,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA Battery 8PK matches the need for AA batteries.",
+   "reasonEn": "AA batteries count toward the batteries need.",
    "confidence": 0.95
   },
   {
-   "lineNo": 8,
+   "lineNo": 7,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
    "ruleCode": "not_in_needs",
-   "reasonEn": "Milk 1GAL does not match any need.",
-   "confidence": 0.95
+   "reasonEn": "Milk is not one of the needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "689bd98e1d42d6eae7b061f719f146165a9452c77a56a17f0cc9dd8cd1abc8cd",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1135,
-   "tokensOut": 639,
-   "usdCeiling": 0.001249,
-   "usdActual": 0.000221
+   "tokensIn": 3580,
+   "tokensOut": 821,
+   "usdCeiling": 0.0018610000000000002,
+   "usdActual": 0.00041200000000000004
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1279,
-   "tokensOut": 382,
-   "usdCeiling": 0.001262,
-   "usdActual": 0.000168
+   "tokensIn": 1970,
+   "tokensOut": 271,
+   "usdCeiling": 0.001452,
+   "usdActual": 0.000183
   }
  ],
  "latencyMs": {
-  "read": 3317,
-  "classify": 2947
+  "read": 5110,
+  "classify": 1817
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/04/2026 03:58 PM REG 05",
+   "TRANS #2718",
+   "SPRING WATER 1GAL $8.94 F",
+   "6 @ $1.49",
+   "AAA BATTERY 8PK $7.99 T",
+   "COUPON -$1.20",
+   "AA ALKALINE 24PK $15.99 T",
+   "BREAD WHEAT $5.58 F",
+   "2 @ $2.79",
+   "AA BATTERY 8PK $7.99 T",
+   "MILK 1GAL $3.89 F",
+   "SUBTOTAL $49.18",
+   "SALES TAX 7.25% $2.23",
+   "TOTAL $51.41",
+   "VISA SRK 2 496",
+   "APPROVED $51.41",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2899736096",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/04/2026 03:58 PM REG 05",
+   "TRANS #2718",
+   "SPRING WATER 1GAL $8.94 F",
+   "6 @ $1.49",
+   "AAA BATTERY 8PK $7.99 T",
+   "COUPON -$1.20",
+   "AA ALKALINE 24PK $15.99 T",
+   "BREAD WHEAT $5.58 F",
+   "2 @ $2.79",
+   "AA BATTERY 8PK $7.99 T",
+   "MILK 1GAL $3.89 F",
+   "SUBTOTAL $49.18",
+   "SALES TAX 7.25% $2.23",
+   "TOTAL $51.41",
+   "VISA SRK 2 496",
+   "APPROVED $51.41",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2899736096",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/04/2026 03:58 PM",
+   "REG 05",
+   "TRANS #2718",
+   "SPRING WATER 1GAL",
+   "$8.94 F",
+   "6 @ $1.49",
+   "AAA BATTERY 8PK",
+   "$7.99 T",
+   "COUPON",
+   "-$1.20",
+   "AA ALKALINE 24PK",
+   "$15.99 T",
+   "BREAD WHEAT",
+   "$5.58 F",
+   "2 @ $2.79",
+   "AA BATTERY 8PK",
+   "$7.99 T",
+   "MILK 1GAL",
+   "$3.89 F",
+   "SUBTOTAL",
+   "$49.18",
+   "SALES TAX 7.25%",
+   "$2.23",
+   "TOTAL",
+   "$51.41"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

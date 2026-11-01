@@ -1,5 +1,5 @@
 // Benchmark: how well a reader + classifier pass the receipt sets, scored against ground truth.
-//   npm run eval -- --reader recorded|nova-lite|nova-pro --set v1|adversarial|hero [--classifier <same choices>]
+//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix --set v1|adversarial|hero [--classifier <same choices>]
 // Writes eval/results/<reader>-<set>-<UTC>.json and .md. The recorded reader replays the ground truth, so it must score 100 %.
 
 import { createHash } from "node:crypto";
@@ -7,11 +7,11 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { BedrockNovaClassifier, BedrockNovaReader, NOVA_MODELS, createBedrockClient } from "../../src/receipts/bedrock";
-import { OcrNovaReader, TesseractEngine } from "../../src/receipts/ocr";
+import { OcrNovaReader, TesseractEngine, type ReadTrace } from "../../src/receipts/ocr";
 import { RefiningClassifier } from "../../src/receipts/quantity";
 import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
-import { RecordedClassifier, RecordedReader, Recordings, receiptKey } from "../../src/receipts/recorded";
+import { RecordedClassifier, RecordedReader, Recordings, classificationKey, receiptKey } from "../../src/receipts/recorded";
 import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
 import type { LineClassification, LineClassifier, ModelUsage, ParsedReceipt, ReceiptReader } from "../../src/receipts/types";
 import { HERO_NEEDS, SCENARIOS } from "../receipts/scenario";
@@ -57,7 +57,7 @@ export async function runEval(input: EvalInput) {
   const merchant: number[] = [];
   const totals = { total: tally(), date: tally(), dateTime: tally(), merchant80: tally() };
   const lineSum = { tp: 0, fp: 0, fn: 0 };
-  const agg = { lineAmountExact: tally(), lineClass: tally(), needQty: tally(), ruleLines: tally(), pii: tally(), ruleLinesFunded: 0 };
+  const agg = { lineAmountExact: tally(), lineClass: tally(), needQty: tally(), ruleLines: tally(), pii: tally(), piiCovered: tally(), ruleLinesFunded: 0 };
   const ious: number[] = [];
   const flags: Record<CheatFlag, FlagTally> = Object.fromEntries(FLAGS.map((f) => [f, { tp: 0, fn: 0, fp: 0, tn: 0 }])) as never;
   const otherFlags: Record<string, number> = {};
@@ -143,7 +143,7 @@ export async function runEval(input: EvalInput) {
       add(totals.dateTime, score.dateTimeExact);
       add(totals.merchant80, score.merchantSimilarity >= 0.8);
       merchant.push(score.merchantSimilarity);
-      for (const k of ["lineAmountExact", "lineClass", "needQty", "ruleLines", "pii"] as const) {
+      for (const k of ["lineAmountExact", "lineClass", "needQty", "ruleLines", "pii", "piiCovered"] as const) {
         agg[k].num += score[k].num;
         agg[k].den += score[k].den;
       }
@@ -179,7 +179,7 @@ export async function runEval(input: EvalInput) {
     lineClass: rate(agg.lineClass),
     needQty: rate(agg.needQty),
     ruleLines: { ...rate(agg.ruleLines), fundedByMistake: agg.ruleLinesFunded },
-    pii: { found: rate(agg.pii), meanIou: ious.length ? ious.reduce((a, b) => a + b, 0) / ious.length : null },
+    pii: { found: rate(agg.pii), covered: rate(agg.piiCovered), meanIou: ious.length ? ious.reduce((a, b) => a + b, 0) / ious.length : null },
     flags: Object.fromEntries(FLAGS.map((f) => [f, flagStats(flags[f])])) as Record<CheatFlag, ReturnType<typeof flagStats>>,
     otherFlagsRaised: otherFlags,
     byLanguage: Object.fromEntries(Object.entries(byLocale).map(([k, v]) => [k, { ...f1(v.tp, v.fp, v.fn), totalExact: rate(v.total) }])),
@@ -213,7 +213,7 @@ Run ${when}. ${r.receipts} receipts (${r.scoredReceipts} scored on content; unre
 | Line class (verdict + need) | ${t(r.lineClass)} |
 | Need quantity exact (eligible lines) | ${t(r.needQty)} |
 | Rule lines rejected with the right code (alcohol, tobacco, gift card) | ${t(r.ruleLines)}; funded by mistake: ${r.ruleLines.fundedByMistake} |
-| Personal data found / mean box overlap | ${t(r.pii.found)} / ${pct(r.pii.meanIou)} |
+| Personal data found by text / covered by a blur box / mean box overlap | ${t(r.pii.found)} / ${t(r.pii.covered)} / ${pct(r.pii.meanIou)} |
 | Median latency per receipt | reader ${r.latency.readerMedianMs ?? "n/a"} ms; reader + classifier ${r.latency.receiptMedianMs ?? "n/a"} ms |
 | Spend | ${r.spend.calls} answered calls, ${r.spend.tokensIn} in / ${r.spend.tokensOut} out tokens, $${r.spend.usdActual.toFixed(4)} actual; ledger moved by ${r.spend.ledgerDeltaUsd === null ? "n/a" : "$" + r.spend.ledgerDeltaUsd.toFixed(4)} (failed calls stay reserved at their ceiling) |
 
@@ -234,10 +234,23 @@ ${r.errors.length ? `\n## Errors\n\n${r.errors.map((e) => `- ${e.id} (${e.stage}
 }
 
 /** One replayable file per receipt: the reading, the classifications, what they cost, and any error. */
-async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0]) {
+async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0] & { trace?: ReadTrace | null }) {
   await mkdir(dir, { recursive: true });
   const bytes = await readFile(path.join(RECEIPTS, x.truth.set, x.truth.image.file));
-  const rec = { receiptId: x.truth.id, set: x.truth.set, imageSha256: createHash("sha256").update(bytes).digest("hex"), reading: x.reading, classifications: x.labels, usage: x.usage, latencyMs: x.latencyMs, errors: x.errors };
+  const sc = x.truth.locale === "ja" && x.truth.set === "hero" ? { ...SCENARIOS.ja, needs: HERO_NEEDS } : SCENARIOS[x.truth.locale];
+  const rec = {
+    receiptId: x.truth.id,
+    set: x.truth.set,
+    imageSha256: createHash("sha256").update(bytes).digest("hex"),
+    reading: x.reading,
+    classifications: x.labels,
+    // The needs and rules the lines were matched against: a drive with others cannot reuse them.
+    classifiedFor: x.reading ? classificationKey(x.reading, sc.needs, sc.drive.rules) : null,
+    usage: x.usage,
+    latencyMs: x.latencyMs,
+    errors: x.errors,
+    trace: x.trace ?? null,
+  };
   await writeFile(path.join(dir, `${x.truth.id}.json`), JSON.stringify(rec, null, 1) + "\n");
 }
 
@@ -253,23 +266,25 @@ export async function loadLiveRecordings(dir: string): Promise<Recordings> {
   return Recordings.parse(rec);
 }
 
-type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro";
-const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro"];
-/** The model that classifies lines for a reader choice: the reader's own model. */
-const classifierFor = (c: Choice): Choice => (c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
+type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro" | "ocr-mix";
+const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro", "ocr-mix"];
+const OCR_CHOICES: Choice[] = ["ocr-lite", "ocr-pro", "ocr-mix"];
+/** The model that classifies lines for a reader choice: the reader's own model (ocr-mix: Lite copies the numbers, Pro does the rest). */
+const classifierFor = (c: Choice): Choice => (c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" || c === "ocr-mix" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
 
 const TESSDATA = path.join(ROOT, "vendor/tessdata");
 
-async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings, engine: TesseractEngine) {
+async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings, engine: TesseractEngine, trace?: (t: ReadTrace) => void) {
   if (choice === "recorded") return { reader: new RecordedReader(recordings), classifier: new RecordedClassifier(recordings) };
   const cap = ledger!;
   const client = createBedrockClient();
   const modelId = choice === "nova-lite" || choice === "nova-lite-2pass" || choice === "ocr-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
   const inner = new BedrockNovaClassifier({ client, cap, modelId });
   // The OCR readers' classifier answers go through the deterministic quantity and forbidden-name checks.
-  const classifier = choice === "ocr-lite" || choice === "ocr-pro" ? new RefiningClassifier(inner) : inner;
+  const isOcr = OCR_CHOICES.includes(choice);
+  const classifier = isOcr ? new RefiningClassifier(inner) : inner;
   if (choice.endsWith("-2pass")) return { reader: new TwoPassReader({ client, cap, modelId }), classifier };
-  if (choice === "ocr-lite" || choice === "ocr-pro") return { reader: new OcrNovaReader({ client, cap, modelId, engine }), classifier };
+  if (isOcr) return { reader: new OcrNovaReader({ client, cap, modelId, engine, numbersModelId: choice === "ocr-mix" ? NOVA_MODELS.lite : modelId, trace }), classifier };
   return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier };
 }
 
@@ -286,8 +301,12 @@ async function main() {
   const live = readerChoice !== "recorded" || classifierChoice !== "recorded";
   const cap = live ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
   const engine = new TesseractEngine(TESSDATA);
-  const r = await build(readerChoice, cap, recordings, engine);
-  const c = classifierChoice === readerChoice ? r : await build(classifierChoice, cap, recordings, engine);
+  let trace: ReadTrace | null = null;
+  const r = await build(readerChoice, cap, recordings, engine, (t) => {
+    trace = t;
+  });
+  // The reader's own classifier unless another one was asked for: the OCR readers' goes through the deterministic checks.
+  const c = classifierChoice === classifierFor(readerChoice) ? r : await build(classifierChoice, cap, recordings, engine);
   const name = classifierChoice === classifierFor(readerChoice) ? readerChoice : `${readerChoice}+${classifierChoice}`;
 
   const truths = await loadTruths(set);
@@ -301,7 +320,12 @@ async function main() {
     classifier: c.classifier,
     truths,
     known,
-    onReceipt: liveDir ? (x) => saveLive(liveDir, x) : undefined,
+    onReceipt: liveDir
+      ? async (x) => {
+          await saveLive(liveDir, { ...x, trace });
+          trace = null;
+        }
+      : undefined,
   });
 
   await engine.close();

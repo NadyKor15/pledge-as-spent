@@ -12,47 +12,38 @@
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "SPRING WATER 1GAL $5.96 F",
-    "translationEn": "Spring Water 1GAL",
-    "qty": 1,
-    "unitPriceMinor": 596,
-    "amountMinor": 596,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 2,
-    "rawText": "4 @ $1.49",
-    "translationEn": "4 units at $1.49 each",
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
     "qty": 4,
     "unitPriceMinor": 149,
     "amountMinor": 596,
-    "taxRateBp": 0
+    "taxRateBp": 800
    },
    {
-    "lineNo": 3,
-    "rawText": "LAGER 6PK BTL $9.99 T",
-    "translationEn": "Lager 6PK BTL",
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6 pk BTL",
     "qty": 1,
     "unitPriceMinor": 999,
     "amountMinor": 999,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 4,
-    "rawText": "AA ALKALINE 24PK $15.99 T",
-    "translationEn": "AA Alkaline 24PK",
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline 24 pk",
     "qty": 1,
     "unitPriceMinor": 1599,
     "amountMinor": 1599,
     "taxRateBp": 1000
    },
    {
-    "lineNo": 5,
-    "rawText": "COUPON $2.40",
+    "lineNo": 4,
+    "rawText": "COUPON",
     "translationEn": "Coupon",
-    "qty": null,
+    "qty": 1,
     "unitPriceMinor": null,
-    "amountMinor": 149,
+    "amountMinor": -240,
     "taxRateBp": 0
    }
   ],
@@ -62,26 +53,6 @@
   "totalMinor": 3125,
   "pii": [
    {
-    "kind": "card_number",
-    "text": "pec AL1OS",
-    "bbox": {
-     "x": 0.7543572984749456,
-     "y": 0.6358099878197321,
-     "w": 0.07298474945533762,
-     "h": 0.01705237515225333
-    }
-   },
-   {
-    "kind": "name",
-    "text": "JORDAN WELLS",
-    "bbox": {
-     "x": 0.1977124183006536,
-     "y": 0.7543645960211125,
-     "w": 0.1721132897603486,
-     "h": 0.01786439301664633
-    }
-   },
-   {
     "kind": "member_id",
     "text": "8646828725",
     "bbox": {
@@ -89,6 +60,26 @@
      "y": 0.7762890783597239,
      "w": 0.1470588235294118,
      "h": 0.01705237515225333
+    }
+   },
+   {
+    "kind": "card_number",
+    "text": "pec AL1OS",
+    "bbox": {
+     "x": 0.5909586056644881,
+     "y": 0.6325619163621599,
+     "w": 0.2363834422657951,
+     "h": 0.02842062525375577
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS 5",
+    "bbox": {
+     "x": 0.1977124183006536,
+     "y": 0.7454323995127893,
+     "w": 0.6677559912854032,
+     "h": 0.02679658952496955
     }
    }
   ],
@@ -98,32 +89,134 @@
   {
    "lineNo": 1,
    "needId": "water",
-   "needQty": 1,
+   "needQty": 4,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Spring Water 1GAL counts toward the drinking water need.",
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager is alcohol, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A coupon is a gift card, which this drive does not fund.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "1aedd38c3121dd1380feb1bb49833cda4a67074c63485583667ba091da8517c9",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1092,
-   "tokensOut": 480,
-   "usdCeiling": 0.001245,
-   "usdActual": 0.000181
+   "tokensIn": 2625,
+   "tokensOut": 616,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.00030599999999999996
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1157,
-   "tokensOut": 54,
-   "usdCeiling": 0.001239,
-   "usdActual": 0.000082
+   "tokensIn": 1862,
+   "tokensOut": 169,
+   "usdCeiling": 0.001429,
+   "usdActual": 0.000152
   }
  ],
  "latencyMs": {
-  "read": 4360,
-  "classify": 864
+  "read": 3932,
+  "classify": 1370
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "reread": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL $5.96 F",
+   "4 @ $1.49",
+   "LAGER 6PK BTL $9.99 T",
+   "AA ALKALINE 24PK $15.99 T",
+   "COUPON $2.40",
+   "SUBTOTAL $29.54",
+   "SALES TAX 7.25% $1.71",
+   "TOTAL $31.25",
+   "VISA pec AL1OS",
+   "APPROVED $31.25",
+   "REWARDS MEMBER %",
+   "JORDAN WELLS 5",
+   "MEMBER # 8646828725",
+   "+ T = TAXABLE F = NON-TAXABLE z",
+   "THANK YOU — COME AGAIN"
+  ],
+  "photoNumbers": [
+   "BRINDLEWOOD GROCERY",
+   "210 Mill Street",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0042",
+   "11/04/2026 10:36 AM",
+   "REG 01",
+   "TRANS #7223",
+   "SPRING WATER 1GAL",
+   "4 @ $1.49",
+   "LAGER 6PK BTL",
+   "AA ALKALINE 24PK",
+   "COUPON",
+   "SUBTOTAL",
+   "SALES TAX 7.25%",
+   "TOTAL",
+   "$5.96 F",
+   "$9.99 T",
+   "$15.99 T",
+   "-$2.40",
+   "$29.54",
+   "$1.71",
+   "$31.25"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

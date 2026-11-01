@@ -7,13 +7,13 @@
   "merchantAddress": "空川県北空市駅前通 1-4",
   "country": "JP",
   "currency": "JPY",
-  "purchasedAt": "2626-11-09T19:56:00",
-  "receiptNumber": "4993",
+  "purchasedAt": "2026-11-04T19:56:00",
+  "receiptNumber": "4093",
   "lines": [
    {
     "lineNo": 1,
-    "rawText": "パビー7 NYIM",
-    "translationEn": "Puppy NYIM",
+    "rawText": "ビーラプが>ッウロ",
+    "translationEn": "",
     "qty": 1,
     "unitPriceMinor": 1098,
     "amountMinor": 1098,
@@ -23,50 +23,32 @@
     "lineNo": 2,
     "rawText": "ツナ缶 3 缶パック",
     "translationEn": "Canned Tuna 3 cans pack",
-    "qty": 3,
-    "unitPriceMinor": 1832,
+    "qty": 4,
+    "unitPriceMinor": 458,
     "amountMinor": 1832,
     "taxRateBp": 800
    },
    {
     "lineNo": 3,
     "rawText": "さば味噌者缶詰",
-    "translationEn": "Mackerel miso canned",
+    "translationEn": "Miso Mackerel Canned",
     "qty": 12,
-    "unitPriceMinor": 2256,
+    "unitPriceMinor": 188,
     "amountMinor": 2256,
     "taxRateBp": 800
    },
    {
     "lineNo": 4,
     "rawText": "単 4 アルカリ乾電池 4 本入",
-    "translationEn": "Single 4 Alkaline dry battery 4 pack",
-    "qty": 4,
-    "unitPriceMinor": 476,
+    "translationEn": "AAA Alkaline Dry Battery 4 pack",
+    "qty": 2,
+    "unitPriceMinor": 238,
     "amountMinor": 476,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 5,
-    "rawText": "外税 8* WR",
-    "translationEn": "External tax 8* WR",
-    "qty": 1,
-    "unitPriceMinor": 4088,
-    "amountMinor": 4088,
-    "taxRateBp": 800
-   },
-   {
-    "lineNo": 6,
-    "rawText": "外税 1* 対象",
-    "translationEn": "External tax 1* target",
-    "qty": 1,
-    "unitPriceMinor": 1574,
-    "amountMinor": 1574,
-    "taxRateBp": 800
+    "taxRateBp": 0
    }
   ],
   "subtotalMinor": 5662,
-  "taxMinor": 488,
+  "taxMinor": 484,
   "taxIncluded": false,
   "totalMinor": 6146,
   "pii": [
@@ -79,19 +61,39 @@
      "w": 0.2036804963526011,
      "h": 0.02124635123406715
     }
+   },
+   {
+    "kind": "card_number",
+    "text": "seek 4 414",
+    "bbox": {
+     "x": 0.5964285260586921,
+     "y": 0.6478382189895372,
+     "w": 0.23805116791183922,
+     "h": 0.030205781865400683
+    }
+   },
+   {
+    "kind": "name",
+    "text": "iW Wy",
+    "bbox": {
+     "x": 0.2107922083400285,
+     "y": 0.7684591732472713,
+     "w": 0.07390613525929685,
+     "h": 0.016690567357292796
+    }
    }
   ],
-  "readability": "poor"
+  "readability": "good"
  },
  "classifications": [
   {
    "lineNo": 1,
-   "needId": "canned",
-   "needQty": 3,
-   "verdict": "eligible",
-   "ruleCode": null,
-   "reasonEn": "Canned tuna counts toward the canned food need.",
-   "confidence": 0.95
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "unclear",
+   "reasonEn": "The line is unclear and does not match any of the listed needs.",
+   "confidence": 0.7
   },
   {
    "lineNo": 2,
@@ -99,65 +101,134 @@
    "needQty": 12,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "Mackerel miso canned counts toward the canned food need.",
-   "confidence": 0.95
+   "reasonEn": "Canned tuna counts toward the canned food need.",
+   "confidence": 0.9
   },
   {
    "lineNo": 3,
-   "needId": "batteries",
-   "needQty": 4,
+   "needId": null,
+   "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "other_rule",
-   "reasonEn": "Single 4 Alkaline dry battery does not match the AA battery need.",
-   "confidence": 0.95
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Miso Mackerel Canned is not one of the listed needs.",
+   "confidence": 0.9
   },
   {
    "lineNo": 4,
    "needId": null,
    "needQty": null,
    "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "External tax is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 5,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "External tax is not a need.",
-   "confidence": 0.95
-  },
-  {
-   "lineNo": 6,
-   "needId": null,
-   "needQty": null,
-   "verdict": "rejected",
-   "ruleCode": "gift_card",
-   "reasonEn": "External tax is not a need.",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries do not match the AA battery need.",
    "confidence": 0.95
   }
  ],
+ "classifiedFor": "207e42e71a39ce7b980297337baf896bf86a8678378582e9115ee95611fea80f",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1208,
-   "tokensOut": 470,
-   "usdCeiling": 0.001244,
-   "usdActual": 0.000185
+   "tokensIn": 3709,
+   "tokensOut": 535,
+   "usdCeiling": 0.001856,
+   "usdActual": 0.000351
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1218,
-   "tokensOut": 268,
-   "usdCeiling": 0.001249,
-   "usdActual": 0.000137
+   "tokensIn": 1909,
+   "tokensOut": 167,
+   "usdCeiling": 0.001433,
+   "usdActual": 0.000155
   }
  ],
  "latencyMs": {
-  "read": 4579,
-  "classify": 2059
+  "read": 4376,
+  "classify": 1569
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T199909199999551",
+   "2626 年 11 月 94 日 ( 水 ) 19:56",
+   "レジ @1 No.4993",
+   "パビー7 NYIM ¥1,098",
+   "ツナ缶 3 缶パック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌者缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2m x M238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 1* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット seek 4 414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "iW Wy",
+   "会員番号 3846 7326 4188",
+   "※ は軽滅税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "reread": [
+   "スマイルマート",
+   "北空駅前店",
+   "空川県北空市駅前通 1-4",
+   "TEL @123-22-0042",
+   "登録番号 T199909199999551",
+   "2626 年 11 月 94 日 ( 水 ) 19:56",
+   "レジ @1 No.4993",
+   "ビーラプが>ッウロ ¥1,098",
+   "ツナ缶 3 缶パック ¥1,832※",
+   "4m x 単 458",
+   "さば味噌者缶詰 ¥2,256※",
+   "12 点 x 単 188",
+   "単 4 アルカリ乾電池 4 本入 ¥476",
+   "2m x M238",
+   "小計 (4 点 ) ¥5,662",
+   "外税 8* WR ¥4,088 消費税 ¥327",
+   "外税 1* 対象 ¥1,574 消費税 ¥157",
+   "合計 ¥6,146",
+   "クレジット seek 4 414",
+   "お支払い ¥6,146",
+   "ポイントカード",
+   "ミタマY ルン株",
+   "会員番号 3846 7326 4188",
+   "※ は軽滅税率 (8%) 対象商品です",
+   "ご来店ありがとうございました"
+  ],
+  "photoNumbers": [
+   "2026年11月04日(月) 19:56",
+   "No.4093",
+   "¥1,098",
+   "¥1,832×",
+   "4× ¥458",
+   "¥2,256×",
+   "12× ¥188",
+   "¥476",
+   "2× ¥238",
+   "¥5,662",
+   "¥4,088",
+   "¥1,574",
+   "¥6,146"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2626",
+    "to": "2026"
+   },
+   {
+    "from": "94",
+    "to": "04"
+   },
+   {
+    "from": "4993",
+    "to": "4093"
+   }
+  ]
+ }
 }

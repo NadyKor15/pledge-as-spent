@@ -8,84 +8,57 @@
   "country": "US",
   "currency": "USD",
   "purchasedAt": "2026-11-06T10:18:00",
-  "receiptNumber": "01765",
+  "receiptNumber": "1765",
   "lines": [
    {
     "lineNo": 1,
     "rawText": "AA ALKALINE 24PK",
-    "translationEn": "AA ALKALINE 24PK",
-    "qty": 24,
-    "unitPriceMinor": null,
+    "translationEn": "AA Alkaline 24PK",
+    "qty": 1,
+    "unitPriceMinor": 1599,
     "amountMinor": 1599,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
     "lineNo": 2,
     "rawText": "AA BATTERY 8PK",
-    "translationEn": "AA BATTERY 8PK",
-    "qty": 8,
-    "unitPriceMinor": null,
-    "amountMinor": 1598,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 3,
-    "rawText": "2 @ $7.99",
-    "translationEn": "2 @ $7.99",
+    "translationEn": "AA Battery 8PK",
     "qty": 2,
     "unitPriceMinor": 799,
     "amountMinor": 1598,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
-    "lineNo": 4,
+    "lineNo": 3,
     "rawText": "POTATO CHIPS",
-    "translationEn": "POTATO CHIPS",
+    "translationEn": "Potato Chips",
     "qty": 1,
     "unitPriceMinor": 349,
     "amountMinor": 349,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PURE WTR 1GAL 4CT",
+    "translationEn": "Pure Water 1GAL 4CT",
+    "qty": 1,
+    "unitPriceMinor": 549,
+    "amountMinor": 549,
     "taxRateBp": 1000
    },
    {
     "lineNo": 5,
-    "rawText": "PURE WTR 1GAL 4CT",
-    "translationEn": "PURE WTR 1GAL 4CT",
-    "qty": 1,
-    "unitPriceMinor": 549,
-    "amountMinor": 549,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 6,
     "rawText": "SOFTIES DIAPERS SZ 3 38CT",
-    "translationEn": "SOFTIES DIAPERS SZ 3 38CT",
-    "qty": 38,
-    "unitPriceMinor": null,
-    "amountMinor": 3747,
-    "taxRateBp": 1000
-   },
-   {
-    "lineNo": 7,
-    "rawText": "3 @ $12.49",
-    "translationEn": "3 @ $12.49",
+    "translationEn": "Softies Diapers Size 3 38CT",
     "qty": 3,
     "unitPriceMinor": 1249,
     "amountMinor": 3747,
-    "taxRateBp": 1000
+    "taxRateBp": 800
    },
    {
-    "lineNo": 8,
+    "lineNo": 6,
     "rawText": "MILK 1GAL",
-    "translationEn": "MILK 1GAL",
-    "qty": 1,
-    "unitPriceMinor": 778,
-    "amountMinor": 778,
-    "taxRateBp": 0
-   },
-   {
-    "lineNo": 9,
-    "rawText": "2 @ $3.89",
-    "translationEn": "2 @ $3.89",
+    "translationEn": "Milk 1GAL",
     "qty": 2,
     "unitPriceMinor": 389,
     "amountMinor": 778,
@@ -98,16 +71,6 @@
   "totalMinor": 9149,
   "pii": [
    {
-    "kind": "name",
-    "text": "AVA PRESCOTT",
-    "bbox": {
-     "x": 0.16214847304115276,
-     "y": 0.774226745055321,
-     "w": 0.1786274487757486,
-     "h": 0.017686438927298043
-    }
-   },
-   {
     "kind": "member_id",
     "text": "2356750201",
     "bbox": {
@@ -115,6 +78,16 @@
      "y": 0.8089529391277972,
      "w": 0.14389975069572314,
      "h": 0.016950069483708363
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.16214847304115276,
+     "y": 0.774226745055321,
+     "w": 0.1786274487757486,
+     "h": 0.017686438927298043
     }
    }
   ],
@@ -127,29 +100,163 @@
    "needQty": 24,
    "verdict": "eligible",
    "ruleCode": null,
-   "reasonEn": "AA alkaline batteries are listed as a need and match the specified unit.",
+   "reasonEn": "AA Alkaline batteries in a 24-pack count toward the AA batteries need.",
    "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in an 8-pack count toward the AA batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Potato chips are not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pure water in 1-gallon jugs count toward the drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers count toward the baby diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the needs.",
+   "confidence": 0.9
   }
  ],
+ "classifiedFor": "4ee80c54777a5123303ca5b6f014ad8e1705284532f0083abec4c404ee7a8dcd",
  "usage": [
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1143,
-   "tokensOut": 663,
-   "usdCeiling": 0.00125,
-   "usdActual": 0.000228
+   "tokensIn": 3636,
+   "tokensOut": 858,
+   "usdCeiling": 0.001862,
+   "usdActual": 0.000424
   },
   {
    "model": "amazon.nova-lite-v1:0",
-   "tokensIn": 1314,
-   "tokensOut": 61,
-   "usdCeiling": 0.001267,
-   "usdActual": 0.000093
+   "tokensIn": 1954,
+   "tokensOut": 261,
+   "usdCeiling": 0.001447,
+   "usdActual": 0.00018
   }
  ],
  "latencyMs": {
-  "read": 4091,
-  "classify": 746
+  "read": 5679,
+  "classify": 1724
  },
- "errors": []
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK $15.99 T",
+   "AA BATTERY 8PK $15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS $3.49 T",
+   "PURE WTR 1GAL 4CT $5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL $7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL $86.20",
+   "SALES TAX 7.25% $5.29",
+   "TOTAL $91.49",
+   "CASH $100.00",
+   "CHANGE $8.51",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2356750201",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "reread": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK $15.99 T",
+   "AA BATTERY 8PK $15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS $3.49 T",
+   "PURE WTR 1GAL 4CT $5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT $37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL $7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL $86.20",
+   "SALES TAX 7.25% $5.29",
+   "TOTAL $91.49",
+   "CASH $100.00",
+   "CHANGE $8.51",
+   "REWARDS MEMBER",
+   "AVA PRESCOTT",
+   "MEMBER # 2356750201",
+   "T = TAXABLE F = NON-TAXABLE",
+   "THANK YOU - COME AGAIN"
+  ],
+  "photoNumbers": [
+   "CORNER PHARMACY #14",
+   "3 Elm Court",
+   "Brindlewood, Marlow Co.",
+   "TEL (555) 010-0063",
+   "11/06/2026 10:18 AM",
+   "REG 01",
+   "TRANS #1765",
+   "AA ALKALINE 24PK",
+   "$15.99 T",
+   "AA BATTERY 8PK",
+   "$15.98 T",
+   "2 @ $7.99",
+   "POTATO CHIPS",
+   "$3.49 T",
+   "PURE WTR 1GAL 4CT",
+   "$5.49 F",
+   "SOFTIES DIAPERS SZ 3 38CT",
+   "$37.47 T",
+   "3 @ $12.49",
+   "MILK 1GAL",
+   "$7.78 F",
+   "2 @ $3.89",
+   "SUBTOTAL",
+   "$86.20",
+   "SALES TAX 7.25%",
+   "$5.29",
+   "TOTAL",
+   "$91.49"
+  ],
+  "numbersFailed": 0,
+  "repairs": []
+ }
 }

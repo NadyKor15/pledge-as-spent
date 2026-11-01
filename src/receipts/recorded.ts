@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
-import type { CurrencyCode } from "../core/types";
+import type { CurrencyCode, Need } from "../core/types";
 import { sha256Hex } from "./hash";
 import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "./types";
 
@@ -29,6 +29,16 @@ export function receiptKey(r: ParsedReceipt): string {
 }
 
 const NO_COST = (model: string): ModelUsage => ({ model, tokensIn: 0, tokensOut: 0, usdCeiling: 0, usdActual: 0 });
+
+/** Identity of a classification: the parsed receipt plus the needs and rules its lines were matched against. */
+export function classificationKey(parsed: ParsedReceipt, needs: Pick<Need, "id" | "label" | "unit" | "qtyNeeded">[], rules: string): string {
+  const basis = JSON.stringify({
+    receipt: receiptKey(parsed),
+    needs: needs.map((n) => [n.id, n.label, n.unit, n.qtyNeeded]),
+    rules,
+  });
+  return createHash("sha256").update(basis).digest("hex");
+}
 
 export class RecordedReader implements ReceiptReader {
   constructor(private readonly rec: Pick<Recordings, "readings">) {}

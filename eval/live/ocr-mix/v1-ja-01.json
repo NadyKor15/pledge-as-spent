@@ -1,0 +1,192 @@
+{
+ "receiptId": "v1-ja-01",
+ "set": "v1",
+ "imageSha256": "d171078c40567f5761e7a6bc122512f2b96647751718d05578eb4908ee332208",
+ "reading": {
+  "merchantName": "ホームセンターツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町 7-29",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T16:52:00",
+  "receiptNumber": "4086",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ベビーラブパンツ M 38 枚",
+    "translationEn": "Baby Love Pants M 38 pieces",
+    "qty": 1,
+    "unitPriceMinor": null,
+    "amountMinor": 1098,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ミネラルウォーター 2L ペット",
+    "translationEn": "Mineral water 2L plastic bottle",
+    "qty": 6,
+    "unitPriceMinor": 108,
+    "amountMinor": 648,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 147,
+  "taxIncluded": false,
+  "totalMinor": 1746,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "クレジットキキ本キキネネキネネネ 1020",
+    "bbox": {
+     "x": 0.7532906850816544,
+     "y": 0.7325018433978001,
+     "w": 0.05520435562787007,
+     "h": 0.015950360103525574
+    }
+   }
+  ],
+  "readability": "poor"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers size M count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water 2L plastic bottle counts toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "6b3b6547b72cdb46fd21d2d6871581911e9c643167d080209731f7597c6b36f8",
+ "usage": [
+  {
+   "model": "amazon.nova-lite-v1:0",
+   "tokensIn": 3170,
+   "tokensOut": 413,
+   "usdCeiling": 0.017507,
+   "usdActual": 0.001879
+  },
+  {
+   "model": "amazon.nova-pro-v1:0",
+   "tokensIn": 1827,
+   "tokensOut": 95,
+   "usdCeiling": 0.018925,
+   "usdActual": 0.001766
+  }
+ ],
+ "latencyMs": {
+  "read": 3962,
+  "classify": 1036
+ },
+ "errors": [],
+ "trace": {
+  "ocr": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 19999199900712",
+   "2926 年 11 月 98 日 (日 ) 16:52",
+   "レジ 91 No.4986",
+   "ベビーラブパンツ M 38 枚 ¥1,098",
+   "ミネラルウォーター ¥648※",
+   "2L ペット",
+   "6 点 x 単 168",
+   "小計 (2 点 ) ¥1,746",
+   "8* 対象 ¥648",
+   "19*% 対象 ¥1,098",
+   "(内消費税等 8* ¥48 )",
+   "(内消費税等 19* ¥99)",
+   "ait ¥1,746",
+   "クレジットキキ本キキネネキネネネ 1020",
+   "お支払い ¥1,746",
+   "※ は埋減税率 (8*) 対象商品です",
+   "ご来店ありがとうこございました"
+  ],
+  "reread": [
+   "ホームセンターツバメ",
+   "北空東店",
+   "空川県北空市東町 7-29",
+   "TEL 0123-55-1100",
+   "登録番号 19999199900712",
+   "2926 年 11 月 98 日 (日 ) 16:52",
+   "レジ 91 No.4986",
+   "ベビーラブパンツ M 38 枚 ¥1,098",
+   "ミネラルウォーター ¥648※",
+   "2L ペット",
+   "6 点 x 単 168",
+   "小計 (2 点 ) ¥1,746",
+   "8* 対象 ¥648",
+   "19*% 対象 ¥1,098",
+   "(内消費税等 8* ¥48 )",
+   "(内消費税等 19* ¥99)",
+   "ait ¥1,746",
+   "クレジットキキ本キキネネキネネネ 1020",
+   "お支払い ¥1,746",
+   "※ は埋減税率 (8*) 対象商品です",
+   "ご来店ありがとうこございました"
+  ],
+  "photoNumbers": [
+   "- - - \" - \" -",
+   "-",
+   "- TEL 0123-55-1100",
+   "- T0000100000712",
+   "2026年11月08日(水) 16:52",
+   "L号01",
+   "No.4086",
+   "- ¥1,098",
+   "- ¥648",
+   "2L ¥450",
+   "6 x ¥108",
+   "-",
+   "- (2) ¥1,746",
+   "8 ¥648",
+   "10 ¥1,098",
+   "(¥48)",
+   "(¥99)",
+   "¥1,746",
+   "¥1,746",
+   "1020",
+   "¥1,746",
+   "- (8) -",
+   "-"
+  ],
+  "numbersFailed": 0,
+  "repairs": [
+   {
+    "from": "2926",
+    "to": "2026"
+   },
+   {
+    "from": "98",
+    "to": "08"
+   },
+   {
+    "from": "91",
+    "to": "01"
+   },
+   {
+    "from": "4986",
+    "to": "4086"
+   },
+   {
+    "from": "168",
+    "to": "108"
+   },
+   {
+    "from": "19",
+    "to": "10"
+   }
+  ]
+ }
+}
