@@ -285,6 +285,11 @@ test.describe("the book on a phone, 390 × 844", () => {
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(391);
     expect(await wider(page)).toBeLessThanOrEqual(0);
+    // The rows under the band ease down (0.2 s) and end below it, none hidden under it.
+    const next = page.locator('.ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.match"])');
+    await expect.poll(async () => (await next.boundingBox())!.y - (box.y + box.height)).toBeGreaterThanOrEqual(-2);
+    await expect(page.locator(".ag-row.lg-proof-row")).toHaveCount(1);
+    await page.waitForTimeout(300);
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-band")!.getBoundingClientRect().top - 160));
     await page.screenshot({ path: path.join(SHOTS, "book-390-proof.png") });
   });
