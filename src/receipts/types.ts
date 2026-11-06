@@ -55,6 +55,16 @@ export const LineClassification = z.object({
 });
 export type LineClassification = z.infer<typeof LineClassification>;
 
+/**
+ * Where one parsed line is printed: the box of its OCR row, in fractions 0..1 of the photo (and of its published,
+ * blurred copy, which keeps the photo's size). Kept beside the reading, not in it: a model never writes these.
+ */
+export const LineBox = z.object({
+  lineNo: z.number().int().positive(),
+  box: z.object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1), w: z.number().positive().max(1), h: z.number().positive().max(1) }),
+});
+export type LineBox = z.infer<typeof LineBox>;
+
 export interface ModelUsage {
   model: string;
   tokensIn: number;
@@ -71,7 +81,8 @@ export interface ReceiptImage {
 }
 
 export interface ReceiptReader {
-  read(image: ReceiptImage, hint: { currency: CurrencyCode; languages: string[] }): Promise<{ receipt: ParsedReceipt; usage: ModelUsage }>;
+  /** `lineBoxes`: readers that see where rows are printed (OCR) say so; the others leave it out. */
+  read(image: ReceiptImage, hint: { currency: CurrencyCode; languages: string[] }): Promise<{ receipt: ParsedReceipt; usage: ModelUsage; lineBoxes?: LineBox[] }>;
 }
 
 export interface LineClassifier {

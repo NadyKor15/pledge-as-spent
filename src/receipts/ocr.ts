@@ -12,7 +12,7 @@ import { prepImage, type Box, type PrepOptions } from "./prep";
 import { REREAD_BELOW_CONFIDENCE, repairDigits, rereadDoubtfulRows } from "./rows";
 import { structureText, sumUsage, validateReceipt } from "./structure";
 import { foldText, similarity } from "./text";
-import type { ModelUsage, ReceiptImage, ReceiptReader } from "./types";
+import type { LineBox, ModelUsage, ReceiptImage, ReceiptReader } from "./types";
 
 export interface OcrWord {
   text: string;
@@ -293,6 +293,50 @@ export function productRows(rows: { text: string; confidence?: number }[], expon
   return out;
 }
 
+/** A box cut to the photo; null when nothing of it is left. */
+function insidePhoto(b: Box): Box | null {
+  if (![b.x, b.y, b.w, b.h].every(Number.isFinite) || b.w <= 0 || b.h <= 0) return null;
+  if (b.x >= 0 && b.y >= 0 && b.x + b.w <= 1 && b.y + b.h <= 1) return b;
+  const x0 = Math.max(0, b.x);
+  const y0 = Math.max(0, b.y);
+  const x1 = Math.min(1, b.x + b.w);
+  const y1 = Math.min(1, b.y + b.h);
+  return x1 - x0 > 0 && y1 - y0 > 0 ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : null;
+}
+
+/**
+ * Where each parsed line is printed: the box of the OCR row it was read from. A line goes only to a row whose last
+ * number is the line's amount (a discount's without its sign) and whose name matches the line's text, never to a
+ * quantity row; rows are taken in print order, each once. A line with no such row gets no box: a strip of somebody
+ * else's row would prove nothing.
+ */
+export function matchLineBoxes(lines: { lineNo: number; rawText: string; amountMinor: number }[], rows: { text: string; box: Box }[], exponent: number): LineBox[] {
+  const used = new Set<number>();
+  const out: LineBox[] = [];
+  let prev = -1;
+  for (const l of lines) {
+    const name = letters(l.rawText);
+    const amount = Math.abs(l.amountMinor);
+    const score = (i: number) => (used.has(i) || isQtyRow(rows[i].text) || Math.abs(lastNumber(rows[i].text, exponent) ?? NaN) !== amount ? 0 : rowScore(name, letters(rowName(rows[i].text))));
+    let best = -1;
+    for (const from of [prev + 1, 0]) {
+      let top = 0.6;
+      for (let i = from; i < rows.length; i++) {
+        const s = score(i);
+        if (s > top + 1e-9) [best, top] = [i, s];
+      }
+      if (best >= 0) break;
+    }
+    if (best < 0) continue;
+    const box = insidePhoto(rows[best].box);
+    if (!box) continue;
+    used.add(best);
+    prev = best;
+    out.push({ lineNo: l.lineNo, box });
+  }
+  return out;
+}
+
 const SUBTOTAL_LABEL = /小計|sub\s*total|ara\s*toplam|subtotal/i;
 const TAX_ROW = /外税|消費税|sales\s*tax/i;
 
@@ -445,6 +489,7 @@ export class OcrNovaReader implements ReceiptReader {
     const usages: ModelUsage[] = [];
     let answer = "";
     let text = "";
+    let rows: OcrLine[] = [];
     let candidate: Record<string, unknown>;
     try {
       // The photo down to the total: the rows below it hold the card and the customer. A larger scale than the OCR's:
@@ -454,6 +499,7 @@ export class OcrNovaReader implements ReceiptReader {
       const numbers = await readNumbers({ ...this.o, modelId: this.numbersModelId, maxTokens: 1500 }, prepImage(image, { ...this.prep, scale: 2 }).tiles(undefined, bottom), what);
       usages.push(...numbers.usage);
       const { lines, repairs } = repairDigits(reread, numbers.rows);
+      rows = lines;
       text = lines.map((l) => l.text).join("\n");
       this.trace?.({ ocr: first.map((l) => l.text), reread: reread.map((l) => l.text), photoNumbers: numbers.rows, numbersFailed: numbers.failed, repairs });
       const s = await structureText(this.o, { what: `${what}: structure`, source: "ocr", text, hint });
@@ -486,6 +532,13 @@ export class OcrNovaReader implements ReceiptReader {
       throw e;
     }
     const usage = sumUsage(usages);
-    return { receipt: validateReceipt(candidate, what, usage, { ocr: text, structured: answer }), usage };
+    const receipt = validateReceipt(candidate, what, usage, { ocr: text, structured: answer });
+    // Boxes on the prepared paper, then on the photo: the published copy keeps the photo's size, so a strip cut by
+    // these shows the printed line. Mapping back can only grow a box (a straightened row is a tilted one on the photo).
+    const lineBoxes = matchLineBoxes(receipt.lines, rows, receipt.currency === "JPY" ? 0 : 2).flatMap((b) => {
+      const box = insidePhoto(prepared.toOriginal(b.box));
+      return box ? [{ lineNo: b.lineNo, box }] : [];
+    });
+    return { receipt, usage, lineBoxes };
   }
 }
