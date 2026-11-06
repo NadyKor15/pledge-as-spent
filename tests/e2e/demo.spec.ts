@@ -335,8 +335,17 @@ for (const { width, height } of [
     await expect(page.locator(".lg-spent .lg-line")).toHaveCount(3);
     const body = page.locator("body");
     await expect(body).toContainText("$8.55 held");
-    await expect(body).not.toContainText(/returned/i);
-    await expect(body).not.toContainText(/ back/);
+    // What the page says about the money; the chat's quick question "How much came back to me?" asks, it says nothing.
+    const said = await page.evaluate(() => {
+      const chat = [...document.querySelectorAll<HTMLElement>("[data-testid=ask-widget]")];
+      chat.forEach((e) => (e.style.display = "none"));
+      const text = document.body.innerText;
+      chat.forEach((e) => (e.style.display = ""));
+      return text;
+    });
+    expect(said).toContain("$8.55 held"); // the reading sees the page
+    expect(said).not.toMatch(/returned/i);
+    expect(said).not.toMatch(/ back/);
   });
 }
 

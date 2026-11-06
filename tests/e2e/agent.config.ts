@@ -1,13 +1,13 @@
 import { defineConfig } from "@playwright/test";
 
-// The live agent's chat end to end: the real app (tests/e2e/server.ts: in-memory PGlite, recorded PayPal
-// sandbox) and the browser's half of the agent for real; only the model's answers come from recordings,
-// served through page.route on /api/agent/*. Until the chat is on the Ledger page (book lane), it runs
-// on the agent's debug page, which Next serves in development only.
+// "Ask the book" end to end on the Ledger page of the real Next build: the book's drive and the model's turns
+// come through page.route (fixture, recorded answers), everything else runs for real — AG Studio's agent loop,
+// the book's tools, the guard, the chat in the book's slot, the narrowed book. Its own port: the other suites
+// of this repo run on 3311 and 3512.
 //
-//   npx playwright test -c tests/e2e/agent.config.ts
+//   npm run build && npx playwright test -c tests/e2e/agent.config.ts
 
-const PORT = 3311;
+const PORT = Number(process.env.AGENT_E2E_PORT ?? 3513);
 
 export default defineConfig({
   testDir: ".",
@@ -20,7 +20,7 @@ export default defineConfig({
   webServer: {
     command: "npx tsx tests/e2e/server.ts",
     cwd: "../..",
-    env: { PORT: String(PORT), NODE_ENV: "development" },
+    env: { PORT: String(PORT), NODE_ENV: "production" },
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: false,
     timeout: 180_000,

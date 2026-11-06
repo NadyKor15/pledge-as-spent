@@ -30,6 +30,8 @@ export interface AskWidgetProps {
   donors: { name: string; label: string }[];
   /** Narrow the book to these lines (the book's store.focusLines). */
   onFocusLines?: (lineKeys: string[], label: string) => void;
+  /** Small print beside the model's name (the WebMCP badge). */
+  footExtra?: ReactNode;
 }
 
 const UI = {
@@ -37,7 +39,7 @@ const UI = {
   sub: { en: "Answers come only from the book. Every figure is checked.", de: "Antworten kommen nur aus dem Buch. Jede Zahl wird geprüft.", ja: "答えは帳簿だけから。金額はすべて照合済みです。" },
   placeholder: { en: "Ask about any line…", de: "Fragen Sie zu jeder Zeile…", ja: "どの行についても質問できます…" },
   send: { en: "Ask", de: "Fragen", ja: "質問" },
-  foot: { en: "Amazon Nova · read-only · it cannot move money", de: "Amazon Nova · nur lesend · kann kein Geld bewegen", ja: "Amazon Nova · 読み取り専用 · お金は動かせません" },
+  foot: { en: "read-only · it cannot move money", de: "nur lesend · kann kein Geld bewegen", ja: "読み取り専用 · お金は動かせません" },
   checked: { en: "Checked against the book", de: "Mit dem Buch abgeglichen", ja: "帳簿と照合" },
   code: { en: "answered by the book's code, no AI", de: "vom Code des Buchs beantwortet, ohne KI", ja: "帳簿のコードが回答（AIなし）" },
   thinking: { en: "Reading the book…", de: "Lese das Buch…", ja: "帳簿を確認中…" },
@@ -91,7 +93,7 @@ function withChips(text: string, claims: Claim[], chip: (c: Claim, i: number) =>
   return out;
 }
 
-export function AskWidget({ agent, locale = "en", donors, onFocusLines }: AskWidgetProps) {
+export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtra }: AskWidgetProps) {
   const s = useSyncExternalStore(agent.subscribe, agent.get, agent.get);
   const [draft, setDraft] = useState("");
   const last = useRef<unknown>(null);
@@ -116,7 +118,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines }: AskWid
   const verdict = answer ? checkAnswer(answer.text, answer.facts, locale) : null;
 
   return (
-    <section className="ask" data-phase={s.phase} data-testid="ask-widget" lang={locale}>
+    <section className="ask" data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
       <header className="ask-head">
         <h2>{UI.title[locale]}</h2>
         <p>{UI.sub[locale]}</p>
@@ -211,7 +213,12 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines }: AskWid
           <Send />
         </button>
       </form>
-      <p className="ask-foot">{UI.foot[locale]}</p>
+      <div className="ask-foot">
+        <p data-testid="ask-model">
+          {s.modelLabel ?? "Amazon Nova"} · {UI.foot[locale]}
+        </p>
+        {footExtra}
+      </div>
     </section>
   );
 }

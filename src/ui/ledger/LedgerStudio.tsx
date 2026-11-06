@@ -1,8 +1,11 @@
 "use client";
 
 import { AG_GRID_LOCALE_DE, AG_GRID_LOCALE_EN, AG_GRID_LOCALE_JP } from "@ag-grid-community/locale";
+import { AgStudioAiModule } from "ag-studio";
 import { AG_STUDIO_LOCALE_DE, AG_STUDIO_LOCALE_EN, AG_STUDIO_LOCALE_JP } from "ag-studio-locale";
 import { AgStudio, AgStudioProvider, createWidgets } from "ag-studio-react";
+import { LedgerAgent } from "@/agent/harness";
+import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
 import { bookCells } from "./cells";
@@ -63,6 +66,23 @@ function widgetsFor(store: LedgerStore, lang: Lang) {
 const PANELS = { view: { left: [], right: [] }, edit: { left: [], right: [] } };
 const LAYOUT = (rowHeight: number) => ({ columns: 48, rowHeight, minWidth: 320, pagePadding: 0, widgetPadding: 0, widgetBorderEnabled: false });
 const LICENSE = process.env.NEXT_PUBLIC_AG_STUDIO_LICENSE;
+/** Studio's AI module: the agent's harness, its built-in data agent and its read-only tools. */
+const MODULES = [AgStudioAiModule];
+
+/** The page's store and its agent, made once: the chat is in the slot from the first render, so Studio is built once. */
+function makeBook(view: DriveView) {
+  const lang = langFromUrl();
+  const store = new LedgerStore(deriveLedger(view, lang), view);
+  const agent = new LedgerAgent({ getView: () => store.get().view ?? view, locale: () => store.get().lang });
+  store.setAskComponent(askComponentFor(agent));
+  store.setAskAbout((lineKey) => {
+    agent.askAboutLine(lineKey);
+    // The chat is over the book: bring it into view with the question in it.
+    const ask = document.querySelector('[data-testid="ask-widget"]');
+    ask?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+  return { store, agent };
+}
 
 const REF_W = 1440;
 const REF_H = 900;
@@ -91,7 +111,7 @@ const bandRoom = (stacked: boolean) => (stacked ? PHONE_BAND_ROOM_PX : BAND_ROOM
 const BOOK_HEAD_PX = 60;
 /** The assistant's chat over the book, in pixels at scale 1; the assistant's lane sizes its widget to this. */
 export const ASK_PX = 460;
-export const PHONE_ASK_PX = 560;
+export const PHONE_ASK_PX = 640;
 
 function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
   // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
@@ -202,10 +222,8 @@ const langFromUrl = (): Lang => parseLang(new URLSearchParams(window.location.se
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
 export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown> }) {
-  const [store] = useState(() => {
-    const lang = langFromUrl();
-    return new LedgerStore(deriveLedger(view, lang), view);
-  });
+  const [{ store, agent }] = useState(() => makeBook(view));
+  useEffect(() => () => agent.dispose(), [agent]);
   const lang = useSyncExternalStore(store.subscribe, () => store.get().lang);
   // The drive is re-read every few seconds after an action. The same figures must stay the same
   // object, or every read would rebuild Studio's data and start the count over.
@@ -295,7 +313,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
             <i className="lg-rule" style={{ left: "66.66%" }} />
           </>
         )}
-        <AgStudioProvider {...(LICENSE ? { licenseKey: LICENSE } : {})}>
+        <AgStudioProvider modules={MODULES} {...(LICENSE ? { licenseKey: LICENSE } : {})}>
           <div style={{ height: whole }}>
             <AgStudio
               key={layoutKey}
@@ -309,6 +327,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
               mode="view"
               panels={PANELS}
               layout={LAYOUT(metrics.rowHeight)}
+              onStudioReady={(e) => void agent.attach(e.api)}
             />
           </div>
         </AgStudioProvider>

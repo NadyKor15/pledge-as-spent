@@ -1,35 +1,39 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type Page, type Route } from "@playwright/test";
+import shipped from "../../eval/live/shipped/hero-ja-01.json";
 import { TEXT } from "../../src/agent/i18n";
+import { redactImage } from "../../src/server/redact";
+import type { DriveView } from "../../src/ui/types";
 
-// The chat of the live agent, end to end in the browser: Studio's agent loop, the book's tools, the
-// guard, the widget and the narrowed book all run for real. The server's two agent routes are answered
-// here: /api/agent/question with an id or a limit, /api/agent/turn with the model turns Nova Lite gave
-// in the live measure of 06.11 (eval/agent/recorded/r1-lite/Q1.json), or with made-up ones.
+// "Ask the book" on the Ledger page: the chat in the book's slot, over the book. The drive is the closed demo
+// snapshot and the model's turns are the ones Nova Lite gave in the live measure (eval/agent/recorded/A), or
+// made up where a case needs it; the server's /api/agent routes are answered here. Everything between runs for
+// real: AG Studio's agent loop, the book's tools, the guard, the widget, the book narrowed by the answer.
+
+const ROOT = path.resolve(__dirname, "../..");
+const SHOTS = process.env.AGENT_SHOTS ?? path.join(ROOT, "tmp/agent-shots");
+mkdirSync(SHOTS, { recursive: true });
+
+const fixture = () => JSON.parse(readFileSync(path.join(ROOT, "tests/fixtures/drives/closed.json"), "utf8")) as DriveView;
+const published = Buffer.from(redactImage({ bytes: new Uint8Array(readFileSync(path.join(ROOT, "eval/receipts/hero/hero-ja-01.png"))), mediaType: "image/png" }, shipped.reading.pii as never).bytes!);
 
 interface Turn {
-  agentId: "ledger" | "data";
-  response: { output: unknown[]; status: string; usage?: unknown; model?: string };
+  agentId: string;
+  response: { output: unknown[] };
 }
-
-const Q1 = JSON.parse(readFileSync(path.resolve(__dirname, "../../eval/agent/recorded/r1-lite/Q1.json"), "utf8")) as { question: string; turns: Turn[] };
-
+const recorded = (q: string) => (JSON.parse(readFileSync(path.join(ROOT, `eval/agent/recorded/A/${q}.json`), "utf8")) as { question: string; turns: Turn[] });
+const Q1 = recorded("Q1");
+const turnsOf = (r: { turns: Turn[] }) => r.turns.map((t) => ({ agentId: t.agentId, output: t.response.output }));
 const message = (text: string) => ({ id: `m_${Math.random()}`, kind: "output", type: "message", role: "assistant", status: "completed", content: [{ type: "text", text, annotations: [] }] });
+const call = (name: string, args: object) => ({ id: `fc_${Math.random()}`, kind: "output", type: "function_call", callId: `c_${Math.random().toString(36).slice(2)}`, name, arguments: JSON.stringify(args) });
 
-/** Serves model turns in order, per agent; `hold` keeps the next turn waiting until released. */
-function turns(page: Page, list: { agentId: string; output: unknown[] }[]) {
-  const queue = { ledger: list.filter((t) => t.agentId === "ledger"), data: list.filter((t) => t.agentId === "data") } as Record<string, { output: unknown[] }[]>;
+/** Serves model turns in order, per agent; `holdNext` keeps the next one waiting until released. */
+function model(page: Page, list: { agentId: string; output: unknown[] }[], label = "Amazon Nova") {
+  const queue: Record<string, { output: unknown[] }[]> = { ledger: list.filter((t) => t.agentId === "ledger"), data: list.filter((t) => t.agentId === "data") };
   const seen: string[] = [];
   let hold: Promise<void> | null = null;
   let release = () => {};
-  const api = {
-    seen,
-    holdNext() {
-      hold = new Promise((r) => (release = r));
-    },
-    release: () => release(),
-  };
   void page.route("**/api/agent/turn", async (route: Route) => {
     const body = route.request().postDataJSON() as { agentId: string; questionId: string };
     seen.push(`${body.agentId}:${body.questionId}`);
@@ -40,19 +44,36 @@ function turns(page: Page, list: { agentId: string; output: unknown[] }[]) {
     }
     const next = queue[body.agentId]?.shift();
     if (!next) return route.fulfill({ status: 502, json: { error: "model_failed", message: "No more recorded turns." } });
-    await route.fulfill({ json: { id: "r", status: "completed", usage: { inputTokens: 1, outputTokens: 1 }, model: "recorded", output: next.output } });
+    await route.fulfill({ json: { id: "r", status: "completed", usage: { inputTokens: 1, outputTokens: 1 }, model: "recorded", modelLabel: label, output: next.output } });
   });
-  return api;
+  return {
+    seen,
+    holdNext() {
+      hold = new Promise((r) => (release = r));
+    },
+    release: () => release(),
+  };
 }
 
 let asked = 0;
-async function questions(page: Page, answer: "ok" | { status: number; json: unknown } = "ok") {
-  await page.route("**/api/agent/question", (route) => (answer === "ok" ? route.fulfill({ status: 201, json: { questionId: `e2e-question-${++asked}` } }) : route.fulfill(answer)));
-}
+const questions = (page: Page, answer: "ok" | { status: number; json: unknown } = "ok", label = "Amazon Nova") =>
+  page.route("**/api/agent/question", (route) => (answer === "ok" ? route.fulfill({ status: 201, json: { questionId: `e2e-question-${++asked}`, model: label } }) : route.fulfill(answer)));
 
-async function open(page: Page) {
-  await page.goto("/debug/agent-spike?mode=live&route=model");
-  await expect.poll(() => page.evaluate(() => (window.__agentDebug?.state as (() => { ready: boolean }) | undefined)?.().ready ?? false), { timeout: 120_000 }).toBe(true);
+const errors: string[] = [];
+async function openLedger(page: Page, query = "") {
+  errors.length = 0;
+  page.on("console", (m) => {
+    if (m.type() === "error" && !/\*{8}|License|trial|watermark|info@ag-grid\.com/.test(m.text())) errors.push(m.text());
+  });
+  page.on("pageerror", (e) => errors.push(e.message));
+  const v = fixture();
+  await page.route(`**/api/drives/${v.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(v) }));
+  await page.route("**/api/receipts/*/image", (r) => r.fulfill({ contentType: "image/png", body: published }));
+  await page.goto(`/drive/${v.drive.id}?as=ledger${query}`);
+  await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByTestId("ask-widget")).toBeVisible();
+  // The agent is attached to Studio once its thread is open.
+  await expect.poll(() => page.evaluate(() => document.querySelector("[data-testid=ask-widget]")?.getAttribute("data-ready")), { timeout: 60_000 }).toBe("true");
 }
 
 async function ask(page: Page, text: string) {
@@ -60,71 +81,122 @@ async function ask(page: Page, text: string) {
   await page.getByTestId("ask-send").click();
 }
 
-test("a question gets an answer with checked chips, and the book narrows to the donor's lines", async ({ page }) => {
-  await questions(page);
-  const served = turns(page, Q1.turns.map((t) => ({ agentId: t.agentId, output: t.response.output })));
-  await open(page);
-  await ask(page, Q1.question);
+const phase = (page: Page) => page.getByTestId("ask-widget").getAttribute("data-phase");
 
+test("a question gets an answer with checked chips, and the book narrows to the donor's lines; WebMCP says it is not there, quietly", async ({ page }) => {
+  await questions(page);
+  const served = model(page, turnsOf(Q1));
+  await openLedger(page);
+  await expect(page.getByTestId("webmcp-badge")).toHaveText("This browser doesn't expose WebMCP (Chrome 149+, flag)");
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · read-only");
+  await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
-  // Each confirmed figure is a chip with a ✓ inside the sentence.
   await expect(answer).toContainText("Your ✓$30.00 hold paid ✓$21.45 for Diapers size M");
   await expect(page.getByTestId("ask-chip")).toHaveCount(7);
   await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
-  await expect(page.getByTestId("dbg-narrow")).toContainText("Narrowed by the assistant: Mark · Columbus");
-  await expect(page.getByTestId("dbg-book").locator("tbody tr")).toHaveCount(3);
-  // The tool ran in the browser for real: its turn came back to the model, and the question id went with each turn.
+  await expect(page.locator(".lg-chip")).toHaveText(/^Narrowed by the assistant: Mark · Columbus/);
+  await expect(page.locator(".ag-row.lg-focused")).toHaveCount(6); // lines 4, 5, 6: Mark's shares and the match's
   expect(served.seen).toEqual(["ledger:e2e-question-1", "ledger:e2e-question-1"]);
-
   await page.getByTestId("ask-chip").filter({ hasText: "$10.89" }).click();
-  await expect(page.getByTestId("dbg-narrow")).toContainText("$10.89");
-  await expect(page.getByTestId("dbg-book").locator("tbody tr")).toHaveCount(2); // line 5: Mark's share and the match's
+  await expect(page.locator(".lg-chip")).toHaveText(/^Narrowed by the assistant: \$10\.89/);
+  await expect(page.locator(".ag-row.lg-focused")).toHaveCount(2);
+  await page.getByTestId("ask-widget").scrollIntoViewIfNeeded();
+  await page.screenshot({ path: path.join(SHOTS, "ask-1440.png"), fullPage: false });
+  expect(errors).toEqual([]);
 });
 
 test("a made-up figure never reaches the reader: asked once more, then \"I can't confirm\"", async ({ page }) => {
   await questions(page);
-  const served = turns(page, [
+  const served = model(page, [
     { agentId: "ledger", output: [message("Your hold paid $21.47 for diapers.")] },
     { agentId: "ledger", output: [message("Your hold paid $21.47, as I said.")] },
   ]);
-  await open(page);
+  await openLedger(page);
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-answer")).toHaveText(TEXT.cannotConfirm.en);
   await expect(page.getByTestId("ask-checked")).toContainText("not shown");
-  await expect(page.getByText("21.47")).toHaveCount(0);
+  await expect(page.getByTestId("ask-widget").getByText("21.47")).toHaveCount(0);
   expect(served.seen).toHaveLength(2);
 });
 
-test("out of questions is a sentence, not an error; so is a budget refusal mid-question", async ({ page }) => {
+test("out of questions is a sentence, not an error; so is the budget running out mid-question", async ({ page }) => {
   await questions(page, { status: 429, json: { error: "agent_daily", message: TEXT.limit.en, limit: true } });
-  await open(page);
+  await openLedger(page);
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-note")).toHaveText(TEXT.limit.en);
   await expect(page.getByRole("button", { name: "Ask again" })).toHaveCount(0);
-  expect(await page.evaluate(() => (window.__agentDebug!.state as () => { phase: string })().phase)).toBe("limit");
-
+  expect(await phase(page)).toBe("limit");
   await page.unroute("**/api/agent/question");
   await questions(page);
   await page.route("**/api/agent/turn", (route) => route.fulfill({ status: 429, json: { error: "agent_budget", message: TEXT.budget.en, limit: true } }));
   await ask(page, "Why was a line refused?");
   await expect(page.getByTestId("ask-note")).toHaveText(TEXT.budget.en);
-  expect(await page.evaluate(() => (window.__agentDebug!.state as () => { phase: string })().phase)).toBe("limit");
+  expect(await phase(page)).toBe("limit");
 });
 
-test("Studio rebuilt in the middle of an answer: \"ask again\", and asking again answers", async ({ page }) => {
+test("the report rebuilt in the middle of an answer (the window resized): \"ask again\", and asking again answers", async ({ page }) => {
   await questions(page);
-  const recorded = Q1.turns.map((t) => ({ agentId: t.agentId, output: t.response.output }));
-  const served = turns(page, [...recorded, ...recorded]);
-  await open(page);
+  const served = model(page, [...turnsOf(Q1), ...turnsOf(Q1)]);
+  await openLedger(page);
   served.holdNext();
   await ask(page, Q1.question);
   await expect.poll(() => served.seen.length).toBe(1);
-  await page.getByTestId("dbg-remount").click();
+  await page.setViewportSize({ width: 1200, height: 860 }); // another scale: Studio is built again
   await expect(page.getByTestId("ask-note")).toContainText(TEXT.interrupted.en);
   served.release();
-
-  await expect.poll(() => page.evaluate(() => (window.__agentDebug!.state as () => { ready: boolean })().ready)).toBe(true);
+  await expect.poll(() => page.evaluate(() => document.querySelector("[data-testid=ask-widget]")?.getAttribute("data-ready")), { timeout: 60_000 }).toBe("true");
   await page.getByRole("button", { name: "Ask again" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("Your ✓$30.00 hold paid ✓$21.45");
   await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
+});
+
+test("\"Ask about this line\" in a row's proof band asks the agent about that line", async ({ page }) => {
+  await questions(page);
+  const served = model(page, [
+    { agentId: "ledger", output: [call("ledger_line", { line: "4" })] },
+    { agentId: "ledger", output: [message("Line 4, soft kids diapers M, cost ¥2,596; Mark (Columbus) paid $8.58 of it in PayPal capture 5PE922386K0983923.")] },
+  ]);
+  await openLedger(page);
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await page.locator('.ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.diapers"]) .lg-item-name').click();
+  await page.getByRole("button", { name: "Ask about this line" }).click();
+  await expect(page.getByTestId("ask-question")).toHaveText("What happened to line 4: what was bought, who paid for it, or why was it refused?");
+  await expect(page.getByTestId("ask-answer")).toContainText("✓¥2,596");
+  await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 3 of 3");
+  expect(served.seen).toHaveLength(2);
+});
+
+test("in German the chat speaks German: quick question answered by the book's code, euro in the German form", async ({ page }) => {
+  await questions(page);
+  await openLedger(page);
+  await page.getByRole("button", { name: "DE", exact: true }).click();
+  await expect(page.getByTestId("ask-widget").getByRole("heading")).toHaveText("Frag das Buch");
+  await page.getByTestId("ask-starter-back").click();
+  await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
+  await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
+  await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · nur lesend");
+});
+
+test("the model's name follows the server: Meta Muse Spark when it answered", async ({ page }) => {
+  await questions(page, "ok", "Meta Muse Spark");
+  model(page, turnsOf(Q1), "Meta Muse Spark");
+  await openLedger(page);
+  await ask(page, Q1.question);
+  await expect(page.getByTestId("ask-answer")).toContainText("✓$21.45");
+  await expect(page.getByTestId("ask-model")).toContainText("Meta Muse Spark · read-only");
+});
+
+test.describe("on a phone", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test("390 px: the chat answers with chips and nothing spills sideways", async ({ page }) => {
+    await questions(page);
+    model(page, turnsOf(Q1));
+    await openLedger(page);
+    await ask(page, Q1.question);
+    await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    await page.getByTestId("ask-widget").scrollIntoViewIfNeeded();
+    await page.screenshot({ path: path.join(SHOTS, "ask-390.png") });
+  });
 });

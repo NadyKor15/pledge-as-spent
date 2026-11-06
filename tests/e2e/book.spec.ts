@@ -91,7 +91,9 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect(band.locator(".lg-band-paypal")).toContainText("5PE922386K0983923 · Completed · Nov 1, 02:06 UTC");
     await expect(band.locator(".lg-band-paypal")).toContainText("Match capture64424341AL727524D");
     await expect(band.locator(".lg-strip")).toHaveCount(1);
-    // No assistant yet: no "Ask about this line".
+    // The page's assistant answers "Ask about this line"; without it there is no button.
+    await expect(band.getByRole("button", { name: "Ask about this line" })).toBeVisible();
+    await store(page, `(s.setAskAbout(null), true)`);
     await expect(page.getByRole("button", { name: "Ask about this line" })).toHaveCount(0);
     // The next row sits under the band, not under it hidden.
     const bandBox = (await band.boundingBox())!;
@@ -158,8 +160,11 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
   test("Ask about this line: the assistant's callback gets the line; the slot over the book shows its chat", async ({ page }) => {
     await openBook(page, fixture("closed"));
     const height = async () => (await page.locator(".lg-frame").boundingBox())!.height;
-    const without = await height();
+    // The page's own chat is in the slot from the start; without a component there is no slot and no height for it.
+    await expect(page.locator(".lg-ask-slot [data-testid=ask-widget]")).toBeVisible();
+    await store(page, `(s.setAskComponent(null), true)`);
     await expect(page.locator(".lg-ask-slot")).toHaveCount(0);
+    const without = await height();
     await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
     await page.getByRole("button", { name: "Ask about this line" }).click();
@@ -368,7 +373,8 @@ for (const { width, height } of [
         await page.route("**/api/receipts/*/image", (r) => r.fulfill({ contentType: "image/png", body: published }));
         await page.goto(`/drive/${id}?as=ledger${lang === "en" ? "" : `&lang=${lang}`}`);
         await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
-        if (ask) await store(page, `(s.setAskAbout(() => {}), true)`);
+        // The page's assistant gives "Ask about this line" a callback; "without" takes it away.
+        await store(page, ask ? `(s.setAskAbout(() => {}), true)` : `(s.setAskAbout(null), true)`);
         await page.getByRole("button", { name: LABEL[lang] }).click();
         await expect(rows(page)).toHaveCount(20);
         await page.locator(`[data-row-key="${MARK4}"]`).click();

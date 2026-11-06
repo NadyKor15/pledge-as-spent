@@ -86,8 +86,11 @@ function laneCalls(lane: string): { n: number; usd: number } {
 
 async function startServer(env: NodeJS.ProcessEnv, logFile: string): Promise<ChildProcess> {
   const out = openSync(logFile, "a");
-  const cmd = live ? path.join(CAMPAIGN, "tools", "p3", mode === "D" ? "with-meta-nadya.sh" : "withp3.sh") : "npx";
-  const args = live ? ["npx", "next", "dev", "-p", String(port)] : ["next", "dev", "-p", String(port)];
+  // D needs both keys: Meta's for its turns, Bedrock's for the turns Meta hands over (the fallback to A).
+  const p3 = (name: string) => path.join(CAMPAIGN, "tools", "p3", name);
+  const cmd = live ? p3("withp3.sh") : "npx";
+  const dev = ["next", "dev", "-p", String(port)];
+  const args = !live ? dev : mode === "D" ? [p3("with-meta-nadya.sh"), "npx", ...dev] : ["npx", ...dev];
   const child = spawn(cmd, args, { cwd: ROOT, env, detached: true, stdio: ["ignore", out, out] });
   closeSync(out);
   for (let i = 0; i < 180; i++) {

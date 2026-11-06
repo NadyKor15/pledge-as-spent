@@ -68,6 +68,8 @@ export interface NovaAdapterOptions {
   fetch?: typeof fetch;
   /** The server said no: out of questions, budget or steps. Its sentence becomes the answer. */
   onLimit?: (code: string, message: string) => void;
+  /** Which model answered the turn, in the reader's words ("Meta Muse Spark", "Amazon Nova"). */
+  onModel?: (label: string) => void;
 }
 
 export function novaAdapter(o: NovaAdapterOptions): AgLlmAdapter {
@@ -91,6 +93,8 @@ export function novaAdapter(o: NovaAdapterOptions): AgLlmAdapter {
           }
           throw new Error(body.message ?? `The live AI answered ${res.status}.`);
         }
+        const label = (body as { modelLabel?: string }).modelLabel;
+        if (label) o.onModel?.(label);
         return { ...(body as AgLlmResponse), createdAt: Date.now() };
       })();
       return afterComplete(complete);

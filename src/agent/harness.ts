@@ -108,10 +108,14 @@ export interface AskState {
   /** A quick question waiting for the reader to say who they are. */
   pending: StarterId | null;
   donor: string | null;
+  /** Which model answers ("Amazon Nova", "Meta Muse Spark"): the server says so with each question and turn. */
+  modelLabel: string;
+  /** Grows each time a Studio is attached: what reads Studio's tools (WebMCP) reads them again. */
+  studio: number;
 }
 
 export interface QuestionOpener {
-  (locale: AgentLocale): Promise<{ questionId: string } | { limit: string; message: string } | { failed: string; message: string }>;
+  (locale: AgentLocale): Promise<{ questionId: string; model?: string } | { limit: string; message: string } | { failed: string; message: string }>;
 }
 
 /** POST /api/agent/question. */
@@ -119,8 +123,8 @@ export const serverQuestion =
   (endpoint = "/api/agent/question"): QuestionOpener =>
   async (locale) => {
     const res = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ locale }) });
-    const body = (await res.json().catch(() => ({}))) as { questionId?: string; error?: string; message?: string; limit?: boolean };
-    if (res.ok && body.questionId) return { questionId: body.questionId };
+    const body = (await res.json().catch(() => ({}))) as { questionId?: string; model?: string; error?: string; message?: string; limit?: boolean };
+    if (res.ok && body.questionId) return { questionId: body.questionId, ...(body.model ? { model: body.model } : {}) };
     if (body.limit) return { limit: body.error ?? `http_${res.status}`, message: body.message ?? say("limit", locale) };
     return { failed: body.error ?? `http_${res.status}`, message: say("failed", locale) };
   };
@@ -129,7 +133,7 @@ export interface LedgerAgentOptions {
   getView: () => DriveView;
   locale?: () => AgentLocale;
   /** The model's side of a turn for each agent; live (Nova through /api/agent/turn) unless replaced. */
-  modelFor?: (agentId: AgentId, live: { getQuestionId: () => string | null; locale: () => AgentLocale; onLimit: (code: string, message: string) => void }) => AgLlmAdapter;
+  modelFor?: (agentId: AgentId, live: { getQuestionId: () => string | null; locale: () => AgentLocale; onLimit: (code: string, message: string) => void; onModel: (label: string) => void }) => AgLlmAdapter;
   newQuestion?: QuestionOpener;
   history?: AgAiHistoryStore;
   /**
@@ -154,7 +158,8 @@ const lastAssistantText = (s: AgAiChatSession) => {
 export class LedgerAgent {
   readonly facts: FactRegistry;
   readonly history: AgAiHistoryStore;
-  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null };
+  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null, modelLabel: "Amazon Nova", studio: 0 };
+  private api: AgStudioApi | null = null;
   private readonly listeners = new Set<() => void>();
   private harness: AgAiHarness | null = null;
   private session: AgAiChatSession | null = null;
@@ -195,6 +200,9 @@ export class LedgerAgent {
       onLimit: (code: string, message: string) => {
         if (gen === this.generation) this.limit = { code, message };
       },
+      onModel: (label: string) => {
+        if (gen === this.generation && label !== this.state.modelLabel) this.set({ modelLabel: label });
+      },
     };
     const model = this.o.modelFor ? this.o.modelFor(agentId, live) : novaAdapter({ agentId, ...live });
     if (agentId !== "ledger") return model;
@@ -212,6 +220,7 @@ export class LedgerAgent {
     const interrupted = this.state.phase === "thinking" || this.state.phase === "asking";
     this.detach();
     const gen = ++this.generation;
+    this.api = api;
     const harness = attachLedgerAgent(api, { getView: this.o.getView, history: this.history, facts: this.facts, locale: this.locale, adapterFor: (id) => this.modelFor(id, gen), plan: () => this.plan });
     this.harness = harness;
     if (interrupted) this.set({ phase: "interrupted", message: say("interrupted", this.locale()) });
@@ -235,7 +244,7 @@ export class LedgerAgent {
       const onChange = () => this.onSession(gen);
       session.addEventListener("changed", onChange);
       this.unlisten = () => session.removeEventListener("changed", onChange);
-      this.set({ ready: true });
+      this.set({ ready: true, studio: this.state.studio + 1 });
     })().catch((e: unknown) => {
       if (gen === this.generation) this.set({ phase: "error", message: `${say("failed", this.locale())} (${e instanceof Error ? e.message : String(e)})` });
     });
@@ -253,7 +262,20 @@ export class LedgerAgent {
     this.session = null;
     this.harness?.dispose?.();
     this.harness = null;
+    this.api = null;
     if (this.state.ready) this.set({ ready: false });
+  }
+
+  /** The Studio the agent works in now, for its read-only tools elsewhere on the page (WebMCP). */
+  studioApi(): AgStudioApi | null {
+    return this.api;
+  }
+
+  /** "Ask about this line" in the book's proof band: the question in the reader's language. */
+  askAboutLine(lineKey: string) {
+    const n = Number(lineKey.slice(lineKey.lastIndexOf(":") + 1));
+    if (!Number.isInteger(n)) return;
+    void this.ask({ en: `What happened to line ${n}: what was bought, who paid for it, or why was it refused?`, de: `Was ist mit Zeile ${n} passiert: Was wurde gekauft, wer hat bezahlt, oder warum wurde sie abgelehnt?`, ja: `${n}行目はどうなりましたか？何が買われ、誰が支払いましたか？または、なぜ却下されましたか？` }[this.locale()]);
   }
 
   private onSession(gen: number) {
@@ -301,6 +323,7 @@ export class LedgerAgent {
       return;
     }
     this.questionId = opened.questionId;
+    if (opened.model && opened.model !== this.state.modelLabel) this.set({ modelLabel: opened.model });
     this.plan = (this.o.routing ?? defaultRouting()) === "code" ? routeQuestion(this.o.getView(), question) : null;
     const session = this.session;
     if (!session) {
@@ -349,8 +372,11 @@ export class LedgerAgent {
     void this.ask(q);
   }
 
+  /**
+   * The page is going. Listeners are left alone: each subscriber removes its own, and React's development
+   * mode unmounts and mounts again once, which must find them in place.
+   */
   dispose() {
     this.detach();
-    this.listeners.clear();
   }
 }
