@@ -1,4 +1,5 @@
 import type { AgAiStudioTools, AgAiTool, AgAiToolContext } from "ag-studio";
+import type { Lang } from "../format";
 
 // WebMCP: read-only tools of the page, offered to the AI the browser itself runs.
 // `document.modelContext` is experimental and ships in Chrome 149+ behind a flag or an
@@ -185,9 +186,17 @@ export function createWebMcpSync(getTools: () => readonly WebMcpTool[], options:
   };
 }
 
-/** The line the page shows about WebMCP. */
-export function webMcpBadgeText(supported: boolean, count: number): string {
-  return supported ? `WebMCP: ${count} ledger ${count === 1 ? "tool" : "tools"} exposed to your browser's AI` : "This browser doesn't expose WebMCP (Chrome 149+, flag)";
+/** The line the page shows about WebMCP, in the reader's language. Every tool it offers is read-only. */
+export function webMcpBadgeText(supported: boolean, count: number, lang: Lang = "en"): string {
+  if (!supported) {
+    return { en: "This browser doesn't expose WebMCP (Chrome 149+, flag)", de: "Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)", ja: "このブラウザはWebMCPに対応していません（Chrome 149以降、フラグ）" }[lang];
+  }
+  const one = count === 1;
+  return {
+    en: `WebMCP: ${count} read-only ${one ? "tool" : "tools"} exposed to your browser's AI`,
+    de: `WebMCP: ${count} ${one ? "schreibgeschütztes Werkzeug" : "schreibgeschützte Werkzeuge"} für die KI Ihres Browsers freigegeben`,
+    ja: `WebMCP: 読み取り専用ツール${count}個をブラウザのAIに公開中`,
+  }[lang];
 }
 
 type CreateContext = (options?: { signal?: AbortSignal; run?: { threadId: string; runId: string } }) => AgAiToolContext;

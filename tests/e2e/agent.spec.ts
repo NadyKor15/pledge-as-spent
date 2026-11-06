@@ -190,6 +190,7 @@ test("in German the chat speaks German: quick question answered by the book's co
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
   await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · nur lesend");
+  await expect(page.getByTestId("webmcp-badge")).toHaveText("Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)");
 });
 
 test("the model's name follows the server: Meta Muse Spark when it answered", async ({ page }) => {

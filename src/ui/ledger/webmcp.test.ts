@@ -126,13 +126,18 @@ describe("registerWebMcpTools", () => {
 });
 
 describe("webMcpBadgeText", () => {
-  it("says how many tools the browser's AI can see", () => {
-    expect(webMcpBadgeText(true, 6)).toBe("WebMCP: 6 ledger tools exposed to your browser's AI");
-    expect(webMcpBadgeText(true, 1)).toBe("WebMCP: 1 ledger tool exposed to your browser's AI");
+  it("says how many read-only tools the browser's AI can see, in the reader's language", () => {
+    expect(webMcpBadgeText(true, 10)).toBe("WebMCP: 10 read-only tools exposed to your browser's AI");
+    expect(webMcpBadgeText(true, 1)).toBe("WebMCP: 1 read-only tool exposed to your browser's AI");
+    expect(webMcpBadgeText(true, 10, "de")).toBe("WebMCP: 10 schreibgeschützte Werkzeuge für die KI Ihres Browsers freigegeben");
+    expect(webMcpBadgeText(true, 1, "de")).toBe("WebMCP: 1 schreibgeschütztes Werkzeug für die KI Ihres Browsers freigegeben");
+    expect(webMcpBadgeText(true, 10, "ja")).toBe("WebMCP: 読み取り専用ツール10個をブラウザのAIに公開中");
   });
   it("says why there is nothing when the browser has no WebMCP", () => {
     expect(webMcpBadgeText(false, 0)).toBe("This browser doesn't expose WebMCP (Chrome 149+, flag)");
-    expect(webMcpBadgeText(false, 6)).toBe("This browser doesn't expose WebMCP (Chrome 149+, flag)");
+    expect(webMcpBadgeText(false, 6, "en")).toBe("This browser doesn't expose WebMCP (Chrome 149+, flag)");
+    expect(webMcpBadgeText(false, 6, "de")).toBe("Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)");
+    expect(webMcpBadgeText(false, 6, "ja")).toBe("このブラウザはWebMCPに対応していません（Chrome 149以降、フラグ）");
   });
 });
 

@@ -51,7 +51,7 @@ export function askComponentFor(agent: LedgerAgent): AskComponent {
         return book;
       }
     }, [studio, store]);
-    return <AskWidget agent={agent} locale={snap.lang} donors={donors} onFocusLines={store.focusLines} footExtra={<WebMcpBadge tools={tools} />} />;
+    return <AskWidget agent={agent} locale={snap.lang} donors={donors} onFocusLines={store.focusLines} footExtra={<WebMcpBadge tools={tools} lang={snap.lang} />} />;
   }
   return BookAsk;
 }
