@@ -111,4 +111,19 @@ export const spendLedger = pgTable("spend_ledger", {
   ref: text("ref"),
 });
 
-export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger };
+/** One question to the live agent: who asked (hashed address) and what it has cost so far. */
+export const agentQuestions = pgTable(
+  "agent_questions",
+  {
+    id: text("id").primaryKey(),
+    ipHash: text("ip_hash").notNull(),
+    ts: ts("ts").notNull(),
+    /** Model calls made for this question, delegates included. */
+    calls: integer("calls").notNull().default(0),
+    /** Estimated input tokens sent for this question. */
+    tokens: integer("tokens").notNull().default(0),
+  },
+  (t) => [index("agent_questions_ip").on(t.ipHash, t.ts), index("agent_questions_ts").on(t.ts)],
+);
+
+export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger, agentQuestions };
