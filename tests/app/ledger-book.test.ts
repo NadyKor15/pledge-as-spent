@@ -148,6 +148,21 @@ describe("the assistant's points into the book", () => {
     expect(store.get().proof).toBeNull();
   });
 
+  it("the band's measured height is kept, whole pixels up; the same height again tells nobody", () => {
+    const store = new LedgerStore(model, closed);
+    expect(store.get().bandPx).toBeNull();
+    let calls = 0;
+    store.subscribe(() => calls++);
+    store.setBandPx(141.2);
+    expect(store.get().bandPx).toBe(142);
+    store.setBandPx(141.9);
+    expect(calls).toBe(1);
+    store.setBandPx(0);
+    store.setBandPx(Number.NaN);
+    expect(store.get().bandPx).toBe(142);
+    expect(calls).toBe(1);
+  });
+
   it("every change tells the listeners, so the widgets in Studio's own roots redraw", () => {
     const store = new LedgerStore(model, closed);
     let calls = 0;

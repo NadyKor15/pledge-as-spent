@@ -174,9 +174,21 @@ function useCellWidth(eGridCell: HTMLElement) {
 function Band({ store, row, stacked, width }: { store: LedgerStore; row: LedgerBookRow; stacked: boolean; width: number }) {
   const snap = useSnap(store);
   const proof = snap.view ? lineProof(snap.view, snap.model, row.rowKey, snap.lang) : null;
+  const wrap = useRef<HTMLDivElement>(null);
+  const shown = Boolean(proof && width);
+  // The band is as tall as its words and buttons in this language and width; the rows under it follow that height.
+  useLayoutEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const read = () => store.setBandPx(el.getBoundingClientRect().height);
+    read();
+    const ro = new ResizeObserver(read);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [store, shown]);
   if (!proof || !width) return null;
   return (
-    <div className="lg-band-wrap" style={{ width }}>
+    <div className="lg-band-wrap" ref={wrap} style={{ width }}>
       <ProofBand proof={proof} store={store} stacked={stacked} lang={snap.lang} ask={snap.askAbout} />
     </div>
   );

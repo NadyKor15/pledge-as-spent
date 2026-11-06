@@ -33,6 +33,12 @@ async function openBook(page: Page, view: DriveView | ((count?: boolean) => Driv
 }
 
 const rows = (page: Page) => page.locator(".ag-row");
+/** Opens the book unless it is open: the store keeps it open across a rebuilt report (a language switch). */
+async function openTheBook(page: Page, name: RegExp) {
+  const button = page.getByRole("button", { name });
+  if ((await button.getAttribute("aria-expanded")) !== "true") await button.click();
+  await expect(page.locator(".ag-root-wrapper")).toBeVisible();
+}
 const store = (page: Page, call: string) => page.evaluate(`(() => { const s = document.querySelector(".lg-screen").ledgerStore; return ${call}; })()`);
 /** A row's top within the grid's rows, so a scroll of the page does not count. */
 const rowTop = (page: Page, key: string) =>
@@ -62,6 +68,7 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect(beer.locator(".lg-reason")).toHaveText("Alcohol is not funded");
     await expect(beer).toContainText("no capture");
     expect(await wider(page)).toBeLessThanOrEqual(0);
+    await settled(page);
     await page.locator(".ag-root-wrapper").screenshot({ path: path.join(SHOTS, "book-1440-rows.png") });
   });
 
@@ -102,10 +109,12 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     expect(last.y + last.height).toBeLessThanOrEqual(frame.y + frame.height + 1);
 
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-1440-proof-no-assistant.png") });
     // As PROOF-B draws it, with the assistant plugged in: its "Ask about this line".
     await store(page, `(s.setAskAbout(() => {}), true)`);
     await expect(band.getByRole("button", { name: "Ask about this line" })).toBeVisible();
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-1440-proof.png") });
     await store(page, `(s.setAskAbout(null), true)`);
 
@@ -182,6 +191,7 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect(page.locator(".lg-chip")).toHaveText(/^Narrowed by the assistant: Mark · Columbus/);
     await expect(page.locator(".ag-row.lg-focused")).toHaveCount(6);
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-1440-narrowed.png") });
     await page.getByRole("button", { name: "Show every line" }).click();
     await expect(rows(page)).toHaveCount(20);
@@ -242,9 +252,16 @@ test.describe("EN · DE · JA", () => {
     await expect(page).toHaveURL(/[?&]lang=de/);
     await expect(page.locator(".ag-studio-value-widget-content").first()).toHaveText("10.783 ¥", { timeout: 15_000 });
     await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "An Spender zurück" })).toHaveCount(1);
-    await page.getByRole("button", { name: /Jede Zeile des Buchs/ }).click();
+    await openTheBook(page, /Jede Zeile des Buchs/);
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["Zeile", "Belegzeile", "Bedarf", "Zahler", "Anteil", "PayPal-Abbuchung", "Status"]);
     await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"])`)).toContainText("8,58 $");
+    await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
+    await expect(page.locator(".lg-band-sentence")).toHaveText("Zeile 4 · Soft kids diapers M · 2.596 ¥ = Mark · Columbus 8,58 $ (1.298 ¥) + Kitasora Logistics Zuschuss 1.298 ¥");
+    await store(page, `(s.setAskAbout(() => {}), true)`);
+    await expect(page.getByRole("button", { name: "Zu dieser Zeile fragen" })).toBeVisible();
+    await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
+    await settled(page);
+    await page.screenshot({ path: path.join(SHOTS, "book-1440-de.png") });
     await page.reload();
     await expect(page.locator(".ag-studio-value-widget-content").first()).toHaveText("10.783 ¥", { timeout: 60_000 });
 
@@ -252,7 +269,7 @@ test.describe("EN · DE · JA", () => {
     await expect(page).toHaveURL(/[?&]lang=ja/);
     await expect(page.locator(".lg-screen")).toHaveAttribute("lang", "ja");
     await expect(page.locator(".ag-studio-value-widget-content").first()).toHaveText("¥10,783", { timeout: 15_000 });
-    await page.getByRole("button", { name: /帳簿の全行/ }).click();
+    await openTheBook(page, /帳簿の全行/);
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["行", "レシートの行", "必要品", "支払者", "負担額", "PayPal 引き落とし", "状態"]);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
     await expect(page.locator(".lg-band-paypal")).toContainText("完了 · 11月1日 02:06 UTC");
@@ -260,7 +277,10 @@ test.describe("EN · DE · JA", () => {
     const glyph = await page.locator(".ag-header-cell-text").nth(1).evaluate((e) => ({ family: getComputedStyle(e).fontFamily, width: e.getBoundingClientRect().width }));
     expect(glyph.family).toMatch(/Hiragino|Noto Sans JP|Yu Gothic|sans-serif/);
     expect(glyph.width).toBeGreaterThan(60);
+    await store(page, `(s.setAskAbout(() => {}), true)`);
+    await expect(page.getByRole("button", { name: "この行について質問" })).toBeVisible();
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-1440-ja.png") });
     await page.getByRole("button", { name: "EN", exact: true }).click();
     await expect(page).not.toHaveURL(/lang=/);
@@ -275,6 +295,7 @@ test.describe("the book on a phone, 390 × 844", () => {
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["What", "Who", "How much", "Status"]);
     await expect(rows(page)).toHaveCount(20);
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-390-rows.png") });
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-what-name`).click();
     const band = page.locator(".lg-band");
@@ -291,6 +312,76 @@ test.describe("the book on a phone, 390 × 844", () => {
     await expect(page.locator(".ag-row.lg-proof-row")).toHaveCount(1);
     await page.waitForTimeout(300);
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-band")!.getBoundingClientRect().top - 160));
+    await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-390-proof.png") });
   });
 });
+
+// Round 2 (main session's finding on book-1440-ja.png): under an open band, two rows were hidden. Every row after
+// the band must be on the page and uncovered, whatever the band holds: each language, with "Ask" and without,
+// on a desktop and on a phone. Checked once nothing moves any more, with the very element the browser finds at
+// the middle of each row.
+const LABEL: Record<"en" | "de" | "ja", RegExp> = { en: /Every line of the book/, de: /Jede Zeile des Buchs/, ja: /帳簿の全行/ };
+
+/** Resolves when no CSS transition or animation is running on the book's rows or the band. */
+const settled = (page: Page) =>
+  page.waitForFunction(
+    () =>
+      document.getAnimations().filter((a) => {
+        const target = (a.effect as KeyframeEffect | null)?.target;
+        return a.playState === "running" && target instanceof Element && target.closest(".ag-root-wrapper");
+      }).length === 0,
+  );
+
+/** Rows after `key` that the browser does not find at their own middle (hidden, covered or off the book). */
+async function coveredAfter(page: Page, key: string) {
+  const keys = await page.locator(".ag-row [data-row-key]").evaluateAll((els, k) => {
+    const rows = els.map((e) => ({ key: e.getAttribute("data-row-key")!, top: e.closest(".ag-row")!.getBoundingClientRect().top }));
+    const at = rows.find((r) => r.key === k)!.top;
+    return rows.filter((r) => r.top > at).sort((a, b) => a.top - b.top).map((r) => r.key);
+  }, key);
+  const out: string[] = [];
+  for (const k of keys) {
+    const row = page.locator(`.ag-row:has([data-row-key="${k}"])`);
+    await row.evaluate((e) => e.scrollIntoView({ block: "center" }));
+    const ok = await row.evaluate((e) => {
+      const b = e.getBoundingClientRect();
+      const hit = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+      return hit?.closest(".ag-row") === e;
+    });
+    if (!ok) out.push(k);
+  }
+  return { keys, out };
+}
+
+for (const { width, height } of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  for (const lang of ["en", "de", "ja"] as const) {
+    for (const ask of [false, true]) {
+      test(`under an open band every later row stays in sight: ${width} px, ${lang}, ${ask ? "with" : "without"} Ask`, async ({ page }) => {
+        await page.setViewportSize({ width, height });
+        const v = fixture("closed");
+        const id = v.drive.id;
+        await page.route(`**/api/drives/${id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(v) }));
+        await page.route("**/api/receipts/*/image", (r) => r.fulfill({ contentType: "image/png", body: published }));
+        await page.goto(`/drive/${id}?as=ledger${lang === "en" ? "" : `&lang=${lang}`}`);
+        await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+        if (ask) await store(page, `(s.setAskAbout(() => {}), true)`);
+        await page.getByRole("button", { name: LABEL[lang] }).click();
+        await expect(rows(page)).toHaveCount(20);
+        await page.locator(`[data-row-key="${MARK4}"]`).click();
+        const band = page.locator(".lg-band");
+        await expect(band).toBeVisible();
+        await expect(band.locator(".lg-ask-line")).toHaveCount(ask ? 1 : 0);
+        await settled(page);
+        // Nothing in the band spills out of it.
+        expect(await band.evaluate((e) => e.scrollHeight - e.clientHeight)).toBeLessThanOrEqual(1);
+        const { keys, out } = await coveredAfter(page, MARK4);
+        expect(keys).toHaveLength(13);
+        expect(out).toEqual([]);
+      });
+    }
+  }
+}
