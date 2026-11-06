@@ -3,7 +3,7 @@ import { lineName, needById, shareStage } from "@/ui/derive";
 import { decimals, donorParts, money } from "@/ui/format";
 import { deriveLedger } from "@/ui/ledger/derive";
 import type { DriveView, Hold, LedgerRow, Receipt } from "@/ui/types";
-import type { Fact, LedgerToolResult } from "./types";
+import type { Fact, LedgerToolResult, ShareTopic } from "./types";
 
 // The book's tools: read-only questions to the drive view the page already holds. Each answer is
 // written with amounts already formatted ("$21.45", "€4.58", "¥1,237") — a model handed minor units
@@ -26,6 +26,11 @@ class Facts {
     if (!id) return "—";
     if (!this.list.some((f) => f.id === id)) this.list.push({ value: 0, label, id, ...(at?.lineKeys?.length ? { lineKeys: at.lineKeys } : {}) });
     return id;
+  }
+  /** A share as a fact, in percent to one decimal: what a model may say about it ("23 %", "all of it") is checked against it. */
+  share(part: number, whole: number, topic: ShareTopic, label: string, at?: { lineKeys?: string[] }) {
+    if (whole <= 0) return;
+    this.list.push({ value: Math.round((part / whole) * 1000) / 10, unit: "%", topic, label, ...(at?.lineKeys?.length ? { lineKeys: at.lineKeys } : {}) });
   }
 }
 
@@ -153,6 +158,8 @@ export function ledgerFindDonor(v: View, query: unknown): LedgerToolResult {
   const lines = hits.map((h) => {
     const d = donorFigures(v, h);
     const who = d.who;
+    f.share(d.spent, d.pledged, "spent", `share of ${who}'s pledge spent`, { lineKeys: d.lineKeys });
+    f.share(d.over ? d.back : d.held, d.pledged, d.over ? "back" : "held", `share of ${who}'s pledge ${d.over ? "back" : "still held"}`);
     return `${who}: pledged ${f.amount(h.currency, d.pledged, `${who} pledged`, { lineKeys: d.lineKeys })}; spent on needs ${f.amount(h.currency, d.spent, `${who} spent on needs`, { lineKeys: d.lineKeys })}; ${d.over ? `back with the donor ${f.amount(h.currency, d.back, `${who} released`)}` : `still held ${f.amount(h.currency, d.held, `${who} still held`)}`}`;
   });
   return ok(`Donors matching "${q}":\n${lines.join("\n")}\nFor the lines and PayPal captures behind these figures call ledger_donor_money.`, f, [], { donors: hits.map((h) => ({ pledgeId: h.pledgeId, name: donorLabel(h), currency: h.currency })) });
@@ -239,6 +246,10 @@ export function ledgerDonorMoney(v: View, donor: unknown): LedgerToolResult {
   const out: string[] = [];
   out.push(`${who}: pledge hold ${f.amount(h.currency, d.pledged, `${who} pledged`, { lineKeys })} (PayPal order ${f.id(h.orderId, "order")}, authorization ${f.id(h.authorizationId, "authorization", { lineKeys })}); the hold is ${HOLD_WORD[h.status] ?? h.status}.`);
   const taken = d.spent - d.waiting;
+  f.share(d.spent, d.pledged, "spent", `share of ${who}'s pledge spent`, { lineKeys });
+  f.share(taken, d.spent, "captured", `share of ${who}'s spend PayPal took`, { lineKeys });
+  f.share(d.over ? d.back : d.held, d.pledged, d.over ? "back" : "held", `share of ${who}'s pledge ${d.over ? "back" : "still held"}`);
+  for (const n of d.needs) f.share(n.own, d.spent, "need", `share of ${who}'s spend on ${n.label}`, { lineKeys: n.lineKeys });
   out.push(
     `Spent on needs: ${f.amount(h.currency, d.spent, `${who} spent on needs`, { lineKeys })}` +
       (d.spent === 0
@@ -386,7 +397,12 @@ export function ledgerTotals(v: View): LedgerToolResult {
   for (const d of m.donors) {
     out.push(`- ${d.label}: ${f.amount(d.currency, d.spent, `${d.label} spent`, { lineKeys: d.lineKeys })} ${d.spentWord}, ${f.amount(d.currency, d.restWord === "back" ? d.back : d.held, `${d.label} ${d.restWord}`)} ${d.restWord}`);
   }
-  for (const n of m.needs) out.push(`- need ${n.label}: ${n.count} covered`);
+  f.share(m.spent, m.promised, "spent", "share of all pledges spent", { lineKeys: all });
+  f.share(m.rest, m.promised, m.phase === "closed" ? "back" : "held", `share of all pledges ${m.phase === "closed" ? "back" : "still held"}`);
+  for (const n of m.needs) {
+    f.list.push({ value: n.percent, unit: "%", topic: "need", label: `share of ${n.label} covered`, lineKeys: n.lineKeys });
+    out.push(`- need ${n.label}: ${n.count} covered`);
+  }
   return ok(out.join("\n"), f, []);
 }
 

@@ -110,6 +110,53 @@ describe("checkAnswer: numbers only from the book (must-light)", () => {
   });
 });
 
+describe("percentages and words for a share: only what a tool returned (must-light)", () => {
+  // Lena: €4.58 of €20.00 spent (22.9 %), €15.42 back (77.1 %); PayPal took all of what was spent.
+  const LENA: Fact[] = [
+    { value: 20, currency: "EUR", label: "pledged" },
+    { value: 4.58, currency: "EUR", label: "spent" },
+    { value: 15.42, currency: "EUR", label: "back" },
+    { value: 22.9, unit: "%", topic: "spent", label: "share of the pledge spent" },
+    { value: 77.1, unit: "%", topic: "back", label: "share of the pledge back" },
+    { value: 100, unit: "%", topic: "captured", label: "share of the spend PayPal took" },
+  ];
+
+  it("Nova Lite's own answer to Q6 of the live measure (06.11, variant A) is stopped: \"zu 100% … ausgegeben\" for €4.58 of €20", () => {
+    const q6 = "Lena, dein €20.00 Hold wurde zu 100% für die Bedürfnisse ausgegeben. €4.58 wurden für Wasser 2 L ausgegeben. Der Rest von €15.42 wurde nicht ausgegeben und wurde dir zurückgegeben, als die Aktion geschlossen wurde.";
+    const v = checkAnswer(q6, LENA, "de");
+    expect(v.ok).toBe(false);
+    expect(v.unmatched.map((c) => c.raw)).toEqual(["100%"]);
+  });
+
+  it("the true share passes: \"23 %\" spent, \"77 %\" back, \"22.9%\"", () => {
+    expect(checkAnswer("Ausgegeben wurden 23 % deines Holds, 77 % kamen zurück.", LENA, "de").ok).toBe(true);
+    expect(checkAnswer("You spent 22.9% of your pledge.", LENA).ok).toBe(true);
+    expect(checkAnswer("You spent 22% of your pledge.", LENA).ok).toBe(false);
+  });
+
+  it("a percentage of the wrong kind is stopped: 100 % taken by PayPal is true, 100 % back is not", () => {
+    expect(checkAnswer("PayPal took all of it.", LENA).ok).toBe(true);
+    expect(checkAnswer("All of it came back to you.", LENA).ok).toBe(false);
+    expect(checkAnswer("Alles kam zu dir zurück.", LENA, "de").ok).toBe(false);
+    expect(checkAnswer("全額が戻りました。", LENA, "ja").ok).toBe(false);
+  });
+
+  it("without any share fact, a share word is stopped; an amount is never matched by a percentage or the reverse", () => {
+    const amounts = LENA.filter((f) => f.unit !== "%");
+    expect(checkAnswer("The whole pledge was spent.", amounts).ok).toBe(false);
+    expect(checkAnswer("You paid €100.", [{ value: 100, unit: "%", label: "x" }]).ok).toBe(false);
+    expect(checkAnswer("You paid 20%.", [{ value: 20, currency: "EUR", label: "x" }]).ok).toBe(false);
+  });
+
+  it("claims: percent signs and words in three languages, one claim per phrase", () => {
+    const shares = (t: string) => extractClaims(t).filter((c) => c.kind === "share").map((c) => `${c.value}${c.topic ? `:${c.topic}` : ""}`);
+    expect(shares("zu 100% ausgegeben")).toEqual(["100:spent"]);
+    expect(shares("23 % ausgegeben, 77 Prozent zurück")).toEqual(["23:spent", "77:back"]);
+    expect(shares("全額が戻りました")).toEqual(["100:back"]);
+    expect(shares("12 of 40 bottles; all donors gave; insgesamt")).toEqual([]);
+  });
+});
+
 describe("stripThinking", () => {
   it("removes Nova's thinking, closed or cut off, before the guard and the reader", () => {
     expect(stripThinking("<thinking>I add $21.45 + $8.55</thinking>\nYou paid $21.45.")).toBe("You paid $21.45.");

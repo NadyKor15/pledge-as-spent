@@ -43,8 +43,11 @@ describe("the measure on recorded Nova Lite answers", () => {
     expect(right).toEqual(["Q1", "Q2", "Q4"]);
   });
 
-  it("every recorded final answer states only figures the recorded tool results returned", () => {
-    for (const r of recordings) expect({ id: r.id, unmatched: checkAnswer(r.answer!.text, factsOf(r)).unmatched.map((c) => c.raw) }).toEqual({ id: r.id, unmatched: [] });
+  it("every recorded final answer states only figures the recorded tool results returned — except Q6's \"alles\", which the share check now stops", () => {
+    // Q6 (DE): "PayPal hat dir alles zurückgegeben" when €4.58 of €20.00 was spent. It passed the guard of 06.11 (no figure);
+    // a share word is a claim since round 3, and those tool results carried no share, so it is stopped now.
+    const unmatched = Object.fromEntries(recordings.map((r) => [r.id, checkAnswer(r.answer!.text, factsOf(r), r.id === "Q6" ? "de" : r.id === "Q7" ? "ja" : "en").unmatched.map((c) => c.raw)]));
+    expect(unmatched).toEqual({ Q1: [], Q2: [], Q3: [], Q4: [], Q5: [], Q6: ["alles"], Q7: [] });
   });
 
   it("Q5: the guard confirms ¥3,000 is in the book — and the measure, not the guard, finds it is the wrong row", () => {
@@ -52,6 +55,13 @@ describe("the measure on recorded Nova Lite answers", () => {
     expect(checkAnswer(q5.answer!.text, factsOf(q5)).ok).toBe(true);
     const s = scoreAnswer(evalQuestions(closed).find((x) => x.id === "Q5")!, { ...q5.answer!, delegated: q5.answer!.delegated });
     expect(s).toMatchObject({ correct: false, missing: ["JPY 1486"], extra: ["¥3,000"], delegated: true });
+  });
+
+  it("scoring by meaning: variant A's Q6 of 06.11 (\"zu 100% … ausgegeben\" for €4.58 of €20) was counted right then, is wrong now", () => {
+    const a6 = JSON.parse(readFileSync(path.resolve(__dirname, "../../eval/agent/recorded/A/Q6.json"), "utf8")) as Recording;
+    const q6 = evalQuestions(closed).find((x) => x.id === "Q6")!;
+    expect(scoreAnswer(q6, { text: a6.answer!.text, retried: false, replaced: false })).toMatchObject({ correct: false, extra: ["100%"] });
+    expect(scoreAnswer(q6, { text: "Ausgegeben wurden 4,58 € (23 %), zurück kamen 15,42 €.", retried: false, replaced: false }).correct).toBe(true);
   });
 
   it("scoring is strict both ways: a right Q1 with an extra made-up figure is wrong", () => {

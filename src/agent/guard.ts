@@ -20,19 +20,29 @@ export type { Claim };
 /** Half a cent: the book's figures are exact in minor units, a written one is rounded at most to its last digit. */
 const EPS = 0.005;
 
-export function factFor(claim: Claim, facts: readonly Fact[]): Fact | undefined {
-  if (claim.kind === "id") return facts.find((f) => f.id !== undefined && f.id === claim.id);
+/** Whether one fact confirms one claim: an id letter for letter, money by value and currency, a share by value and topic. */
+function confirms(claim: Claim, f: Fact): boolean {
+  if (claim.kind === "id") return f.id !== undefined && f.id === claim.id;
+  if (f.id !== undefined) return false;
   const v = claim.value!;
-  if (claim.currency) return facts.find((f) => f.currency === claim.currency && f.id === undefined && Math.abs(f.value - v) < EPS);
-  return facts.find((f) => f.id === undefined && Math.abs(f.value - v) < EPS);
+  if (claim.kind === "share") {
+    // A share is confirmed only by a share of the same kind ("100 % taken by PayPal" is not "100 % back").
+    if (f.unit !== "%") return false;
+    if (claim.topic && f.topic && claim.topic !== f.topic) return false;
+    return Math.abs(f.value - v) <= (claim.tolerance ?? 0.5);
+  }
+  if (f.unit === "%") return false;
+  if (claim.currency) return f.currency === claim.currency && Math.abs(f.value - v) < EPS;
+  return Math.abs(f.value - v) < EPS;
+}
+
+export function factFor(claim: Claim, facts: readonly Fact[]): Fact | undefined {
+  return facts.find((f) => confirms(claim, f));
 }
 
 /** Every fact a claim matches (a figure can be a line's share and a need's total at once). */
 export function factsFor(claim: Claim, facts: readonly Fact[]): Fact[] {
-  const first = factFor(claim, facts);
-  if (!first) return [];
-  if (claim.kind === "id") return facts.filter((f) => f.id === claim.id);
-  return facts.filter((f) => f.id === undefined && Math.abs(f.value - claim.value!) < EPS && (claim.currency ? f.currency === claim.currency : true));
+  return facts.filter((f) => confirms(claim, f));
 }
 
 /** The book lines behind a claim, for narrowing the book to them. */

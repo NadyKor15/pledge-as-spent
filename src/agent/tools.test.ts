@@ -48,6 +48,13 @@ describe("the book's tools on the closed demo drive", () => {
     expect(ledgerFindDonor(closed, "Berlin").text).toContain("Lena (Berlin, DE): pledged €20.00");
   });
 
+  it("shares as facts, so the guard can check a percentage or \"all of it\": Lena spent 22.9 %, got 77.1 % back, PayPal took 100 % of the spend", () => {
+    const pct = (r: { data: { facts: { unit?: string; topic?: string; value: number }[] } }) => r.data.facts.filter((f) => f.unit === "%").map((f) => `${f.topic}:${f.value}`);
+    expect(pct(ledgerDonorMoney(closed, "Lena"))).toEqual(["spent:22.9", "captured:100", "back:77.1", "need:100"]);
+    expect(pct(ledgerFindDonor(closed, "Lena"))).toEqual(["spent:22.9", "back:77.1"]);
+    expect(pct(ledgerTotals(closed))).toEqual(["spent:48.4", "back:51.6", "need:30", "need:100", "need:100"]); // water, diapers, batteries
+  });
+
   it("Japanese script finds the demo's donors (the measure: Nova passed 大阪 and found nobody)", () => {
     expect(ledgerPaypalIds(closed, "大阪").text).toContain("10L99507KP256054Y");
     expect(ledgerDonorMoney(closed, "ユキ").text).toContain("Yuki (Osaka, JP)");
