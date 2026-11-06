@@ -240,6 +240,14 @@ describe("README: the forms the check finds and the ones it misses", () => {
     expect(amount("usd 21.45")).toEqual([{ value: 21.45, currency: undefined }]);
     expect(extractClaims("capture 5pe922386k0983923")).toEqual([]);
   });
+  it("misses: a bare number with one decimal, a code in mixed case, a currency the check does not know, and other words for a share", () => {
+    expect(extractClaims("it was 21.5")).toEqual([]);
+    expect(extractClaims("Eur 99")).toEqual([]);
+    expect(extractClaims("CHF 99")).toEqual([]);
+    expect(extractClaims("すべて使われました")).toEqual([]);
+    expect(extractClaims("it was spent completely")).toEqual([]);
+    expect(extractClaims("a third of it")).toEqual([]);
+  });
 
   it("misses: a bare number with decimals matches the same value in any currency", () => {
     expect(checkAnswer("It cost 21.45 in euros.", [{ value: 21.45, currency: "USD", label: "spent" }]).ok).toBe(true);

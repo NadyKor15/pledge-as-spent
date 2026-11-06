@@ -415,7 +415,8 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
     expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "0.5" } as never)).toMatchObject({ capUsd: 0.5, dailyCapUsd: 0.5 });
     expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "0.2" } as never)).toMatchObject({ capUsd: 0.2, dailyCapUsd: 0.2 });
     expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "0.25" } as never)).toMatchObject({ dailyCapUsd: 0.25 });
-    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "9" } as never)).toMatchObject({ dailyCapUsd: 5 });
+    // the daily ceiling can be lowered, never raised above $0.50
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "9" } as never)).toMatchObject({ dailyCapUsd: 0.5 });
     expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "lots" } as never)).toMatchObject({ dailyCapUsd: 0.5 });
     // and still off without AGENT_META_ALLOWED=yes
     expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "50" } as never)).toBeUndefined();

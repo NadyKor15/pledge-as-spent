@@ -156,7 +156,7 @@ export class PgMetaSpendLedger implements SpendLedger {
     dailyCapUsd: number = META_AGENT_DAILY_CAP_DEFAULT_USD,
   ) {
     this.capUsd = Math.min(capUsd, META_AGENT_CAP_MAX_USD);
-    this.dailyCapUsd = Math.min(dailyCapUsd, this.capUsd);
+    this.dailyCapUsd = Math.min(dailyCapUsd, META_AGENT_DAILY_CAP_DEFAULT_USD, this.capUsd);
   }
 
   spent(): Promise<number> {
@@ -285,7 +285,8 @@ export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined 
     apiKey: env.META_MODEL_API_KEY || null,
     model: META_MODEL,
     capUsd,
-    dailyCapUsd: Math.min(daily, capUsd),
+    // META_AGENT_DAILY_CAP_USD can lower the daily ceiling, never raise it above the default.
+    dailyCapUsd: Math.min(daily, META_AGENT_DAILY_CAP_DEFAULT_USD, capUsd),
   };
 }
 
