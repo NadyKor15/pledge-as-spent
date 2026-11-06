@@ -75,8 +75,10 @@ test("the print page is the statement on A4: the same rows, no controls in print
   const pdf = await page.pdf({ preferCSSPageSize: true, printBackground: true, path: path.join(OUT, `statement-${pledge}.pdf`) });
   expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
   // The page rule applies only while the print page is on screen.
+  const pageRule = () => page.evaluate(() => [...document.head.querySelectorAll("style")].some((s) => s.textContent?.includes("@page")));
+  expect(await pageRule()).toBe(true);
   await page.emulateMedia({ media: "screen" });
-  await page.goto(`/pledge/${pledge}`);
+  await page.getByRole("link", { name: "Back to the statement" }).click(); // client-side navigation: the document stays, so a leftover rule would stay too
   await expect(page.getByTestId("statement-xlsx")).toBeVisible();
-  expect(await page.evaluate(() => [...document.head.querySelectorAll("style")].some((s) => s.textContent?.includes("@page")))).toBe(false);
+  expect(await pageRule()).toBe(false);
 });
