@@ -43,6 +43,15 @@ describe("the sample receipt after a messenger recompressed it", () => {
     expect(model.calls()).toBe(0);
   });
 
+  it("recognized by its look, not its bytes: the saved reading, but no line boxes (they were measured on the sample's own pixels)", async () => {
+    const { h } = await setup();
+    expect(SHIPPED_ANSWERS[0].lineBoxes?.length).toBeGreaterThan(0); // the sample has boxes to give, so none below is a choice
+    const { receipt } = await h.svc.submitReceipt({ driveId: "demo-sample", bytes: PHOTO, channel: "telegram" });
+    expect(receipt.reader).toBe("recognized:ocr-pro");
+    expect(receipt.lines.length).toBeGreaterThan(0);
+    expect(receipt.lines.every((l) => l.box === null)).toBe(true);
+  });
+
   it("on a real drive is read live like any other photo", async () => {
     const { h, model } = await setup();
     await h.db.db.update(drives).set({ demo: false }).where(eq(drives.id, "demo-sample"));

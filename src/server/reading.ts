@@ -155,7 +155,8 @@ export class ReceiptReading {
     const saved = exact ?? (look ? [...this.answers.values()].find((a) => a.imageDHash && hammingHex(a.imageDHash, look) <= SAMPLE_MAX_DISTANCE) : undefined);
     if (saved) {
       const parsed = structuredClone(saved.reading);
-      const boxes = saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {};
+      // Boxes were measured on the saved photo's own pixels: only the same bytes get them, not a look-alike.
+      const boxes = exact && saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {};
       if (key(parsed) !== saved.classifiedFor) return { ...(await this.classifyLive(input, parsed, [])), ...boxes };
       return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [], ...boxes };
     }
