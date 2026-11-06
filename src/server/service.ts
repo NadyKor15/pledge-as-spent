@@ -538,7 +538,7 @@ export class PledgeService {
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,
-        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage },
+        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}) },
         status: flags.length ? "review" : "funded",
         channel,
         reader: reading.reader,

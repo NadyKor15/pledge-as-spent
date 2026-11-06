@@ -3,7 +3,7 @@ import type { Db } from "../db/client";
 import { drives, events, paypalCalls, receipts } from "../db/schema";
 import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledgeBalance } from "../core";
 import type { ReceiptFlag } from "../receipts/checks";
-import type { ParsedReceipt } from "../receipts/types";
+import { LineBox, type ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
 import { DEMO_DISPLAY } from "./demo";
 import { ServiceError } from "./errors";
@@ -14,11 +14,22 @@ export const toIso = (v: string): string => new Date(v).toISOString();
 
 type ReceiptRow = typeof receipts.$inferSelect;
 
+/** Each line's printed box, by line number; anything stored that is not a box inside the photo is left out. */
+function boxesOf(stored: unknown): Map<number, LineBox["box"]> {
+  const out = new Map<number, LineBox["box"]>();
+  for (const item of Array.isArray(stored) ? stored : []) {
+    const b = LineBox.safeParse(item);
+    if (b.success && b.data.box.x + b.data.box.w <= 1 + 1e-9 && b.data.box.y + b.data.box.h <= 1 + 1e-9) out.set(b.data.lineNo, b.data.box);
+  }
+  return out;
+}
+
 export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & { imageRedacted?: Uint8Array | null; published?: boolean }) {
   const parsed = row.parsed as ParsedReceipt | null;
   const classified = row.classified as StoredClassification | null;
-  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { regions: number; note: string | null } };
+  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { regions: number; note: string | null }; lineBoxes?: unknown };
   const published = row.published ?? Boolean(row.imageRedacted);
+  const boxes = boxesOf(checks.lineBoxes);
   return {
     id: row.id,
     driveId: row.driveId,
@@ -44,6 +55,8 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
         ruleCode: c?.ruleCode ?? null,
         reasonEn: c?.reasonEn ?? null,
         confidence: c?.confidence ?? null,
+        /** Where the line is printed on the published photo, fractions 0..1; null when the reader did not place it. */
+        box: boxes.get(l.lineNo) ?? null,
       };
     }),
     decision: row.decision ?? null,

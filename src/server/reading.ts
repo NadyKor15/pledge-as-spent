@@ -9,8 +9,9 @@ import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
 import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
-import { LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
+import { LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.json";
+import heroBoxes from "../../eval/live/shipped/hero-ja-01.lines.json";
 import { ServiceError } from "./errors";
 import { PgSpendLedger } from "./spend";
 
@@ -44,6 +45,8 @@ export interface Reading {
   classified: StoredClassification;
   reader: ReaderSource;
   usage: ModelUsage[];
+  /** Where each line is printed on the photo, when the reader saw it (OCR) or a saved answer carries it. */
+  lineBoxes?: LineBox[];
 }
 
 export interface LiveLimits {
@@ -72,17 +75,24 @@ export interface SavedAnswer {
   classifications: LineClassification[];
   /** classificationKey of the run: the lines were matched against these needs and rules, and no others. */
   classifiedFor: string;
+  /** Where its lines are printed, measured with Tesseract on the same photo (tools/receipts/line-boxes.ts). */
+  lineBoxes?: LineBox[];
 }
 
 const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), imageDHash: z.string().optional(), reading: ParsedReceipt, classifications: z.array(LineClassification), classifiedFor: z.string() });
 
-export function savedAnswer(json: unknown, pipeline: string): SavedAnswer {
+const BoxesFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), lineBoxes: z.array(LineBox) });
+
+/** `boxes`: the line boxes measured on the same photo; boxes of another photo are refused. */
+export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): SavedAnswer {
   const f = SavedFile.parse(json);
-  return { pipeline, imageSha256: f.imageSha256, imageDHash: f.imageDHash, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor };
+  const b = boxes === undefined ? null : BoxesFile.parse(boxes);
+  if (b && b.imageSha256 !== f.imageSha256) throw new Error("The line boxes were measured on another photo.");
+  return { pipeline, imageSha256: f.imageSha256, imageDHash: f.imageDHash, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor, ...(b ? { lineBoxes: b.lineBoxes } : {}) };
 }
 
 /** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
-export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro")];
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro", heroBoxes)];
 
 export interface ReadInput {
   driveId: string;
@@ -125,13 +135,18 @@ export class ReceiptReading {
 
   async read(input: ReadInput): Promise<Reading> {
     const sameSha = await this.db
-      .select({ driveId: receipts.driveId, parsed: receipts.parsed, classified: receipts.classified, reader: receipts.reader })
+      .select({ driveId: receipts.driveId, parsed: receipts.parsed, classified: receipts.classified, reader: receipts.reader, checks: receipts.checks })
       .from(receipts)
       .where(and(eq(receipts.sha256, input.sha256), isNotNull(receipts.parsed)))
       .orderBy(asc(receipts.uploadedAt));
 
+    // The same photo keeps the boxes its first reading found.
+    const boxesOf = (checks: unknown): { lineBoxes?: LineBox[] } => {
+      const stored = z.array(LineBox).safeParse((checks as { lineBoxes?: unknown } | null)?.lineBoxes);
+      return stored.success && stored.data.length ? { lineBoxes: stored.data } : {};
+    };
     const own = sameSha.find((r) => r.driveId === input.driveId);
-    if (own) return { parsed: own.parsed as ParsedReceipt, classified: own.classified as StoredClassification, reader: "copy", usage: [] };
+    if (own) return { parsed: own.parsed as ParsedReceipt, classified: own.classified as StoredClassification, reader: "copy", usage: [], ...boxesOf(own.checks) };
 
     const key = (p: ParsedReceipt) => classificationKey(p, input.needs, input.rules);
 
@@ -140,8 +155,9 @@ export class ReceiptReading {
     const saved = exact ?? (look ? [...this.answers.values()].find((a) => a.imageDHash && hammingHex(a.imageDHash, look) <= SAMPLE_MAX_DISTANCE) : undefined);
     if (saved) {
       const parsed = structuredClone(saved.reading);
-      if (key(parsed) !== saved.classifiedFor) return this.classifyLive(input, parsed, []);
-      return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [] };
+      const boxes = saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {};
+      if (key(parsed) !== saved.classifiedFor) return { ...(await this.classifyLive(input, parsed, [])), ...boxes };
+      return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [], ...boxes };
     }
 
     if (Object.hasOwn(this.recordings.readings, input.sha256)) {
@@ -157,15 +173,15 @@ export class ReceiptReading {
     if (stored) {
       const parsed = stored.parsed as ParsedReceipt;
       const cls = stored.classified as StoredClassification | null;
-      if (cls && cls.key === key(parsed)) return { parsed, classified: cls, reader: "copy", usage: [] };
-      return this.classifyLive(input, parsed, []);
+      if (cls && cls.key === key(parsed)) return { parsed, classified: cls, reader: "copy", usage: [], ...boxesOf(stored.checks) };
+      return { ...(await this.classifyLive(input, parsed, [])), ...boxesOf(stored.checks) };
     }
 
     const models = await this.liveModels(input);
-    const { receipt: parsed, usage } = await this.guard(() =>
+    const { receipt: parsed, usage, lineBoxes } = await this.guard(() =>
       models.reader.read(input.image, { currency: input.baseCurrency, languages: LANGUAGES[input.baseCurrency] ?? ["en"] }),
     );
-    return this.classifyLive(input, parsed, [usage], models);
+    return { ...(await this.classifyLive(input, parsed, [usage], models)), ...(lineBoxes?.length ? { lineBoxes } : {}) };
   }
 
   /** Any model call makes the reading "live:<pipeline>", so it counts against the per-IP live limit. */
