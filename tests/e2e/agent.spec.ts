@@ -164,6 +164,36 @@ test("a sum across donors: the step names what Studio's data agent did in a fixe
   expect(errors).toEqual([]);
 });
 
+test("\"Ask again\" pressed at once after the rebuild: it and Send wait for Studio, then the question is answered", async ({ page }) => {
+  await questions(page);
+  const served = model(page, [...turnsOf(Q1), ...turnsOf(Q1)]);
+  await openLedger(page);
+  // Every change of the chat while Studio is built again: is Studio ready, and are "Ask again" and Send enabled.
+  await page.evaluate(() => {
+    const w = window as unknown as { __askLog: { ready: string | null; again: boolean | null; send: boolean }[] };
+    w.__askLog = [];
+    const take = () => {
+      const widget = document.querySelector("[data-testid=ask-widget]");
+      const again = document.querySelector(".ask-again") as HTMLButtonElement | null;
+      const send = document.querySelector("[data-testid=ask-send]") as HTMLButtonElement | null;
+      if (widget && send) w.__askLog.push({ ready: widget.getAttribute("data-ready"), again: again ? !again.disabled : null, send: !send.disabled });
+    };
+    new MutationObserver(take).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-ready", "disabled"] });
+  });
+  served.holdNext();
+  await ask(page, Q1.question);
+  await expect.poll(() => served.seen.length).toBe(1);
+  await page.getByTestId("ask-input").fill("a question typed while the report is rebuilt");
+  await page.setViewportSize({ width: 1200, height: 860 }); // another scale: Studio is built again
+  await expect(page.getByTestId("ask-note")).toContainText(TEXT.interrupted.en);
+  served.release();
+  await page.getByRole("button", { name: "Ask again" }).click(); // at once: the click waits for the button to be enabled
+  await expect(page.getByTestId("ask-answer")).toContainText("Your ✓$30.00 hold paid ✓$21.45");
+  const log = await page.evaluate(() => (window as unknown as { __askLog: { ready: string | null; again: boolean | null; send: boolean }[] }).__askLog);
+  expect(log.some((x) => x.ready === "false")).toBe(true); // the rebuild was seen (the check below is not empty)
+  expect(log.filter((x) => x.ready !== "true" && (x.again === true || x.send))).toEqual([]);
+});
+
 test("\"Ask about this line\" in a row's proof band asks the agent about that line", async ({ page }) => {
   await questions(page);
   const served = model(page, [

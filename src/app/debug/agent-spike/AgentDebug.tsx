@@ -183,7 +183,7 @@ function Run({ o, recording }: { o: Opts; recording: Recording | null }) {
     if (!auto || !state.ready || asked.current) return;
     asked.current = true;
     const text = recording ? recording.question : (question?.text ?? "");
-    void agent.ask(text);
+    agent.ask(text);
   }, [auto, agent, state.ready, recording, question]);
 
   const donors = useMemo(() => VIEW.holds.filter((h) => h.kind === "donor").map((h) => ({ name: h.donorName, label: h.donorName.replace(/\s*\((.+)\)/, " · $1") })), []);

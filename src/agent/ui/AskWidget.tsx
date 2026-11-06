@@ -18,10 +18,11 @@ import "./ask.css";
 export interface AskAgent {
   get(): AskState;
   subscribe(listener: () => void): () => void;
-  ask(text: string): Promise<void> | void;
+  /** True when the agent took the question; false (nothing changed) when it cannot take one now. */
+  ask(text: string): boolean;
   askStarter(id: StarterId, donor?: string | null): void;
   chooseDonor(donor: string): void;
-  retry(): void;
+  retry(): boolean;
 }
 
 export interface AskWidgetProps {
@@ -109,9 +110,9 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const busy = s.phase === "asking" || s.phase === "thinking";
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (!draft.trim() || busy) return;
-    void agent.ask(draft);
-    setDraft("");
+    if (!draft.trim() || busy || !s.ready) return;
+    // Cleared only when the agent took the question: refused (Studio being built again), the words stay.
+    if (agent.ask(draft)) setDraft("");
   };
 
   const answer = s.answer;
@@ -198,7 +199,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
         <div className={`ask-note ask-note-${s.phase}`} data-testid="ask-note" aria-live="polite">
           <p>{s.message}</p>
           {(s.phase === "interrupted" || s.phase === "error") && (
-            <button type="button" className="ask-again" onClick={() => agent.retry()}>
+            <button type="button" className="ask-again" disabled={!s.ready} onClick={() => agent.retry()}>
               {say("askAgain", locale)}
             </button>
           )}
@@ -207,7 +208,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
 
       <form className="ask-form" onSubmit={submit}>
         <input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={UI.placeholder[locale]} aria-label={UI.placeholder[locale]} data-testid="ask-input" maxLength={500} />
-        <button type="submit" className="ask-send" disabled={busy || !draft.trim()} aria-label={UI.send[locale]} data-testid="ask-send">
+        <button type="submit" className="ask-send" disabled={busy || !s.ready || !draft.trim()} aria-label={UI.send[locale]} data-testid="ask-send">
           <Send />
         </button>
       </form>

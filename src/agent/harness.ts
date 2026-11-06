@@ -278,7 +278,7 @@ export class LedgerAgent {
   askAboutLine(lineKey: string) {
     const n = Number(lineKey.slice(lineKey.lastIndexOf(":") + 1));
     if (!Number.isInteger(n)) return;
-    void this.ask({ en: `What happened to line ${n}: what was bought, who paid for it, or why was it refused?`, de: `Was ist mit Zeile ${n} passiert: Was wurde gekauft, wer hat bezahlt, oder warum wurde sie abgelehnt?`, ja: `${n}行目はどうなりましたか？何が買われ、誰が支払いましたか？または、なぜ却下されましたか？` }[this.locale()]);
+    this.ask({ en: `What happened to line ${n}: what was bought, who paid for it, or why was it refused?`, de: `Was ist mit Zeile ${n} passiert: Was wurde gekauft, wer hat bezahlt, oder warum wurde sie abgelehnt?`, ja: `${n}行目はどうなりましたか？何が買われ、誰が支払いましたか？または、なぜ却下されましたか？` }[this.locale()]);
   }
 
   private onSession(gen: number) {
@@ -307,15 +307,23 @@ export class LedgerAgent {
     });
   }
 
-  /** A question in the reader's words, for the live agent. */
-  async ask(text: string) {
+  /**
+   * A question in the reader's words, for the live agent. False when it cannot take one now (empty, Studio not
+   * attached or being built again, a question already under way): then nothing has changed.
+   */
+  ask(text: string): boolean {
     const question = text.trim();
-    if (!question || !this.session || this.state.phase === "thinking" || this.state.phase === "asking") return;
+    if (!question || !this.session || this.state.phase === "thinking" || this.state.phase === "asking") return false;
     this.facts.reset();
     this.outcome = null;
     this.limit = null;
     this.sawRunning = false;
     this.set({ phase: "asking", question, answer: null, message: null, pending: null });
+    void this.open(question);
+    return true;
+  }
+
+  private async open(question: string) {
     const opened = await (this.o.newQuestion ?? serverQuestion())(this.locale());
     if ("limit" in opened) {
       this.set({ phase: "limit", message: opened.message });
@@ -367,12 +375,10 @@ export class LedgerAgent {
     if (pending) this.askStarter(pending, donor);
   }
 
-  /** "Ask again" after an interruption or a failure. */
-  retry() {
+  /** "Ask again" after an interruption or a failure. False, with nothing changed, while Studio is not ready. */
+  retry(): boolean {
     const q = this.state.question;
-    if (!q) return;
-    this.set({ phase: "idle" });
-    void this.ask(q);
+    return q ? this.ask(q) : false;
   }
 
   /**
