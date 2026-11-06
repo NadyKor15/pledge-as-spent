@@ -31,6 +31,8 @@ export interface AgentLimits {
   callsPerQuestion: number;
   tokensPerQuestion: number;
   agentCapUsd: number;
+  /** The agent's spend over the last 24 hours (its `agent:` rows), inside agentCapUsd. */
+  agentDailyCapUsd: number;
   spendCapUsd: number;
   /** Output allowance of a `ledger` turn (it answers the donor) and of a `data` turn (it writes queries). */
   maxTokensLedger: number;
@@ -45,6 +47,7 @@ export const DEFAULT_AGENT_LIMITS: AgentLimits = {
   callsPerQuestion: 10,
   tokensPerQuestion: 40_000,
   agentCapUsd: 0.4,
+  agentDailyCapUsd: 0.05,
   spendCapUsd: 5,
   maxTokensLedger: 600,
   maxTokensData: 1500,
@@ -66,6 +69,7 @@ export function agentLimitsFrom(env: NodeJS.ProcessEnv): Partial<AgentLimits> {
   set("questionsPerDay", count(env.AGENT_QUESTIONS_PER_DAY));
   set("questionsPerDayAll", count(env.AGENT_QUESTIONS_PER_DAY_ALL));
   set("agentCapUsd", usd(env.AGENT_CAP_USD));
+  set("agentDailyCapUsd", usd(env.AGENT_DAILY_CAP_USD));
   return out;
 }
 
@@ -75,19 +79,20 @@ export function agentModelsFrom(env: NodeJS.ProcessEnv): Record<AgentId, string>
   return { ledger: pick(env.AGENT_MODEL_LEDGER), data: pick(env.AGENT_MODEL_DATA) };
 }
 
-/** LIVE_AGENT=on|off; unset follows LIVE_READING, so the agent is live wherever receipts are read live. */
-export const agentLive = (env: NodeJS.ProcessEnv) => (env.LIVE_AGENT ? env.LIVE_AGENT === "on" : env.LIVE_READING === "on");
+/** LIVE_AGENT=on and nothing else switches the live agent on (LIVE_READING=on does not). */
+export const agentLive = (env: NodeJS.ProcessEnv) => env.LIVE_AGENT === "on";
 
 export class AgentCapExceeded extends Error {}
 
 const SPEND_LOCK = 2; // the same lock as PgSpendLedger: one reservation at a time across both
 const QUESTION_LOCK = 3;
 
-/** The shared spend ledger with the agent's sub-ceiling checked in the same locked step. */
+/** The shared spend ledger with the agent's sub-ceilings (in all, and over 24 hours) checked in the same locked step. */
 export class PgAgentSpendLedger implements SpendLedger {
   constructor(
     private readonly db: Db,
     private readonly capUsd: number,
+    private readonly dailyCapUsd: number = Infinity,
   ) {}
 
   async total(): Promise<number> {
@@ -101,6 +106,8 @@ export class PgAgentSpendLedger implements SpendLedger {
       if (total > maxUsd) throw new SpendCapExceeded(`${entry.what}: would bring spend to $${total.toFixed(4)}, ceiling $${maxUsd.toFixed(2)}`);
       const mine = (await sumWhere(tx, AGENT_PREFIX)) + entry.usd;
       if (mine > this.capUsd) throw new AgentCapExceeded(`${entry.what}: would bring the agent's spend to $${mine.toFixed(4)}, ceiling $${this.capUsd.toFixed(2)}`);
+      const today = (await sumWhere(tx, AGENT_PREFIX, dayBefore(entry.ts))) + entry.usd;
+      if (today > this.dailyCapUsd) throw new AgentCapExceeded(`${entry.what}: would bring the agent's spend over 24 hours to $${today.toFixed(4)}, daily ceiling $${this.dailyCapUsd.toFixed(2)}`);
       await tx.insert(spendLedger).values(row(entry));
       return total;
     });
@@ -115,11 +122,14 @@ const round6 = (n: number) => Math.round(n * 1e6) / 1e6;
 
 const row = (e: LedgerEntry) => ({ id: e.id, ts: e.ts, kind: e.kind, what: e.what, usd: e.usd.toFixed(6), ref: e.ref ?? null });
 
-async function sumWhere(q: Pick<Db, "select">, prefix: string): Promise<number> {
+const dayBefore = (iso: string) => new Date(Date.parse(iso) - 86_400_000).toISOString();
+
+/** What rows whose `what` starts with the prefix add up to; only those after `since` when given. */
+async function sumWhere(q: Pick<Db, "select">, prefix: string, since?: string): Promise<number> {
   const [r] = await q
     .select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
     .from(spendLedger)
-    .where(like(spendLedger.what, `${prefix}%`));
+    .where(since ? and(like(spendLedger.what, `${prefix}%`), gt(spendLedger.ts, since)) : like(spendLedger.what, `${prefix}%`));
   return Number(r.total);
 }
 
@@ -279,15 +289,23 @@ export class AgentService {
   constructor(private readonly d: AgentDeps) {
     this.limits = { ...DEFAULT_AGENT_LIMITS, ...d.limits };
     this.models = d.models ?? { ledger: NOVA_MODELS.lite, data: NOVA_MODELS.lite };
+    if (d.meta && !d.meta.apiKey) this.log(d.client ? "Meta allowed but no key: Amazon Nova answers every turn" : "Meta allowed but no key: Meta answers nothing, and the live agent is off (LIVE_AGENT is not on)");
+  }
+
+  private log(message: string, extra?: unknown) {
+    (this.d.log ?? ((m, x) => console.error(`[pledge-as-spent] ${m}`, x ?? "")))(message, extra);
   }
 
   private ledger(): SpendLedger {
-    return this.d.dev?.ledger ?? new PgAgentSpendLedger(this.d.db, this.limits.agentCapUsd);
+    return this.d.dev?.ledger ?? new PgAgentSpendLedger(this.d.db, this.limits.agentCapUsd, this.limits.agentDailyCapUsd);
   }
 
-  private async agentSpent(): Promise<number> {
-    if (this.d.dev) return this.d.dev.ledger.spent();
-    return sumWhere(this.d.db, AGENT_PREFIX);
+  /** Whether the agent's money is used up: in all, or over the last 24 hours (a development run: its own file ceiling). */
+  private async agentSpentOut(): Promise<boolean> {
+    if (this.d.dev) return this.d.dev.ledger.spent() >= this.limits.agentCapUsd - 0.005;
+    if ((await sumWhere(this.d.db, AGENT_PREFIX)) >= this.limits.agentCapUsd - 0.005) return true;
+    const daily = this.limits.agentDailyCapUsd;
+    return (await sumWhere(this.d.db, AGENT_PREFIX, dayBefore(this.d.now()))) >= daily - Math.min(0.005, daily / 10);
   }
 
   /** Meta's ledger: the development file in a development run, else its `agent-meta:` rows. */
@@ -307,8 +325,10 @@ export class AgentService {
   async question(ip: string, body: unknown): Promise<{ questionId: string; model: string }> {
     const { locale = "en" } = QuestionBody.parse(body ?? {});
     const meta = await this.metaReady();
-    if (!this.d.client && !meta) throw limit(this.d.meta ? 429 : 503, this.d.meta ? "agent_budget" : "agent_off", this.d.meta ? "budget" : "off", locale);
-    if (!meta && (await this.agentSpent()) >= this.limits.agentCapUsd - 0.005) throw limit(429, "agent_budget", "budget", locale);
+    // Meta with a key but out of money is a budget sentence; Meta without a key is the agent being off.
+    const metaKeyed = Boolean(this.d.meta?.apiKey);
+    if (!this.d.client && !meta) throw limit(metaKeyed ? 429 : 503, metaKeyed ? "agent_budget" : "agent_off", metaKeyed ? "budget" : "off", locale);
+    if (!meta && (await this.agentSpentOut())) throw limit(429, "agent_budget", "budget", locale);
     const ipHash = this.d.hashIp(ip);
     const now = this.d.now();
     const hourAgo = new Date(Date.parse(now) - 3_600_000).toISOString();
@@ -407,7 +427,7 @@ export class AgentService {
       Object.assign(logRow, { ok: false, ms: Date.now() - t0, error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
       if (e instanceof SpendCapExceeded || e instanceof AgentCapExceeded) throw limit(429, "agent_budget", "budget", locale);
       if (e instanceof ServiceError) throw e;
-      (this.d.log ?? ((m, x) => console.error(`[pledge-as-spent] ${m}`, x ?? "")))("agent turn failed", { name: (e as Error).name, message: (e as Error).message });
+      this.log("agent turn failed",{ name: (e as Error).name, message: (e as Error).message });
       throw new ServiceError(502, "model_failed", "The live AI did not answer. Try again, or use the quick questions.");
     } finally {
       if (dev) appendFileSync(dev.callsLog, JSON.stringify(logRow) + "\n");
@@ -483,7 +503,7 @@ export class AgentService {
       Object.assign(logRow, { ok: false, ms: Date.now() - t0, fallback: ceilingHit ? "Meta's ceiling" : "Meta failed", error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
       // A refusal at the ceiling sent nothing; a failed call was attempted and is logged as one.
       if (!ceilingHit) log();
-      (this.d.log ?? ((m, x) => console.error(`[pledge-as-spent] ${m}`, x ?? "")))("Meta turn failed, Bedrock answers", { name: (e as Error).name, message: (e as Error).message.slice(0, 200) });
+      this.log("Meta turn failed, Bedrock answers",{ name: (e as Error).name, message: (e as Error).message.slice(0, 200) });
       return null;
     }
   }

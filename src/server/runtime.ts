@@ -22,6 +22,9 @@ import { fileLedgerTotal, seedCarryOver } from "./spend";
 // READING_PIPELINE      nova-lite | ocr-lite | ocr-pro (default ocr-lite)
 // DEMO_DRIVES_PER_HOUR, LIVE_READS_PER_DAY   per-address limits (defaults in service.ts)
 // DEMO_PAYOUT_EMAIL     sandbox account that receives demo payouts (default: Nadezhda's sandbox volunteer)
+// LIVE_AGENT=on         allow the live "Ask the book" agent (Bedrock Nova Lite); off otherwise (src/server/agent.ts)
+// AGENT_CAP_USD, AGENT_DAILY_CAP_USD   the agent's ceilings inside the $5 (defaults $0.40 in all, $0.05 over 24 hours)
+// AGENT_QUESTIONS_PER_HOUR, AGENT_QUESTIONS_PER_DAY, AGENT_QUESTIONS_PER_DAY_ALL   the agent's question counts
 
 // On globalThis: one service (one PGlite instance on a data dir) per process, whichever bundle asks first.
 const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService>; ocr?: OcrEngine } };

@@ -9,7 +9,7 @@ import { agentQuestions, spendLedger } from "../db/schema";
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { AgentService, agentMetaFrom, DevSpendLedger, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
+import { AgentService, agentLimitsFrom, agentLive, agentMetaFrom, DEFAULT_AGENT_LIMITS, DevSpendLedger, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
 import { ServiceError } from "./errors";
 import { TEXT } from "../agent/i18n";
 
@@ -417,6 +417,51 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
     await db.migrate(path.join(ROOT, "drizzle"));
     const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: "k", model: "muse-spark-1.3", capUsd: 0.001 } });
     await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ status: 429, code: "agent_budget" });
+  });
+
+  it("Meta allowed without a key and Bedrock off: the agent is off (503), not out of money, and the server says so once at start", async () => {
+    db = await openPglite();
+    await db.migrate(path.join(ROOT, "drizzle"));
+    const said: string[] = [];
+    const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: null, model: "muse-spark-1.3", capUsd: 1 }, log: (m) => said.push(m) });
+    expect(said).toEqual(["Meta allowed but no key: Meta answers nothing, and the live agent is off (LIVE_AGENT is not on)"]);
+    await expect(agent.question("1.1.1.1", { locale: "de" })).rejects.toMatchObject({ status: 503, code: "agent_off", message: TEXT.off.de });
+    const withBedrock: string[] = [];
+    new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: () => fakeClient().client, meta: { baseUrl: "https://x", apiKey: null, model: "muse-spark-1.3", capUsd: 1 }, log: (m) => withBedrock.push(m) });
+    expect(withBedrock).toEqual(["Meta allowed but no key: Amazon Nova answers every turn"]);
+    const quiet: string[] = [];
+    new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: "k", model: "muse-spark-1.3", capUsd: 1 }, log: (m) => quiet.push(m) });
+    expect(quiet).toEqual([]);
+  });
+});
+
+describe("server settings", () => {
+  it("the live agent is off unless LIVE_AGENT=on: LIVE_READING=on no longer switches it on", () => {
+    expect(agentLive({} as never)).toBe(false);
+    expect(agentLive({ LIVE_READING: "on" } as never)).toBe(false);
+    expect(agentLive({ LIVE_AGENT: "yes" } as never)).toBe(false);
+    expect(agentLive({ LIVE_AGENT: "on" } as never)).toBe(true);
+  });
+
+  it("the agent's daily sub-ceiling is $0.05 over 24 hours unless AGENT_DAILY_CAP_USD says otherwise", () => {
+    expect(DEFAULT_AGENT_LIMITS.agentDailyCapUsd).toBe(0.05);
+    expect(agentLimitsFrom({ AGENT_DAILY_CAP_USD: "0.2" } as never)).toMatchObject({ agentDailyCapUsd: 0.2 });
+    expect(agentLimitsFrom({ AGENT_DAILY_CAP_USD: "lots" } as never)).not.toHaveProperty("agentDailyCapUsd");
+  });
+
+  it("the daily sub-ceiling: refused before the call and for a new question; spend older than 24 hours does not count", async () => {
+    const { agent, sent } = await service();
+    const { questionId } = await agent.question("1.1.1.1", {});
+    const day = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString();
+    await db.db.insert(spendLedger).values({ id: "old", ts: day(25), kind: "reserve", what: "agent:ledger yesterday", usd: "0.300000", ref: null });
+    await turnAs(agent, turn(questionId));
+    expect(sent).toHaveLength(1); // $0.30 a day ago: under the $0.40 in all, and not today's
+    await db.db.insert(spendLedger).values({ id: "today", ts: day(1), kind: "reserve", what: "agent:ledger today", usd: "0.049990", ref: null });
+    const e = await refused(turnAs(agent, turn(questionId, { locale: "de" })));
+    expect(e).toMatchObject({ status: 429, code: "agent_budget", message: TEXT.budget.de });
+    expect(sent).toHaveLength(1);
+    t = Date.now();
+    await expect(agent.question("4.4.4.4", {})).rejects.toMatchObject({ code: "agent_budget" });
   });
 });
 
