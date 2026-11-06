@@ -4596,3 +4596,13 @@
 {"ts":"2026-11-01T02:57:28.296Z","id":"60754979-975b-41dc-867b-b4c1786969a1","kind":"settle","ref":"43c72631-13f5-47e0-b5ee-895a6ed8e484","what":"ocr read (amazon.nova-pro-v1:0): structure","usd":-0.013342}
 {"ts":"2026-11-01T02:57:28.298Z","id":"dc29a248-2f93-4036-88b5-a14c713bf666","kind":"reserve","what":"classify lines (amazon.nova-pro-v1:0)","usd":0.019347}
 {"ts":"2026-11-01T02:57:30.564Z","id":"d5cf72ac-5f27-4634-b05f-626255c1d920","kind":"settle","ref":"dc29a248-2f93-4036-88b5-a14c713bf666","what":"classify lines (amazon.nova-pro-v1:0)","usd":-0.016877}
+{"ts":"2026-11-06T19:24:49.612Z","id":"fbb84f1c-dea7-4480-b2bb-d64ac3c6279e","kind":"reserve","what":"agent-dev spike primary (amazon.nova-lite-v1:0)","usd":0.000352}
+{"ts":"2026-11-06T19:24:50.653Z","id":"34789c24-b750-441f-927e-db7cc26ba43b","kind":"settle","ref":"fbb84f1c-dea7-4480-b2bb-d64ac3c6279e","what":"agent-dev spike primary (amazon.nova-lite-v1:0)","usd":-0.000285}
+{"ts":"2026-11-06T19:25:10.672Z","id":"fbbcb7a4-a3d1-4f18-8de6-d21728ec2195","kind":"reserve","what":"agent-dev spike primary (amazon.nova-lite-v1:0)","usd":0.000352}
+{"ts":"2026-11-06T19:25:11.572Z","id":"853731ce-5e81-4f08-a7e9-12c752c9d282","kind":"settle","ref":"fbbcb7a4-a3d1-4f18-8de6-d21728ec2195","what":"agent-dev spike primary (amazon.nova-lite-v1:0)","usd":-0.000288}
+{"ts":"2026-11-06T19:25:11.575Z","id":"0168274d-937c-4402-adb4-3c8653e1a2f2","kind":"reserve","what":"agent-dev spike data (amazon.nova-lite-v1:0)","usd":0.005025}
+{"ts":"2026-11-06T19:25:13.472Z","id":"aa45fe45-7866-4b8d-9b84-c249717d68b4","kind":"settle","ref":"0168274d-937c-4402-adb4-3c8653e1a2f2","what":"agent-dev spike data (amazon.nova-lite-v1:0)","usd":-0.003772}
+{"ts":"2026-11-06T19:25:13.474Z","id":"7fbb3055-490a-40b5-b8a3-1d29b5c1be1b","kind":"reserve","what":"agent-dev spike primary (amazon.nova-pro-v1:0)","usd":0.004698}
+{"ts":"2026-11-06T19:25:14.686Z","id":"7e232b14-02ec-456b-9b06-fc5abba4c314","kind":"settle","ref":"7fbb3055-490a-40b5-b8a3-1d29b5c1be1b","what":"agent-dev spike primary (amazon.nova-pro-v1:0)","usd":-0.003857}
+{"ts":"2026-11-06T19:25:14.690Z","id":"78acb853-b9b6-42fb-85e7-36f03b11bf10","kind":"reserve","what":"agent-dev spike data (amazon.nova-pro-v1:0)","usd":0.067003}
+{"ts":"2026-11-06T19:25:17.000Z","id":"df7d7ad2-221a-4e8d-a3e1-34b98adade1b","kind":"settle","ref":"78acb853-b9b6-42fb-85e7-36f03b11bf10","what":"agent-dev spike data (amazon.nova-pro-v1:0)","usd":-0.050233}
