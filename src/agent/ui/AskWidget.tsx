@@ -6,6 +6,7 @@ import { say } from "../i18n";
 import type { AskState } from "../harness";
 import type { AgentLocale } from "../money-parse";
 import { STARTERS, type StarterId } from "../starters";
+import { delegationText } from "../steps";
 import type { Fact } from "../types";
 import "./ask.css";
 
@@ -43,7 +44,6 @@ const UI = {
   checked: { en: "Checked against the book", de: "Mit dem Buch abgeglichen", ja: "帳簿と照合" },
   code: { en: "answered by the book's code, no AI", de: "vom Code des Buchs beantwortet, ohne KI", ja: "帳簿のコードが回答（AIなし）" },
   thinking: { en: "Reading the book…", de: "Lese das Buch…", ja: "帳簿を確認中…" },
-  delegated: { en: "Asked Studio's data agent", de: "Hat Studios Datenagenten gefragt", ja: "Studioのデータエージェントに確認" },
   who: { en: "Who are you in the book?", de: "Wer sind Sie im Buch?", ja: "帳簿のどなたですか？" },
   noFigures: { en: "no figures to check", de: "keine Beträge zu prüfen", ja: "照合する金額なし" },
   withheld: {
@@ -149,12 +149,10 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
         </div>
       )}
 
-      {answer && answer.delegated.length > 0 && (
+      {answer?.step && (
         <p className="ask-step" data-testid="ask-step">
           <Robot />
-          <span>
-            {UI.delegated[locale]}: {answer.delegated[answer.delegated.length - 1]}
-          </span>
+          <span>{delegationText(answer.step, locale)}</span>
         </p>
       )}
 

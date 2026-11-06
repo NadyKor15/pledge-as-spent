@@ -1,4 +1,5 @@
 import type { AgAiTelemetryEvent, AgAiTelemetryObserver } from "ag-studio";
+import { isNeedSumQuery, type DelegationStep } from "./steps";
 import type { Fact } from "./types";
 
 // Which figures the book has returned while answering the current question. Fed by Studio's
@@ -54,7 +55,7 @@ export class FactRegistry {
   private facts: Fact[] = [];
   private runs: ToolRun[] = [];
   private delegations: string[] = [];
-  private readonly started = new Map<string, { args: unknown; agentId: string }>();
+  private readonly started = new Map<string, { args: unknown; agentId: string; name: string }>();
 
   constructor(private readonly baseCurrency: () => string) {}
 
@@ -74,9 +75,16 @@ export class FactRegistry {
     return this.runs;
   }
 
-  /** What our agent asked Studio's data agent, in its own words, for each delegation of this question. */
+  /** What our agent asked Studio's data agent, in its own words, for each delegation of this question. For the measure only: never shown. */
   delegated(): readonly string[] {
     return this.delegations;
+  }
+
+  /** What the reader is told about the delegation: by what the data agent ran, not by the model's words. Null when there was none. */
+  delegationStep(): DelegationStep | null {
+    if (!this.delegations.length) return null;
+    const ranNeedSum = [...this.started.values()].some((s) => s.agentId === "data" && s.name === "execute_query" && isNeedSumQuery((s.args as { query?: unknown } | undefined)?.query));
+    return ranNeedSum ? "needSum" : "query";
   }
 
   /** Facts added by hand: an answer computed by the book's code. */
@@ -88,7 +96,7 @@ export class FactRegistry {
 
   onEvent(e: AgAiTelemetryEvent) {
     if (e.type === "tool_execution_started") {
-      this.started.set(e.toolCallId, { args: e.args, agentId: e.trace.agentId });
+      this.started.set(e.toolCallId, { args: e.args, agentId: e.trace.agentId, name: e.name });
       if (e.name === "delegate_to") {
         const a = e.args as { instructions?: string } | undefined;
         this.delegations.push(typeof a?.instructions === "string" ? a.instructions : "");

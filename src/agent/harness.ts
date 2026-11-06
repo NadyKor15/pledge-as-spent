@@ -8,6 +8,7 @@ import type { AgentLocale } from "./money-parse";
 import { LEDGER_DESCRIPTION, ledgerInstructions } from "./prompts";
 import { answerStarter, STARTERS, starterPrompt, type StarterId } from "./starters";
 import { routeQuestion, type Intent, type RoutePlan } from "./route";
+import type { DelegationStep } from "./steps";
 import { ledgerAiTools } from "./tools";
 import type { Fact } from "./types";
 import type { AgentId } from "./wire";
@@ -87,8 +88,10 @@ export interface AskAnswer {
   facts: readonly Fact[];
   /** "ai": the live agent; "code": a quick question answered by the book's code. */
   source: "ai" | "code";
-  /** What our agent asked Studio's data agent, when it did. */
+  /** What our agent asked Studio's data agent, in the model's own words: for the measure, never shown. */
   delegated: readonly string[];
+  /** What the reader is told about a delegation to Studio's data agent (a fixed sentence by this), or null. */
+  step: DelegationStep | null;
   retried: boolean;
   replaced: boolean;
   lineKeys: readonly string[];
@@ -286,7 +289,7 @@ export class LedgerAgent {
       return;
     }
     if (!this.sawRunning && !this.outcome && !this.limit) return;
-    const base = { question: this.state.question ?? "", facts: [...this.facts.list()], source: "ai" as const, delegated: [...this.facts.delegated()] };
+    const base = { question: this.state.question ?? "", facts: [...this.facts.list()], source: "ai" as const, delegated: [...this.facts.delegated()], step: this.facts.delegationStep() };
     if (this.limit) {
       this.set({ phase: "limit", message: this.limit.message, answer: null });
       return;
@@ -353,7 +356,7 @@ export class LedgerAgent {
       donor: who ?? this.state.donor,
       question: s.label[this.locale()],
       message: null,
-      answer: { question: s.label[this.locale()], text: a.text, verdict: a.verdict, facts: a.facts, source: "code", delegated: [], retried: false, replaced: false, lineKeys: a.lineKeys, raw: [] },
+      answer: { question: s.label[this.locale()], text: a.text, verdict: a.verdict, facts: a.facts, source: "code", delegated: [], step: null, retried: false, replaced: false, lineKeys: a.lineKeys, raw: [] },
     });
   }
 
