@@ -164,3 +164,84 @@ describe("stripThinking", () => {
     expect(checkAnswer(stripThinking("<thinking>$99.99</thinking>You paid $21.45."), MARK).ok).toBe(true);
   });
 });
+
+// The README's list of what the check finds and what it misses ("Numbers only from the book"), pinned form by form.
+// Each row is synthetic text; a change to the parser that changes a row must change the README too.
+describe("README: the forms the check finds and the ones it misses", () => {
+  const amount = (text: string) => extractClaims(text).filter((c) => c.kind === "amount").map((c) => ({ value: c.value, currency: c.currency }));
+
+  it("finds an amount with a currency symbol at any size, before (all) or after ($ € ¥ 円)", () => {
+    expect(amount("$5")).toEqual([{ value: 5, currency: "USD" }]);
+    expect(amount("US$ 7")).toEqual([{ value: 7, currency: "USD" }]);
+    expect(amount("C$3")).toEqual([{ value: 3, currency: "CAD" }]);
+    expect(amount("CA$3")).toEqual([{ value: 3, currency: "CAD" }]);
+    expect(amount("A$3")).toEqual([{ value: 3, currency: "AUD" }]);
+    expect(amount("AU$3")).toEqual([{ value: 3, currency: "AUD" }]);
+    expect(amount("€2")).toEqual([{ value: 2, currency: "EUR" }]);
+    expect(amount("£2")).toEqual([{ value: 2, currency: "GBP" }]);
+    expect(amount("¥9")).toEqual([{ value: 9, currency: "JPY" }]);
+    expect(amount("4,58 €")).toEqual([{ value: 4.58, currency: "EUR" }]);
+    expect(amount("9$")).toEqual([{ value: 9, currency: "USD" }]);
+    expect(amount("9¥")).toEqual([{ value: 9, currency: "JPY" }]);
+    expect(amount("10 448 円")).toEqual([{ value: 10448, currency: "JPY" }]);
+    expect(amount("￥１，２３７")).toEqual([{ value: 1237, currency: "JPY" }]);
+    expect(amount("$1,234.56 and 1.234,56 €")).toEqual([
+      { value: 1234.56, currency: "USD" },
+      { value: 1234.56, currency: "EUR" },
+    ]);
+  });
+
+  it("finds an ISO code in capitals before or after the number", () => {
+    for (const code of ["USD", "EUR", "JPY", "GBP", "CAD", "AUD"]) {
+      expect(amount(`${code} 12`)).toEqual([{ value: 12, currency: code }]);
+      expect(amount(`12 ${code}`)).toEqual([{ value: 12, currency: code }]);
+    }
+  });
+
+  it("finds a bare number with two decimals or above 100, and leaves years, dates, times and quantities alone", () => {
+    expect(amount("it was 21.45")).toEqual([{ value: 21.45, currency: undefined }]);
+    expect(amount("line total 101")).toEqual([{ value: 101, currency: undefined }]);
+    expect(amount("line total 100")).toEqual([]);
+    expect(amount("in 2026, on 2026-11-06 at 14:30, 2 L and 3 枚")).toEqual([]);
+  });
+
+  it("finds a PayPal id in capitals: 17 characters, or 13 to 20 with a digit and a letter", () => {
+    const ids = (t: string) => extractClaims(t).filter((c) => c.kind === "id").map((c) => c.id);
+    expect(ids("capture 5PE922386K0983923")).toEqual(["5PE922386K0983923"]);
+    expect(ids("order 8MA225382G0217")).toEqual(["8MA225382G0217"]);
+    expect(ids("ABCDEFGHIJKLMNOPQRS")).toEqual([]); // 19 letters, no digit
+  });
+
+  it("finds a share as a percentage or as words for all or half of it", () => {
+    const shares = (t: string) => extractClaims(t).filter((c) => c.kind === "share").map((c) => c.value);
+    expect(shares("23 % was spent")).toEqual([23]);
+    expect(shares("zu 23 Prozent ausgegeben")).toEqual([23]);
+    expect(shares("23パーセント使われました")).toEqual([23]);
+    for (const w of ["all of it", "in full", "ganz", "vollständig", "全額", "全部"]) expect(shares(`spent ${w}`)).toEqual([100]);
+    for (const w of ["half of it", "die Hälfte", "半分"]) expect(shares(`spent ${w}`)).toEqual([50]);
+  });
+
+  it("misses: currency words are not a currency (a word after 100 or less is no claim; above 100 it is a bare number)", () => {
+    expect(extractClaims("20 euros")).toEqual([]);
+    expect(extractClaims("20 Euro")).toEqual([]);
+    expect(extractClaims("21 dollars")).toEqual([]);
+    expect(amount("1,237 yen")).toEqual([{ value: 1237, currency: undefined }]);
+    // so a bare 1,237 passes against ¥1,237 or $1,237 alike
+    expect(checkAnswer("1,237 yen", [{ value: 1237, currency: "USD", label: "x" }]).ok).toBe(true);
+  });
+
+  it("misses: 万 and 千 do not multiply (\"1万円\" and \"2千\" are no claim at all)", () => {
+    expect(extractClaims("1万円")).toEqual([]);
+    expect(extractClaims("2千円")).toEqual([]);
+    expect(extractClaims("2千")).toEqual([]);
+  });
+
+  it("misses: an ISO code in small letters is not a currency, and a lower-case id is no claim", () => {
+    expect(amount("usd 21.45")).toEqual([{ value: 21.45, currency: undefined }]);
+    expect(extractClaims("capture 5pe922386k0983923")).toEqual([]);
+  });
+
+  it("misses: a bare number with decimals matches the same value in any currency", () => {
+    expect(checkAnswer("It cost 21.45 in euros.", [{ value: 21.45, currency: "USD", label: "spent" }]).ok).toBe(true);
+  });
+});

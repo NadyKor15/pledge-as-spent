@@ -85,9 +85,25 @@ The Ledger tab has a chat over the book. A donor asks in their own words, for ex
 - The four quick questions are answered by the book's own code with the same tools and no model, so they keep working when the live AI has used its questions.
 - "Ask about this line", in a row's proof band, sends that line to the chat.
 
-**Numbers only from the book.** A wrapper around the model checks each final answer before anyone sees it. Every figure in the answer must match a figure a tool returned for this question: amounts in English, German and Japanese forms with their currency, bare numbers with decimals or above 100, PayPal ids, percentages, and words that claim a share such as "all of it", "ganz" or "全額". Figures that the data agent wrote in its own summary do not count, only its query results. If something does not match, the model is asked once more; if it still does not match, the reader sees "I can't confirm that figure from the book." Text that was not checked is never shown.
+**Numbers only from the book.** A wrapper around the model checks each final answer before anyone sees it. Every figure it finds in the answer must match a figure a tool returned for this question. Figures that the data agent wrote in its own summary do not count, only its query results. If something does not match, the model is asked once more; if it still does not match, the reader sees "I can't confirm that figure from the book." Text that was not checked is never shown: the model's answer is shown only after the check, and when our agent hands work to the data agent the chat shows a fixed sentence for what the data agent ran, not the model's instructions.
 
-What it does not catch: a figure that is in the book but answers another question (in one measured run the data agent read the wrong row and the answer gave ¥3,000, the gift card, for water), a wrong statement without a figure, and counts of 100 or less.
+The check finds these forms ([`src/agent/money-parse.ts`](src/agent/money-parse.ts)):
+
+- an amount with a currency symbol, at any size: before the number `$`, `US$`, `C$`, `CA$`, `A$`, `AU$`, `€`, `£`, `¥`; after it `$`, `€`, `¥`, `円`; in English, German and Japanese number forms ("$1,234.56", "1.234,56 €", "10 448 円"), full-width digits included ("￥１，２３７");
+- an amount with an ISO code in capitals before or after it: USD, EUR, JPY, GBP, CAD, AUD;
+- a bare number with two decimals, or above 100 (years 1900–2099, dates, times and quantities with a unit such as "2 L" or "3 枚" are left alone);
+- a PayPal id in capitals: 17 characters, or 13 to 20 with both a digit and a letter;
+- a share: "23 %", "23 Prozent", "23 パーセント", and words that claim all or half of an amount ("all of it", "in full", "ganz", "vollständig", "全額", "全部", "half of it", "die Hälfte", "半分"), checked against what it is a share of.
+
+What it does not catch:
+
+- a currency written as a word: "20 euros", "20 Euro" and "21 dollars" are not claims at all, and "1,237 yen" is checked only as the bare number 1,237;
+- Japanese 万 and 千: "1万円", "2千円" and "2千" are not claims at all;
+- an ISO code in small letters ("usd 21.45" is checked only as the bare number 21.45) and a PayPal id in small letters (not a claim);
+- a bare number with decimals or above 100 matches a figure of the same value in any currency, so "21.45" passes when the book has $21.45 even if the sentence means euros;
+- a figure that is in the book but answers another question (in one measured run the data agent read the wrong row and the answer gave ¥3,000, the gift card, for water), a wrong statement without a figure, and bare counts of 100 or less.
+
+Each line of both lists is pinned by a test on made-up text (`src/agent/guard.test.ts`, "README: the forms the check finds and the ones it misses").
 
 **Models and the measure.** Seven donor questions on the closed demo drive, in English, German and Japanese, with the right figures computed from the book by code. An answer counts as right when it states every required figure, the check did not have to step in, it states no figure outside what the relevant tools returned, and it has no false percentage.
 
