@@ -38,6 +38,8 @@ export interface LedgerSnapshot {
   focus: { lineKeys: string[]; label: string } | null;
   /** The row of the book whose proof band is open (its rowKey). */
   proof: string | null;
+  /** The open band's own height as drawn, in whole pixels: the rows under it move down exactly this much. */
+  bandPx: number | null;
   /** The assistant's chat for the slot over the book; no component, no slot. */
   askComponent: AskComponent | null;
   /** What "Ask about this line" does; no callback, no button. */
@@ -89,6 +91,7 @@ export class LedgerStore {
       flashes: new Map(),
       focus: null,
       proof: null,
+      bandPx: null,
       askComponent: null,
       askAbout: null,
     };
@@ -145,6 +148,13 @@ export class LedgerStore {
 
   /** Opens the proof band under a row of the book; the same row again closes it. */
   toggleProof = (rowKey: string | null) => this.set({ proof: rowKey === this.snapshot.proof ? null : rowKey });
+
+  /** The band measures itself (a ResizeObserver in cells.tsx): its words and buttons decide its height, not a constant. */
+  setBandPx = (px: number) => {
+    if (!Number.isFinite(px) || px <= 0) return;
+    const whole = Math.ceil(px);
+    if (whole !== this.snapshot.bandPx) this.set({ bandPx: whole });
+  };
 
   setAskAbout = (askAbout: ((lineKey: string) => void) | null) => this.set({ askAbout });
 

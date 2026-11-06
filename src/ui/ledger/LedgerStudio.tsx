@@ -76,10 +76,17 @@ const sizeKey = () => `${document.documentElement.clientWidth}x${window.innerHei
 /** The book's height: a header and up to this many rows, then it scrolls inside its own grid. */
 const BOOK_ROWS = 22;
 const bookHeight = (rows: number, stacked: boolean) => 60 + Math.min(rows, BOOK_ROWS) * (stacked ? PHONE_BOOK_ROW_PX : BOOK_ROW_PX);
-/** The proof band under a row: the rows below it move down this much (ledger.css --band-h). */
+/**
+ * The proof band under a row measures itself (store.bandPx) and the rows below it move down exactly that much
+ * (ledger.css --band-h). These are its height before the first measure, and the room the book's widget keeps for
+ * it: more than any band needs, so a band never pushes the book's last rows out of the widget.
+ */
 export const BAND_PX = 132;
 export const PHONE_BAND_PX = 252;
+const BAND_ROOM_PX = 360;
+const PHONE_BAND_ROOM_PX = 560;
 const bandHeight = (stacked: boolean) => (stacked ? PHONE_BAND_PX : BAND_PX);
+const bandRoom = (stacked: boolean) => (stacked ? PHONE_BAND_ROOM_PX : BAND_ROOM_PX);
 /** "The book" over it, in pixels at scale 1. */
 const BOOK_HEAD_PX = 60;
 /** The assistant's chat over the book, in pixels at scale 1; the assistant's lane sizes its widget to this. */
@@ -88,7 +95,7 @@ export const PHONE_ASK_PX = 560;
 
 function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
   // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
-  const bookRows = (rowHeight: number) => Math.ceil((bookHeight(counts.book, stacked) + bandHeight(stacked)) / rowHeight);
+  const bookRows = (rowHeight: number) => Math.ceil((bookHeight(counts.book, stacked) + bandRoom(stacked)) / rowHeight);
   if (stacked) {
     const rowHeight = 10;
     const rows = {
@@ -210,6 +217,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
   const focus = useSyncExternalStore(store.subscribe, () => store.get().focus);
   const proof = useSyncExternalStore(store.subscribe, () => store.get().proof);
   const ask = useSyncExternalStore(store.subscribe, () => store.get().askComponent !== null);
+  const bandPx = useSyncExternalStore(store.subscribe, () => store.get().bandPx) ?? bandHeight(stacked);
   const picked = focus ? focus.lineKeys : selected ? linesOf(model, selected) : null;
   const metrics = useMetrics(stacked, model, ask);
   const root = useRef<HTMLDivElement>(null);
@@ -261,7 +269,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
   const whole = body + head + metrics.rows.book * metrics.rowHeight;
   const lines = picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length;
   const banded = proof !== null && model.book.some((r) => r.rowKey === proof && (!picked || picked.includes(r.lineKey)));
-  const height = body + (bookOpen ? head + bookHeight(lines, stacked) + (banded ? bandHeight(stacked) : 0) : 0);
+  const height = body + (bookOpen ? head + bookHeight(lines, stacked) + (banded ? bandPx : 0) : 0);
   const w = WORDS[lang];
 
   return (
@@ -271,7 +279,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
       lang={LANG_TAG[lang]}
       data-phase={model.phase}
       data-stacked={stacked}
-      style={{ "--s": metrics.scale, "--band-h": `${bandHeight(stacked)}px`, "--row-h": `${stacked ? PHONE_BOOK_ROW_PX : BOOK_ROW_PX}px` } as CSSProperties}
+      style={{ "--s": metrics.scale, "--band-h": `${bandPx}px`, "--row-h": `${stacked ? PHONE_BOOK_ROW_PX : BOOK_ROW_PX}px` } as CSSProperties}
     >
       <div className="lg-frame" data-book={bookOpen && lines > 0 ? "open" : "closed"} style={{ height }}>
         {bookOpen && lines === 0 && (
