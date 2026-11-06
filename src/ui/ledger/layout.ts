@@ -250,10 +250,10 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
     if (returns) {
       const angle = (Math.atan2(tip.y - bow.back.y, tip.x - bow.back.x) * 180) / Math.PI;
       arcs.push({ flow: "back", d: quad(hub, bow.back, tip), width: thick(donor.restBase), head: { x: tip.x, y: tip.y, angle } });
-      if (!compact) pillOn(`${donor.restText} back`, "back", tip, bow.back, hub, line.back);
+      if (!compact) pillOn(`${donor.restText} ${donor.words?.rest ?? "back"}`, "back", tip, bow.back, hub, line.back);
     } else if (donor.restBase > 0 && !compact) {
       // Nothing moved yet: the amount stays with the donor, beside their label.
-      const text = `${donor.restText} ${donor.restWord}`;
+      const text = `${donor.restText} ${donor.words?.rest ?? donor.restWord}`;
       const w = textWidth(text, pillPx) + 20;
       const box = best([
         { x: label.x + (label.w - w) / 2, y: label.y + label.h + 5, w, h: pillH },

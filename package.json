@@ -20,6 +20,7 @@
     "bot:poll": "tsx scripts/telegram-poll.ts"
   },
   "dependencies": {
+    "@ag-grid-community/locale": "36.2.0",
     "@aws-sdk/client-bedrock-runtime": "3.1153.0",
     "@electric-sql/pglite": "0.5.10",
     "@neondatabase/serverless": "1.2.0",
@@ -29,6 +30,7 @@
     "ag-grid-community": "36.2.0",
     "ag-grid-react": "36.2.0",
     "ag-studio": "3.0.0",
+    "ag-studio-locale": "3.0.0",
     "ag-studio-react": "3.0.0",
     "drizzle-orm": "0.45.4",
     "jpeg-js": "0.4.4",

@@ -12,6 +12,44 @@ export function money(currency: string | null | undefined, minor: number | null 
   return `${minor < 0 ? "−" : ""}${SYMBOL[currency] ?? `${currency} `}${s}`;
 }
 
+/** The languages the Ledger speaks. */
+export type Lang = "en" | "de" | "ja";
+
+const INTL: Record<Lang, string> = { en: "en-US", de: "de-DE", ja: "ja-JP" };
+const formats = new Map<string, Intl.NumberFormat>();
+
+/** Intl's parts with the page's own signs: a true minus, the narrow yen sign, plain spaces. */
+function intlMoney(lang: Lang, currency: string, major: number, digits: number): string {
+  const key = `${lang}:${currency}:${digits}`;
+  let f = formats.get(key);
+  if (!f) {
+    f = new Intl.NumberFormat(INTL[lang], { style: "currency", currency, currencyDisplay: "narrowSymbol", minimumFractionDigits: digits, maximumFractionDigits: digits });
+    formats.set(key, f);
+  }
+  return f
+    .formatToParts(major)
+    .map((p) => (p.type === "minusSign" ? "−" : p.type === "currency" ? p.value.replace("￥", "¥") : p.type === "literal" ? p.value.replace(/[  ]/g, " ") : p.value))
+    .join("");
+}
+
+/**
+ * money() in the reader's language: "1.234,56 €" in German, "¥10,448" in Japanese; English is money() itself.
+ * money() stays English whatever the page shows: the Telegram bot and the server print it.
+ */
+export function moneyIn(lang: Lang, currency: string | null | undefined, minor: number | null | undefined): string {
+  if (lang === "en" || !currency || minor === null || minor === undefined) return money(currency, minor);
+  const d = decimals(currency);
+  return intlMoney(lang, currency, minor / 10 ** d, d);
+}
+
+/** rateText() in the reader's language: "1 € = 162,35 ¥" in German. */
+export function rateTextIn(lang: Lang, fx: { base: string; quote: string; rate: string } | null | undefined): string | null {
+  if (lang === "en") return rateText(fx);
+  if (!fx || fx.base === fx.quote) return null;
+  const places = fx.rate.split(".")[1]?.length ?? 0;
+  return `${intlMoney(lang, fx.quote, 1, 0)} = ${intlMoney(lang, fx.base, Number(fx.rate), places)}`;
+}
+
 /** "€1 = ¥162.35": one unit of the pledge's currency in the drive's. */
 export function rateText(fx: { base: string; quote: string; rate: string } | null | undefined): string | null {
   if (!fx || fx.base === fx.quote) return null;

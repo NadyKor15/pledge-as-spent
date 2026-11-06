@@ -1,8 +1,9 @@
 import { toBase } from "@/core/money";
 import { holdById, latestFunded, lineName, needById, shareStage } from "../derive";
-import { decimals, donorParts, money, ofCount, pct, rateText, shelterShort, shortName } from "../format";
+import { decimals, donorParts, moneyIn, ofCount, pct, rateTextIn, shelterShort, shortName, type Lang } from "../format";
 import type { DriveView, Hold, LedgerRow, Need } from "../types";
 import { locate, type LonLat } from "./geo";
+import { needLabel, WORDS, type Words } from "./i18n";
 
 // The Ledger tab reads the drive view and nothing else: every figure below is a
 // sum, a difference or a lookup of what the API returned.
@@ -32,6 +33,8 @@ export interface LedgerDonor {
   /** What did not go to the shelter, with the word for it. */
   restText: string;
   restWord: "back" | "held";
+  /** The two words in the reader's language (left out by hand-made donors in tests: the codes stand in). */
+  words?: { spent: string; rest: string };
   /** The same in the drive's currency: these add up to the totals, and weigh the arcs. */
   pledgedBase: number;
   spentBase: number;
@@ -76,10 +79,25 @@ export interface LedgerBookRow {
   what: string;
   who: string;
   state: string;
+  /** The ledger row's own id: one per share, unlike lineKey, which a donor's share and the match's share have in common. */
+  rowKey: string;
+  kind: LedgerRow["kind"];
+  /** The ledger's status code ("captured", "rejected"...), whatever the language of `status`. */
+  code: string;
+  pledgeId: string | null;
+  /** "Mark · Columbus", "Kitasora Logistics (match)"; "—" on a refused line. */
+  payerLabel: string;
+  /** The share in the payer's own currency ("$8.58"); "—" when nobody pays the line. */
+  paid: string;
+  /** The need, or "—" on a line no need took. */
+  needShown: string;
+  /** Why a line was refused or left unfunded, as the book says it. */
+  reason: string | null;
 }
 
 export interface LedgerModel {
   driveId: string;
+  lang: Lang;
   phase: LedgerPhase;
   shelter: string;
   baseCurrency: string;
@@ -118,19 +136,8 @@ export interface LedgerModel {
 
 const lineKey = (receiptId: string, lineNo: number) => `${receiptId}:${lineNo}`;
 
-const BOOK_WORD: Record<string, string> = {
-  accrued: "Waiting for capture",
-  capture_pending: "Waiting for capture",
-  captured: "Spent",
-  partly_reversed: "Partly returned",
-  reversed: "Returned",
-  uncollected: "Not collected",
-  nothing_to_capture: "Nothing to capture",
-  rejected: "Refused",
-  unfunded: "Unfunded",
-};
-
-const PHONE_WORD: Record<string, string> = { "Waiting for capture": "Waiting", "Partly returned": "Part back", "Not collected": "Lost", "Nothing to capture": "—" };
+const statusWord = (w: Words, code: string) => (w.status as Record<string, string>)[code] ?? code;
+const phoneWord = (w: Words, code: string) => (w.phoneStatus as Record<string, string | undefined>)[code] ?? statusWord(w, code);
 
 export const shelterName = shelterShort;
 
@@ -155,7 +162,8 @@ function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
   return back > 0 && h ? Math.max(0, r.base - inBase(h, back, base)) : r.base;
 }
 
-function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
+function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDonor {
+  const w = WORDS[lang];
   const base = v.drive.baseCurrency;
   const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.pledgeId === h.pledgeId);
   const pledgedBase = inBase(h, h.authorized, base);
@@ -189,21 +197,24 @@ function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
   const city = donorParts(h.donorName).place;
   const name = shortName(h.donorName);
   const label = city ? `${name} · ${city}` : name;
+  const spentWord = waiting === 0 ? "spent" : waiting < spent ? "approved" : "waiting";
+  const restWord = over ? "back" : "held";
   return {
     pledgeId: h.pledgeId,
     name,
     city,
-    label: h.revoked ? `${label} · Withdrawn` : label,
+    label: h.revoked ? `${label} · ${w.withdrawn}` : label,
     at: locate(city, h.donorCountry),
     currency: h.currency,
     spent,
     waiting,
     back,
     held,
-    spentText: money(h.currency, spent),
-    spentWord: waiting === 0 ? "spent" : waiting < spent ? "approved" : "waiting",
-    restText: money(h.currency, over ? back : held),
-    restWord: over ? "back" : "held",
+    spentText: moneyIn(lang, h.currency, spent),
+    spentWord,
+    restText: moneyIn(lang, h.currency, over ? back : held),
+    restWord,
+    words: { spent: w.donorWord[spentWord], rest: w.donorWord[restWord] },
     pledgedBase,
     spentBase,
     waitingBase,
@@ -215,12 +226,12 @@ function donorRow(v: DriveView, h: Hold, closed: boolean): LedgerDonor {
   };
 }
 
-function needRow(v: DriveView, n: Need): LedgerNeed {
+function needRow(v: DriveView, n: Need, lang: Lang): LedgerNeed {
   const lines = v.ledger.filter((r) => r.needId === n.needId);
   return {
     needId: n.needId,
-    label: n.displayLabel,
-    count: ofCount(n.qtyCovered, n.qtyNeeded, n.unit),
+    label: needLabel(lang, n.needId, n.displayLabel),
+    count: lang === "en" ? ofCount(n.qtyCovered, n.qtyNeeded, n.unit) : WORDS[lang].count(n.qtyCovered, n.qtyNeeded, n.unit),
     percent: Math.min(100, pct(n.qtyCovered, n.qtyNeeded)),
     pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [r.pledgeId] : [])))],
     // Every line of the need: its refused and unfunded ones are part of its story.
@@ -229,12 +240,13 @@ function needRow(v: DriveView, n: Need): LedgerNeed {
 }
 
 /** What PayPal has actually taken for a row, as the donor's statement counts it. */
-function chargedText(r: LedgerRow): string {
+function chargedText(r: LedgerRow, lang: Lang): string {
   if (r.amount === null || shareStage(r.status) !== "spent") return "—";
-  return money(r.currency, r.amount - (r.reversed ?? 0)) || "—";
+  return moneyIn(lang, r.currency, r.amount - (r.reversed ?? 0)) || "—";
 }
 
-function bookRows(v: DriveView): LedgerBookRow[] {
+function bookRows(v: DriveView, lang: Lang): LedgerBookRow[] {
+  const w = WORDS[lang];
   const needOrder = (id: string | null) => {
     const i = v.needs.findIndex((n) => n.needId === id);
     return i < 0 ? v.needs.length : i;
@@ -248,32 +260,49 @@ function bookRows(v: DriveView): LedgerBookRow[] {
       const line = v.receipts.find((x) => x.id === r.receiptId)?.lines.find((l) => l.lineNo === r.lineNo);
       const name = line ? lineName({ line, need }) : null;
       const payer = r.donorName ? shortName(r.donorName) : "—";
-      const status = BOOK_WORD[r.status] ?? r.status;
+      const status = statusWord(w, r.status);
+      const label = need ? needLabel(lang, need.needId, need.displayLabel) : null;
+      const rule = line?.ruleCode ? w.rule[line.ruleCode] : undefined;
+      // In Japanese the receipt's own printed words read best; the other languages have the model's English.
+      const item = lang === "ja" && line?.text && !rule ? line.text : rule && lang !== "en" ? rule : name?.detail || name?.title || r.item || "";
+      const place = r.donorName ? donorParts(r.donorName).place : null;
+      const payerLabel = !r.donorName ? "—" : r.kind === "match_share" ? `${payer} (${w.match})` : place ? `${payer} · ${place}` : payer;
       return {
         order,
         lineKey: lineKey(r.receiptId, r.lineNo),
         line: r.lineNo,
-        item: name?.detail || name?.title || r.item || "",
+        item,
         need: need?.displayLabel ?? "Refused",
         payer,
         share: r.base,
-        charged: chargedText(r),
+        charged: chargedText(r, lang),
         capture: r.captureId ?? "—",
         status,
         receipt: r.receiptId,
-        what: `${r.lineNo} ${need?.displayLabel ?? name?.title ?? r.item ?? ""}`.trim(),
+        what: `${r.lineNo} ${label ?? rule ?? name?.title ?? r.item ?? ""}`.trim(),
         who: payer.split(" ")[0],
-        state: PHONE_WORD[status] ?? status,
+        state: phoneWord(w, r.status),
+        rowKey: r.rowId,
+        kind: r.kind,
+        code: r.status,
+        pledgeId: r.pledgeId,
+        payerLabel,
+        paid: r.amount !== null && r.currency ? moneyIn(lang, r.currency, r.amount) : "—",
+        needShown: label ?? "—",
+        reason: r.kind === "rejected" || r.kind === "unfunded" ? r.reasonEn : null,
       };
     });
 }
 
-function refusals(v: DriveView): LedgerRefusal[] {
+function refusals(v: DriveView, lang: Lang): LedgerRefusal[] {
   return v.ledger.flatMap((r) => {
     if (r.kind !== "rejected") return [];
     const line = v.receipts.find((x) => x.id === r.receiptId)?.lines.find((l) => l.lineNo === r.lineNo);
     if (!line) return [];
-    return [{ key: lineKey(r.receiptId, r.lineNo), name: lineName({ line, need: needById(v, r.needId) }).title, amount: money(v.drive.baseCurrency, r.base) }];
+    const need = needById(v, r.needId);
+    const rule = line.ruleCode ? WORDS[lang].rule[line.ruleCode] : undefined;
+    const name = lang !== "en" && rule ? rule : need && lang !== "en" ? needLabel(lang, need.needId, need.displayLabel) : lineName({ line, need }).title;
+    return [{ key: lineKey(r.receiptId, r.lineNo), name, amount: moneyIn(lang, v.drive.baseCurrency, r.base) }];
   });
 }
 
@@ -285,20 +314,21 @@ function receiptPhoto(v: DriveView): string | null {
 }
 
 /** "¥10,448 with the match" and "receipt ¥14,646": the two sums the shelter's card adds. */
-function shelterSums(v: DriveView, match: number, spent: number) {
+function shelterSums(v: DriveView, match: number, spent: number, lang: Lang) {
   const base = v.drive.baseCurrency;
+  const w = WORDS[lang];
   const funded = v.receipts.filter((r) => r.status === "funded" && r.currency === base);
   const reached = spent + match;
   return {
-    shelterTotal: reached > 0 ? `${money(base, reached)}${match > 0 ? " with the match" : ""}` : null,
-    receiptTotal: funded.length ? `receipt${funded.length === 1 ? "" : "s"} ${money(base, funded.reduce((sum, r) => sum + (r.total ?? 0), 0))}` : null,
+    shelterTotal: reached > 0 ? (match > 0 ? w.withMatch(moneyIn(lang, base, reached)) : moneyIn(lang, base, reached)) : null,
+    receiptTotal: funded.length ? w.receiptSum(moneyIn(lang, base, funded.reduce((sum, r) => sum + (r.total ?? 0), 0)), funded.length) : null,
   };
 }
 
 /** Every pledge's rate once: "Rates at pledge: €1 = ¥162.35 · $1 = ¥151.20". */
-function pledgeRates(v: DriveView): string | null {
-  const rates = [...new Set(v.holds.filter((h) => h.authorized > 0).flatMap((h) => rateText(h.fx) ?? []))];
-  return rates.length ? `Rates at pledge: ${rates.join(" · ")}` : null;
+function pledgeRates(v: DriveView, lang: Lang): string | null {
+  const rates = [...new Set(v.holds.filter((h) => h.authorized > 0).flatMap((h) => rateTextIn(lang, h.fx) ?? []))];
+  return rates.length ? WORDS[lang].ratesAtPledge(rates.join(" · ")) : null;
 }
 
 const csvCell = (v: string | number) => (/[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v));
@@ -306,17 +336,21 @@ const csvCell = (v: string | number) => (/[",\n]/.test(String(v)) ? `"${String(v
 /** The book as a spreadsheet opens it: the screen's columns, the receipt each line came from, and the sum of the shares. */
 export function bookCsv(m: LedgerModel): string {
   const major = (minor: number) => (minor / 10 ** decimals(m.baseCurrency)).toFixed(decimals(m.baseCurrency));
-  const head = ["Receipt", "Line", "Item", "Need", "Payer", `Share (${m.baseCurrency})`, "Spent", "PayPal capture", "Status"];
+  const h = WORDS[m.lang ?? "en"].head;
+  const english = (m.lang ?? "en") === "en";
+  // English keeps its spreadsheet's names ("Item"); the other languages use the screen's.
+  const head = [WORDS[m.lang ?? "en"].receiptWord, h.line, english ? "Item" : h.item, h.need, h.payer, `${h.share} (${m.baseCurrency})`, h.charged, h.capture, h.status];
   const rows = m.book.map((r) => [r.receipt, r.line, r.item, r.need, r.payer, major(r.share), r.charged, r.capture, r.status]);
   const total = ["Total", "", "", "", "", major(m.book.reduce((sum, r) => sum + r.share, 0)), "", "", ""];
   return [head, ...rows, total].map((row) => row.map(csvCell).join(",")).join("\r\n");
 }
 
-/** Everything the Ledger tab shows. */
-export function deriveLedger(v: DriveView): LedgerModel {
+/** Everything the Ledger tab shows, in the reader's language (English unless asked). */
+export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const base = v.drive.baseCurrency;
+  const w = WORDS[lang];
   const closed = v.drive.status === "closed";
-  const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed));
+  const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed, lang));
   const sum = (pick: (d: LedgerDonor) => number) => donors.reduce((total, d) => total + pick(d), 0);
   const held = sum((d) => d.heldBase);
   const returned = sum((d) => d.backBase);
@@ -325,29 +359,30 @@ export function deriveLedger(v: DriveView): LedgerModel {
   const match = v.ledger.filter((r) => r.kind === "match_share").reduce((total, r) => total + keptBase(r, holdById(v, r.pledgeId), base), 0);
   return {
     driveId: v.drive.id,
+    lang,
     phase: closed ? "closed" : "open",
     shelter: shelterName(v.drive.displayTitle),
     baseCurrency: base,
     promised: sum((d) => d.pledgedBase),
     spent,
-    spentLabel: waiting > 0 ? "Approved for needs" : "Spent on needs",
+    spentLabel: waiting > 0 ? w.approvedForNeeds : w.spentOnNeeds,
     captured: spent - waiting,
     waiting,
     held,
     returned,
     rest: closed ? returned : held,
-    restLabel: closed ? "Returned to donors" : "Held",
-    restNote: !closed && returned > 0 ? `${money(base, returned)} already returned` : null,
+    restLabel: closed ? w.returnedToDonors : w.held,
+    restNote: !closed && returned > 0 ? w.alreadyReturned(moneyIn(lang, base, returned)) : null,
     // The screens say shares are "captured once a day"; a drive may batch on another rhythm.
-    waitingNote: waiting > 0 ? `${money(base, waiting)} waiting for the ${v.drive.batch.maxAgeHours === 24 ? "daily" : "next"} capture` : null,
+    waitingNote: waiting > 0 ? w.waitingFor(moneyIn(lang, base, waiting), v.drive.batch.maxAgeHours === 24) : null,
     match,
     matchName: v.match.holds[0]?.donorName ?? null,
-    ...shelterSums(v, match, spent),
-    rates: pledgeRates(v),
+    ...shelterSums(v, match, spent, lang),
+    rates: pledgeRates(v, lang),
     donors,
-    needs: v.needs.map((n) => needRow(v, n)),
-    refused: refusals(v),
+    needs: v.needs.map((n) => needRow(v, n, lang)),
+    refused: refusals(v, lang),
     receiptUrl: receiptPhoto(v),
-    book: bookRows(v),
+    book: bookRows(v, lang),
   };
 }

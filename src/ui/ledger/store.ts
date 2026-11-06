@@ -1,12 +1,30 @@
+import type { ComponentType } from "react";
+import type { Lang } from "../format";
+import type { DriveView } from "../types";
 import type { LedgerModel } from "./derive";
+import { bookChanges, FLASH_MS, type FlashKind } from "./flash";
 
 // What the widgets of the Ledger share. They live in AG Studio's own React roots,
 // so they read this object from Studio's `context` rather than from props.
+// The store outlives Studio: a report rebuilt on a new layout or language finds the
+// flashes, the narrowing, the open proof and the assistant's slot where they were.
 
 export type Pick = { kind: "donor"; pledgeId: string } | { kind: "need"; needId: string };
 
+/** The assistant's chat, rendered in the `ledger-ask` widget over the book. It gets the store. */
+export type AskComponent = ComponentType<{ store: LedgerStore }>;
+
+export interface Flash {
+  kind: FlashKind;
+  /** Each flash its own id: a row rebuilt mid-flash does not start it over, a new change does. */
+  id: number;
+}
+
 export interface LedgerSnapshot {
   model: LedgerModel;
+  /** The drive as the API returned it; the assistant's tools read it. Null until a view is given. */
+  view: DriveView | null;
+  lang: Lang;
   selected: Pick | null;
   hovered: Pick | null;
   /** Grows on Replay: everything animated is keyed on it, so the animation starts over. */
@@ -14,6 +32,16 @@ export interface LedgerSnapshot {
   bookOpen: boolean;
   /** The drive is still changing and nothing is watching it: the screen offers a Refresh. */
   stale: boolean;
+  /** Rows of the book that just changed, by rowKey. */
+  flashes: ReadonlyMap<string, Flash>;
+  /** The lines the assistant narrowed the book to, and its words for them. */
+  focus: { lineKeys: string[]; label: string } | null;
+  /** The row of the book whose proof band is open (its rowKey). */
+  proof: string | null;
+  /** The assistant's chat for the slot over the book; no component, no slot. */
+  askComponent: AskComponent | null;
+  /** What "Ask about this line" does; no callback, no button. */
+  askAbout: ((lineKey: string) => void) | null;
 }
 
 export interface Focus {
@@ -46,9 +74,24 @@ export class LedgerStore {
   private snapshot: LedgerSnapshot;
   private readonly listeners = new Set<() => void>();
   private filter: Filter | null = null;
+  private flashId = 0;
 
-  constructor(model: LedgerModel) {
-    this.snapshot = { model, selected: null, hovered: null, run: 0, bookOpen: false, stale: false };
+  constructor(model: LedgerModel, view: DriveView | null = null) {
+    this.snapshot = {
+      model,
+      view,
+      lang: model.lang ?? "en",
+      selected: null,
+      hovered: null,
+      run: 0,
+      bookOpen: false,
+      stale: false,
+      flashes: new Map(),
+      focus: null,
+      proof: null,
+      askComponent: null,
+      askAbout: null,
+    };
   }
 
   subscribe = (listener: () => void) => {
@@ -65,11 +108,16 @@ export class LedgerStore {
     for (const l of this.listeners) l();
   }
 
+  /** The lines the book shows: the assistant's narrowing, else what was pressed, else all of them ([]). */
+  private shown(): string[] {
+    const { focus, selected, model } = this.snapshot;
+    return focus ? focus.lineKeys : selected ? linesOf(model, selected) : [];
+  }
+
   /** The map widget owns the cross filter, because a widget can only filter through its own API. */
   connectFilter(filter: Filter) {
     this.filter = filter;
-    const { selected, model } = this.snapshot;
-    filter(selected ? linesOf(model, selected) : []);
+    filter(this.shown());
   }
 
   disconnectFilter(filter: Filter) {
@@ -79,8 +127,35 @@ export class LedgerStore {
   /** A second press on the same donor or need clears the selection. */
   toggle = (pick: Pick) => {
     const selected = same(this.snapshot.selected, pick) ? null : pick;
-    this.set({ selected, hovered: null });
-    this.filter?.(selected ? linesOf(this.snapshot.model, selected) : []);
+    this.set({ selected, hovered: null, focus: null });
+    this.filter?.(this.shown());
+  };
+
+  /** The assistant narrows the book to these lines and says so over it; the book opens to show them. */
+  focusLines = (lineKeys: string[], label: string) => {
+    this.set({ focus: { lineKeys: [...lineKeys], label }, selected: null, hovered: null, bookOpen: true });
+    this.filter?.(this.shown());
+  };
+
+  clearFocus = () => {
+    if (!this.snapshot.focus) return;
+    this.set({ focus: null });
+    this.filter?.(this.shown());
+  };
+
+  /** Opens the proof band under a row of the book; the same row again closes it. */
+  toggleProof = (rowKey: string | null) => this.set({ proof: rowKey === this.snapshot.proof ? null : rowKey });
+
+  setAskAbout = (askAbout: ((lineKey: string) => void) | null) => this.set({ askAbout });
+
+  setAskComponent = (askComponent: AskComponent | null) => this.set({ askComponent });
+
+  setLang = (lang: Lang) => {
+    if (lang !== this.snapshot.lang) this.set({ lang });
+  };
+
+  setView = (view: DriveView) => {
+    if (view !== this.snapshot.view) this.set({ view });
   };
 
   hover = (hovered: Pick | null) => {
@@ -104,14 +179,34 @@ export class LedgerStore {
 
   refresh = () => this.reread();
 
-  /** New figures, and new lines for whatever is selected. */
+  /** New figures, new lines for whatever is selected, and a flash on every row PayPal just moved. */
   setModel(model: LedgerModel) {
-    const { selected, model: before } = this.snapshot;
+    const { selected, focus, model: before } = this.snapshot;
     if (model === before) return;
-    this.set({ model });
-    if (!selected) return;
+    const changed = before.driveId === model.driveId ? bookChanges(before.book, model.book) : new Map<string, FlashKind>();
+    const flashes = changed.size ? new Map(this.snapshot.flashes) : this.snapshot.flashes;
+    const ids: [string, number][] = [];
+    for (const [key, kind] of changed) {
+      const id = ++this.flashId;
+      (flashes as Map<string, Flash>).set(key, { kind, id });
+      ids.push([key, id]);
+    }
+    this.set({ model, flashes });
+    if (ids.length) setTimeout(() => this.endFlashes(ids), FLASH_MS);
+    if (!selected || focus) return;
     const lines = linesOf(model, selected);
     if (lines.join() !== linesOf(before, selected).join()) this.filter?.(lines);
+  }
+
+  private endFlashes(ids: [string, number][]) {
+    const flashes = new Map(this.snapshot.flashes);
+    let gone = false;
+    for (const [key, id] of ids) {
+      if (flashes.get(key)?.id !== id) continue;
+      flashes.delete(key);
+      gone = true;
+    }
+    if (gone) this.set({ flashes });
   }
 }
 
