@@ -142,15 +142,30 @@ async function bedrockTotal(q: Pick<Db, "select">): Promise<number> {
   return Number(r.total);
 }
 
-/** Meta's own ceiling (META_AGENT_CAP_USD) over its `agent-meta:` rows, in the same table, under the same lock. */
+/**
+ * Meta's own ceilings over its `agent-meta:` rows, in the same table, under the same lock: META_AGENT_CAP_USD in all
+ * (never above META_AGENT_CAP_MAX_USD, whatever the caller passes) and dailyCapUsd over any 24 hours.
+ */
 export class PgMetaSpendLedger implements SpendLedger {
+  readonly capUsd: number;
+  readonly dailyCapUsd: number;
+
   constructor(
     private readonly db: Db,
-    readonly capUsd: number,
-  ) {}
+    capUsd: number,
+    dailyCapUsd: number = META_AGENT_DAILY_CAP_DEFAULT_USD,
+  ) {
+    this.capUsd = Math.min(capUsd, META_AGENT_CAP_MAX_USD);
+    this.dailyCapUsd = Math.min(dailyCapUsd, this.capUsd);
+  }
 
   spent(): Promise<number> {
     return sumWhere(this.db, META_SPEND_PREFIX);
+  }
+
+  /** Meta's spend over the 24 hours before `iso`. */
+  spentSince(iso: string): Promise<number> {
+    return sumWhere(this.db, META_SPEND_PREFIX, dayBefore(iso));
   }
 
   total(): Promise<number> {
@@ -162,6 +177,8 @@ export class PgMetaSpendLedger implements SpendLedger {
       await tx.execute(sql`select pg_advisory_xact_lock(${SPEND_LOCK}, 0)`);
       const total = (await sumWhere(tx, META_SPEND_PREFIX)) + entry.usd;
       if (total > Math.min(maxUsd, this.capUsd)) throw new MetaCapExceeded(`${entry.what}: would bring Meta's spend to $${total.toFixed(4)}, ceiling $${this.capUsd.toFixed(2)}`);
+      const today = (await sumWhere(tx, META_SPEND_PREFIX, dayBefore(entry.ts))) + entry.usd;
+      if (today > this.dailyCapUsd) throw new MetaCapExceeded(`${entry.what}: would bring Meta's spend over 24 hours to $${today.toFixed(4)}, daily ceiling $${this.dailyCapUsd.toFixed(2)}`);
       await tx.insert(spendLedger).values(row(entry));
       return total;
     });
@@ -245,16 +262,31 @@ export interface MetaProvider {
   /** Null: allowed but no key on this server, so every turn falls back to Bedrock. */
   apiKey: string | null;
   model: string;
-  /** META_AGENT_CAP_USD: the most Meta may cost, over all `agent-meta:` rows. */
+  /** META_AGENT_CAP_USD: the most Meta may cost, over all `agent-meta:` rows; never above META_AGENT_CAP_MAX_USD. */
   capUsd: number;
+  /** META_AGENT_DAILY_CAP_USD: the most Meta may cost over any 24 hours (default META_AGENT_DAILY_CAP_DEFAULT_USD). */
+  dailyCapUsd?: number;
   fetch?: typeof fetch;
 }
+
+/** Meta's ceiling in code (Nadya, 06.11, TG 5898): the environment can lower it, never raise it. */
+export const META_AGENT_CAP_MAX_USD = 5;
+/** Meta's spend over any 24 hours unless META_AGENT_DAILY_CAP_USD says less. */
+export const META_AGENT_DAILY_CAP_DEFAULT_USD = 0.5;
 
 /** Only with AGENT_META_ALLOWED=yes and META_AGENT_CAP_USD above zero; nothing else switches Meta on. */
 export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined {
   const cap = Number(env.META_AGENT_CAP_USD ?? "0");
   if (env.AGENT_META_ALLOWED !== "yes" || !(cap > 0)) return undefined;
-  return { baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""), apiKey: env.META_MODEL_API_KEY || null, model: META_MODEL, capUsd: cap };
+  const capUsd = Math.min(cap, META_AGENT_CAP_MAX_USD);
+  const daily = env.META_AGENT_DAILY_CAP_USD && /^\d+(\.\d+)?$/.test(env.META_AGENT_DAILY_CAP_USD) ? Number(env.META_AGENT_DAILY_CAP_USD) : META_AGENT_DAILY_CAP_DEFAULT_USD;
+  return {
+    baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""),
+    apiKey: env.META_MODEL_API_KEY || null,
+    model: META_MODEL,
+    capUsd,
+    dailyCapUsd: Math.min(daily, capUsd),
+  };
 }
 
 /** What the reader is told answered: the chat's small print follows it. */
@@ -310,15 +342,18 @@ export class AgentService {
 
   /** Meta's ledger: the development file in a development run, else its `agent-meta:` rows. */
   private metaLedger(meta: MetaProvider): (SpendLedger & { capUsd: number; spent(): number | Promise<number> }) {
-    return this.d.dev?.metaLedger ?? new PgMetaSpendLedger(this.d.db, meta.capUsd);
+    return this.d.dev?.metaLedger ?? new PgMetaSpendLedger(this.d.db, meta.capUsd, meta.dailyCapUsd);
   }
 
-  /** Whether Meta can take a new question: allowed, a key, money left. */
+  /** Whether Meta can take a new question: allowed, a key, money left in all and over the last 24 hours. */
   private async metaReady(): Promise<boolean> {
     const meta = this.d.meta;
     if (!meta?.apiKey) return false;
     const ledger = this.metaLedger(meta);
-    return (await ledger.spent()) < ledger.capUsd - 0.005;
+    if ((await ledger.spent()) >= ledger.capUsd - 0.005) return false;
+    if (!(ledger instanceof PgMetaSpendLedger)) return true; // a development run: its file ledger's own ceiling
+    const daily = ledger.dailyCapUsd;
+    return (await ledger.spentSince(this.d.now())) < daily - Math.min(0.005, daily / 10);
   }
 
   /** A new question: counted for the address and for everyone before any model call. */
@@ -503,7 +538,7 @@ export class AgentService {
       Object.assign(logRow, { ok: false, ms: Date.now() - t0, fallback: ceilingHit ? "Meta's ceiling" : "Meta failed", error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
       // A refusal at the ceiling sent nothing; a failed call was attempted and is logged as one.
       if (!ceilingHit) log();
-      this.log("Meta turn failed, Bedrock answers",{ name: (e as Error).name, message: (e as Error).message.slice(0, 200) });
+      this.log("Meta turn failed, Bedrock answers", { name: (e as Error).name, message: (e as Error).message.slice(0, 200) });
       return null;
     }
   }

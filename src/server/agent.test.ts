@@ -9,7 +9,7 @@ import { agentQuestions, spendLedger } from "../db/schema";
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { AgentService, agentLimitsFrom, agentLive, agentMetaFrom, DEFAULT_AGENT_LIMITS, DevSpendLedger, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
+import { AgentService, agentLimitsFrom, agentLive, agentMetaFrom, DEFAULT_AGENT_LIMITS, DevSpendLedger, META_AGENT_CAP_MAX_USD, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
 import { ServiceError } from "./errors";
 import { TEXT } from "../agent/i18n";
 
@@ -300,9 +300,13 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
   const metaCost = (1000 * 1.25 + 100 * 4.25) / 1e6;
 
   /** In production shape (no development ledger) unless `dev` is asked for: Meta's spend goes to spend_ledger as `agent-meta:`. */
-  async function metaService(answers: MetaAnswer[], o: { capUsd?: number; apiKey?: string | null; dev?: boolean; bedrock?: Out[] } = {}) {
+  async function metaService(answers: MetaAnswer[], o: { capUsd?: number; dailyCapUsd?: number; seed?: { usd: string; hoursAgo: number }; apiKey?: string | null; dev?: boolean; bedrock?: Out[] } = {}) {
     db = await openPglite();
     await db.migrate(path.join(ROOT, "drizzle"));
+    if (o.seed) {
+      t = Date.now(); // the ledger's reservations carry the real time: the service's clock follows it here
+      await db.db.insert(spendLedger).values({ id: "seed", ts: new Date(t - o.seed.hoursAgo * 3_600_000).toISOString(), kind: "reserve", what: "agent-meta:ledger earlier (muse-spark-1.3)", usd: o.seed.usd, ref: null });
+    }
     const sent: { url: string; auth: string | null; body: Record<string, unknown> }[] = [];
     const fakeFetch = (async (url: string, init: RequestInit) => {
       sent.push({ url, auth: new Headers(init.headers).get("authorization"), body: JSON.parse(String(init.body)) });
@@ -319,7 +323,7 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
       hashIp: (ip) => `h:${ip}`,
       now,
       client: () => bedrock.client,
-      meta: { baseUrl: "https://api.meta.example/v1", apiKey: o.apiKey === undefined ? "test-key" : o.apiKey, model: "muse-spark-1.3", capUsd: o.capUsd ?? 1, fetch: fakeFetch },
+      meta: { baseUrl: "https://api.meta.example/v1", apiKey: o.apiKey === undefined ? "test-key" : o.apiKey, model: "muse-spark-1.3", capUsd: o.capUsd ?? 1, ...(o.dailyCapUsd ? { dailyCapUsd: o.dailyCapUsd } : {}), fetch: fakeFetch },
       ...(o.dev ? { dev: { ledger: new DevSpendLedger(files.bedrock, "agent-dev", 0.2), metaLedger: new DevSpendLedger(files.meta, "agent-dev", o.capUsd ?? 1), callsLog: files.calls, lane: "measure-D-test", maxCalls: 30 } } : {}),
     });
     const lines = (f: string) => readFileSync(f, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>);
@@ -369,6 +373,10 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
     ["an HTTP error", [{ status: 500, body: { error: { message: "busy" } } }], {}],
     ["a timeout", ["timeout"] as MetaAnswer[], {}],
     ["Meta's ceiling", [ok], { capUsd: 0.006 }], // one turn's worst case is about $0.011
+    ["Meta's daily ceiling", [ok], { dailyCapUsd: 0.006 }],
+    ["Meta's daily ceiling already reached", [ok], { seed: { usd: "0.499000", hoursAgo: 2 } }], // the default $0.50 over 24 hours
+    // The provider says $50 (as if the clamp in agentMetaFrom were skipped): the ledger still stops at the $5 in code.
+    ["the $5 in code", [ok], { capUsd: 50, seed: { usd: "4.990000", hoursAgo: 30 } }],
   ] as const) {
     it(`${why}: this turn and the question's next turns go to Bedrock Lite, and the answer says Amazon Nova`, async () => {
       const { agent, sent, bedrock } = await metaService([...answers], opts as never);
@@ -384,10 +392,34 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
       // a new question tries Meta again (unless it is out of money)
       const next = await agent.question("1.1.1.1", {});
       await turnAs(agent, turn(next.questionId));
-      if (why === "Meta's ceiling" || why === "no key") expect(sent).toHaveLength(metaCalls);
+      if (/ceiling|no key|\$5/.test(why)) expect(sent).toHaveLength(metaCalls);
       else expect(sent).toHaveLength(metaCalls + 1);
+      if (/ceiling|\$5/.test(why)) expect(metaCalls).toBe(0); // a ceiling refuses before anything is sent to Meta
     });
   }
+
+  it("must-differ for the ceilings above: under them, Meta answers (a day-old $0.499, $4.98 of $5)", async () => {
+    for (const seed of [{ usd: "0.499000", hoursAgo: 30 }, { usd: "4.980000", hoursAgo: 30 }]) {
+      const { agent, sent } = await metaService([ok], { capUsd: 50, seed });
+      const { questionId } = await agent.question("1.1.1.1", {});
+      expect(await turnAs(agent, turn(questionId))).toMatchObject({ modelLabel: "Meta Muse Spark" });
+      expect(sent).toHaveLength(1);
+    }
+  });
+
+  it("Meta's ceiling is $5 in code: META_AGENT_CAP_USD can lower it, not raise it; $0.50 a day unless META_AGENT_DAILY_CAP_USD says less", () => {
+    expect(META_AGENT_CAP_MAX_USD).toBe(5);
+    const on = { AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k" };
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "50" } as never)).toMatchObject({ capUsd: 5, dailyCapUsd: 0.5 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5" } as never)).toMatchObject({ capUsd: 5 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "0.5" } as never)).toMatchObject({ capUsd: 0.5, dailyCapUsd: 0.5 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "0.2" } as never)).toMatchObject({ capUsd: 0.2, dailyCapUsd: 0.2 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "0.25" } as never)).toMatchObject({ dailyCapUsd: 0.25 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "9" } as never)).toMatchObject({ dailyCapUsd: 5 });
+    expect(agentMetaFrom({ ...on, META_AGENT_CAP_USD: "5", META_AGENT_DAILY_CAP_USD: "lots" } as never)).toMatchObject({ dailyCapUsd: 0.5 });
+    // and still off without AGENT_META_ALLOWED=yes
+    expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "50" } as never)).toBeUndefined();
+  });
 
   it("Studio's schemas first; a refusal naming the schema sends them flattened, from then on; the refusal costs nothing", async () => {
     const refusal = { status: 400, body: { error: { message: "Invalid schema for function 'execute_query': $defs is not supported" } } };

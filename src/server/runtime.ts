@@ -25,6 +25,8 @@ import { fileLedgerTotal, seedCarryOver } from "./spend";
 // LIVE_AGENT=on         allow the live "Ask the book" agent (Bedrock Nova Lite); off otherwise (src/server/agent.ts)
 // AGENT_CAP_USD, AGENT_DAILY_CAP_USD   the agent's ceilings inside the $5 (defaults $0.40 in all, $0.05 over 24 hours)
 // AGENT_QUESTIONS_PER_HOUR, AGENT_QUESTIONS_PER_DAY, AGENT_QUESTIONS_PER_DAY_ALL   the agent's question counts
+// AGENT_META_ALLOWED=yes + META_AGENT_CAP_USD (≤ $5 in code) + META_MODEL_API_KEY   variant D (Meta Muse Spark), off otherwise;
+//                       META_AGENT_DAILY_CAP_USD (default $0.50 over 24 hours); past either ceiling Nova Lite answers
 
 // On globalThis: one service (one PGlite instance on a data dir) per process, whichever bundle asks first.
 const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService>; ocr?: OcrEngine } };
