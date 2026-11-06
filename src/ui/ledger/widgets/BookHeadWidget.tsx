@@ -13,8 +13,8 @@ export function BookHeadWidget(params: AgWidgetParams) {
     <div className="lg-book-head" ref={root}>
       <h2>{w.theBook}</h2>
       {snap.focus && (
-        <span className="lg-chip" data-label>
-          {w.narrowed(snap.focus.label)}
+        <span className="lg-chip" data-label title={w.narrowed(snap.focus.label)}>
+          <span className="lg-chip-label">{w.narrowed(snap.focus.label)}</span>
           <button type="button" aria-label={w.showAll} onClick={store.clearFocus}>
             ×
           </button>

@@ -209,11 +209,14 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 /* The assistant's narrowing (ASK-B2): the lines it named, tinted, and a chip over the book that undoes it. */
 .lg-frame .ag-row.lg-focused:not(.lg-proof-row) { background: #EEF6F0; }
 .lg-book-head { position: absolute; inset: 0; display: flex; align-items: center; gap: 18px; padding: 8px calc(24px * var(--s)) 0; }
-.lg-book-head h2 { font-size: calc(26px * var(--s)); font-weight: 700; letter-spacing: -.02em; }
-[data-stacked="true"] .lg-book-head { padding: 6px 12px 0; }
+.lg-book-head h2 { flex: none; white-space: nowrap; font-size: calc(26px * var(--s)); font-weight: 700; letter-spacing: -.02em; }
+[data-stacked="true"] .lg-book-head { gap: 10px; padding: 6px 12px 0; }
 [data-stacked="true"] .lg-book-head h2 { font-size: 21px; }
-.lg-chip { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 6px 0 16px; border-radius: 999px; background: #E3F0EE; color: var(--ink); font-size: 14px; white-space: nowrap; overflow: hidden; }
-.lg-chip button { width: 26px; height: 26px; border-radius: 999px; color: #2C5F5B; font-size: 18px; line-height: 1; }
+/* On a phone the chip gives way: its words end in an ellipsis, the × stays whole. */
+.lg-chip { display: inline-flex; flex: 0 1 auto; min-width: 0; align-items: center; gap: 8px; height: 34px; padding: 0 6px 0 16px; border-radius: 999px; background: #E3F0EE; color: var(--ink); font-size: 14px; white-space: nowrap; }
+.lg-chip-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+[data-stacked="true"] .lg-chip { padding-left: 12px; font-size: 13px; }
+.lg-chip button { flex: none; width: 26px; height: 26px; border-radius: 999px; color: #2C5F5B; font-size: 18px; line-height: 1; }
 .lg-chip button:hover { background: #CFE5E1; }
 .lg-ask-slot { position: absolute; inset: 0; }
 

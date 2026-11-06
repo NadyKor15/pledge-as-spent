@@ -150,6 +150,20 @@ test("the report rebuilt in the middle of an answer (the window resized): \"ask 
   await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
 });
 
+test("a sum across donors: the step names what Studio's data agent did in a fixed sentence, not the model's instructions", async ({ page }) => {
+  const Q5 = recorded("Q5"); // Nova Lite's delegation instructions here are a query's JSON ending in ">>"
+  await questions(page);
+  const served = model(page, turnsOf(Q5));
+  await openLedger(page);
+  await ask(page, Q5.question);
+  await expect(page.getByTestId("ask-answer")).toContainText("✓¥1,486");
+  await expect(page.getByTestId("ask-step")).toHaveText("Asked Studio's data agent to sum the book's Share by need");
+  const widget = (await page.getByTestId("ask-widget").innerText()).replace(/\s+/g, " ");
+  for (const raw of ["variant", "aggregation", ">>", "{", "exactly as the query"]) expect(widget).not.toContain(raw);
+  expect(served.seen.map((s) => s.split(":")[0])).toEqual(["ledger", "data", "data", "ledger"]);
+  expect(errors).toEqual([]);
+});
+
 test("\"Ask about this line\" in a row's proof band asks the agent about that line", async ({ page }) => {
   await questions(page);
   const served = model(page, [
@@ -198,5 +212,33 @@ test.describe("on a phone", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
     await page.getByTestId("ask-widget").scrollIntoViewIfNeeded();
     await page.screenshot({ path: path.join(SHOTS, "ask-390.png") });
+  });
+
+  test("390 px: \"The book\" on one line, the narrowing chip cut with an ellipsis, its × whole on screen and working", async ({ page }) => {
+    await questions(page);
+    model(page, turnsOf(Q1));
+    await openLedger(page);
+    await ask(page, Q1.question);
+    await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
+    const chip = page.locator(".lg-chip");
+    await expect(chip).toHaveText(/^Narrowed by the assistant: Mark · Columbus/);
+    await chip.scrollIntoViewIfNeeded();
+    const head = await page.evaluate(() => {
+      const h2 = document.querySelector(".lg-book-head h2")!;
+      const r = document.createRange();
+      r.selectNodeContents(h2);
+      const x = document.querySelector(".lg-chip button")!.getBoundingClientRect();
+      const label = document.querySelector(".lg-chip-label") as HTMLElement | null;
+      return { lines: r.getClientRects().length, xLeft: x.left, xRight: x.right, xWidth: x.width, cut: label ? label.scrollWidth > label.clientWidth && getComputedStyle(label).textOverflow === "ellipsis" : null };
+    });
+    expect(head.lines).toBe(1);
+    expect(head.xWidth).toBeGreaterThanOrEqual(24);
+    expect(head.xLeft).toBeGreaterThanOrEqual(0);
+    expect(head.xRight).toBeLessThanOrEqual(390);
+    expect(head.cut).toBe(true); // "Narrowed by the assistant: Mark · Columbus" does not fit next to "The book" at 390
+    await page.screenshot({ path: path.join(SHOTS, "ask-390-chip.png") });
+    await chip.getByRole("button", { name: "Show every line" }).click();
+    await expect(page.locator(".lg-chip")).toHaveCount(0);
+    await expect(page.locator(".ag-row.lg-focused")).toHaveCount(0);
   });
 });
