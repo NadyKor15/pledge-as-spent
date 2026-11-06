@@ -1,0 +1,239 @@
+{
+  "id": "Q6",
+  "mode": "C",
+  "routing": "code",
+  "question": "Ich bin Lena aus Berlin. Wie viel Geld ist zu mir zurückgekommen, und wie viel wurde ausgegeben?",
+  "locale": "de",
+  "recordedAt": "2026-11-06T20:43:40.391Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "Ich bin Lena aus Berlin. Wie viel Geld ist zu mir zurückgekommen, und wie viel wurde ausgegeben?",
+    "facts": [
+      {
+        "value": 20,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) pledged",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "order",
+        "id": "45W40260KS9261605"
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "2Y816602392541815",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 4.58,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) spent on needs",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 15.42,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) released"
+      },
+      {
+        "value": 4.58,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) for Water 2 L",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 743,
+        "currency": "JPY",
+        "label": "Water 2 L, Lena (Berlin, DE)'s shares in JPY",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "3WP65983GD053501C",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 2.46,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 1",
+        "lineKey": "demo-f372326129.r1:1"
+      },
+      {
+        "value": 399,
+        "currency": "JPY",
+        "label": "line 1 share in JPY",
+        "lineKey": "demo-f372326129.r1:1"
+      },
+      {
+        "value": 1.45,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 2",
+        "lineKey": "demo-f372326129.r1:2"
+      },
+      {
+        "value": 236,
+        "currency": "JPY",
+        "label": "line 2 share in JPY",
+        "lineKey": "demo-f372326129.r1:2"
+      },
+      {
+        "value": 0.67,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 3",
+        "lineKey": "demo-f372326129.r1:3"
+      },
+      {
+        "value": 108,
+        "currency": "JPY",
+        "label": "line 3 share in JPY",
+        "lineKey": "demo-f372326129.r1:3"
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Lena, dein €20.00 Hold wurde von PayPal freigegeben, als die Aktion geschlossen wurde. Ausgegeben wurden €4.58 für Wasser 2 L, die von PayPal eingezogen wurden. Dir wurden €15.42 zurückgegeben, die nie belastet wurden.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "€20.00",
+          "start": 11,
+          "end": 17,
+          "value": 20,
+          "currency": "EUR"
+        },
+        {
+          "kind": "amount",
+          "raw": "€4.58",
+          "start": 105,
+          "end": 110,
+          "value": 4.58,
+          "currency": "EUR"
+        },
+        {
+          "kind": "amount",
+          "raw": "€15.42",
+          "start": 172,
+          "end": 178,
+          "value": 15.42,
+          "currency": "EUR"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:1",
+      "demo-f372326129.r1:2",
+      "demo-f372326129.r1:3"
+    ],
+    "raw": [
+      "Lena, dein €20.00 Hold wurde von PayPal freigegeben, als die Aktion geschlossen wurde. Ausgegeben wurden €4.58 für Wasser 2 L, die von PayPal eingezogen wurden. Dir wurden €15.42 zurückgegeben, die nie belastet wurden."
+    ],
+    "routed": "back"
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2365,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_877ce80f-78c7-497b-b1d7-e1c2a013c93c",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Lena, dein €20.00 Hold wurde von PayPal freigegeben, als die Aktion geschlossen wurde. Ausgegeben wurden €4.58 für Wasser 2 L, die von PayPal eingezogen wurden. Dir wurden €15.42 zurückgegeben, die nie belastet wurden.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2915,
+          "outputTokens": 63
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_donor_money",
+      "args": {
+        "donor": "Lena (Berlin)"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Lena (Berlin, DE): pledge hold €20.00 (PayPal order 45W40260KS9261605, authorization 2Y816602392541815); the hold is closed (PayPal released what was not spent).\\nSpent on needs: €4.58, all of it taken by PayPal.\\nBack with the donor: €15.42 — never charged: PayPal released it when the drive closed.\\nFor Water 2 L: €4.58 (¥743 of the shelter's JPY) over 3 lines, PayPal capture 3WP65983GD053501C.\\nLines:\\n- line 1 Natural water from Kitasora 2L [Water 2 L]: €2.46 (= ¥399), spent, PayPal capture 3WP65983GD053501C\\n- line 2 Melted snow water 2L [Water 2 L]: €1.45 (= ¥236), spent, PayPal capture 3WP65983GD053501C\\n- line 3 Mineral water [Water 2 L]: €0.67 (= ¥108), spent, PayPal capture 3WP65983GD053501C\",\"data\":{\"facts\":[{\"value\":20,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) pledged\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":0,\"label\":\"order\",\"id\":\"45W40260KS9261605\"},{\"value\":0,\"label\":\"authorization\",\"id\":\"2Y816602392541815\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":4.58,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) spent on needs\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":15.42,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) released\"},{\"value\":4.58,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) for Water 2 L\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":743,\"currency\":\"JPY\",\"label\":\"Water 2 L, Lena (Berlin, DE)'s shares in JPY\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3WP65983GD053501C\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":2.46,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 1\",\"lineKey\":\"demo-f372326129.r1:1\"},{\"value\":399,\"currency\":\"JPY\",\"label\":\"line 1 share in JPY\",\"lineKey\":\"demo-f372326129.r1:1\"},{\"value\":1.45,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 2\",\"lineKey\":\"demo-f372326129.r1:2\"},{\"value\":236,\"currency\":\"JPY\",\"label\":\"line 2 share in JPY\",\"lineKey\":\"demo-f372326129.r1:2\"},{\"value\":0.67,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 3\",\"lineKey\":\"demo-f372326129.r1:3\"},{\"value\":108,\"currency\":\"JPY\",\"label\":\"line 3 share in JPY\",\"lineKey\":\"demo-f372326129.r1:3\"}],\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"],\"donor\":\"Lena (Berlin, DE)\",\"currency\":\"EUR\",\"pledgeId\":\"demo-f372326129.water\"}}"
+    }
+  ],
+  "score": {
+    "id": "Q6",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": "back",
+    "calls": 1,
+    "ledgerCalls": 1,
+    "usd": 0.00019,
+    "text": "Lena, dein €20.00 Hold wurde von PayPal freigegeben, als die Aktion geschlossen wurde. Ausgegeben wurden €4.58 für Wasser 2 L, die von PayPal eingezogen wurden. Dir wurden €15.42 zurückgegeben, die nie belastet wurden.",
+    "errors": []
+  }
+}

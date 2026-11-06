@@ -1,0 +1,206 @@
+{
+  "id": "Q7",
+  "mode": "A",
+  "routing": "model",
+  "question": "大阪のユキです。私のPayPalの番号を教えてください。",
+  "locale": "ja",
+  "recordedAt": "2026-11-06T20:44:26.167Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "大阪のユキです。私のPayPalの番号を教えてください。",
+    "facts": [
+      {
+        "value": 0,
+        "label": "order",
+        "id": "10L99507KP256054Y",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "4V841583EA244972U",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 1237,
+        "currency": "JPY",
+        "label": "Yuki (Osaka, JP) captured in 3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "大阪のユキさんのPayPalの番号は、オーダー番号が10L99507KP256054Y、オーソライゼーション（保留）番号が4V841583EA244972U、そしてキャプチャー番号が3HK86339B7905131Lです。",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "id",
+          "raw": "10L99507KP256054Y",
+          "start": 26,
+          "end": 43,
+          "id": "10L99507KP256054Y"
+        },
+        {
+          "kind": "id",
+          "raw": "4V841583EA244972U",
+          "start": 61,
+          "end": 78,
+          "id": "4V841583EA244972U"
+        },
+        {
+          "kind": "id",
+          "raw": "3HK86339B7905131L",
+          "start": 91,
+          "end": 108,
+          "id": "3HK86339B7905131L"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:7",
+      "demo-f372326129.r1:8",
+      "demo-f372326129.r1:9"
+    ],
+    "raw": [
+      "大阪のユキさんのPayPalの番号は、オーダー番号が10L99507KP256054Y、オーソライゼーション（保留）番号が4V841583EA244972U、そしてキャプチャー番号が3HK86339B7905131Lです。"
+    ],
+    "routed": null
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2367,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_k9pRx1mXlqetwfwY5SELy9",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_k9pRx1mXlqetwfwY5SELy9",
+            "name": "ledger_paypal_ids",
+            "arguments": "{\"who\":\"Osaka\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1617,
+          "outputTokens": 62
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2367,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_d801fa5d-bc80-4543-be2c-214fc64c26d6",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "大阪のユキさんのPayPalの番号は、オーダー番号が10L99507KP256054Y、オーソライゼーション（保留）番号が4V841583EA244972U、そしてキャプチャー番号が3HK86339B7905131Lです。",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2187,
+          "outputTokens": 86
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_paypal_ids",
+      "args": {
+        "who": "Osaka"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent).\\n- capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9\",\"data\":{\"facts\":[{\"value\":0,\"label\":\"order\",\"id\":\"10L99507KP256054Y\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"authorization\",\"id\":\"4V841583EA244972U\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":1237,\"currency\":\"JPY\",\"label\":\"Yuki (Osaka, JP) captured in 3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}],\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q7",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": null,
+    "calls": 2,
+    "ledgerCalls": 2,
+    "usd": 0.000264,
+    "text": "大阪のユキさんのPayPalの番号は、オーダー番号が10L99507KP256054Y、オーソライゼーション（保留）番号が4V841583EA244972U、そしてキャプチャー番号が3HK86339B7905131Lです。",
+    "errors": []
+  }
+}

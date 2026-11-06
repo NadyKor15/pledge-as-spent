@@ -1,0 +1,178 @@
+{
+  "id": "Q2",
+  "mode": "B",
+  "routing": "model",
+  "question": "Why was a line refused?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T20:44:43.097Z",
+  "models": [
+    "amazon.nova-pro-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "Why was a line refused?",
+    "facts": [
+      {
+        "value": 1198,
+        "currency": "JPY",
+        "label": "line 10 refused",
+        "lineKey": "demo-f372326129.r1:10"
+      },
+      {
+        "value": 3000,
+        "currency": "JPY",
+        "label": "line 11 refused",
+        "lineKey": "demo-f372326129.r1:11"
+      },
+      {
+        "value": 4198,
+        "currency": "JPY",
+        "label": "refused in total",
+        "lineKeys": [
+          "demo-f372326129.r1:10",
+          "demo-f372326129.r1:11"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Line 10 \"缶ピール 350m 6 缶\" (English: Canned peel 350ml 6 cans) was refused because it contained alcohol, and line 11 \"ギフトカード 3,000\" (English: Gift card 3000) was refused because gift cards are not funded by this drive.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "3,000",
+          "start": 122,
+          "end": 127,
+          "value": 3000
+        },
+        {
+          "kind": "amount",
+          "raw": "3000",
+          "start": 149,
+          "end": 153,
+          "value": 3000
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:11"
+    ],
+    "raw": [
+      "Line 10 \"缶ピール 350m 6 缶\" (English: Canned peel 350ml 6 cans) was refused because it contained alcohol, and line 11 \"ギフトカード 3,000\" (English: Gift card 3000) was refused because gift cards are not funded by this drive."
+    ],
+    "routed": null
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_Ks1q5IijcdGVlvH6SlRRoE",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_Ks1q5IijcdGVlvH6SlRRoE",
+            "name": "ledger_refusals",
+            "arguments": "{}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1607,
+          "outputTokens": 40
+        },
+        "model": "amazon.nova-pro-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_5ba2be2c-1b70-4acf-a12c-8f917fa9de5a",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Line 10 \"缶ピール 350m 6 缶\" (English: Canned peel 350ml 6 cans) was refused because it contained alcohol, and line 11 \"ギフトカード 3,000\" (English: Gift card 3000) was refused because gift cards are not funded by this drive.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1977,
+          "outputTokens": 85
+        },
+        "model": "amazon.nova-pro-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_refusals",
+      "args": {},
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"2 lines refused, ¥4,198 in total; no donor money was used for them:\\n- line 10 \\\"缶ピール 350m 6 缶\\\" (English: Canned peel 350ml 6 cans): ¥1,198 refused (rule: alcohol) — Alcohol is not funded.\\n- line 11 \\\"ギフトカード 3,000\\\" (English: Gift card 3000): ¥3,000 refused (rule: gift card) — Gift cards are not funded by this drive.\",\"data\":{\"facts\":[{\"value\":1198,\"currency\":\"JPY\",\"label\":\"line 10 refused\",\"lineKey\":\"demo-f372326129.r1:10\"},{\"value\":3000,\"currency\":\"JPY\",\"label\":\"line 11 refused\",\"lineKey\":\"demo-f372326129.r1:11\"},{\"value\":4198,\"currency\":\"JPY\",\"label\":\"refused in total\",\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}],\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q2",
+    "correct": false,
+    "missing": [
+      "JPY 1198"
+    ],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": null,
+    "calls": 2,
+    "ledgerCalls": 2,
+    "usd": 0.003267,
+    "text": "Line 10 \"缶ピール 350m 6 缶\" (English: Canned peel 350ml 6 cans) was refused because it contained alcohol, and line 11 \"ギフトカード 3,000\" (English: Gift card 3000) was refused because gift cards are not funded by this drive.",
+    "errors": []
+  }
+}

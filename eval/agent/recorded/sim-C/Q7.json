@@ -1,0 +1,178 @@
+{
+  "id": "Q7",
+  "mode": "C",
+  "routing": "code",
+  "question": "大阪のユキです。私のPayPalの番号を教えてください。",
+  "locale": "ja",
+  "recordedAt": "2026-11-06T20:26:51.911Z",
+  "models": [
+    "simulated"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "大阪のユキです。私のPayPalの番号を教えてください。",
+    "facts": [
+      {
+        "value": 0,
+        "label": "order",
+        "id": "10L99507KP256054Y",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "4V841583EA244972U",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 1237,
+        "currency": "JPY",
+        "label": "Yuki (Osaka, JP) captured in 3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent). - capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "id",
+          "raw": "10L99507KP256054Y",
+          "start": 31,
+          "end": 48,
+          "id": "10L99507KP256054Y"
+        },
+        {
+          "kind": "id",
+          "raw": "4V841583EA244972U",
+          "start": 75,
+          "end": 92,
+          "id": "4V841583EA244972U"
+        },
+        {
+          "kind": "id",
+          "raw": "3HK86339B7905131L",
+          "start": 154,
+          "end": 171,
+          "id": "3HK86339B7905131L"
+        },
+        {
+          "kind": "amount",
+          "raw": "¥1,237",
+          "start": 173,
+          "end": 179,
+          "value": 1237,
+          "currency": "JPY"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:7",
+      "demo-f372326129.r1:8",
+      "demo-f372326129.r1:9"
+    ],
+    "raw": [
+      "Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent). - capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9"
+    ],
+    "routed": "paypal"
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2367,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_sim",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent). - capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "model": "simulated"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_paypal_ids",
+      "args": {
+        "who": "Yuki (Osaka)"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent).\\n- capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9\",\"data\":{\"facts\":[{\"value\":0,\"label\":\"order\",\"id\":\"10L99507KP256054Y\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"authorization\",\"id\":\"4V841583EA244972U\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":1237,\"currency\":\"JPY\",\"label\":\"Yuki (Osaka, JP) captured in 3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}],\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q7",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": "paypal",
+    "calls": 1,
+    "ledgerCalls": 1,
+    "usd": 0,
+    "text": "Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent). - capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9",
+    "errors": []
+  }
+}

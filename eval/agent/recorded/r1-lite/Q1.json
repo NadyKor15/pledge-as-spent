@@ -1,0 +1,299 @@
+{
+  "id": "Q1",
+  "question": "I'm Mark from Columbus. What did my money buy?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T20:00:16.473Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "I'm Mark from Columbus. What did my money buy?",
+    "facts": [
+      {
+        "value": 30,
+        "currency": "USD",
+        "label": "Mark (Columbus, US) pledged",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "order",
+        "id": "9NJ457468W5956926"
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "3T416474B7938142S",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 21.45,
+        "currency": "USD",
+        "label": "Mark (Columbus, US) spent on needs",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 8.55,
+        "currency": "USD",
+        "label": "Mark (Columbus, US) released"
+      },
+      {
+        "value": 21.45,
+        "currency": "USD",
+        "label": "Mark (Columbus, US) for Diapers size M",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 3244,
+        "currency": "JPY",
+        "label": "Diapers size M, Mark (Columbus, US)'s shares in JPY",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "5PE922386K0983923",
+        "lineKeys": [
+          "demo-f372326129.r1:4",
+          "demo-f372326129.r1:5",
+          "demo-f372326129.r1:6"
+        ]
+      },
+      {
+        "value": 8.58,
+        "currency": "USD",
+        "label": "Mark (Columbus, US)'s share of line 4",
+        "lineKey": "demo-f372326129.r1:4"
+      },
+      {
+        "value": 1298,
+        "currency": "JPY",
+        "label": "line 4 share in JPY",
+        "lineKey": "demo-f372326129.r1:4"
+      },
+      {
+        "value": 10.89,
+        "currency": "USD",
+        "label": "Mark (Columbus, US)'s share of line 5",
+        "lineKey": "demo-f372326129.r1:5"
+      },
+      {
+        "value": 1647,
+        "currency": "JPY",
+        "label": "line 5 share in JPY",
+        "lineKey": "demo-f372326129.r1:5"
+      },
+      {
+        "value": 1.98,
+        "currency": "USD",
+        "label": "Mark (Columbus, US)'s share of line 6",
+        "lineKey": "demo-f372326129.r1:6"
+      },
+      {
+        "value": 299,
+        "currency": "JPY",
+        "label": "line 6 share in JPY",
+        "lineKey": "demo-f372326129.r1:6"
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "$30.00",
+          "start": 5,
+          "end": 11,
+          "value": 30,
+          "currency": "USD"
+        },
+        {
+          "kind": "amount",
+          "raw": "$21.45",
+          "start": 22,
+          "end": 28,
+          "value": 21.45,
+          "currency": "USD"
+        },
+        {
+          "kind": "amount",
+          "raw": "$8.58",
+          "start": 75,
+          "end": 80,
+          "value": 8.58,
+          "currency": "USD"
+        },
+        {
+          "kind": "amount",
+          "raw": "$10.89",
+          "start": 82,
+          "end": 88,
+          "value": 10.89,
+          "currency": "USD"
+        },
+        {
+          "kind": "amount",
+          "raw": "$1.98",
+          "start": 93,
+          "end": 98,
+          "value": 1.98,
+          "currency": "USD"
+        },
+        {
+          "kind": "id",
+          "raw": "5PE922386K0983923",
+          "start": 115,
+          "end": 132,
+          "id": "5PE922386K0983923"
+        },
+        {
+          "kind": "amount",
+          "raw": "$8.55",
+          "start": 144,
+          "end": 149,
+          "value": 8.55,
+          "currency": "USD"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:4",
+      "demo-f372326129.r1:5",
+      "demo-f372326129.r1:6"
+    ],
+    "raw": [
+      "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed."
+    ]
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 1833,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_7I2tQInYDNWLW11eH4drDm",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_7I2tQInYDNWLW11eH4drDm",
+            "name": "ledger_donor_money",
+            "arguments": "{\"donor\":\"Mark\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1478,
+          "outputTokens": 57
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 1833,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_55e738ee-740c-4a85-8ca7-d70059b54a26",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2768,
+          "outputTokens": 91
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_donor_money",
+      "args": {
+        "donor": "Mark"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Mark (Columbus, US): pledge hold $30.00 (PayPal order 9NJ457468W5956926, authorization 3T416474B7938142S); the hold is voided (released).\\nSpent on needs: $21.45, all of it taken by PayPal.\\nBack with the donor: $8.55 — never charged: PayPal released it when the drive closed.\\nFor Diapers size M: $21.45 (¥3,244 of the shelter's JPY) over 3 lines, PayPal capture 5PE922386K0983923.\\nLines:\\n- line 4 Soft kids diapers M [Diapers size M]: $8.58 (= ¥1,298), spent, PayPal capture 5PE922386K0983923\\n- line 5 Diapers size M [Diapers size M]: $10.89 (= ¥1,647), spent, PayPal capture 5PE922386K0983923\\n- line 6 Paper diapers M 18 pieces [Diapers size M]: $1.98 (= ¥299), spent, PayPal capture 5PE922386K0983923\",\"data\":{\"facts\":[{\"value\":30,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US) pledged\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":0,\"label\":\"order\",\"id\":\"9NJ457468W5956926\"},{\"value\":0,\"label\":\"authorization\",\"id\":\"3T416474B7938142S\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":21.45,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US) spent on needs\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":8.55,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US) released\"},{\"value\":21.45,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US) for Diapers size M\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":3244,\"currency\":\"JPY\",\"label\":\"Diapers size M, Mark (Columbus, US)'s shares in JPY\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"5PE922386K0983923\",\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"]},{\"value\":8.58,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US)'s share of line 4\",\"lineKey\":\"demo-f372326129.r1:4\"},{\"value\":1298,\"currency\":\"JPY\",\"label\":\"line 4 share in JPY\",\"lineKey\":\"demo-f372326129.r1:4\"},{\"value\":10.89,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US)'s share of line 5\",\"lineKey\":\"demo-f372326129.r1:5\"},{\"value\":1647,\"currency\":\"JPY\",\"label\":\"line 5 share in JPY\",\"lineKey\":\"demo-f372326129.r1:5\"},{\"value\":1.98,\"currency\":\"USD\",\"label\":\"Mark (Columbus, US)'s share of line 6\",\"lineKey\":\"demo-f372326129.r1:6\"},{\"value\":299,\"currency\":\"JPY\",\"label\":\"line 6 share in JPY\",\"lineKey\":\"demo-f372326129.r1:6\"}],\"lineKeys\":[\"demo-f372326129.r1:4\",\"demo-f372326129.r1:5\",\"demo-f372326129.r1:6\"],\"donor\":\"Mark (Columbus, US)\",\"currency\":\"USD\",\"pledgeId\":\"demo-f372326129.diapers\"}}"
+    }
+  ],
+  "score": {
+    "id": "Q1",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed."
+  },
+  "errors": []
+}

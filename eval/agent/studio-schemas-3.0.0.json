@@ -1,0 +1,1838 @@
+{
+ "primary": {
+  "instructions": "Answer only from the book's tools.",
+  "tools": [
+   {
+    "name": "ledger_donor_money",
+    "description": "What one donor's money bought, from the book.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "donor": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "donor"
+     ],
+     "additionalProperties": false
+    },
+    "kind": "client"
+   },
+   {
+    "name": "delegate_to",
+    "description": "Delegate a subtask to a specialised sub-agent, which runs it and returns a summary. You retain control of the conversation. Pick the target agent and give it a concise task.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "type": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "type": "string",
+           "enum": [
+            "data"
+           ]
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false,
+         "description": "Explore the data schema, run queries, and answer data questions."
+        }
+       ]
+      },
+      "instructions": {
+       "type": "string",
+       "description": "Concise task for the delegate. Schema/layout context is automatic - only include task-specific details."
+      }
+     },
+     "required": [
+      "type",
+      "instructions"
+     ],
+     "additionalProperties": false
+    },
+    "kind": "client"
+   }
+  ]
+ },
+ "data": {
+  "instructions": "You are a data analyst. You explore data and answer questions about it.\n\n## Data Overview\n\n\nThe above frames what's in the data. Call view_schema for field-level detail - exact field IDs, data types, aggregation rules, and expressions. You'll typically need to do this before writing queries.\n\n## Modes\n\n### Exploration Mode\nRun multiple queries to discover what's interesting:\n- Row counts and date ranges\n- Cardinality of dimensions\n- Distributions of key measures\n- Outliers and notable patterns\n\nReturn via complete_task with:\n- **Key findings**: 3-6 bullet points, each citing specific fields with @field[id] references\n  (e.g. \"@field[revenue] is strongly seasonal - peaks in Q4\")\n- **Suggested dashboard angles**: 1-2 sentence theme suggestion\n  (e.g. \"A sales performance dashboard focusing on regional trends and seasonal patterns\")\n- **Key fields**: list the most important fields for dashboard widgets\n\n### Question Mode\nRun targeted queries, interpret results, return a clear answer.\n\n## Iteration Budget\nYou have 10 iterations. Budget them deliberately:\n- **Rounds 1-2**: Parallel overview queries (row counts, date ranges, cardinality). Issue as many independent queries as possible in a single response.\n- **Rounds 3-6**: Follow-up queries based on initial findings (distributions, top-N breakdowns, cross-tabulations).\n- **Rounds 7-8**: Analysis - review all results, identify patterns and outliers.\n- **Rounds 9-10**: Call complete_task with structured findings. Do not leave this to the last iteration.\n\n## Parallel Queries\nWhen you need to run multiple independent queries, call execute_query multiple times in a SINGLE response.\nDo NOT wait for one query to complete before calling the next.\nFor example, in Exploration Mode, issue row-count, cardinality, and distribution queries all at once.\n\n## Time Intelligence\n- To group by a time grain, either: (a) put a calendar fragment field (e.g. `fiscal::month`, listed under a `calendar:*` table with `calendarFragment` in view_schema) on an axis - grouped over the calendar and continuous (a row per period in range) by default; or (b) add an expression dimension using `dateTrunc`/`dateExtract` to bucket a raw date column - this shows only periods present in the data.\n- Relative date filters: filter a date field with `inRelativeRange` and a value `{ type: \"last\" | \"next\" | \"this\", value?: number, unit: \"minute\" | \"hour\" | \"day\" | \"week\" | \"month\" | \"year\", includeToday?: boolean }` (e.g. last 30 days = `{ type: \"last\", value: 30, unit: \"day\", includeToday: true }`). Prefer this over hard-coded dates for rolling windows.\n- Continuity: set `showEmpty: true` on a calendar date dimension to force empty periods to appear; set `fillPolicy: \"zero\"` on a measure to show 0 instead of null in those gaps.\n- Relative-period comparisons (year-on-year, month-over-month, year-to-date, rolling) are NOT supported - tell the user rather than attempting them.\n\n## Guidelines\n- Measures (type \"measure\") are pre-computed aggregations - do NOT reference them in queries\n- Instead, use their underlying fields with explicit aggregations (shown in depends:[...])\n  e.g. for @field[net_sales] depends:[sum(line_net)], query { fieldId: \"line_net\", aggregation: \"sum\" }\n- Use @field[id] references in ALL output, and @table[id] when naming a table\n- Complete your task via complete_task with structured findings\n- Do NOT suggest widgets or layouts - that's not your job\n- Put all findings in the summary field\n- Return findings as bullet points, not paragraphs\n- Use create_expression to add a calculated column when a question needs a per-row value the\n  schema does not have (e.g. profit per line, or a bucketed label). It is computed per row, so it\n  cannot aggregate its own inputs - aggregate it afterwards in a query instead\n- You are NOT able to create measures",
+  "tools": [
+   {
+    "name": "execute_query",
+    "description": "Execute a query against the data source.\nTwo modes:\n- aggregation: group by dimensions with aggregated measures (sum, avg, count, etc.)\n- projection: return raw rows with selected columns (no aggregation)\n\nSupports joins, filters, sorting, and pagination.\n\nAliases ('as'): every 'as' value in the query must be unique across dimensions,\nmeasures, projections, and windows — they share one output namespace. Reusing a\nname (e.g. setting 'as: \"total_revenue\"' on both a dimension and a measure) is\nrejected with validationAliasCollision; pick distinct names per output.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "query": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "variant": {
+           "type": "string",
+           "enum": [
+            "aggregation"
+           ]
+          },
+          "kind": {
+           "type": "string",
+           "enum": [
+            "apiQuery"
+           ]
+          },
+          "axes": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "dimensions": {
+              "type": "array",
+              "items": {
+               "anyOf": [
+                {
+                 "type": "object",
+                 "properties": {
+                  "field": {
+                   "$ref": "#/$defs/FieldRefDimensionNoAgg"
+                  },
+                  "members": {
+                   "type": "object",
+                   "properties": {
+                    "include": {
+                     "type": "array",
+                     "items": {
+                      "anyOf": [
+                       {
+                        "type": "string"
+                       },
+                       {
+                        "type": "number"
+                       },
+                       {
+                        "type": "boolean"
+                       },
+                       {
+                        "type": "null"
+                       }
+                      ]
+                     }
+                    },
+                    "exclude": {
+                     "type": "array",
+                     "items": {
+                      "anyOf": [
+                       {
+                        "type": "string"
+                       },
+                       {
+                        "type": "number"
+                       },
+                       {
+                        "type": "boolean"
+                       },
+                       {
+                        "type": "null"
+                       }
+                      ]
+                     }
+                    }
+                   },
+                   "required": [],
+                   "additionalProperties": false
+                  },
+                  "topN": {
+                   "type": "object",
+                   "properties": {
+                    "n": {
+                     "type": "number"
+                    },
+                    "by": {
+                     "type": "string"
+                    },
+                    "direction": {
+                     "type": "string",
+                     "enum": [
+                      "top",
+                      "bottom"
+                     ]
+                    }
+                   },
+                   "required": [
+                    "n",
+                    "by",
+                    "direction"
+                   ],
+                   "additionalProperties": false
+                  },
+                  "bucketThreshold": {
+                   "type": "number"
+                  },
+                  "emptyValues": {
+                   "type": "string",
+                   "enum": [
+                    "include",
+                    "exclude"
+                   ]
+                  },
+                  "showEmpty": {
+                   "type": "boolean"
+                  },
+                  "as": {
+                   "type": "string"
+                  }
+                 },
+                 "required": [
+                  "field"
+                 ],
+                 "additionalProperties": false
+                },
+                {
+                 "type": "object",
+                 "properties": {
+                  "expression": {
+                   "$ref": "#/$defs/AgApiExpression"
+                  },
+                  "as": {
+                   "type": "string"
+                  },
+                  "members": {
+                   "type": "object",
+                   "properties": {
+                    "include": {
+                     "type": "array",
+                     "items": {
+                      "anyOf": [
+                       {
+                        "type": "string"
+                       },
+                       {
+                        "type": "number"
+                       },
+                       {
+                        "type": "boolean"
+                       },
+                       {
+                        "type": "null"
+                       }
+                      ]
+                     }
+                    },
+                    "exclude": {
+                     "type": "array",
+                     "items": {
+                      "anyOf": [
+                       {
+                        "type": "string"
+                       },
+                       {
+                        "type": "number"
+                       },
+                       {
+                        "type": "boolean"
+                       },
+                       {
+                        "type": "null"
+                       }
+                      ]
+                     }
+                    }
+                   },
+                   "required": [],
+                   "additionalProperties": false
+                  },
+                  "topN": {
+                   "type": "object",
+                   "properties": {
+                    "n": {
+                     "type": "number"
+                    },
+                    "by": {
+                     "type": "string"
+                    },
+                    "direction": {
+                     "type": "string",
+                     "enum": [
+                      "top",
+                      "bottom"
+                     ]
+                    }
+                   },
+                   "required": [
+                    "n",
+                    "by",
+                    "direction"
+                   ],
+                   "additionalProperties": false
+                  },
+                  "bucketThreshold": {
+                   "type": "number"
+                  },
+                  "emptyValues": {
+                   "type": "string",
+                   "enum": [
+                    "include",
+                    "exclude"
+                   ]
+                  },
+                  "showEmpty": {
+                   "type": "boolean"
+                  }
+                 },
+                 "required": [
+                  "expression",
+                  "as"
+                 ],
+                 "additionalProperties": false
+                }
+               ]
+              }
+             }
+            },
+            "required": [
+             "dimensions"
+            ],
+            "additionalProperties": false
+           }
+          },
+          "measures": {
+           "type": "array",
+           "items": {
+            "anyOf": [
+             {
+              "type": "object",
+              "properties": {
+               "field": {
+                "$ref": "#/$defs/FieldRefRequired"
+               },
+               "orderBy": {
+                "type": "array",
+                "items": {
+                 "$ref": "#/$defs/AgApiSort"
+                }
+               },
+               "fillPolicy": {
+                "type": "string",
+                "enum": [
+                 "zero"
+                ]
+               },
+               "as": {
+                "type": "string"
+               }
+              },
+              "required": [
+               "field"
+              ],
+              "additionalProperties": false
+             },
+             {
+              "type": "object",
+              "properties": {
+               "expression": {
+                "$ref": "#/$defs/AgApiExpression"
+               },
+               "as": {
+                "type": "string"
+               },
+               "orderBy": {
+                "type": "array",
+                "items": {
+                 "$ref": "#/$defs/AgApiSort"
+                }
+               },
+               "fillPolicy": {
+                "type": "string",
+                "enum": [
+                 "zero"
+                ]
+               }
+              },
+              "required": [
+               "expression",
+               "as"
+              ],
+              "additionalProperties": false
+             }
+            ]
+           }
+          },
+          "filter": {
+           "$ref": "#/$defs/AgApiFilter"
+          },
+          "filterAggregated": {
+           "$ref": "#/$defs/AgApiFilter"
+          },
+          "sort": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiSort"
+           }
+          },
+          "window": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "field": {
+              "$ref": "#/$defs/FieldRef"
+             },
+             "functionType": {
+              "type": "string",
+              "enum": [
+               "rank",
+               "denseRank",
+               "rowNumber"
+              ]
+             },
+             "partitionBy": {
+              "type": "array",
+              "items": {
+               "$ref": "#/$defs/FieldRefDimensionNoAgg"
+              }
+             },
+             "orderBy": {
+              "type": "array",
+              "items": {
+               "$ref": "#/$defs/AgApiSort"
+              }
+             },
+             "as": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "field",
+             "functionType"
+            ],
+            "additionalProperties": false
+           }
+          },
+          "limit": {
+           "type": "object",
+           "properties": {
+            "count": {
+             "type": "number"
+            },
+            "offset": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "count"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "variant",
+          "kind"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "variant": {
+           "type": "string",
+           "enum": [
+            "projection"
+           ]
+          },
+          "kind": {
+           "type": "string",
+           "enum": [
+            "apiQuery"
+           ]
+          },
+          "projection": {
+           "type": "array",
+           "items": {
+            "anyOf": [
+             {
+              "type": "object",
+              "properties": {
+               "field": {
+                "$ref": "#/$defs/FieldRef"
+               },
+               "as": {
+                "type": "string"
+               }
+              },
+              "required": [
+               "field"
+              ],
+              "additionalProperties": false
+             },
+             {
+              "type": "object",
+              "properties": {
+               "expression": {
+                "$ref": "#/$defs/AgApiExpression"
+               },
+               "as": {
+                "type": "string"
+               }
+              },
+              "required": [
+               "expression",
+               "as"
+              ],
+              "additionalProperties": false
+             }
+            ]
+           }
+          },
+          "filter": {
+           "$ref": "#/$defs/AgApiFilter"
+          },
+          "sort": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiSort"
+           }
+          },
+          "limit": {
+           "type": "object",
+           "properties": {
+            "count": {
+             "type": "number"
+            },
+            "offset": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "count"
+           ],
+           "additionalProperties": false
+          },
+          "distinct": {
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "variant",
+          "kind",
+          "projection"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      }
+     },
+     "required": [
+      "query"
+     ],
+     "additionalProperties": false,
+     "$defs": {
+      "FieldRefDimensionNoAgg": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "anyOf": [
+            {
+             "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+            },
+            {
+             "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+            }
+           ]
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum": {
+       "type": "string",
+       "enum": [
+        "book.line",
+        "book.much",
+        "book.order",
+        "book.share",
+        "totals.match",
+        "totals.promised",
+        "totals.rest",
+        "totals.spent"
+       ]
+      },
+      "FieldIdsStringRolesCategoryAggCountCountdFirstLast": {
+       "type": "string",
+       "enum": [
+        "book.capture",
+        "book.charged",
+        "book.item",
+        "book.lineKey",
+        "book.need",
+        "book.payer",
+        "book.state",
+        "book.status",
+        "book.what",
+        "book.who"
+       ]
+      },
+      "AgApiExpression": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "literal": {
+           "anyOf": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "number"
+            },
+            {
+             "type": "boolean"
+            },
+            {
+             "type": "string",
+             "format": "date-time"
+            }
+           ]
+          }
+         },
+         "required": [
+          "literal"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "anyOf": [
+          {
+           "type": "object",
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "string"
+             ]
+            },
+            "value": {
+             "anyOf": [
+              {
+               "type": "string"
+              },
+              {
+               "type": "null"
+              },
+              {
+               "not": {}
+              }
+             ]
+            }
+           },
+           "required": [
+            "type",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "number"
+             ]
+            },
+            "value": {
+             "anyOf": [
+              {
+               "type": "number"
+              },
+              {
+               "type": "null"
+              },
+              {
+               "not": {}
+              }
+             ]
+            }
+           },
+           "required": [
+            "type",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "boolean"
+             ]
+            },
+            "value": {
+             "anyOf": [
+              {
+               "type": "boolean"
+              },
+              {
+               "type": "null"
+              },
+              {
+               "not": {}
+              }
+             ]
+            }
+           },
+           "required": [
+            "type",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "date"
+             ]
+            },
+            "value": {
+             "anyOf": [
+              {
+               "type": "string",
+               "format": "date-time"
+              },
+              {
+               "type": "string"
+              },
+              {
+               "type": "number"
+              },
+              {
+               "type": "null"
+              },
+              {
+               "not": {}
+              }
+             ]
+            }
+           },
+           "required": [
+            "type",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "type": {
+             "type": "string",
+             "enum": [
+              "datetime"
+             ]
+            },
+            "value": {
+             "anyOf": [
+              {
+               "type": "string",
+               "format": "date-time"
+              },
+              {
+               "type": "string"
+              },
+              {
+               "type": "number"
+              },
+              {
+               "type": "null"
+              },
+              {
+               "not": {}
+              }
+             ]
+            }
+           },
+           "required": [
+            "type",
+            "value"
+           ],
+           "additionalProperties": false
+          }
+         ]
+        },
+        {
+         "type": "object",
+         "properties": {
+          "field": {
+           "$ref": "#/$defs/FieldRef"
+          }
+         },
+         "required": [
+          "field"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "add",
+            "subtract",
+            "multiply",
+            "divide",
+            "modulo",
+            "negate",
+            "equals",
+            "notEqual",
+            "greaterThan",
+            "greaterThanOrEqual",
+            "lessThan",
+            "lessThanOrEqual",
+            "in",
+            "isNull",
+            "isNotNull",
+            "isTrue",
+            "isFalse",
+            "and",
+            "or",
+            "not",
+            "if",
+            "dateFromParts",
+            "currentDate",
+            "currentTimestamp",
+            "percentile",
+            "median",
+            "abs",
+            "mod",
+            "floor",
+            "ceiling",
+            "round",
+            "truncate",
+            "power",
+            "exp",
+            "sin",
+            "cos",
+            "tan",
+            "asin",
+            "acos",
+            "atan",
+            "atan2",
+            "ln",
+            "log",
+            "log10",
+            "greatest",
+            "least",
+            "upper",
+            "lower",
+            "substring",
+            "position",
+            "ltrim",
+            "rtrim",
+            "btrim",
+            "overlay",
+            "sign"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          }
+         },
+         "required": [
+          "operator",
+          "inputs"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "dateAdd"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "options": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "enum": [
+              "year",
+              "quarter",
+              "month",
+              "week",
+              "day",
+              "hour",
+              "minute"
+             ]
+            }
+           },
+           "required": [
+            "unit"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "options"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "dateTrunc"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "options": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "enum": [
+              "year",
+              "quarter",
+              "month",
+              "week",
+              "day",
+              "hour"
+             ]
+            }
+           },
+           "required": [
+            "unit"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "options"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "dateEnd"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "options": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "enum": [
+              "year",
+              "quarter",
+              "month",
+              "week",
+              "day",
+              "hour"
+             ]
+            }
+           },
+           "required": [
+            "unit"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "options"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "dateExtract"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "options": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "enum": [
+              "year",
+              "isoYear",
+              "quarter",
+              "month",
+              "week",
+              "day",
+              "hour",
+              "minute",
+              "second",
+              "dayOfYear",
+              "dayOfWeek",
+              "dayOfMonth",
+              "monthOfQuarter",
+              "weekOfMonth",
+              "weekend",
+              "timeOfDay"
+             ]
+            }
+           },
+           "required": [
+            "unit"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "options"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "datediff"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "options": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "enum": [
+              "millisecond",
+              "ms",
+              "second",
+              "ss",
+              "s",
+              "minute",
+              "mi",
+              "n",
+              "hour",
+              "hh",
+              "day",
+              "dy",
+              "y",
+              "week",
+              "ww",
+              "wk",
+              "weekday",
+              "dw",
+              "w",
+              "month",
+              "mm",
+              "m",
+              "quarter",
+              "qq",
+              "q",
+              "year",
+              "yyyy",
+              "yy",
+              "dayofyear"
+             ]
+            }
+           },
+           "required": [
+            "unit"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "options"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "operator": {
+           "type": "string",
+           "enum": [
+            "percentiles"
+           ]
+          },
+          "inputs": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/AgApiExpression"
+           }
+          },
+          "as": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           }
+          }
+         },
+         "required": [
+          "operator",
+          "inputs",
+          "as"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldRef": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "avg",
+            "count",
+            "countd",
+            "first",
+            "last",
+            "max",
+            "min",
+            "sum"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "count",
+            "countd",
+            "first",
+            "last"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "anyOf": [
+            {
+             "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+            },
+            {
+             "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+            }
+           ]
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldRefRequired": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "avg",
+            "count",
+            "countd",
+            "first",
+            "last",
+            "max",
+            "min",
+            "sum"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "count",
+            "countd",
+            "first",
+            "last"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "AgApiSort": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "field": {
+           "$ref": "#/$defs/FieldRef"
+          },
+          "direction": {
+           "type": "string",
+           "enum": [
+            "asc",
+            "desc"
+           ]
+          }
+         },
+         "required": [
+          "field",
+          "direction"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "by": {
+           "type": "string"
+          },
+          "direction": {
+           "type": "string",
+           "enum": [
+            "asc",
+            "desc"
+           ]
+          }
+         },
+         "required": [
+          "by",
+          "direction"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "AgApiFilter": {
+       "anyOf": [
+        {
+         "anyOf": [
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRef"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "isNull",
+              "isNotNull",
+              "isTrue",
+              "isFalse"
+             ]
+            }
+           },
+           "required": [
+            "field",
+            "operator"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefString"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "equals",
+              "notEqual",
+              "contains",
+              "startsWith",
+              "endsWith"
+             ]
+            },
+            "value": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefString"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "isIn"
+             ]
+            },
+            "value": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             }
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefNumber"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "equals",
+              "notEqual",
+              "greaterThan",
+              "greaterThanOrEqual",
+              "lessThan",
+              "lessThanOrEqual"
+             ]
+            },
+            "value": {
+             "type": "number"
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefNumber"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "between"
+             ]
+            },
+            "value": {
+             "type": "array",
+             "items": {
+              "type": "number"
+             },
+             "minItems": 2,
+             "maxItems": 2
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefNumber"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "isIn"
+             ]
+            },
+            "value": {
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefDate"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "equals",
+              "notEqual",
+              "greaterThan",
+              "greaterThanOrEqual",
+              "lessThan",
+              "lessThanOrEqual"
+             ]
+            },
+            "value": {
+             "type": "string",
+             "format": "date-time"
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefDate"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "between"
+             ]
+            },
+            "value": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "format": "date-time"
+             },
+             "minItems": 2,
+             "maxItems": 2
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefDate"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "inRelativeRange"
+             ]
+            },
+            "value": {
+             "type": "object",
+             "properties": {
+              "type": {
+               "type": "string",
+               "enum": [
+                "last",
+                "next",
+                "this"
+               ]
+              },
+              "value": {
+               "type": "number"
+              },
+              "unit": {
+               "type": "string",
+               "enum": [
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "year"
+               ]
+              },
+              "includeToday": {
+               "type": "boolean"
+              }
+             },
+             "required": [
+              "type",
+              "unit"
+             ],
+             "additionalProperties": false
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          },
+          {
+           "type": "object",
+           "properties": {
+            "field": {
+             "$ref": "#/$defs/FieldRefBoolean"
+            },
+            "operator": {
+             "type": "string",
+             "enum": [
+              "equals",
+              "notEqual"
+             ]
+            },
+            "value": {
+             "type": "boolean"
+            }
+           },
+           "required": [
+            "field",
+            "operator",
+            "value"
+           ],
+           "additionalProperties": false
+          }
+         ]
+        },
+        {
+         "$ref": "#/$defs/AgApiFilterGroup"
+        }
+       ]
+      },
+      "FieldRefString": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "count",
+            "countd",
+            "first",
+            "last"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsStringRolesCategoryAggCountCountdFirstLast"
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldRefNumber": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "avg",
+            "count",
+            "countd",
+            "first",
+            "last",
+            "max",
+            "min",
+            "sum"
+           ]
+          }
+         },
+         "required": [
+          "id",
+          "aggregation"
+         ],
+         "additionalProperties": false
+        },
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "$ref": "#/$defs/FieldIdsNumberRolesCategoryNumericAggAvgCountCountdFirstLastMaxMinSum"
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldRefDate": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "type": "string"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "sum",
+            "avg",
+            "min",
+            "max",
+            "count",
+            "countd",
+            "first",
+            "last"
+           ]
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "FieldRefBoolean": {
+       "anyOf": [
+        {
+         "type": "object",
+         "properties": {
+          "id": {
+           "type": "string"
+          },
+          "aggregation": {
+           "type": "string",
+           "enum": [
+            "sum",
+            "avg",
+            "min",
+            "max",
+            "count",
+            "countd",
+            "first",
+            "last"
+           ]
+          }
+         },
+         "required": [
+          "id"
+         ],
+         "additionalProperties": false
+        }
+       ]
+      },
+      "AgApiFilterGroup": {
+       "type": "object",
+       "properties": {
+        "combinator": {
+         "type": "string",
+         "enum": [
+          "and",
+          "or",
+          "not"
+         ]
+        },
+        "conditions": {
+         "type": "array",
+         "items": {
+          "$ref": "#/$defs/AgApiFilter"
+         }
+        }
+       },
+       "required": [
+        "combinator",
+        "conditions"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    "kind": "client"
+   },
+   {
+    "name": "view_schema",
+    "description": "View the available data schema - fieldsets and their fields with types. Always call this before creating widgets or writing queries so you know which field IDs exist.",
+    "parameters": {
+     "type": "object",
+     "properties": {},
+     "required": [],
+     "additionalProperties": false
+    },
+    "kind": "client"
+   },
+   {
+    "name": "complete_task",
+    "description": "Call this tool when you have completed your task or need to report results. You MUST call this tool to signal completion - do not respond with text alone.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "summary": {
+       "type": "string",
+       "description": "Detailed summary of findings and what was achieved. This is passed back to the requesting agent."
+      },
+      "artifacts": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "string"
+         },
+         "type": {
+          "type": "string"
+         },
+         "description": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "id",
+         "type",
+         "description"
+        ],
+        "additionalProperties": false
+       },
+       "description": "Artifacts created by tool calls. Use [] if none."
+      }
+     },
+     "required": [
+      "summary",
+      "artifacts"
+     ],
+     "additionalProperties": false
+    },
+    "kind": "client"
+   }
+  ]
+ }
+}

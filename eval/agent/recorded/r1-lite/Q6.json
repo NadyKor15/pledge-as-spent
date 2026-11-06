@@ -1,0 +1,150 @@
+{
+  "id": "Q6",
+  "question": "Ich bin Lena aus Berlin. Wie viel Geld ist zu mir zurückgekommen, und wie viel wurde ausgegeben?",
+  "locale": "de",
+  "recordedAt": "2026-11-06T20:04:14.487Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "Ich bin Lena aus Berlin. Wie viel Geld ist zu mir zurückgekommen, und wie viel wurde ausgegeben?",
+    "facts": [
+      {
+        "value": 20,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) pledged"
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Dein €20.00 Hold wurde aufgehoben, und PayPal hat dir alles zurückgegeben.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "€20.00",
+          "start": 5,
+          "end": 11,
+          "value": 20,
+          "currency": "EUR"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [],
+    "raw": [
+      "Dein €20.00 Hold wurde aufgehoben, und PayPal hat dir alles zurückgegeben."
+    ]
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2177,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_ks9iyiiLHR41ZtX482Lj9A",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_ks9iyiiLHR41ZtX482Lj9A",
+            "name": "ledger_find_donor",
+            "arguments": "{\"query\":\"Lena aus Berlin\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1579,
+          "outputTokens": 65
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2177,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_94dd01cb-180b-4004-bbd4-2c3d1f4f2576",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Dein €20.00 Hold wurde aufgehoben, und PayPal hat dir alles zurückgegeben.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1734,
+          "outputTokens": 53
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_find_donor",
+      "args": {
+        "query": "Lena aus Berlin"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Donors matching \\\"Lena aus Berlin\\\":\\nLena (Berlin, DE): pledged €20.00 in EUR, hold voided (released)\",\"data\":{\"facts\":[{\"value\":20,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) pledged\"}],\"lineKeys\":[],\"donors\":[{\"pledgeId\":\"demo-f372326129.water\",\"name\":\"Lena (Berlin, DE)\",\"currency\":\"EUR\"}]}}"
+    }
+  ],
+  "score": {
+    "id": "Q6",
+    "correct": false,
+    "missing": [
+      "EUR 15.42",
+      "EUR 4.58"
+    ],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "text": "Dein €20.00 Hold wurde aufgehoben, und PayPal hat dir alles zurückgegeben."
+  },
+  "errors": []
+}

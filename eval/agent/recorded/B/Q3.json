@@ -1,0 +1,257 @@
+{
+  "id": "Q3",
+  "mode": "B",
+  "routing": "model",
+  "question": "I'm Lena from Berlin. How much came back to me?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T20:44:45.319Z",
+  "models": [
+    "amazon.nova-pro-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "I'm Lena from Berlin. How much came back to me?",
+    "facts": [
+      {
+        "value": 20,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) pledged",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "order",
+        "id": "45W40260KS9261605"
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "2Y816602392541815",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 4.58,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) spent on needs",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 15.42,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) released"
+      },
+      {
+        "value": 4.58,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE) for Water 2 L",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 743,
+        "currency": "JPY",
+        "label": "Water 2 L, Lena (Berlin, DE)'s shares in JPY",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "3WP65983GD053501C",
+        "lineKeys": [
+          "demo-f372326129.r1:1",
+          "demo-f372326129.r1:2",
+          "demo-f372326129.r1:3"
+        ]
+      },
+      {
+        "value": 2.46,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 1",
+        "lineKey": "demo-f372326129.r1:1"
+      },
+      {
+        "value": 399,
+        "currency": "JPY",
+        "label": "line 1 share in JPY",
+        "lineKey": "demo-f372326129.r1:1"
+      },
+      {
+        "value": 1.45,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 2",
+        "lineKey": "demo-f372326129.r1:2"
+      },
+      {
+        "value": 236,
+        "currency": "JPY",
+        "label": "line 2 share in JPY",
+        "lineKey": "demo-f372326129.r1:2"
+      },
+      {
+        "value": 0.67,
+        "currency": "EUR",
+        "label": "Lena (Berlin, DE)'s share of line 3",
+        "lineKey": "demo-f372326129.r1:3"
+      },
+      {
+        "value": 108,
+        "currency": "JPY",
+        "label": "line 3 share in JPY",
+        "lineKey": "demo-f372326129.r1:3"
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Lena, €15.42 came back to you.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "€15.42",
+          "start": 6,
+          "end": 12,
+          "value": 15.42,
+          "currency": "EUR"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [],
+    "raw": [
+      "Lena, €15.42 came back to you."
+    ],
+    "routed": null
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_scMTDjJgVqUNcf5V3W6ICs",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_scMTDjJgVqUNcf5V3W6ICs",
+            "name": "ledger_donor_money",
+            "arguments": "{\"donor\":\"Berlin\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1615,
+          "outputTokens": 74
+        },
+        "model": "amazon.nova-pro-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_afff61a9-c1e1-4ed9-975a-870dea4c3d3d",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Lena, €15.42 came back to you.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2903,
+          "outputTokens": 14
+        },
+        "model": "amazon.nova-pro-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_donor_money",
+      "args": {
+        "donor": "Berlin"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Lena (Berlin, DE): pledge hold €20.00 (PayPal order 45W40260KS9261605, authorization 2Y816602392541815); the hold is closed (PayPal released what was not spent).\\nSpent on needs: €4.58, all of it taken by PayPal.\\nBack with the donor: €15.42 — never charged: PayPal released it when the drive closed.\\nFor Water 2 L: €4.58 (¥743 of the shelter's JPY) over 3 lines, PayPal capture 3WP65983GD053501C.\\nLines:\\n- line 1 Natural water from Kitasora 2L [Water 2 L]: €2.46 (= ¥399), spent, PayPal capture 3WP65983GD053501C\\n- line 2 Melted snow water 2L [Water 2 L]: €1.45 (= ¥236), spent, PayPal capture 3WP65983GD053501C\\n- line 3 Mineral water [Water 2 L]: €0.67 (= ¥108), spent, PayPal capture 3WP65983GD053501C\",\"data\":{\"facts\":[{\"value\":20,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) pledged\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":0,\"label\":\"order\",\"id\":\"45W40260KS9261605\"},{\"value\":0,\"label\":\"authorization\",\"id\":\"2Y816602392541815\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":4.58,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) spent on needs\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":15.42,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) released\"},{\"value\":4.58,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE) for Water 2 L\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":743,\"currency\":\"JPY\",\"label\":\"Water 2 L, Lena (Berlin, DE)'s shares in JPY\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3WP65983GD053501C\",\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"]},{\"value\":2.46,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 1\",\"lineKey\":\"demo-f372326129.r1:1\"},{\"value\":399,\"currency\":\"JPY\",\"label\":\"line 1 share in JPY\",\"lineKey\":\"demo-f372326129.r1:1\"},{\"value\":1.45,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 2\",\"lineKey\":\"demo-f372326129.r1:2\"},{\"value\":236,\"currency\":\"JPY\",\"label\":\"line 2 share in JPY\",\"lineKey\":\"demo-f372326129.r1:2\"},{\"value\":0.67,\"currency\":\"EUR\",\"label\":\"Lena (Berlin, DE)'s share of line 3\",\"lineKey\":\"demo-f372326129.r1:3\"},{\"value\":108,\"currency\":\"JPY\",\"label\":\"line 3 share in JPY\",\"lineKey\":\"demo-f372326129.r1:3\"}],\"lineKeys\":[\"demo-f372326129.r1:1\",\"demo-f372326129.r1:2\",\"demo-f372326129.r1:3\"],\"donor\":\"Lena (Berlin, DE)\",\"currency\":\"EUR\",\"pledgeId\":\"demo-f372326129.water\"}}"
+    }
+  ],
+  "score": {
+    "id": "Q3",
+    "correct": false,
+    "missing": [
+      "EUR 4.58"
+    ],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": null,
+    "calls": 2,
+    "ledgerCalls": 2,
+    "usd": 0.003896,
+    "text": "Lena, €15.42 came back to you.",
+    "errors": []
+  }
+}

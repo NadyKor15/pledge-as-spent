@@ -1,0 +1,165 @@
+{
+  "id": "Q2",
+  "mode": "C",
+  "routing": "code",
+  "question": "Why was a line refused?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T20:43:32.205Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "Why was a line refused?",
+    "facts": [
+      {
+        "value": 1198,
+        "currency": "JPY",
+        "label": "line 10 refused",
+        "lineKey": "demo-f372326129.r1:10"
+      },
+      {
+        "value": 3000,
+        "currency": "JPY",
+        "label": "line 11 refused",
+        "lineKey": "demo-f372326129.r1:11"
+      },
+      {
+        "value": 4198,
+        "currency": "JPY",
+        "label": "refused in total",
+        "lineKeys": [
+          "demo-f372326129.r1:10",
+          "demo-f372326129.r1:11"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Two lines were refused, totaling ¥4,198. Line 10, \"缶ピール 350m 6 缶\" (Canned peel 350ml 6 cans), was refused for ¥1,198 due to the rule prohibiting funding for alcohol. Line 11, \"ギフトカード 3,000\" (Gift card 3000), was refused for ¥3,000 because the rule prohibits funding for gift cards.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "¥4,198",
+          "start": 33,
+          "end": 39,
+          "value": 4198,
+          "currency": "JPY"
+        },
+        {
+          "kind": "amount",
+          "raw": "¥1,198",
+          "start": 110,
+          "end": 116,
+          "value": 1198,
+          "currency": "JPY"
+        },
+        {
+          "kind": "amount",
+          "raw": "3,000",
+          "start": 183,
+          "end": 188,
+          "value": 3000
+        },
+        {
+          "kind": "amount",
+          "raw": "3000",
+          "start": 201,
+          "end": 205,
+          "value": 3000
+        },
+        {
+          "kind": "amount",
+          "raw": "¥3,000",
+          "start": 224,
+          "end": 230,
+          "value": 3000,
+          "currency": "JPY"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:10",
+      "demo-f372326129.r1:11"
+    ],
+    "raw": [
+      "Two lines were refused, totaling ¥4,198. Line 10, \"缶ピール 350m 6 缶\" (Canned peel 350ml 6 cans), was refused for ¥1,198 due to the rule prohibiting funding for alcohol. Line 11, \"ギフトカード 3,000\" (Gift card 3000), was refused for ¥3,000 because the rule prohibits funding for gift cards."
+    ],
+    "routed": "refused"
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_67608307-28c1-4a4f-8c98-52cc83a8ceb7",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Two lines were refused, totaling ¥4,198. Line 10, \"缶ピール 350m 6 缶\" (Canned peel 350ml 6 cans), was refused for ¥1,198 due to the rule prohibiting funding for alcohol. Line 11, \"ギフトカード 3,000\" (Gift card 3000), was refused for ¥3,000 because the rule prohibits funding for gift cards.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1977,
+          "outputTokens": 112
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_refusals",
+      "args": {},
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"2 lines refused, ¥4,198 in total; no donor money was used for them:\\n- line 10 \\\"缶ピール 350m 6 缶\\\" (English: Canned peel 350ml 6 cans): ¥1,198 refused (rule: alcohol) — Alcohol is not funded.\\n- line 11 \\\"ギフトカード 3,000\\\" (English: Gift card 3000): ¥3,000 refused (rule: gift card) — Gift cards are not funded by this drive.\",\"data\":{\"facts\":[{\"value\":1198,\"currency\":\"JPY\",\"label\":\"line 10 refused\",\"lineKey\":\"demo-f372326129.r1:10\"},{\"value\":3000,\"currency\":\"JPY\",\"label\":\"line 11 refused\",\"lineKey\":\"demo-f372326129.r1:11\"},{\"value\":4198,\"currency\":\"JPY\",\"label\":\"refused in total\",\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}],\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q2",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": "refused",
+    "calls": 1,
+    "ledgerCalls": 1,
+    "usd": 0.000146,
+    "text": "Two lines were refused, totaling ¥4,198. Line 10, \"缶ピール 350m 6 缶\" (Canned peel 350ml 6 cans), was refused for ¥1,198 due to the rule prohibiting funding for alcohol. Line 11, \"ギフトカード 3,000\" (Gift card 3000), was refused for ¥3,000 because the rule prohibits funding for gift cards.",
+    "errors": []
+  }
+}
