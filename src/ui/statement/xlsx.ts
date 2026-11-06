@@ -1,4 +1,5 @@
-import type { Statement, StatementView } from "../types";
+import type { StatementView } from "../types";
+import { STATUS_WORDS } from "./words";
 import { zipStore } from "./zip";
 
 // The donor's statement as an Excel workbook, written by hand: a handful of
@@ -6,8 +7,6 @@ import { zipStore } from "./zip";
 // outside the Studio licence, so this does not use it and adds no dependency.
 // Money is a number in major units with a currency number format, so Excel can
 // sum and sort it; PayPal ids are text, so they never turn into 3.2E+15.
-
-type Row = Statement["rows"][number];
 
 type Cell = { v: string | number | null; s?: number };
 
@@ -20,16 +19,6 @@ const major = (c: string, minor: number) => minor / 10 ** decimals(c);
 const S = { plain: 0, title: 1, head: 2, text: 3, moneyA: 4, moneyB: 5, int: 6, date: 7, label: 8, moneyABold: 9, moneyBBold: 10 } as const;
 const FIRST_CUSTOM_FMT = 164;
 const DATE_FMT = 170;
-
-const STATUS: Record<Row["status"], string> = {
-  captured: "Captured",
-  partly_reversed: "Captured, partly taken back",
-  reversed: "Taken back by PayPal",
-  uncollected: "Not collected",
-  capture_pending: "Capture pending",
-  accrued: "Waiting for capture",
-  nothing_to_capture: "Nothing to capture",
-};
 
 /** Characters XML 1.0 cannot carry are dropped; the rest is escaped. */
 function esc(s: string): string {
@@ -148,7 +137,7 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
     if (!sameCurrency) line.push({ v: major(base, r.shareBase), s: S.moneyB });
     line.push(
       { v: major(base, r.matchBase), s: S.moneyB },
-      { v: STATUS[r.status] ?? r.status },
+      { v: STATUS_WORDS[r.status] ?? r.status },
       { v: r.captureId, s: S.text },
       { v: r.requestId, s: S.text },
       { v: r.reversed ? major(cur, r.reversed) : null, s: S.moneyA },
