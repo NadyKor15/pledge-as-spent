@@ -70,6 +70,44 @@ The same set after a Telegram-like compression scored the same on line F1, total
 
 Live reading has a budget ceiling of $5 in code, with a ledger of every model call. A photo recognized as the demo's sample gets its saved, checked reading, on demo drives only, and the screen says so. The benchmark receipts also ship with recorded readings, so they use no model call. Any other photo is read live.
 
+## Ask the book
+
+The Ledger tab has a chat over the book. A donor asks in their own words, for example "I'm Mark from Columbus. What did my money buy?", and gets an answer in which every figure is a green chip. Pressing a chip narrows the book to the lines behind it.
+
+![Ask the book, 1440 px](docs/screens/ask-the-book-1440.png)
+
+**How the agent works.** It is built on AG Studio's Agent Framework (3.0.0).
+
+- Our agent, `ledger`, is Studio's primary agent: a `directLlmRunner` with six read-only tools over the drive the page already holds (`ledger_find_donor`, `ledger_donor_money`, `ledger_line`, `ledger_refusals`, `ledger_paypal_ids`, `ledger_totals`). The tools hand the model amounts already formatted with their currency, and they add up the totals per donor and per need, so the model never has to add anything.
+- For a figure across all donors ("How much went to water across all donors?") it hands the task to Studio's built-in `data` agent with `delegate_to`. That agent runs `execute_query` on the book in Studio's own data engine. It keeps only `execute_query` and `view_schema`, so it cannot change the report.
+- Studio's agent loop runs in the browser. Each model turn goes to `/api/agent/turn`, which calls the model without streaming, within limits: 4 questions an hour and 10 a day per network, 20 a day in all, 10 model calls per question, and a $0.40 ceiling for the agent inside the demo's $5.
+- The book is shown in Studio's view mode, which has no chat panel, so the chat is a custom widget in the book's own layout, on Studio's chat session. Studio rebuilds the report when the layout or the language changes. The conversation lives outside it, and an answer cut short by a rebuild says so and offers to ask again.
+- The four quick questions are answered by the book's own code with the same tools and no model, so they keep working when the live AI has used its questions.
+- "Ask about this line", in a row's proof band, sends that line to the chat.
+
+**Numbers only from the book.** A wrapper around the model checks each final answer before anyone sees it. Every figure in the answer must match a figure a tool returned for this question: amounts in English, German and Japanese forms with their currency, bare numbers with decimals or above 100, PayPal ids, percentages, and words that claim a share such as "all of it", "ganz" or "全額". Figures that the data agent wrote in its own summary do not count, only its query results. If something does not match, the model is asked once more; if it still does not match, the reader sees "I can't confirm that figure from the book." Text that was not checked is never shown.
+
+What it does not catch: a figure that is in the book but answers another question (in one measured run the data agent read the wrong row and the answer gave ¥3,000, the gift card, for water), a wrong statement without a figure, and counts of 100 or less.
+
+**Models and the measure.** Seven donor questions on the closed demo drive, in English, German and Japanese, with the right figures computed from the book by code. An answer counts as right when it states every required figure, the check did not have to step in, it states no figure outside what the relevant tools returned, and it has no false percentage.
+
+| Variant | Right of 7 | Model calls per question | Cost per question |
+|---|---|---|---|
+| A: Amazon Nova Lite | 6 in each of two runs | 2.29 | $0.0004 |
+| B: Nova Pro for our agent, Nova Lite for the data agent | 4 | 2.29 | $0.0037 |
+| C: Nova Lite, with the book's code picking the tool before the model's first turn | 6 | 1.14 | $0.0002 |
+| D: Meta Muse Spark 1.3 | 7 in each of two runs | 2.29 | $0.016 |
+
+Every variant was run live once, and A and D a second time on the final code. All answers are scored by the same rules; the false-percentage rule came after the first runs and turned variant A's first 7 into 6 (it had written that a pledge was spent "zu 100%" when 23% was). Nova Lite's two misses were a figure left out and that false share. Nova Pro answered too briefly and left required figures out. Variant C missed the sum for water because the data agent's summary carried no number. The cost is the provider's price for each turn's tokens: Nova Lite $0.06 / $0.24, Nova Pro $0.80 / $3.20, Muse Spark 1.3 $1.25 / $4.25 per million input / output tokens.
+
+The hosted demo runs variant A. Variant D is an option of the server, off by default: it is used only when the server is given `AGENT_META_ALLOWED=yes`, a ceiling in `META_AGENT_CAP_USD` and a key. When Meta cannot answer a turn (no key, its ceiling, an error, a timeout), Nova Lite answers that turn and the rest of the question, and the chat names the model that answered. Recorded runs and the scorer: [`eval/agent/`](eval/agent), `npx tsx scripts/agent-measure.ts`.
+
+**WebMCP.** The book's six tools and Studio's four read-only tools are also offered to the browser's own AI through WebMCP (`document.modelContext`), each marked read-only. WebMCP is experimental: it needs Chrome 149 or later with the WebMCP testing flag (`chrome://flags/#enable-webmcp-testing`, or `--enable-features=WebMCPTesting`). Without it, one quiet line under the chat says the browser does not expose it.
+
+**Statement as Excel and PDF.** A donor's statement page downloads as an Excel file, written by this repository's own code without a spreadsheet library, and prints as an A4 page for "Save as PDF".
+
+![Ask the book on a phone](docs/screens/ask-the-book-390.png)
+
 ## How it differs
 
 Receipt reading for donors already exists, for example Kindtrail in this hackathon. The difference is where the money sits and when it is taken:
@@ -111,7 +149,7 @@ A Telegram bot takes receipts through the same reading path, with Approve and Re
 
 ## Sponsor tools
 
-**AG Grid: AG Studio.** The Ledger tab is one AG Studio report. Its totals are built-in value widgets, every line of the book is a built-in grid widget, and the map and the shelter card are custom widgets. Pressing a donor sets Studio's own cross-filter on the book. The theme and layout are tuned to the product, with a separate one-column layout for phones.
+**AG Grid: AG Studio.** The Ledger tab is one AG Studio report. Its totals are built-in value widgets, every line of the book is a built-in grid widget, and the map and the shelter card are custom widgets. Pressing a donor sets Studio's own cross-filter on the book. The theme and layout are tuned to the product, with a separate one-column layout for phones. The chat over the book is a custom agent in Studio's Agent Framework that hands work to Studio's built-in data agent, shown in a custom widget in the report's layout ([Ask the book](#ask-the-book)).
 
 AG Studio is a commercial product, used here under the free trial licence offered to this hackathon's entrants: the `ag-studio`, `ag-studio-react`, `ag-grid-enterprise` and `ag-charts-enterprise` npm packages are not covered by this repository's MIT licence and none of their code is in it. Land dots: Natural Earth, public domain.
 
@@ -127,7 +165,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 
 ## How this was built
 
-Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Amazon Nova Pro and Nova Lite on Bedrock, Tesseract OCR.
+Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Amazon Nova Pro and Nova Lite on Bedrock, Tesseract OCR; the Ledger's assistant runs on Nova Lite.
 
 ## License
 
