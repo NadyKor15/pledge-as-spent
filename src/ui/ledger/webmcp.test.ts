@@ -106,7 +106,7 @@ describe("registerWebMcpTools", () => {
 
   it("refuses a tool that is not declared read-only, and says so", async () => {
     const { ctx, live } = fakeContext();
-    const res = await registerWebMcpTools([tool("ok"), { ...tool("writes"), readOnly: false }, { ...tool("unsure"), readOnly: undefined as never }], { modelContext: ctx });
+    const res = await registerWebMcpTools([tool("ok"), { ...tool("writes"), readOnly: false as never }, { ...tool("unsure"), readOnly: undefined as never }], { modelContext: ctx });
     expect([...live.keys()]).toEqual(["ok"]);
     expect(res.failed.map((f) => f.name)).toEqual(["writes", "unsure"]);
     expect(res.failed[0].message).toMatch(/read-only/);
