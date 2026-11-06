@@ -3,7 +3,7 @@
   "routing": "model",
   "source": "live",
   "at": "2026-11-06T20:44:26.212Z",
-  "right": 7,
+  "right": 6,
   "of": 7,
   "calls": 16,
   "usd": 0.002664,
@@ -97,9 +97,11 @@
     },
     {
       "id": "Q6",
-      "correct": true,
+      "correct": false,
       "missing": [],
-      "extra": [],
+      "extra": [
+        "100%"
+      ],
       "missingWords": [],
       "guardFired": false,
       "delegated": false,
@@ -127,5 +129,8 @@
       "text": "大阪のユキさんのPayPalの番号は、オーダー番号が10L99507KP256054Y、オーソライゼーション（保留）番号が4V841583EA244972U、そしてキャプチャー番号が3HK86339B7905131Lです。",
       "errors": []
     }
-  ]
+  ],
+  "rightAtRun": 7,
+  "rescoredAt": "2026-11-06T21:52:21.523Z",
+  "rescoredBy": "scripts/agent-rescore.ts, scorer of commit ae2dc37"
 }
