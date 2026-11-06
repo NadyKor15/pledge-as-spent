@@ -5,6 +5,7 @@ import { deriveLedger, type LedgerModel } from "@/ui/ledger/derive";
 import { bookChanges, FLASH_MS } from "@/ui/ledger/flash";
 import { lineProof, stripStyle } from "@/ui/ledger/proof";
 import { LedgerStore } from "@/ui/ledger/store";
+import { ledgerData } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
 
 // The book's proof band, its flashes and the points the assistant plugs into (store API).
@@ -20,6 +21,18 @@ function captured(v: DriveView): DriveView {
   out.ledger = out.ledger.map((r) => (r.kind === "donor_share" || r.kind === "match_share" ? { ...r, status: "captured", captureId: `CAP-${r.pledgeId}` } : r));
   return out;
 }
+
+describe("the phone's How much column", () => {
+  it("shows each payer's share in the payer's own currency, as the desktop Share column and the agent's answer do", () => {
+    const source = ledgerData(deriveLedger(closed)).sources.find((s) => s.id === "book") as unknown as { data: { rowKey: string; much: unknown; paid: string }[] };
+    const book = source.data;
+    const mark4 = book.find((r) => r.rowKey === MARK4)!;
+    expect(mark4.much).toBe("$8.58");
+    expect(mark4.much).toBe(mark4.paid);
+    const match4 = book.find((r) => r.rowKey === "demo-f372326129.r1:4/demo-f372326129.match")!;
+    expect(match4.much).toBe("¥1,298");
+  });
+});
 
 describe("the flash: which rows of the book just changed", () => {
   it("rows PayPal just took flash green; nothing else does", () => {

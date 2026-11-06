@@ -299,6 +299,8 @@ test.describe("the book on a phone, 390 × 844", () => {
     await openBook(page, fixture("closed"));
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["What", "Who", "How much", "Status"]);
     await expect(rows(page)).toHaveCount(20);
+    // How much is each payer's share in the payer's own currency, as on the desktop and in the agent's answer.
+    await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .ag-cell[col-id="book.much"]`)).toHaveText("$8.58");
     await page.evaluate(() => window.scrollBy(0, document.querySelector(".lg-book-head")!.getBoundingClientRect().top - 8));
     await settled(page);
     await page.screenshot({ path: path.join(SHOTS, "book-390-rows.png") });

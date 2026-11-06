@@ -99,7 +99,8 @@ export function ledgerData(m: LedgerModel, lang: Lang = m.lang ?? "en"): AgDataS
           status: r.status,
           what: r.what,
           who: r.who,
-          much: r.share,
+          // The phone's "How much": the payer's share in the payer's own currency, as the desktop Share column shows it.
+          much: r.paid,
           state: r.state,
         })),
         fields: [
@@ -119,7 +120,7 @@ export function ledgerData(m: LedgerModel, lang: Lang = m.lang ?? "en"): AgDataS
           text("status", h.status),
           text("what", h.what),
           text("who", h.who),
-          moneyField("much", h.much, base, lang),
+          text("much", h.much),
           text("state", h.state),
         ],
       },
