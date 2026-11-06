@@ -241,8 +241,8 @@ export class AgentService {
     return { questionId: id };
   }
 
-  /** One model turn of a question. */
-  async turn(body: unknown): Promise<TurnReply> {
+  /** One model turn of a question, from the address that asked it. */
+  async turn(body: unknown, ip: string): Promise<TurnReply> {
     const parsed = TurnBody.safeParse(body);
     if (!parsed.success) throw new ServiceError(400, "invalid_turn", `The turn is not valid: ${parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
     const t = parsed.data;
@@ -261,6 +261,8 @@ export class AgentService {
     const since = new Date(Date.parse(now) - this.limits.questionTtlMinutes * 60_000).toISOString();
     const [q] = await this.d.db.select().from(agentQuestions).where(eq(agentQuestions.id, t.questionId));
     if (!q) throw new ServiceError(404, "unknown_question", "No such question; ask again.");
+    // A question's calls belong to the address that asked: an id seen elsewhere spends nothing.
+    if (q.ipHash !== this.d.hashIp(ip)) throw new ServiceError(403, "question_other_address", "This question was asked from another network; ask again.");
     if (Date.parse(q.ts) < Date.parse(since)) throw new ServiceError(410, "question_expired", "This question is too old; ask again.");
     if (q.calls >= this.limits.callsPerQuestion || q.tokens + estimate > this.limits.tokensPerQuestion) throw limit(429, "question_too_long", "tooLong", locale);
     await this.d.db
