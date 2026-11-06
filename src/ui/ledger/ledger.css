@@ -168,7 +168,8 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-frame .ag-row { cursor: pointer; }
 
 /* The open proof: the row and its band are one card; the rows under it move down by the band's height. */
-.lg-frame .ag-row { transition: translate .2s ease-out; }
+/* The grid's own row transitions, plus the rows easing down under an opened band. */
+.lg-frame .ag-row { transition: transform .4s, top .4s, background-color .1s, opacity .2s, translate .2s ease-out; }
 .lg-frame .ag-row.lg-below { translate: 0 var(--band-h); }
 .lg-frame .ag-row.lg-proof-row { z-index: 3; background: #E8F2F0 !important; box-shadow: inset 0 0 0 1.5px var(--teal); border-radius: 12px 12px 0 0; }
 .lg-frame .ag-row.lg-proof-row::before { display: none; }

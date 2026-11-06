@@ -68,7 +68,14 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
   test("a pressed row opens its proof band under it; the rows below make room; a second press closes it", async ({ page }) => {
     await openBook(page, fixture("closed"));
     const next = "demo-f372326129.r1:4/demo-f372326129.match";
-    const before = await rowTop(page, next);
+    // The grid slides its rows into place when they load: measure once they stand still.
+    let before = NaN;
+    await expect.poll(async () => {
+      const a = await rowTop(page, next);
+      await page.waitForTimeout(250);
+      before = await rowTop(page, next);
+      return a === before;
+    }).toBe(true);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
     const band = page.locator(".lg-band");
     await expect(band).toBeVisible();
@@ -81,8 +88,9 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect(page.getByRole("button", { name: "Ask about this line" })).toHaveCount(0);
     // The next row sits under the band, not under it hidden.
     const bandBox = (await band.boundingBox())!;
-    const after = await rowTop(page, next);
-    expect(after - before).toBeGreaterThan(bandBox.height - 4);
+    // The rows ease down (0.2 s): wait for them to settle.
+    await expect.poll(async () => (await rowTop(page, next)) - before).toBeGreaterThan(bandBox.height - 4);
+    await page.waitForTimeout(300);
     const nextBox = (await page.locator(`.ag-row:has([data-row-key="${next}"])`).boundingBox())!;
     expect(nextBox.y).toBeGreaterThanOrEqual(bandBox.y + bandBox.height - 2);
     // The band is as wide as the book.
@@ -106,7 +114,7 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect(band).toBeVisible();
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
     await expect(page.locator(".lg-band")).toHaveCount(0);
-    expect(await rowTop(page, next)).toBe(before);
+    await expect.poll(() => rowTop(page, next)).toBe(before);
   });
 
   test("Enter on a row opens its proof from the keyboard", async ({ page }) => {
