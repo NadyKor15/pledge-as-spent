@@ -13,8 +13,9 @@ export interface WebMcpToolResult {
 export interface WebMcpAdvertisedTool {
   name: string;
   description: string;
-  /** A serialised JSON schema: that is how the browser reports it back. */
-  inputSchema: string;
+  /** The schema as the browser reports it back (an object in Chrome 155, a JSON string in AG's typings). */
+  inputSchema: unknown;
+  annotations?: { readOnlyHint?: boolean };
 }
 
 interface WebMcpDescriptor {
@@ -29,7 +30,8 @@ interface WebMcpDescriptor {
 export interface WebMcpModelContext {
   registerTool(descriptor: WebMcpDescriptor, options?: { signal?: AbortSignal }): Promise<void> | void;
   getTools(options?: { fromOrigins?: string[] }): Promise<WebMcpAdvertisedTool[]>;
-  executeTool(tool: WebMcpAdvertisedTool, input: string, options?: { signal?: AbortSignal }): Promise<WebMcpToolResult | string>;
+  /** Chrome 155 takes the arguments as an object and answers with the result as a JSON string; AG's typings show a JSON string in and a result out. */
+  executeTool(tool: WebMcpAdvertisedTool, input: Record<string, unknown> | string, options?: { signal?: AbortSignal }): Promise<WebMcpToolResult | string>;
   addEventListener(type: "toolchange", listener: () => void): void;
   removeEventListener(type: "toolchange", listener: () => void): void;
 }

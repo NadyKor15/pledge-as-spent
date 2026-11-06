@@ -13,8 +13,8 @@ function fakeContext() {
       live.set(descriptor.name, descriptor);
       options?.signal?.addEventListener("abort", () => live.delete(descriptor.name));
     }),
-    getTools: vi.fn(async () => [...live.values()].map((d) => ({ name: d.name, description: d.description, inputSchema: JSON.stringify(d.inputSchema) }))),
-    executeTool: vi.fn(async (tool, input) => live.get(tool.name)!.execute(JSON.parse(input))),
+    getTools: vi.fn(async () => [...live.values()].map((d) => ({ name: d.name, description: d.description, inputSchema: d.inputSchema, annotations: d.annotations }))),
+    executeTool: vi.fn(async (tool, input) => live.get(tool.name)!.execute(typeof input === "string" ? JSON.parse(input) : input)),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
   };
