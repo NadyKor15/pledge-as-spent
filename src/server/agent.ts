@@ -7,9 +7,10 @@ import { agentQuestions, spendLedger } from "../db/schema";
 import { novaToolSpec } from "../agent/flatten";
 import { say, type TextKey } from "../agent/i18n";
 import type { AgentLocale } from "../agent/money-parse";
+import { fromMetaResponse, META_MODEL, metaBody, metaUsd, toMetaRequest } from "../agent/meta-wire";
 import { AGENT_TOOLS, QuestionBody, TurnBody, type AgentId, type TurnReply } from "../agent/wire";
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
-import { JsonlSpendLedger, SpendCap, SpendCapExceeded, type LedgerEntry, type SpendLedger } from "../receipts/spend";
+import { JsonlSpendLedger, SpendCap, SpendCapExceeded, worstCaseTokensIn, type LedgerEntry, type SpendLedger } from "../receipts/spend";
 import { ServiceError } from "./errors";
 
 // The live agent's server half. The browser runs AG Studio's agent loop (our `ledger` agent and
@@ -109,6 +110,8 @@ export class PgAgentSpendLedger implements SpendLedger {
   }
 }
 
+const round6 = (n: number) => Math.round(n * 1e6) / 1e6;
+
 const row = (e: LedgerEntry) => ({ id: e.id, ts: e.ts, kind: e.kind, what: e.what, usd: e.usd.toFixed(6), ref: e.ref ?? null });
 
 async function sumWhere(q: Pick<Db, "select">, prefix?: string): Promise<number> {
@@ -160,6 +163,8 @@ export class DevSpendLedger implements SpendLedger {
 
 export interface DevRun {
   ledger: DevSpendLedger;
+  /** Meta's credits are kept apart from Bedrock's $5 (eval/meta-spend-ledger.jsonl, ≤ $1). */
+  metaLedger?: DevSpendLedger;
   /** Each call's line goes here (docs/nadya/p3-agent/live-calls.jsonl). */
   callsLog: string;
   lane: string;
@@ -172,10 +177,25 @@ export function agentDevFrom(env: NodeJS.ProcessEnv): DevRun | undefined {
   const lane = env.AGENT_DEV_LANE ?? "core";
   return {
     ledger: new DevSpendLedger(env.AGENT_DEV_LEDGER, env.AGENT_DEV_PREFIX ?? "agent-dev", Number(env.AGENT_DEV_MAX_USD ?? "0.149")),
+    ...(env.AGENT_DEV_META_LEDGER ? { metaLedger: new DevSpendLedger(env.AGENT_DEV_META_LEDGER, env.AGENT_DEV_PREFIX ?? "agent-dev", Math.min(1, Number(env.AGENT_DEV_META_MAX_USD ?? "1"))) } : {}),
     callsLog: env.AGENT_DEV_CALLS_LOG,
     lane,
     maxCalls: Number(env.AGENT_DEV_MAX_CALLS ?? "40"),
   };
+}
+
+/** Variant D of the measure: Meta's Muse Spark on the Responses API. Local development runs only. */
+export interface MetaProvider {
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+  fetch?: typeof fetch;
+}
+
+/** AGENT_PROVIDER=meta with META_MODEL_API_KEY (injected by tools/p3/with-meta-nadya.sh), never in production. */
+export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined {
+  if (env.AGENT_PROVIDER !== "meta" || env.NODE_ENV === "production" || !env.META_MODEL_API_KEY) return undefined;
+  return { baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""), apiKey: env.META_MODEL_API_KEY, model: META_MODEL };
 }
 
 export interface AgentDeps {
@@ -184,6 +204,8 @@ export interface AgentDeps {
   now(): string;
   /** Null: the live agent is off on this server. */
   client: (() => ConverseClient) | null;
+  /** Set: every turn goes to Meta instead of Bedrock (development runs with `dev.metaLedger` only). */
+  meta?: MetaProvider;
   limits?: Partial<AgentLimits>;
   models?: Record<AgentId, string>;
   dev?: DevRun;
@@ -199,6 +221,8 @@ export class AgentService {
   readonly limits: AgentLimits;
   readonly models: Record<AgentId, string>;
   private client?: ConverseClient;
+  /** Meta refused Studio's schemas once: send them flattened from then on. */
+  metaFlat = false;
 
   constructor(private readonly d: AgentDeps) {
     this.limits = { ...DEFAULT_AGENT_LIMITS, ...d.limits };
@@ -217,8 +241,10 @@ export class AgentService {
   /** A new question: counted for the address and for everyone before any model call. */
   async question(ip: string, body: unknown): Promise<{ questionId: string }> {
     const { locale = "en" } = QuestionBody.parse(body ?? {});
-    if (!this.d.client) throw limit(503, "agent_off", "off", locale);
-    if ((await this.agentSpent()) >= this.limits.agentCapUsd - 0.005) throw limit(429, "agent_budget", "budget", locale);
+    const metaLedger = this.d.meta ? this.d.dev?.metaLedger : undefined;
+    if (!this.d.client && !metaLedger) throw limit(503, "agent_off", "off", locale);
+    const spent = metaLedger ? metaLedger.spent() >= metaLedger.capUsd - 0.005 : (await this.agentSpent()) >= this.limits.agentCapUsd - 0.005;
+    if (spent) throw limit(429, "agent_budget", "budget", locale);
     const ipHash = this.d.hashIp(ip);
     const now = this.d.now();
     const hourAgo = new Date(Date.parse(now) - 3_600_000).toISOString();
@@ -250,10 +276,12 @@ export class AgentService {
     const allowed = AGENT_TOOLS[t.agentId];
     const stray = t.tools.map((x) => x.name).filter((n) => !allowed.includes(n));
     if (stray.length) throw new ServiceError(400, "tool_not_allowed", `The ${t.agentId} agent may not use: ${stray.join(", ")}.`);
-    if (!this.d.client) throw limit(503, "agent_off", "off", locale);
+    const meta = this.d.meta && this.d.dev?.metaLedger ? this.d.meta : null;
+    if (!meta && !this.d.client) throw limit(503, "agent_off", "off", locale);
 
     const request = toConverse(t, this.models[t.agentId], t.agentId === "ledger" ? this.limits.maxTokensLedger : this.limits.maxTokensData);
-    const chars = JSON.stringify(request.system).length + JSON.stringify(request.messages).length + JSON.stringify(request.toolConfig ?? {}).length;
+    const metaBodyOut = meta ? toMetaRequest(t, meta.model, META_MAX_OUTPUT, this.metaFlat) : null;
+    const chars = metaBodyOut ? JSON.stringify(metaBodyOut).length : JSON.stringify(request.system).length + JSON.stringify(request.messages).length + JSON.stringify(request.toolConfig ?? {}).length;
     const estimate = tokensOf(chars);
 
     // Count the call against the question first: a call that fails still counted.
@@ -272,11 +300,14 @@ export class AgentService {
 
     const dev = this.d.dev;
     if (dev && countLines(dev.callsLog, dev.lane) >= dev.maxCalls) throw new ServiceError(429, "dev_calls", `Development limit of ${dev.maxCalls} live calls reached.`, { limit: true });
+    if (meta && dev?.metaLedger) return this.metaTurn(t, meta, dev, dev.metaLedger, locale);
+    if (!this.d.client) throw limit(503, "agent_off", "off", locale);
+    const factory = this.d.client;
 
     const model = request.modelId!;
     const what = dev ? `${dev.ledger.prefix} ${dev.lane} ${t.agentId} (${model})` : `${AGENT_PREFIX}${t.agentId} ${t.questionId.slice(0, 8)} (${model})`;
     const cap = new SpendCap(this.ledger(), this.limits.spendCapUsd);
-    const client = (this.client ??= this.d.client());
+    const client = (this.client ??= factory());
     const t0 = Date.now();
     const logRow: Record<string, unknown> = { ts: new Date().toISOString(), lane: dev?.lane, case: t.agentId, questionId: t.questionId, model, toolSpecChars: JSON.stringify(request.toolConfig ?? {}).length, systemChars: JSON.stringify(request.system).length, inputItems: t.input.length };
     try {
@@ -301,7 +332,74 @@ export class AgentService {
       if (dev) appendFileSync(dev.callsLog, JSON.stringify(logRow) + "\n");
     }
   }
+
+  /** Variant D: one turn on Meta Muse Spark, booked to the Meta development ledger. */
+  private async metaTurn(t: TurnBody, meta: MetaProvider, dev: DevRun, ledger: DevSpendLedger, locale: AgentLocale): Promise<TurnReply> {
+    const send = meta.fetch ?? fetch;
+    const t0 = Date.now();
+    const logRow: Record<string, unknown> = { ts: new Date().toISOString(), lane: dev.lane, provider: "meta", case: t.agentId, questionId: t.questionId, model: meta.model, inputItems: t.input.length };
+    const post = async (flat: boolean) => {
+      const body = toMetaRequest(t, meta.model, META_MAX_OUTPUT, flat);
+      const toolSpecChars = JSON.stringify(body.tools ?? []).length;
+      const systemChars = String(body.instructions ?? "").length;
+      Object.assign(logRow, { toolSpecChars, systemChars });
+      logRow.schemas = flat ? "flat" : "as Studio wrote them";
+      // Reserve the worst case before the call; correct it with the real tokens after (as SpendCap does).
+      const ceiling = round6(metaUsd(meta.model, worstCaseTokensIn({ textChars: JSON.stringify(body.input).length + systemChars, toolSpecChars, images: 0, maxTokens: META_MAX_OUTPUT }), META_MAX_OUTPUT));
+      const id = randomUUID();
+      const what = `${ledger.prefix} ${dev.lane} meta ${t.agentId} (${meta.model})`;
+      await ledger.reserve({ ts: new Date().toISOString(), id, kind: "reserve", what, usd: ceiling }, ledger.capUsd);
+      const res = await send(`${meta.baseUrl}/responses`, {
+        method: "POST",
+        headers: { authorization: `Bearer ${meta.apiKey}`, "content-type": "application/json", accept: "application/json, text/event-stream" },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(META_TIMEOUT_MS),
+      });
+      const text = await res.text();
+      logRow.httpStatus = res.status;
+      logRow.contentType = res.headers.get("content-type");
+      if (!res.ok) {
+        // An HTTP refusal is not billed: the reservation is corrected to nothing.
+        await ledger.settle({ ts: new Date().toISOString(), id: randomUUID(), kind: "settle", ref: id, what, usd: -ceiling });
+        return { ok: false as const, status: res.status, text };
+      }
+      const r = metaBody(text);
+      const tin = r.usage?.input_tokens;
+      const tout = r.usage?.output_tokens;
+      const actual = tin !== undefined && tout !== undefined ? metaUsd(meta.model, tin, tout) : ceiling;
+      await ledger.settle({ ts: new Date().toISOString(), id: randomUUID(), kind: "settle", ref: id, what, usd: round6(actual - ceiling) });
+      logRow.usage = { model: meta.model, tokensIn: tin ?? null, tokensOut: tout ?? null, usdCeiling: ceiling, usdActual: tin !== undefined ? round6(actual) : null };
+      return { ok: true as const, r };
+    };
+    try {
+      let out = await post(this.metaFlat);
+      // Studio's schemas first; a refusal that names the schema sends them flattened from then on.
+      if (!out.ok && out.status === 400 && !this.metaFlat && /schema|parameters|tool|anyOf|\$ref|\$defs/i.test(out.text)) {
+        logRow.firstRefusal = out.text.slice(0, 300);
+        this.metaFlat = true;
+        out = await post(true);
+      }
+      if (!out.ok) throw new Error(`Meta answered ${out.status}: ${out.text.slice(0, 300)}`);
+      const reply = fromMetaResponse(out.r, meta.model, repairArgs);
+      Object.assign(logRow, { ok: true, ms: Date.now() - t0, status: out.r.status, toolUses: reply.output.filter((o) => o.type === "function_call").map((o) => ({ name: (o as { name: string }).name, input: (o as { arguments: string }).arguments.slice(0, 400) })), text: reply.output.filter((o) => o.type === "message").map((o) => JSON.stringify(o).slice(0, 600)).join(" ") });
+      return reply;
+    } catch (e) {
+      Object.assign(logRow, { ok: false, ms: Date.now() - t0, error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
+      if (e instanceof AgentCapExceeded || e instanceof SpendCapExceeded) throw limit(429, "agent_budget", "budget", locale);
+      throw new ServiceError(502, "model_failed", "The live AI did not answer. Try again, or use the quick questions.");
+    } finally {
+      appendFileSync(dev.callsLog, JSON.stringify(logRow) + "\n");
+    }
+  }
 }
+
+// ---------------------------------------------------------------- variant D: Meta Muse Spark
+
+/** Output allowance of a Muse Spark turn: its reasoning counts against it too. */
+const META_MAX_OUTPUT = 2000;
+const META_TIMEOUT_MS = 120_000;
+
+export class MetaCapExceeded extends Error {}
 
 function countLines(file: string, lane: string): number {
   try {
@@ -427,6 +525,7 @@ export async function getAgentService(): Promise<AgentService> {
     hashIp: (ip) => svc.hashIp(ip),
     now: () => svc.now(),
     client: agentLive(env) ? () => bedrockClient() : null,
+    meta: agentMetaFrom(env),
     limits: agentLimitsFrom(env),
     models: agentModelsFrom(env),
     dev: agentDevFrom(env),

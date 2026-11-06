@@ -4,6 +4,9 @@
 //   A  Nova Lite everywhere, the model picks every tool
 //   B  Nova Pro for our `ledger` agent, Lite for Studio's `data` agent
 //   C  Nova Lite, the book's code routes a question it recognises before the model's first turn
+//   D  Meta Muse Spark 1.3 (Responses API) for both agents, routing as A unless --route code. The key comes
+//      only through the campaign's Meta wrapper script (tools/p3), money goes to eval/meta-spend-ledger.jsonl
+//      and never over $1 in all
 //
 // Each run starts its own `next dev` (and stops it), so the limits are the server's, not a promise:
 //   --live       real Nova through ../tools/p3/withp3.sh; needs --max-calls and --max-usd. The server
@@ -18,6 +21,7 @@
 //   npx tsx scripts/agent-measure.ts --mode C --live --max-calls 20 --max-usd 0.02
 //   npx tsx scripts/agent-measure.ts --mode A --sim
 //   npx tsx scripts/agent-measure.ts --mode A --set r1-lite
+//   npx tsx scripts/agent-measure.ts --mode D --live --max-calls 30 --max-usd 1
 
 import { chromium } from "@playwright/test";
 import { spawn, type ChildProcess } from "node:child_process";
@@ -25,6 +29,7 @@ import { closeSync, existsSync, mkdirSync, openSync, readFileSync, writeFileSync
 import path from "node:path";
 import closed from "../tests/fixtures/drives/closed.json";
 import { evalQuestions, scoreAnswer } from "../eval/agent/questions";
+import { META_PRICES, metaUsd } from "../src/agent/meta-wire";
 import { novaUsd } from "../src/receipts/spend";
 import type { DriveView } from "../src/ui/types";
 import { runPage, type PageRun } from "./agent-browser";
@@ -32,6 +37,9 @@ import { runPage, type PageRun } from "./agent-browser";
 const ROOT = path.resolve(__dirname, "..");
 const CAMPAIGN = path.resolve(ROOT, "..");
 const LEDGER = path.join(ROOT, "eval", "spend-ledger.jsonl");
+const META_LEDGER = path.join(ROOT, "eval", "meta-spend-ledger.jsonl");
+/** NM10, 06.11: Meta's credits; past them the card is charged. */
+const ALL_META_USD = 1;
 const CALLS_LOG = path.join(CAMPAIGN, "docs", "nadya", "p3-agent", "live-calls.jsonl");
 /** NM10, 06.11: every "agent-dev" entry together stays under this. */
 const ALL_DEV_USD = 0.2;
@@ -41,7 +49,7 @@ const arg = (name: string) => {
   const i = process.argv.indexOf(name);
   return i > 0 ? process.argv[i + 1] : undefined;
 };
-const mode = (arg("--mode") ?? "A").toUpperCase() as "A" | "B" | "C";
+const mode = (arg("--mode") ?? "A").toUpperCase() as "A" | "B" | "C" | "D";
 const live = process.argv.includes("--live");
 const sim = process.argv.includes("--sim");
 const only = arg("--only")?.split(",");
@@ -51,13 +59,14 @@ const maxUsd = Number(arg("--max-usd") ?? "NaN");
 const set = arg("--set") ?? (sim ? `sim-${mode}` : mode);
 const base = `http://localhost:${port}`;
 
-if (!["A", "B", "C"].includes(mode)) throw new Error("--mode A|B|C");
+if (!["A", "B", "C", "D"].includes(mode)) throw new Error("--mode A|B|C|D");
 if (live && sim) throw new Error("--live or --sim, not both");
 if (live && !(maxCalls > 0 && maxUsd > 0)) throw new Error("--live needs --max-calls N and --max-usd X");
 
-/** What all "agent-dev" entries of the file ledger add up to. */
-function devSpent(): number {
-  return readFileSync(LEDGER, "utf8")
+/** What all "agent-dev" entries of a file ledger add up to. */
+function devSpent(file = LEDGER): number {
+  if (!existsSync(file)) return 0;
+  return readFileSync(file, "utf8")
     .split("\n")
     .filter(Boolean)
     .map((l) => JSON.parse(l) as { what: string; usd: number })
@@ -77,7 +86,7 @@ function laneCalls(lane: string): { n: number; usd: number } {
 
 async function startServer(env: NodeJS.ProcessEnv, logFile: string): Promise<ChildProcess> {
   const out = openSync(logFile, "a");
-  const cmd = live ? path.join(CAMPAIGN, "tools", "p3", "withp3.sh") : "npx";
+  const cmd = live ? path.join(CAMPAIGN, "tools", "p3", mode === "D" ? "with-meta-nadya.sh" : "withp3.sh") : "npx";
   const args = live ? ["npx", "next", "dev", "-p", String(port)] : ["next", "dev", "-p", String(port)];
   const child = spawn(cmd, args, { cwd: ROOT, env, detached: true, stdio: ["ignore", out, out] });
   closeSync(out);
@@ -103,15 +112,16 @@ function stopServer(child: ChildProcess | null) {
   }
 }
 
+const priced = (model: string, i: number, o: number) => (META_PRICES[model] ? metaUsd(model, i, o) : novaUsd(model, i, o));
 const usdOf = (turns: { response: { model?: string; usage?: { inputTokens: number; outputTokens: number } } }[]) =>
-  turns.reduce((s, t) => (t.response.model && t.response.model !== "simulated" && t.response.usage ? s + novaUsd(t.response.model, t.response.usage.inputTokens, t.response.usage.outputTokens) : s), 0);
+  turns.reduce((s, t) => (t.response.model && t.response.model !== "simulated" && t.response.usage ? s + priced(t.response.model, t.response.usage.inputTokens, t.response.usage.outputTokens) : s), 0);
 
 async function main() {
   const questions = evalQuestions(closed as unknown as DriveView).filter((q) => !only || only.includes(q.id));
   const recDir = path.join(ROOT, "eval", "agent", "recorded", set);
   const stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15);
   const lane = `measure-${mode}-${stamp}`;
-  const routing = mode === "C" ? "code" : "model";
+  const routing = arg("--route") === "code" || (mode === "C" && arg("--route") !== "model") ? "code" : "model";
   const logFile = path.join(ROOT, ".data", `measure-${mode}-${stamp}.log`);
   mkdirSync(path.dirname(logFile), { recursive: true });
 
@@ -133,7 +143,13 @@ async function main() {
       AGENT_MODEL_LEDGER: mode === "B" ? "pro" : "lite",
       AGENT_MODEL_DATA: "lite",
     });
-    console.log(`live ${mode}: lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all agent-dev entries under $${ceiling.toFixed(4)}; now $${devSpent().toFixed(6)})`);
+    if (mode === "D") {
+      const metaCeiling = Math.min(ALL_META_USD, devSpent(META_LEDGER) + maxUsd);
+      Object.assign(env, { AGENT_PROVIDER: "meta", VAULT_EGRESS_OK: "api.meta.ai", AGENT_DEV_META_LEDGER: META_LEDGER, AGENT_DEV_META_MAX_USD: metaCeiling.toFixed(6) });
+      console.log(`live D (Meta): lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all Meta entries under $${metaCeiling.toFixed(4)}; now $${devSpent(META_LEDGER).toFixed(6)})`);
+    } else {
+      console.log(`live ${mode}: lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all agent-dev entries under $${ceiling.toFixed(4)}; now $${devSpent().toFixed(6)})`);
+    }
   } else if (!sim && !existsSync(recDir)) {
     throw new Error(`no recordings in ${recDir}`);
   }
@@ -192,7 +208,7 @@ async function main() {
   const usd = rows.reduce((s, r) => s + (r.usd as number), 0);
   const summary = { mode, routing, source: live ? "live" : sim ? "simulated" : `replay of ${set}`, at: new Date().toISOString(), right, of: rows.length, calls, usd: Number(usd.toFixed(6)), avgCalls: rows.length ? Number((calls / rows.length).toFixed(2)) : 0, avgUsd: rows.length ? Number((usd / rows.length).toFixed(6)) : 0, lane: live ? lane : null, serverCalls: live ? laneCalls(lane) : null, rows };
   if (live || sim) writeFileSync(path.join(ROOT, "eval", "agent", `results-${set}.json`), JSON.stringify(summary, null, 2) + "\n");
-  console.log(`\n${mode} (${summary.source}): RIGHT ${right} of ${rows.length}; calls ${calls} (avg ${summary.avgCalls}); $${summary.usd} (avg $${summary.avgUsd})${live ? `; server booked ${JSON.stringify(summary.serverCalls)}; all agent-dev now $${devSpent().toFixed(6)}` : ""}`);
+  console.log(`\n${mode} (${summary.source}): RIGHT ${right} of ${rows.length}; calls ${calls} (avg ${summary.avgCalls}); $${summary.usd} (avg $${summary.avgUsd})${live ? `; server booked ${JSON.stringify(summary.serverCalls)}; all agent-dev now $${devSpent().toFixed(6)}; Meta now $${devSpent(META_LEDGER).toFixed(6)}` : ""}`);
 }
 
 void main().catch((e) => {
