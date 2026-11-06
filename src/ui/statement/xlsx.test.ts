@@ -41,6 +41,12 @@ describe("buildStatementXlsx: the package", () => {
     expect(s).toContain("ABC\u{1F600}");
   });
 
+  it("takes the drive's display title when given", () => {
+    const t = buildStatementXlsx(lenaStatement, { generatedAt: GENERATED, driveTitle: "Kitasora Community Shelter — Earthquake relief" });
+    const x = new TextDecoder().decode(readZip(t).find((f) => f.name === "xl/worksheets/sheet1.xml")!.data);
+    expect(x).toContain("Kitasora Community Shelter — Earthquake relief");
+  });
+
   it("keeps a formula-looking item as text, never as a formula", () => {
     expect(sheet).not.toContain("<f>");
     expect(sheet).toContain("=HYPERLINK(&quot;http://evil.example&quot;)");

@@ -90,6 +90,8 @@ function stylesXml(pledgeCur: string, baseCur: string): string {
 export interface XlsxOptions {
   /** Stamp on the sheet and the zip entries. Default: now. */
   generatedAt?: Date;
+  /** The drive's name as the screens show it; the statement itself carries only the raw title. */
+  driveTitle?: string;
 }
 
 /** The pledge id made safe for a file name on any system. */
@@ -107,7 +109,7 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
 
   rows.push([{ v: "Pledge-as-Spent — donor statement", s: S.title }]);
   const info = (label: string, v: string | number, s: number = S.plain): void => void rows.push([{ v: label, s: S.label }, { v, s }]);
-  info("Drive", drive.title);
+  info("Drive", opts.driveTitle ?? drive.title);
   info("Donor", st.donorName);
   info("Pledge", st.pledgeId, S.text);
   info("Hold at PayPal", st.balance.authorizationId ?? "none yet", S.text);

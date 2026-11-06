@@ -10,6 +10,7 @@ import { day, itemPhrase, lineRange, money, pct, rateText, titleParts } from "./
 import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
+import { StatementActions } from "./statement/Actions";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
 
@@ -69,7 +70,7 @@ function WithDrive({ data, reload }: { data: StatementView; reload: () => Promis
   return (
     <>
       <StaleData error={d.error} retry={d.refresh} />
-      <Page view={d.view} st={data.statement} following={d.following} follow={d.follow} refresh={d.refresh} />
+      <Page view={d.view} st={data.statement} data={data} following={d.following} follow={d.follow} refresh={d.refresh} />
     </>
   );
 }
@@ -141,7 +142,7 @@ function holdFate(view: DriveView, st: Statement): string {
   return reauthorized(view, b.pledgeId) ? `re-authorized, expires ${expires}` : `expires ${expires}`;
 }
 
-function Page({ view, st, following, follow, refresh }: { view: DriveView; st: Statement; following: boolean; follow: (ms?: number) => void; refresh: () => Promise<unknown> }) {
+function Page({ view, st, data, following, follow, refresh }: { view: DriveView; st: Statement; data: StatementView; following: boolean; follow: (ms?: number) => void; refresh: () => Promise<unknown> }) {
   const { head, tail } = titleParts(view.drive.displayTitle);
   const b = st.balance;
   const a = holdAmounts(b);
@@ -323,6 +324,8 @@ function Page({ view, st, following, follow, refresh }: { view: DriveView; st: S
           </div>
         </section>
       )}
+
+      <StatementActions data={data} view={view} />
 
       <Link className={s.back} href={roleHref(view.drive.id, "donor")}>
         Back to the drive

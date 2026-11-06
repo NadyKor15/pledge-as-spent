@@ -28,7 +28,7 @@ export interface PrintModel {
 }
 
 /** What the printed statement shows, as strings: one place decides the words and the money formats. */
-export function printModel(view: StatementView): PrintModel {
+export function printModel(view: StatementView, opts: { driveTitle?: string } = {}): PrintModel {
   const { statement: st, drive } = view;
   const cur = st.currency;
   const base = st.baseCurrency;
@@ -59,7 +59,7 @@ export function printModel(view: StatementView): PrintModel {
   if (st.totals.matchBase > 0) totals.push({ label: "Match unlocked", value: money(base, st.totals.matchBase), strong: false });
   totals.push({ label: "Help bought, total", value: money(base, st.totals.helpBase), strong: true });
   return {
-    driveTitle: drive.title,
+    driveTitle: opts.driveTitle ?? drive.title,
     donor: st.donorName,
     pledgeId: st.pledgeId,
     holdId: b.authorizationId,

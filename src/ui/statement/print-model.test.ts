@@ -13,6 +13,10 @@ describe("printModel", () => {
     expect(m.holdExpires).toBe("30 Nov 2026");
   });
 
+  it("takes the drive's display title when the screen has it", () => {
+    expect(printModel(lenaStatement, { driveTitle: "Kitasora Community Shelter — Earthquake relief" }).driveTitle).toBe("Kitasora Community Shelter — Earthquake relief");
+  });
+
   it("shows receipt lines relative to the drive and money in both currencies", () => {
     expect(m.rows[0]).toMatchObject({ line: "r1 · 1", item: "Drinking water 2 L", qty: "6 × bottle 2 L", share: "€2.46", match: "¥399", captureId: "3WP65983GD053501C" });
     expect(m.rows[3]).toMatchObject({ line: "r2 · 1", status: "Not collected", note: "hold_expired", captureId: null });
