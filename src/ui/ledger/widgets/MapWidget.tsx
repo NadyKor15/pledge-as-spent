@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import type { LedgerDonor } from "../derive";
 import land from "../land.json";
 import { landPath, planMap, type Arc, type PlacedDonor } from "../layout";
+import { WORDS } from "../i18n";
 import { focusOf, type LedgerContext, type Pick } from "../store";
 import { useWidget } from "./useWidget";
 
@@ -85,8 +86,8 @@ function fitting(widths: number[], room: number) {
 }
 
 /** Donors with no room on the map, in one line: as many as fit, and an honest count of the rest. */
-function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; width: number; selected: Pick | null; press: (pick: Pick) => void }) {
-  const text = (d: LedgerDonor) => `${d.spentText} ${d.spentWord} · ${d.restText} ${d.restWord}`;
+function Listed({ donors, width, selected, press, more: moreText }: { donors: LedgerDonor[]; width: number; selected: Pick | null; press: (pick: Pick) => void; more: (n: number) => string }) {
+  const text = (d: LedgerDonor) => `${d.spentText} ${d.words?.spent ?? d.spentWord} · ${d.restText} ${d.words?.rest ?? d.restWord}`;
   const room = width - LISTED_LEFT - 90;
   const shown = donors.slice(0, fitting(donors.map((d) => (d.label.length + text(d).length + 1) * 6.5 + 14), room));
   const more = donors.length - shown.length;
@@ -99,14 +100,14 @@ function Listed({ donors, width, selected, press }: { donors: LedgerDonor[]; wid
           </button>
         </li>
       ))}
-      {more > 0 && <li className="lg-more">+{more} more</li>}
+      {more > 0 && <li className="lg-more">{moreText(more)}</li>}
     </ul>
   );
 }
 
 function describe(p: PlacedDonor) {
   const d = p.donor;
-  return `${d.label}: ${d.spentText} ${d.spentWord}, ${d.restText} ${d.restWord}`;
+  return `${d.label}: ${d.spentText} ${d.words?.spent ?? d.spentWord}, ${d.restText} ${d.words?.rest ?? d.restWord}`;
 }
 
 export function MapWidget(params: AgWidgetParams) {
@@ -128,6 +129,7 @@ export function MapWidget(params: AgWidgetParams) {
 
   const plan = useMemo(() => (width && height ? planMap(snap.model.donors, { width, height, compact }) : null), [snap.model.donors, width, height, compact]);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
+  const w = WORDS[snap.lang];
 
   return (
     <div className="lg-map" ref={root} data-phase={snap.model.phase}>
@@ -175,14 +177,14 @@ export function MapWidget(params: AgWidgetParams) {
           })}
         </div>
       )}
-      {plan && plan.listed.length > 0 && !compact && <Listed donors={plan.listed} width={width} selected={snap.selected} press={store.toggle} />}
+      {plan && plan.listed.length > 0 && !compact && <Listed donors={plan.listed} width={width} selected={snap.selected} press={store.toggle} more={w.more} />}
       <span className="lg-links">
         <button type="button" onClick={store.replay}>
-          Replay
+          {w.replay}
         </button>
         {snap.stale && (
           <button type="button" onClick={store.refresh}>
-            Refresh
+            {w.refresh}
           </button>
         )}
       </span>

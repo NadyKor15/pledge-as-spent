@@ -1,17 +1,34 @@
 "use client";
 
-import type { AgWidgetField } from "ag-studio";
+import { AG_GRID_LOCALE_DE, AG_GRID_LOCALE_EN, AG_GRID_LOCALE_JP } from "@ag-grid-community/locale";
+import { AG_STUDIO_LOCALE_DE, AG_STUDIO_LOCALE_EN, AG_STUDIO_LOCALE_JP } from "ag-studio-locale";
 import { AgStudio, AgStudioProvider, createWidgets } from "ag-studio-react";
-import type { GridApi } from "ag-grid-community";
-import type { CustomCellRendererProps } from "ag-grid-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { money } from "../format";
+import { moneyIn, type Lang } from "../format";
+import { bookCells } from "./cells";
 import { deriveLedger, type LedgerModel } from "./derive";
+import { LANG_TAG, parseLang, WORDS } from "./i18n";
+import { LangSwitch, writeLangToUrl } from "./LangSwitch";
 import "./ledger.css";
 import { LedgerStore, linesOf } from "./store";
-import { DONORS_WIDGET, FOOTER_WIDGET, ledgerData, ledgerState, MAP_WIDGET, NEED_FIELD, NOTE_WIDGET, ORDER_FIELD, SHELTER_WIDGET, WHAT_FIELD, type Metrics } from "./studio-state";
+import {
+  ASK_WIDGET,
+  BOOK_HEAD_WIDGET,
+  BOOK_ROW_PX,
+  DONORS_WIDGET,
+  FOOTER_WIDGET,
+  ledgerData,
+  ledgerState,
+  MAP_WIDGET,
+  NOTE_WIDGET,
+  PHONE_BOOK_ROW_PX,
+  SHELTER_WIDGET,
+  type Metrics,
+} from "./studio-state";
 import { ledgerTheme } from "./theme";
 import type { DriveView } from "../types";
+import { AskSlotWidget } from "./widgets/AskSlotWidget";
+import { BookHeadWidget } from "./widgets/BookHeadWidget";
 import { DonorsWidget } from "./widgets/DonorsWidget";
 import { FooterWidget } from "./widgets/FooterWidget";
 import { MapWidget } from "./widgets/MapWidget";
@@ -21,86 +38,26 @@ import { ShelterWidget } from "./widgets/ShelterWidget";
 const noForm = (params: { createDefaults: (p: { dataMappingItems: never[] }) => never }) => params.createDefaults({ dataMappingItems: [] });
 const SIZE = { width: 4, height: 4 };
 
-// Share of the book's width and the least each column can do with. Studio's own auto-size gives
-// the free room to Line and leaves the items just wide enough, then redoes it on every filter.
-const COLUMNS: [id: string, share: number, least: number][] = [
-  ["book.line", 0.05, 56],
-  ["book.item", 0.25, 240],
-  ["book.need", 0.14, 130],
-  ["book.payer", 0.15, 150],
-  ["book.share", 0.07, 80],
-  ["book.charged", 0.08, 90],
-  ["book.capture", 0.16, 190],
-  ["book.status", 0.1, 100],
-];
+/** Studio's own words and its grid's, in the book's language (only these three are imported). */
+const STUDIO_LOCALE: Record<Lang, Record<string, string>> = { en: AG_STUDIO_LOCALE_EN, de: AG_STUDIO_LOCALE_DE, ja: AG_STUDIO_LOCALE_JP };
+const GRID_LOCALE: Record<Lang, Record<string, string>> = { en: AG_GRID_LOCALE_EN, de: AG_GRID_LOCALE_DE, ja: AG_GRID_LOCALE_JP };
 
-const PHONE_COLUMNS: typeof COLUMNS = [
-  ["book.what", 0.37, 130],
-  ["book.who", 0.2, 70],
-  ["book.much", 0.24, 84],
-  ["book.state", 0.19, 66],
-];
-
-const listening = new WeakSet<GridApi>();
-const queued = new WeakSet<GridApi>();
-
-/** Puts the columns back at their shares, at most once a frame. Studio sizes them again after each refresh. */
-function holdColumns(api: GridApi, grid: Element) {
-  if (queued.has(api)) return;
-  queued.add(api);
-  requestAnimationFrame(() => {
-    queued.delete(api);
-    const width = grid.clientWidth;
-    if (api.isDestroyed() || !width) return;
-    const target = (api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS).map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
-    const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
-    if (off) api.setColumnWidths(target, true);
-    if (api.getColumn(ORDER_FIELD)?.isVisible()) api.setColumnsVisible([ORDER_FIELD], false);
-  });
+/** One set of widgets per store and language: the book's cells read that store, its grid speaks that language. */
+function widgetsFor(store: LedgerStore, lang: Lang) {
+  // Our widget ids are not in Studio's default registry, whose type this argument expects.
+  return createWidgets({
+    overrides: [{ id: "grid", options: { localeText: GRID_LOCALE[lang], createCellRenderer: bookCells(store) } }],
+    additionalTypes: [
+      { id: MAP_WIDGET, label: "Money map", comp: MapWidget, form: noForm, defaultSize: SIZE, minSize: SIZE, dataMapping: { lineKey: { type: "field", supportedRoles: ["category"] } } },
+      { id: SHELTER_WIDGET, label: "Shelter", comp: ShelterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      { id: DONORS_WIDGET, label: "Donors", comp: DonorsWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      { id: FOOTER_WIDGET, label: "Bottom line", comp: FooterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      { id: NOTE_WIDGET, label: "Note", comp: NoteWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      { id: BOOK_HEAD_WIDGET, label: "The book", comp: BookHeadWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      { id: ASK_WIDGET, label: "Ask the book", comp: AskSlotWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+    ],
+  } as never);
 }
-
-function watchColumns(api: GridApi, grid: Element) {
-  if (listening.has(api)) return;
-  listening.add(api);
-  for (const event of ["storeRefreshed", "modelUpdated", "gridSizeChanged", "columnResized"] as const) api.addEventListener(event, () => holdColumns(api, grid));
-}
-
-/** The grid widget is flat, so a group shows as its first row: the need in bold, then its other lines. */
-function NeedCell({ api, node, column, value, eGridCell }: CustomCellRendererProps) {
-  const above = node.rowIndex ? api.getDisplayedRowAtIndex(node.rowIndex - 1) : undefined;
-  const first = !above || !column || above.data?.[column.getColId()] !== value;
-  useEffect(() => {
-    // The grid's root, not this cell: the cell leaves the page with the next filter, the root stays.
-    const grid = eGridCell.closest(".ag-root-wrapper");
-    if (!grid) return;
-    watchColumns(api, grid);
-    holdColumns(api, grid);
-  });
-  return <span className={first ? "lg-group" : "lg-group-more"}>{String(value ?? "")}</span>;
-}
-
-/** The phone's first column: its text is plain, and it is what keeps the columns at their shares there. */
-function WhatCell({ api, value, eGridCell }: CustomCellRendererProps) {
-  useEffect(() => {
-    const grid = eGridCell.closest(".ag-root-wrapper");
-    if (!grid) return;
-    watchColumns(api, grid);
-    holdColumns(api, grid);
-  });
-  return <span>{String(value ?? "")}</span>;
-}
-
-// Our widget ids are not in Studio's default registry, whose type this argument expects.
-const WIDGETS = createWidgets({
-  overrides: [{ id: "grid", options: { createCellRenderer: (f: AgWidgetField) => (f.fieldId === NEED_FIELD ? NeedCell : f.fieldId === WHAT_FIELD ? WhatCell : undefined) } }],
-  additionalTypes: [
-    { id: MAP_WIDGET, label: "Money map", comp: MapWidget, form: noForm, defaultSize: SIZE, minSize: SIZE, dataMapping: { lineKey: { type: "field", supportedRoles: ["category"] } } },
-    { id: SHELTER_WIDGET, label: "Shelter", comp: ShelterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
-    { id: DONORS_WIDGET, label: "Donors", comp: DonorsWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
-    { id: FOOTER_WIDGET, label: "Bottom line", comp: FooterWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
-    { id: NOTE_WIDGET, label: "Note", comp: NoteWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
-  ],
-} as never);
 
 // No side panels: in view mode the filters panel would otherwise open by itself.
 const PANELS = { view: { left: [], right: [] }, edit: { left: [], right: [] } };
@@ -118,10 +75,20 @@ const sizeKey = () => `${document.documentElement.clientWidth}x${window.innerHei
 
 /** The book's height: a header and up to this many rows, then it scrolls inside its own grid. */
 const BOOK_ROWS = 22;
-const bookHeight = (rows: number) => 60 + Math.min(rows, BOOK_ROWS) * 38;
+const bookHeight = (rows: number, stacked: boolean) => 60 + Math.min(rows, BOOK_ROWS) * (stacked ? PHONE_BOOK_ROW_PX : BOOK_ROW_PX);
+/** The proof band under a row: the rows below it move down this much (ledger.css --band-h). */
+export const BAND_PX = 132;
+export const PHONE_BAND_PX = 252;
+const bandHeight = (stacked: boolean) => (stacked ? PHONE_BAND_PX : BAND_PX);
+/** "The book" over it, in pixels at scale 1. */
+const BOOK_HEAD_PX = 60;
+/** The assistant's chat over the book, in pixels at scale 1; the assistant's lane sizes its widget to this. */
+export const ASK_PX = 460;
+export const PHONE_ASK_PX = 560;
 
-function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean }): Metrics {
-  const bookRows = (rowHeight: number) => Math.ceil(bookHeight(counts.book) / rowHeight);
+function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
+  // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
+  const bookRows = (rowHeight: number) => Math.ceil((bookHeight(counts.book, stacked) + bandHeight(stacked)) / rowHeight);
   if (stacked) {
     const rowHeight = 10;
     const rows = {
@@ -133,6 +100,8 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       shelter: Math.ceil((112 + counts.needs * 104) / rowHeight),
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
       footer: 13,
+      ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
+      head: Math.ceil(BOOK_HEAD_PX / rowHeight),
       book: bookRows(rowHeight),
     };
     return { rowHeight, stacked, scale: 1, rows };
@@ -140,10 +109,15 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
   const rowHeight = 10 * scale;
   // The line under Spent takes its height from the map, so the page stays one screen tall.
   const note = counts.waiting ? 3 : 0;
-  return { rowHeight, stacked, scale, rows: { kpi: 19 + note, pair: 0, match: 4, note, map: 56 - note, shelter: 56 - note, donors: 0, footer: 9, book: bookRows(rowHeight) } };
+  return {
+    rowHeight,
+    stacked,
+    scale,
+    rows: { kpi: 19 + note, pair: 0, match: 4, note, map: 56 - note, shelter: 56 - note, donors: 0, footer: 9, ask: counts.ask ? Math.ceil(ASK_PX / 10) : 0, head: Math.ceil(BOOK_HEAD_PX / 10), book: bookRows(rowHeight) },
+  };
 }
 
-function useMetrics(stacked: boolean, model: LedgerModel): Metrics {
+function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean): Metrics {
   const size = useSyncExternalStore(subscribeSize, sizeKey, () => `${REF_W}x${REF_H}`);
   const [w, h] = size.split("x").map(Number);
   // The composition keeps its proportions: narrower or shorter windows scale it, in steps
@@ -155,18 +129,21 @@ function useMetrics(stacked: boolean, model: LedgerModel): Metrics {
   const book = model.book.length;
   const waiting = model.waitingNote !== null;
   const rest = model.restNote !== null;
-  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book, waiting, rest }), [stacked, width, scale, needs, donors, book, waiting, rest]);
+  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book, waiting, rest, ask }), [stacked, width, scale, needs, donors, book, waiting, rest, ask]);
 }
 
-/** Page height in tracks, without the book: the report never scrolls inside itself. */
+/** Page height in tracks, without the book: the report never scrolls inside itself. The assistant's chat is part of it. */
 function bodyRows(m: Metrics, matched: boolean) {
   const r = m.rows;
-  return m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer;
+  return (m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer) + r.ask;
 }
 
 function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerModel, run: number, layoutKey: string) {
   const { promised, spent, rest, baseCurrency } = model;
+  const lang = model.lang ?? "en";
   useEffect(() => {
+    // The totals as the value widgets print them, in the page's language.
+    const money = (currency: string, minor: number) => moneyIn(lang, currency, minor);
     const el = root.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const targets = [
@@ -211,35 +188,64 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
         delete n.dataset.counting;
       });
     };
-  }, [root, promised, spent, rest, baseCurrency, run, layoutKey]);
+  }, [root, promised, spent, rest, baseCurrency, run, layoutKey, lang]);
 }
+
+const langFromUrl = (): Lang => parseLang(new URLSearchParams(window.location.search).get("lang"));
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
 export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown> }) {
+  const [store] = useState(() => {
+    const lang = langFromUrl();
+    return new LedgerStore(deriveLedger(view, lang), view);
+  });
+  const lang = useSyncExternalStore(store.subscribe, () => store.get().lang);
   // The drive is re-read every few seconds after an action. The same figures must stay the same
   // object, or every read would rebuild Studio's data and start the count over.
-  const json = useMemo(() => JSON.stringify(deriveLedger(view)), [view]);
+  const json = useMemo(() => JSON.stringify(deriveLedger(view, lang)), [view, lang]);
   const model = useMemo(() => JSON.parse(json) as LedgerModel, [json]);
-  const [store] = useState(() => new LedgerStore(model));
   const run = useSyncExternalStore(store.subscribe, () => store.get().run);
   const bookOpen = useSyncExternalStore(store.subscribe, () => store.get().bookOpen);
   const selected = useSyncExternalStore(store.subscribe, () => store.get().selected);
-  const picked = selected ? linesOf(model, selected) : null;
-  const metrics = useMetrics(stacked, model);
+  const focus = useSyncExternalStore(store.subscribe, () => store.get().focus);
+  const proof = useSyncExternalStore(store.subscribe, () => store.get().proof);
+  const ask = useSyncExternalStore(store.subscribe, () => store.get().askComponent !== null);
+  const picked = focus ? focus.lineKeys : selected ? linesOf(model, selected) : null;
+  const metrics = useMetrics(stacked, model, ask);
   const root = useRef<HTMLDivElement>(null);
 
-  useEffect(() => store.setModel(model), [store, model]);
+  useEffect(() => {
+    store.setView(view);
+    store.setModel(model);
+  }, [store, view, model]);
+  // The store on the report's element, for the browser console and the end-to-end tests. It moves no money: every
+  // method changes what this page shows, and the data in it is what GET /api/drives already returns to anyone.
+  useEffect(() => {
+    const el = root.current as (HTMLDivElement & { ledgerStore?: LedgerStore }) | null;
+    if (!el) return;
+    el.ledgerStore = store;
+    return () => {
+      delete el.ledgerStore;
+    };
+  }, [store]);
   useEffect(() => {
     store.setRefresh(() => void refresh());
     store.setStale(stale);
   }, [store, stale, refresh]);
 
-  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}-${model.spentLabel}`;
+  const setLang = (next: Lang) => {
+    writeLangToUrl(next);
+    store.setLang(next);
+  };
+
+  // The language rebuilds Studio: its own words are read once (AG Studio 3.0.0, Localisation).
+  const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}-${model.spentLabel}-${lang}`;
   useCountUp(root, model, run, layoutKey);
 
-  const data = useMemo(() => ledgerData(model), [model]);
+  const widgets = useMemo(() => widgetsFor(store, lang), [store, lang]);
+  const data = useMemo(() => ledgerData(model, lang), [model, lang]);
   const context = useMemo(() => ({ store }), [store]);
-  const initialState = useMemo(() => ledgerState(model, metrics), [model, metrics]);
+  const initialState = useMemo(() => ledgerState(model, metrics, lang), [model, metrics, lang]);
 
   useEffect(() => {
     if (!bookOpen) return;
@@ -251,16 +257,26 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
   // edge and nothing else: Studio keeps its full height and is never told, so no widget rebuilds.
   // A filtered book is shorter than its widget: the frame ends with its last row.
   const body = bodyRows(metrics, model.matchName !== null) * metrics.rowHeight + 4;
-  const whole = body + metrics.rows.book * metrics.rowHeight;
+  const head = metrics.rows.head * metrics.rowHeight;
+  const whole = body + head + metrics.rows.book * metrics.rowHeight;
   const lines = picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length;
-  const height = body + (bookOpen ? bookHeight(lines) : 0);
+  const banded = proof !== null && model.book.some((r) => r.rowKey === proof && (!picked || picked.includes(r.lineKey)));
+  const height = body + (bookOpen ? head + bookHeight(lines, stacked) + (banded ? bandHeight(stacked) : 0) : 0);
+  const w = WORDS[lang];
 
   return (
-    <div className="lg-screen" ref={root} data-phase={model.phase} data-stacked={stacked} style={{ "--s": metrics.scale } as CSSProperties}>
+    <div
+      className="lg-screen"
+      ref={root}
+      lang={LANG_TAG[lang]}
+      data-phase={model.phase}
+      data-stacked={stacked}
+      style={{ "--s": metrics.scale, "--band-h": `${bandHeight(stacked)}px`, "--row-h": `${stacked ? PHONE_BOOK_ROW_PX : BOOK_ROW_PX}px` } as CSSProperties}
+    >
       <div className="lg-frame" data-book={bookOpen && lines > 0 ? "open" : "closed"} style={{ height }}>
         {bookOpen && lines === 0 && (
-          <p className="lg-nolines" style={{ top: body }}>
-            No lines yet
+          <p className="lg-nolines" style={{ top: body + head }}>
+            {w.noLines}
           </p>
         )}
         {stacked ? (
@@ -279,7 +295,8 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
               theme={ledgerTheme}
               data={data}
               context={context}
-              widgets={WIDGETS}
+              widgets={widgets}
+              localeText={STUDIO_LOCALE[lang]}
               initialState={initialState}
               mode="view"
               panels={PANELS}
@@ -287,6 +304,8 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
             />
           </div>
         </AgStudioProvider>
+        {/* After the report in the page's order: Tab walks the report first (judge's finding 17), then the language. */}
+        <LangSwitch lang={lang} onChange={setLang} />
       </div>
     </div>
   );

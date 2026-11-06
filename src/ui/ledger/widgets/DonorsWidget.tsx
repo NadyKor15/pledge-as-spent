@@ -1,6 +1,7 @@
 "use client";
 
 import type { AgWidgetParams } from "ag-studio";
+import { WORDS } from "../i18n";
 import { focusOf } from "../store";
 import { useWidget } from "./useWidget";
 
@@ -10,10 +11,11 @@ export function DonorsWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLElement>(params);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
   const closed = snap.model.phase === "closed";
+  const w = WORDS[snap.lang];
 
   return (
     <section className="lg-card lg-donors" ref={root}>
-      <h2>{closed ? "Back to donors" : "Held for donors"}</h2>
+      <h2>{closed ? w.backToDonors : w.heldForDonors}</h2>
       <ul>
         {snap.model.donors.map((d) => {
           const on = focus?.donors.has(d.pledgeId) ?? false;
@@ -29,10 +31,10 @@ export function DonorsWidget(params: AgWidgetParams) {
                 <span className="lg-who">{d.label}</span>
                 <span className="lg-sums">
                   <span className="lg-spent">
-                    <b>{d.spentText}</b> {d.spentWord}
+                    <b>{d.spentText}</b> {d.words?.spent ?? d.spentWord}
                   </span>
                   <span className={`lg-rest lg-rest-${d.restWord}`}>
-                    <b>{d.restText}</b> {d.restWord}
+                    <b>{d.restText}</b> {d.words?.rest ?? d.restWord}
                   </span>
                 </span>
               </button>

@@ -243,7 +243,9 @@ const book = (page: Page) => page.locator(".ag-root-wrapper");
 
 /**
  * Book cells whose text does not fit. An ellipsis hides from scrollWidth and from ranges, so each text
- * is measured on its own in the cell's font. `.ag-cell[data-control]` is the synthetic proof it can fail.
+ * is measured on its own in its own font. A cell of several lines (the receipt strip over the name, the
+ * label over a PayPal number) is measured line by line; a line that is meant to wrap (a refusal's reason)
+ * is left out. `.ag-cell[data-control]` is the synthetic proof it can fail.
  */
 const cutShort = (page: Page) =>
   page.evaluate(() => {
@@ -253,9 +255,16 @@ const cutShort = (page: Page) =>
     const out: string[] = [];
     for (const cell of document.querySelectorAll<HTMLElement>(".ag-cell")) {
       const style = getComputedStyle(cell);
-      probe.style.font = style.font;
-      probe.textContent = cell.textContent;
-      if (probe.getBoundingClientRect().width > cell.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) out.push(cell.textContent ?? "");
+      const room = cell.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const leaves = [...cell.querySelectorAll<HTMLElement>("*")].filter((e) => e.children.length === 0 && (e.textContent ?? "").trim() !== "" && !e.closest(".lg-band"));
+      for (const leaf of leaves.length ? leaves : [cell]) {
+        const own = getComputedStyle(leaf);
+        if (leaf !== cell && own.whiteSpace !== "nowrap") continue;
+        probe.style.font = own.font;
+        probe.style.letterSpacing = own.letterSpacing;
+        probe.textContent = leaf.textContent;
+        if (probe.getBoundingClientRect().width > room) out.push(leaf.textContent ?? "");
+      }
     }
     probe.remove();
     return out;
@@ -339,7 +348,7 @@ test("ledger: pressing a donor lights up what they paid for and filters the book
   await open.click();
   await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(20);
-  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Spent", "PayPal capture", "Status"]);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Receipt line", "Need", "Payer", "Share", "PayPal capture", "Status"]);
   await expect(page.locator(".ag-row").first()).toContainText("Spent");
 
   const lena = page.locator("button[data-donor=Lena]");
@@ -666,7 +675,7 @@ test("ledger, finding 5: two receipts with the same line keep both lines in the 
   await expect(page.getByRole("grid")).toHaveAttribute("aria-rowcount", "41");
   await page.locator("[data-need=water]").click();
   await expect(bookRows(page)).toHaveCount(12);
-  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Item", "Need", "Payer", "Share", "Spent", "PayPal capture", "Status"]);
+  await expect(page.locator(".ag-header-cell-text")).toHaveText(["Line", "Receipt line", "Need", "Payer", "Share", "PayPal capture", "Status"]);
 });
 
 test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ page }) => {

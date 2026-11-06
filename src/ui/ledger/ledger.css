@@ -5,7 +5,9 @@
   background: #FAF8F4; color: var(--ink);
 }
 html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
-.lg-frame { position: relative; width: 100%; max-width: calc(1440px * var(--s)); margin: 0 auto; overflow: hidden; }
+/* clip, not hidden: a frame that clips is no scroll container, so focusing or scrolling to a cell (a click, a test
+   runner's scrollIntoView) can never shift the whole report sideways inside it. */
+.lg-frame { position: relative; width: 100%; max-width: calc(1440px * var(--s)); margin: 0 auto; overflow: hidden; overflow: clip; }
 .lg-frame .ag-studio-layout { overflow: hidden; }
 .lg-frame .ag-studio-value-widget-content { font-variant-numeric: tabular-nums; }
 .lg-frame .ag-studio-value-widget-content[data-counting] { width: 100%; text-align: center; }
@@ -144,6 +146,85 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 [data-stacked="true"] .lg-csv { font-size: 12.5px; }
 [data-stacked="true"] .lg-sum { font-size: 13.5px; margin-top: 2px; }
 
+/* The book (PROOF-B): rows tall enough for a strip of the receipt over each line's name, inset from the page's edge
+   on a desktop. The grid sizes its columns to what is left (cells.tsx holdColumns reads the wrapper's width). */
+.lg-screen[data-stacked="false"] .lg-frame .ag-root-wrapper { margin: 0 calc(24px * var(--s)); width: auto !important; }
+.lg-frame .ag-row .ag-cell { display: flex; align-items: center; }
+.lg-frame .ag-cell .lg-line-no { font-variant-numeric: tabular-nums; }
+.lg-item { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-width: 0; line-height: 1.2; }
+.lg-item-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--ink); }
+.lg-strip { display: block; flex: none; border-radius: 3px; background-color: #EDEAE4; background-repeat: no-repeat; filter: grayscale(1) contrast(1.06); box-shadow: inset 0 0 0 1px rgba(40, 36, 28, .08); }
+.lg-mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14.5px; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.lg-faint { color: var(--muted); }
+.lg-capture { display: flex; flex-direction: column; justify-content: center; line-height: 1.25; }
+.lg-cap-label { font-size: 11px; color: var(--muted); letter-spacing: .01em; }
+.lg-status { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.lg-pill-status { display: inline-flex; align-items: center; height: 26px; padding: 0 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+.lg-tone-spent { background: #1F7A4D; color: #FFFFFF; }
+.lg-tone-refused { background: var(--refused); color: #FFFFFF; }
+.lg-tone-back { background: var(--back); color: #FFFFFF; }
+.lg-tone-waiting { background: #FBF0DA; color: var(--held-text); box-shadow: inset 0 0 0 1.5px var(--held); }
+.lg-reason { min-width: 0; color: var(--refused); font-size: 12.5px; line-height: 1.25; white-space: normal; }
+.lg-frame .ag-row { cursor: pointer; }
+
+/* The open proof: the row and its band are one card; the rows under it move down by the band's height. */
+.lg-frame .ag-row { transition: translate .2s ease-out; }
+.lg-frame .ag-row.lg-below { translate: 0 var(--band-h); }
+.lg-frame .ag-row.lg-proof-row { z-index: 3; background: #E8F2F0 !important; box-shadow: inset 0 0 0 1.5px var(--teal); border-radius: 12px 12px 0 0; }
+.lg-frame .ag-row.lg-proof-row::before { display: none; }
+.lg-frame .ag-row.lg-proof-row .ag-cell { overflow: visible; }
+/* The open row is already marked: the grid's own focus box on the pressed cell would be a second frame inside it. */
+.lg-frame .ag-row.lg-proof-row .ag-cell-focus:not(:focus-visible) { border-color: transparent !important; }
+.lg-band-wrap { position: absolute; z-index: 4; left: 0; top: calc(var(--row-h) - 1px); height: var(--band-h); cursor: default; }
+.lg-band { box-sizing: border-box; height: 100%; text-align: left; font-weight: 400; display: grid; grid-template-columns: minmax(0, 34fr) minmax(0, 31fr) minmax(0, 24fr) auto; align-items: center; gap: 0 22px; padding: 14px 20px 14px 22px; background: #FBFCFB; border: 1.5px solid var(--teal); border-top: 1px solid #CFE3DF; border-radius: 0 0 12px 12px; box-shadow: 0 8px 18px rgba(40, 36, 28, .08); color: var(--ink); line-height: 1.35; white-space: normal; }
+.lg-band > * + * { padding-left: 22px; border-left: 1px solid var(--line); align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.lg-band-receipt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.lg-strip-big { border-radius: 4px; }
+.lg-band-printed { font-size: 18px; }
+.lg-band-store { font-size: 13px; color: #4A5160; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lg-band-sentence { font-size: 15px; font-weight: 600; line-height: 1.4; }
+.lg-band-paypal { font-size: 13px; gap: 1px; }
+.lg-band-paypal .lg-mono { font-size: 13.5px; }
+.lg-band-paypal .lg-cap-label + .lg-mono + .lg-cap-label { margin-top: 8px; }
+.lg-band-acts { flex-direction: row !important; align-items: center; gap: 8px; border-left: 0 !important; padding-left: 0 !important; }
+.lg-ask-line { height: 40px; padding: 0 18px; border-radius: 10px; border: 1.5px solid var(--teal); color: var(--teal); font-size: 15px; font-weight: 600; white-space: nowrap; background: #FFFFFF; }
+.lg-ask-line:hover { background: #EEF6F4; }
+.lg-band-close { width: 30px; height: 30px; border-radius: 999px; color: var(--muted); font-size: 20px; line-height: 1; }
+.lg-band-close:hover { background: #EFEBE4; }
+[data-stacked="true"] .lg-band { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto auto; gap: 10px 10px; padding: 12px 14px; }
+[data-stacked="true"] .lg-band > * + * { padding-left: 0; border-left: 0; }
+[data-stacked="true"] .lg-band-receipt { grid-column: 1 / -1; }
+[data-stacked="true"] .lg-band-sentence { grid-column: 1 / -1; font-size: 14px; }
+[data-stacked="true"] .lg-band-paypal { grid-column: 1; }
+[data-stacked="true"] .lg-band-acts { grid-column: 2; align-self: end; flex-direction: column !important; align-items: flex-end; }
+[data-stacked="true"] .lg-ask-line { height: 36px; padding: 0 12px; font-size: 13.5px; }
+[data-stacked="true"] .lg-item-name { font-size: 14px; }
+[data-stacked="true"] .lg-pill-status { height: 24px; padding: 0 9px; font-size: 12px; }
+
+/* The assistant's narrowing (ASK-B2): the lines it named, tinted, and a chip over the book that undoes it. */
+.lg-frame .ag-row.lg-focused:not(.lg-proof-row) { background: #EEF6F0; }
+.lg-book-head { position: absolute; inset: 0; display: flex; align-items: center; gap: 18px; padding: 8px calc(24px * var(--s)) 0; }
+.lg-book-head h2 { font-size: calc(26px * var(--s)); font-weight: 700; letter-spacing: -.02em; }
+[data-stacked="true"] .lg-book-head { padding: 6px 12px 0; }
+[data-stacked="true"] .lg-book-head h2 { font-size: 21px; }
+.lg-chip { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 6px 0 16px; border-radius: 999px; background: #E3F0EE; color: var(--ink); font-size: 14px; white-space: nowrap; overflow: hidden; }
+.lg-chip button { width: 26px; height: 26px; border-radius: 999px; color: #2C5F5B; font-size: 18px; line-height: 1; }
+.lg-chip button:hover { background: #CFE5E1; }
+.lg-ask-slot { position: absolute; inset: 0; }
+
+/* EN · DE · JA, over the report's corner. */
+.lg-lang { position: absolute; z-index: 5; top: calc(8px * var(--s)); right: calc(12px * var(--s)); display: flex; align-items: center; font-size: 13px; color: var(--muted); }
+.lg-lang button { padding: 3px 4px; border-radius: 5px; color: var(--muted); font-weight: 500; }
+.lg-lang button[aria-pressed="true"] { color: var(--teal); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+[data-stacked="true"] .lg-lang { top: 6px; right: 10px; }
+
+/* A row PayPal just moved: green when it took the money, blue when it gave it back. Reduced motion keeps the tint
+   still for the length of the flash (the store ends it). */
+.lg-frame .ag-row.lg-flash-spent { animation: lg-flash-spent 2.4s ease-out; }
+.lg-frame .ag-row.lg-flash-back { animation: lg-flash-back 2.4s ease-out; }
+@keyframes lg-flash-spent { 0%, 25% { background-color: rgba(47, 133, 90, .34); } 100% { background-color: transparent; } }
+@keyframes lg-flash-back { 0%, 25% { background-color: rgba(10, 116, 201, .30); } 100% { background-color: transparent; } }
+
 @keyframes lg-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes lg-fade { from { opacity: 0; } }
 @keyframes lg-grow { from { transform: scaleX(0); } }
@@ -156,4 +237,6 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 @media (prefers-reduced-motion: reduce) {
   .lg-screen *, .lg-screen *::before, .lg-screen *::after { animation: none !important; transition: none !important; }
   .lg-arc .lg-part { display: none; }
+  .lg-frame .ag-row.lg-flash-spent { background-color: rgba(47, 133, 90, .18); }
+  .lg-frame .ag-row.lg-flash-back { background-color: rgba(10, 116, 201, .16); }
 }
