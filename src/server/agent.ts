@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { appendFileSync, readFileSync } from "node:fs";
 import { ConverseCommand, type ContentBlock, type ConverseCommandOutput, type Message, type SystemContentBlock, type Tool, type ToolConfiguration } from "@aws-sdk/client-bedrock-runtime";
-import { and, eq, gt, like, notLike, sql } from "drizzle-orm";
+import { and, eq, gt, gte, like, lt, notLike, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { agentQuestions, spendLedger } from "../db/schema";
 import { novaToolSpec } from "../agent/flatten";
@@ -347,19 +347,32 @@ export class AgentService {
     const chars = JSON.stringify(request.system).length + JSON.stringify(request.messages).length + JSON.stringify(request.toolConfig ?? {}).length;
     const estimate = tokensOf(chars);
 
-    // Count the call against the question first: a call that fails still counted.
+    // Count the call against the question first: a call that fails still counted. The check and the count are one
+    // conditional UPDATE, so turns sent at once cannot all pass the check before any of them is counted.
     const now = this.d.now();
     const since = new Date(Date.parse(now) - this.limits.questionTtlMinutes * 60_000).toISOString();
-    const [q] = await this.d.db.select().from(agentQuestions).where(eq(agentQuestions.id, t.questionId));
-    if (!q) throw new ServiceError(404, "unknown_question", "No such question; ask again.");
-    // A question's calls belong to the address that asked: an id seen elsewhere spends nothing.
-    if (q.ipHash !== this.d.hashIp(ip)) throw new ServiceError(403, "question_other_address", "This question was asked from another network; ask again.");
-    if (Date.parse(q.ts) < Date.parse(since)) throw new ServiceError(410, "question_expired", "This question is too old; ask again.");
-    if (q.calls >= this.limits.callsPerQuestion || q.tokens + estimate > this.limits.tokensPerQuestion) throw limit(429, "question_too_long", "tooLong", locale);
-    await this.d.db
+    const ipHash = this.d.hashIp(ip);
+    const [q] = await this.d.db
       .update(agentQuestions)
       .set({ calls: sql`${agentQuestions.calls} + 1`, tokens: sql`${agentQuestions.tokens} + ${estimate}` })
-      .where(eq(agentQuestions.id, t.questionId));
+      .where(
+        and(
+          eq(agentQuestions.id, t.questionId),
+          // A question's calls belong to the address that asked: an id seen elsewhere spends nothing.
+          eq(agentQuestions.ipHash, ipHash),
+          gte(agentQuestions.ts, since),
+          lt(agentQuestions.calls, this.limits.callsPerQuestion),
+          sql`${agentQuestions.tokens} + ${estimate} <= ${this.limits.tokensPerQuestion}`,
+        ),
+      )
+      .returning();
+    if (!q) {
+      const [row] = await this.d.db.select().from(agentQuestions).where(eq(agentQuestions.id, t.questionId));
+      if (!row) throw new ServiceError(404, "unknown_question", "No such question; ask again.");
+      if (row.ipHash !== ipHash) throw new ServiceError(403, "question_other_address", "This question was asked from another network; ask again.");
+      if (Date.parse(row.ts) < Date.parse(since)) throw new ServiceError(410, "question_expired", "This question is too old; ask again.");
+      throw limit(429, "question_too_long", "tooLong", locale);
+    }
 
     const dev = this.d.dev;
     if (dev && countLines(dev.callsLog, dev.lane) >= dev.maxCalls) throw new ServiceError(429, "dev_calls", `Development limit of ${dev.maxCalls} live calls reached.`, { limit: true });

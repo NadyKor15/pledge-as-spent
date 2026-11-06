@@ -163,6 +163,43 @@ describe("a turn", () => {
     expect(e).toMatchObject({ status: 429, code: "question_too_long", message: TEXT.tooLong.de });
   });
 
+  it("30 turns of one question at once: exactly 10 reach the model, the other 20 get the sentence", async () => {
+    const { agent, sent } = await service();
+    const { questionId } = await agent.question("1.1.1.1", {});
+    const all = await Promise.allSettled(Array.from({ length: 30 }, () => turnAs(agent, turn(questionId))));
+    expect(all.filter((r) => r.status === "fulfilled")).toHaveLength(10);
+    const codes = all.flatMap((r) => (r.status === "rejected" ? [(r.reason as ServiceError).code] : []));
+    expect(codes).toEqual(Array(20).fill("question_too_long"));
+    expect(sent).toHaveLength(10);
+    const [q] = await db.db.select().from(agentQuestions);
+    expect(q.calls).toBe(10);
+  });
+
+  it("the token ceiling holds at once too: parallel turns never take a question past it", async () => {
+    const { agent, sent } = await service({ limits: { tokensPerQuestion: 2_000 } });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    const all = await Promise.allSettled(Array.from({ length: 12 }, () => turnAs(agent, turn(questionId, { input: [userMsg("x".repeat(1_200))] }))));
+    const ok = all.filter((r) => r.status === "fulfilled").length;
+    const [q] = await db.db.select().from(agentQuestions);
+    expect(q.tokens).toBeLessThanOrEqual(2_000);
+    expect(ok).toBe(sent.length);
+    expect(ok).toBeGreaterThan(0);
+    expect(ok).toBeLessThan(12);
+  });
+
+  it("a refused turn says why and counts nothing: unknown 404, another address 403, too old 410", async () => {
+    const { agent, sent } = await service({ limits: { questionTtlMinutes: 30 } });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    await expect(turnAs(agent, turn("00000000-0000-0000-0000-000000000000"))).rejects.toMatchObject({ status: 404, code: "unknown_question" });
+    await expect(turnAs(agent, turn(questionId), "6.6.6.6")).rejects.toMatchObject({ status: 403, code: "question_other_address" });
+    t += 31 * 60_000;
+    await expect(turnAs(agent, turn(questionId))).rejects.toMatchObject({ status: 410, code: "question_expired" });
+    const [q] = await db.db.select().from(agentQuestions);
+    expect(q.calls).toBe(0);
+    expect(q.tokens).toBe(0);
+    expect(sent).toHaveLength(0);
+  });
+
   it("about 40K input tokens a question, then a sentence", async () => {
     const { agent } = await service({ limits: { tokensPerQuestion: 2_000 } });
     const { questionId } = await agent.question("1.1.1.1", {});
