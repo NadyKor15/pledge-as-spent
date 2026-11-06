@@ -7,6 +7,7 @@ import { say } from "./i18n";
 import type { AgentLocale } from "./money-parse";
 import { LEDGER_DESCRIPTION, ledgerInstructions } from "./prompts";
 import { answerStarter, STARTERS, starterPrompt, type StarterId } from "./starters";
+import { routeQuestion, type Intent, type RoutePlan } from "./route";
 import { ledgerAiTools } from "./tools";
 import type { Fact } from "./types";
 import type { AgentId } from "./wire";
@@ -38,6 +39,8 @@ export interface AttachOptions {
   facts: FactRegistry;
   locale: () => AgentLocale;
   adapterFor: (agentId: AgentId) => AgLlmAdapter;
+  /** Variant C: what the book's code runs before each agent's first turn for the current question. */
+  plan?: () => RoutePlan | null;
 }
 
 /** Studio's harness for one Studio instance: our agent (primary) and the data agent it may ask. */
@@ -56,12 +59,21 @@ export function attachLedgerAgent(api: AgStudioApi, o: AttachOptions): AgAiHarne
         schema: (s) => s.undefined(),
         instructions: () => ledgerInstructions(o.locale(), o.getView().drive.baseCurrency),
         tools: () => [...bookTools, tools.delegateTo(["data"])],
+        // Variant C: the right tool already ran when the model first speaks; it only writes the answer.
+        defaultToolCalls: () => o.plan?.()?.calls ?? [],
         maxTurns: 8,
         adapter: o.adapterFor("ledger"),
       }),
       // Read-only: no create/update/delete_expression, so the data agent cannot change the report.
       // view_schema runs before its first turn (no model call for it: the live run of 06.11 spent one on it every time).
-      directLlmRunner({ ...builtIn.data, adapter: o.adapterFor("data"), maxTurns: 6, tools: ({ studio }) => [studio.executeQuery(), studio.viewSchema()], defaultToolCalls: () => [{ tool: "view_schema" }] }),
+      directLlmRunner({
+        ...builtIn.data,
+        adapter: o.adapterFor("data"),
+        maxTurns: 6,
+        tools: ({ studio }) => [studio.executeQuery(), studio.viewSchema()],
+        // Variant C also runs the query of a need sum; otherwise only the schema.
+        defaultToolCalls: () => o.plan?.()?.dataCalls ?? [{ tool: "view_schema" }],
+      }),
     ],
   }));
 }
@@ -82,6 +94,8 @@ export interface AskAnswer {
   lineKeys: readonly string[];
   /** The model's own words before the guard (first answer, and the second if it was asked again). */
   raw: readonly string[];
+  /** Variant C: what the code recognised and ran before the model's first turn. */
+  routed?: Intent | null;
 }
 
 export interface AskState {
@@ -118,7 +132,15 @@ export interface LedgerAgentOptions {
   modelFor?: (agentId: AgentId, live: { getQuestionId: () => string | null; locale: () => AgentLocale; onLimit: (code: string, message: string) => void }) => AgLlmAdapter;
   newQuestion?: QuestionOpener;
   history?: AgAiHistoryStore;
+  /**
+   * "code" (variant C): the book's code routes a question it recognises to its tool before the model's
+   * first turn. "model" (variant A): the model picks every tool. Default: NEXT_PUBLIC_AGENT_ROUTING.
+   */
+  routing?: "model" | "code";
 }
+
+/** The routing a build was made with: NEXT_PUBLIC_AGENT_ROUTING=code turns variant C on. */
+export const defaultRouting = (): "model" | "code" => (process.env.NEXT_PUBLIC_AGENT_ROUTING === "code" ? "code" : "model");
 
 const lastAssistantText = (s: AgAiChatSession) => {
   const m = [...s.messages].reverse().find((x) => x.role === "assistant");
@@ -143,6 +165,7 @@ export class LedgerAgent {
   private outcome: GuardOutcome | null = null;
   private limit: { code: string; message: string } | null = null;
   private sawRunning = false;
+  private plan: RoutePlan | null = null;
 
   constructor(private readonly o: LedgerAgentOptions) {
     this.facts = new FactRegistry(() => o.getView().drive.baseCurrency);
@@ -189,7 +212,7 @@ export class LedgerAgent {
     const interrupted = this.state.phase === "thinking" || this.state.phase === "asking";
     this.detach();
     const gen = ++this.generation;
-    const harness = attachLedgerAgent(api, { getView: this.o.getView, history: this.history, facts: this.facts, locale: this.locale, adapterFor: (id) => this.modelFor(id, gen) });
+    const harness = attachLedgerAgent(api, { getView: this.o.getView, history: this.history, facts: this.facts, locale: this.locale, adapterFor: (id) => this.modelFor(id, gen), plan: () => this.plan });
     this.harness = harness;
     if (interrupted) this.set({ phase: "interrupted", message: say("interrupted", this.locale()) });
     void (async () => {
@@ -255,7 +278,7 @@ export class LedgerAgent {
     this.set({
       phase: o.replaced ? "cannot" : "answered",
       message: null,
-      answer: { ...base, text: o.text || lastAssistantText(s), verdict: o.verdict, retried: o.retried, replaced: o.replaced, lineKeys, raw: o.raw },
+      answer: { ...base, text: o.text || lastAssistantText(s), verdict: o.verdict, retried: o.retried, replaced: o.replaced, lineKeys, raw: o.raw, routed: this.plan?.intent ?? null },
     });
   }
 
@@ -278,6 +301,7 @@ export class LedgerAgent {
       return;
     }
     this.questionId = opened.questionId;
+    this.plan = (this.o.routing ?? defaultRouting()) === "code" ? routeQuestion(this.o.getView(), question) : null;
     const session = this.session;
     if (!session) {
       this.set({ phase: "interrupted", message: say("interrupted", this.locale()) });

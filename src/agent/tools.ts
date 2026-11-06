@@ -51,7 +51,7 @@ const HOLD_WORD: Record<string, string> = {
   denied: "declined by PayPal",
 };
 
-const norm = (s: string) =>
+export const norm = (s: string) =>
   s
     .normalize("NFKD")
     .replace(/\p{M}/gu, "")
@@ -79,7 +79,7 @@ const ALIASES: Record<string, string> = {
   キタソラ: "kitasora",
 };
 
-const withAliases = (q: string) => Object.entries(ALIASES).reduce((s, [from, to]) => s.split(from).join(` ${to} `), q);
+export const withAliases = (q: string) => Object.entries(ALIASES).reduce((s, [from, to]) => s.split(from).join(` ${to} `), q);
 
 /** Holds whose donor name or city matches a word of the query; best match first. */
 export function findHolds(v: View, query: string): Hold[] {

@@ -10,6 +10,7 @@ import { LedgerAgent } from "@/agent/harness";
 import { say } from "@/agent/i18n";
 import type { AgentLocale } from "@/agent/money-parse";
 import { recordingAdapter, replayAdapter, type RecordedTurn } from "@/agent/recorded";
+import { simulatedAdapter } from "@/agent/simulate";
 import { AskWidget } from "@/agent/ui/AskWidget";
 import type { AgentId } from "@/agent/wire";
 import { money } from "@/ui/format";
@@ -22,13 +23,28 @@ import type { DriveView } from "@/ui/types";
 
 const VIEW = closed as unknown as DriveView;
 
-type Mode = "script" | "recorded" | "live";
+type Mode = "script" | "recorded" | "live" | "sim";
 
 interface Recording {
   id: string;
   question: string;
   locale: AgentLocale;
+  /** Variant C recordings were made with the book's code routing the question. */
+  routing?: "model" | "code";
   turns: RecordedTurn[];
+}
+
+/** What the URL asks for. */
+interface Opts {
+  mode: Mode;
+  q: string;
+  /** Folder of recordings under eval/agent/recorded (A, B, C, r1-lite…). */
+  set: string;
+  lang: AgentLocale | null;
+  bad: boolean;
+  auto: boolean;
+  limit: boolean;
+  route: "model" | "code";
 }
 
 declare global {
@@ -86,25 +102,38 @@ let localQuestions = 0;
 export function AgentDebug() {
   const params = useParams();
   if (!params) return null;
-  return <Debug mode={(params.get("mode") as Mode) ?? "script"} q={params.get("q") ?? "Q1"} lang={(params.get("lang") as AgentLocale) ?? null} bad={params.get("bad") === "1"} auto={params.get("auto") === "1"} limit={params.get("limit") === "1"} />;
+  const o: Opts = {
+    mode: (params.get("mode") as Mode) ?? "script",
+    q: params.get("q") ?? "Q1",
+    set: params.get("set") ?? "r1-lite",
+    lang: (params.get("lang") as AgentLocale) ?? null,
+    bad: params.get("bad") === "1",
+    auto: params.get("auto") === "1",
+    limit: params.get("limit") === "1",
+    route: params.get("route") === "code" ? "code" : "model",
+  };
+  return <Debug o={o} />;
 }
 
-function Debug({ mode, q, lang, bad, auto, limit }: { mode: Mode; q: string; lang: AgentLocale | null; bad: boolean; auto: boolean; limit: boolean }) {
+function Debug({ o }: { o: Opts }) {
+  const { mode, q, set } = o;
   const [recording, setRecording] = useState<Recording | null | "missing">(mode === "recorded" ? null : "missing");
   useEffect(() => {
     if (mode !== "recorded") return;
-    void fetch(`/debug/agent-spike/recorded?q=${encodeURIComponent(q)}`).then(async (r) => setRecording(r.ok ? ((await r.json()) as Recording) : "missing"));
-  }, [mode, q]);
+    void fetch(`/debug/agent-spike/recorded?set=${encodeURIComponent(set)}&q=${encodeURIComponent(q)}`).then(async (r) => setRecording(r.ok ? ((await r.json()) as Recording) : "missing"));
+  }, [mode, q, set]);
   if (mode === "recorded" && recording === null) return null;
-  if (mode === "recorded" && recording === "missing") return <p style={{ fontFamily: "monospace", padding: 16 }}>No recording {q}.</p>;
-  return <Run mode={mode} q={q} lang={lang} bad={bad} auto={auto} limit={limit} recording={recording === "missing" ? null : recording} />;
+  if (mode === "recorded" && recording === "missing") return <p style={{ fontFamily: "monospace", padding: 16 }}>No recording {set}/{q}.</p>;
+  return <Run o={o} recording={recording === "missing" ? null : recording} />;
 }
 
 /**
  * One agent for the page's whole life, as the book must hold it too: Studio reads onStudioReady when
  * it mounts, so an agent created again later would never be attached.
  */
-function Run({ mode, q, lang, bad, auto, limit, recording }: { mode: Mode; q: string; lang: AgentLocale | null; bad: boolean; auto: boolean; limit: boolean; recording: Recording | null }) {
+function Run({ o, recording }: { o: Opts; recording: Recording | null }) {
+  const { mode, q, lang, bad, auto, limit } = o;
+  const routing = recording?.routing ?? o.route;
   const model = useMemo(() => deriveLedger(VIEW), []);
   const data = useMemo(() => ledgerData(model), [model]);
   const question = useMemo(() => evalQuestions(VIEW).find((x) => x.id === q.replace(/-.*/, "")), [q]);
@@ -118,12 +147,14 @@ function Run({ mode, q, lang, bad, auto, limit, recording }: { mode: Mode; q: st
       new LedgerAgent({
         getView: () => VIEW,
         locale: () => locale,
+        routing,
         // &limit=1 plays the server's answer when the day's questions are used up.
         newQuestion: limit ? async (l) => ({ limit: "agent_daily", message: say("limit", l) }) : mode === "live" ? undefined : async () => ({ questionId: `local-question-${++localQuestions}` }),
         modelFor: (agentId, live) => {
           if (mode === "recorded") return replayAdapter(recording!.turns, agentId);
           if (mode === "script") return scripted(agentId, bad);
-          return recordingAdapter(novaAdapter({ agentId, ...live }), agentId, (t) => turns.push(t));
+          const inner = mode === "sim" ? simulatedAdapter(agentId, () => VIEW) : novaAdapter({ agentId, ...live });
+          return recordingAdapter(inner, agentId, (t) => turns.push(t));
         },
       }),
   );
@@ -134,6 +165,7 @@ function Run({ mode, q, lang, bad, auto, limit, recording }: { mode: Mode; q: st
     window.__agentDebug = {
       mode,
       q,
+      routing,
       locale,
       question: question?.text,
       turns,
@@ -168,7 +200,7 @@ function Run({ mode, q, lang, bad, auto, limit, recording }: { mode: Mode; q: st
         <span className="dbg-tag">Fictional drive · PayPal Sandbox</span>
         <span className="dbg-mode" data-testid="dbg-mode">
           {mode}
-          {mode === "recorded" ? ` ${q}` : ""}
+          {mode === "recorded" ? ` ${o.set}/${q}` : ""} · routing {routing}
         </span>
       </header>
       <section className="dbg-kpis">

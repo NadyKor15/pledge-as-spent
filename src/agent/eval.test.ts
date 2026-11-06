@@ -12,7 +12,7 @@ import type { Fact } from "./types";
 // the numbers below are what the agent actually answered; re-recording changes them on purpose.
 
 const closed = closedJson as unknown as DriveView;
-const DIR = path.resolve(__dirname, "../../eval/agent/recorded");
+const DIR = path.resolve(__dirname, "../../eval/agent/recorded/r1-lite");
 interface Recording {
   id: string;
   phase: string;
