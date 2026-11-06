@@ -1,0 +1,5 @@
+/* The two ways to keep a statement, under the statement card (390 px phone column). */
+.sx-actions { margin: 10px 10px 0; display: flex; flex-direction: column; gap: 8px; }
+.sx-btn { display: flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 14px; border: 1px solid #057882; border-radius: 6px; background: var(--surface, #fff); color: #057882; font-size: 13.6px; font-weight: 600; letter-spacing: -.2px; text-decoration: none; cursor: pointer; }
+.sx-btn:hover { background: #EAF8FB; }
+.sx-err { font-size: 12px; line-height: 16px; color: #C2410C; }
