@@ -1,0 +1,186 @@
+{
+  "id": "Q2",
+  "mode": "D",
+  "routing": "model",
+  "question": "Why was a line refused?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T21:12:51.700Z",
+  "models": [
+    "muse-spark-1.3"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "Why was a line refused?",
+    "facts": [
+      {
+        "value": 1198,
+        "currency": "JPY",
+        "label": "line 10 refused",
+        "lineKey": "demo-f372326129.r1:10"
+      },
+      {
+        "value": 3000,
+        "currency": "JPY",
+        "label": "line 11 refused",
+        "lineKey": "demo-f372326129.r1:11"
+      },
+      {
+        "value": 4198,
+        "currency": "JPY",
+        "label": "refused in total",
+        "lineKeys": [
+          "demo-f372326129.r1:10",
+          "demo-f372326129.r1:11"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Line 10 Canned peel 350ml 6 cans cost ¥1,198 and was refused because Alcohol is not funded. Line 11 Gift card 3000 cost ¥3,000 and was refused because Gift cards are not funded by this drive.",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "amount",
+          "raw": "¥1,198",
+          "start": 38,
+          "end": 44,
+          "value": 1198,
+          "currency": "JPY"
+        },
+        {
+          "kind": "amount",
+          "raw": "3000",
+          "start": 110,
+          "end": 114,
+          "value": 3000
+        },
+        {
+          "kind": "amount",
+          "raw": "¥3,000",
+          "start": 120,
+          "end": 126,
+          "value": 3000,
+          "currency": "JPY"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:10",
+      "demo-f372326129.r1:11"
+    ],
+    "raw": [
+      "Line 10 Canned peel 350ml 6 cans cost ¥1,198 and was refused because Alcohol is not funded. Line 11 Gift card 3000 cost ¥3,000 and was refused because Gift cards are not funded by this drive."
+    ],
+    "routed": null
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_call_3bf0035b-afb4-4fe0-9202-bf1ff8235b39",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "call_3bf0035b-afb4-4fe0-9202-bf1ff8235b39",
+            "name": "ledger_refusals",
+            "arguments": "{}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1769,
+          "outputTokens": 74
+        },
+        "model": "muse-spark-1.3"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_resp_6aee42d30dc72a86bcac4a95",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Line 10 Canned peel 350ml 6 cans cost ¥1,198 and was refused because Alcohol is not funded. Line 11 Gift card 3000 cost ¥3,000 and was refused because Gift cards are not funded by this drive.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2078,
+          "outputTokens": 460
+        },
+        "model": "muse-spark-1.3"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_refusals",
+      "args": {},
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"2 lines refused, ¥4,198 in total; no donor money was used for them:\\n- line 10 \\\"缶ピール 350m 6 缶\\\" (English: Canned peel 350ml 6 cans): ¥1,198 refused (rule: alcohol) — Alcohol is not funded.\\n- line 11 \\\"ギフトカード 3,000\\\" (English: Gift card 3000): ¥3,000 refused (rule: gift card) — Gift cards are not funded by this drive.\",\"data\":{\"facts\":[{\"value\":1198,\"currency\":\"JPY\",\"label\":\"line 10 refused\",\"lineKey\":\"demo-f372326129.r1:10\"},{\"value\":3000,\"currency\":\"JPY\",\"label\":\"line 11 refused\",\"lineKey\":\"demo-f372326129.r1:11\"},{\"value\":4198,\"currency\":\"JPY\",\"label\":\"refused in total\",\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}],\"lineKeys\":[\"demo-f372326129.r1:10\",\"demo-f372326129.r1:11\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q2",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "routed": null,
+    "calls": 2,
+    "ledgerCalls": 2,
+    "usd": 0.007078,
+    "text": "Line 10 Canned peel 350ml 6 cans cost ¥1,198 and was refused because Alcohol is not funded. Line 11 Gift card 3000 cost ¥3,000 and was refused because Gift cards are not funded by this drive.",
+    "errors": []
+  }
+}
