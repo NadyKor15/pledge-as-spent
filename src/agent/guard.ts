@@ -27,6 +27,19 @@ export function factFor(claim: Claim, facts: readonly Fact[]): Fact | undefined 
   return facts.find((f) => f.id === undefined && Math.abs(f.value - v) < EPS);
 }
 
+/** Every fact a claim matches (a figure can be a line's share and a need's total at once). */
+export function factsFor(claim: Claim, facts: readonly Fact[]): Fact[] {
+  const first = factFor(claim, facts);
+  if (!first) return [];
+  if (claim.kind === "id") return facts.filter((f) => f.id === claim.id);
+  return facts.filter((f) => f.id === undefined && Math.abs(f.value - claim.value!) < EPS && (claim.currency ? f.currency === claim.currency : true));
+}
+
+/** The book lines behind a claim, for narrowing the book to them. */
+export function linesFor(claim: Claim, facts: readonly Fact[]): string[] {
+  return [...new Set(factsFor(claim, facts).flatMap((f) => [...(f.lineKeys ?? []), ...(f.lineKey ? [f.lineKey] : [])]))];
+}
+
 export interface Verdict {
   ok: boolean;
   /** Claims the book confirms, in the order they are written. */

@@ -132,68 +132,119 @@ export function ledgerFindDonor(v: View, query: unknown): LedgerToolResult {
   return ok(`Donors matching "${q}":\n${lines.join("\n")}`, f, [], { donors: hits.map((h) => ({ pledgeId: h.pledgeId, name: donorLabel(h), currency: h.currency })) });
 }
 
-export function ledgerDonorMoney(v: View, donor: unknown): LedgerToolResult {
-  const r = resolveDonor(v, donor);
-  if ("error" in r) return fail(r.error);
-  const h = r.hold;
-  const base = v.drive.baseCurrency;
+/** A donor's money in their own currency (minor units), as the Ledger screen counts it, plus their lines by need. */
+export interface DonorFigures {
+  hold: Hold;
+  who: string;
+  currency: string;
+  closed: boolean;
+  /** The hold can pay no more: closed drive, voided, expired, captured or declined. */
+  over: boolean;
+  pledged: number;
+  spent: number;
+  waiting: number;
+  back: number;
+  held: number;
+  rows: LedgerRow[];
+  lineKeys: string[];
+  needs: { needId: string; label: string; own: number; base: number; lineKeys: string[]; lineNos: number[]; captures: string[] }[];
+  captures: { id: string; own: number; lineKeys: string[]; lineNos: number[] }[];
+}
+
+export function donorFigures(v: View, h: Hold): DonorFigures {
   const closed = v.drive.status === "closed";
-  const who = donorLabel(h);
   const model = deriveLedger(v).donors.find((d) => d.pledgeId === h.pledgeId);
   const rows = v.ledger.filter((x) => (x.kind === "donor_share" || x.kind === "match_share") && x.pledgeId === h.pledgeId);
-  const lineKeys = rows.map(lineKeyOf);
-  const f = new Facts();
-
   const pledged = h.authorized > 0 ? h.authorized : h.pledged;
   const spent = model?.spent ?? rows.reduce((s, x) => s + keptMinor(x), 0);
   const waiting = model?.waiting ?? rows.filter((x) => shareStage(x.status) === "waiting").reduce((s, x) => s + keptMinor(x), 0);
   const back = model?.back ?? Math.min(pledged - spent, h.released + h.reversed);
   const held = model?.held ?? Math.max(0, pledged - spent - back);
+  const byNeed = new Map<string, LedgerRow[]>();
+  for (const x of rows) byNeed.set(x.needId ?? "", [...(byNeed.get(x.needId ?? "") ?? []), x]);
+  const needs = [...byNeed].map(([needId, list]) => ({
+    needId,
+    label: needById(v, needId)?.displayLabel ?? "Other",
+    // The donor's own shares added up: what PayPal took, not the need's yen converted at once (DECISIONS #11).
+    own: list.reduce((s, x) => s + keptMinor(x), 0),
+    base: list.reduce((s, x) => s + x.base, 0),
+    lineKeys: list.map(lineKeyOf),
+    lineNos: list.map((x) => x.lineNo),
+    captures: [...new Set(list.map((x) => x.captureId).filter(Boolean))] as string[],
+  }));
+  const captureIds = [...new Set(rows.map((x) => x.captureId).filter(Boolean))] as string[];
+  const captures = captureIds.map((id) => {
+    const mine = rows.filter((x) => x.captureId === id);
+    return { id, own: mine.reduce((s, x) => s + keptMinor(x), 0), lineKeys: mine.map(lineKeyOf), lineNos: mine.map((x) => x.lineNo) };
+  });
+  return {
+    hold: h,
+    who: donorLabel(h),
+    currency: h.currency,
+    closed,
+    over: closed || ["voided", "expired", "captured", "denied"].includes(h.status),
+    pledged,
+    spent,
+    waiting,
+    back,
+    held,
+    rows,
+    lineKeys: rows.map(lineKeyOf),
+    needs,
+    captures,
+  };
+}
+
+/** The best match for a donor's name or city, or null. */
+export function donorHold(v: View, query: string): Hold | null {
+  return findHolds(v, query)[0] ?? null;
+}
+
+export function ledgerDonorMoney(v: View, donor: unknown): LedgerToolResult {
+  const r = resolveDonor(v, donor);
+  if ("error" in r) return fail(r.error);
+  const d = donorFigures(v, r.hold);
+  const h = d.hold;
+  const base = v.drive.baseCurrency;
+  const who = d.who;
+  const lineKeys = d.lineKeys;
+  const f = new Facts();
 
   const out: string[] = [];
-  out.push(`${who}: pledge hold ${f.amount(h.currency, pledged, `${who} pledged`, { lineKeys })} (PayPal order ${f.id(h.orderId, "order")}, authorization ${f.id(h.authorizationId, "authorization", { lineKeys })}); the hold is ${HOLD_WORD[h.status] ?? h.status}.`);
-  const taken = spent - waiting;
+  out.push(`${who}: pledge hold ${f.amount(h.currency, d.pledged, `${who} pledged`, { lineKeys })} (PayPal order ${f.id(h.orderId, "order")}, authorization ${f.id(h.authorizationId, "authorization", { lineKeys })}); the hold is ${HOLD_WORD[h.status] ?? h.status}.`);
+  const taken = d.spent - d.waiting;
   out.push(
-    `Spent on needs: ${f.amount(h.currency, spent, `${who} spent on needs`, { lineKeys })}` +
-      (spent === 0
+    `Spent on needs: ${f.amount(h.currency, d.spent, `${who} spent on needs`, { lineKeys })}` +
+      (d.spent === 0
         ? ", no receipt line has used this hold yet."
-        : waiting > 0
-          ? ` (${f.amount(h.currency, taken, `${who} captured by PayPal`, { lineKeys })} taken by PayPal, ${f.amount(h.currency, waiting, `${who} waiting for capture`)} waiting for the next capture).`
+        : d.waiting > 0
+          ? ` (${f.amount(h.currency, taken, `${who} captured by PayPal`, { lineKeys })} taken by PayPal, ${f.amount(h.currency, d.waiting, `${who} waiting for capture`)} waiting for the next capture).`
           : ", all of it taken by PayPal."),
   );
-  if (closed || ["voided", "expired", "captured", "denied"].includes(h.status)) {
-    out.push(`Back with the donor: ${f.amount(h.currency, back, `${who} released`)} — never charged: PayPal released it ${closed ? "when the drive closed" : "when the hold ended"}.`);
+  if (d.over) {
+    out.push(`Back with the donor: ${f.amount(h.currency, d.back, `${who} released`)} — never charged: PayPal released it ${d.closed ? "when the drive closed" : "when the hold ended"}.`);
   } else {
-    out.push(`Still held for the drive: ${f.amount(h.currency, held, `${who} still held`)}; already released: ${f.amount(h.currency, back, `${who} released`)}.`);
+    out.push(`Still held for the drive: ${f.amount(h.currency, d.held, `${who} still held`)}; already released: ${f.amount(h.currency, d.back, `${who} released`)}.`);
   }
 
-  // Per need: the donor's own shares added up, in their currency and in the drive's.
-  const needs = new Map<string, LedgerRow[]>();
-  for (const x of rows) needs.set(x.needId ?? "", [...(needs.get(x.needId ?? "") ?? []), x]);
-  for (const [needId, list] of needs) {
-    const label = needById(v, needId)?.displayLabel ?? "Other";
-    const keys = list.map(lineKeyOf);
-    const own = list.reduce((s, x) => s + keptMinor(x), 0);
-    const inBase = list.reduce((s, x) => s + x.base, 0);
-    const caps = [...new Set(list.map((x) => x.captureId).filter(Boolean))] as string[];
-    const sameCurrency = h.currency === base;
+  for (const n of d.needs) {
     out.push(
-      `For ${label}: ${f.amount(h.currency, own, `${who} for ${label}`, { lineKeys: keys })}` +
-        (sameCurrency ? "" : ` (${f.amount(base, inBase, `${label}, ${who}'s shares in ${base}`, { lineKeys: keys })} of the shelter's ${base})`) +
-        ` over ${list.length} line${list.length === 1 ? "" : "s"}` +
-        (caps.length ? `, PayPal capture${caps.length > 1 ? "s" : ""} ${caps.map((c) => f.id(c, "capture", { lineKeys: list.filter((x) => x.captureId === c).map(lineKeyOf) })).join(", ")}` : "") +
+      `For ${n.label}: ${f.amount(h.currency, n.own, `${who} for ${n.label}`, { lineKeys: n.lineKeys })}` +
+        (h.currency === base ? "" : ` (${f.amount(base, n.base, `${n.label}, ${who}'s shares in ${base}`, { lineKeys: n.lineKeys })} of the shelter's ${base})`) +
+        ` over ${n.lineKeys.length} line${n.lineKeys.length === 1 ? "" : "s"}` +
+        (n.captures.length ? `, PayPal capture${n.captures.length > 1 ? "s" : ""} ${n.captures.map((c) => f.id(c, "capture", { lineKeys: d.captures.find((x) => x.id === c)?.lineKeys })).join(", ")}` : "") +
         ".",
     );
   }
 
   out.push("Lines:");
-  for (const x of rows) {
+  for (const x of d.rows) {
     const key = lineKeyOf(x);
     const own = f.amount(h.currency, keptMinor(x), `${who}'s share of line ${x.lineNo}`, { lineKey: key });
     const inBase = h.currency === base ? "" : ` (= ${f.amount(base, x.base, `line ${x.lineNo} share in ${base}`, { lineKey: key })})`;
     out.push(`- line ${x.lineNo} ${itemOf(v, x)} [${needById(v, x.needId)?.displayLabel ?? "—"}]: ${own}${inBase}, ${STATUS_WORD[x.status] ?? x.status}${x.captureId ? `, PayPal capture ${f.id(x.captureId, "capture", { lineKeys: [key] })}` : ""}`);
   }
-  if (rows.length === 0) out.push("- none: no receipt line has used this hold yet.");
+  if (d.rows.length === 0) out.push("- none: no receipt line has used this hold yet.");
   return ok(out.join("\n"), f, lineKeys, { donor: who, currency: h.currency, pledgeId: h.pledgeId });
 }
 
@@ -281,18 +332,15 @@ export function ledgerPaypalIds(v: View, who: unknown): LedgerToolResult {
   }
   const r = resolveDonor(v, q);
   if ("error" in r) return fail(r.error);
-  const h = r.hold;
-  const name = donorLabel(h);
-  const rows = v.ledger.filter((x) => (x.kind === "donor_share" || x.kind === "match_share") && x.pledgeId === h.pledgeId);
-  const lineKeys = rows.map(lineKeyOf);
+  const d = donorFigures(v, r.hold);
+  const h = d.hold;
+  const name = d.who;
+  const lineKeys = d.lineKeys;
   const out = [`${name}: PayPal order ${f.id(h.orderId, "order", { lineKeys })}, authorization (the hold) ${f.id(h.authorizationId, "authorization", { lineKeys })}, hold ${HOLD_WORD[h.status] ?? h.status}.`];
-  const caps = [...new Set(rows.map((x) => x.captureId).filter(Boolean))] as string[];
-  for (const c of caps) {
-    const mine = rows.filter((x) => x.captureId === c);
-    const keys = mine.map(lineKeyOf);
-    out.push(`- capture ${f.id(c, "capture", { lineKeys: keys })}: ${f.amount(h.currency, mine.reduce((s, x) => s + keptMinor(x), 0), `${name} captured in ${c}`, { lineKeys: keys })} for line${mine.length === 1 ? "" : "s"} ${mine.map((x) => x.lineNo).join(", ")}`);
+  for (const c of d.captures) {
+    out.push(`- capture ${f.id(c.id, "capture", { lineKeys: c.lineKeys })}: ${f.amount(h.currency, c.own, `${name} captured in ${c.id}`, { lineKeys: c.lineKeys })} for line${c.lineNos.length === 1 ? "" : "s"} ${c.lineNos.join(", ")}`);
   }
-  if (caps.length === 0) out.push("- no capture yet: PayPal has taken nothing from this hold.");
+  if (d.captures.length === 0) out.push("- no capture yet: PayPal has taken nothing from this hold.");
   return ok(out.join("\n"), f, lineKeys);
 }
 
