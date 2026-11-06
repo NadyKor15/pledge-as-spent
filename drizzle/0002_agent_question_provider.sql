@@ -1,0 +1,1 @@
+ALTER TABLE "agent_questions" ADD COLUMN "provider" text;

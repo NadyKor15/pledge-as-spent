@@ -257,50 +257,104 @@ describe("routes", () => {
   });
 });
 
-describe("variant D: Meta Muse Spark (development runs only)", () => {
-  async function metaService(answers: { status: number; body: unknown }[], capUsd = 1) {
+describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta cannot answer", () => {
+  type MetaAnswer = { status: number; body: unknown } | "timeout";
+  const ok = { status: 200, body: { id: "resp_1", status: "completed", output: [{ type: "function_call", call_id: "call_1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' }], usage: { input_tokens: 1000, output_tokens: 100 } } };
+  const metaCost = (1000 * 1.25 + 100 * 4.25) / 1e6;
+
+  /** In production shape (no development ledger) unless `dev` is asked for: Meta's spend goes to spend_ledger as `agent-meta:`. */
+  async function metaService(answers: MetaAnswer[], o: { capUsd?: number; apiKey?: string | null; dev?: boolean; bedrock?: Out[] } = {}) {
     db = await openPglite();
     await db.migrate(path.join(ROOT, "drizzle"));
-    const dir = mkdtempSync(path.join(tmpdir(), "agent-meta-"));
-    const bedrockLedger = path.join(dir, "spend.jsonl");
-    const metaLedger = path.join(dir, "meta.jsonl");
-    const calls = path.join(dir, "calls.jsonl");
-    writeFileSync(bedrockLedger, "");
     const sent: { url: string; auth: string | null; body: Record<string, unknown> }[] = [];
     const fakeFetch = (async (url: string, init: RequestInit) => {
       sent.push({ url, auth: new Headers(init.headers).get("authorization"), body: JSON.parse(String(init.body)) });
       const a = answers.shift() ?? { status: 500, body: { error: { message: "no more" } } };
+      if (a === "timeout") throw new DOMException("The operation was aborted due to timeout", "TimeoutError");
       return new Response(JSON.stringify(a.body), { status: a.status, headers: { "content-type": "application/json" } });
     }) as unknown as typeof fetch;
+    const bedrock = fakeClient(o.bedrock);
+    const dir = mkdtempSync(path.join(tmpdir(), "agent-meta-"));
+    const files = { bedrock: path.join(dir, "spend.jsonl"), meta: path.join(dir, "meta.jsonl"), calls: path.join(dir, "calls.jsonl") };
+    writeFileSync(files.bedrock, "");
     const agent = new AgentService({
       db: db.db,
       hashIp: (ip) => `h:${ip}`,
       now,
-      client: null,
-      meta: { baseUrl: "https://api.meta.example/v1", apiKey: "test-key", model: "muse-spark-1.3", fetch: fakeFetch },
-      dev: { ledger: new DevSpendLedger(bedrockLedger, "agent-dev", 0.2), metaLedger: new DevSpendLedger(metaLedger, "agent-dev", capUsd), callsLog: calls, lane: "measure-D-test", maxCalls: 30 },
+      client: () => bedrock.client,
+      meta: { baseUrl: "https://api.meta.example/v1", apiKey: o.apiKey === undefined ? "test-key" : o.apiKey, model: "muse-spark-1.3", capUsd: o.capUsd ?? 1, fetch: fakeFetch },
+      ...(o.dev ? { dev: { ledger: new DevSpendLedger(files.bedrock, "agent-dev", 0.2), metaLedger: new DevSpendLedger(files.meta, "agent-dev", o.capUsd ?? 1), callsLog: files.calls, lane: "measure-D-test", maxCalls: 30 } } : {}),
     });
     const lines = (f: string) => readFileSync(f, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>);
-    return { agent, sent, read: { bedrock: () => lines(bedrockLedger), meta: () => lines(metaLedger), calls: () => lines(calls) } };
+    const rows = async (prefix: string) => (await db.db.select().from(spendLedger)).filter((r) => r.what.startsWith(prefix));
+    return { agent, sent, bedrock: bedrock.sent, rows, files: { meta: () => lines(files.meta), calls: () => lines(files.calls) } };
   }
-  const ok = { status: 200, body: { id: "resp_1", status: "completed", output: [{ type: "function_call", call_id: "call_1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' }], usage: { input_tokens: 1000, output_tokens: 100 } } };
+  const provider = async (questionId: string) => (await db.db.select().from(agentQuestions)).find((q) => q.id === questionId)?.provider ?? null;
 
-  it("a turn goes to {base}/responses with the key, is booked to the Meta ledger only, and logged with provider meta", async () => {
-    const { agent, sent, read } = await metaService([ok]);
-    const { questionId } = await agent.question("1.1.1.1", {});
-    const r = await turnAs(agent, turn(questionId));
+  it("switched on only by AGENT_META_ALLOWED=yes and a ceiling above zero; off by default, in production too", () => {
+    expect(agentMetaFrom({} as never)).toBeUndefined();
+    expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "true", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0.5", NODE_ENV: "production" } as never)).toMatchObject({ baseUrl: "https://api.meta.ai/v1", model: "muse-spark-1.3", capUsd: 0.5, apiKey: "k" });
+    // Allowed without a key: the turns fall back to Bedrock (below).
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: "0.5" } as never)).toMatchObject({ apiKey: null });
+  });
+
+  it("a turn goes to {base}/responses with the key; its spend is an `agent-meta:` row, apart from Bedrock's; the answer says Muse Spark", async () => {
+    const { agent, sent, bedrock, rows } = await metaService([ok]);
+    const q = await agent.question("1.1.1.1", {});
+    expect(q).toMatchObject({ model: "Meta Muse Spark" });
+    const r = await turnAs(agent, turn(q.questionId));
+    expect(r).toMatchObject({ model: "muse-spark-1.3", modelLabel: "Meta Muse Spark" });
     expect(r.output[0]).toMatchObject({ type: "function_call", callId: "call_1", name: "ledger_donor_money" });
     expect(sent[0]).toMatchObject({ url: "https://api.meta.example/v1/responses", auth: "Bearer test-key", body: { model: "muse-spark-1.3", store: false } });
-    expect(read.bedrock()).toEqual([]);
-    const m = read.meta();
-    expect(m.map((e) => e.kind)).toEqual(["reserve", "settle"]);
-    expect(m.reduce((s, e) => s + Number(e.usd), 0)).toBeCloseTo((1000 * 1.25 + 100 * 4.25) / 1e6, 6);
-    expect(read.calls()[0]).toMatchObject({ provider: "meta", lane: "measure-D-test", ok: true, schemas: "as Studio wrote them" });
+    expect(bedrock).toHaveLength(0);
+    const meta = await rows("agent-meta:");
+    expect(meta.map((x) => x.kind)).toEqual(["reserve", "settle"]);
+    expect(meta.reduce((s, x) => s + Number(x.usd), 0)).toBeCloseTo(metaCost, 6);
+    expect(await rows("agent:")).toEqual([]);
   });
+
+  it("Meta's spend does not count against Bedrock's $5: with $10 of `agent-meta:` rows a Bedrock turn and a receipt reading still fit", async () => {
+    const { agent, bedrock } = await metaService([], { apiKey: null });
+    await db.db.insert(spendLedger).values({ id: "m", ts: now(), kind: "reserve", what: "agent-meta:ledger earlier (muse-spark-1.3)", usd: "10.000000", ref: null });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    await turnAs(agent, turn(questionId));
+    expect(bedrock).toHaveLength(1);
+    const { PgSpendLedger } = await import("./spend");
+    expect(await new PgSpendLedger(db.db).total()).toBeCloseTo((700 * 0.06 + 60 * 0.24) / 1e6, 6); // only the Bedrock turn
+  });
+
+  for (const [why, answers, opts] of [
+    ["no key", [] as MetaAnswer[], { apiKey: null }],
+    ["an HTTP error", [{ status: 500, body: { error: { message: "busy" } } }], {}],
+    ["a timeout", ["timeout"] as MetaAnswer[], {}],
+    ["Meta's ceiling", [ok], { capUsd: 0.006 }], // one turn's worst case is about $0.011
+  ] as const) {
+    it(`${why}: this turn and the question's next turns go to Bedrock Lite, and the answer says Amazon Nova`, async () => {
+      const { agent, sent, bedrock } = await metaService([...answers], opts as never);
+      const { questionId } = await agent.question("1.1.1.1", {});
+      const first = await turnAs(agent, turn(questionId));
+      expect(first).toMatchObject({ model: NOVA_MODELS.lite, modelLabel: "Amazon Nova" });
+      expect(bedrock).toHaveLength(1);
+      expect(await provider(questionId)).toBe("bedrock");
+      const metaCalls = sent.length;
+      await turnAs(agent, turn(questionId));
+      expect(sent).toHaveLength(metaCalls); // Meta is not asked again within the question
+      expect(bedrock).toHaveLength(2);
+      // a new question tries Meta again (unless it is out of money)
+      const next = await agent.question("1.1.1.1", {});
+      await turnAs(agent, turn(next.questionId));
+      if (why === "Meta's ceiling" || why === "no key") expect(sent).toHaveLength(metaCalls);
+      else expect(sent).toHaveLength(metaCalls + 1);
+    });
+  }
 
   it("Studio's schemas first; a refusal naming the schema sends them flattened, from then on; the refusal costs nothing", async () => {
     const refusal = { status: 400, body: { error: { message: "Invalid schema for function 'execute_query': $defs is not supported" } } };
-    const { agent, sent, read } = await metaService([refusal, ok, ok]);
+    const { agent, sent, rows } = await metaService([refusal, ok, ok]);
     const { questionId } = await agent.question("1.1.1.1", {});
     await turnAs(agent, turn(questionId));
     await turnAs(agent, turn(questionId));
@@ -309,20 +363,23 @@ describe("variant D: Meta Muse Spark (development runs only)", () => {
     expect(root(0)).toEqual(["additionalProperties", "properties", "required", "type"]); // as Studio wrote it
     expect(root(1)).toEqual(["properties", "required", "type"]);
     expect(root(2)).toEqual(["properties", "required", "type"]);
-    expect(read.calls()[0]).toMatchObject({ schemas: "flat", firstRefusal: expect.stringContaining("$defs") });
-    expect(read.meta().reduce((s, e) => s + Number(e.usd), 0)).toBeCloseTo(2 * (1000 * 1.25 + 100 * 4.25) / 1e6, 6);
+    expect((await rows("agent-meta:")).reduce((s, x) => s + Number(x.usd), 0)).toBeCloseTo(2 * metaCost, 6);
   });
 
-  it("the Meta ceiling stops before the call (credits run out onto a card)", async () => {
-    const { agent, sent } = await metaService([ok], 0.006); // one turn's worst case is about $0.011
+  it("a development run books Meta to its own file ledger and logs each call with provider meta", async () => {
+    const { agent, files, rows } = await metaService([ok], { dev: true });
     const { questionId } = await agent.question("1.1.1.1", {});
-    await expect(turnAs(agent, turn(questionId))).rejects.toMatchObject({ status: 429, code: "agent_budget" });
-    expect(sent).toHaveLength(0);
+    await turnAs(agent, turn(questionId));
+    expect(files.meta().map((e) => e.kind)).toEqual(["reserve", "settle"]);
+    expect(await rows("agent-meta:")).toEqual([]);
+    expect(files.calls()[0]).toMatchObject({ provider: "meta", lane: "measure-D-test", ok: true, schemas: "as Studio wrote them" });
   });
 
-  it("never in production, never without the key", () => {
-    expect(agentMetaFrom({ AGENT_PROVIDER: "meta", META_MODEL_API_KEY: "k", NODE_ENV: "production" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_PROVIDER: "meta", NODE_ENV: "development" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_PROVIDER: "meta", META_MODEL_API_KEY: "k", NODE_ENV: "development" } as never)).toMatchObject({ baseUrl: "https://api.meta.ai/v1", model: "muse-spark-1.3" });
+  it("with Meta out of money and Bedrock off, the question gets a sentence, not an error", async () => {
+    db = await openPglite();
+    await db.migrate(path.join(ROOT, "drizzle"));
+    const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: "k", model: "muse-spark-1.3", capUsd: 0.001 } });
+    await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ status: 429, code: "agent_budget" });
   });
 });
+

@@ -122,6 +122,8 @@ export const agentQuestions = pgTable(
     calls: integer("calls").notNull().default(0),
     /** Estimated input tokens sent for this question. */
     tokens: integer("tokens").notNull().default(0),
+    /** "bedrock" once Meta could not answer a turn of this question: its later turns go to Bedrock straight away. */
+    provider: text("provider"),
   },
   (t) => [index("agent_questions_ip").on(t.ipHash, t.ts), index("agent_questions_ts").on(t.ts)],
 );

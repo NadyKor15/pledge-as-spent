@@ -145,7 +145,7 @@ async function main() {
     });
     if (mode === "D") {
       const metaCeiling = Math.min(ALL_META_USD, devSpent(META_LEDGER) + maxUsd);
-      Object.assign(env, { AGENT_PROVIDER: "meta", VAULT_EGRESS_OK: "api.meta.ai", AGENT_DEV_META_LEDGER: META_LEDGER, AGENT_DEV_META_MAX_USD: metaCeiling.toFixed(6) });
+      Object.assign(env, { AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: metaCeiling.toFixed(6), VAULT_EGRESS_OK: "api.meta.ai", AGENT_DEV_META_LEDGER: META_LEDGER, AGENT_DEV_META_MAX_USD: metaCeiling.toFixed(6) });
       console.log(`live D (Meta): lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all Meta entries under $${metaCeiling.toFixed(4)}; now $${devSpent(META_LEDGER).toFixed(6)})`);
     } else {
       console.log(`live ${mode}: lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all agent-dev entries under $${ceiling.toFixed(4)}; now $${devSpent().toFixed(6)})`);

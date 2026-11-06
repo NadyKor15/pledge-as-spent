@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { sql } from "drizzle-orm";
+import { notLike, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { spendLedger } from "../db/schema";
 import { SpendCapExceeded, type LedgerEntry, type SpendLedger } from "../receipts/spend";
@@ -36,8 +36,14 @@ export class PgSpendLedger implements SpendLedger {
   }
 }
 
+/** Meta's spend for the live agent shares the table but not Bedrock's $5: its rows carry this prefix and are left out here. */
+export const META_SPEND_PREFIX = "agent-meta:";
+
 async function sumOf(q: Pick<Db, "select">): Promise<number> {
-  const [row] = await q.select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` }).from(spendLedger);
+  const [row] = await q
+    .select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
+    .from(spendLedger)
+    .where(notLike(spendLedger.what, `${META_SPEND_PREFIX}%`));
   return Number(row.total);
 }
 

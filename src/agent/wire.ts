@@ -59,6 +59,8 @@ export interface TurnReply {
   incompleteDetails?: { reason: "max_output_tokens" };
   usage: { inputTokens: number; outputTokens: number };
   model: string;
+  /** What the reader is told answered ("Meta Muse Spark" / "Amazon Nova"). */
+  modelLabel?: string;
 }
 
 /** A refusal that is not an error: the live AI is out of questions or budget. */

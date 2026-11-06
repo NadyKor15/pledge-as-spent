@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { appendFileSync, readFileSync } from "node:fs";
 import { ConverseCommand, type ContentBlock, type ConverseCommandOutput, type Message, type SystemContentBlock, type Tool, type ToolConfiguration } from "@aws-sdk/client-bedrock-runtime";
-import { and, eq, gt, like, sql } from "drizzle-orm";
+import { and, eq, gt, like, notLike, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { agentQuestions, spendLedger } from "../db/schema";
 import { novaToolSpec } from "../agent/flatten";
@@ -12,6 +12,7 @@ import { AGENT_TOOLS, QuestionBody, TurnBody, type AgentId, type TurnReply } fro
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { JsonlSpendLedger, SpendCap, SpendCapExceeded, worstCaseTokensIn, type LedgerEntry, type SpendLedger } from "../receipts/spend";
 import { ServiceError } from "./errors";
+import { META_SPEND_PREFIX } from "./spend";
 
 // The live agent's server half. The browser runs AG Studio's agent loop (our `ledger` agent and
 // Studio's built-in `data` agent); every model turn comes here, one at a time, under a question id:
@@ -90,13 +91,13 @@ export class PgAgentSpendLedger implements SpendLedger {
   ) {}
 
   async total(): Promise<number> {
-    return sumWhere(this.db);
+    return bedrockTotal(this.db);
   }
 
   async reserve(entry: LedgerEntry, maxUsd: number): Promise<number> {
     return this.db.transaction(async (tx) => {
       await tx.execute(sql`select pg_advisory_xact_lock(${SPEND_LOCK}, 0)`);
-      const total = (await sumWhere(tx)) + entry.usd;
+      const total = (await bedrockTotal(tx)) + entry.usd;
       if (total > maxUsd) throw new SpendCapExceeded(`${entry.what}: would bring spend to $${total.toFixed(4)}, ceiling $${maxUsd.toFixed(2)}`);
       const mine = (await sumWhere(tx, AGENT_PREFIX)) + entry.usd;
       if (mine > this.capUsd) throw new AgentCapExceeded(`${entry.what}: would bring the agent's spend to $${mine.toFixed(4)}, ceiling $${this.capUsd.toFixed(2)}`);
@@ -114,10 +115,51 @@ const round6 = (n: number) => Math.round(n * 1e6) / 1e6;
 
 const row = (e: LedgerEntry) => ({ id: e.id, ts: e.ts, kind: e.kind, what: e.what, usd: e.usd.toFixed(6), ref: e.ref ?? null });
 
-async function sumWhere(q: Pick<Db, "select">, prefix?: string): Promise<number> {
-  const base = q.select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` }).from(spendLedger);
-  const [r] = prefix ? await base.where(like(spendLedger.what, `${prefix}%`)) : await base;
+async function sumWhere(q: Pick<Db, "select">, prefix: string): Promise<number> {
+  const [r] = await q
+    .select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
+    .from(spendLedger)
+    .where(like(spendLedger.what, `${prefix}%`));
   return Number(r.total);
+}
+
+/** The $5 shared with receipt reading: every row but Meta's. */
+async function bedrockTotal(q: Pick<Db, "select">): Promise<number> {
+  const [r] = await q
+    .select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
+    .from(spendLedger)
+    .where(notLike(spendLedger.what, `${META_SPEND_PREFIX}%`));
+  return Number(r.total);
+}
+
+/** Meta's own ceiling (META_AGENT_CAP_USD) over its `agent-meta:` rows, in the same table, under the same lock. */
+export class PgMetaSpendLedger implements SpendLedger {
+  constructor(
+    private readonly db: Db,
+    readonly capUsd: number,
+  ) {}
+
+  spent(): Promise<number> {
+    return sumWhere(this.db, META_SPEND_PREFIX);
+  }
+
+  total(): Promise<number> {
+    return this.spent();
+  }
+
+  async reserve(entry: LedgerEntry, maxUsd: number): Promise<number> {
+    return this.db.transaction(async (tx) => {
+      await tx.execute(sql`select pg_advisory_xact_lock(${SPEND_LOCK}, 0)`);
+      const total = (await sumWhere(tx, META_SPEND_PREFIX)) + entry.usd;
+      if (total > Math.min(maxUsd, this.capUsd)) throw new MetaCapExceeded(`${entry.what}: would bring Meta's spend to $${total.toFixed(4)}, ceiling $${this.capUsd.toFixed(2)}`);
+      await tx.insert(spendLedger).values(row(entry));
+      return total;
+    });
+  }
+
+  async settle(entry: LedgerEntry): Promise<void> {
+    await this.db.insert(spendLedger).values(row(entry));
+  }
 }
 
 /** Development runs: the file ledger (carried into Neon at build) with a ceiling on this lane's own entries. */
@@ -184,19 +226,29 @@ export function agentDevFrom(env: NodeJS.ProcessEnv): DevRun | undefined {
   };
 }
 
-/** Variant D of the measure: Meta's Muse Spark on the Responses API. Local development runs only. */
+/**
+ * Variant D: Meta's Muse Spark on the Responses API, tried first for every turn; Amazon Nova (Bedrock Lite)
+ * takes over a question as soon as Meta cannot answer (no key, its ceiling, an HTTP error, a timeout).
+ */
 export interface MetaProvider {
   baseUrl: string;
-  apiKey: string;
+  /** Null: allowed but no key on this server, so every turn falls back to Bedrock. */
+  apiKey: string | null;
   model: string;
+  /** META_AGENT_CAP_USD: the most Meta may cost, over all `agent-meta:` rows. */
+  capUsd: number;
   fetch?: typeof fetch;
 }
 
-/** AGENT_PROVIDER=meta with META_MODEL_API_KEY (injected by tools/p3/with-meta-nadya.sh), never in production. */
+/** Only with AGENT_META_ALLOWED=yes and META_AGENT_CAP_USD above zero; nothing else switches Meta on. */
 export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined {
-  if (env.AGENT_PROVIDER !== "meta" || env.NODE_ENV === "production" || !env.META_MODEL_API_KEY) return undefined;
-  return { baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""), apiKey: env.META_MODEL_API_KEY, model: META_MODEL };
+  const cap = Number(env.META_AGENT_CAP_USD ?? "0");
+  if (env.AGENT_META_ALLOWED !== "yes" || !(cap > 0)) return undefined;
+  return { baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""), apiKey: env.META_MODEL_API_KEY || null, model: META_MODEL, capUsd: cap };
 }
+
+/** What the reader is told answered: the chat's small print follows it. */
+export const modelLabel = (model: string) => (model.startsWith("muse-") ? "Meta Muse Spark" : "Amazon Nova");
 
 export interface AgentDeps {
   db: Db;
@@ -204,7 +256,7 @@ export interface AgentDeps {
   now(): string;
   /** Null: the live agent is off on this server. */
   client: (() => ConverseClient) | null;
-  /** Set: every turn goes to Meta instead of Bedrock (development runs with `dev.metaLedger` only). */
+  /** Set: Meta is tried first for every turn (variant D), Bedrock takes over when it cannot answer. */
   meta?: MetaProvider;
   limits?: Partial<AgentLimits>;
   models?: Record<AgentId, string>;
@@ -238,13 +290,25 @@ export class AgentService {
     return sumWhere(this.d.db, AGENT_PREFIX);
   }
 
+  /** Meta's ledger: the development file in a development run, else its `agent-meta:` rows. */
+  private metaLedger(meta: MetaProvider): (SpendLedger & { capUsd: number; spent(): number | Promise<number> }) {
+    return this.d.dev?.metaLedger ?? new PgMetaSpendLedger(this.d.db, meta.capUsd);
+  }
+
+  /** Whether Meta can take a new question: allowed, a key, money left. */
+  private async metaReady(): Promise<boolean> {
+    const meta = this.d.meta;
+    if (!meta?.apiKey) return false;
+    const ledger = this.metaLedger(meta);
+    return (await ledger.spent()) < ledger.capUsd - 0.005;
+  }
+
   /** A new question: counted for the address and for everyone before any model call. */
-  async question(ip: string, body: unknown): Promise<{ questionId: string }> {
+  async question(ip: string, body: unknown): Promise<{ questionId: string; model: string }> {
     const { locale = "en" } = QuestionBody.parse(body ?? {});
-    const metaLedger = this.d.meta ? this.d.dev?.metaLedger : undefined;
-    if (!this.d.client && !metaLedger) throw limit(503, "agent_off", "off", locale);
-    const spent = metaLedger ? metaLedger.spent() >= metaLedger.capUsd - 0.005 : (await this.agentSpent()) >= this.limits.agentCapUsd - 0.005;
-    if (spent) throw limit(429, "agent_budget", "budget", locale);
+    const meta = await this.metaReady();
+    if (!this.d.client && !meta) throw limit(this.d.meta ? 429 : 503, this.d.meta ? "agent_budget" : "agent_off", this.d.meta ? "budget" : "off", locale);
+    if (!meta && (await this.agentSpent()) >= this.limits.agentCapUsd - 0.005) throw limit(429, "agent_budget", "budget", locale);
     const ipHash = this.d.hashIp(ip);
     const now = this.d.now();
     const hourAgo = new Date(Date.parse(now) - 3_600_000).toISOString();
@@ -262,9 +326,9 @@ export class AgentService {
       if ((await count(hourAgo, true)) >= this.limits.questionsPerHour) throw limit(429, "agent_hourly", "hourly", locale);
       if ((await count(dayAgo, true)) >= this.limits.questionsPerDay) throw limit(429, "agent_daily", "limit", locale);
       if ((await count(dayAgo, false)) >= this.limits.questionsPerDayAll) throw limit(429, "agent_daily_all", "limit", locale);
-      await tx.insert(agentQuestions).values({ id, ipHash, ts: now, calls: 0, tokens: 0 });
+      await tx.insert(agentQuestions).values({ id, ipHash, ts: now, calls: 0, tokens: 0, ...(meta ? {} : { provider: "bedrock" }) });
     });
-    return { questionId: id };
+    return { questionId: id, model: meta ? "Meta Muse Spark" : "Amazon Nova" };
   }
 
   /** One model turn of a question, from the address that asked it. */
@@ -276,12 +340,11 @@ export class AgentService {
     const allowed = AGENT_TOOLS[t.agentId];
     const stray = t.tools.map((x) => x.name).filter((n) => !allowed.includes(n));
     if (stray.length) throw new ServiceError(400, "tool_not_allowed", `The ${t.agentId} agent may not use: ${stray.join(", ")}.`);
-    const meta = this.d.meta && this.d.dev?.metaLedger ? this.d.meta : null;
+    const meta = this.d.meta ?? null;
     if (!meta && !this.d.client) throw limit(503, "agent_off", "off", locale);
 
     const request = toConverse(t, this.models[t.agentId], t.agentId === "ledger" ? this.limits.maxTokensLedger : this.limits.maxTokensData);
-    const metaBodyOut = meta ? toMetaRequest(t, meta.model, META_MAX_OUTPUT, this.metaFlat) : null;
-    const chars = metaBodyOut ? JSON.stringify(metaBodyOut).length : JSON.stringify(request.system).length + JSON.stringify(request.messages).length + JSON.stringify(request.toolConfig ?? {}).length;
+    const chars = JSON.stringify(request.system).length + JSON.stringify(request.messages).length + JSON.stringify(request.toolConfig ?? {}).length;
     const estimate = tokensOf(chars);
 
     // Count the call against the question first: a call that fails still counted.
@@ -300,7 +363,12 @@ export class AgentService {
 
     const dev = this.d.dev;
     if (dev && countLines(dev.callsLog, dev.lane) >= dev.maxCalls) throw new ServiceError(429, "dev_calls", `Development limit of ${dev.maxCalls} live calls reached.`, { limit: true });
-    if (meta && dev?.metaLedger) return this.metaTurn(t, meta, dev, dev.metaLedger, locale);
+    // Variant D: Meta first. When it cannot answer, this turn and the question's later ones go to Bedrock.
+    if (meta && q.provider !== "bedrock") {
+      const answered = await this.metaTurn(t, meta);
+      if (answered) return answered;
+      await this.d.db.update(agentQuestions).set({ provider: "bedrock" }).where(eq(agentQuestions.id, t.questionId));
+    }
     if (!this.d.client) throw limit(503, "agent_off", "off", locale);
     const factory = this.d.client;
 
@@ -319,7 +387,7 @@ export class AgentService {
           return { value: res, tokensIn: known ? res.usage!.inputTokens! : null, tokensOut: known ? res.usage!.outputTokens! : null };
         },
       );
-      const reply = fromConverse(value, model);
+      const reply = { ...fromConverse(value, model), modelLabel: modelLabel(model) };
       Object.assign(logRow, { ok: true, ms: Date.now() - t0, stopReason: value.stopReason, usage, toolUses: reply.output.filter((o) => o.type === "function_call").map((o) => ({ name: (o as { name: string }).name, input: (o as { arguments: string }).arguments.slice(0, 400) })), text: textOf(value).slice(0, 600) });
       return reply;
     } catch (e) {
@@ -333,11 +401,24 @@ export class AgentService {
     }
   }
 
-  /** Variant D: one turn on Meta Muse Spark, booked to the Meta development ledger. */
-  private async metaTurn(t: TurnBody, meta: MetaProvider, dev: DevRun, ledger: DevSpendLedger, locale: AgentLocale): Promise<TurnReply> {
+  /**
+   * Variant D: one turn on Meta Muse Spark, booked to Meta's own ledger. Null when Meta cannot answer it: no key,
+   * Meta's ceiling, an HTTP error, a timeout or an answer that cannot be read. The caller then asks Bedrock.
+   */
+  private async metaTurn(t: TurnBody, meta: MetaProvider): Promise<TurnReply | null> {
+    const dev = this.d.dev;
+    const ledger = this.metaLedger(meta);
     const send = meta.fetch ?? fetch;
     const t0 = Date.now();
-    const logRow: Record<string, unknown> = { ts: new Date().toISOString(), lane: dev.lane, provider: "meta", case: t.agentId, questionId: t.questionId, model: meta.model, inputItems: t.input.length };
+    const logRow: Record<string, unknown> = { ts: new Date().toISOString(), lane: dev?.lane, provider: "meta", case: t.agentId, questionId: t.questionId, model: meta.model, inputItems: t.input.length };
+    const log = () => {
+      if (dev) appendFileSync(dev.callsLog, JSON.stringify(logRow) + "\n");
+    };
+    if (!meta.apiKey) {
+      Object.assign(logRow, { ok: false, fallback: "no key" });
+      return null; // nothing was sent: not logged as a call
+    }
+    const apiKey = meta.apiKey;
     const post = async (flat: boolean) => {
       const body = toMetaRequest(t, meta.model, META_MAX_OUTPUT, flat);
       const toolSpecChars = JSON.stringify(body.tools ?? []).length;
@@ -347,11 +428,11 @@ export class AgentService {
       // Reserve the worst case before the call; correct it with the real tokens after (as SpendCap does).
       const ceiling = round6(metaUsd(meta.model, worstCaseTokensIn({ textChars: JSON.stringify(body.input).length + systemChars, toolSpecChars, images: 0, maxTokens: META_MAX_OUTPUT }), META_MAX_OUTPUT));
       const id = randomUUID();
-      const what = `${ledger.prefix} ${dev.lane} meta ${t.agentId} (${meta.model})`;
+      const what = dev ? `${dev.metaLedger?.prefix ?? "agent-dev"} ${dev.lane} meta ${t.agentId} (${meta.model})` : `${META_SPEND_PREFIX}${t.agentId} ${t.questionId.slice(0, 8)} (${meta.model})`;
       await ledger.reserve({ ts: new Date().toISOString(), id, kind: "reserve", what, usd: ceiling }, ledger.capUsd);
       const res = await send(`${meta.baseUrl}/responses`, {
         method: "POST",
-        headers: { authorization: `Bearer ${meta.apiKey}`, "content-type": "application/json", accept: "application/json, text/event-stream" },
+        headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json", accept: "application/json, text/event-stream" },
         body: JSON.stringify(body),
         signal: AbortSignal.timeout(META_TIMEOUT_MS),
       });
@@ -380,15 +461,17 @@ export class AgentService {
         out = await post(true);
       }
       if (!out.ok) throw new Error(`Meta answered ${out.status}: ${out.text.slice(0, 300)}`);
-      const reply = fromMetaResponse(out.r, meta.model, repairArgs);
+      const reply = { ...fromMetaResponse(out.r, meta.model, repairArgs), modelLabel: modelLabel(meta.model) };
       Object.assign(logRow, { ok: true, ms: Date.now() - t0, status: out.r.status, toolUses: reply.output.filter((o) => o.type === "function_call").map((o) => ({ name: (o as { name: string }).name, input: (o as { arguments: string }).arguments.slice(0, 400) })), text: reply.output.filter((o) => o.type === "message").map((o) => JSON.stringify(o).slice(0, 600)).join(" ") });
+      log();
       return reply;
     } catch (e) {
-      Object.assign(logRow, { ok: false, ms: Date.now() - t0, error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
-      if (e instanceof AgentCapExceeded || e instanceof SpendCapExceeded) throw limit(429, "agent_budget", "budget", locale);
-      throw new ServiceError(502, "model_failed", "The live AI did not answer. Try again, or use the quick questions.");
-    } finally {
-      appendFileSync(dev.callsLog, JSON.stringify(logRow) + "\n");
+      const ceilingHit = e instanceof AgentCapExceeded || e instanceof MetaCapExceeded || e instanceof SpendCapExceeded;
+      Object.assign(logRow, { ok: false, ms: Date.now() - t0, fallback: ceilingHit ? "Meta's ceiling" : "Meta failed", error: `${(e as Error).name}: ${(e as Error).message}`.slice(0, 400) });
+      // A refusal at the ceiling sent nothing; a failed call was attempted and is logged as one.
+      if (!ceilingHit) log();
+      (this.d.log ?? ((m, x) => console.error(`[pledge-as-spent] ${m}`, x ?? "")))("Meta turn failed, Bedrock answers", { name: (e as Error).name, message: (e as Error).message.slice(0, 200) });
+      return null;
     }
   }
 }
