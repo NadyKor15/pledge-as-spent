@@ -7,7 +7,7 @@ import { POST as turnPOST } from "../app/api/agent/turn/route";
 import { openPglite, type DatabaseHandle } from "../db/client";
 import { agentQuestions, spendLedger } from "../db/schema";
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
-import { AgentService, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
+import { AgentService, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
 import { ServiceError } from "./errors";
 import { TEXT } from "../agent/i18n";
 
@@ -181,6 +181,14 @@ describe("a turn", () => {
     await db.db.insert(spendLedger).values({ id: "y", ts: now(), kind: "reserve", what: "ocr read earlier", usd: "4.999990", ref: null });
     await expect(agent.turn(turn(questionId))).rejects.toMatchObject({ status: 429, code: "agent_budget" });
     expect(sent).toHaveLength(0);
+  });
+});
+
+describe("repairArgs", () => {
+  it("fills execute_query's one allowed `kind` that Nova Lite leaves out, and nothing else", () => {
+    expect(repairArgs("execute_query", { query: { variant: "aggregation" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
+    expect(repairArgs("execute_query", { query: { variant: "aggregation", kind: "apiQuery" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
+    expect(repairArgs("ledger_line", { line: "4" })).toEqual({ line: "4" });
   });
 });
 

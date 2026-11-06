@@ -145,7 +145,8 @@ export function novaToolSpec(tool: { name: string; description: string; paramete
   const params = isObj(tool.parameters) ? tool.parameters : { type: "object", properties: {} };
   const heavy = tool.name === "execute_query";
   const schema = heavy ? shrinkInlined(forNova(compactSchema(params))) : forNova(params);
-  const description = heavy ? shortDescription(tool.description) : tool.description;
+  // Nova Lite left out the literal "kind" in the spike's run; Studio then refuses the query and a call is lost.
+  const description = heavy ? `${shortDescription(tool.description)}\nEvery query object needs "kind": "apiQuery" and a "variant".` : tool.description;
   return { toolSpec: { name: tool.name, description: description || tool.name, inputSchema: { json: schema } } };
 }
 

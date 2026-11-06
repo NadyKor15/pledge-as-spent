@@ -1,0 +1,146 @@
+{
+  "scoredAt": "2026-11-06T20:05:46.818Z",
+  "right": 3,
+  "of": 7,
+  "rows": [
+    {
+      "id": "Q1",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
+      "recordedAt": "2026-11-06T20:00:16.473Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 1833,
+      "tokensIn": 4246
+    },
+    {
+      "id": "Q2",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "Two lines were refused, totaling ¥4,198. Line 10, \"缶ピール 350m 6 缶\" (Canned peel 350ml 6 cans), was refused for ¥1,198 because alcohol is not funded. Line 11, \"ギフトカード 3,000\" (Gift card 3000), was refused for ¥3,000 because gift cards are not funded by this drive.",
+      "recordedAt": "2026-11-06T20:00:23.892Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 1833,
+      "tokensIn": 3312
+    },
+    {
+      "id": "Q3",
+      "correct": false,
+      "missing": [
+        "EUR 4.58"
+      ],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "€15.42 came back to you, Lena, when the drive closed.",
+      "recordedAt": "2026-11-06T20:00:26.203Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 1833,
+      "tokensIn": 4242
+    },
+    {
+      "id": "Q4",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "Yuki from Osaka, your PayPal order number is 10L99507KP256054Y, the authorization (hold) id is 4V841583EA244972U, and the capture id is 3HK86339B7905131L. The hold was voided (released).",
+      "recordedAt": "2026-11-06T20:00:28.652Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 1833,
+      "tokensIn": 3521
+    },
+    {
+      "id": "Q5",
+      "correct": false,
+      "missing": [
+        "JPY 1486"
+      ],
+      "extra": [
+        "¥3,000"
+      ],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": true,
+      "phase": "answered",
+      "text": "The sum of all donations for water across all donors is ¥3,000.",
+      "recordedAt": "2026-11-06T20:02:49.065Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 5,
+      "ledgerPromptChars": 2048,
+      "tokensIn": 15566
+    },
+    {
+      "id": "Q6",
+      "correct": false,
+      "missing": [
+        "EUR 15.42",
+        "EUR 4.58"
+      ],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "Dein €20.00 Hold wurde aufgehoben, und PayPal hat dir alles zurückgegeben.",
+      "recordedAt": "2026-11-06T20:04:14.487Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 2177,
+      "tokensIn": 3313
+    },
+    {
+      "id": "Q7",
+      "correct": false,
+      "missing": [
+        "10L99507KP256054Y",
+        "4V841583EA244972U",
+        "3HK86339B7905131L"
+      ],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "text": "大阪のユキのPayPalの番号は見つかりませんでした。本には大阪のユキがいますが、大阪という名前のドナーは見つかりませんでした。",
+      "recordedAt": "2026-11-06T20:04:17.047Z",
+      "models": [
+        "amazon.nova-lite-v1:0"
+      ],
+      "calls": 2,
+      "ledgerPromptChars": 2179,
+      "tokensIn": 3246
+    }
+  ]
+}

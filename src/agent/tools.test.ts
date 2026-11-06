@@ -48,6 +48,22 @@ describe("the book's tools on the closed demo drive", () => {
     expect(ledgerFindDonor(closed, "Berlin").text).toContain("Lena (Berlin, DE): pledged €20.00");
   });
 
+  it("Japanese script finds the demo's donors (the measure: Nova passed 大阪 and found nobody)", () => {
+    expect(ledgerPaypalIds(closed, "大阪").text).toContain("10L99507KP256054Y");
+    expect(ledgerDonorMoney(closed, "ユキ").text).toContain("Yuki (Osaka, JP)");
+    expect(ledgerDonorMoney(closed, "ベルリンのレナ").text).toContain("Lena (Berlin, DE)");
+  });
+
+  it("ledger_find_donor says what was spent and what came back, not only the pledge (the measure: Q6 read a voided hold as all money back)", () => {
+    const r = ledgerFindDonor(closed, "Lena aus Berlin");
+    expect(r.text).toContain("Lena (Berlin, DE): pledged €20.00; spent on needs €4.58; back with the donor €15.42");
+    expect(r.text).toContain("call ledger_donor_money");
+  });
+
+  it("a miss tells the model which names to try", () => {
+    expect(ledgerPaypalIds(closed, "Zelda").text).toContain("Call the tool again with one of these names: Lena, Mark, Yuki, Kitasora Logistics.");
+  });
+
   it("ledger_refusals: beer ¥1,198 (alcohol) and the gift card ¥3,000", () => {
     const r = ledgerRefusals(closed);
     expect(r.text).toMatch(/line 10 .*¥1,198 refused \(rule: alcohol\)/);

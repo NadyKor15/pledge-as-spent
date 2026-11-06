@@ -54,13 +54,14 @@ export function attachLedgerAgent(api: AgStudioApi, o: AttachOptions): AgAiHarne
         name: "Ledger",
         description: LEDGER_DESCRIPTION,
         schema: (s) => s.undefined(),
-        instructions: () => ledgerInstructions(o.locale()),
+        instructions: () => ledgerInstructions(o.locale(), o.getView().drive.baseCurrency),
         tools: () => [...bookTools, tools.delegateTo(["data"])],
         maxTurns: 8,
         adapter: o.adapterFor("ledger"),
       }),
       // Read-only: no create/update/delete_expression, so the data agent cannot change the report.
-      directLlmRunner({ ...builtIn.data, adapter: o.adapterFor("data"), maxTurns: 6, tools: ({ studio }) => [studio.executeQuery(), studio.viewSchema()] }),
+      // view_schema runs before its first turn (no model call for it: the live run of 06.11 spent one on it every time).
+      directLlmRunner({ ...builtIn.data, adapter: o.adapterFor("data"), maxTurns: 6, tools: ({ studio }) => [studio.executeQuery(), studio.viewSchema()], defaultToolCalls: () => [{ tool: "view_schema" }] }),
     ],
   }));
 }
@@ -96,7 +97,7 @@ export interface AskState {
 }
 
 export interface QuestionOpener {
-  (locale: AgentLocale): Promise<{ questionId: string } | { limit: string; message: string }>;
+  (locale: AgentLocale): Promise<{ questionId: string } | { limit: string; message: string } | { failed: string; message: string }>;
 }
 
 /** POST /api/agent/question. */
@@ -104,9 +105,10 @@ export const serverQuestion =
   (endpoint = "/api/agent/question"): QuestionOpener =>
   async (locale) => {
     const res = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ locale }) });
-    const body = (await res.json().catch(() => ({}))) as { questionId?: string; error?: string; message?: string };
+    const body = (await res.json().catch(() => ({}))) as { questionId?: string; error?: string; message?: string; limit?: boolean };
     if (res.ok && body.questionId) return { questionId: body.questionId };
-    return { limit: body.error ?? `http_${res.status}`, message: body.message ?? say("failed", locale) };
+    if (body.limit) return { limit: body.error ?? `http_${res.status}`, message: body.message ?? say("limit", locale) };
+    return { failed: body.error ?? `http_${res.status}`, message: say("failed", locale) };
   };
 
 export interface LedgerAgentOptions {
@@ -269,6 +271,10 @@ export class LedgerAgent {
     const opened = await (this.o.newQuestion ?? serverQuestion())(this.locale());
     if ("limit" in opened) {
       this.set({ phase: "limit", message: opened.message });
+      return;
+    }
+    if ("failed" in opened) {
+      this.set({ phase: "error", message: opened.message });
       return;
     }
     this.questionId = opened.questionId;

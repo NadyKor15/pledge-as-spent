@@ -1,0 +1,199 @@
+{
+  "id": "Q4",
+  "question": "I'm Yuki from Osaka. What are my PayPal numbers?",
+  "locale": "en",
+  "recordedAt": "2026-11-06T20:00:28.652Z",
+  "models": [
+    "amazon.nova-lite-v1:0"
+  ],
+  "phase": "answered",
+  "message": null,
+  "answer": {
+    "question": "I'm Yuki from Osaka. What are my PayPal numbers?",
+    "facts": [
+      {
+        "value": 0,
+        "label": "order",
+        "id": "10L99507KP256054Y",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "authorization",
+        "id": "4V841583EA244972U",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 0,
+        "label": "capture",
+        "id": "3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      },
+      {
+        "value": 1237,
+        "currency": "JPY",
+        "label": "Yuki (Osaka, JP) captured in 3HK86339B7905131L",
+        "lineKeys": [
+          "demo-f372326129.r1:7",
+          "demo-f372326129.r1:8",
+          "demo-f372326129.r1:9"
+        ]
+      }
+    ],
+    "source": "ai",
+    "delegated": [],
+    "text": "Yuki from Osaka, your PayPal order number is 10L99507KP256054Y, the authorization (hold) id is 4V841583EA244972U, and the capture id is 3HK86339B7905131L. The hold was voided (released).",
+    "verdict": {
+      "ok": true,
+      "checked": [
+        {
+          "kind": "id",
+          "raw": "10L99507KP256054Y",
+          "start": 45,
+          "end": 62,
+          "id": "10L99507KP256054Y"
+        },
+        {
+          "kind": "id",
+          "raw": "4V841583EA244972U",
+          "start": 95,
+          "end": 112,
+          "id": "4V841583EA244972U"
+        },
+        {
+          "kind": "id",
+          "raw": "3HK86339B7905131L",
+          "start": 136,
+          "end": 153,
+          "id": "3HK86339B7905131L"
+        }
+      ],
+      "unmatched": []
+    },
+    "retried": false,
+    "replaced": false,
+    "lineKeys": [
+      "demo-f372326129.r1:7",
+      "demo-f372326129.r1:8",
+      "demo-f372326129.r1:9"
+    ],
+    "raw": [
+      "Yuki from Osaka, your PayPal order number is 10L99507KP256054Y, the authorization (hold) id is 4V841583EA244972U, and the capture id is 3HK86339B7905131L. The hold was voided (released)."
+    ]
+  },
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 1833,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_tooluse_1Pz0nPg37QTjnnYiglfMkd",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "tooluse_1Pz0nPg37QTjnnYiglfMkd",
+            "name": "ledger_paypal_ids",
+            "arguments": "{\"who\":\"Osaka\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1478,
+          "outputTokens": 58
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 1833,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_3498f1b1-6155-4fe4-8246-8b2cdfc17f9d",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "Yuki from Osaka, your PayPal order number is 10L99507KP256054Y, the authorization (hold) id is 4V841583EA244972U, and the capture id is 3HK86339B7905131L. The hold was voided (released).",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 2043,
+          "outputTokens": 84
+        },
+        "model": "amazon.nova-lite-v1:0"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "ledger",
+      "name": "ledger_paypal_ids",
+      "args": {
+        "who": "Osaka"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold voided (released).\\n- capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9\",\"data\":{\"facts\":[{\"value\":0,\"label\":\"order\",\"id\":\"10L99507KP256054Y\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"authorization\",\"id\":\"4V841583EA244972U\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":1237,\"currency\":\"JPY\",\"label\":\"Yuki (Osaka, JP) captured in 3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}],\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}}"
+    }
+  ],
+  "score": {
+    "id": "Q4",
+    "correct": true,
+    "missing": [],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "answered",
+    "text": "Yuki from Osaka, your PayPal order number is 10L99507KP256054Y, the authorization (hold) id is 4V841583EA244972U, and the capture id is 3HK86339B7905131L. The hold was voided (released)."
+  },
+  "errors": []
+}

@@ -46,7 +46,7 @@ const HOLD_WORD: Record<string, string> = {
   authorized: "active",
   partially_captured: "active, partly captured",
   captured: "fully captured",
-  voided: "voided (released)",
+  voided: "closed (PayPal released what was not spent)",
   expired: "expired",
   denied: "declined by PayPal",
 };
@@ -62,9 +62,28 @@ function donorLabel(h: Hold): string {
   return `${name}${place ? ` (${place})` : ""}${h.kind === "match" ? ", company match" : ""}`;
 }
 
+/**
+ * The demo drive's donors and cities as Japanese and German readers write them (Nova passed "大阪" for
+ * Osaka in the measure of 06.11 and found nobody). A live drive would carry these with the pledge.
+ */
+const ALIASES: Record<string, string> = {
+  大阪: "osaka",
+  おおさか: "osaka",
+  ベルリン: "berlin",
+  コロンバス: "columbus",
+  ユキ: "yuki",
+  ゆき: "yuki",
+  マーク: "mark",
+  レナ: "lena",
+  北空: "kitasora",
+  キタソラ: "kitasora",
+};
+
+const withAliases = (q: string) => Object.entries(ALIASES).reduce((s, [from, to]) => s.split(from).join(` ${to} `), q);
+
 /** Holds whose donor name or city matches a word of the query; best match first. */
 export function findHolds(v: View, query: string): Hold[] {
-  const words = norm(query)
+  const words = norm(withAliases(query))
     .split(/[^\p{L}\p{N}]+/u)
     .filter((w) => w.length >= 2);
   const scored = v.holds
@@ -92,13 +111,15 @@ function everyone(v: View): string {
   return v.holds.map(donorLabel).join("; ");
 }
 
+const names = (v: View) => v.holds.map((h) => donorParts(h.donorName).name).join(", ");
+
 type Resolved = { hold: Hold } | { error: string };
 
 function resolveDonor(v: View, donor: unknown): Resolved {
   const q = typeof donor === "string" ? donor.trim() : "";
   if (!q) return { error: `Name the donor. Donors in this book: ${everyone(v)}.` };
   const hits = findHolds(v, q);
-  if (hits.length === 0) return { error: `No donor in this book matches "${q}". Donors in this book: ${everyone(v)}.` };
+  if (hits.length === 0) return { error: `No donor in this book matches "${q}". Call the tool again with one of these names: ${names(v)}. Donors in this book: ${everyone(v)}.` };
   return { hold: hits[0] };
 }
 
@@ -126,10 +147,15 @@ const keptMinor = (r: LedgerRow) => (r.status === "uncollected" ? 0 : (r.amount 
 export function ledgerFindDonor(v: View, query: unknown): LedgerToolResult {
   const q = typeof query === "string" ? query : "";
   const hits = findHolds(v, q);
-  if (hits.length === 0) return fail(`No donor in this book matches "${q}". Donors in this book: ${everyone(v)}.`);
+  if (hits.length === 0) return fail(`No donor in this book matches "${q}". Call the tool again with one of these names: ${names(v)}. Donors in this book: ${everyone(v)}.`);
   const f = new Facts();
-  const lines = hits.map((h) => `${donorLabel(h)}: pledged ${f.amount(h.currency, h.authorized > 0 ? h.authorized : h.pledged, `${donorLabel(h)} pledged`)} in ${h.currency}, hold ${HOLD_WORD[h.status] ?? h.status}`);
-  return ok(`Donors matching "${q}":\n${lines.join("\n")}`, f, [], { donors: hits.map((h) => ({ pledgeId: h.pledgeId, name: donorLabel(h), currency: h.currency })) });
+  // With the pledge alone a model read "hold voided" as "all money back" (measure, 06.11): the totals go with it.
+  const lines = hits.map((h) => {
+    const d = donorFigures(v, h);
+    const who = d.who;
+    return `${who}: pledged ${f.amount(h.currency, d.pledged, `${who} pledged`, { lineKeys: d.lineKeys })}; spent on needs ${f.amount(h.currency, d.spent, `${who} spent on needs`, { lineKeys: d.lineKeys })}; ${d.over ? `back with the donor ${f.amount(h.currency, d.back, `${who} released`)}` : `still held ${f.amount(h.currency, d.held, `${who} still held`)}`}`;
+  });
+  return ok(`Donors matching "${q}":\n${lines.join("\n")}\nFor the lines and PayPal captures behind these figures call ledger_donor_money.`, f, [], { donors: hits.map((h) => ({ pledgeId: h.pledgeId, name: donorLabel(h), currency: h.currency })) });
 }
 
 /** A donor's money in their own currency (minor units), as the Ledger screen counts it, plus their lines by need. */

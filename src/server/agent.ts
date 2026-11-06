@@ -379,6 +379,17 @@ const textOf = (res: ConverseCommandOutput) =>
     .map((b) => b.text ?? "")
     .join("\n");
 
+/**
+ * execute_query's `kind` has one allowed value, "apiQuery". Nova Lite left it out in 6 of 6 live
+ * queries (06.11), Studio refused each and a model call was spent on the retry; it is filled in here.
+ */
+export function repairArgs(name: string, input: unknown): unknown {
+  if (name !== "execute_query" || !input || typeof input !== "object") return input ?? {};
+  const q = (input as { query?: unknown }).query;
+  if (!q || typeof q !== "object" || Array.isArray(q) || "kind" in q) return input;
+  return { ...input, query: { ...(q as object), kind: "apiQuery" } };
+}
+
 /** Bedrock's answer -> Studio's output items. Text beside a tool call is the model thinking aloud: dropped. */
 export function fromConverse(res: ConverseCommandOutput, model: string): TurnReply {
   const blocks = res.output?.message?.content ?? [];
@@ -387,7 +398,7 @@ export function fromConverse(res: ConverseCommandOutput, model: string): TurnRep
   const text = stripThinking(textOf(res));
   if (calls.length === 0 && text) output.push({ id: `msg_${randomUUID()}`, kind: "output", type: "message", role: "assistant", status: "completed", content: [{ type: "text", text, annotations: [] }] });
   for (const c of calls) {
-    output.push({ id: `fc_${c.toolUseId}`, kind: "output", type: "function_call", callId: c.toolUseId!, name: c.name!, arguments: JSON.stringify(c.input ?? {}) });
+    output.push({ id: `fc_${c.toolUseId}`, kind: "output", type: "function_call", callId: c.toolUseId!, name: c.name!, arguments: JSON.stringify(repairArgs(c.name!, c.input)) });
   }
   const incomplete = res.stopReason === "max_tokens";
   return {
