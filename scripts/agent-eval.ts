@@ -2,8 +2,12 @@
 // the debug page in Playwright's Chromium, so AG Studio's loop, the delegation to its data agent,
 // the book's tools and the guard all run for real.
 //
-// Live (costs money; dev server started through ../tools/p3/withp3.sh with LIVE_AGENT=on and the
-// AGENT_DEV_* ledger, see eval/agent/README.md):
+// Live (costs money). First a dev server with the Nova-only key and the development ledger:
+//   ../tools/p3/withp3.sh env LIVE_AGENT=on AGENT_DEV_LEDGER=$PWD/eval/spend-ledger.jsonl \
+//     AGENT_DEV_CALLS_LOG=<campaign>/docs/nadya/p3-agent/live-calls.jsonl AGENT_DEV_LANE=<lane> \
+//     AGENT_DEV_MAX_USD=<ceiling of all "agent-dev" entries> AGENT_DEV_MAX_CALLS=<calls of this lane> \
+//     AGENT_QUESTIONS_PER_HOUR=30 AGENT_QUESTIONS_PER_DAY=60 AGENT_QUESTIONS_PER_DAY_ALL=100 npx next dev -p 3413
+// then:
 //   npx tsx scripts/agent-eval.ts --live --base http://localhost:3413 [--only Q1,Q5] [--tag pro]
 //   -> eval/agent/recorded/<Q>[-tag].json and eval/agent/results[-tag].json
 // Recorded (free; replays the model's recorded turns):

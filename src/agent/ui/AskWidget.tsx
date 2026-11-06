@@ -44,6 +44,11 @@ const UI = {
   delegated: { en: "Asked Studio's data agent", de: "Hat Studios Datenagenten gefragt", ja: "Studioのデータエージェントに確認" },
   who: { en: "Who are you in the book?", de: "Wer sind Sie im Buch?", ja: "帳簿のどなたですか？" },
   noFigures: { en: "no figures to check", de: "keine Beträge zu prüfen", ja: "照合する金額なし" },
+  withheld: {
+    en: "The answer had a figure the book does not hold, so it is not shown.",
+    de: "Die Antwort enthielt einen Betrag, den das Buch nicht kennt; sie wird nicht gezeigt.",
+    ja: "回答に帳簿にない金額が含まれていたため、表示していません。",
+  },
 } as const;
 
 function Robot() {
@@ -183,7 +188,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines }: AskWid
             })}
           </p>
           <p className="ask-checked" data-testid="ask-checked">
-            {UI.checked[locale]} · {verdict.checked.length ? ofText(verdict.checked.length, verdict.checked.length + verdict.unmatched.length, locale) : UI.noFigures[locale]}
+            {answer.replaced ? UI.withheld[locale] : `${UI.checked[locale]} · ${verdict.checked.length ? ofText(verdict.checked.length, verdict.checked.length + verdict.unmatched.length, locale) : UI.noFigures[locale]}`}
             {answer.source === "code" && <span className="ask-code"> · {UI.code[locale]}</span>}
           </p>
         </div>

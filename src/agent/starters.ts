@@ -70,7 +70,8 @@ export interface CodeAnswer {
 function moneyAnswer(d: DonorFigures, l: AgentLocale): string {
   const m = (minor: number) => localMoney(d.currency, minor, l);
   const lines = d.rows.map((x) => m(x.status === "uncollected" ? 0 : (x.amount ?? 0) - (x.reversed ?? 0)));
-  const needs = list(d.needs.map((n) => `${needName(n, l)} (${m(n.own)})`), l);
+  // One need: its amount is the amount spent, said once. Several: each with its own.
+  const needs = list(d.needs.map((n) => (d.needs.length > 1 ? `${needName(n, l)} (${m(n.own)})` : needName(n, l))), l);
   const caps = list(d.captures.map((c) => c.id), l);
   if (d.spent === 0) {
     return { en: `Your ${m(d.pledged)} hold has not paid for any line yet.`, de: `Ihr Hold über ${m(d.pledged)} hat noch keine Zeile bezahlt.`, ja: `${m(d.pledged)}の仮押さえはまだどの行にも使われていません。` }[l];

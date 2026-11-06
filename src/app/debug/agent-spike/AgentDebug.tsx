@@ -2,11 +2,12 @@
 
 import { AgStudioAiModule, type AgLlmAdapter, type AgLlmResponse, type AgReportState, type AgStudioApi } from "ag-studio";
 import { AgStudio, AgStudioProvider } from "ag-studio-react";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import closed from "../../../../tests/fixtures/drives/closed.json";
 import { evalQuestions } from "../../../../eval/agent/questions";
 import { afterComplete, novaAdapter } from "@/agent/adapter";
 import { LedgerAgent } from "@/agent/harness";
+import { say } from "@/agent/i18n";
 import type { AgentLocale } from "@/agent/money-parse";
 import { recordingAdapter, replayAdapter, type RecordedTurn } from "@/agent/recorded";
 import { AskWidget } from "@/agent/ui/AskWidget";
@@ -85,47 +86,51 @@ let localQuestions = 0;
 export function AgentDebug() {
   const params = useParams();
   if (!params) return null;
-  return <Debug mode={(params.get("mode") as Mode) ?? "script"} q={params.get("q") ?? "Q1"} lang={(params.get("lang") as AgentLocale) ?? null} bad={params.get("bad") === "1"} auto={params.get("auto") === "1"} />;
+  return <Debug mode={(params.get("mode") as Mode) ?? "script"} q={params.get("q") ?? "Q1"} lang={(params.get("lang") as AgentLocale) ?? null} bad={params.get("bad") === "1"} auto={params.get("auto") === "1"} limit={params.get("limit") === "1"} />;
 }
 
-function Debug({ mode, q, lang, bad, auto }: { mode: Mode; q: string; lang: AgentLocale | null; bad: boolean; auto: boolean }) {
-  const model = useMemo(() => deriveLedger(VIEW), []);
-  const data = useMemo(() => ledgerData(model), [model]);
-  const question = useMemo(() => evalQuestions(VIEW).find((x) => x.id === q.replace(/-.*/, "")), [q]);
+function Debug({ mode, q, lang, bad, auto, limit }: { mode: Mode; q: string; lang: AgentLocale | null; bad: boolean; auto: boolean; limit: boolean }) {
   const [recording, setRecording] = useState<Recording | null | "missing">(mode === "recorded" ? null : "missing");
-  const locale: AgentLocale = lang ?? (recording && recording !== "missing" ? recording.locale : question?.locale) ?? "en";
-  const [turns] = useState<RecordedTurn[]>([]);
-  const [mount, setMount] = useState(0);
-  const [focus, setFocus] = useState<{ lineKeys: string[]; label: string } | null>(null);
-
   useEffect(() => {
     if (mode !== "recorded") return;
     void fetch(`/debug/agent-spike/recorded?q=${encodeURIComponent(q)}`).then(async (r) => setRecording(r.ok ? ((await r.json()) as Recording) : "missing"));
   }, [mode, q]);
+  if (mode === "recorded" && recording === null) return null;
+  if (mode === "recorded" && recording === "missing") return <p style={{ fontFamily: "monospace", padding: 16 }}>No recording {q}.</p>;
+  return <Run mode={mode} q={q} lang={lang} bad={bad} auto={auto} limit={limit} recording={recording === "missing" ? null : recording} />;
+}
 
-  const agent = useMemo(() => {
-    if (mode === "recorded" && (recording === null || recording === "missing")) return null;
-    const rec = recording && recording !== "missing" ? recording : null;
-    return new LedgerAgent({
-      getView: () => VIEW,
-      locale: () => locale,
-      newQuestion: mode === "live" ? undefined : async () => ({ questionId: `local-question-${++localQuestions}` }),
-      modelFor: (agentId, live) => {
-        if (mode === "recorded") return replayAdapter(rec!.turns, agentId);
-        if (mode === "script") return scripted(agentId, bad);
-        return recordingAdapter(novaAdapter({ agentId, ...live }), agentId, (t) => turns.push(t));
-      },
-    });
-  }, [mode, recording, locale, bad, turns]);
+/**
+ * One agent for the page's whole life, as the book must hold it too: Studio reads onStudioReady when
+ * it mounts, so an agent created again later would never be attached.
+ */
+function Run({ mode, q, lang, bad, auto, limit, recording }: { mode: Mode; q: string; lang: AgentLocale | null; bad: boolean; auto: boolean; limit: boolean; recording: Recording | null }) {
+  const model = useMemo(() => deriveLedger(VIEW), []);
+  const data = useMemo(() => ledgerData(model), [model]);
+  const question = useMemo(() => evalQuestions(VIEW).find((x) => x.id === q.replace(/-.*/, "")), [q]);
+  const locale: AgentLocale = lang ?? recording?.locale ?? question?.locale ?? "en";
+  const [turns] = useState<RecordedTurn[]>([]);
+  const [mount, setMount] = useState(0);
+  const [focus, setFocus] = useState<{ lineKeys: string[]; label: string } | null>(null);
 
-  const state = useSyncExternalStore(
-    useCallback((l: () => void) => agent?.subscribe(l) ?? (() => {}), [agent]),
-    () => agent?.get() ?? null,
-    () => null,
+  const [agent] = useState(
+    () =>
+      new LedgerAgent({
+        getView: () => VIEW,
+        locale: () => locale,
+        // &limit=1 plays the server's answer when the day's questions are used up.
+        newQuestion: limit ? async (l) => ({ limit: "agent_daily", message: say("limit", l) }) : mode === "live" ? undefined : async () => ({ questionId: `local-question-${++localQuestions}` }),
+        modelFor: (agentId, live) => {
+          if (mode === "recorded") return replayAdapter(recording!.turns, agentId);
+          if (mode === "script") return scripted(agentId, bad);
+          return recordingAdapter(novaAdapter({ agentId, ...live }), agentId, (t) => turns.push(t));
+        },
+      }),
   );
 
+  const state = useSyncExternalStore(agent.subscribe, agent.get, agent.get);
+
   useEffect(() => {
-    if (!agent) return;
     window.__agentDebug = {
       mode,
       q,
@@ -137,22 +142,22 @@ function Debug({ mode, q, lang, bad, auto }: { mode: Mode; q: string; lang: Agen
       facts: () => agent.facts.list(),
       ask: (text: string) => agent.ask(text),
       remount: () => setMount((m) => m + 1),
+      agent,
     };
   });
 
   const asked = useRef(false);
   useEffect(() => {
-    if (!auto || !agent || !state?.ready || asked.current) return;
+    if (!auto || !state.ready || asked.current) return;
     asked.current = true;
-    const text = recording && recording !== "missing" ? recording.question : (question?.text ?? "");
+    const text = recording ? recording.question : (question?.text ?? "");
     void agent.ask(text);
-  }, [auto, agent, state?.ready, recording, question]);
+  }, [auto, agent, state.ready, recording, question]);
 
   const donors = useMemo(() => VIEW.holds.filter((h) => h.kind === "donor").map((h) => ({ name: h.donorName, label: h.donorName.replace(/\s*\((.+)\)/, " · $1") })), []);
-  const rows = focus ? model.book.filter((r) => focus.lineKeys.includes(r.lineKey)) : model.book;
-
-  if (mode === "recorded" && recording === "missing") return <p style={{ fontFamily: "monospace", padding: 16 }}>No recording {q}.</p>;
-  if (!agent) return null;
+  // As on ASK-B2: narrowed to a donor, the book shows that donor's shares of the lines.
+  const payer = focus?.label.split(" · ")[0];
+  const rows = focus ? model.book.filter((r) => focus.lineKeys.includes(r.lineKey) && (!payer || !donors.some((d) => d.label.startsWith(payer)) || r.payer === payer)) : model.book;
 
   return (
     <main className="dbg">
@@ -267,5 +272,6 @@ body { background: #f5f4f0; margin: 0; }
 .dbg-pill-spent { background: #2f855a; color: #fff; }
 .dbg-pill-refused { background: #fbe4e8; color: #b0213f; }
 .dbg-pill-other { background: #eee; }
+@media (max-width: 640px) { .dbg { padding: 12px 12px 30px; } .dbg-top { flex-wrap: wrap; gap: 8px 14px; } .dbg-brand { font-size: 22px; } .dbg-shelter { font-size: 16px; } .dbg-kpis { grid-template-columns: 1fr; gap: 6px; } .dbg-kpis div { border-left: 0; padding: 0; } .dbg-kpis b { font-size: 30px; } .dbg-book { overflow-x: auto; } }
 .dbg-studio { background: #fff; border: 1px dashed #c9cdc8; border-radius: 10px; padding: 8px 12px; font-size: 13px; color: #666; }
 `;

@@ -12,10 +12,10 @@ describe("quick questions answered by the book's code", () => {
   it("Mark, What did my money buy? (EN), as on ASK-B2", () => {
     const a = answerStarter(closed, "money", "Mark", "en");
     expect(a.text).toBe(
-      "Your $30.00 hold paid $21.45 for baby diapers size M ($21.45): 3 lines, $8.58, $10.89 and $1.98. PayPal took it in one capture, 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
+      "Your $30.00 hold paid $21.45 for baby diapers size M: 3 lines, $8.58, $10.89 and $1.98. PayPal took it in one capture, 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
     );
     expect(a.verdict.ok).toBe(true);
-    expect(a.verdict.checked.map((c) => c.raw)).toEqual(["$30.00", "$21.45", "$21.45", "$8.58", "$10.89", "$1.98", "5PE922386K0983923", "$8.55"]);
+    expect(a.verdict.checked.map((c) => c.raw)).toEqual(["$30.00", "$21.45", "$8.58", "$10.89", "$1.98", "5PE922386K0983923", "$8.55"]);
     expect(a.lineKeys).toHaveLength(3);
   });
 
