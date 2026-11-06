@@ -87,8 +87,8 @@ function stylesXml(pledgeCur: string, baseCur: string): string {
     `<xf numFmtId="49" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
     `<xf numFmtId="${a}" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
     `<xf numFmtId="${b}" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
-    `<xf numFmtId="1" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
-    `<xf numFmtId="${DATE_FMT}" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>` +
+    `<xf numFmtId="1" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="left"/></xf>` +
+    `<xf numFmtId="${DATE_FMT}" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="left"/></xf>` +
     `<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>` +
     `<xf numFmtId="${a}" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1" applyNumberFormat="1"/>` +
     `<xf numFmtId="${b}" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1" applyNumberFormat="1"/>` +
@@ -179,7 +179,7 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
   total("Match unlocked", st.totals.matchBase, base);
   total("Help bought, total", st.totals.helpBase, base, true);
 
-  const widths = sameCurrency ? [24, 10, 26, 8, 14, 16, 18, 28, 22, 30, 16, 24, 18] : [24, 10, 26, 8, 14, 16, 16, 18, 28, 22, 30, 16, 24, 18];
+  const widths = sameCurrency ? [36, 20, 26, 8, 14, 16, 18, 28, 22, 30, 16, 24, 18] : [36, 20, 26, 8, 14, 16, 16, 18, 28, 22, 30, 16, 24, 18];
   const cols = widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join("");
   const sheetRows = rows
     .map((cells, i) => {

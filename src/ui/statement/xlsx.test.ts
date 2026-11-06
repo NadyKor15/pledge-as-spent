@@ -72,7 +72,7 @@ describe("buildStatementXlsx: the numbers", () => {
     const shareCol = shareHeader.replace(/\d+/g, "");
     expect(c.get(`${shareCol}${headRow + 1}`)).toMatchObject({ v: "2.46" });
     expect(c.get(`${shareCol}${headRow + 1}`)?.t).toBeUndefined();
-    expect(c.get(`${col}${headRow + 1}`)).toMatchObject({ t: "inlineStr", v: "3WP65983GD053501C" });
+    expect(c.get(`${col}${headRow + 1}`)).toMatchObject({ t: "inlineStr", s: "3", v: "3WP65983GD053501C" });
     // the base-currency yen column has no decimals
     const baseHeader = [...c.entries()].find(([k, x]) => k.endsWith(String(headRow)) && x.v === "Your share (JPY)")![0];
     expect(c.get(`${baseHeader.replace(/\d+/g, "")}${headRow + 1}`)).toMatchObject({ v: "399" });
