@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
+import { ASK_ANCHOR } from "@/ui/header-words";
 import { checkAnswer, linesFor, type Claim } from "../guard";
 import { say } from "../i18n";
 import type { AskState } from "../harness";
+import { planLabel } from "../model-plan";
 import type { AgentLocale } from "../money-parse";
 import { STARTERS, type StarterId } from "../starters";
 import { delegationText } from "../steps";
 import type { Fact } from "../types";
 import "./ask.css";
 
-// "Ask the book" (ASK-B2, Nadya's pick, TG 5840). The answer is large; every figure the book
+// "Ask the book" (design ASK-B2, Nadya's pick). The answer is large; every figure the book
 // confirms is a green chip inside the sentence; pressing one narrows the book to its lines. Under
 // the answer one line says how many figures were checked — the row of chips the picture repeats
 // under the answer is left out on purpose.
@@ -98,6 +100,16 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const s = useSyncExternalStore(agent.subscribe, agent.get, agent.get);
   const [draft, setDraft] = useState("");
   const last = useRef<unknown>(null);
+  const box = useRef<HTMLElement>(null);
+
+  // In the book's slot the chat has a fixed height and scrolls inside: a question and its answer are brought into
+  // view there, without moving the page.
+  useEffect(() => {
+    const el = box.current;
+    const q = el?.querySelector<HTMLElement>('[data-testid="ask-question"]');
+    if (!el || !q || el.scrollHeight <= el.clientHeight) return;
+    el.scrollTop += q.getBoundingClientRect().top - el.getBoundingClientRect().top - 12;
+  }, [s.phase, s.answer]);
 
   // A new answer narrows the book to its lines, as the picture shows ("Narrowed by the assistant").
   useEffect(() => {
@@ -119,7 +131,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const verdict = answer ? checkAnswer(answer.text, answer.facts, locale) : null;
 
   return (
-    <section className="ask" data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
+    <section className="ask" ref={box} id={ASK_ANCHOR} data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
       <header className="ask-head">
         <h2>{UI.title[locale]}</h2>
         <p>{UI.sub[locale]}</p>
@@ -214,7 +226,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
       </form>
       <div className="ask-foot">
         <p data-testid="ask-model">
-          {s.modelLabel ?? "Amazon Nova"} · {UI.foot[locale]}
+          {s.modelLabel ?? planLabel(s.modelPlan, locale)} · {UI.foot[locale]}
         </p>
         {footExtra}
       </div>

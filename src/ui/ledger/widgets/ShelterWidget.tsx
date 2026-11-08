@@ -25,9 +25,9 @@ export function ShelterWidget(params: AgWidgetParams) {
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
 
   return (
-    <section className="lg-card lg-shelter" aria-label={`${snap.model.shelter}: ${snap.model.spentLabel}`} key={snap.run} ref={root}>
+    <section className="lg-card lg-shelter" aria-label={`${snap.model.shelter}: ${snap.model.shelterKicker}`} key={snap.run} ref={root}>
       <h2 className="lg-name">{snap.model.shelter}</h2>
-      <p className="lg-kicker">{snap.model.spentLabel}</p>
+      <p className="lg-kicker">{snap.model.shelterKicker}</p>
       {snap.model.shelterTotal && (
         <p className="lg-sum">
           <b>{snap.model.shelterTotal}</b>

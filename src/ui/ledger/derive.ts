@@ -105,8 +105,15 @@ export interface LedgerModel {
   promised: number;
   /** On needs: captured + waiting, the same figure before and after PayPal takes it. */
   spent: number;
-  /** "Approved for needs" while part of it waits, "Spent on needs" once PayPal took it all. */
+  /**
+   * "Approved for needs" while part of it waits, "Spent on needs" once PayPal took it all. On a drive with a company
+   * match, "Donors' money approved" / "Donors' money spent": the match is added in `plusMatch`, under the figure.
+   */
   spentLabel: string;
+  /** "+ company match ¥X = ¥Y bought": the donors' figure above it, plus the match, is what was bought. Null without a match. */
+  plusMatch: string | null;
+  /** The shelter card's heading: "Bought for the shelter". */
+  shelterKicker: string;
   captured: number;
   waiting: number;
   held: number;
@@ -357,6 +364,7 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const spent = sum((d) => d.spentBase);
   const waiting = sum((d) => d.waitingBase);
   const match = v.ledger.filter((r) => r.kind === "match_share").reduce((total, r) => total + keptBase(r, holdById(v, r.pledgeId), base), 0);
+  const matchName = v.match.holds[0]?.donorName ?? null;
   return {
     driveId: v.drive.id,
     lang,
@@ -365,7 +373,9 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
     baseCurrency: base,
     promised: sum((d) => d.pledgedBase),
     spent,
-    spentLabel: waiting > 0 ? w.approvedForNeeds : w.spentOnNeeds,
+    spentLabel: matchName ? (waiting > 0 ? w.donorsApproved : w.donorsSpent) : waiting > 0 ? w.approvedForNeeds : w.spentOnNeeds,
+    plusMatch: matchName ? w.plusMatch(moneyIn(lang, base, match), moneyIn(lang, base, spent + match)) : null,
+    shelterKicker: w.boughtForShelter,
     captured: spent - waiting,
     waiting,
     held,
@@ -376,7 +386,7 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
     // The screens say shares are "captured once a day"; a drive may batch on another rhythm.
     waitingNote: waiting > 0 ? w.waitingFor(moneyIn(lang, base, waiting), v.drive.batch.maxAgeHours === 24) : null,
     match,
-    matchName: v.match.holds[0]?.donorName ?? null,
+    matchName,
     ...shelterSums(v, match, spent, lang),
     rates: pledgeRates(v, lang),
     donors,

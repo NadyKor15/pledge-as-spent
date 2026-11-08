@@ -38,10 +38,11 @@ const ROOT = path.resolve(__dirname, "..");
 const CAMPAIGN = path.resolve(ROOT, "..");
 const LEDGER = path.join(ROOT, "eval", "spend-ledger.jsonl");
 const META_LEDGER = path.join(ROOT, "eval", "meta-spend-ledger.jsonl");
-/** NM10, 06.11: Meta's credits; past them the card is charged. */
+/** 06.11: Meta's credits; past them the card is charged. */
 const ALL_META_USD = 1;
-const CALLS_LOG = path.join(CAMPAIGN, "docs", "nadya", "p3-agent", "live-calls.jsonl");
-/** NM10, 06.11: every "agent-dev" entry together stays under this. */
+// Every live call's line, kept out of the repository (tmp/ is ignored); AGENT_CALLS_LOG puts it elsewhere.
+const CALLS_LOG = process.env.AGENT_CALLS_LOG ?? path.join(ROOT, "tmp", "agent-live-calls.jsonl");
+/** 06.11: every "agent-dev" entry together stays under this. */
 const ALL_DEV_USD = 0.2;
 const PER_QUESTION_CALLS = 10; // the server's own limit per question
 
@@ -127,6 +128,7 @@ async function main() {
   const routing = arg("--route") === "code" || (mode === "C" && arg("--route") !== "model") ? "code" : "model";
   const logFile = path.join(ROOT, ".data", `measure-${mode}-${stamp}.log`);
   mkdirSync(path.dirname(logFile), { recursive: true });
+  mkdirSync(path.dirname(CALLS_LOG), { recursive: true });
 
   const env: NodeJS.ProcessEnv = { ...process.env, NODE_ENV: "development" };
   delete env.AWS_ACCESS_KEY_ID;

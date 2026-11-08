@@ -10,7 +10,22 @@ describe("printModel", () => {
     expect(m.donor).toBe("Lena (Berlin) & \"Partners\" <GmbH>");
     expect(m.pledgeId).toBe("demo-f372326129.water");
     expect(m.holdId).toBe("2Y816602392541815");
-    expect(m.holdExpires).toBe("30 Nov 2026");
+    expect(m.holdNote).toBe("expires 30 Nov 2026");
+  });
+
+  it("a hold that was voided says released, not when it would have expired", () => {
+    const closed = structuredClone(lenaStatement);
+    closed.statement.balance.status = "voided";
+    expect(printModel(closed).holdNote).toBe("released");
+    closed.statement.balance.status = "expired";
+    expect(printModel(closed).holdNote).toBe("expired");
+  });
+
+  it("shows the donor PayPal's capture ids and none of the app's request ids", () => {
+    const text = JSON.stringify(m);
+    expect(m.rows[0].captureId).toBe("3WP65983GD053501C");
+    expect(text).not.toContain("demo-f372326129:capture:");
+    expect(m.rows[0]).not.toHaveProperty("requestId");
   });
 
   it("takes the drive's display title when the screen has it", () => {

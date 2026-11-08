@@ -11,11 +11,34 @@ import { useEffect, useSyncExternalStore, type ReactNode, type RefObject } from 
 export const DESIGN_WIDTH = 1920;
 export const STACK_BELOW = 1100;
 
-const subscribe = (cb: () => void) => {
+/** A vertical scrollbar's room in this browser, measured once: 0 where scrollbars float over the page. */
+let scrollbar: number | null = null;
+function scrollbarRoom(): number {
+  if (scrollbar !== null) return scrollbar;
+  if (!document.body) return 0;
+  const probe = document.createElement("div");
+  probe.style.cssText = "position:absolute;top:-9999px;left:0;width:100px;height:100px;overflow:scroll;visibility:hidden";
+  document.body.appendChild(probe);
+  scrollbar = Math.max(0, probe.offsetWidth - probe.clientWidth);
+  probe.remove();
+  return scrollbar;
+}
+
+/**
+ * The width the screens are laid out for: the window less a scrollbar's room, whether the page shows a scrollbar
+ * now or not. Not the page's own width (clientWidth): that changes when a classic scrollbar comes or goes, the zoom
+ * then changes the page's height, and the height brings the scrollbar back or takes it away. A page about as tall
+ * as the window (a new drive's Coordinator at 1440 × 900) made the two chase each other until React stopped it
+ * ("Maximum update depth exceeded"), and a stage sized before the scrollbar came stuck out by its 15 px.
+ */
+export const viewportWidth = () => window.innerWidth - scrollbarRoom();
+
+/** It changes only when the window does. */
+export const subscribeViewport = (cb: () => void) => {
   window.addEventListener("resize", cb);
   return () => window.removeEventListener("resize", cb);
 };
-const viewportWidth = () => document.documentElement.clientWidth;
+const subscribe = subscribeViewport;
 
 const useViewportWidth = () => useSyncExternalStore(subscribe, viewportWidth, () => DESIGN_WIDTH);
 export const useStacked = () => useViewportWidth() < STACK_BELOW;

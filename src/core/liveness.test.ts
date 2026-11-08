@@ -6,7 +6,7 @@ import { payoutSubmittedEvent, planCaptures, planClose, planHoldMaintenance, pla
 import { Book, daysAfter, hoursAfter, line, makeDrive, makeNeed, makePledge, T0 } from "./testing/builders";
 import { closeReport, donorStatement, ledgerRows, pledgeBalance } from "./views";
 
-// Acceptance panel wf_fb122b60-b73, lens core-money: K1-K3 confirmed, K4-K6 to verify.
+// Acceptance review of the money engine: findings K1-K3 confirmed, K4-K6 to verify.
 
 const yen = (minor: number) => ({ currency: "JPY" as const, minor });
 const book = () => new Book(makeDrive(), [makeNeed("water", 1000)]);

@@ -1,7 +1,11 @@
 import { CoreError } from "../core/errors";
 
+const SERVICE_ERROR: unique symbol = Symbol.for("pledge-as-spent.ServiceError");
+
 /** An error with an HTTP status and a plain sentence for the caller. */
 export class ServiceError extends Error {
+  readonly [SERVICE_ERROR] = true;
+
   constructor(
     readonly status: number,
     readonly code: string,
@@ -10,6 +14,14 @@ export class ServiceError extends Error {
   ) {
     super(message);
     this.name = "ServiceError";
+  }
+
+  /**
+   * True for a ServiceError made by another copy of this module too. The end-to-end server builds the service from
+   * the source while Next.js runs the routes from its bundle: two classes, and "No drive x" came out as a 500.
+   */
+  static [Symbol.hasInstance](v: unknown): boolean {
+    return typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[SERVICE_ERROR] === true;
   }
 }
 

@@ -193,7 +193,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
 
   const note = (id: string, box: AgWidgetLayoutState) => place(id, custom(NOTE_WIDGET), box);
 
-  // 48 tracks: fine enough to centre the "Company match" pair under the middle total.
+  // 48 tracks: fine enough to centre the "+ company match … = … bought" line under the middle total.
   if (x.stacked) {
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, 58, 21, "center"), at(0, 0, 48, r.kpi));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, 38, 16, "center"), at(0, r.kpi, 24, r.pair));
@@ -204,9 +204,8 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
       note(NOTE_REST, at(24, y, 24, r.note));
       y += r.note;
     }
-    if (m.matchName) {
-      place("match-label", matchLabel(15, w.companyMatch), at(0, y, 25, r.match));
-      place("kpi-match", matchValue(15), at(25, y, 23, r.match));
+    if (m.plusMatch) {
+      place("plus-match", plusMatch(15, m.plusMatch), at(0, y, 48, r.match));
       y += r.match;
     }
     place("map", map, at(0, y, 48, r.map));
@@ -227,15 +226,11 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
   } else {
     const top = Math.round(74 * s);
     const label = Math.round(28 * s);
-    const small = Math.round(21 * s);
     const band = r.kpi - r.note;
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, top, label, "center"), at(0, 0, 16, band));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, top, label, "center"), at(16, 0, 16, band - r.match));
     place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
-    if (m.matchName) {
-      place("match-label", matchLabel(small, w.companyMatch), at(16, band - r.match, 10, r.match));
-      place("kpi-match", matchValue(small), at(26, band - r.match, 6, r.match));
-    }
+    if (m.plusMatch) place("plus-match", plusMatch(Math.round(19 * s), m.plusMatch), at(16, band - r.match, 16, r.match));
     if (m.restNote) note(NOTE_REST, at(32, band - r.match, 16, r.match));
     if (r.note) note(NOTE_WAITING, at(16, band, 16, r.note));
     place("map", map, at(0, r.kpi, 32, r.map));
@@ -256,19 +251,14 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
   };
 }
 
-/** "Company match" and its figure, side by side: Studio's text widget beside a value widget. */
-function matchLabel(px: number, text: string): AgTextWidget {
+/**
+ * "+ company match ¥X = ¥Y bought", under the donors' figure: one equation instead of a second "spent".
+ * Studio's text widget; the figures are the model's (derive.ts), in the book's money format.
+ */
+function plusMatch(px: number, text: string): AgTextWidget {
   return {
     type: "text",
     dataMapping: {},
-    format: { style: { text, textAlign: "right", verticalAlign: "center", color: "#4A5160", typography: { fontFamily: SANS, fontSize: px, fontWeight: "normal" } } },
-  };
-}
-
-function matchValue(px: number): AgValueWidget {
-  return {
-    type: "value",
-    dataMapping: { value: [{ id: "totals.match", aggregation: "sum" }] },
-    format: { style: { color: COLORS.spentText, textAlign: "left", verticalAlign: "center", typography: { fontFamily: SANS, fontSize: px, fontWeight: "bold" } }, crossFilter: "none" },
+    format: { style: { text, textAlign: "center", verticalAlign: "center", color: "#3C4250", typography: { fontFamily: SANS, fontSize: px, fontWeight: "normal" } } },
   };
 }

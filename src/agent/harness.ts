@@ -5,6 +5,7 @@ import { FactRegistry } from "./facts";
 import { linesFor, type Verdict } from "./guard";
 import { say } from "./i18n";
 import type { AgentLocale } from "./money-parse";
+import type { ModelPlan } from "./model-plan";
 import { LEDGER_DESCRIPTION, ledgerInstructions } from "./prompts";
 import { answerStarter, STARTERS, starterPrompt, type StarterId } from "./starters";
 import { routeQuestion, type Intent, type RoutePlan } from "./route";
@@ -111,8 +112,10 @@ export interface AskState {
   /** A quick question waiting for the reader to say who they are. */
   pending: StarterId | null;
   donor: string | null;
-  /** Which model answers ("Amazon Nova", "Meta Muse Spark"): the server says so with each question and turn. */
-  modelLabel: string;
+  /** Which model answered ("Amazon Nova", "Meta Muse Spark"): the server says so with each question and turn. Null until it has. */
+  modelLabel: string | null;
+  /** What the server is set to answer with, for the small print before it has named a model (model-plan.ts). */
+  modelPlan: ModelPlan;
   /** Grows each time a Studio is attached: what reads Studio's tools (WebMCP) reads them again. */
   studio: number;
 }
@@ -144,6 +147,8 @@ export interface LedgerAgentOptions {
    * first turn. "model" (variant A): the model picks every tool. Default: NEXT_PUBLIC_AGENT_ROUTING.
    */
   routing?: "model" | "code";
+  /** The server's setting, from the drive page: "meta" names Meta Muse Spark before the first answer. Default "nova". */
+  modelPlan?: ModelPlan;
 }
 
 /** The routing a build was made with: NEXT_PUBLIC_AGENT_ROUTING=code turns variant C on. */
@@ -161,7 +166,7 @@ const lastAssistantText = (s: AgAiChatSession) => {
 export class LedgerAgent {
   readonly facts: FactRegistry;
   readonly history: AgAiHistoryStore;
-  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null, modelLabel: "Amazon Nova", studio: 0 };
+  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null, modelLabel: null, modelPlan: "nova", studio: 0 };
   private api: AgStudioApi | null = null;
   private readonly listeners = new Set<() => void>();
   private harness: AgAiHarness | null = null;
@@ -178,6 +183,7 @@ export class LedgerAgent {
   constructor(private readonly o: LedgerAgentOptions) {
     this.facts = new FactRegistry(() => o.getView().drive.baseCurrency);
     this.history = o.history ?? new MemoryHistory();
+    if (o.modelPlan) this.state = { ...this.state, modelPlan: o.modelPlan };
   }
 
   get = () => this.state;

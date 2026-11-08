@@ -10,8 +10,19 @@
 .ld-steps { margin: 26px 0 0 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15.5px; line-height: 22px; }
 .ld-steps li::marker { font-weight: 700; color: var(--primary); }
 .ld-steps b { font-weight: 600; }
-.ld-links { margin-top: 22px; display: flex; gap: 20px; font-size: 15px; font-weight: 600; }
+.ld-links { margin-top: 14px; display: flex; gap: 20px; font-size: 15px; font-weight: 600; }
 .ld-links a { color: var(--primary); }
+.ld-for { margin-top: 12px; font-size: 16.5px; line-height: 24px; color: rgba(28, 27, 25, .78); }
+/* The judge's way through: read-only links in a panel above the button that writes. */
+.ld-judge { margin-top: 22px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.ld-judge h2 { font-size: 17px; line-height: 24px; font-weight: 700; letter-spacing: -.01em; }
+.ld-judge ol { margin: 10px 0 0 20px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 22px; }
+.ld-judge li::marker { font-weight: 700; color: var(--primary); }
+.ld-judge li a { font-weight: 600; color: var(--primary); }
+/* Without the code's address the README step is plain text, not something that looks like a link. */
+.ld-judge li b { font-weight: 600; }
+.ld-judge .ld-badge { margin-top: 12px; }
+.ld-hint { margin-top: 8px; font-size: 13.5px; line-height: 19px; color: rgba(28, 27, 25, .66); }
 @media (max-width: 480px) {
   .ld-page h1 { font-size: 24px; line-height: 31px; }
 }

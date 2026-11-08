@@ -9,6 +9,14 @@ import { LedgerAgent } from "./harness";
 
 const view = JSON.parse(readFileSync(path.resolve(__dirname, "../../tests/fixtures/drives/closed.json"), "utf8")) as DriveView;
 
+describe("the model the chat names before the server has answered", () => {
+  it("is the page's setting until a question names the model that answered", () => {
+    const meta = new LedgerAgent({ getView: () => view, modelPlan: "meta" });
+    expect(meta.get()).toMatchObject({ modelPlan: "meta", modelLabel: null });
+    expect(new LedgerAgent({ getView: () => view }).get()).toMatchObject({ modelPlan: "nova", modelLabel: null });
+  });
+});
+
 describe("LedgerAgent.ask before Studio is ready", () => {
   it("refuses at once (false), asks nothing and changes nothing", () => {
     let opened = 0;

@@ -30,7 +30,8 @@ describe("the Ledger in three languages: the same figures, other words", () => {
   it("German", () => {
     const m = deriveLedger(closed, "de");
     expect(m.lang).toBe("de");
-    expect([m.spentLabel, m.restLabel]).toEqual(["Für Bedarf ausgegeben", "An Spender zurück"]);
+    expect([m.spentLabel, m.restLabel]).toEqual(["Spenden ausgegeben", "An Spender zurück"]);
+    expect([m.plusMatch, m.shelterKicker]).toEqual(["+ Firmenzuschuss 5.224 ¥ = 10.448 ¥ gekauft", "Für die Unterkunft gekauft"]);
     expect(m.shelterTotal).toBe("10.448 ¥ mit Zuschuss");
     expect(m.receiptTotal).toBe("Beleg 14.646 ¥");
     expect(m.rates).toBe("Kurse bei Zusage: 1 € = 162,35 ¥ · 1 $ = 151,20 ¥");
@@ -47,7 +48,8 @@ describe("the Ledger in three languages: the same figures, other words", () => {
 
   it("Japanese: the receipt's own printed name, yen as the receipt prints it", () => {
     const m = deriveLedger(closed, "ja");
-    expect([m.spentLabel, m.restLabel, m.shelterTotal]).toEqual(["必要品に支出", "寄付者へ返金", "マッチング込み ¥10,448"]);
+    expect([m.spentLabel, m.restLabel, m.shelterTotal]).toEqual(["寄付金から支出", "寄付者へ返金", "マッチング込み ¥10,448"]);
+    expect([m.plusMatch, m.shelterKicker]).toEqual(["＋ 企業マッチング ¥5,224 ＝ 購入 ¥10,448", "避難所のために購入"]);
     const line4 = m.book.find((r) => r.line === 4 && r.kind === "donor_share")!;
     expect(line4.item).toBe("ソフトキッズおおむつ M 44 枚");
     expect([line4.needShown, line4.paid, line4.status]).toEqual(["おむつ Mサイズ", "$8.58", "支出済み"]);
@@ -56,7 +58,7 @@ describe("the Ledger in three languages: the same figures, other words", () => {
 
   it("an open drive's notes and words, in German", () => {
     const m = deriveLedger(open, "de");
-    expect(m.spentLabel).toBe("Für Bedarf freigegeben");
+    expect(m.spentLabel).toBe("Spenden freigegeben");
     expect(m.restLabel).toBe("Reserviert");
     expect(m.waitingNote).toMatch(/^5\.224 ¥ warten auf die (tägliche|nächste) Abbuchung$/);
     expect(new Set(m.book.map((r) => r.status))).toEqual(new Set(["Wartet auf Abbuchung", "Abgelehnt"]));

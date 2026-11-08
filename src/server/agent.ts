@@ -7,10 +7,11 @@ import { agentQuestions, spendLedger } from "../db/schema";
 import { novaToolSpec } from "../agent/flatten";
 import { say, type TextKey } from "../agent/i18n";
 import type { AgentLocale } from "../agent/money-parse";
-import { fromMetaResponse, META_MODEL, metaBody, metaUsd, toMetaRequest } from "../agent/meta-wire";
+import { fromMetaResponse, metaBody, metaUsd, toMetaRequest } from "../agent/meta-wire";
 import { AGENT_TOOLS, QuestionBody, TurnBody, type AgentId, type TurnReply } from "../agent/wire";
 import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { JsonlSpendLedger, SpendCap, SpendCapExceeded, worstCaseTokensIn, type LedgerEntry, type SpendLedger } from "../receipts/spend";
+import { agentMetaFrom, META_AGENT_CAP_MAX_USD, META_AGENT_DAILY_CAP_DEFAULT_USD, type MetaProvider } from "./agent-env";
 import { ServiceError } from "./errors";
 import { META_SPEND_PREFIX } from "./spend";
 
@@ -22,7 +23,7 @@ import { META_SPEND_PREFIX } from "./spend";
 // - only our two agents, only their tools, the model fixed here (Nova Lite unless configured).
 // A refusal is a 429 with a sentence for people in EN/DE/JA, not an error.
 // Honest limit: Studio builds the built-in agent's instructions in the browser, so within these
-// limits this route is a proxy to Nova (STEP0 §2).
+// limits this route is a proxy to Nova (a limit of the design, accepted).
 
 export interface AgentLimits {
   questionsPerHour: number;
@@ -73,7 +74,7 @@ export function agentLimitsFrom(env: NodeJS.ProcessEnv): Partial<AgentLimits> {
   return out;
 }
 
-/** "lite" | "pro" per agent; Lite unless set (STEP0 §2: Pro only if the measure shows Lite cannot). */
+/** "lite" | "pro" per agent; Lite unless set (Pro only if the measure shows Lite cannot). */
 export function agentModelsFrom(env: NodeJS.ProcessEnv): Record<AgentId, string> {
   const pick = (v: string | undefined) => (v === "pro" ? NOVA_MODELS.pro : NOVA_MODELS.lite);
   return { ledger: pick(env.AGENT_MODEL_LEDGER), data: pick(env.AGENT_MODEL_DATA) };
@@ -234,7 +235,7 @@ export interface DevRun {
   ledger: DevSpendLedger;
   /** Meta's credits are kept apart from Bedrock's $5 (eval/meta-spend-ledger.jsonl, ≤ $1). */
   metaLedger?: DevSpendLedger;
-  /** Each call's line goes here (docs/nadya/p3-agent/live-calls.jsonl). */
+  /** Each call's line goes here (AGENT_DEV_CALLS_LOG; scripts/agent-measure.ts sets it). */
   callsLog: string;
   lane: string;
   maxCalls: number;
@@ -253,42 +254,7 @@ export function agentDevFrom(env: NodeJS.ProcessEnv): DevRun | undefined {
   };
 }
 
-/**
- * Variant D: Meta's Muse Spark on the Responses API, tried first for every turn; Amazon Nova (Bedrock Lite)
- * takes over a question as soon as Meta cannot answer (no key, its ceiling, an HTTP error, a timeout).
- */
-export interface MetaProvider {
-  baseUrl: string;
-  /** Null: allowed but no key on this server, so every turn falls back to Bedrock. */
-  apiKey: string | null;
-  model: string;
-  /** META_AGENT_CAP_USD: the most Meta may cost, over all `agent-meta:` rows; never above META_AGENT_CAP_MAX_USD. */
-  capUsd: number;
-  /** META_AGENT_DAILY_CAP_USD: the most Meta may cost over any 24 hours (default META_AGENT_DAILY_CAP_DEFAULT_USD). */
-  dailyCapUsd?: number;
-  fetch?: typeof fetch;
-}
-
-/** Meta's ceiling in code (Nadya, 06.11, TG 5898): the environment can lower it, never raise it. */
-export const META_AGENT_CAP_MAX_USD = 5;
-/** Meta's spend over any 24 hours unless META_AGENT_DAILY_CAP_USD says less. */
-export const META_AGENT_DAILY_CAP_DEFAULT_USD = 0.5;
-
-/** Only with AGENT_META_ALLOWED=yes and META_AGENT_CAP_USD above zero; nothing else switches Meta on. */
-export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined {
-  const cap = Number(env.META_AGENT_CAP_USD ?? "0");
-  if (env.AGENT_META_ALLOWED !== "yes" || !(cap > 0)) return undefined;
-  const capUsd = Math.min(cap, META_AGENT_CAP_MAX_USD);
-  const daily = env.META_AGENT_DAILY_CAP_USD && /^\d+(\.\d+)?$/.test(env.META_AGENT_DAILY_CAP_USD) ? Number(env.META_AGENT_DAILY_CAP_USD) : META_AGENT_DAILY_CAP_DEFAULT_USD;
-  return {
-    baseUrl: (env.META_MODEL_API_BASE_URL ?? "https://api.meta.ai/v1").replace(/\/$/, ""),
-    apiKey: env.META_MODEL_API_KEY || null,
-    model: META_MODEL,
-    capUsd,
-    // META_AGENT_DAILY_CAP_USD can lower the daily ceiling, never raise it above the default.
-    dailyCapUsd: Math.min(daily, META_AGENT_DAILY_CAP_DEFAULT_USD, capUsd),
-  };
-}
+export { agentMetaFrom, META_AGENT_CAP_MAX_USD, META_AGENT_DAILY_CAP_DEFAULT_USD, type MetaProvider } from "./agent-env";
 
 /** What the reader is told answered: the chat's small print follows it. */
 export const modelLabel = (model: string) => (model.startsWith("muse-") ? "Meta Muse Spark" : "Amazon Nova");

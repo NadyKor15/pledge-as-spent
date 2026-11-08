@@ -121,14 +121,15 @@ export function day(iso: string | null | undefined, withYear = true): string {
   return withYear ? `${d} ${m[1]}` : d;
 }
 
-/** "just now", "4 min ago", "2 h ago", "3 days ago". */
-export function ago(iso: string, now = Date.now()): string {
-  const s = Math.max(0, (now - Date.parse(iso)) / 1000);
-  if (s < 60) return "just now";
-  if (s < 3600) return `${Math.floor(s / 60)} min ago`;
-  if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
-  const d = Math.floor(s / 86400);
-  return `${d} day${d === 1 ? "" : "s"} ago`;
+const UTC_DATE: Record<Lang, [string, Intl.DateTimeFormatOptions["month"]]> = { en: ["en-US", "short"], de: ["de-DE", "short"], ja: ["ja-JP", "long"] };
+
+/**
+ * "Nov 1, 02:06 UTC": the day and time PayPal answered, in UTC, so every reader sees the same moment. Not "7 days
+ * ago": a relative time on a drive opened days before reads as if the money moved before the receipt.
+ */
+export function whenUtc(lang: Lang, iso: string): string {
+  const [locale, month] = UTC_DATE[lang];
+  return `${new Intl.DateTimeFormat(locale, { month, day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "UTC" }).format(new Date(iso))} UTC`;
 }
 
 /** "Kitasora Community Shelter — Earthquake relief" -> its two parts. */
