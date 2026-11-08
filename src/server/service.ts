@@ -18,6 +18,10 @@ import {
   planHoldMaintenance,
   planPayout,
   payoutSubmittedEvent,
+  rebindEvent,
+  rebindOffer,
+  type HoldRebind,
+  type RebindOffer,
   receiptFundedBase,
   rejectLine,
   renewalRequestedEvent,
@@ -94,6 +98,8 @@ export interface ServiceDeps {
   now?: () => string;
   limits?: Partial<Limits>;
   log?: (message: string, extra?: unknown) => void;
+  /** A donor may move the rest of a hold to another need. Absent: env REBIND_ENABLED === "1"; off by default. */
+  rebindEnabled?: boolean;
 }
 
 export interface SubmitResult {
@@ -478,6 +484,51 @@ export class PledgeService {
     });
     reports.push(...(await this.advance(driveId)));
     return { pledgeId, commands: reports };
+  }
+
+  /** Off unless switched on: the deps say so, or env REBIND_ENABLED is "1". */
+  get rebindEnabled(): boolean {
+    return this.d.rebindEnabled ?? process.env.REBIND_ENABLED === "1";
+  }
+
+  /**
+   * The donor moves what is left of a hold from the need it backs to another open
+   * need, with one press on the statement. No PayPal call: the same authorization,
+   * the same amount and the same expiry now back the new need. The book keeps who
+   * agreed and when. A second press for the same move answers the same; any other
+   * second move is refused (one per hold).
+   */
+  async rebindPledge(input: { pledgeId: string; fromNeedId: string; toNeedId: string }): Promise<{ pledgeId: string; needId: string; rebound: HoldRebind }> {
+    if (!this.rebindEnabled) throw new ServiceError(404, "rebind_disabled", "Moving a pledge to another need is not switched on.");
+    const { pledgeId, fromNeedId, toNeedId } = input;
+    for (const [k, v] of Object.entries({ fromNeedId, toNeedId })) {
+      if (typeof v !== "string" || v === "") throw new ServiceError(400, "invalid_rebind", `${k} is required.`);
+    }
+    const { driveId } = await this.pledgeDrive(pledgeId);
+    const same = (r: HoldRebind | undefined) => r !== undefined && r.fromNeedId === fromNeedId && r.toNeedId === toNeedId;
+    const rebound = await withDrive(this.db, driveId, async (b) => {
+      const done = b.state.holds[pledgeId]?.rebound;
+      if (same(done)) return done!;
+      let ev;
+      try {
+        ev = rebindEvent(b.state, { pledgeId, fromNeedId, toNeedId, at: this.now(), consent: { by: b.state.pledges[pledgeId].donorName, via: "statement" } });
+      } catch (e) {
+        if (e instanceof CoreError && e.code === "rebind_refused") {
+          throw new ServiceError(409, "rebind_refused", e.message.replace(/^rebind_refused: /, ""), { rule: e.message.replace(/^rebind_refused: ([a-z_]+):.*$/s, "$1") });
+        }
+        throw asServiceError(e);
+      }
+      await b.append(ev, "app");
+      return b.state.holds[pledgeId].rebound!;
+    });
+    return { pledgeId, needId: rebound.toNeedId, rebound };
+  }
+
+  /** What the donor's statement may offer now: null while the feature is off. */
+  async getRebindOffer(pledgeId: string): Promise<RebindOffer | null> {
+    if (!this.rebindEnabled) return null;
+    const { state } = await this.pledgeDrive(pledgeId);
+    return rebindOffer(state, pledgeId, this.now());
   }
 
   // ---- receipts ----------------------------------------------------------------
@@ -983,7 +1034,11 @@ export class PledgeService {
 
   async getStatement(pledgeId: string) {
     const { state } = await this.pledgeDrive(pledgeId);
-    return { drive: { id: state.drive!.id, title: state.drive!.title }, statement: donorStatement(state, pledgeId) };
+    return {
+      drive: { id: state.drive!.id, title: state.drive!.title },
+      statement: donorStatement(state, pledgeId),
+      rebind: this.rebindEnabled ? rebindOffer(state, pledgeId, this.now()) : null,
+    };
   }
 }
 

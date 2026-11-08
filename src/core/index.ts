@@ -10,5 +10,6 @@ export * from "./ledger";
 export * from "./refusals";
 export * from "./allocate";
 export * from "./plan";
+export * from "./rebind";
 export * from "./fees";
 export * from "./views";

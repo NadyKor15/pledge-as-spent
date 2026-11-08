@@ -23,3 +23,6 @@ export const voidRequestId = (driveId: string, pledgeId: string): string => `voi
  */
 export const payoutSenderBatchId = (driveId: string, receiptId: string, attempt: number): string =>
   attempt === 1 ? `pay:${driveId}:${receiptId}` : `pay:${driveId}:${receiptId}:${attempt}`;
+
+/** One rebind per hold: a second press, or a race of two, maps to the same event and is applied once. */
+export const rebindEventId = (driveId: string, pledgeId: string): string => `rebind:${driveId}:${pledgeId}`;
