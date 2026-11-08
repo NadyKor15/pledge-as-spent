@@ -267,8 +267,14 @@ test.describe("on a phone", () => {
     });
     expect(gap).toBeGreaterThanOrEqual(0);
     expect(gap).toBeLessThan(40);
+    // And no empty band under the small print before the first question (it was about 330 px).
+    const band = await page.evaluate(() => document.querySelector("[data-testid=ask-widget]")!.getBoundingClientRect().bottom - document.querySelector(".ask-foot")!.getBoundingClientRect().bottom);
+    expect(band).toBeLessThan(90);
     await ask(page, Q1.question);
     await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
+    // The answer scrolls inside the chat's area and is brought into view there.
+    await expect(page.getByTestId("ask-question")).toBeVisible();
+    expect(await page.evaluate(() => { const box = document.querySelector("[data-testid=ask-widget]")!.getBoundingClientRect(); const q = document.querySelector("[data-testid=ask-question]")!.getBoundingClientRect(); return q.top >= box.top && q.top < box.bottom; })).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
     await page.getByTestId("ask-widget").scrollIntoViewIfNeeded();
     await page.screenshot({ path: path.join(SHOTS, "ask-390.png") });

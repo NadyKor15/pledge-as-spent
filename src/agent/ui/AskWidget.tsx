@@ -100,6 +100,16 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const s = useSyncExternalStore(agent.subscribe, agent.get, agent.get);
   const [draft, setDraft] = useState("");
   const last = useRef<unknown>(null);
+  const box = useRef<HTMLElement>(null);
+
+  // In the book's slot the chat has a fixed height and scrolls inside: a question and its answer are brought into
+  // view there, without moving the page.
+  useEffect(() => {
+    const el = box.current;
+    const q = el?.querySelector<HTMLElement>('[data-testid="ask-question"]');
+    if (!el || !q || el.scrollHeight <= el.clientHeight) return;
+    el.scrollTop += q.getBoundingClientRect().top - el.getBoundingClientRect().top - 12;
+  }, [s.phase, s.answer]);
 
   // A new answer narrows the book to its lines, as the picture shows ("Narrowed by the assistant").
   useEffect(() => {
@@ -121,7 +131,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const verdict = answer ? checkAnswer(answer.text, answer.facts, locale) : null;
 
   return (
-    <section className="ask" id={ASK_ANCHOR} data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
+    <section className="ask" ref={box} id={ASK_ANCHOR} data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
       <header className="ask-head">
         <h2>{UI.title[locale]}</h2>
         <p>{UI.sub[locale]}</p>

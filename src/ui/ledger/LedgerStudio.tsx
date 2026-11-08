@@ -110,7 +110,12 @@ const bandRoom = (stacked: boolean) => (stacked ? PHONE_BAND_ROOM_PX : BAND_ROOM
 const BOOK_HEAD_PX = 60;
 /** The assistant's chat over the book, in pixels at scale 1; the assistant's lane sizes its widget to this. */
 export const ASK_PX = 460;
-export const PHONE_ASK_PX = 640;
+/**
+ * On a phone the box sits right under the quick questions (ask.css), so the chat's area is as tall as the chat
+ * before a question, in the longest language (German: 358 px with the WebMCP line): no empty band under it. An
+ * answer scrolls inside the chat, which brings it into view (AskWidget).
+ */
+export const PHONE_ASK_PX = 370;
 
 function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
   // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
