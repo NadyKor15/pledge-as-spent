@@ -110,7 +110,7 @@ export interface LedgerModel {
    * match, "Donors' money approved" / "Donors' money spent": the match is added in `plusMatch`, under the figure.
    */
   spentLabel: string;
-  /** "+ company match ¥5,224 = ¥10,448 bought": the donors' figure above it, plus the match, is what was bought. Null without a match. */
+  /** "+ company match ¥X = ¥Y bought": the donors' figure above it, plus the match, is what was bought. Null without a match. */
   plusMatch: string | null;
   /** The shelter card's heading: "Bought for the shelter". */
   shelterKicker: string;
