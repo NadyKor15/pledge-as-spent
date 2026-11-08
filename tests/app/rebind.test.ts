@@ -69,7 +69,6 @@ describe("rebind switched on", () => {
     await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: r2.bytes });
     const st = (await s.h.svc.getStatement(s.lena)).statement;
     expect(st.rows.map((x) => x.needId)).toEqual(["water", "diapers"]);
-    expect(st.rows[0].receiptId).toBe(st.rows[0].receiptId);
     const view = await s.h.svc.getDriveView(s.driveId);
     for (const h of view.holds) expect(h.captured + h.capturePending + h.accrued).toBeLessThanOrEqual(h.authorized);
   });
@@ -120,10 +119,14 @@ describe("rebind switched on", () => {
     const s = await setup();
     await refused(s.h.svc.rebindPledge({ pledgeId: `${s.driveId}.match`, fromNeedId: "water", toNeedId: "diapers" }), 409, /not_donor/);
     await refused(s.h.svc.rebindPledge({ pledgeId: `${s.driveId}.nobody`, fromNeedId: "water", toNeedId: "diapers" }), 404, /No pledge/);
-    // a pledge id of another drive only ever moves inside its own drive
-    const other = await setup("demo-rebind-other");
-    await refused(s.h.svc.rebindPledge({ pledgeId: other.lena, fromNeedId: "water", toNeedId: "tarps" }), 409, /unknown_need/);
+    // a pledge id of another drive only ever moves a hold inside that drive: this drive's book is untouched
+    await s.h.svc.createDemoDrive({ driveId: "demo-rebind-other" });
+    const before = await s.h.svc.getDriveView(s.driveId);
+    await s.h.svc.rebindPledge({ pledgeId: "demo-rebind-other.water", fromNeedId: "water", toNeedId: "diapers" });
     expect(await s.rebinds()).toEqual([]);
+    expect((await s.h.svc.getDriveView(s.driveId)).holds).toEqual(before.holds);
+    const otherView = await s.h.svc.getDriveView("demo-rebind-other");
+    expect(otherView.holds.find((x) => x.pledgeId === "demo-rebind-other.water")!.needId).toBe("diapers");
   });
 
   it("#36 onto a need of another drive in another currency", async () => {
