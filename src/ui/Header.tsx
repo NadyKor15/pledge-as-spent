@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import "./header.css";
 import { classes } from "./cls";
 import { shelterShort, titleParts, type Lang } from "./format";
@@ -50,10 +51,9 @@ export function DesktopHeader({ driveId, title, demo, role, variant, lang = "en"
   if (stacked) {
     return (
       <>
-        <MobileHeader driveId={driveId} role={role} lang={lang} />
+        <MobileHeader driveId={driveId} role={role} lang={lang} ask={askLink} />
         <p className={s.mline} lang={lang}>
           {phoneLine(shown, demo, lang)}
-          {askLink && <> · {askLink}</>}
         </p>
       </>
     );
@@ -80,8 +80,11 @@ export function DesktopHeader({ driveId, title, demo, role, variant, lang = "en"
   );
 }
 
-/** Phone header: the wordmark plus either the drive badge (statement) or the role menu (drive screens). */
-export function MobileHeader({ badge, driveId, role, lang = "en" }: { badge?: string; driveId?: string; role?: Role; lang?: Lang }) {
+/**
+ * Phone header: the wordmark plus either the drive badge (statement) or the role menu (drive screens); `ask`, the
+ * way down to the chat, sits at its right end, so the drive's line under it stays one line.
+ */
+export function MobileHeader({ badge, driveId, role, lang = "en", ask }: { badge?: string; driveId?: string; role?: Role; lang?: Lang; ask?: ReactNode }) {
   const w = HEADER_WORDS[lang];
   if (badge !== undefined) {
     return (
@@ -116,6 +119,7 @@ export function MobileHeader({ badge, driveId, role, lang = "en" }: { badge?: st
           ))}
         </ul>
       </details>
+      {ask}
     </header>
   );
 }

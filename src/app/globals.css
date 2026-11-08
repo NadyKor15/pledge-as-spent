@@ -10,9 +10,10 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--bg); }
-/* The scrollbar's room is kept whether or not the page is long enough to scroll: the width the screens are laid out
-   for does not change once the content has loaded (src/ui/stage.tsx). */
-html { scrollbar-gutter: stable; }
+/* On the zoomed desktop screens the scrollbar's room is kept whether or not the page is long enough to scroll: the
+   width they are laid out for does not change once the content has loaded (src/ui/stage.tsx, STACK_BELOW). A narrow
+   window keeps all of its width: there the screens are one fluid column. */
+@media (min-width: 1100px) { html { scrollbar-gutter: stable; } }
 body { font-family: var(--sans); color: var(--text); }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; }

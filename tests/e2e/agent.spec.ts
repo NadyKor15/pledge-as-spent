@@ -233,8 +233,8 @@ test("in German the chat speaks German: quick question answered by the book's co
   const nav = page.getByRole("navigation", { name: "Rolle" });
   await expect(nav.getByRole("link")).toHaveText(["Unterkunft", "Spender", "Helfer", "Koordination", "Buch"]);
   await expect(nav.getByRole("link", { name: "Buch" })).toHaveAttribute("href", /[?&]lang=de/);
-  await expect(page.locator("header")).toContainText("Fiktive Sammlung · PayPal-Sandbox");
-  await expect(page.locator("header")).toContainText("Kitasora Gemeinschaftsunterkunft");
+  await expect(page.locator("header.hd-top")).toContainText("Fiktive Sammlung · PayPal-Sandbox");
+  await expect(page.locator("header.hd-top")).toContainText("Kitasora Gemeinschaftsunterkunft");
   await expect(page.getByTestId("ask-anchor")).toHaveText("Frag das Buch ↓");
   await page.getByTestId("ask-starter-back").click();
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();

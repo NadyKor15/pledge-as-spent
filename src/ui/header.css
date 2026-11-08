@@ -10,7 +10,7 @@
 .hd-nav { margin-left: auto; display: flex; align-items: center; }
 .hd-ask { color: #046C7E; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .hd-d .hd-ask { margin-left: 22.4px; font-size: 17px; position: relative; top: 0.61px; }
-.hd-mline .hd-ask { font-weight: 600; }
+.hd-f .hd-ask { margin: 11px 14px 0 auto; font-size: 12px; line-height: 18px; letter-spacing: -.01em; }
 .hd-nav a { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 
 /* d: donor reference (59.32 px) */
