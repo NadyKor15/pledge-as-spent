@@ -210,11 +210,31 @@ test("\"Ask about this line\" in a row's proof band asks the agent about that li
   expect(served.seen).toHaveLength(2);
 });
 
+test("the header's \"Ask the book ↓\" brings the chat into view from the first screen", async ({ page }) => {
+  await questions(page);
+  await openLedger(page);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const anchor = page.getByTestId("ask-anchor");
+  await expect(anchor).toHaveText("Ask the book ↓");
+  await expect(anchor).toBeInViewport();
+  await anchor.click();
+  await expect(page.getByTestId("ask-widget").getByRole("heading")).toBeInViewport({ ratio: 1 });
+  await expect(page.getByTestId("ask-input")).toBeInViewport({ ratio: 1 });
+  await expect(page).toHaveURL(/#ask-the-book$/);
+});
+
 test("in German the chat speaks German: quick question answered by the book's code, euro in the German form", async ({ page }) => {
   await questions(page);
   await openLedger(page);
   await page.getByRole("button", { name: "DE", exact: true }).click();
   await expect(page.getByTestId("ask-widget").getByRole("heading")).toHaveText("Frag das Buch");
+  // The header over the book speaks German with it: the role tabs, the badge, the drive's name, the way to the chat.
+  const nav = page.getByRole("navigation", { name: "Rolle" });
+  await expect(nav.getByRole("link")).toHaveText(["Unterkunft", "Spender", "Helfer", "Koordination", "Buch"]);
+  await expect(nav.getByRole("link", { name: "Buch" })).toHaveAttribute("href", /[?&]lang=de/);
+  await expect(page.locator("header")).toContainText("Fiktive Sammlung · PayPal-Sandbox");
+  await expect(page.locator("header")).toContainText("Kitasora Gemeinschaftsunterkunft");
+  await expect(page.getByTestId("ask-anchor")).toHaveText("Frag das Buch ↓");
   await page.getByTestId("ask-starter-back").click();
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");

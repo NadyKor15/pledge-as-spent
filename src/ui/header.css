@@ -3,10 +3,14 @@
 .hd-top > * { flex: none; }
 .hd-brand { font-weight: 700; color: var(--primary); text-decoration: none; }
 .hd-vr { background: #D0D3D8; }
-.hd-drive { color: var(--hdr-ink); }
+/* The drive's name gives way first: a long name in another language never pushes the tabs off the page. */
+.hd-drive { color: var(--hdr-ink); flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .hd-drive b { font-weight: 700; }
 .hd-chip { display: inline-flex; align-items: center; background: #EDF1F4; color: #445168; }
 .hd-nav { margin-left: auto; display: flex; align-items: center; }
+.hd-ask { color: #046C7E; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.hd-d .hd-ask { margin-left: 22.4px; font-size: 17px; position: relative; top: 0.61px; }
+.hd-mline .hd-ask { font-weight: 600; }
 .hd-nav a { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 
 /* d: donor reference (59.32 px) */

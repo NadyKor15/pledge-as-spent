@@ -18,6 +18,8 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  /* Reached from the header's "Ask the book ↓": its heading stays clear of the window's edge. */
+  scroll-margin-top: 12px;
 }
 
 .ask *,

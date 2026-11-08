@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
+import { ASK_ANCHOR } from "@/ui/header-words";
 import { checkAnswer, linesFor, type Claim } from "../guard";
 import { say } from "../i18n";
 import type { AskState } from "../harness";
@@ -120,7 +121,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
   const verdict = answer ? checkAnswer(answer.text, answer.facts, locale) : null;
 
   return (
-    <section className="ask" data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
+    <section className="ask" id={ASK_ANCHOR} data-phase={s.phase} data-ready={s.ready} data-testid="ask-widget" lang={locale}>
       <header className="ask-head">
         <h2>{UI.title[locale]}</h2>
         <p>{UI.sub[locale]}</p>
