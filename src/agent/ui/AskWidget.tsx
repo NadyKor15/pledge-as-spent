@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent, type
 import { checkAnswer, linesFor, type Claim } from "../guard";
 import { say } from "../i18n";
 import type { AskState } from "../harness";
+import { planLabel } from "../model-plan";
 import type { AgentLocale } from "../money-parse";
 import { STARTERS, type StarterId } from "../starters";
 import { delegationText } from "../steps";
@@ -214,7 +215,7 @@ export function AskWidget({ agent, locale = "en", donors, onFocusLines, footExtr
       </form>
       <div className="ask-foot">
         <p data-testid="ask-model">
-          {s.modelLabel ?? "Amazon Nova"} · {UI.foot[locale]}
+          {s.modelLabel ?? planLabel(s.modelPlan, locale)} · {UI.foot[locale]}
         </p>
         {footExtra}
       </div>

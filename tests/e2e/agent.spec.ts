@@ -88,7 +88,7 @@ test("a question gets an answer with checked chips, and the book narrows to the 
   const served = model(page, turnsOf(Q1));
   await openLedger(page);
   await expect(page.getByTestId("webmcp-badge")).toHaveText("This browser doesn't expose WebMCP (Chrome 149+, flag)");
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · read-only");
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · read-only");
   await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
   await expect(answer).toContainText("Your ✓$30.00 hold paid ✓$21.45 for Diapers size M");
@@ -219,7 +219,7 @@ test("in German the chat speaks German: quick question answered by the book's co
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · nur lesend");
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · nur lesend");
   await expect(page.getByTestId("webmcp-badge")).toHaveText("Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)");
 });
 

@@ -5,6 +5,7 @@ import { AgStudioAiModule } from "ag-studio";
 import { AG_STUDIO_LOCALE_DE, AG_STUDIO_LOCALE_EN, AG_STUDIO_LOCALE_JP } from "ag-studio-locale";
 import { AgStudio, AgStudioProvider, createWidgets } from "ag-studio-react";
 import { LedgerAgent } from "@/agent/harness";
+import type { ModelPlan } from "@/agent/model-plan";
 import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
@@ -70,10 +71,10 @@ const LICENSE = process.env.NEXT_PUBLIC_AG_STUDIO_LICENSE;
 const MODULES = [AgStudioAiModule];
 
 /** The page's store and its agent, made once: the chat is in the slot from the first render, so Studio is built once. */
-function makeBook(view: DriveView) {
+function makeBook(view: DriveView, modelPlan: ModelPlan) {
   const lang = langFromUrl();
   const store = new LedgerStore(deriveLedger(view, lang), view);
-  const agent = new LedgerAgent({ getView: () => store.get().view ?? view, locale: () => store.get().lang });
+  const agent = new LedgerAgent({ getView: () => store.get().view ?? view, locale: () => store.get().lang, modelPlan });
   store.setAskComponent(askComponentFor(agent));
   store.setAskAbout((lineKey) => {
     agent.askAboutLine(lineKey);
@@ -221,8 +222,8 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
 const langFromUrl = (): Lang => parseLang(new URLSearchParams(window.location.search).get("lang"));
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
-export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown> }) {
-  const [{ store, agent }] = useState(() => makeBook(view));
+export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "nova" }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown>; modelPlan?: ModelPlan }) {
+  const [{ store, agent }] = useState(() => makeBook(view, modelPlan));
   useEffect(() => () => agent.dispose(), [agent]);
   const lang = useSyncExternalStore(store.subscribe, () => store.get().lang);
   // The drive is re-read every few seconds after an action. The same figures must stay the same
