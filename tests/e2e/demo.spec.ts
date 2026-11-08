@@ -42,12 +42,21 @@ function hugePng(width = 1400, height = 1400): Buffer {
   return PNG.sync.write(png, { deflateLevel: 1 });
 }
 
-test("the way in offers one action, explains the path and shows no empty links", async ({ page }) => {
+test("the way in: who it is for, a judge's read-only path, one action that writes, and no empty links", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByText("For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.")).toBeVisible();
+  const judge = page.locator(".ld-judge");
+  await expect(judge.getByRole("heading")).toHaveText("Judging Pledge-as-Spent? See the whole thing in 90 seconds.");
+  await expect(judge.getByRole("link", { name: "See a finished drive" })).toHaveAttribute("href", "/drive/demo-f372326129?as=ledger");
+  await expect(judge.getByRole("link", { name: "Read a donor’s statement" })).toHaveAttribute("href", "/pledge/demo-f372326129.diapers");
+  await expect(judge).toContainText("Judge it in 90 seconds in the README");
+  await expect(judge).toContainText("Fictional drive · PayPal Sandbox · no real money moves");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
+  await expect(page.getByText("Places 4 new sandbox holds")).toBeVisible();
   await expect(page.locator(".ld-steps li")).toHaveCount(4);
   await expect(page.locator(".ld-steps li").last()).toContainText("See where the money went");
-  await expect(page.getByRole("link", { name: /source code|demo video/i })).toHaveCount(0);
+  // The test server sets no video or code address: no empty links for them.
+  await expect(page.getByRole("link", { name: /source code|demo video|^Judge it in 90 seconds$/i })).toHaveCount(0);
   await expect(page.getByText("To get started")).toHaveCount(0);
 });
 

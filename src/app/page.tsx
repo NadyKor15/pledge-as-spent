@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { DemoStart } from "@/ui/DemoStart";
+import { readmeJudgeUrl, showcaseLinks } from "@/ui/showcase";
 import "@/ui/landing.css";
 
 // Links appear only when the deployment sets them: no empty placeholders.
@@ -6,13 +8,40 @@ const CODE_URL = process.env.NEXT_PUBLIC_CODE_URL?.trim();
 const VIDEO_URL = process.env.NEXT_PUBLIC_VIDEO_URL?.trim();
 
 export default function Home() {
+  const finished = showcaseLinks();
+  const readme = readmeJudgeUrl(CODE_URL);
   return (
     <main className="ld-page">
       <div className="ld-col">
         <div className="ld-brand">Pledge-as-Spent</div>
         <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest goes back.</h1>
+        <p className="ld-for">For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.</p>
+
+        {/* Everything here only reads: a finished drive, a statement, the README. Nothing is held or charged. */}
+        <section className="ld-judge" aria-labelledby="ld-judge-title">
+          <h2 id="ld-judge-title">Judging Pledge-as-Spent? See the whole thing in 90 seconds.</h2>
+          <ol>
+            <li>
+              <Link href={finished.ledger}>See a finished drive</Link>: the Ledger, where every pledge was spent on receipt lines or went back.
+            </li>
+            <li>
+              <Link href={finished.statement}>Read a donor’s statement</Link>: what one donor’s hold bought, line by line.
+            </li>
+            <li>
+              {readme ? <a href={readme}>Judge it in 90 seconds</a> : <b>Judge it in 90 seconds</b>} in the README: the PayPal ids behind each claim.
+            </li>
+          </ol>
+          {(VIDEO_URL || CODE_URL) && (
+            <p className="ld-links">
+              {VIDEO_URL && <a href={VIDEO_URL}>Demo video</a>}
+              {CODE_URL && <a href={CODE_URL}>Source code</a>}
+            </p>
+          )}
+          <p className="ld-badge">Fictional drive · PayPal Sandbox · no real money moves</p>
+        </section>
+
         <DemoStart />
-        <p className="ld-badge">Fictional drive · PayPal Sandbox · no real money moves</p>
+        <p className="ld-hint">Places 4 new sandbox holds: three donors and the company match.</p>
         <ol className="ld-steps">
           <li>
             <b>Send a receipt.</b> Press “Use the sample receipt”. AI reads every line, approves what the shelter needs and refuses the rest.
@@ -27,12 +56,6 @@ export default function Home() {
             <b>See where the money went.</b> The Ledger puts every pledge on one page: spent, returned, and the receipt lines behind each yen.
           </li>
         </ol>
-        {(CODE_URL || VIDEO_URL) && (
-          <p className="ld-links">
-            {CODE_URL && <a href={CODE_URL}>Source code</a>}
-            {VIDEO_URL && <a href={VIDEO_URL}>Demo video</a>}
-          </p>
-        )}
       </div>
     </main>
   );
