@@ -229,8 +229,8 @@ test.describe("the live book: a row flashes when PayPal moves its money", () => 
   test("green on the rows PayPal took, through the rebuild of the report, then gone", async ({ page }) => {
     await openBook(page, captureLater());
     await expect(page.locator(".ag-row.lg-flash-spent").first()).toBeVisible({ timeout: 15_000 });
-    // "Approved for needs" became "Spent on needs": Studio was rebuilt, and the flash is still on the new rows.
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Spent on needs" })).toHaveCount(1);
+    // "Donors' money approved" became "Donors' money spent": Studio was rebuilt, and the flash is still on the new rows.
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money spent" })).toHaveCount(1);
     await expect(page.locator(".ag-row.lg-flash-spent")).toHaveCount(18);
     await expect(page.locator(".ag-row.lg-flash-back")).toHaveCount(0);
     await page.locator(".ag-root-wrapper").screenshot({ path: path.join(SHOTS, "book-1440-flash.png") });

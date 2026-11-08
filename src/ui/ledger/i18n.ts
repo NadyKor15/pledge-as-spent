@@ -21,6 +21,13 @@ export interface Words {
   pledged: string;
   spentOnNeeds: string;
   approvedForNeeds: string;
+  /** The middle total on a drive with a company match: the donors' part only, the match comes in the line under it. */
+  donorsSpent: string;
+  donorsApproved: string;
+  /** The line under it: "+ company match ¥5,224 = ¥10,448 bought". */
+  plusMatch: (match: string, total: string) => string;
+  /** The shelter card's heading. */
+  boughtForShelter: string;
   returnedToDonors: string;
   held: string;
   companyMatch: string;
@@ -88,6 +95,10 @@ const EN: Words = {
   pledged: "Pledged",
   spentOnNeeds: "Spent on needs",
   approvedForNeeds: "Approved for needs",
+  donorsSpent: "Donors’ money spent",
+  donorsApproved: "Donors’ money approved",
+  plusMatch: (m, t) => `+ company match ${m} = ${t} bought`,
+  boughtForShelter: "Bought for the shelter",
   returnedToDonors: "Returned to donors",
   held: "Held",
   companyMatch: "Company match",
@@ -136,6 +147,10 @@ const DE: Words = {
   pledged: "Zugesagt",
   spentOnNeeds: "Für Bedarf ausgegeben",
   approvedForNeeds: "Für Bedarf freigegeben",
+  donorsSpent: "Spenden ausgegeben",
+  donorsApproved: "Spenden freigegeben",
+  plusMatch: (m, t) => `+ Firmenzuschuss ${m} = ${t} gekauft`,
+  boughtForShelter: "Für die Unterkunft gekauft",
   returnedToDonors: "An Spender zurück",
   held: "Reserviert",
   companyMatch: "Firmenzuschuss",
@@ -188,6 +203,10 @@ const JA: Words = {
   pledged: "寄付の約束",
   spentOnNeeds: "必要品に支出",
   approvedForNeeds: "必要品に承認",
+  donorsSpent: "寄付金から支出",
+  donorsApproved: "寄付金から承認",
+  plusMatch: (m, t) => `＋ 企業マッチング ${m} ＝ 購入 ${t}`,
+  boughtForShelter: "避難所のために購入",
   returnedToDonors: "寄付者へ返金",
   held: "保留中",
   companyMatch: "企業マッチング",

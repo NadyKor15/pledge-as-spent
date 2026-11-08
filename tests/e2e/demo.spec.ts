@@ -272,7 +272,10 @@ const cutShort = (page: Page) =>
 
 async function expectTotals(page: Page, third: string) {
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: third })).toHaveCount(1);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 10_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 10_000 });
+  // One equation under the donors' figure, not a second "spent": the match and what the two bought.
+  await expect(page.locator("body")).toContainText("+ company match ¥5,224 = ¥10,448 bought");
+  await expect(page.locator(".lg-kicker")).toHaveText("Bought for the shelter");
 }
 
 /** Every pair of labels whose boxes touch; empty when nothing is laid over anything. */
@@ -327,8 +330,8 @@ for (const { width, height } of [
     await page.setViewportSize({ width, height });
     await openLedger(page, "open");
     await expectTotals(page, "Held");
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Approved for needs" })).toHaveCount(1);
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Spent on needs" })).toHaveCount(0);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money approved" })).toHaveCount(1);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money spent" })).toHaveCount(0);
     expect(await wider(page)).toBeLessThanOrEqual(0);
     expect((await crowded(page)).out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
@@ -425,7 +428,7 @@ test("ledger: the book's text fits, the items get the room, and a selection made
 
 test("ledger: opening and closing the book moves nothing; Replay still runs it all again", async ({ page }) => {
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
   await page.evaluate(() => {
     const w = window as unknown as { kept: Element[]; started: number };
@@ -442,10 +445,10 @@ test("ledger: opening and closing the book moves nothing; Replay still runs it a
   for (let i = 0; i < 2; i++) {
     await button.click();
     await expect(book(page)).toBeVisible();
-    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
     await button.click();
     await expect(book(page)).toBeHidden();
-    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
   }
   await page.waitForTimeout(400);
   expect(await same()).toBe(0);
@@ -474,7 +477,7 @@ test("ledger: a closed book is out of reach for Tab and for screen readers", asy
 
 test("ledger: a total under the pointer shows no tooltip of its own number", async ({ page }) => {
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   const tooltip = page.locator("[class*=tooltip]");
   await totals(page).nth(1).hover({ force: true });
   await page.waitForTimeout(2_600);
@@ -552,7 +555,7 @@ test("finding 17: Tab walks the Ledger's buttons in order, Space presses, and th
 test("ledger: reduced motion shows the finished picture at once and moves nothing", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
   expect(await runningAnimations(page)).toBe(0);
   await expect(page.locator(".lg-part").first()).toBeHidden();
   const offset = await page.locator(".lg-spent .lg-line").first().evaluate((e) => getComputedStyle(e).strokeDashoffset);
@@ -569,7 +572,7 @@ test("ledger: the numbers count up, the arcs draw, it all stops by itself, and R
   });
   await openLedger(page, "closed");
   expect(await runningAnimations(page)).toBeGreaterThan(0);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   const inBetween = await page.evaluate(() => [...(window as unknown as { seen: Set<string> }).seen].filter((t) => /^¥[\d,]+$/.test(t) && !["¥10,783", "¥5,224", "¥5,559", "¥0"].includes(t)).length);
   expect(inBetween).toBeGreaterThan(3);
 
@@ -580,7 +583,7 @@ test("ledger: the numbers count up, the arcs draw, it all stops by itself, and R
   await page.getByRole("button", { name: "Replay" }).click();
   await expect(async () => expect(await runningAnimations(page)).toBeGreaterThan(0)).toPass({ timeout: 2_000 });
   await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
 });
 
 test("ledger: eight donors, an unknown place among them: nothing overlaps and everyone is on the screen", async ({ page }) => {
@@ -701,7 +704,7 @@ test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ 
   await page.goto(`/drive/${id}?as=ledger`);
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Held" })).toHaveCount(1, { timeout: 60_000 });
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Returned to donors" })).toHaveCount(1, { timeout: 15_000 });
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
 });
 
 test("ledger, finding 8: a donor with no lines yet says so instead of emptying the book", async ({ page }) => {
@@ -757,7 +760,7 @@ test("ledger: Yuki withdrew from an open drive: the header, the note and the row
     Object.assign(h, { status: "voided", revoked: true, released: h.available, available: 0, capacityBase: 0 });
   });
   await openLedger(page, "open", body);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796"], { timeout: 15_000 });
   await expect(page.getByText("¥1,763 already returned")).toBeVisible();
   await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
   await expect(page.locator(".lg-map")).toContainText("¥1,763 back");

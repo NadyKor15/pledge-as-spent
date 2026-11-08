@@ -235,7 +235,7 @@ describe("#14 the journal keeps PayPal's own statuses", () => {
 describe("#3 the Ledger's headline follows the capture", () => {
   it("while shares wait it says Approved, and the figure is the same", () => {
     const open = deriveLedger(fixture("open"));
-    expect(open.spentLabel).toBe("Approved for needs");
+    expect(open.spentLabel).toBe("Donors’ money approved");
     expect([yen(open.promised), yen(open.spent), yen(open.rest)]).toEqual(["¥10,783", "¥5,224", "¥5,559"]);
     expect(open.waiting).toBe(5224);
     expect(open.captured).toBe(0);
@@ -243,7 +243,7 @@ describe("#3 the Ledger's headline follows the capture", () => {
 
   it("when all of it is captured it says Spent", () => {
     const m = deriveLedger(captured());
-    expect(m.spentLabel).toBe("Spent on needs");
+    expect(m.spentLabel).toBe("Donors’ money spent");
     expect([yen(m.promised), yen(m.spent), yen(m.rest)]).toEqual(["¥10,783", "¥5,224", "¥5,559"]);
     expect(m.waiting).toBe(0);
     expect(m.captured).toBe(5224);
@@ -251,7 +251,26 @@ describe("#3 the Ledger's headline follows the capture", () => {
 
   it("a closed drive says Spent", () => {
     const m = deriveLedger(fixture("closed"));
-    expect([m.spentLabel, m.waiting, m.captured]).toEqual(["Spent on needs", 0, 5224]);
+    expect([m.spentLabel, m.waiting, m.captured]).toEqual(["Donors’ money spent", 0, 5224]);
+  });
+
+  it("one equation, not two \"spent\": the donors' figure, plus the match, is what was bought", () => {
+    const m = deriveLedger(fixture("closed"));
+    // The sum is the model's own figures added, not a number typed in: change the match and the line follows.
+    expect(m.plusMatch).toBe(`+ company match ¥${m.match.toLocaleString("en-US")} = ¥${(m.spent + m.match).toLocaleString("en-US")} bought`);
+    expect([yen(m.spent), m.plusMatch]).toEqual(["¥5,224", "+ company match ¥5,224 = ¥10,448 bought"]);
+    expect(m.shelterKicker).toBe("Bought for the shelter");
+    expect(deriveLedger(fixture("open")).plusMatch).toBe("+ company match ¥5,224 = ¥10,448 bought");
+  });
+
+  it("without a company match the total keeps its own name and there is no equation", () => {
+    const v = fixture("closed");
+    v.ledger = v.ledger.filter((r) => r.kind !== "match_share");
+    const m = deriveLedger({ ...v, match: { ...v.match, holds: [] } });
+    expect([m.spentLabel, m.plusMatch, m.shelterKicker]).toEqual(["Spent on needs", null, "Bought for the shelter"]);
+    const o = fixture("open");
+    o.ledger = o.ledger.filter((r) => r.kind !== "match_share");
+    expect(deriveLedger({ ...o, match: { ...o.match, holds: [] } }).spentLabel).toBe("Approved for needs");
   });
 
   it("a donor's row says which it is", () => {
