@@ -1,6 +1,6 @@
 # Money engine: decisions where SPEC-core left room
 
-Conservative readings taken while building the engine (23.10.2026; 7-11, 17, 18 revised the same day after acceptance panel wf_fb122b60-b73). Each one is covered by a test.
+Conservative readings taken while building the engine (23.10.2026; 7-11, 17, 18 revised the same day after an acceptance review). Each one is covered by a test.
 
 1. **Day count.** Day = whole days since the original authorization (day 0 = first 24 h). Reauthorize from day 4 (>= 96 h, later than PayPal's "after the 3-day honor period", so never `REAUTHORIZATION_TOO_SOON`); expiry at day 29 (29 x 24 h); renewal link from day 26; capture trigger at <= 48 h before expiry.
 2. **Reauthorize.** Only PayPal-account holds of an open drive, not revoked, not while a capture is in flight, with something uncaptured left. Amount = authorized - captured. One per hold from the planner; a second only via `planExplicitReauthorize`. A returned id is chained; commands use the newest.
@@ -15,7 +15,7 @@ Conservative readings taken while building the engine (23.10.2026; 7-11, 17, 18 
 9. **Uncollected is its own bucket, not part of released** (panel K5; changed 23.10, NOT "uncollected inside released"). Shares the hold could not collect (expiry, void, terminal refusal) stay `uncollected` with a reason; `released` is only money let go unused. Every hold: authorized = captured + capturePending + accrued + uncollected + reversed + released + uncommitted. `closeReport` shows pledged / spent / released / uncollected / reversed, settled when they add up; the statement's `totals.charged` is what the donor actually paid (`totals.share` stays "all shares, charged or not").
 10. **Payout retries and top-ups.** First attempt is exactly `pay:{driveId}:{receiptId}`; later attempts are `pay:{driveId}:{receiptId}:{n}`, because PayPal rejects a reused `sender_batch_id`. Lines of a receipt funded after its payout was confirmed (a flagged line approved later) are paid as a top-up of the difference (panel K4, confirmed by test).
 11. **Fixed fees.** USD 0.49, EUR 0.39 and JPY 49 are measured from sandbox captures on 23.10 (`docs/platform-findings.md` #4); GBP, CAD, AUD, HUF, TWD stay `estimate: true`. Savings count confirmed batches only.
-12. **Currency list.** `CurrencyCode` is unchanged (other lanes may map over it); HUF and TWD exponents are handled by code string in `money.ts`.
+12. **Currency list.** `CurrencyCode` is unchanged (other modules may map over it); HUF and TWD exponents are handled by code string in `money.ts`.
 13. **Rounding.** "Half-up" is half away from zero. A share worth less than half a minor unit of the donor's currency is funded in base but charges nothing (`nothing_to_capture`). Per share, the charge differs from the base share by at most one minor unit of the hold.
 14. **Upstream refusals** are recorded with `rejectLine` as `LineRejected`, so the book shows every line of a receipt; a refused line can never be funded later.
 15. **Time** is passed in as zoned ISO strings only; a zoneless string would be read in server-local time.

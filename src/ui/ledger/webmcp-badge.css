@@ -1,4 +1,3 @@
 /* The WebMCP line: one quiet pill. */
 .wm-badge { display: inline-block; margin: 0; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; line-height: 16px; letter-spacing: -.1px; }
 .wm-on { background: #E5F9F4; color: #0A7D5C; }
-.wm-off { background: #EAEDF0; color: #4B535D; }

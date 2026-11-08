@@ -1,11 +1,11 @@
 import type { AgentLocale } from "./money-parse";
 
-// The chat's own sentences in the donor's language. The limit texts are STEP0 §2 word for word.
+// The chat's own sentences in the donor's language. The limit texts are the agent design's, word for word.
 
 type Text = Record<AgentLocale, string>;
 
 export const TEXT = {
-  /** Questions per address or for everyone used up (STEP0 §2). */
+  /** Questions per address or for everyone used up. */
   limit: {
     en: "The live AI has used today's questions. Every figure is still in the book below — tap a line to see it. The quick questions above keep working: the book's own code answers them.",
     de: "Die Live-KI hat ihre Fragen für heute verbraucht. Jede Zahl steht weiter im Buch unten — tippen Sie auf eine Zeile. Die Schnellfragen oben funktionieren weiter: Der Code des Buchs beantwortet sie selbst.",

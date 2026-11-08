@@ -10,8 +10,8 @@ export interface PrintRow {
   status: string;
   share: string;
   match: string;
+  /** PayPal's own capture id, which the donor can look up. Our request ids are bookkeeping and stay off the page. */
   captureId: string | null;
-  requestId: string | null;
   note: string | null;
 }
 
@@ -20,11 +20,19 @@ export interface PrintModel {
   donor: string;
   pledgeId: string;
   holdId: string | null;
-  holdExpires: string | null;
+  /** Under the hold's id: "expires 30 Nov 2026" while it lives, "released" once voided, and so on. */
+  holdNote: string | null;
   currency: string;
   baseCurrency: string;
   rows: PrintRow[];
   totals: { label: string; value: string; strong: boolean }[];
+}
+
+/** A hold that is over has no expiry to show: what happened to it instead. */
+const HOLD_OVER: Partial<Record<string, string>> = { voided: "released", expired: "expired", captured: "captured in full", denied: "declined by PayPal" };
+
+function holdNote(status: string, expiresAt: string | null | undefined): string | null {
+  return HOLD_OVER[status] ?? (expiresAt ? `expires ${day(expiresAt)}` : null);
 }
 
 /** What the printed statement shows, as strings: one place decides the words and the money formats. */
@@ -44,7 +52,6 @@ export function printModel(view: StatementView, opts: { driveTitle?: string } = 
       share: money(cur, r.share.minor),
       match: money(base, r.matchBase),
       captureId: r.captureId,
-      requestId: r.requestId,
       note,
     };
   });
@@ -63,7 +70,7 @@ export function printModel(view: StatementView, opts: { driveTitle?: string } = 
     donor: st.donorName,
     pledgeId: st.pledgeId,
     holdId: b.authorizationId,
-    holdExpires: b.expiresAt ? day(b.expiresAt) : null,
+    holdNote: holdNote(b.status, b.expiresAt),
     currency: cur,
     baseCurrency: base,
     rows,

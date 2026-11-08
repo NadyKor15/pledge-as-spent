@@ -5,7 +5,7 @@ import shipped from "../../eval/live/shipped/hero-ja-01.json";
 import { redactImage } from "../../src/server/redact";
 import type { DriveView } from "../../src/ui/types";
 
-// The book of the Ledger tab as PROOF-B draws it (docs/nadya/p3-agent/ui/2026-11-06-image-first/img/PROOF-B.png):
+// The book of the Ledger tab as its design (PROOF-B) draws it:
 // a strip of the printed receipt line in each row, PayPal's capture, the status pill, a proof band under a pressed
 // row; the flash of a row PayPal just moved; EN · DE · JA; and the assistant's points into the book.
 // Runs on the real snapshot tests/fixtures/drives/closed.json (and open.json for the live book), no network.
@@ -229,8 +229,8 @@ test.describe("the live book: a row flashes when PayPal moves its money", () => 
   test("green on the rows PayPal took, through the rebuild of the report, then gone", async ({ page }) => {
     await openBook(page, captureLater());
     await expect(page.locator(".ag-row.lg-flash-spent").first()).toBeVisible({ timeout: 15_000 });
-    // "Approved for needs" became "Spent on needs": Studio was rebuilt, and the flash is still on the new rows.
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Spent on needs" })).toHaveCount(1);
+    // "Donors' money approved" became "Donors' money spent": Studio was rebuilt, and the flash is still on the new rows.
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money spent" })).toHaveCount(1);
     await expect(page.locator(".ag-row.lg-flash-spent")).toHaveCount(18);
     await expect(page.locator(".ag-row.lg-flash-back")).toHaveCount(0);
     await page.locator(".ag-root-wrapper").screenshot({ path: path.join(SHOTS, "book-1440-flash.png") });

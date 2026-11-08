@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { HOLD_LIFE_DAYS } from "@/core/time";
 import { api, errorText } from "./api";
 import { classes } from "./cls";
+import { pledgeScriptOptions } from "./pledge-paypal";
 
 const s = classes("dn");
 
@@ -91,10 +92,7 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
       {CLIENT_ID ? (
         <div className={s.ppSlot}>
           {/* One form per need on a page: without its own namespace each provider tears down the others' buttons. */}
-          <PayPalScriptProvider
-            key={currency}
-            options={{ clientId: CLIENT_ID, intent: "authorize", currency, components: "buttons", commit: true, dataNamespace: `paypal_${needId}_${currency}` }}
-          >
+          <PayPalScriptProvider key={currency} options={pledgeScriptOptions(CLIENT_ID, currency, needId)}>
             <PayPalButtons
               style={{ layout: "horizontal", color: "gold", shape: "rect", label: "paypal", height: 52, tagline: false }}
               disabled={minor === null}

@@ -5,9 +5,11 @@ import { AgStudioAiModule } from "ag-studio";
 import { AG_STUDIO_LOCALE_DE, AG_STUDIO_LOCALE_EN, AG_STUDIO_LOCALE_JP } from "ag-studio-locale";
 import { AgStudio, AgStudioProvider, createWidgets } from "ag-studio-react";
 import { LedgerAgent } from "@/agent/harness";
+import type { ModelPlan } from "@/agent/model-plan";
 import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
+import { subscribeViewport, viewportWidth } from "../stage";
 import { bookCells } from "./cells";
 import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
@@ -70,10 +72,10 @@ const LICENSE = process.env.NEXT_PUBLIC_AG_STUDIO_LICENSE;
 const MODULES = [AgStudioAiModule];
 
 /** The page's store and its agent, made once: the chat is in the slot from the first render, so Studio is built once. */
-function makeBook(view: DriveView) {
+function makeBook(view: DriveView, modelPlan: ModelPlan) {
   const lang = langFromUrl();
   const store = new LedgerStore(deriveLedger(view, lang), view);
-  const agent = new LedgerAgent({ getView: () => store.get().view ?? view, locale: () => store.get().lang });
+  const agent = new LedgerAgent({ getView: () => store.get().view ?? view, locale: () => store.get().lang, modelPlan });
   store.setAskComponent(askComponentFor(agent));
   store.setAskAbout((lineKey) => {
     agent.askAboutLine(lineKey);
@@ -87,11 +89,8 @@ function makeBook(view: DriveView) {
 const REF_W = 1440;
 const REF_H = 900;
 
-function subscribeSize(cb: () => void) {
-  window.addEventListener("resize", cb);
-  return () => window.removeEventListener("resize", cb);
-}
-const sizeKey = () => `${document.documentElement.clientWidth}x${window.innerHeight}`;
+const subscribeSize = subscribeViewport;
+const sizeKey = () => `${viewportWidth()}x${window.innerHeight}`;
 
 /** The book's height: a header and up to this many rows, then it scrolls inside its own grid. */
 const BOOK_ROWS = 22;
@@ -111,7 +110,12 @@ const bandRoom = (stacked: boolean) => (stacked ? PHONE_BAND_ROOM_PX : BAND_ROOM
 const BOOK_HEAD_PX = 60;
 /** The assistant's chat over the book, in pixels at scale 1; the assistant's lane sizes its widget to this. */
 export const ASK_PX = 460;
-export const PHONE_ASK_PX = 640;
+/**
+ * On a phone the box sits right under the quick questions (ask.css), so the chat's area is as tall as the chat
+ * before a question, in the longest language (German: 358 px with the WebMCP line): no empty band under it. An
+ * answer scrolls inside the chat, which brings it into view (AskWidget).
+ */
+export const PHONE_ASK_PX = 370;
 
 function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
   // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
@@ -221,8 +225,8 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
 const langFromUrl = (): Lang => parseLang(new URLSearchParams(window.location.search).get("lang"));
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
-export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown> }) {
-  const [{ store, agent }] = useState(() => makeBook(view));
+export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "nova" }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown>; modelPlan?: ModelPlan }) {
+  const [{ store, agent }] = useState(() => makeBook(view, modelPlan));
   useEffect(() => () => agent.dispose(), [agent]);
   const lang = useSyncExternalStore(store.subscribe, () => store.get().lang);
   // The drive is re-read every few seconds after an action. The same figures must stay the same
@@ -331,7 +335,7 @@ export function LedgerStudio({ view, stacked, stale, refresh }: { view: DriveVie
             />
           </div>
         </AgStudioProvider>
-        {/* After the report in the page's order: Tab walks the report first (judge's finding 17), then the language. */}
+        {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
       </div>
     </div>

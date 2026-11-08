@@ -387,7 +387,7 @@ export function ledgerTotals(v: View): LedgerToolResult {
   const f = new Facts();
   const all = m.book.map((r) => r.lineKey);
   const out = [
-    `${m.shelter}, drive ${m.phase}. Pledged ${f.amount(base, m.promised, "pledged in total", { lineKeys: all })}; ${m.spentLabel.toLowerCase()} ${f.amount(base, m.spent, "spent on needs", { lineKeys: all })}; ${m.restLabel.toLowerCase()} ${f.amount(base, m.rest, m.restLabel)}.`,
+    `${m.shelter}, drive ${m.phase}. Pledged ${f.amount(base, m.promised, "pledged in total", { lineKeys: all })}; ${m.waiting > 0 ? "approved for needs" : "spent on needs"} ${f.amount(base, m.spent, "spent on needs", { lineKeys: all })}; ${m.restLabel.toLowerCase()} ${f.amount(base, m.rest, m.restLabel)}.`,
   ];
   if (m.matchName) out.push(`Company match by ${m.matchName}: ${f.amount(base, m.match, "company match")}.`);
   const reached = m.spent + m.match;

@@ -75,7 +75,7 @@ describe("questions: counted per address and for everyone", () => {
     expect((await agent.question("1.1.1.1", {})).questionId).toBeTruthy();
   });
 
-  it("10 a day from one address, 20 a day for everyone (STEP0 §2 text)", async () => {
+  it("10 a day from one address, 20 a day for everyone (the agreed text)", async () => {
     const { agent } = await service();
     for (let i = 0; i < 10; i++) {
       await agent.question("1.1.1.1", {});

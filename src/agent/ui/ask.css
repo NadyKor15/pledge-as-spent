@@ -18,6 +18,8 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  /* Reached from the header's "Ask the book ↓": its heading stays clear of the window's edge. */
+  scroll-margin-top: 12px;
 }
 
 .ask *,
@@ -300,6 +302,28 @@
   background: #fff;
   margin: 0;
   padding: 4px 0 2px 2px;
+}
+
+/* The book stacked for a phone: the question box right under the quick questions, the answer below it, so no empty
+   band sits between the questions and the box while nothing has been asked. */
+[data-stacked="true"] .lg-ask-slot .ask-head {
+  order: -4;
+}
+
+[data-stacked="true"] .lg-ask-slot .ask-starters {
+  order: -3;
+}
+
+[data-stacked="true"] .lg-ask-slot .ask-form {
+  order: -2;
+  position: static;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+[data-stacked="true"] .lg-ask-slot .ask-foot {
+  order: -1;
+  position: static;
 }
 
 @media (max-width: 640px) {

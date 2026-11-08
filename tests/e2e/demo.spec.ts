@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { expect, test, type Page } from "@playwright/test";
+import { chromium, expect, test, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 import type { DriveView } from "../../src/ui/types";
 
@@ -42,12 +42,21 @@ function hugePng(width = 1400, height = 1400): Buffer {
   return PNG.sync.write(png, { deflateLevel: 1 });
 }
 
-test("the way in offers one action, explains the path and shows no empty links", async ({ page }) => {
+test("the way in: who it is for, a judge's read-only path, one action that writes, and no empty links", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByText("For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.")).toBeVisible();
+  const judge = page.locator(".ld-judge");
+  await expect(judge.getByRole("heading")).toHaveText("Judging Pledge-as-Spent? See the whole thing in 90 seconds.");
+  await expect(judge.getByRole("link", { name: "See a finished drive" })).toHaveAttribute("href", "/drive/demo-f372326129?as=ledger");
+  await expect(judge.getByRole("link", { name: "Read a donor’s statement" })).toHaveAttribute("href", "/pledge/demo-f372326129.diapers");
+  await expect(judge).toContainText("Judge it in 90 seconds in the README");
+  await expect(judge).toContainText("Fictional drive · PayPal Sandbox · no real money moves");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
+  await expect(page.getByText("Places 4 new sandbox holds")).toBeVisible();
   await expect(page.locator(".ld-steps li")).toHaveCount(4);
   await expect(page.locator(".ld-steps li").last()).toContainText("See where the money went");
-  await expect(page.getByRole("link", { name: /source code|demo video/i })).toHaveCount(0);
+  // The test server sets no video or code address: no empty links for them.
+  await expect(page.getByRole("link", { name: /source code|demo video|^Judge it in 90 seconds$/i })).toHaveCount(0);
   await expect(page.getByText("To get started")).toHaveCount(0);
 });
 
@@ -272,7 +281,10 @@ const cutShort = (page: Page) =>
 
 async function expectTotals(page: Page, third: string) {
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: third })).toHaveCount(1);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 10_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 10_000 });
+  // One equation under the donors' figure, not a second "spent": the match and what the two bought.
+  await expect(page.locator("body")).toContainText("+ company match ¥5,224 = ¥10,448 bought");
+  await expect(page.locator(".lg-kicker")).toHaveText("Bought for the shelter");
 }
 
 /** Every pair of labels whose boxes touch; empty when nothing is laid over anything. */
@@ -327,8 +339,8 @@ for (const { width, height } of [
     await page.setViewportSize({ width, height });
     await openLedger(page, "open");
     await expectTotals(page, "Held");
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Approved for needs" })).toHaveCount(1);
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Spent on needs" })).toHaveCount(0);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money approved" })).toHaveCount(1);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Donors’ money spent" })).toHaveCount(0);
     expect(await wider(page)).toBeLessThanOrEqual(0);
     expect((await crowded(page)).out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
@@ -425,7 +437,7 @@ test("ledger: the book's text fits, the items get the room, and a selection made
 
 test("ledger: opening and closing the book moves nothing; Replay still runs it all again", async ({ page }) => {
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
   await page.evaluate(() => {
     const w = window as unknown as { kept: Element[]; started: number };
@@ -442,10 +454,10 @@ test("ledger: opening and closing the book moves nothing; Replay still runs it a
   for (let i = 0; i < 2; i++) {
     await button.click();
     await expect(book(page)).toBeVisible();
-    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
     await button.click();
     await expect(book(page)).toBeHidden();
-    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+    await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
   }
   await page.waitForTimeout(400);
   expect(await same()).toBe(0);
@@ -474,7 +486,7 @@ test("ledger: a closed book is out of reach for Tab and for screen readers", asy
 
 test("ledger: a total under the pointer shows no tooltip of its own number", async ({ page }) => {
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   const tooltip = page.locator("[class*=tooltip]");
   await totals(page).nth(1).hover({ force: true });
   await page.waitForTimeout(2_600);
@@ -552,7 +564,7 @@ test("finding 17: Tab walks the Ledger's buttons in order, Space presses, and th
 test("ledger: reduced motion shows the finished picture at once and moves nothing", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await openLedger(page, "closed");
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
   expect(await runningAnimations(page)).toBe(0);
   await expect(page.locator(".lg-part").first()).toBeHidden();
   const offset = await page.locator(".lg-spent .lg-line").first().evaluate((e) => getComputedStyle(e).strokeDashoffset);
@@ -569,7 +581,7 @@ test("ledger: the numbers count up, the arcs draw, it all stops by itself, and R
   });
   await openLedger(page, "closed");
   expect(await runningAnimations(page)).toBeGreaterThan(0);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
   const inBetween = await page.evaluate(() => [...(window as unknown as { seen: Set<string> }).seen].filter((t) => /^¥[\d,]+$/.test(t) && !["¥10,783", "¥5,224", "¥5,559", "¥0"].includes(t)).length);
   expect(inBetween).toBeGreaterThan(3);
 
@@ -580,7 +592,7 @@ test("ledger: the numbers count up, the arcs draw, it all stops by itself, and R
   await page.getByRole("button", { name: "Replay" }).click();
   await expect(async () => expect(await runningAnimations(page)).toBeGreaterThan(0)).toPass({ timeout: 2_000 });
   await expect(async () => expect(await runningAnimations(page)).toBe(0)).toPass({ timeout: 20_000 });
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"]);
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"]);
 });
 
 test("ledger: eight donors, an unknown place among them: nothing overlaps and everyone is on the screen", async ({ page }) => {
@@ -701,7 +713,7 @@ test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ 
   await page.goto(`/drive/${id}?as=ledger`);
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Held" })).toHaveCount(1, { timeout: 60_000 });
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Returned to donors" })).toHaveCount(1, { timeout: 15_000 });
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
 });
 
 test("ledger, finding 8: a donor with no lines yet says so instead of emptying the book", async ({ page }) => {
@@ -757,7 +769,7 @@ test("ledger: Yuki withdrew from an open drive: the header, the note and the row
     Object.assign(h, { status: "voided", revoked: true, released: h.available, available: 0, capacityBase: 0 });
   });
   await openLedger(page, "open", body);
-  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796", "+¥5,224"], { timeout: 15_000 });
+  await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796"], { timeout: 15_000 });
   await expect(page.getByText("¥1,763 already returned")).toBeVisible();
   await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
   await expect(page.locator(".lg-map")).toContainText("¥1,763 back");
@@ -778,7 +790,7 @@ test("ledger: a drive with no receipts draws no flow", async ({ page }) => {
   await expect(page.locator(".lg-receipt")).toHaveCount(0);
 });
 
-// The strict judge's findings, by number (docs/nadya/p3-build/ui/2026-11-01-image-first-ledger-r3/judge/TRIAGE.md).
+// Findings of a design review of the Ledger and the screens, by number.
 
 /** Solid, hatched or absent: what a part of a hold's bar looks like. */
 const barLook = (page: Page, card: string, part: string) =>
@@ -984,6 +996,12 @@ test("finding 6: at 1440 the receipt's lines are at least 11 px, on all three sc
   expect(await tooSmall(page, ".vo-rej, .vo-need, .vo-chk")).toEqual([]);
 });
 
+test("an unknown drive is a 404 with a sentence, not a server error", async ({ request }) => {
+  const res = await request.get("/api/drives/demo-0000000000");
+  expect(res.status()).toBe(404);
+  expect(await res.json()).toEqual({ error: "unknown_drive", message: "No drive demo-0000000000." });
+});
+
 test("finding 10: every phone screen says which drive this is and that it is the sandbox", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const driveId = await openDemo(page);
@@ -1101,3 +1119,62 @@ test("finding 23: after a duplicate the paid receipt stays in front, and the pag
   await expect(page.getByRole("button", { name: "2 · Duplicate" })).toBeVisible();
   await expect(page.locator(".co-pill")).toHaveCount(9);
 });
+
+// Playwright hides scrollbars. A classic one (Windows, or macOS set to show them always) takes 15 px and comes
+// and goes with the page's height. A new drive's Coordinator at 1440 × 900 or 1280 × 800 is exactly as tall as
+// the window: the stage's zoom once followed the scrollbar and the scrollbar the zoom, until React gave up
+// ("Maximum update depth exceeded", the page did not load). These runs use a browser of their own that keeps its
+// scrollbars, styled so they take room on every system.
+const CLASSIC_SCROLLBARS = "::-webkit-scrollbar{width:15px;height:15px}::-webkit-scrollbar-thumb{background:#b9b9b9}::-webkit-scrollbar-track{background:#f1f1f1}";
+
+for (const { width, height } of [
+  { width: 1440, height: 900 },
+  { width: 1280, height: 800 },
+]) {
+  test(`desktop ${width} × ${height} with a scrollbar that takes room: a new drive's Coordinator opens before any receipt, with no errors`, async ({ baseURL }) => {
+    const browser = await chromium.launch({ ignoreDefaultArgs: ["--hide-scrollbars"] });
+    try {
+      const context = await browser.newContext({ baseURL, viewport: { width, height } });
+      await context.addInitScript((css) => {
+        const put = () => {
+          if (!document.documentElement) return void setTimeout(put, 0);
+          const s = document.createElement("style");
+          s.textContent = css;
+          document.documentElement.appendChild(s);
+        };
+        put();
+      }, CLASSIC_SCROLLBARS);
+      const page = await context.newPage();
+      const errors: string[] = [];
+      page.on("console", (m) => {
+        if (m.type() === "error") errors.push(m.text());
+      });
+      page.on("pageerror", (e) => errors.push(e.message));
+
+      // The precondition: here a vertical scrollbar really takes 15 px, or this test proves nothing.
+      await page.goto("/");
+      const gutter = await page.evaluate(() => {
+        document.body.style.minHeight = "4000px";
+        const g = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.minHeight = "";
+        return g;
+      });
+      expect(gutter).toBe(15);
+
+      const driveId = await openDemo(page);
+      await expect(page.locator("header.hd-top")).toBeVisible();
+      await expect(page.getByRole("link", { name: "Coordinator" })).toHaveAttribute("aria-current", "page");
+      await page.waitForTimeout(1_500);
+      await expect(page.getByText("This page couldn’t load")).toHaveCount(0);
+      expect(await wider(page)).toBeLessThanOrEqual(0);
+      // The same page again, still without a receipt.
+      await page.goto(`/drive/${driveId}?as=coordinator`);
+      await expect(page.locator("header.hd-top")).toBeVisible();
+      await page.waitForTimeout(1_500);
+      await expect(page.getByText("This page couldn’t load")).toHaveCount(0);
+      expect(errors).toEqual([]);
+    } finally {
+      await browser.close();
+    }
+  });
+}

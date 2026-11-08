@@ -17,12 +17,20 @@ export type CoreErrorCode =
   | "rebind_refused"
   | "invariant_violation";
 
+const CORE_ERROR: unique symbol = Symbol.for("pledge-as-spent.CoreError");
+
 export class CoreError extends Error {
   readonly code: CoreErrorCode;
+  readonly [CORE_ERROR] = true;
 
   constructor(code: CoreErrorCode, message: string) {
     super(`${code}: ${message}`);
     this.name = "CoreError";
     this.code = code;
+  }
+
+  /** True for a CoreError made by another copy of this module too (see ServiceError in src/server/errors.ts). */
+  static [Symbol.hasInstance](v: unknown): boolean {
+    return typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[CORE_ERROR] === true;
   }
 }

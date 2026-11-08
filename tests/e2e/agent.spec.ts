@@ -83,12 +83,13 @@ async function ask(page: Page, text: string) {
 
 const phase = (page: Page) => page.getByTestId("ask-widget").getAttribute("data-phase");
 
-test("a question gets an answer with checked chips, and the book narrows to the donor's lines; WebMCP says it is not there, quietly", async ({ page }) => {
+test("a question gets an answer with checked chips, and the book narrows to the donor's lines; no WebMCP, no line about it", async ({ page }) => {
   await questions(page);
   const served = model(page, turnsOf(Q1));
   await openLedger(page);
-  await expect(page.getByTestId("webmcp-badge")).toHaveText("This browser doesn't expose WebMCP (Chrome 149+, flag)");
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · read-only");
+  await expect(page.getByTestId("ask-model")).toBeVisible();
+  await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · read-only");
   await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
   await expect(answer).toContainText("Your ✓$30.00 hold paid ✓$21.45 for Diapers size M");
@@ -210,17 +211,37 @@ test("\"Ask about this line\" in a row's proof band asks the agent about that li
   expect(served.seen).toHaveLength(2);
 });
 
+test("the header's \"Ask the book ↓\" brings the chat into view from the first screen", async ({ page }) => {
+  await questions(page);
+  await openLedger(page);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const anchor = page.getByTestId("ask-anchor");
+  await expect(anchor).toHaveText("Ask the book ↓");
+  await expect(anchor).toBeInViewport();
+  await anchor.click();
+  await expect(page.getByTestId("ask-widget").getByRole("heading")).toBeInViewport({ ratio: 1 });
+  await expect(page.getByTestId("ask-input")).toBeInViewport({ ratio: 1 });
+  await expect(page).toHaveURL(/#ask-the-book$/);
+});
+
 test("in German the chat speaks German: quick question answered by the book's code, euro in the German form", async ({ page }) => {
   await questions(page);
   await openLedger(page);
   await page.getByRole("button", { name: "DE", exact: true }).click();
   await expect(page.getByTestId("ask-widget").getByRole("heading")).toHaveText("Frag das Buch");
+  // The header over the book speaks German with it: the role tabs, the badge, the drive's name, the way to the chat.
+  const nav = page.getByRole("navigation", { name: "Rolle" });
+  await expect(nav.getByRole("link")).toHaveText(["Unterkunft", "Spender", "Helfer", "Koordination", "Buch"]);
+  await expect(nav.getByRole("link", { name: "Buch" })).toHaveAttribute("href", /[?&]lang=de/);
+  await expect(page.locator("header.hd-top")).toContainText("Fiktive Sammlung · PayPal-Sandbox");
+  await expect(page.locator("header.hd-top")).toContainText("Kitasora Gemeinschaftsunterkunft");
+  await expect(page.getByTestId("ask-anchor")).toHaveText("Frag das Buch ↓");
   await page.getByTestId("ask-starter-back").click();
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova · nur lesend");
-  await expect(page.getByTestId("webmcp-badge")).toHaveText("Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)");
+  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · nur lesend");
+  await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
 });
 
 test("the model's name follows the server: Meta Muse Spark when it answered", async ({ page }) => {
@@ -238,8 +259,22 @@ test.describe("on a phone", () => {
     await questions(page);
     model(page, turnsOf(Q1));
     await openLedger(page);
+    // The question box sits right under the quick questions: no empty band between them before anything is asked.
+    const gap = await page.evaluate(() => {
+      const starters = document.querySelector(".ask-starters")!.getBoundingClientRect();
+      const input = document.querySelector("[data-testid=ask-input]")!.getBoundingClientRect();
+      return input.top - starters.bottom;
+    });
+    expect(gap).toBeGreaterThanOrEqual(0);
+    expect(gap).toBeLessThan(40);
+    // And no empty band under the small print before the first question (it was about 330 px).
+    const band = await page.evaluate(() => document.querySelector("[data-testid=ask-widget]")!.getBoundingClientRect().bottom - document.querySelector(".ask-foot")!.getBoundingClientRect().bottom);
+    expect(band).toBeLessThan(90);
     await ask(page, Q1.question);
     await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
+    // The answer scrolls inside the chat's area and is brought into view there.
+    await expect(page.getByTestId("ask-question")).toBeVisible();
+    expect(await page.evaluate(() => { const box = document.querySelector("[data-testid=ask-widget]")!.getBoundingClientRect(); const q = document.querySelector("[data-testid=ask-question]")!.getBoundingClientRect(); return q.top >= box.top && q.top < box.bottom; })).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
     await page.getByTestId("ask-widget").scrollIntoViewIfNeeded();
     await page.screenshot({ path: path.join(SHOTS, "ask-390.png") });
