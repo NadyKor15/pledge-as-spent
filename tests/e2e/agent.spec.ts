@@ -83,11 +83,12 @@ async function ask(page: Page, text: string) {
 
 const phase = (page: Page) => page.getByTestId("ask-widget").getAttribute("data-phase");
 
-test("a question gets an answer with checked chips, and the book narrows to the donor's lines; WebMCP says it is not there, quietly", async ({ page }) => {
+test("a question gets an answer with checked chips, and the book narrows to the donor's lines; no WebMCP, no line about it", async ({ page }) => {
   await questions(page);
   const served = model(page, turnsOf(Q1));
   await openLedger(page);
-  await expect(page.getByTestId("webmcp-badge")).toHaveText("This browser doesn't expose WebMCP (Chrome 149+, flag)");
+  await expect(page.getByTestId("ask-model")).toBeVisible();
+  await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
   await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · read-only");
   await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
@@ -240,7 +241,7 @@ test("in German the chat speaks German: quick question answered by the book's co
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
   await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · nur lesend");
-  await expect(page.getByTestId("webmcp-badge")).toHaveText("Dieser Browser bietet kein WebMCP an (Chrome 149+, Flag)");
+  await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
 });
 
 test("the model's name follows the server: Meta Muse Spark when it answered", async ({ page }) => {
@@ -258,6 +259,14 @@ test.describe("on a phone", () => {
     await questions(page);
     model(page, turnsOf(Q1));
     await openLedger(page);
+    // The question box sits right under the quick questions: no empty band between them before anything is asked.
+    const gap = await page.evaluate(() => {
+      const starters = document.querySelector(".ask-starters")!.getBoundingClientRect();
+      const input = document.querySelector("[data-testid=ask-input]")!.getBoundingClientRect();
+      return input.top - starters.bottom;
+    });
+    expect(gap).toBeGreaterThanOrEqual(0);
+    expect(gap).toBeLessThan(40);
     await ask(page, Q1.question);
     await expect(page.getByTestId("ask-checked")).toHaveText("Checked against the book · 7 of 7");
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
