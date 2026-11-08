@@ -996,6 +996,12 @@ test("finding 6: at 1440 the receipt's lines are at least 11 px, on all three sc
   expect(await tooSmall(page, ".vo-rej, .vo-need, .vo-chk")).toEqual([]);
 });
 
+test("an unknown drive is a 404 with a sentence, not a server error", async ({ request }) => {
+  const res = await request.get("/api/drives/demo-0000000000");
+  expect(res.status()).toBe(404);
+  expect(await res.json()).toEqual({ error: "unknown_drive", message: "No drive demo-0000000000." });
+});
+
 test("finding 10: every phone screen says which drive this is and that it is the sandbox", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const driveId = await openDemo(page);
