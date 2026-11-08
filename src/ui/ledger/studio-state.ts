@@ -252,7 +252,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
 }
 
 /**
- * "+ company match ¥5,224 = ¥10,448 bought", under the donors' figure: one equation instead of a second "spent".
+ * "+ company match ¥X = ¥Y bought", under the donors' figure: one equation instead of a second "spent".
  * Studio's text widget; the figures are the model's (derive.ts), in the book's money format.
  */
 function plusMatch(px: number, text: string): AgTextWidget {

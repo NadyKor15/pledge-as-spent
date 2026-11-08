@@ -24,7 +24,7 @@ export interface Words {
   /** The middle total on a drive with a company match: the donors' part only, the match comes in the line under it. */
   donorsSpent: string;
   donorsApproved: string;
-  /** The line under it: "+ company match ¥5,224 = ¥10,448 bought". */
+  /** The line under it: "+ company match ¥X = ¥Y bought". */
   plusMatch: (match: string, total: string) => string;
   /** The shelter card's heading. */
   boughtForShelter: string;
