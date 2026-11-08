@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { expect, test, type Page } from "@playwright/test";
+import { chromium, expect, test, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 import type { DriveView } from "../../src/ui/types";
 
@@ -1113,3 +1113,62 @@ test("finding 23: after a duplicate the paid receipt stays in front, and the pag
   await expect(page.getByRole("button", { name: "2 · Duplicate" })).toBeVisible();
   await expect(page.locator(".co-pill")).toHaveCount(9);
 });
+
+// Playwright hides scrollbars. A classic one (Windows, or macOS set to show them always) takes 15 px and comes
+// and goes with the page's height. A new drive's Coordinator at 1440 × 900 or 1280 × 800 is exactly as tall as
+// the window: the stage's zoom once followed the scrollbar and the scrollbar the zoom, until React gave up
+// ("Maximum update depth exceeded", the page did not load). These runs use a browser of their own that keeps its
+// scrollbars, styled so they take room on every system.
+const CLASSIC_SCROLLBARS = "::-webkit-scrollbar{width:15px;height:15px}::-webkit-scrollbar-thumb{background:#b9b9b9}::-webkit-scrollbar-track{background:#f1f1f1}";
+
+for (const { width, height } of [
+  { width: 1440, height: 900 },
+  { width: 1280, height: 800 },
+]) {
+  test(`desktop ${width} × ${height} with a scrollbar that takes room: a new drive's Coordinator opens before any receipt, with no errors`, async ({ baseURL }) => {
+    const browser = await chromium.launch({ ignoreDefaultArgs: ["--hide-scrollbars"] });
+    try {
+      const context = await browser.newContext({ baseURL, viewport: { width, height } });
+      await context.addInitScript((css) => {
+        const put = () => {
+          if (!document.documentElement) return void setTimeout(put, 0);
+          const s = document.createElement("style");
+          s.textContent = css;
+          document.documentElement.appendChild(s);
+        };
+        put();
+      }, CLASSIC_SCROLLBARS);
+      const page = await context.newPage();
+      const errors: string[] = [];
+      page.on("console", (m) => {
+        if (m.type() === "error") errors.push(m.text());
+      });
+      page.on("pageerror", (e) => errors.push(e.message));
+
+      // The precondition: here a vertical scrollbar really takes 15 px, or this test proves nothing.
+      await page.goto("/");
+      const gutter = await page.evaluate(() => {
+        document.body.style.minHeight = "4000px";
+        const g = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.minHeight = "";
+        return g;
+      });
+      expect(gutter).toBe(15);
+
+      const driveId = await openDemo(page);
+      await expect(page.locator("header.hd-top")).toBeVisible();
+      await expect(page.getByRole("link", { name: "Coordinator" })).toHaveAttribute("aria-current", "page");
+      await page.waitForTimeout(1_500);
+      await expect(page.getByText("This page couldn’t load")).toHaveCount(0);
+      expect(await wider(page)).toBeLessThanOrEqual(0);
+      // The same page again, still without a receipt.
+      await page.goto(`/drive/${driveId}?as=coordinator`);
+      await expect(page.locator("header.hd-top")).toBeVisible();
+      await page.waitForTimeout(1_500);
+      await expect(page.getByText("This page couldn’t load")).toHaveCount(0);
+      expect(errors).toEqual([]);
+    } finally {
+      await browser.close();
+    }
+  });
+}
