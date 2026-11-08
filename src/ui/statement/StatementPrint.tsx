@@ -89,7 +89,7 @@ function Sheet({ data }: { data: StatementView }) {
           <div>
             <dt>Hold at PayPal</dt>
             <dd className={s.mono}>{m.holdId ?? "none yet"}</dd>
-            {m.holdExpires && <dd className={s.small}>expires {m.holdExpires}</dd>}
+            {m.holdNote && <dd className={s.small}>{m.holdNote}</dd>}
           </div>
         </dl>
 
@@ -122,10 +122,7 @@ function Sheet({ data }: { data: StatementView }) {
                   </td>
                   <td className={s.num}>{r.share}</td>
                   <td className={s.num}>{r.match}</td>
-                  <td className={s.mono}>
-                    {r.captureId ?? "—"}
-                    {r.requestId && <span className={s.sub}>request {r.requestId}</span>}
-                  </td>
+                  <td className={s.mono}>{r.captureId ?? "—"}</td>
                 </tr>
               ))}
             </tbody>
