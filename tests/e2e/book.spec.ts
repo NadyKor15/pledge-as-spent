@@ -5,7 +5,7 @@ import shipped from "../../eval/live/shipped/hero-ja-01.json";
 import { redactImage } from "../../src/server/redact";
 import type { DriveView } from "../../src/ui/types";
 
-// The book of the Ledger tab as PROOF-B draws it (docs/nadya/p3-agent/ui/2026-11-06-image-first/img/PROOF-B.png):
+// The book of the Ledger tab as its design (PROOF-B) draws it:
 // a strip of the printed receipt line in each row, PayPal's capture, the status pill, a proof band under a pressed
 // row; the flash of a row PayPal just moved; EN · DE · JA; and the assistant's points into the book.
 // Runs on the real snapshot tests/fixtures/drives/closed.json (and open.json for the live book), no network.

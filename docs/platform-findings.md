@@ -37,7 +37,7 @@ Holds were authorized with a public sandbox test card (Visa 4012 8888 8888 1881)
 | # | Finding | Proof |
 |---|---|---|
 | 11 | **A JPY payout to a sandbox personal account in Japan succeeded within about 25 s** (`PENDING` → `PROCESSING` → `SUCCESS`). Batch `UPCMZN6KJZYAU`, item `5ZVQDJCY4UJ8J`, transaction `0VM16039XE3293503`. | `033-payout-create`, `034-payout-get-1`, `035-payout-get-2` |
-| 12 | **The payout response shows the fee and the currency conversion.** JPY 2220 to the volunteer, `fees` JPY 44, `currency_conversion` USD 14.82 → JPY 2264 (= 2220 + 44, about 152.77 JPY per USD). The payout is funded from the USD balance. JPY 44 is 2 % of 2220. An earlier spike (23.10 12:46Z, a different sandbox account) charged JPY 30 on JPY 1110, where 2 % would be 22. A minimum of JPY 30 is a guess; PayPal's fee page was not checked. | `035-payout-get-2`; earlier spike `docs/nadya/panel-2026-10-23/sandbox-fx-spike-calls.jsonl` |
+| 12 | **The payout response shows the fee and the currency conversion.** JPY 2220 to the volunteer, `fees` JPY 44, `currency_conversion` USD 14.82 → JPY 2264 (= 2220 + 44, about 152.77 JPY per USD). The payout is funded from the USD balance. JPY 44 is 2 % of 2220. An earlier spike (23.10 12:46Z, a different sandbox account) charged JPY 30 on JPY 1110, where 2 % would be 22. A minimum of JPY 30 is a guess; PayPal's fee page was not checked. | `035-payout-get-2`; the earlier spike's calls were not kept in this repository |
 | 13 | Payouts take `PayPal-Request-Id`, and `sender_batch_id` is the gateway's idempotency key for them. | `033` request headers |
 
 ## Webhooks

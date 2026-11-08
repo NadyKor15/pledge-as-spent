@@ -330,7 +330,7 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "nova"
             />
           </div>
         </AgStudioProvider>
-        {/* After the report in the page's order: Tab walks the report first (judge's finding 17), then the language. */}
+        {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
       </div>
     </div>

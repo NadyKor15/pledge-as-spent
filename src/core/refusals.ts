@@ -1,5 +1,5 @@
 // How a refused capture is treated. Issue names come from the error list of
-// PayPal Payments v2 (docs/nadya/p3-build/ref/paypal-payments-v2-schema-2026-10-23.json, x-errors).
+// PayPal Payments v2 (its OpenAPI schema as published on 2026-10-23, `x-errors`).
 
 /** The authorization can never be captured again: stop and release. */
 const TERMINAL = new Set([

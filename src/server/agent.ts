@@ -23,7 +23,7 @@ import { META_SPEND_PREFIX } from "./spend";
 // - only our two agents, only their tools, the model fixed here (Nova Lite unless configured).
 // A refusal is a 429 with a sentence for people in EN/DE/JA, not an error.
 // Honest limit: Studio builds the built-in agent's instructions in the browser, so within these
-// limits this route is a proxy to Nova (STEP0 §2).
+// limits this route is a proxy to Nova (a limit of the design, accepted).
 
 export interface AgentLimits {
   questionsPerHour: number;
@@ -74,7 +74,7 @@ export function agentLimitsFrom(env: NodeJS.ProcessEnv): Partial<AgentLimits> {
   return out;
 }
 
-/** "lite" | "pro" per agent; Lite unless set (STEP0 §2: Pro only if the measure shows Lite cannot). */
+/** "lite" | "pro" per agent; Lite unless set (Pro only if the measure shows Lite cannot). */
 export function agentModelsFrom(env: NodeJS.ProcessEnv): Record<AgentId, string> {
   const pick = (v: string | undefined) => (v === "pro" ? NOVA_MODELS.pro : NOVA_MODELS.lite);
   return { ledger: pick(env.AGENT_MODEL_LEDGER), data: pick(env.AGENT_MODEL_DATA) };
@@ -235,7 +235,7 @@ export interface DevRun {
   ledger: DevSpendLedger;
   /** Meta's credits are kept apart from Bedrock's $5 (eval/meta-spend-ledger.jsonl, ≤ $1). */
   metaLedger?: DevSpendLedger;
-  /** Each call's line goes here (docs/nadya/p3-agent/live-calls.jsonl). */
+  /** Each call's line goes here (AGENT_DEV_CALLS_LOG; scripts/agent-measure.ts sets it). */
   callsLog: string;
   lane: string;
   maxCalls: number;

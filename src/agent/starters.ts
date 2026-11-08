@@ -7,7 +7,7 @@ import type { Fact } from "./types";
 
 // The quick questions, answered by the book's own code: the same tool the agent calls, then a
 // sentence template in EN/DE/JA. No model, so they keep working when the live AI is out of
-// questions or budget, and they cost nothing (STEP0 §2, "Readings, cheapest first").
+// questions or budget, and they cost nothing.
 
 export type StarterId = "money" | "refused" | "back" | "paypal";
 

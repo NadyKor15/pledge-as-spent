@@ -790,7 +790,7 @@ test("ledger: a drive with no receipts draws no flow", async ({ page }) => {
   await expect(page.locator(".lg-receipt")).toHaveCount(0);
 });
 
-// The strict judge's findings, by number (docs/nadya/p3-build/ui/2026-11-01-image-first-ledger-r3/judge/TRIAGE.md).
+// Findings of a design review of the Ledger and the screens, by number.
 
 /** Solid, hatched or absent: what a part of a hold's bar looks like. */
 const barLook = (page: Page, card: string, part: string) =>
