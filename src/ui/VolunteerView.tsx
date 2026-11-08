@@ -7,7 +7,7 @@ import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
 import { lineName, lineViews, payoutNote, readLabel, receiptChecks, shareGroups } from "./derive";
 import { LineOriginal } from "./LineOriginal";
-import { ago, money, ofCount, titleParts } from "./format";
+import { money, ofCount, titleParts, whenUtc } from "./format";
 import { driveBadge, roleHref } from "./Header";
 import { Check, Clock, Cross, Info, NeedIcon } from "./icons";
 import type { DriveView, Receipt } from "./types";
@@ -172,7 +172,7 @@ function Payout({ view, receipt: r, following, refresh }: { view: DriveView; rec
           <span className={s.dot}>·</span>
           <span className={s.st}>{done ? "SUCCESS" : "PENDING"}</span>
           <span className={s.dot}>·</span>
-          <span className={s.when}>{ago(a.submittedAt)}</span>
+          <span className={s.when}>{whenUtc("en", a.submittedAt)}</span>
         </>
       }
       meta={done ? `${who} reimbursed` : `For ${who.replace(/^The /, "the ")}`}

@@ -1,4 +1,4 @@
-import { moneyIn, type Lang } from "../format";
+import { moneyIn, whenUtc, type Lang } from "../format";
 import type { DriveView } from "../types";
 import type { LedgerModel } from "./derive";
 import { WORDS } from "./i18n";
@@ -30,13 +30,8 @@ export interface LineProof {
   reason: string | null;
 }
 
-const DATE: Record<Lang, [string, Intl.DateTimeFormatOptions["month"]]> = { en: ["en-US", "short"], de: ["de-DE", "short"], ja: ["ja-JP", "long"] };
-
-/** "Nov 1, 02:06 UTC": the day and time PayPal answered, in UTC, so every donor reads the same moment. */
-export function whenUtc(lang: Lang, iso: string): string {
-  const [locale, month] = DATE[lang];
-  return `${new Intl.DateTimeFormat(locale, { month, day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "UTC" }).format(new Date(iso))} UTC`;
-}
+/** "Nov 1, 02:06 UTC" (src/ui/format.ts): the volunteer's payout is dated the same way. */
+export { whenUtc };
 
 export function lineProof(v: DriveView, m: LedgerModel, rowKey: string, lang: Lang = m.lang ?? "en"): LineProof | null {
   const w = WORDS[lang];
