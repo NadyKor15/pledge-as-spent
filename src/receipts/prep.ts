@@ -221,6 +221,11 @@ export interface Prepared {
   tiltDeg: number;
   /** A box in fractions of the prepared image -> a box in fractions of the original photo. */
   toOriginal(box: Box): Box;
+  /** A point in pixels of the prepared image -> the same point in fractions of the original photo. */
+  pointToOriginal(px: number, py: number): [number, number];
+  /** Size of the original photo, in pixels. */
+  originalWidth: number;
+  originalHeight: number;
   png(): Uint8Array;
   /**
    * One tile for a receipt up to 1.9 times as tall as wide, two up to 3.0, three above; 15 % overlap.
@@ -291,6 +296,9 @@ export function prepImage(image: ReceiptImage, opts: PrepOptions = {}): Prepared
     image: prepared,
     tiltDeg: tilt,
     toOriginal: (b) => mapBox(b, prepared.width, prepared.height),
+    pointToOriginal: mapPoint,
+    originalWidth: orig.width,
+    originalHeight: orig.height,
     png: () => PNG.sync.write(Object.assign(new PNG({ width: prepared.width, height: prepared.height }), { data: Buffer.from(prepared.data) })),
     tiles(overlap = 0.15, bottom = 1) {
       const height = Math.max(1, Math.min(prepared.height, Math.round(prepared.height * bottom)));
