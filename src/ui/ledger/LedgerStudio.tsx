@@ -9,6 +9,7 @@ import type { ModelPlan } from "@/agent/model-plan";
 import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
+import { subscribeViewport } from "../stage";
 import { bookCells } from "./cells";
 import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
@@ -88,10 +89,7 @@ function makeBook(view: DriveView, modelPlan: ModelPlan) {
 const REF_W = 1440;
 const REF_H = 900;
 
-function subscribeSize(cb: () => void) {
-  window.addEventListener("resize", cb);
-  return () => window.removeEventListener("resize", cb);
-}
+const subscribeSize = subscribeViewport;
 const sizeKey = () => `${document.documentElement.clientWidth}x${window.innerHeight}`;
 
 /** The book's height: a header and up to this many rows, then it scrolls inside its own grid. */

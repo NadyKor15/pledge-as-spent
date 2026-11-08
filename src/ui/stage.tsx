@@ -11,10 +11,21 @@ import { useEffect, useSyncExternalStore, type ReactNode, type RefObject } from 
 export const DESIGN_WIDTH = 1920;
 export const STACK_BELOW = 1100;
 
-const subscribe = (cb: () => void) => {
+/**
+ * The page's width changes without a `resize` event when a vertical scrollbar comes or goes: the Ledger is short
+ * until AG Studio has drawn it, then a classic scrollbar takes 15 px, and a stage sized before that stuck out by
+ * them (a horizontal scrollbar at 1440). The root element's own size is watched for that.
+ */
+export const subscribeViewport = (cb: () => void) => {
   window.addEventListener("resize", cb);
-  return () => window.removeEventListener("resize", cb);
+  const ro = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => cb());
+  ro?.observe(document.documentElement);
+  return () => {
+    window.removeEventListener("resize", cb);
+    ro?.disconnect();
+  };
 };
+const subscribe = subscribeViewport;
 const viewportWidth = () => document.documentElement.clientWidth;
 
 const useViewportWidth = () => useSyncExternalStore(subscribe, viewportWidth, () => DESIGN_WIDTH);
