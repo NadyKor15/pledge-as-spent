@@ -19,11 +19,49 @@ describe("quick questions answered by the book's code", () => {
     expect(a.lineKeys).toHaveLength(3);
   });
 
-  it("Lena, How much came back to me? (DE): 15,42 € back, 4,58 € spent", () => {
+  it("Lena, How much was never charged? (DE): 15,42 € back, 4,58 € spent", () => {
     const a = answerStarter(closed, "back", "Lena", "de");
     expect(a.text).toContain("15,42 €");
     expect(a.text).toContain("4,58 €");
     expect(a.verdict.ok).toBe(true);
+  });
+
+  it("the closed drive's answer says never charged, not came back, in each language", () => {
+    expect(answerStarter(closed, "back", "Lena", "en").text).toBe(
+      "€15.42 of your €20.00 was never charged: PayPal released the hold when the drive closed. €4.58 was spent on needs.",
+    );
+    expect(answerStarter(closed, "back", "Lena", "de").text).toContain("nie belastet");
+    expect(answerStarter(closed, "back", "Lena", "ja").text).toContain("請求されず");
+    for (const l of LOCALES) expect(answerStarter(closed, "back", "Lena", l).text, l).not.toMatch(/came back|zurückgekommen|戻りました/);
+  });
+
+  it("a refund after a capture is not called never charged", () => {
+    const v = structuredClone(closed);
+    const lena = v.holds.find((h) => h.donorName.startsWith("Lena"))!;
+    Object.assign(lena, { reversed: 100 });
+    for (const l of LOCALES) {
+      const a = answerStarter(v, "back", "Lena", l);
+      expect(a.text, l).not.toMatch(/never charged|nie belastet|請求されず/);
+    }
+    expect(answerStarter(v, "back", "Lena", "en").text).toContain("refund");
+  });
+
+  it("a void PayPal has not answered yet is on its way back, not never charged", () => {
+    const v = structuredClone(closed);
+    const lena = v.holds.find((h) => h.donorName.startsWith("Lena"))!;
+    Object.assign(lena, { status: "partially_captured" });
+    const a = answerStarter(v, "back", "Lena", "en");
+    expect(a.text).toContain("on its way back at PayPal");
+    expect(a.text).not.toContain("never charged");
+  });
+
+  it("on an open drive the answer says what is still held and not charged, without came back", () => {
+    for (const l of LOCALES) {
+      const a = answerStarter(open, "back", "Lena", l);
+      expect(a.text, l).not.toMatch(/came back|zurückgekommen|戻りました/);
+      expect(a.verdict.ok, l).toBe(true);
+    }
+    expect(answerStarter(open, "back", "Lena", "en").text).toContain("has not been charged");
   });
 
   it("Yuki, My PayPal numbers (JA)", () => {
@@ -78,6 +116,7 @@ describe("quick questions answered by the book's code", () => {
 
   it("prompts for the live agent name the donor in the donor's language", () => {
     expect(starterPrompt("money", "en", "Mark from Columbus")).toBe("I'm Mark from Columbus. What did my money buy?");
-    expect(starterPrompt("back", "de", "Lena aus Berlin")).toBe("Ich bin Lena aus Berlin. Wie viel kam zu mir zurück?");
+    expect(starterPrompt("back", "de", "Lena aus Berlin")).toBe("Ich bin Lena aus Berlin. Wie viel wurde nie belastet?");
+    expect(STARTERS.find((s) => s.id === "back")!.label).toEqual({ en: "How much was never charged?", de: "Wie viel wurde nie belastet?", ja: "いくらが請求されずに済みましたか？" });
   });
 });
