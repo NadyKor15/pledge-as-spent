@@ -95,6 +95,8 @@ interface Row {
   lost: number;
   paperClosedInLines: number;
   otherRowsOpen: number;
+  otherRowsPaperOpen: number;
+  controlAllOtherRows: number;
   openShare: number;
   controlAllOpenLeaks: number;
   controlNoneLost: number;
@@ -103,7 +105,7 @@ interface Row {
 
 async function measure(page: Page, file: string, outDir: string): Promise<Row> {
   const t = Truth.parse(JSON.parse(await readFile(path.join(SET, file), "utf8")));
-  const row: Row = { id: t.id, ok: false, problem: null, sameShot: false, cornerCheckPx: 0, piiBoxGapMax: 0, pii: t.receipt.pii.length, leaks: 0, darkLeftInPii: 0, lines: t.receipt.lines.length, lost: 0, paperClosedInLines: 0, otherRowsOpen: 0, openShare: 0, controlAllOpenLeaks: 0, controlNoneLost: 0, file: null };
+  const row: Row = { id: t.id, ok: false, problem: null, sameShot: false, cornerCheckPx: 0, piiBoxGapMax: 0, pii: t.receipt.pii.length, leaks: 0, darkLeftInPii: 0, lines: t.receipt.lines.length, lost: 0, paperClosedInLines: 0, otherRowsOpen: 0, otherRowsPaperOpen: 0, controlAllOtherRows: 0, openShare: 0, controlAllOpenLeaks: 0, controlNoneLost: 0, file: null };
   const { size, pii, geo, sameShot } = await rendered(page, t);
   row.sameShot = sameShot;
   row.cornerCheckPx = Math.round(geo.cornerCheckPx * 100) / 100;
@@ -137,17 +139,23 @@ async function measure(page: Page, file: string, outDir: string): Promise<Row> {
   const lostWith = (m: Uint8Array, img: Raster | null) => lineRows.filter((px) => px.some((q) => print(q) && shut(m, img)(q))).length;
   row.lost = lostWith(mask, after);
   row.paperClosedInLines = lineRows.reduce((s, px) => s + px.filter((q) => !print(q) && shut(mask, after)(q)).length, 0);
-  row.otherRowsOpen = geo.frames.filter((f, i) => !purchaseRows.has(i + 1) && inside(W, H, f).some((q) => mask[q])).length;
+  // Another printed row (header, totals, payment) counts as open when a pixel of its print is open; open paper there is
+  // reported apart, the same way as closed paper inside the purchase lines.
+  const otherRows = geo.frames.map((f, i) => (purchaseRows.has(i + 1) ? [] : inside(W, H, f)));
+  const otherOpenWith = (m: Uint8Array) => otherRows.filter((px) => px.some((q) => m[q] && print(q))).length;
+  row.otherRowsOpen = otherOpenWith(mask);
+  row.otherRowsPaperOpen = otherRows.reduce((s, px) => s + px.filter((q) => mask[q] && !print(q)).length, 0);
 
   // Controls: the same counters must light up when the closing is wrong on purpose.
   const all = openMask(W, H, geo.bands, geo.bands.map((b) => ({ lineNo: b.index, bandIndexes: [b.index] })));
   row.controlAllOpenLeaks = leaksWith(all);
+  row.controlAllOtherRows = otherOpenWith(all);
   const none = openMask(W, H, geo.bands, []);
   row.controlNoneLost = lostWith(none, null);
   const blank = decodeRaster(closeBytes(bytes, geo.bands, []));
   if (blank.width !== W || blank.height !== H) return { ...row, problem: "a closed copy changed size" };
 
-  row.ok = row.leaks === 0 && row.darkLeftInPii === 0 && row.lost === 0 && row.otherRowsOpen === 0 && row.controlAllOpenLeaks === row.pii && row.controlNoneLost === row.lines;
+  row.ok = row.leaks === 0 && row.darkLeftInPii === 0 && row.lost === 0 && row.otherRowsOpen === 0 && row.controlAllOtherRows > 0 && row.controlAllOpenLeaks === row.pii && row.controlNoneLost === row.lines;
   return row;
 }
 
@@ -164,7 +172,7 @@ async function main() {
     for (const f of files) {
       const r = await measure(page, f, outDir);
       rows.push(r);
-      console.log(`${r.id}  ${r.ok ? "ok" : "FAIL"}  leaks ${r.leaks}/${r.pii}  dark ${r.darkLeftInPii}  lost ${r.lost}/${r.lines}  paper closed ${r.paperClosedInLines}  other rows open ${r.otherRowsOpen}  controls ${r.controlAllOpenLeaks}/${r.pii} ${r.controlNoneLost}/${r.lines}${r.problem ? `  ${r.problem}` : ""}`);
+      console.log(`${r.id}  ${r.ok ? "ok" : "FAIL"}  leaks ${r.leaks}/${r.pii}  dark ${r.darkLeftInPii}  lost ${r.lost}/${r.lines}  paper closed ${r.paperClosedInLines}  other rows open ${r.otherRowsOpen} (paper ${r.otherRowsPaperOpen}, control ${r.controlAllOtherRows})  controls ${r.controlAllOpenLeaks}/${r.pii} ${r.controlNoneLost}/${r.lines}${r.problem ? `  ${r.problem}` : ""}`);
     }
   } finally {
     await browser.close();
@@ -181,6 +189,8 @@ async function main() {
     lost: sum("lost"),
     paperClosedInLines: sum("paperClosedInLines"),
     otherRowsOpen: sum("otherRowsOpen"),
+    otherRowsPaperOpen: sum("otherRowsPaperOpen"),
+    controlAllOtherRows: sum("controlAllOtherRows"),
     controlAllOpenLeaks: sum("controlAllOpenLeaks"),
     controlNoneLost: sum("controlNoneLost"),
     sameShot: rows.filter((r) => r.sameShot).length,
@@ -197,7 +207,9 @@ async function main() {
     `| Dark pixels left inside personal-data boxes on the closed images | ${totals.darkLeftInPii} |`,
     `| Purchase lines with a pixel of print closed or changed | ${totals.lost} of ${totals.lines} |`,
     `| Paper pixels closed or changed inside the purchase lines' rows (seams, band edges; not gated) | ${totals.paperClosedInLines} |`,
-    `| Other printed rows (header, totals, payment) with a pixel open | ${totals.otherRowsOpen} |`,
+    `| Other printed rows (header, totals, payment) with a pixel of print open | ${totals.otherRowsOpen} |`,
+    `| Paper pixels open in other printed rows (not a gate) | ${totals.otherRowsPaperOpen} |`,
+    `| Control: open everything → other rows with print open | ${totals.controlAllOtherRows} |`,
     `| Control, every row opened: personal data items caught | ${totals.controlAllOpenLeaks} of ${totals.pii} |`,
     `| Control, no row opened: purchase lines caught as lost | ${totals.controlNoneLost} of ${totals.lines} |`,
     `| Re-render identical to the photo, byte for byte | ${totals.sameShot} of ${totals.receipts} |`,

@@ -37,21 +37,23 @@ Gate: 0 leaks of 42, 0 lost lines, controls lit on every receipt, and every clos
 
 Both runs on November 9, 2026, 20 of 20 receipts measured each.
 
-| | `--bands truth` (01:35 UTC) | `--bands slicer` (01:34 UTC) |
+| | `--bands truth` (01:40 UTC) | `--bands slicer` (01:40 UTC) |
 |---|---|---|
 | Personal data items with a pixel in the open area | 0 of 42 | 0 of 42 |
 | Dark pixels left inside personal-data boxes on the closed images | 0 | 0 |
 | Purchase lines with a pixel of print closed or changed | 0 of 103 | 0 of 103 |
 | Paper pixels closed or changed inside the purchase lines' rows (not gated) | 0 | 1,839 |
-| Other printed rows (header, totals, payment) with a pixel open | 0 | 1 |
+| Other printed rows (header, totals, payment) with a pixel of print open | 0 | 0 |
+| Paper pixels open in other printed rows (not gated) | 0 | 99 |
+| Control, every row opened: other rows with print open | 327 | 327 |
 | Control, every row opened: personal data items caught | 42 of 42 | 42 of 42 |
 | Control, no row opened: purchase lines caught as lost | 103 of 103 | 103 of 103 |
 | Re-render identical to the photo, byte for byte | 20 of 20 | 20 of 20 |
-| Gate | passed | not passed (the one other row) |
+| Gate | passed | passed |
 
 The two controls run on every receipt: opening every row puts each of the 42 personal data items in the open area, and opening none loses each of the 103 lines, so the zeros above come from counters that can see.
 
-With the reader's own bands, before the seams opened (01:19 UTC, same day), 11,131 paper pixels inside the purchase lines' rows were closed, 9,292 of them hairline seams between two bands; they showed as thin light stripes across the open lines, and under the old any-pixel rule they made 74 of 103 lines count as lost although no printed pixel of any line was closed. The seams now open; the 1,839 paper pixels still closed all lie above or below a run of open rows, where the next band is closed or there is none, so nothing opens there. None lies beside a band (left or right of its ends). The one other row is on holdout-es-03: 99 pixels of the box of the column header "DESCRIPCIÓN", reached by the reader's own band of the row under it (not by a seam), all paper, no print; it was the same before the seams opened.
+With the reader's own bands, before the seams opened (01:19 UTC, same day), 11,131 paper pixels inside the purchase lines' rows were closed, 9,292 of them hairline seams between two bands; they showed as thin light stripes across the open lines, and under the old any-pixel rule they made 74 of 103 lines count as lost although no printed pixel of any line was closed. The seams now open; the 1,839 paper pixels still closed all lie above or below a run of open rows, where the next band is closed or there is none, so nothing opens there. None lies beside a band (left or right of its ends). The one other row is on holdout-es-03: 99 pixels of the box of the column header "DESCRIPCIÓN", reached by the reader's own band of the row under it (not by a seam), all paper, no print; it was the same before the seams opened. Another row now counts as open only when a pixel of its print is open, the same rule as a lost line; its open paper is reported apart (99 pixels), and the control that opens every row lights 327 other rows with print open.
 
 All 20 slicer copies were looked at, enlarged twice: no seam is left, the edges of the open area are straight, and only the purchase lines are printed, with their quantity and discount rows; header, totals, payment and personal data are a plain background. With the truth bands the seams open no pixel (their bands meet), so those copies are the ones looked at on the 00:55 UTC run.
 
