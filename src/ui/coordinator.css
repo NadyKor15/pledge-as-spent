@@ -84,6 +84,7 @@
 .co-msub { flex: none; margin: 7.8px 21px 0 21px; min-height: 26px; line-height: 26px; font-size: 20px; color: var(--ink); }
 .co-msub b { font-weight: 600; }
 .co-recognized { display: block; font-size: 15px; line-height: 20px; color: var(--ink-3); }
+.co-readBy { margin-left: 8px; font-size: 0.8em; color: var(--ink-3); white-space: nowrap; }
 .co-mbody { position: relative; flex: 1; display: flex; align-items: flex-start; padding-bottom: 16px; }
 .co-receipt { position: relative; flex: none; margin: 15.7px 0 0 26px; width: 298px; height: 517px; border-radius: 10px; overflow: hidden; background: var(--ink-3); }
 .co-receipt img { object-fit: cover; object-position: top; }
@@ -111,6 +112,8 @@
 .co-rej .co-t { margin-left: 27px; display: flex; flex-direction: column; min-width: 0; }
 .co-rej .co-t1 { margin-top: 4px; height: 20px; line-height: 20px; font-size: 16.4px; font-weight: 600; white-space: nowrap; }
 .co-rej .co-t2 { margin: 6.3px 0 0 -2px; line-height: 18px; font-size: 14.8px; color: var(--ink-2); }
+.co-refusedSum { flex: none; margin: 2px 0 0 2px; font-size: 15.3px; line-height: 20px; color: var(--ink-2); }
+.co-refusedSum b { font-weight: 600; color: var(--ink); }
 
 .co-decide { margin: 8px 0 0 10px; width: 386px; border: 1px solid var(--wait-line); background: var(--wait-bg); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 19px; }
 .co-decide b { font-size: 16px; }
@@ -238,6 +241,8 @@
 .sc-stack .co-rej .co-t1 { height: auto; font-size: 13.5px; line-height: 18px; white-space: normal; }
 .sc-stack .co-rej .co-t2 { margin: 2px 0 0; font-size: 12.5px; line-height: 17px; }
 .sc-stack .co-recognized { font-size: 12.5px; line-height: 17px; }
+.sc-stack .co-readBy { white-space: normal; }
+.sc-stack .co-refusedSum { margin: 2px 0 6px; font-size: 13px; line-height: 18px; }
 .sc-stack .co-decide { margin: 8px 0 0; width: auto; }
 .sc-stack .co-emptyReceipt { margin: 12px; font-size: 15px; line-height: 21px; }
 .sc-stack .co-mainBtn { width: 100%; min-height: 48px; padding: 0 14px; font-size: 16px; }

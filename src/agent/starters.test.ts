@@ -40,6 +40,18 @@ describe("quick questions answered by the book's code", () => {
     expect(a.verdict.ok).toBe(true);
   });
 
+  it("a reason that ends with its own full stop is not followed by a second mark: no 'needs.;' and no 'needs..'", () => {
+    const v = structuredClone(closed);
+    const rows = v.ledger.filter((x) => x.kind === "rejected");
+    for (const x of rows) Object.assign(x, { code: "not_in_needs", reasonEn: "Cup noodles are not one of the needs." });
+    for (const l of LOCALES) {
+      const a = answerStarter(v, "refused", null, l);
+      expect(a.text, l).not.toMatch(/\.[;.]|。。|\.。/);
+      expect(a.text, l).toContain("Cup noodles are not one of the needs");
+    }
+    expect(answerStarter(v, "refused", null, "en").text).toMatch(/not one of the needs; line \d+.*not one of the needs\.$/);
+  });
+
   it("every quick question, every language, every donor, open and closed: the guard confirms every figure", () => {
     for (const v of [closed, open]) {
       const donors = v.holds.filter((h) => h.kind === "donor").map((h) => h.donorName);

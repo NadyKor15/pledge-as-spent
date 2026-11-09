@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineName, lineViews, liveFeed, needById, nextStep, paypalActivity, payoutNote, receiptBadge, receiptChecks, shareGroups, type LineView, type NextStep } from "./derive";
+import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
@@ -322,7 +322,13 @@ function ReceiptBody({
       <p className={s.msub}>
         Store receipt · <b>{money(r.currency, r.total)}</b>
         {r.merchant && <small style={{ marginLeft: 8, fontSize: "0.8em", opacity: 0.62 }}>{r.merchant}</small>}
-        {r.reader.startsWith("recognized:") && <small className={s.recognized}>Recognized as the sample: saved, checked reading</small>}
+        {r.reader.startsWith("recognized:") ? (
+          <small className={s.recognized}>Recognized as the sample: saved, checked reading</small>
+        ) : (
+          <small className={s.readBy} data-testid="read-mark">
+            {readMark(r)}
+          </small>
+        )}
       </p>
       <div className={s.mbody}>
         <div className={s.receipt} data-flow="receipt">
@@ -367,6 +373,11 @@ function ReceiptBody({
                 </div>
               </div>
             ))}
+            {refused.length > 0 && (
+              <p className={s.refusedSum} data-testid="refused-sum">
+                Refused: <b>{money(r.currency, refusedTotal(lines))}</b> of {money(r.currency, r.total)} never reaches a donor
+              </p>
+            )}
           </div>
           {r.status === "review" && <Decision view={view} receipt={r} lines={lines} busy={busy} error={errorFor("decide")} act={act} />}
         </div>
@@ -507,9 +518,8 @@ function batchSentence(view: DriveView): string {
 }
 
 function Activity({ view, busy, next, capture, line, error }: { view: DriveView; busy: string | null; next: NextStep; capture: () => void; line: ReturnType<typeof captureLine>; error: ApiError | null }) {
-  const items = paypalActivity(view)
-    .sort((a, b) => a.last.localeCompare(b.last))
-    .slice(-5);
+  // The payout stays listed after the drive closes; the newest of the rest fill the list.
+  const items = activityShown(view, 5);
   const payout = view.payouts.flatMap((p) => p.attempts).at(-1);
   const count = view.holds.filter((h) => h.accrued > 0).length;
   const live = next === "capture" || next === "check";

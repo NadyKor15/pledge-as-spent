@@ -46,6 +46,7 @@ function hugePng(width = 1400, height = 1400): Buffer {
 test("the way in: who it is for, a judge's read-only path, one action that writes, and no empty links", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.")).toBeVisible();
+  await expect(page.locator(".ld-promise")).toHaveText("Your €20 for water can only buy water.");
   const judge = page.locator(".ld-judge");
   await expect(judge.getByRole("heading")).toHaveText("Judging Pledge-as-Spent? See the whole thing in 90 seconds.");
   await expect(judge.getByRole("link", { name: "See a finished drive" })).toHaveAttribute("href", "/drive/demo-41e3886eeb?as=ledger");
@@ -71,6 +72,9 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await expect(page.locator(".co-pill")).toHaveCount(9);
   await expect(page.locator(".co-rej")).toHaveCount(2);
   await expect(page.getByText(/¥10,448/).first()).toBeVisible();
+  // As the README says: the sample's reading is a saved one, and the refused lines add up to one number.
+  await expect(page.getByTestId("read-mark")).toHaveText("Saved AI reading");
+  await expect(page.getByTestId("refused-sum")).toHaveText("Refused: ¥4,198 of ¥14,646 never reaches a donor");
 
   await captureUntilCompleted(page);
   await expect(page.locator(".co-card", { hasText: "Mark" })).toContainText("$21.45");
@@ -106,6 +110,8 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   const holds = page.locator(".co-card");
   await expect(holds).toHaveCount(4);
   for (const hold of await holds.all()) await expect(hold).toContainText("back");
+  // Four voids came after the payout: it still stands in PayPal's list.
+  await expect(page.locator(".co-act", { hasText: "Payout to Haruto" })).toContainText("¥10,448");
 
   await page.goto(`/pledge/${driveId}.water`);
   await expect(page.locator(".st-sRel")).toContainText("€15.42");

@@ -18,6 +18,7 @@ export default function Home() {
       <div className="ld-col">
         <div className="ld-brand">Pledge-as-Spent</div>
         <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest goes back.</h1>
+        <p className="ld-promise">Your €20 for water can only buy water.</p>
         <p className="ld-for">For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.</p>
 
         {/* Everything here only reads: a finished drive, a statement, the README. Nothing is held or charged. */}

@@ -366,14 +366,35 @@ export function liveFeed(v: DriveView, n: number): { key: string; ok: boolean | 
   return items.sort((a, b) => a.at.localeCompare(b.at)).slice(-n);
 }
 
-/** How the receipt was read. A saved reading is not presented as one made just now. */
+/** How the receipt was read, in two or three words. A saved reading is not presented as one made just now. */
+export function readMark(r: Receipt): string {
+  if (r.reader.startsWith("live:")) return "Read by AI";
+  if (r.reader.startsWith("recognized:")) return "Recognized as the sample, saved reading";
+  if (r.reader === "copy") return "Read before";
+  if (r.reader === "recorded") return "Sample reading";
+  return "Saved AI reading";
+}
+
+/** How the receipt was read, with its number of lines. */
 export function readLabel(r: Receipt): string {
-  const lines = `${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
-  if (r.reader.startsWith("live:")) return `Read by AI · ${lines}`;
-  if (r.reader.startsWith("recognized:")) return `Recognized as the sample, saved reading · ${lines}`;
-  if (r.reader === "copy") return `Read before · ${lines}`;
-  if (r.reader === "recorded") return `Sample reading · ${lines}`;
-  return `Saved AI reading · ${lines}`;
+  return `${readMark(r)} · ${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
+}
+
+/** What the refused lines of a receipt add up to: money no donor is ever charged. */
+export function refusedTotal(lines: readonly { state: string; line: { amount: number } }[]): number {
+  return lines.filter((l) => l.state === "rejected").reduce((s, l) => s + l.line.amount, 0);
+}
+
+/**
+ * The coordinator's PayPal list: every payout to the volunteer stays in it (closing the drive adds a void per
+ * hold, which would push the payout out of a list of the newest), then the newest of the rest, `n` in all.
+ */
+export function activityShown(v: DriveView, n = 5): Activity[] {
+  const all = paypalActivity(v);
+  const payouts = all.filter((a) => a.key.startsWith("pay:"));
+  const room = n - payouts.length;
+  const rest = room > 0 ? all.filter((a) => !a.key.startsWith("pay:")).sort((a, b) => a.last.localeCompare(b.last)).slice(-room) : [];
+  return [...payouts, ...rest].sort((a, b) => a.last.localeCompare(b.last));
 }
 
 /** PayPal accepted a reauthorization of this hold. It refreshes the honor period, not the 29 days. */

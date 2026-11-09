@@ -123,7 +123,8 @@ function refusedAnswer(v: DriveView, l: AgentLocale): string {
   if (rows.length === 0) return { en: "No line of this book was refused.", de: "In diesem Buch wurde keine Zeile abgelehnt.", ja: "この帳簿で却下された行はありません。" }[l];
   const items = rows.map((x) => {
     const r = x.code ? RULE[x.code]?.[l] : undefined;
-    const why = r?.why ?? x.reasonEn ?? "";
+    // A reason is one clause of the list: its own full stop would print "needs.; line 3" and "needs..".
+    const why = (r?.why ?? x.reasonEn ?? "").trim().replace(/[.。!！]+$/u, "");
     return { en: `line ${x.lineNo}, ${r?.name ?? "an item"} for ${m(x.base)}: ${why}`, de: `Zeile ${x.lineNo}, ${r?.name ?? "ein Artikel"} für ${m(x.base)}: ${why}`, ja: `${x.lineNo}行目の${r?.name ?? "品目"}（${m(x.base)}）：${why}` }[l];
   });
   const total = m(rows.reduce((s, x) => s + x.base, 0));

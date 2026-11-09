@@ -2,6 +2,8 @@
 
 **Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent goes back.
 
+Your €20 for water can only buy water.
+
 In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
