@@ -45,9 +45,9 @@
 .st-sSpent b { color: var(--green); letter-spacing: -.9px; }
 .st-sWait b { color: var(--green); }
 .st-sHeld b { color: var(--held-ink); }
-.st-sBack b { color: var(--pas-never); }
+.st-sBack b { color: var(--rel-ink); }
 .st-sBack span { line-height: 14px; white-space: normal; }
-.st-sRel b { color: var(--pas-never); letter-spacing: -1px; }
+.st-sRel b { color: var(--pas-never-text); letter-spacing: -1px; }
 .st-note { margin: 7px 14px 0; font-size: 11.6px; line-height: 16px; color: var(--no); }
 
 .st-match { margin-top: 7.4px; min-height: 59.4px; display: flex; align-items: center; padding: 6px 8px 6px 12.3px; background: var(--match-bg); border-color: var(--match-line); }

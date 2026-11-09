@@ -103,3 +103,13 @@ describe("the bar", () => {
     expect(renderToStaticMarkup(createElement(HoldMeter, { parts: empty, size: "card", lang: "en" }))).not.toContain("data-part");
   });
 });
+
+describe("the bar's colours, as on sheet A (NM11 17:37:28Z)", () => {
+  it("never charged is the light grey-blue of the statement's bar; its figures the graphite", () => {
+    const css = readFileSync(path.join(__dirname, "../../src/ui/hold-meter.css"), "utf8");
+    expect(css).toContain("--pas-never: #B8C0CA;");
+    expect(css).toContain("--pas-never-text: #586478;");
+    expect(css).toContain("--pas-charged: #2F855A;");
+  });
+});
+
