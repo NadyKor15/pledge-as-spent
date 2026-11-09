@@ -2,21 +2,24 @@
 // here, a real-looking receipt whose total was raised by hand.
 //   npx tsx tools/receipts/forgeries.ts
 // Writes eval/cheat/cheat-total-ja.{png,truth.json} (outside eval/receipts: the benchmark sets stay as they are),
-// public/cheat/<id>.jpg (personal data blurred, as the app publishes a receipt) and src/server/forgeries.json: each
-// photo's fingerprints and its recorded reading, which is the set's truth. No model is asked anything.
+// public/cheat/<id>.jpg (closed, as the app publishes a receipt: only the purchase lines open, the rest a plain
+// background, src/receipts/close.ts) and src/server/forgeries.json: each photo's fingerprints and its recorded
+// reading, which is the set's truth. No model is asked anything. The rows to open come from the generator's own page:
+// each receipt is rendered again from its spec and its printed rows measured on the photo (tools/receipts/rows.ts, the
+// same way the closing is measured), and a photo whose re-render does not match it is not published.
+//   --keep-render: keep eval/cheat/cheat-total-ja.png as it is (its fingerprints are in the manifest).
 
-import { chromium } from "@playwright/test";
-import jpeg from "jpeg-js";
+import { chromium, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { PNG } from "pngjs";
 import { dHash, sha256Hex } from "../../src/receipts/hash";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
-import { redactImage } from "../../src/server/redact";
+import { closeReceipt, decodeRaster, encodeRaster, isClosedCopy, openMask, openPlan } from "../../src/receipts/close";
 import { CATALOG, STORES } from "./catalog";
 import { render } from "./generate";
+import { rendered, rerenderProblem } from "./rows";
 import { SCENARIOS } from "./scenario";
 import { photoParams } from "./sets";
 import { buildSpec, specToClassifications, specToReceipt, type Entry, type ReceiptSpec } from "./spec";
@@ -88,12 +91,47 @@ export interface ForgeryFile {
   labels: LineClassification[];
 }
 
-/** The published copy: personal data blurred, then a JPEG small enough for a page of five. */
-function publishable(png: Uint8Array, reading: ParsedReceipt): Buffer {
-  const blurred = redactImage({ bytes: png, mediaType: "image/png" }, reading.pii);
-  if (!blurred.bytes) throw new Error("personal data could not be blurred: not publishing this photo");
-  const img = PNG.sync.read(Buffer.from(blurred.bytes));
-  return Buffer.from(jpeg.encode({ width: img.width, height: img.height, data: img.data }, 82).data);
+/**
+ * A corner method a little further from the browser's boxes than the measure allows (the hero receipt is 1.03 px off)
+ * is still accepted here, because every copy is then checked directly: no pixel of a personal-data box open, and no
+ * dark pixel left in one on the closed image.
+ */
+const CORNER_TOLERANCE_PX = 2;
+
+/** Pixels of a personal-data box (fractions of the photo). */
+function boxPixels(w: number, h: number, b: { x: number; y: number; w: number; h: number }): number[] {
+  const out: number[] = [];
+  for (let y = Math.max(0, Math.floor(b.y * h)); y < Math.min(h, Math.ceil((b.y + b.h) * h)); y++)
+    for (let x = Math.max(0, Math.floor(b.x * w)); x < Math.min(w, Math.ceil((b.x + b.w) * w)); x++) out.push(y * w + x);
+  return out;
+}
+
+/**
+ * The published copy: the photo closed to its purchase lines (every line, funded or refused), then a JPEG small enough
+ * for a page of five, still carrying the closing mark. Throws rather than publish a copy that is not closed, that
+ * leaves a purchase line shut, or that shows any of the personal data.
+ */
+async function publishable(page: Page, png: Uint8Array, t: Truth): Promise<{ jpg: Buffer; open: number; lines: number; cornerPx: number }> {
+  const r = await rendered(page, t);
+  const { problem } = rerenderProblem(t, r, CORNER_TOLERANCE_PX);
+  if (problem) throw new Error(`${t.id}: ${problem}: not publishing this photo`);
+  const plan = openPlan(r.geo.bands, r.geo.purchase);
+  const shut = plan.lines.filter((l) => !l.open);
+  if (shut.length) throw new Error(`${t.id}: purchase lines ${shut.map((l) => `${l.lineNo} (${l.why})`).join(", ")} cannot be opened: not publishing this photo`);
+  if (plan.lines.length !== t.receipt.lines.length) throw new Error(`${t.id}: ${plan.lines.length} lines placed, the reading has ${t.receipt.lines.length}`);
+  const closed = closeReceipt({ bytes: png, mediaType: "image/png" }, r.geo.bands, r.geo.purchase);
+  if (!closed || !isClosedCopy(closed)) throw new Error(`${t.id}: no closed copy: not publishing this photo`);
+  const raster = decodeRaster(closed);
+  const mask = openMask(raster.width, raster.height, r.geo.bands, r.geo.purchase);
+  for (const [i, p] of t.receipt.pii.entries()) {
+    const px = boxPixels(raster.width, raster.height, p.bbox!);
+    if (px.some((q) => mask[q])) throw new Error(`${t.id}: personal data #${i} (${p.kind}) lies in the open area: not publishing this photo`);
+    const d = raster.data;
+    if (px.some((q) => 0.299 * d[q * 4] + 0.587 * d[q * 4 + 1] + 0.114 * d[q * 4 + 2] < 120)) throw new Error(`${t.id}: print left in personal data #${i}: not publishing this photo`);
+  }
+  const jpg = encodeRaster(raster, "image/jpeg", { jpegQuality: 82 });
+  if (!isClosedCopy(jpg)) throw new Error(`${t.id}: the JPEG lost the closing mark`);
+  return { jpg, open: plan.open.length, lines: plan.lines.length, cornerPx: Math.round(r.geo.cornerCheckPx * 100) / 100 };
 }
 
 async function renderEditedTotal() {
@@ -128,17 +166,24 @@ async function main() {
   if (!process.argv.includes("--keep-render")) await renderEditedTotal();
   const out: ForgeryFile[] = [];
   await mkdir(path.join(ROOT, "public/cheat"), { recursive: true });
-  for (const s of SOURCES) {
-    const png = new Uint8Array(await readFile(path.join(ROOT, s.file)));
-    const t = Truth.parse(JSON.parse(await readFile(path.join(ROOT, s.truth), "utf8")));
-    const sha = sha256Hex(png);
-    if (sha !== t.image.sha256) throw new Error(`${s.file}: the photo is not the one its truth file describes`);
-    const dh = dHash({ bytes: png, mediaType: "image/png" });
-    if (!dh) throw new Error(`${s.file}: no perceptual hash`);
-    const image = `/cheat/${s.id}.jpg`;
-    await writeFile(path.join(ROOT, "public", image), publishable(png, t.receipt));
-    out.push({ id: s.id, source: s.file, image, sha256: sha, dHash: dh, reading: t.receipt, labels: t.labels });
-    console.log(`${s.id}  ${s.file}  ${sha.slice(0, 12)}`);
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({ deviceScaleFactor: 1 });
+    for (const s of SOURCES) {
+      const png = new Uint8Array(await readFile(path.join(ROOT, s.file)));
+      const t = Truth.parse(JSON.parse(await readFile(path.join(ROOT, s.truth), "utf8")));
+      const sha = sha256Hex(png);
+      if (sha !== t.image.sha256) throw new Error(`${s.file}: the photo is not the one its truth file describes`);
+      const dh = dHash({ bytes: png, mediaType: "image/png" });
+      if (!dh) throw new Error(`${s.file}: no perceptual hash`);
+      const image = `/cheat/${s.id}.jpg`;
+      const { jpg, open, lines, cornerPx } = await publishable(page, png, t);
+      await writeFile(path.join(ROOT, "public", image), jpg);
+      out.push({ id: s.id, source: s.file, image, sha256: sha, dHash: dh, reading: t.receipt, labels: t.labels });
+      console.log(`${s.id}  ${s.file}  ${sha.slice(0, 12)}  closed: ${lines} purchase lines open on ${open} rows, ${t.receipt.pii.length} personal data items shut, corners within ${cornerPx}px`);
+    }
+  } finally {
+    await browser.close();
   }
   await writeFile(path.join(ROOT, "src/server/forgeries.json"), JSON.stringify(out, null, 1) + "\n");
   console.log(`src/server/forgeries.json: ${out.length} forgeries`);

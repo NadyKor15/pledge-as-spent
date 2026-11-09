@@ -92,7 +92,7 @@ export function CheatLab({ forgeries }: { forgeries: ForgeryCard[] }) {
 
             <div className="ch-receipt">
               <a href={shown.forgery.image} target="_blank" rel="noopener noreferrer" className="ch-photo">
-                <Image src={shown.forgery.image} alt={`${shown.forgery.title}: the receipt, personal data blurred`} width={600} height={820} unoptimized />
+                <Image src={shown.forgery.image} alt={`${shown.forgery.title}: the receipt, closed to its purchase lines`} width={600} height={820} unoptimized />
               </a>
               <div className="ch-detail">
                 <h2>{shown.forgery.title}</h2>

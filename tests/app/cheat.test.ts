@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { GET as cheatGET } from "../../src/app/api/cheat/route";
+import { isClosedCopy } from "../../src/receipts/close";
 import { dHash, sha256Hex } from "../../src/receipts/hash";
 import { FORGERIES, tryForgery, type CheatResult } from "../../src/server/cheat";
 import forgeries from "../../src/server/forgeries.json";
@@ -29,7 +30,10 @@ describe("the forgeries and where their readings come from", () => {
       // The benchmark's recorded reading for the same photo, where there is one (the made-up total is not in it).
       if (f.id !== "edited-total") expect(rec.readings[f.sha256]).toEqual(f.reading);
       else expect(rec.readings[f.sha256]).toBeUndefined();
-      expect(readFileSync(path.join(ROOT, "public", f.image)).subarray(0, 3)).toEqual(Buffer.from([0xff, 0xd8, 0xff]));
+      // The published photo is the closed copy: a JPEG that carries the closing mark, never the original or a blur.
+      const published = readFileSync(path.join(ROOT, "public", f.image));
+      expect(published.subarray(0, 3)).toEqual(Buffer.from([0xff, 0xd8, 0xff]));
+      expect(isClosedCopy(published)).toBe(true);
     }
   });
 

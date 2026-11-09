@@ -18,12 +18,11 @@
 // opening none must lose every line.
 
 import { chromium, type Page } from "@playwright/test";
-import { createHash } from "node:crypto";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { closeBytes, closeReceipt, decodeRaster, isClosedCopy, openMask, type Band, type PurchaseLine, type Raster } from "../../src/receipts/close";
-import { renderHtml } from "../receipts/render";
+import { rendered, rerenderProblem, type Geometry, type Quad } from "../receipts/rows";
 import { Truth } from "../receipts/truth";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
@@ -35,84 +34,6 @@ const arg = (name: string) => {
 };
 const MODE = arg("bands") ?? "truth";
 if (MODE !== "truth" && MODE !== "slicer") throw new Error("--bands is truth or slicer");
-
-type Quad = [number, number][];
-interface Geometry {
-  bands: Band[];
-  /** Each row's printed box (no reach into the gaps), as a quad on the photo. */
-  frames: Quad[];
-  texts: string[];
-  purchase: PurchaseLine[];
-  missing: number[];
-  /** Largest gap, in pixels, between a personal-data span's box from its corners and the browser's own box of it. */
-  cornerCheckPx: number;
-}
-
-/** Runs in the page after __photo: rows of the paper, their bands and frames on the photo, the purchase lines' rows. */
-const GEOMETRY_JS = String.raw`
-(function (lines) {
-  var stage = document.querySelector('.stage').getBoundingClientRect();
-  var paper = document.querySelector('.paper');
-  var cs = getComputedStyle(paper);
-  var padL = parseFloat(cs.paddingLeft), padR = parseFloat(cs.paddingRight);
-  var inner = paper.clientWidth - padR;
-  function point(x, y) {
-    var m = document.createElement('div');
-    m.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y + 'px;width:0;height:0;padding:0;border:0;margin:0';
-    paper.appendChild(m);
-    var r = m.getBoundingClientRect();
-    paper.removeChild(m);
-    return [r.left - stage.left, r.top - stage.top];
-  }
-  function quad(x0, y0, x1, y1) { return [point(x0, y0), point(x1, y0), point(x1, y1), point(x0, y1)]; }
-  var rows = Array.prototype.filter.call(paper.children, function (el) { return el.matches('.row, .c'); });
-  var ext = rows.map(function (el) {
-    var l = el.querySelector('.l') || el;
-    return { top: el.offsetTop, bottom: el.offsetTop + el.offsetHeight, text: l.textContent.replace(/ /g, ' ').trim() };
-  });
-  var hs = ext.map(function (e) { return e.bottom - e.top; }).sort(function (a, b) { return a - b; });
-  // The reader's bands reach halfway into the gap to the next row, at most a third of a row of type, across the print.
-  var reach = hs[Math.floor(hs.length / 2)] / 3;
-  var bands = ext.map(function (e, i) {
-    var up = i === 0 ? reach : Math.min(reach, (e.top - ext[i - 1].bottom) / 2);
-    var down = i === ext.length - 1 ? reach : Math.min(reach, (ext[i + 1].top - e.bottom) / 2);
-    var y0 = e.top - up, y1 = e.bottom + down;
-    return { index: i + 1, y0: y0, y1: y1, quad: quad(padL - reach, y0, inner + reach, y1) };
-  });
-  var frames = ext.map(function (e) { return quad(padL, e.top, inner, e.bottom); });
-  var at = 0, purchase = [], missing = [];
-  lines.forEach(function (l, k) {
-    var i = at;
-    while (i < ext.length && ext[i].text !== l.first) i++;
-    if (i >= ext.length) { missing.push(k + 1); return; }
-    var idx = [];
-    for (var j = 0; j <= l.extra; j++) idx.push(i + j + 1);
-    purchase.push({ lineNo: k + 1, bandIndexes: idx });
-    at = i + l.extra + 1;
-  });
-  var worst = 0;
-  document.querySelectorAll('[data-pii]').forEach(function (el) {
-    var q = quad(el.offsetLeft, el.offsetTop, el.offsetLeft + el.offsetWidth, el.offsetTop + el.offsetHeight);
-    var xs = q.map(function (p) { return p[0]; }), ys = q.map(function (p) { return p[1]; });
-    var r = el.getBoundingClientRect();
-    worst = Math.max(worst, Math.abs(Math.min.apply(null, xs) - (r.left - stage.left)), Math.abs(Math.max.apply(null, xs) - (r.right - stage.left)),
-      Math.abs(Math.min.apply(null, ys) - (r.top - stage.top)), Math.abs(Math.max.apply(null, ys) - (r.bottom - stage.top)));
-  });
-  return { bands: bands, frames: frames, texts: ext.map(function (e) { return e.text; }), purchase: purchase, missing: missing, cornerCheckPx: worst };
-})`;
-
-async function rendered(page: Page, t: Truth) {
-  await page.setViewportSize({ width: 1600, height: 3400 });
-  await page.setContent(renderHtml(t.spec), { waitUntil: "load" });
-  await page.evaluate(() => document.fonts.ready);
-  const size = (await page.evaluate(`window.__photo(${JSON.stringify(t.spec.photo)})`)) as { width: number; height: number };
-  await page.setViewportSize(size);
-  const pii = (await page.evaluate("window.__piiBoxes()")) as Record<string, { x: number; y: number; w: number; h: number }>;
-  const lines = t.spec.lines.map((l) => ({ first: l.name[0].replace(/ /g, " ").trim(), extra: l.name.length - 1 + (l.qty && l.qty > 1 && l.unitMinor !== null ? 1 : 0) }));
-  const geo = (await page.evaluate(`(${GEOMETRY_JS})(${JSON.stringify(lines)})`)) as Geometry;
-  const shot = await page.locator(".stage").screenshot({ type: "png" });
-  return { size, pii, geo, sameShot: createHash("sha256").update(shot).digest("hex") === t.image.sha256 };
-}
 
 const lum = (d: Uint8Array, i: number) => 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
 
@@ -182,15 +103,9 @@ async function measure(page: Page, file: string, outDir: string): Promise<Row> {
   const { size, pii, geo, sameShot } = await rendered(page, t);
   row.sameShot = sameShot;
   row.cornerCheckPx = Math.round(geo.cornerCheckPx * 100) / 100;
-  if (size.width !== t.image.width || size.height !== t.image.height) return { ...row, problem: `re-render is ${size.width}x${size.height}, the photo ${t.image.width}x${t.image.height}` };
-  for (const [i, p] of t.receipt.pii.entries()) {
-    const b = pii[String(i)];
-    if (!b || !p.bbox) return { ...row, problem: `personal data #${i} not on the re-render` };
-    row.piiBoxGapMax = Math.max(row.piiBoxGapMax, Math.abs(b.x - p.bbox.x), Math.abs(b.y - p.bbox.y), Math.abs(b.w - p.bbox.w), Math.abs(b.h - p.bbox.h));
-  }
-  if (row.piiBoxGapMax > 0.0006) return { ...row, problem: `the re-render's personal data is off the truth by ${row.piiBoxGapMax}` };
-  if (geo.cornerCheckPx > 1) return { ...row, problem: `corners off the browser's own boxes by ${geo.cornerCheckPx}px` };
-  if (geo.missing.length) return { ...row, problem: `purchase lines ${geo.missing.join(", ")} not found among the rows` };
+  const check = rerenderProblem(t, { size, pii, geo, sameShot });
+  row.piiBoxGapMax = check.piiBoxGapMax;
+  if (check.problem) return { ...row, problem: check.problem };
 
   const bytes = new Uint8Array(await readFile(path.join(SET, t.image.file)));
   const before = decodeRaster(bytes);
