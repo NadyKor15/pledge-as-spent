@@ -9,7 +9,7 @@ import type { ModelPlan } from "@/agent/model-plan";
 import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
-import { subscribeViewport, viewportWidth } from "../stage";
+import { subscribeViewport, viewportHeight, viewportWidth } from "../stage";
 import { bookCells } from "./cells";
 import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
@@ -90,7 +90,7 @@ const REF_W = 1440;
 const REF_H = 900;
 
 const subscribeSize = subscribeViewport;
-const sizeKey = () => `${viewportWidth()}x${window.innerHeight}`;
+const sizeKey = () => `${viewportWidth()}x${viewportHeight()}`;
 
 /** The book's height: a header and up to this many rows, then it scrolls inside its own grid. */
 const BOOK_ROWS = 22;

@@ -222,6 +222,35 @@ test("at 390 px neither the coordinator nor the donor screen is wider than the w
   await expect(page.locator("header details")).not.toHaveAttribute("open");
 });
 
+test("a desktop window turned into a phone (device mode) lays the coordinator and the Ledger out in one column, with no update loop", async ({ page }) => {
+  // The desktop stage on a phone made the phone zoom out to fit it: innerWidth read 1137 at scale 0.343, the stage
+  // stayed wide for that width, and narrowing it moved the zoom again ("Maximum update depth exceeded", React #185).
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  const driveId = await openDemo(page);
+  const cdp = await page.context().newCDPSession(page);
+  const device = async (phone: boolean) => {
+    await cdp.send("Emulation.setDeviceMetricsOverride", phone ? { width: 390, height: 844, deviceScaleFactor: 2, mobile: true } : { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+    await cdp.send("Emulation.setTouchEmulationEnabled", { enabled: phone, maxTouchPoints: phone ? 5 : 1 });
+  };
+  for (const [role, stacked] of [
+    ["coordinator", ".sc-stack"],
+    ["ledger", '.lg-screen[data-stacked="true"]'],
+  ] as const) {
+    await page.goto(`/drive/${driveId}?as=${role}`);
+    await expect(page.locator("header")).toBeVisible();
+    for (let i = 0; i < 3; i++) {
+      await device(true);
+      await expect(page.locator(stacked).first()).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), role).toBeLessThanOrEqual(0);
+      await device(false);
+      await expect(page.locator(stacked)).toHaveCount(0);
+    }
+  }
+  await cdp.send("Emulation.clearDeviceMetricsOverride");
+  expect(errors.filter((m) => /#185|Maximum update depth/.test(m))).toEqual([]);
+});
+
 test("an unknown pledge and an unknown drive say so and lead back", async ({ page }) => {
   await page.route("**/api/pledges/nope/statement", (r) => r.fulfill({ status: 404, json: { error: "unknown_pledge", message: "No pledge nope." } }));
   await page.route("**/api/drives/nope", (r) => r.fulfill({ status: 404, json: { error: "unknown_drive", message: "No drive nope." } }));

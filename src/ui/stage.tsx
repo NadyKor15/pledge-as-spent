@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore, type ReactNode, type RefObject } from "react";
+import { layoutHeight, layoutWidth } from "./viewport";
 
 // Desktop screens are laid out at the reference width (1920 CSS px) and
 // zoomed to fit narrower windows, so a laptop sees the whole page. Below
@@ -31,12 +32,21 @@ function scrollbarRoom(): number {
  * as the window (a new drive's Coordinator at 1440 × 900) made the two chase each other until React stopped it
  * ("Maximum update depth exceeded"), and a stage sized before the scrollbar came stuck out by its 15 px.
  */
-export const viewportWidth = () => window.innerWidth - scrollbarRoom();
+export const viewportWidth = () => layoutWidth(window.innerWidth, window.visualViewport?.scale, scrollbarRoom());
+/** The window's height, not the zoomed-out visual viewport's (see layoutWidth). */
+export const viewportHeight = () => layoutHeight(window.innerHeight, window.visualViewport?.scale);
 
-/** It changes only when the window does. */
+/**
+ * It changes only when the window does. A window that turns into a phone (devtools' device mode) gets floating
+ * scrollbars, so the scrollbar's room is measured again on the next read.
+ */
 export const subscribeViewport = (cb: () => void) => {
-  window.addEventListener("resize", cb);
-  return () => window.removeEventListener("resize", cb);
+  const changed = () => {
+    scrollbar = null;
+    cb();
+  };
+  window.addEventListener("resize", changed);
+  return () => window.removeEventListener("resize", changed);
 };
 const subscribe = subscribeViewport;
 
