@@ -37,7 +37,7 @@ describe("the sample receipt after a messenger recompressed it", () => {
   it("on a demo drive gets its saved reading, says so, and calls no model", async () => {
     const { h, model } = await setup();
     const { receipt } = await h.svc.submitReceipt({ driveId: "demo-sample", bytes: PHOTO, channel: "telegram" });
-    expect(receipt.reader).toBe("recognized:ocr-pro");
+    expect(receipt.reader).toBe("recognized:meta");
     expect(receipt.status).toBe("funded");
     expect(receipt.total).toBe(14646);
     expect(model.calls()).toBe(0);
@@ -47,7 +47,7 @@ describe("the sample receipt after a messenger recompressed it", () => {
     const { h } = await setup();
     expect(SHIPPED_ANSWERS[0].lineBoxes?.length).toBeGreaterThan(0); // the sample has boxes to give, so none below is a choice
     const { receipt } = await h.svc.submitReceipt({ driveId: "demo-sample", bytes: PHOTO, channel: "telegram" });
-    expect(receipt.reader).toBe("recognized:ocr-pro");
+    expect(receipt.reader).toBe("recognized:meta");
     expect(receipt.lines.length).toBeGreaterThan(0);
     expect(receipt.lines.every((l) => l.box === null)).toBe(true);
   });

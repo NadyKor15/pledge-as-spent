@@ -45,7 +45,7 @@ import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from
 import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive, demoPledgeId, fxFor } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
-import { ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
+import { NOT_CLOSED_NOTE, ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
 import { redactImage } from "./redact";
 import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
@@ -512,7 +512,9 @@ export class PledgeService {
     const now = this.now();
     const needs = state.needIds.map((id) => state.needs[id]);
     const reading = await this.reading.read({ driveId, image, sha256: sha, needs, rules: state.drive!.rules, baseCurrency: state.drive!.baseCurrency, ipHash, now, sampleLook: row.demo ? dh : null });
-    const redaction = redactImage(image, reading.parsed.pii);
+    // A reading that knows its rows publishes only its closed copy (only the purchase lines' rows open), or nothing;
+    // an older reading the copy blurred where the model placed personal data.
+    const redaction = reading.closed !== undefined ? { bytes: reading.closed, regions: reading.purchaseLines?.length ?? 0, note: reading.closed ? null : NOT_CLOSED_NOTE } : redactImage(image, reading.parsed.pii);
 
     const { receiptId, cmds } = await withDrive(this.db, driveId, async (b) => {
       const drive = b.state.drive!;
@@ -539,8 +541,7 @@ export class PledgeService {
         dhash: dh,
         semanticKey: fingerprint.semanticKey,
         image: bytes,
-        // A reading that knows its rows publishes only its closed copy (or nothing); an older one the blurred copy.
-        imageRedacted: reading.closed !== undefined ? reading.closed : redaction.bytes,
+        imageRedacted: redaction.bytes,
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,

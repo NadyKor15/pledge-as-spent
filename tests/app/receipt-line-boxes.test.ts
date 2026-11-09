@@ -18,18 +18,27 @@ import { harness, heroBytes, ROOT } from "./support/harness";
 const sidecar = JSON.parse(readFileSync(path.join(ROOT, "eval/live/shipped/hero-ja-01.lines.json"), "utf8")) as { imageSha256: string; lineBoxes: unknown[] };
 
 describe("the sample receipt's line boxes", () => {
-  it("are measured on the sample photo itself: one valid box for each of its 11 lines", () => {
-    expect(sidecar.imageSha256).toBe(SHIPPED_ANSWERS[0].imageSha256);
-    const boxes = sidecar.lineBoxes.map((b) => LineBox.parse(b));
+  it("come from the rows Meta's second reading named for each of its 11 lines, measured on the sample photo itself", () => {
+    const saved = SHIPPED_ANSWERS[0];
+    expect(sidecar.imageSha256).toBe(saved.imageSha256);
+    const boxes = saved.lineBoxes!.map((b) => LineBox.parse(b));
     expect(boxes.map((b) => b.lineNo)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-    // Printed top to bottom, inside the paper (the desk is around it), each one row high.
+    // Printed top to bottom, inside the paper (the desk is around it), each one to three rows high.
     for (let i = 1; i < boxes.length; i++) expect(boxes[i].box.y).toBeGreaterThan(boxes[i - 1].box.y);
     for (const { box } of boxes) {
       expect(box.x).toBeGreaterThan(0.1);
       expect(box.x + box.w).toBeLessThan(0.9);
-      expect(box.h).toBeLessThan(0.04);
+      expect(box.h).toBeLessThan(0.07);
     }
-    expect(SHIPPED_ANSWERS[0].lineBoxes).toEqual(boxes);
+    // Each box overlaps the row Tesseract once measured for the same line (eval/live/shipped/hero-ja-01.lines.json).
+    const old = sidecar.lineBoxes.map((b) => LineBox.parse(b));
+    for (const o of old) {
+      const n = boxes.find((b) => b.lineNo === o.lineNo)!.box;
+      const mid = o.box.y + o.box.h / 2;
+      expect(mid).toBeGreaterThan(n.y);
+      expect(mid).toBeLessThan(n.y + n.h);
+    }
+    expect(saved.purchaseLines!.map((p) => p.lineNo)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   });
 
   it("reach the drive view with the sample receipt, and a second copy of the photo keeps them", async () => {

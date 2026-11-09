@@ -11,8 +11,7 @@ import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { AgreeingClassifier, MetaRawClassifier, MetaTwoReadings } from "../receipts/meta-reader";
 import { Band, LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type PurchaseLine, type ReceiptImage, type ReceiptReader, type SecondReading } from "../receipts/types";
-import heroAnswer from "../../eval/live/shipped/hero-ja-01.json";
-import heroBoxes from "../../eval/live/shipped/hero-ja-01.lines.json";
+import heroAnswer from "../../eval/live/shipped/hero-ja-01.meta.json";
 import { ServiceError } from "./errors";
 import { META_READ_PREFIX, PgMetaReadLedger, PgSpendLedger } from "./spend";
 
@@ -63,6 +62,9 @@ export interface Reading {
    */
   closed?: Uint8Array | null;
 }
+
+/** Why a photo read by rows is not published: its closed copy could not be made, and the original never is. */
+export const NOT_CLOSED_NOTE = "This photo could not be closed to its purchase lines, so it is not published.";
 
 /** Closes a photo by its rows: every pixel outside the open rows of the purchase lines becomes plain background. */
 export type CloseReceipt = (image: ReceiptImage, bands: Band[], purchaseLines: PurchaseLine[]) => Uint8Array | null;
@@ -136,8 +138,11 @@ export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): S
   return { pipeline, imageSha256: f.imageSha256, imageDHash: f.imageDHash, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor, ...boxesOwn, ...(b ? { lineBoxes: b.lineBoxes } : {}), ...rows };
 }
 
-/** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
-export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro", heroBoxes)];
+/**
+ * The sample receipt's reading: what Meta's two readings really answered on that photo in the benchmark's live run
+ * (tools/receipts/ship-meta.ts), not its truth file. Its rows close the published copy as a live reading's would.
+ */
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "meta")];
 
 export interface ReadInput {
   driveId: string;

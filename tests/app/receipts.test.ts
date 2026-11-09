@@ -77,7 +77,7 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
   it("is read by the saved answer and funded without a flag: 9 lines ¥10,448 funded, beer and gift card refused, ¥14,646 in all", async () => {
     const { h, driveId, pp } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
-    expect(r.reader).toBe("cached:ocr-pro");
+    expect(r.reader).toBe("cached:meta");
     expect(r).toMatchObject({ status: "funded", flags: [], total: 14646, currency: "JPY", merchant: "ミナト生活館 北空店", purchasedAt: "2026-11-05T14:32:00" });
 
     const v = await h.svc.getDriveView(driveId);
@@ -105,17 +105,38 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     expect(await books(SHIPPED_ANSWERS)).toEqual(await books([]));
   });
 
-  it("publishes the photo with its three personal rows blurred", async () => {
-    const { h, driveId, rec } = await setup({ savedAnswers: SHIPPED_ANSWERS });
-    const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
-    expect(r.image).toMatchObject({ published: true, blurredRegions: 3 });
+  it("publishes only the copy closed to its purchase lines, and none of its three personal rows lies in an open row", async () => {
+    const opened: number[][] = [];
+    const close = (_i: unknown, _b: unknown, lines: { bandIndexes: number[] }[]) => {
+      opened.push(lines.flatMap((l) => l.bandIndexes));
+      return new Uint8Array([1, 2, 3]);
+    };
+    const withCloser = await harness({ fetch: fakeSandbox().fetch, savedAnswers: SHIPPED_ANSWERS, closeReceipt: close });
+    const id = (await withCloser.svc.createDemoDrive({ driveId: "demo-closed" })).drive.id;
+    expect((await withCloser.svc.submitReceipt({ driveId: id, bytes: heroBytes() })).receipt.image).toMatchObject({ published: true });
+    expect(opened).toHaveLength(1);
+
+    // The truth file's personal data (card, name, member number): its middle is in none of the open rows.
+    const { rec } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const truth = rec.readings[sha256Hex(heroBytes())];
     expect(truth.pii).toHaveLength(3);
-    const answer = SHIPPED_ANSWERS[0].reading.pii;
+    const saved = SHIPPED_ANSWERS[0];
+    const size = PNG.sync.read(Buffer.from(heroBytes()));
+    const open = saved.bands!.filter((b) => opened[0].includes(b.index));
     for (const t of truth.pii) {
-      const b = t.bbox!;
-      expect(answer.some((p) => p.bbox && b.x + b.w > p.bbox.x && b.x < p.bbox.x + p.bbox.w && b.y + b.h > p.bbox.y && b.y < p.bbox.y + p.bbox.h), t.kind).toBe(true);
+      const x = (t.bbox!.x + t.bbox!.w / 2) * size.width;
+      const y = (t.bbox!.y + t.bbox!.h / 2) * size.height;
+      const inside = open.some((b) => {
+        const ys = b.quad.map((q) => q[1]);
+        const xs = b.quad.map((q) => q[0]);
+        return y > Math.min(...ys) && y < Math.max(...ys) && x > Math.min(...xs) && x < Math.max(...xs);
+      });
+      expect(inside, t.kind).toBe(false);
     }
+
+    // Without a closer nothing is published: closed by default.
+    const { h, driveId } = await setup({ savedAnswers: SHIPPED_ANSWERS });
+    expect((await h.svc.submitReceipt({ driveId, bytes: heroBytes() })).receipt.image).toMatchObject({ published: false });
   });
 
   it("the saved classification serves only the needs and rules it was made for", async () => {
@@ -133,7 +154,7 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     const bytes = heroBytes();
     const input = { driveId, image: { bytes, mediaType: "image/png" as const }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() };
     const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, spendCapUsd: 0, liveReadMs: 1000 });
-    expect((await reading.read(input)).reader).toBe("cached:ocr-pro");
+    expect((await reading.read(input)).reader).toBe("cached:meta");
     const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [] })).svc;
     const id = (await svc.createDemoDrive({ driveId: "demo-recorded" })).drive.id;
     expect((await svc.submitReceipt({ driveId: id, bytes: heroBytes() })).receipt.reader).toBe("recorded");

@@ -11,12 +11,14 @@ describe("classification key", () => {
     expect(classificationKey(saved.reading, needs, drive.rules)).toBe(saved.classifiedFor);
   });
 
-  it("does not move when a personal-data box differs in its last digit", () => {
-    const nudged = structuredClone(saved.reading);
-    const box = nudged.pii.find((p) => p.bbox)!.bbox!;
-    box.x = box.x * (1 + Number.EPSILON);
-    expect(box.x).not.toBe(saved.reading.pii.find((p) => p.bbox)!.bbox!.x);
-    expect(classificationKey(nudged, needs, drive.rules)).toBe(saved.classifiedFor);
+  it("does not move when a personal-data box differs in its last digit, or is there at all", () => {
+    const boxed = structuredClone(saved.reading);
+    boxed.pii = [{ kind: "card_number", text: "************0000", bbox: { x: 0.6, y: 0.75, w: 0.23, h: 0.02 } }];
+    const nudged = structuredClone(boxed);
+    nudged.pii[0].bbox!.x = 0.6 * (1 + Number.EPSILON);
+    expect(nudged.pii[0].bbox!.x).not.toBe(0.6);
+    expect(classificationKey(nudged, needs, drive.rules)).toBe(classificationKey(boxed, needs, drive.rules));
+    expect(classificationKey(boxed, needs, drive.rules)).toBe(saved.classifiedFor);
   });
 
   it("moves when a line, a need or a rule changes", () => {
