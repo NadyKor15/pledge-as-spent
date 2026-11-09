@@ -405,7 +405,9 @@ for (const { width, height } of [
     await expect(page.locator(".lg-head")).toHaveCount(0);
     await expect(page.locator(".lg-label .pas-meter")).toHaveCount(width < 600 ? 0 : 3);
     const body = page.locator("body");
-    await expect(body).toContainText("$8.55");
+    // Mark's $8.55 never charged: the phone's donors card says it; on the desktop map it is in his label's bar.
+    if (width < 600) await expect(body).toContainText("$8.55");
+    else await expect(page.locator(".lg-label[data-donor=Mark] .pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
     await expect(body).toContainText("Refused: Alcohol ¥1,198 · Gift card ¥3,000");
     await expect(page.locator("[data-need=water]")).toContainText("12 of 40 bottles");
     await expect(page.locator("[data-need=diapers]")).toContainText("6 of 6");
