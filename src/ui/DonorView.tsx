@@ -12,6 +12,7 @@ import { Check, Chevron, Cross, Handshake, NeedIcon, Person } from "./icons";
 import { PledgeForm } from "./PledgeForm";
 import { curve, useFlows, type Box, type Shape } from "./stage";
 import shelterPhoto from "./shelter-photo.png";
+import { shelterPhotoOf } from "./shelter-photo-of";
 import type { DriveView, Hold, Need, Receipt, Role } from "./types";
 import "./donor.css";
 
@@ -36,9 +37,7 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
       <DesktopHeader driveId={view.drive.id} title={view.drive.displayTitle} demo={view.drive.demo} role={role} variant="d" />
       <main className={s.main}>
         <section className={`${s.card} ${s.hero}`}>
-          <div className={s.heroPhoto}>
-            <Image src={shelterPhoto} alt="" width={171} height={116} unoptimized />
-          </div>
+          <HeroPhoto drive={view.drive} />
           <div className={s.heroTxt}>
             <h1>
               <DriveTitle title={view.drive.displayTitle} />
@@ -72,6 +71,27 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
         </defs>
         <g ref={layer} />
       </svg>
+    </div>
+  );
+}
+
+/** The shelter's photo, the scenario's own picture, or a plain plate when the scenario has none (src/ui/shelter-photo-of.ts). */
+function HeroPhoto({ drive }: { drive: DriveView["drive"] }) {
+  const photo = shelterPhotoOf(drive);
+  if (photo.kind === "none") {
+    return (
+      <div className={`${s.heroPhoto} ${s.heroPlate}`} data-testid="shelter-plate" aria-hidden="true">
+        <svg viewBox="0 0 48 40" width="44" height="37" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round">
+          <path d="M5 19 24 4l19 15" />
+          <path d="M10 15v21h28V15" />
+          <path d="M20 36V25h8v11" />
+        </svg>
+      </div>
+    );
+  }
+  return (
+    <div className={s.heroPhoto}>
+      <Image src={photo.kind === "url" ? photo.src : shelterPhoto} alt="" width={171} height={116} unoptimized />
     </div>
   );
 }
