@@ -5,6 +5,7 @@ import { receipts, spendLedger } from "../../src/db/schema";
 import { sha256Hex } from "../../src/receipts/hash";
 import type { Band, PurchaseLine } from "../../src/receipts/types";
 import { ReceiptReading, type CloseReceipt } from "../../src/server/reading";
+import { closeReceipt, isClosedCopy } from "../../src/receipts/close";
 import { PgSpendLedger, META_READ_CAP_MAX_USD, PgMetaReadLedger } from "../../src/server/spend";
 import { demoDrive } from "../../src/server/demo";
 import { fakeSandbox } from "./support/fake-sandbox";
@@ -49,7 +50,7 @@ describe("live reading by Meta", () => {
     const closes: { bands: Band[]; lines: PurchaseLine[] }[] = [];
     const close: CloseReceipt = (...args) => {
       closes.push({ bands: args[1], lines: args[2] });
-      return new Uint8Array([9, 9, 9]);
+      return closeReceipt(...args);
     };
     const meta = fakeMeta([A, B, CLS]);
     const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch }, closeReceipt: close });
@@ -66,7 +67,7 @@ describe("live reading by Meta", () => {
     expect(checks.bands.length).toBeGreaterThan(30);
     expect(checks.bandTexts["41"]).toMatch(/会員番号/);
     expect(checks.lineBoxes).toHaveLength(1);
-    expect(Array.from(row.imageRedacted!)).toEqual([9, 9, 9]);
+    expect(isClosedCopy(row.imageRedacted!)).toBe(true);
     expect(closes).toHaveLength(1);
     expect(closes[0].lines).toEqual([{ lineNo: 1, bandIndexes: [12, 13] }]);
 
@@ -83,9 +84,9 @@ describe("live reading by Meta", () => {
     expect(closes).toHaveLength(2);
   });
 
-  it("publishes nothing when the copy cannot be closed (no closer, or it fails)", async () => {
+  it("publishes nothing when the copy cannot be closed", async () => {
     const meta = fakeMeta([A, B, CLS]);
-    const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
+    const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch }, closeReceipt: () => null });
     const driveId = (await h.svc.createDemoDrive({ driveId: "demo-meta-open" })).drive.id;
     await h.svc.submitReceipt({ driveId, bytes: freshPhoto() });
     const [row] = await h.db.db.select().from(receipts).where(like(receipts.id, `${driveId}.%`));

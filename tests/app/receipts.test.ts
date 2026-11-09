@@ -349,7 +349,7 @@ describe("publishing a receipt photo", () => {
   });
 
   it("the shipped sample is published closed by its own measured rows, with no reader: every line whole, quantity rows included", async () => {
-    const closing = SHIPPED_ANSWERS[0].closing!;
+    const closing = { bands: SHIPPED_ANSWERS[0].bands!, purchaseLines: SHIPPED_ANSWERS[0].purchaseLines! };
     expect(closing.purchaseLines).toHaveLength(11);
     expect(closing.purchaseLines.some((l) => l.bandIndexes.length > 1)).toBe(true); // a name row and its quantity row
     const { h, driveId } = await setup({ savedAnswers: SHIPPED_ANSWERS });
