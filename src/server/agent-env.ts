@@ -5,12 +5,12 @@ import type { ModelPlan } from "../agent/model-plan";
 // can ask which model the chat runs on without loading the agent's server half.
 
 /**
- * Variant D: Meta's Muse Spark on the Responses API, tried first for every turn; Amazon Nova (Bedrock Lite)
- * takes over a question as soon as Meta cannot answer (no key, its ceiling, an HTTP error, a timeout).
+ * Meta's Muse Spark on the Responses API: the live agent's only model. A turn it fails is tried once more on it,
+ * then the reader is asked to try again in a minute (src/server/agent.ts).
  */
 export interface MetaProvider {
   baseUrl: string;
-  /** Null: allowed but no key on this server, so every turn falls back to Bedrock. */
+  /** Null: allowed but no key on this server, so the live agent is off. */
   apiKey: string | null;
   model: string;
   /** META_AGENT_CAP_USD: the most Meta may cost, over all `agent-meta:` rows; never above META_AGENT_CAP_MAX_USD. */
@@ -42,7 +42,7 @@ export function agentMetaFrom(env: NodeJS.ProcessEnv): MetaProvider | undefined 
 }
 
 /**
- * What the chat names before its first answer: Meta Muse Spark (falling back to Nova Lite) when Meta is allowed
- * and has a key here, else Nova Lite. A word, never the key: this is what the drive page hands the browser.
+ * What the chat names before its first answer: Meta Muse Spark when Meta is allowed and has a key here, else that
+ * the live AI is off. A word, never the key: this is what the drive page hands the browser.
  */
-export const agentModelPlan = (env: NodeJS.ProcessEnv): ModelPlan => (agentMetaFrom(env)?.apiKey ? "meta" : "nova");
+export const agentModelPlan = (env: NodeJS.ProcessEnv): ModelPlan => (agentMetaFrom(env)?.apiKey ? "meta" : "off");

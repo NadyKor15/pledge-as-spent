@@ -1,6 +1,6 @@
 import { createAiHarness, directLlmRunner, type AgAiChatSession, type AgAiHarness, type AgAiHistoryStore, type AgAiThread, type AgLlmAdapter, type AgStudioApi } from "ag-studio";
 import type { DriveView } from "@/ui/types";
-import { guardedAdapter, novaAdapter, type GuardOutcome } from "./adapter";
+import { guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
 import { FactRegistry } from "./facts";
 import { linesFor, type Verdict } from "./guard";
 import { say } from "./i18n";
@@ -112,7 +112,7 @@ export interface AskState {
   /** A quick question waiting for the reader to say who they are. */
   pending: StarterId | null;
   donor: string | null;
-  /** Which model answered ("Amazon Nova", "Meta Muse Spark"): the server says so with each question and turn. Null until it has. */
+  /** Which model answered ("Meta Muse Spark"): the server says so with each question and turn. Null until it has. */
   modelLabel: string | null;
   /** What the server is set to answer with, for the small print before it has named a model (model-plan.ts). */
   modelPlan: ModelPlan;
@@ -138,7 +138,7 @@ export const serverQuestion =
 export interface LedgerAgentOptions {
   getView: () => DriveView;
   locale?: () => AgentLocale;
-  /** The model's side of a turn for each agent; live (Nova through /api/agent/turn) unless replaced. */
+  /** The model's side of a turn for each agent; live (Meta Muse Spark through /api/agent/turn) unless replaced. */
   modelFor?: (agentId: AgentId, live: { getQuestionId: () => string | null; locale: () => AgentLocale; onLimit: (code: string, message: string) => void; onModel: (label: string) => void }) => AgLlmAdapter;
   newQuestion?: QuestionOpener;
   history?: AgAiHistoryStore;
@@ -147,7 +147,7 @@ export interface LedgerAgentOptions {
    * first turn. "model" (variant A): the model picks every tool. Default: NEXT_PUBLIC_AGENT_ROUTING.
    */
   routing?: "model" | "code";
-  /** The server's setting, from the drive page: "meta" names Meta Muse Spark before the first answer. Default "nova". */
+  /** The server's setting, from the drive page: "meta" names Meta Muse Spark before the first answer. Default "off". */
   modelPlan?: ModelPlan;
 }
 
@@ -166,7 +166,7 @@ const lastAssistantText = (s: AgAiChatSession) => {
 export class LedgerAgent {
   readonly facts: FactRegistry;
   readonly history: AgAiHistoryStore;
-  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null, modelLabel: null, modelPlan: "nova", studio: 0 };
+  private state: AskState = { phase: "idle", ready: false, question: null, answer: null, message: null, pending: null, donor: null, modelLabel: null, modelPlan: "off", studio: 0 };
   private api: AgStudioApi | null = null;
   private readonly listeners = new Set<() => void>();
   private harness: AgAiHarness | null = null;
@@ -213,7 +213,7 @@ export class LedgerAgent {
         if (gen === this.generation && label !== this.state.modelLabel) this.set({ modelLabel: label });
       },
     };
-    const model = this.o.modelFor ? this.o.modelFor(agentId, live) : novaAdapter({ agentId, ...live });
+    const model = this.o.modelFor ? this.o.modelFor(agentId, live) : liveAdapter({ agentId, ...live });
     if (agentId !== "ledger") return model;
     return guardedAdapter(model, {
       facts: () => this.facts.list(),

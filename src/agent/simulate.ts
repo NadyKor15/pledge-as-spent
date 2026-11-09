@@ -8,7 +8,7 @@ import type { AgentId } from "./wire";
 // A stand-in for the model, for dry runs of the measure without spending a call: deterministic, and
 // as obedient as a model can be (it picks the tool the book's code would pick and repeats what the
 // tools said). It checks the plumbing and counts the turns of each variant; its answers prove
-// nothing about Nova.
+// nothing about a real model.
 
 type Item = AgAiConversationItem & { type: string; role?: string; callId?: string; name?: string; output?: string; content?: { text?: string }[] };
 

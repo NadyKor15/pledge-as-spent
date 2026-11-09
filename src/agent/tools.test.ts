@@ -55,7 +55,7 @@ describe("the book's tools on the closed demo drive", () => {
     expect(pct(ledgerTotals(closed))).toEqual(["spent:48.4", "back:51.6", "need:30", "need:100", "need:100"]); // water, diapers, batteries
   });
 
-  it("Japanese script finds the demo's donors (the measure: Nova passed 大阪 and found nobody)", () => {
+  it("Japanese script finds the demo's donors (the measure: a model passed 大阪 and found nobody)", () => {
     expect(ledgerPaypalIds(closed, "大阪").text).toContain("10L99507KP256054Y");
     expect(ledgerDonorMoney(closed, "ユキ").text).toContain("Yuki (Osaka, JP)");
     expect(ledgerDonorMoney(closed, "ベルリンのレナ").text).toContain("Lena (Berlin, DE)");
@@ -143,7 +143,7 @@ describe("tool wiring", () => {
     expect([...LEDGER_TOOL_IDS]).toEqual([...LEDGER_TOOL_NAMES]);
   });
 
-  it("schemas are flat for Nova: only type, properties and required at the root", () => {
+  it("schemas are flat: only type, properties and required at the root", () => {
     for (const t of LEDGER_TOOLS) expect(Object.keys(t.parameters).sort()).toEqual(["properties", "required", "type"]);
   });
 

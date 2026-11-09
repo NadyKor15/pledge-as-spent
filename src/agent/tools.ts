@@ -68,7 +68,7 @@ function donorLabel(h: Hold): string {
 }
 
 /**
- * The demo drive's donors and cities as Japanese and German readers write them (Nova passed "大阪" for
+ * The demo drive's donors and cities as Japanese and German readers write them (a model passed "大阪" for
  * Osaka in the measure of 06.11 and found nobody). A live drive would carry these with the pledge.
  */
 const ALIASES: Record<string, string> = {
@@ -408,7 +408,7 @@ export function ledgerTotals(v: View): LedgerToolResult {
 
 // ---------------------------------------------------------------- tool definitions
 
-/** Flat JSON schemas: Nova accepts only type/properties/required at the root of a tool's input. */
+/** Flat JSON schemas: only type/properties/required at the root of a tool's input, which every provider takes. */
 interface LedgerToolDef {
   name: string;
   description: string;

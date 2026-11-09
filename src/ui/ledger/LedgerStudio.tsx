@@ -226,7 +226,7 @@ function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerM
 const langFromUrl = (): Lang => parseLang(new URLSearchParams(window.location.search).get("lang"));
 
 /** One AG Studio report. Everything here is client-only and loads with this tab alone. */
-export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "nova" }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown>; modelPlan?: ModelPlan }) {
+export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" }: { view: DriveView; stacked: boolean; stale: boolean; refresh: () => Promise<unknown>; modelPlan?: ModelPlan }) {
   const [{ store, agent }] = useState(() => makeBook(view, modelPlan));
   useEffect(() => () => agent.dispose(), [agent]);
   const lang = useSyncExternalStore(store.subscribe, () => store.get().lang);

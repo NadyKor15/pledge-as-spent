@@ -2,7 +2,7 @@
 // JA "¥10,448" / "10 448 円", ISO codes before or after the number, PayPal ids. The guard checks each
 // claim against the book; this file only finds them. Dates, times, quantities with a unit and small
 // counts are not claims. A share is one: "23 %", "zu 100 Prozent", and the words that mean all of it
-// ("all of it", "ganz", "全額"). Nova Lite wrote "zu 100% … ausgegeben" for €4.58 of €20 (06.11).
+// ("all of it", "ganz", "全額"). A model in the measure wrote "zu 100% … ausgegeben" for €4.58 of €20 (06.11).
 
 export type AgentLocale = "en" | "de" | "ja";
 

@@ -6,7 +6,7 @@ import type { Fact } from "./types";
 import type { AgentId } from "./wire";
 
 // Two adapters for AG Studio's agent loop:
-// - novaAdapter sends one turn to /api/agent/turn (Converse, no streaming) and hands the answer to
+// - liveAdapter sends one turn to /api/agent/turn (Meta Muse Spark, no streaming) and hands the answer to
 //   Studio as events once it is complete, as the spike did;
 // - guardedAdapter wraps it for our `ledger` agent: a final answer (no tool call) is checked
 //   against the figures the book's tools returned. Not confirmed -> the model is asked once more,
@@ -59,7 +59,7 @@ function textReply(text: string, id: string, model?: string): AgLlmResponse {
   return { id: `resp_${id}`, createdAt: Date.now(), status: "completed", output: [{ id, kind: "output", type: "message", role: "assistant", status: "completed", content: [{ type: "text", text, annotations: [] }] }], ...(model ? { model } : {}) };
 }
 
-export interface NovaAdapterOptions {
+export interface LiveAdapterOptions {
   agentId: AgentId;
   /** The server id of the question being answered (POST /api/agent/question). */
   getQuestionId: () => string | null;
@@ -68,11 +68,11 @@ export interface NovaAdapterOptions {
   fetch?: typeof fetch;
   /** The server said no: out of questions, budget or steps. Its sentence becomes the answer. */
   onLimit?: (code: string, message: string) => void;
-  /** Which model answered the turn, in the reader's words ("Meta Muse Spark", "Amazon Nova"). */
+  /** Which model answered the turn, in the reader's words ("Meta Muse Spark"). */
   onModel?: (label: string) => void;
 }
 
-export function novaAdapter(o: NovaAdapterOptions): AgLlmAdapter {
+export function liveAdapter(o: LiveAdapterOptions): AgLlmAdapter {
   const send = o.fetch ?? ((url, init) => fetch(url, init));
   return {
     executeTurn(request: AgLlmRequest, options?: AgLlmExecuteTurnOptions) {

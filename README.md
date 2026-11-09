@@ -86,7 +86,7 @@ The Ledger tab has a chat over the book. A donor asks in their own words, for ex
 
 - Our agent, `ledger`, is Studio's primary agent: a `directLlmRunner` with six read-only tools over the drive the page already holds (`ledger_find_donor`, `ledger_donor_money`, `ledger_line`, `ledger_refusals`, `ledger_paypal_ids`, `ledger_totals`). The tools hand the model amounts already formatted with their currency, and they add up the totals per donor and per need, so the model never has to add anything.
 - For a figure across all donors ("How much went to water across all donors?") it hands the task to Studio's built-in `data` agent with `delegate_to`. That agent runs `execute_query` on the book in Studio's own data engine. It keeps only `execute_query` and `view_schema`, so it cannot change the report.
-- Studio's agent loop runs in the browser. Each model turn goes to `/api/agent/turn`, which calls the model without streaming, within limits: 4 questions an hour and 10 a day per network, 20 a day in all, 10 model calls per question, and ceilings for the agent inside the demo's $5: $0.40 in all and $0.05 over any 24 hours. The live agent runs only when the server is given `LIVE_AGENT=on`.
+- Studio's agent loop runs in the browser. Each model turn goes to `/api/agent/turn`, which calls Meta Muse Spark 1.3 without streaming, within limits: 4 questions an hour and 10 a day per network, 20 a day in all, 10 model calls per question, and Meta's ceilings: $5 in code at most and $0.50 over any 24 hours. Muse Spark is the only model: a turn it fails is tried once more on Muse Spark, and then the chat says "The assistant is busy, please try again in a minute." (in English, German or Japanese). The live agent runs only when the server is given `AGENT_META_ALLOWED=yes`, a ceiling in `META_AGENT_CAP_USD` and a key.
 - The book is shown in Studio's view mode, which has no chat panel, so the chat is a custom widget in the book's own layout, on Studio's chat session. Studio rebuilds the report when the layout or the language changes. The conversation lives outside it, and an answer cut short by a rebuild says so and offers to ask again.
 - The four quick questions are answered by the book's own code with the same tools and no model, so they keep working when the live AI has used its questions.
 - "Ask about this line", in a row's proof band, sends that line to the chat.
@@ -114,16 +114,14 @@ Each line of both lists is pinned by a test on made-up text (`src/agent/guard.te
 
 **Models and the measure.** Seven donor questions on the closed demo drive, in English, German and Japanese, with the right figures computed from the book by code. An answer counts as right when it states every required figure, the check did not have to step in, it states no figure outside what the relevant tools returned, and it has no false percentage.
 
-| Variant | Right of 7 | Model calls per question | Cost per question |
+| Model | Right of 7 | Model calls per question | Cost per question |
 |---|---|---|---|
-| A: Amazon Nova Lite | 6 in each of two runs | 2.29 | $0.0004 |
-| B: Nova Pro for our agent, Nova Lite for the data agent | 4 | 2.29 | $0.0037 |
-| C: Nova Lite, with the book's code picking the tool before the model's first turn | 6 | 1.14 | $0.0002 |
-| D: Meta Muse Spark 1.3 | 7 in each of two runs | 2.29 | $0.016 |
+| Meta Muse Spark 1.3 (variant D, the one the agent runs on) | 7 in each of two runs | 2.29 | $0.016 |
+| Tried on 06.11 and not used: variants A, B and C on Amazon Nova Lite and Pro | 4 to 6 | 1.14 to 2.29 | $0.0002 to $0.0037 |
 
-Every variant was run live once, and A and D a second time on the final code. All answers are scored by the same rules; the false-percentage rule came after the first runs and turned variant A's first 7 into 6 (it had written that a pledge was spent "zu 100%" when 23% was). That run is scored again with the current scorer in [`eval/agent/results-A.json`](eval/agent/results-A.json) (`rightAtRun` 7, `right` 6, with `rescoredAt` and `rescoredBy`; `npx tsx scripts/agent-rescore.ts <file>`). Nova Lite's two misses were a figure left out and that false share. Nova Pro answered too briefly and left required figures out. Variant C missed the sum for water because the data agent's summary carried no number. The cost is the provider's price for each turn's tokens: Nova Lite $0.06 / $0.24, Nova Pro $0.80 / $3.20, Muse Spark 1.3 $1.25 / $4.25 per million input / output tokens.
+Variant D was run live twice, the second time on the final code. All answers are scored by the same rules, including the false-percentage rule (a pledge called spent "zu 100%" when 23% was is wrong). The cost is Meta's price for each turn's tokens: $1.25 / $4.25 per million input / output tokens. The runs of the variants that were tried and dropped are kept as they were recorded, with their scores, in [`eval/agent/`](eval/agent).
 
-The hosted demo runs variant D with automatic fallback to A. On any other server variant D is off by default: it is used only when the server is given `AGENT_META_ALLOWED=yes`, a ceiling in `META_AGENT_CAP_USD` and a key. When Meta cannot answer a turn (no key, its ceiling, an error, a timeout), Nova Lite answers that turn and the rest of the question, and the chat names the model that answered. Before the first answer the chat's small print says what the server is set to: "Meta Muse Spark · falls back to Amazon Nova Lite", or "Amazon Nova Lite" without Meta. Meta spend is capped at $5 in code, then the agent falls back to Nova Lite (`META_AGENT_CAP_USD` can lower that, not raise it; $0.50 over any 24 hours unless `META_AGENT_DAILY_CAP_USD` says less). With Meta on, a turn that Meta fails and Nova Lite then answers counts as one of the 10 model calls of the question, so up to 20 requests can leave the server for one question. Recorded runs and the scorer: [`eval/agent/`](eval/agent), `npx tsx scripts/agent-measure.ts`.
+The chat's small print names the model: "Meta Muse Spark". Meta spend is capped at $5 in code (`META_AGENT_CAP_USD` can lower that, not raise it; $0.50 over any 24 hours unless `META_AGENT_DAILY_CAP_USD` says less); past either ceiling the chat says the demo's budget for live questions is used up. A turn Muse Spark fails and then answers on its second try counts as one of the 10 model calls of the question, so up to 20 requests can leave the server for one question. Recorded runs and the scorer: [`eval/agent/`](eval/agent), `npx tsx scripts/agent-measure.ts --mode D`.
 
 **WebMCP.** The book's six tools and Studio's four read-only tools are also offered to the browser's own AI through WebMCP (`document.modelContext`), each marked read-only. WebMCP is experimental: it needs Chrome 149 or later with the WebMCP testing flag (`chrome://flags/#enable-webmcp-testing`, or `--enable-features=WebMCPTesting`). With it, one line under the chat says how many tools the browser's AI can call; without it, nothing is shown.
 
@@ -193,7 +191,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 
 ## How this was built
 
-Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Meta Muse Spark 1.3 reads every receipt (twice, with a third look at a disputed line); the Ledger's assistant runs on Meta Muse Spark 1.3 with Amazon Nova Lite as fallback.
+Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Meta Muse Spark 1.3 reads every receipt (twice, with a third look at a disputed line); the Ledger's assistant runs on Meta Muse Spark 1.3 alone.
 
 ## License
 

@@ -5,7 +5,7 @@ import { AgStudio, AgStudioProvider } from "ag-studio-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import closed from "../../../../tests/fixtures/drives/closed.json";
 import { evalQuestions } from "../../../../eval/agent/questions";
-import { afterComplete, novaAdapter } from "@/agent/adapter";
+import { afterComplete, liveAdapter } from "@/agent/adapter";
 import { LedgerAgent } from "@/agent/harness";
 import { say } from "@/agent/i18n";
 import type { AgentLocale } from "@/agent/money-parse";
@@ -153,7 +153,7 @@ function Run({ o, recording }: { o: Opts; recording: Recording | null }) {
         modelFor: (agentId, live) => {
           if (mode === "recorded") return replayAdapter(recording!.turns, agentId);
           if (mode === "script") return scripted(agentId, bad);
-          const inner = mode === "sim" ? simulatedAdapter(agentId, () => VIEW) : novaAdapter({ agentId, ...live });
+          const inner = mode === "sim" ? simulatedAdapter(agentId, () => VIEW) : liveAdapter({ agentId, ...live });
           return recordingAdapter(inner, agentId, (t) => turns.push(t));
         },
       }),

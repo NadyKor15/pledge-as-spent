@@ -1,44 +1,78 @@
 import path from "node:path";
-import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
-import { afterAll, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import S from "../../eval/agent/studio-schemas-3.0.0.json";
 import { POST as questionPOST } from "../app/api/agent/question/route";
 import { POST as turnPOST } from "../app/api/agent/turn/route";
 import { openPglite, type DatabaseHandle } from "../db/client";
 import { agentQuestions, spendLedger } from "../db/schema";
-import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { AgentService, agentLimitsFrom, agentLive, agentMetaFrom, DEFAULT_AGENT_LIMITS, DevSpendLedger, META_AGENT_CAP_MAX_USD, repairArgs, setAgentServiceForTests, toConverse, type AgentLimits } from "./agent";
+import { AgentService, agentLimitsFrom, agentMetaFrom, DevSpendLedger, META_AGENT_CAP_MAX_USD, META_TRIES, repairArgs, setAgentServiceForTests, type AgentLimits } from "./agent";
 import { ServiceError } from "./errors";
 import { TEXT } from "../agent/i18n";
 
 const ROOT = path.resolve(__dirname, "../..");
 
-type Out = Partial<ConverseCommandOutput>;
-const reply = (content: unknown[], stopReason = "end_turn", usage = { inputTokens: 700, outputTokens: 60 }): Out => ({ output: { message: { role: "assistant", content: content as never } }, stopReason: stopReason as never, usage: usage as never });
+// The live agent runs on Meta Muse Spark only. A turn Muse Spark fails is tried once more on Muse Spark; then the
+// reader gets "The assistant is busy, please try again in a minute." No other model is asked, ever.
 
-function fakeClient(answers: Out[] = []) {
-  const sent: ConverseCommand["input"][] = [];
-  const client: ConverseClient = {
-    send: async (cmd) => {
-      sent.push(cmd.input);
-      return (answers.shift() ?? reply([{ text: "ok" }])) as ConverseCommandOutput;
-    },
-  };
-  return { client, sent };
-}
+type MetaAnswer = { status: number; body: unknown } | "timeout";
+const okBody = (output: unknown[] = [{ type: "function_call", call_id: "call_1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' }]) => ({
+  status: 200,
+  body: { id: "resp_1", status: "completed", output, usage: { input_tokens: 1000, output_tokens: 100 } },
+});
+const ok = okBody();
+const said = (text: string) => okBody([{ type: "message", id: "msg_1", role: "assistant", status: "completed", content: [{ type: "output_text", text, annotations: [] }] }]);
+const metaCost = (1000 * 1.25 + 100 * 4.25) / 1e6;
+const BASE = "https://api.meta.example/v1";
 
 let db: DatabaseHandle;
 let t = Date.parse("2026-11-06T20:00:00.000Z");
 const now = () => new Date(t).toISOString();
 
-async function service(o: { answers?: Out[]; limits?: Partial<AgentLimits>; off?: boolean } = {}) {
+interface Opts {
+  answers?: MetaAnswer[];
+  limits?: Partial<AgentLimits>;
+  capUsd?: number;
+  dailyCapUsd?: number;
+  seed?: { usd: string; hoursAgo: number };
+  apiKey?: string | null;
+  dev?: boolean;
+  noMeta?: boolean;
+  log?: (m: string) => void;
+}
+
+/** In production shape (no development ledger) unless `dev` is asked for: Meta's spend goes to spend_ledger as `agent-meta:`. */
+async function service(o: Opts = {}) {
   db = await openPglite();
   await db.migrate(path.join(ROOT, "drizzle"));
-  const fake = fakeClient(o.answers);
-  const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: o.off ? null : () => fake.client, limits: o.limits });
-  return { agent, sent: fake.sent };
+  if (o.seed) {
+    t = Date.now(); // the ledger's reservations carry the real time: the service's clock follows it here
+    await db.db.insert(spendLedger).values({ id: "seed", ts: new Date(t - o.seed.hoursAgo * 3_600_000).toISOString(), kind: "reserve", what: "agent-meta:ledger earlier (muse-spark-1.3)", usd: o.seed.usd, ref: null });
+  }
+  const answers = [...(o.answers ?? [])];
+  const sent: { url: string; auth: string | null; body: Record<string, unknown> }[] = [];
+  const fakeFetch = (async (url: string, init: RequestInit) => {
+    sent.push({ url, auth: new Headers(init.headers).get("authorization"), body: JSON.parse(String(init.body)) });
+    const a = answers.shift() ?? ok;
+    if (a === "timeout") throw new DOMException("The operation was aborted due to timeout", "TimeoutError");
+    return new Response(JSON.stringify(a.body), { status: a.status, headers: { "content-type": "application/json" } });
+  }) as unknown as typeof fetch;
+  const dir = mkdtempSync(path.join(tmpdir(), "agent-meta-"));
+  const files = { meta: path.join(dir, "meta.jsonl"), calls: path.join(dir, "calls.jsonl") };
+  writeFileSync(files.meta, "");
+  const agent = new AgentService({
+    db: db.db,
+    hashIp: (ip) => `h:${ip}`,
+    now,
+    ...(o.noMeta ? {} : { meta: { baseUrl: BASE, apiKey: o.apiKey === undefined ? "test-key" : o.apiKey, model: "muse-spark-1.3", capUsd: o.capUsd ?? 1, ...(o.dailyCapUsd ? { dailyCapUsd: o.dailyCapUsd } : {}), fetch: fakeFetch } }),
+    limits: o.limits,
+    ...(o.log ? { log: o.log } : {}),
+    ...(o.dev ? { dev: { metaLedger: new DevSpendLedger(files.meta, "agent-dev", o.capUsd ?? 1), callsLog: files.calls, lane: "measure-D-test", maxCalls: 30 } } : {}),
+  });
+  const lines = (f: string) => readFileSync(f, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>);
+  const rows = async (prefix: string) => (await db.db.select().from(spendLedger)).filter((r) => r.what.startsWith(prefix));
+  return { agent, sent, rows, files: { meta: () => lines(files.meta), calls: () => lines(files.calls) } };
 }
 
 const userMsg = (text: string) => ({ id: "u1", kind: "input", type: "message", role: "user", status: "completed", content: [{ type: "text", text }] });
@@ -58,10 +92,102 @@ async function refused(p: Promise<unknown>) {
   throw new Error("expected a refusal");
 }
 
+// Any request that leaves the agent other than through Meta's injected fetch is a failure of these tests.
+const globalFetch = vi.spyOn(globalThis, "fetch");
+
 beforeEach(() => {
   t = Date.parse("2026-11-06T20:00:00.000Z");
+  globalFetch.mockClear();
 });
-afterAll(() => setAgentServiceForTests(undefined));
+afterEach(() => {
+  expect(globalFetch).not.toHaveBeenCalled();
+});
+afterAll(() => {
+  setAgentServiceForTests(undefined);
+  globalFetch.mockRestore();
+});
+
+describe("one model: Meta Muse Spark", () => {
+  it("the agent's code names no other model or provider", () => {
+    for (const f of ["src/server/agent.ts", "src/server/agent-env.ts", "src/agent/model-plan.ts", "src/agent/adapter.ts", "src/agent/harness.ts", "src/agent/meta-wire.ts", "src/agent/flatten.ts"]) {
+      const code = readFileSync(path.join(ROOT, f), "utf8");
+      expect(code, f).not.toMatch(/nova|bedrock|converse|aws-sdk/i);
+    }
+  });
+
+  it("a turn goes to {base}/responses with the key; its spend is an `agent-meta:` row; the answer says Meta Muse Spark", async () => {
+    const { agent, sent, rows } = await service({ answers: [ok] });
+    const q = await agent.question("1.1.1.1", {});
+    expect(q).toMatchObject({ model: "Meta Muse Spark" });
+    const r = await turnAs(agent, turn(q.questionId));
+    expect(r).toMatchObject({ model: "muse-spark-1.3", modelLabel: "Meta Muse Spark" });
+    expect(r.output[0]).toMatchObject({ type: "function_call", callId: "call_1", name: "ledger_donor_money" });
+    expect(sent).toHaveLength(1);
+    expect(sent[0]).toMatchObject({ url: `${BASE}/responses`, auth: "Bearer test-key", body: { model: "muse-spark-1.3", store: false, stream: false } });
+    const meta = await rows("agent-meta:");
+    expect(meta.map((x) => x.kind)).toEqual(["reserve", "settle"]);
+    expect(meta.reduce((s, x) => s + Number(x.usd), 0)).toBeCloseTo(metaCost, 6);
+    expect((await db.db.select().from(spendLedger)).every((x) => x.what.startsWith("agent-meta:"))).toBe(true);
+  });
+
+  it("a final answer comes back as one message", async () => {
+    const { agent } = await service({ answers: [said("Your hold paid $21.45.")] });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    const r = await turnAs(agent, turn(questionId));
+    expect(r.output).toHaveLength(1);
+    expect(r.output[0]).toMatchObject({ type: "message", role: "assistant", content: [{ type: "text", text: "Your hold paid $21.45." }] });
+  });
+
+  for (const [why, first] of [
+    ["an HTTP error", { status: 500, body: { error: { message: "busy" } } }],
+    ["a timeout", "timeout"],
+    ["an answer that cannot be read", { status: 200, body: "not json at all" }],
+  ] as const) {
+    it(`${why}: the turn is tried once more on Muse Spark, and its answer is the one shown`, async () => {
+      const { agent, sent } = await service({ answers: [first as MetaAnswer, said("Your hold paid $21.45.")] });
+      const { questionId } = await agent.question("1.1.1.1", {});
+      const r = await turnAs(agent, turn(questionId));
+      expect(r).toMatchObject({ model: "muse-spark-1.3", modelLabel: "Meta Muse Spark" });
+      expect(sent).toHaveLength(2);
+      expect(sent.every((x) => x.url === `${BASE}/responses` && x.body.model === "muse-spark-1.3")).toBe(true);
+      const [q] = await db.db.select().from(agentQuestions);
+      expect(q.calls).toBe(1); // the second try is part of the same turn
+    });
+  }
+
+  it("Muse Spark failing twice: 'The assistant is busy, please try again in a minute' in EN/DE/JA, after exactly two Muse Spark calls", async () => {
+    expect(META_TRIES).toBe(2);
+    expect(TEXT.busy.en).toBe("The assistant is busy, please try again in a minute.");
+    for (const [locale, fail] of [["en", { status: 500, body: {} }], ["de", "timeout"], ["ja", { status: 503, body: {} }]] as const) {
+      const said: string[] = [];
+      const { agent, sent } = await service({ answers: [fail as MetaAnswer, fail as MetaAnswer, ok], log: (m) => said.push(m) });
+      const { questionId } = await agent.question("1.1.1.1", {});
+      const e = await refused(turnAs(agent, turn(questionId, { locale })));
+      expect(e).toMatchObject({ status: 503, code: "agent_busy", message: TEXT.busy[locale], extra: { limit: true } });
+      expect(sent).toHaveLength(2);
+      expect(sent.every((x) => x.url === `${BASE}/responses` && x.body.model === "muse-spark-1.3")).toBe(true);
+      expect(said).toEqual(["Meta turn failed (try 1 of 2)", "Meta turn failed (try 2 of 2)"]);
+      // a failed call is not billed beyond what Meta reported: HTTP refusals are corrected to nothing
+      if (typeof fail === "object") expect((await db.db.select().from(spendLedger)).reduce((s, x) => s + Number(x.usd), 0)).toBeCloseTo(0, 6);
+    }
+  });
+
+  it("must-differ for the sentence above: one failure, then an answer, is no 'busy'", async () => {
+    const { agent } = await service({ answers: [{ status: 500, body: {} }, ok] });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    await expect(turnAs(agent, turn(questionId))).resolves.toMatchObject({ modelLabel: "Meta Muse Spark" });
+  });
+
+  it("the busy sentence reaches the reader through the route as a 503 JSON sentence", async () => {
+    const { agent } = await service({ answers: [{ status: 500, body: {} }, { status: 500, body: {} }] });
+    setAgentServiceForTests(agent);
+    const post = (url: string, body: unknown) => new Request(`http://localhost${url}`, { method: "POST", body: JSON.stringify(body), headers: { "content-type": "application/json", "x-forwarded-for": "5.5.5.5" } });
+    const { questionId } = await (await questionPOST(post("/api/agent/question", {}))).json();
+    const r = await turnPOST(post("/api/agent/turn", turn(questionId, { locale: "ja" })));
+    expect(r.status).toBe(503);
+    expect(await r.json()).toEqual({ error: "agent_busy", message: TEXT.busy.ja, limit: true });
+  });
+});
 
 describe("questions: counted per address and for everyone", () => {
   it("4 an hour from one address, then a sentence (not an error); an hour later it works again", async () => {
@@ -94,24 +220,38 @@ describe("questions: counted per address and for everyone", () => {
     const { agent } = await service({ limits: { questionsPerHour: 6 } });
     for (let i = 0; i < 6; i++) await agent.question("1.1.1.1", {});
     await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ code: "agent_hourly" });
+    expect(agentLimitsFrom({ AGENT_QUESTIONS_PER_HOUR: "6", AGENT_QUESTIONS_PER_DAY: "x" } as never)).toEqual({ questionsPerHour: 6 });
   });
 
-  it("with the live agent off the question gets a sentence, before anything is counted", async () => {
-    const { agent } = await service({ off: true });
+  it("without Meta the agent is off: the question gets a sentence, before anything is counted", async () => {
+    const { agent } = await service({ noMeta: true });
     await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ status: 503, code: "agent_off", message: TEXT.off.en });
+    await expect(turnAs(agent, turn("00000000-0000-0000-0000-000000000000"))).rejects.toMatchObject({ status: 503, code: "agent_off" });
     expect(await db.db.select().from(agentQuestions)).toEqual([]);
+  });
+
+  it("Meta allowed without a key: the agent is off (503), not out of money, and the server says so once at start", async () => {
+    const said: string[] = [];
+    const { agent, sent } = await service({ apiKey: null, log: (m) => said.push(m) });
+    expect(said).toEqual(["Meta allowed but no key: the live agent is off"]);
+    await expect(agent.question("1.1.1.1", { locale: "de" })).rejects.toMatchObject({ status: 503, code: "agent_off", message: TEXT.off.de });
+    expect(sent).toHaveLength(0);
+    const quiet: string[] = [];
+    await service({ log: (m) => quiet.push(m) });
+    expect(quiet).toEqual([]);
   });
 });
 
 describe("a turn", () => {
   it("is refused when malformed, for another agent, with a tool the agent may not have, or for an unknown question", async () => {
-    const { agent } = await service();
+    const { agent, sent } = await service();
     const { questionId } = await agent.question("1.1.1.1", {});
     await expect(turnAs(agent, {})).rejects.toMatchObject({ status: 400, code: "invalid_turn" });
     await expect(turnAs(agent, turn(questionId, { agentId: "lead" }))).rejects.toMatchObject({ status: 400, code: "invalid_turn" });
     await expect(turnAs(agent, turn(questionId, { tools: [{ name: "remove_widget", description: "x", parameters: {} }] }))).rejects.toMatchObject({ status: 400, code: "tool_not_allowed" });
     await expect(turnAs(agent, turn(questionId, { agentId: "data", tools: [myTool] }))).rejects.toMatchObject({ code: "tool_not_allowed" });
     await expect(turnAs(agent, turn("00000000-0000-0000-0000-000000000000"))).rejects.toMatchObject({ status: 404, code: "unknown_question" });
+    expect(sent).toHaveLength(0);
   });
 
   it("only the address that asked may spend the question's calls: another address gets 403, before any model call", async () => {
@@ -124,35 +264,6 @@ describe("a turn", () => {
     expect(q.calls).toBe(0); // nothing counted against the asker
     await turnAs(agent, turn(questionId), "1.1.1.1");
     expect(sent).toHaveLength(1);
-  });
-
-  it("maps Studio's conversation to Converse: Lite, temperature 0, no stream, 600 tokens for the ledger agent", async () => {
-    const { agent, sent } = await service({ answers: [reply([{ text: "<thinking>look up</thinking>" }, { toolUse: { toolUseId: "tu1", name: "ledger_donor_money", input: { donor: "Mark" } } }])] });
-    const { questionId } = await agent.question("1.1.1.1", {});
-    const r = await turnAs(agent, turn(questionId));
-    expect(sent).toHaveLength(1);
-    expect(sent[0]).toMatchObject({ modelId: NOVA_MODELS.lite, inferenceConfig: { maxTokens: 600, temperature: 0 }, toolConfig: { toolChoice: { auto: {} } } });
-    expect(sent[0].system).toEqual([{ text: "Answer from the book." }]);
-    // the model's thinking beside a tool call is dropped; the call comes back as Studio's function_call
-    expect(r.output).toEqual([{ id: "fc_tu1", kind: "output", type: "function_call", callId: "tu1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' }]);
-    expect(r).toMatchObject({ status: "completed", usage: { inputTokens: 700, outputTokens: 60 }, model: NOVA_MODELS.lite });
-  });
-
-  it("a final answer comes back as one message with <thinking> removed", async () => {
-    const { agent } = await service({ answers: [reply([{ text: "<thinking>$21.45+$8.55</thinking>Your hold paid $21.45." }])] });
-    const { questionId } = await agent.question("1.1.1.1", {});
-    const r = await turnAs(agent, turn(questionId));
-    expect(r.output).toHaveLength(1);
-    expect(r.output[0]).toMatchObject({ type: "message", role: "assistant", content: [{ type: "text", text: "Your hold paid $21.45." }] });
-  });
-
-  it("the data agent gets 1 500 tokens and a compact execute_query", async () => {
-    const { agent, sent } = await service();
-    const { questionId } = await agent.question("1.1.1.1", {});
-    await turnAs(agent, { questionId, agentId: "data", instructions: S.data.instructions, input: [userMsg("Sum of water")], tools: S.data.tools });
-    expect(sent[0].inferenceConfig?.maxTokens).toBe(1500);
-    const eq = sent[0].toolConfig!.tools!.find((x) => x.toolSpec?.name === "execute_query")!;
-    expect(JSON.stringify(eq).length).toBeLessThan(8_000);
   });
 
   it("10 model calls a question, then a sentence", async () => {
@@ -206,201 +317,37 @@ describe("a turn", () => {
     await turnAs(agent, turn(questionId));
     await expect(turnAs(agent, turn(questionId, { input: [userMsg("x".repeat(6_000))] }))).rejects.toMatchObject({ code: "question_too_long" });
   });
-
-  it("each call is reserved and settled as an `agent:` entry of the shared spend ledger", async () => {
-    const { agent } = await service();
-    const { questionId } = await agent.question("1.1.1.1", {});
-    await turnAs(agent, turn(questionId));
-    const rows = await db.db.select().from(spendLedger);
-    expect(rows.map((r) => r.kind)).toEqual(["reserve", "settle"]);
-    expect(rows.every((r) => r.what.startsWith("agent:ledger "))).toBe(true);
-    const total = rows.reduce((s, r) => s + Number(r.usd), 0);
-    expect(total).toBeCloseTo((700 * 0.06 + 60 * 0.24) / 1e6, 6); // the ledger keeps six decimals
-  });
-
-  it("the agent's $0.40 sub-ceiling: refused before the call, in the donor's language", async () => {
-    const { agent, sent } = await service();
-    const { questionId } = await agent.question("1.1.1.1", {});
-    await db.db.insert(spendLedger).values({ id: "x", ts: now(), kind: "reserve", what: "agent:ledger earlier", usd: "0.399900", ref: null });
-    const e = await refused(turnAs(agent, turn(questionId, { locale: "ja" })));
-    expect(e).toMatchObject({ status: 429, code: "agent_budget", message: TEXT.budget.ja });
-    expect(sent).toHaveLength(0);
-    // and the next question is refused at once
-    await expect(agent.question("3.3.3.3", {})).rejects.toMatchObject({ code: "agent_budget" });
-  });
-
-  it("the shared $5 ceiling still holds for the agent (receipt reading spent it)", async () => {
-    const { agent, sent } = await service();
-    const { questionId } = await agent.question("1.1.1.1", {});
-    await db.db.insert(spendLedger).values({ id: "y", ts: now(), kind: "reserve", what: "ocr read earlier", usd: "4.999990", ref: null });
-    await expect(turnAs(agent, turn(questionId))).rejects.toMatchObject({ status: 429, code: "agent_budget" });
-    expect(sent).toHaveLength(0);
-  });
 });
 
-describe("repairArgs", () => {
-  it("fills execute_query's one allowed `kind` that Nova Lite leaves out, and nothing else", () => {
-    expect(repairArgs("execute_query", { query: { variant: "aggregation" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
-    expect(repairArgs("execute_query", { query: { variant: "aggregation", kind: "apiQuery" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
-    expect(repairArgs("ledger_line", { line: "4" })).toEqual({ line: "4" });
-  });
-});
-
-describe("toConverse", () => {
-  it("tool calls and results pair up as toolUse/toolResult; same-role items merge; a failed result is an error", () => {
-    const req = toConverse(
-      {
-        questionId: "q".repeat(10),
-        agentId: "ledger",
-        instructions: "sys",
-        input: [
-          userMsg("Hi") as never,
-          { type: "function_call", callId: "c1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' },
-          { type: "function_call", callId: "c2", name: "ledger_refusals", arguments: "{}" },
-          { type: "function_call_output", callId: "c1", output: '{"success":true,"response":"$21.45"}' },
-          { type: "function_call_output", callId: "c2", output: '{"success":false,"issues":[]}' },
-        ],
-        tools: [myTool],
-        toolChoice: "required",
-      },
-      NOVA_MODELS.lite,
-      600,
-    );
-    expect(req.messages).toEqual([
-      { role: "user", content: [{ text: "Hi" }] },
-      { role: "assistant", content: [{ toolUse: { toolUseId: "c1", name: "ledger_donor_money", input: { donor: "Mark" } } }, { toolUse: { toolUseId: "c2", name: "ledger_refusals", input: {} } }] },
-      { role: "user", content: [{ toolResult: { toolUseId: "c1", content: [{ text: '{"success":true,"response":"$21.45"}' }], status: "success" } }, { toolResult: { toolUseId: "c2", content: [{ text: '{"success":false,"issues":[]}' }], status: "error" } }] },
-    ]);
-    expect(req.toolConfig?.toolChoice).toEqual({ any: {} });
-  });
-});
-
-describe("routes", () => {
-  it("POST /api/agent/question gives an id; POST /api/agent/turn runs one turn; a limit is a 429 JSON sentence", async () => {
-    const { agent } = await service({ answers: [reply([{ text: "Your hold paid $21.45." }])], limits: { questionsPerHour: 1 } });
-    setAgentServiceForTests(agent);
-    const post = (url: string, body: unknown) => new Request(`http://localhost${url}`, { method: "POST", body: JSON.stringify(body), headers: { "content-type": "application/json", "x-forwarded-for": "5.5.5.5" } });
-    const q = await questionPOST(post("/api/agent/question", {}));
-    expect(q.status).toBe(201);
-    const { questionId } = await q.json();
-    const r = await turnPOST(post("/api/agent/turn", turn(questionId)));
-    expect(r.status).toBe(200);
-    expect((await r.json()).output[0].content[0].text).toBe("Your hold paid $21.45.");
-    const stranger = await turnPOST(new Request("http://localhost/api/agent/turn", { method: "POST", body: JSON.stringify(turn(questionId)), headers: { "content-type": "application/json", "x-forwarded-for": "7.7.7.7" } }));
-    expect(stranger.status).toBe(403);
-    const again = await questionPOST(post("/api/agent/question", { locale: "de" }));
-    expect(again.status).toBe(429);
-    expect(await again.json()).toEqual({ error: "agent_hourly", message: TEXT.hourly.de, limit: true });
-  });
-});
-
-describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta cannot answer", () => {
-  type MetaAnswer = { status: number; body: unknown } | "timeout";
-  const ok = { status: 200, body: { id: "resp_1", status: "completed", output: [{ type: "function_call", call_id: "call_1", name: "ledger_donor_money", arguments: '{"donor":"Mark"}' }], usage: { input_tokens: 1000, output_tokens: 100 } } };
-  const metaCost = (1000 * 1.25 + 100 * 4.25) / 1e6;
-
-  /** In production shape (no development ledger) unless `dev` is asked for: Meta's spend goes to spend_ledger as `agent-meta:`. */
-  async function metaService(answers: MetaAnswer[], o: { capUsd?: number; dailyCapUsd?: number; seed?: { usd: string; hoursAgo: number }; apiKey?: string | null; dev?: boolean; bedrock?: Out[] } = {}) {
-    db = await openPglite();
-    await db.migrate(path.join(ROOT, "drizzle"));
-    if (o.seed) {
-      t = Date.now(); // the ledger's reservations carry the real time: the service's clock follows it here
-      await db.db.insert(spendLedger).values({ id: "seed", ts: new Date(t - o.seed.hoursAgo * 3_600_000).toISOString(), kind: "reserve", what: "agent-meta:ledger earlier (muse-spark-1.3)", usd: o.seed.usd, ref: null });
-    }
-    const sent: { url: string; auth: string | null; body: Record<string, unknown> }[] = [];
-    const fakeFetch = (async (url: string, init: RequestInit) => {
-      sent.push({ url, auth: new Headers(init.headers).get("authorization"), body: JSON.parse(String(init.body)) });
-      const a = answers.shift() ?? { status: 500, body: { error: { message: "no more" } } };
-      if (a === "timeout") throw new DOMException("The operation was aborted due to timeout", "TimeoutError");
-      return new Response(JSON.stringify(a.body), { status: a.status, headers: { "content-type": "application/json" } });
-    }) as unknown as typeof fetch;
-    const bedrock = fakeClient(o.bedrock);
-    const dir = mkdtempSync(path.join(tmpdir(), "agent-meta-"));
-    const files = { bedrock: path.join(dir, "spend.jsonl"), meta: path.join(dir, "meta.jsonl"), calls: path.join(dir, "calls.jsonl") };
-    writeFileSync(files.bedrock, "");
-    const agent = new AgentService({
-      db: db.db,
-      hashIp: (ip) => `h:${ip}`,
-      now,
-      client: () => bedrock.client,
-      meta: { baseUrl: "https://api.meta.example/v1", apiKey: o.apiKey === undefined ? "test-key" : o.apiKey, model: "muse-spark-1.3", capUsd: o.capUsd ?? 1, ...(o.dailyCapUsd ? { dailyCapUsd: o.dailyCapUsd } : {}), fetch: fakeFetch },
-      ...(o.dev ? { dev: { ledger: new DevSpendLedger(files.bedrock, "agent-dev", 0.2), metaLedger: new DevSpendLedger(files.meta, "agent-dev", o.capUsd ?? 1), callsLog: files.calls, lane: "measure-D-test", maxCalls: 30 } } : {}),
-    });
-    const lines = (f: string) => readFileSync(f, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l) as Record<string, unknown>);
-    const rows = async (prefix: string) => (await db.db.select().from(spendLedger)).filter((r) => r.what.startsWith(prefix));
-    return { agent, sent, bedrock: bedrock.sent, rows, files: { meta: () => lines(files.meta), calls: () => lines(files.calls) } };
-  }
-  const provider = async (questionId: string) => (await db.db.select().from(agentQuestions)).find((q) => q.id === questionId)?.provider ?? null;
-
-  it("switched on only by AGENT_META_ALLOWED=yes and a ceiling above zero; off by default, in production too", () => {
-    expect(agentMetaFrom({} as never)).toBeUndefined();
-    expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_META_ALLOWED: "true", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
-    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0.5", NODE_ENV: "production" } as never)).toMatchObject({ baseUrl: "https://api.meta.ai/v1", model: "muse-spark-1.3", capUsd: 0.5, apiKey: "k" });
-    // Allowed without a key: the turns fall back to Bedrock (below).
-    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: "0.5" } as never)).toMatchObject({ apiKey: null });
-  });
-
-  it("a turn goes to {base}/responses with the key; its spend is an `agent-meta:` row, apart from Bedrock's; the answer says Muse Spark", async () => {
-    const { agent, sent, bedrock, rows } = await metaService([ok]);
-    const q = await agent.question("1.1.1.1", {});
-    expect(q).toMatchObject({ model: "Meta Muse Spark" });
-    const r = await turnAs(agent, turn(q.questionId));
-    expect(r).toMatchObject({ model: "muse-spark-1.3", modelLabel: "Meta Muse Spark" });
-    expect(r.output[0]).toMatchObject({ type: "function_call", callId: "call_1", name: "ledger_donor_money" });
-    expect(sent[0]).toMatchObject({ url: "https://api.meta.example/v1/responses", auth: "Bearer test-key", body: { model: "muse-spark-1.3", store: false } });
-    expect(bedrock).toHaveLength(0);
-    const meta = await rows("agent-meta:");
-    expect(meta.map((x) => x.kind)).toEqual(["reserve", "settle"]);
-    expect(meta.reduce((s, x) => s + Number(x.usd), 0)).toBeCloseTo(metaCost, 6);
-    expect(await rows("agent:")).toEqual([]);
-  });
-
-  it("Meta's spend does not count against Bedrock's $5: with $10 of `agent-meta:` rows a Bedrock turn and a receipt reading still fit", async () => {
-    const { agent, bedrock } = await metaService([], { apiKey: null });
-    await db.db.insert(spendLedger).values({ id: "m", ts: now(), kind: "reserve", what: "agent-meta:ledger earlier (muse-spark-1.3)", usd: "10.000000", ref: null });
-    const { questionId } = await agent.question("1.1.1.1", {});
-    await turnAs(agent, turn(questionId));
-    expect(bedrock).toHaveLength(1);
-    const { PgSpendLedger } = await import("./spend");
-    expect(await new PgSpendLedger(db.db).total()).toBeCloseTo((700 * 0.06 + 60 * 0.24) / 1e6, 6); // only the Bedrock turn
-  });
-
-  for (const [why, answers, opts] of [
-    ["no key", [] as MetaAnswer[], { apiKey: null }],
-    ["an HTTP error", [{ status: 500, body: { error: { message: "busy" } } }], {}],
-    ["a timeout", ["timeout"] as MetaAnswer[], {}],
-    ["Meta's ceiling", [ok], { capUsd: 0.006 }], // one turn's worst case is about $0.011
-    ["Meta's daily ceiling", [ok], { dailyCapUsd: 0.006 }],
-    ["Meta's daily ceiling already reached", [ok], { seed: { usd: "0.499000", hoursAgo: 2 } }], // the default $0.50 over 24 hours
+describe("Meta's money", () => {
+  for (const [why, opts] of [
+    ["Meta's ceiling", { capUsd: 0.006 }], // one turn's worst case is about $0.011
+    ["Meta's daily ceiling", { dailyCapUsd: 0.006 }],
     // The provider says $50 (as if the clamp in agentMetaFrom were skipped): the ledger still stops at the $5 in code.
-    ["the $5 in code", [ok], { capUsd: 50, seed: { usd: "4.990000", hoursAgo: 30 } }],
+    ["the $5 in code", { capUsd: 50, seed: { usd: "4.990000", hoursAgo: 30 } }],
   ] as const) {
-    it(`${why}: this turn and the question's next turns go to Bedrock Lite, and the answer says Amazon Nova`, async () => {
-      const { agent, sent, bedrock } = await metaService([...answers], opts as never);
-      const { questionId } = await agent.question("1.1.1.1", {});
-      const first = await turnAs(agent, turn(questionId));
-      expect(first).toMatchObject({ model: NOVA_MODELS.lite, modelLabel: "Amazon Nova" });
-      expect(bedrock).toHaveLength(1);
-      expect(await provider(questionId)).toBe("bedrock");
-      const metaCalls = sent.length;
-      await turnAs(agent, turn(questionId));
-      expect(sent).toHaveLength(metaCalls); // Meta is not asked again within the question
-      expect(bedrock).toHaveLength(2);
-      // a new question tries Meta again (unless it is out of money)
-      const next = await agent.question("1.1.1.1", {});
-      await turnAs(agent, turn(next.questionId));
-      if (/ceiling|no key|\$5/.test(why)) expect(sent).toHaveLength(metaCalls);
-      else expect(sent).toHaveLength(metaCalls + 1);
-      if (/ceiling|\$5/.test(why)) expect(metaCalls).toBe(0); // a ceiling refuses before anything is sent to Meta
+    it(`${why}: the turn gets the budget sentence, nothing is sent, and no other model answers`, async () => {
+      const { agent, sent } = await service({ answers: [ok], ...(opts as Opts) });
+      const q = await refused(
+        (async () => {
+          const { questionId } = await agent.question("1.1.1.1", {});
+          return turnAs(agent, turn(questionId, { locale: "ja" }));
+        })(),
+      );
+      expect(q).toMatchObject({ status: 429, code: "agent_budget", message: TEXT.budget.ja });
+      expect(sent).toHaveLength(0);
     });
   }
+
+  it("Meta's daily ceiling already reached: a new question gets the budget sentence at once", async () => {
+    const { agent, sent } = await service({ seed: { usd: "0.499000", hoursAgo: 2 } }); // the default $0.50 over 24 hours
+    await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ status: 429, code: "agent_budget" });
+    expect(sent).toHaveLength(0);
+  });
 
   it("must-differ for the ceilings above: under them, Meta answers (a day-old $0.499, $4.98 of $5)", async () => {
     for (const seed of [{ usd: "0.499000", hoursAgo: 30 }, { usd: "4.980000", hoursAgo: 30 }]) {
-      const { agent, sent } = await metaService([ok], { capUsd: 50, seed });
+      const { agent, sent } = await service({ answers: [ok], capUsd: 50, seed });
       const { questionId } = await agent.question("1.1.1.1", {});
       expect(await turnAs(agent, turn(questionId))).toMatchObject({ modelLabel: "Meta Muse Spark" });
       expect(sent).toHaveLength(1);
@@ -422,9 +369,20 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
     expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "50" } as never)).toBeUndefined();
   });
 
+  it("switched on only by AGENT_META_ALLOWED=yes and a ceiling above zero; off by default, in production too", () => {
+    expect(agentMetaFrom({} as never)).toBeUndefined();
+    expect(agentMetaFrom({ META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "true", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "1" } as never)).toBeUndefined();
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_MODEL_API_KEY: "k", META_AGENT_CAP_USD: "0.5", NODE_ENV: "production" } as never)).toMatchObject({ baseUrl: "https://api.meta.ai/v1", model: "muse-spark-1.3", capUsd: 0.5, apiKey: "k" });
+    // Allowed without a key: the agent is off (above).
+    expect(agentMetaFrom({ AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: "0.5" } as never)).toMatchObject({ apiKey: null });
+  });
+
   it("Studio's schemas first; a refusal naming the schema sends them flattened, from then on; the refusal costs nothing", async () => {
     const refusal = { status: 400, body: { error: { message: "Invalid schema for function 'execute_query': $defs is not supported" } } };
-    const { agent, sent, rows } = await metaService([refusal, ok, ok]);
+    const { agent, sent, rows } = await service({ answers: [refusal, ok, ok] });
     const { questionId } = await agent.question("1.1.1.1", {});
     await turnAs(agent, turn(questionId));
     await turnAs(agent, turn(questionId));
@@ -437,64 +395,38 @@ describe("variant D: Meta Muse Spark first, Amazon Nova (Bedrock Lite) when Meta
   });
 
   it("a development run books Meta to its own file ledger and logs each call with provider meta", async () => {
-    const { agent, files, rows } = await metaService([ok], { dev: true });
+    const { agent, files, rows } = await service({ answers: [ok], dev: true });
     const { questionId } = await agent.question("1.1.1.1", {});
     await turnAs(agent, turn(questionId));
     expect(files.meta().map((e) => e.kind)).toEqual(["reserve", "settle"]);
     expect(await rows("agent-meta:")).toEqual([]);
-    expect(files.calls()[0]).toMatchObject({ provider: "meta", lane: "measure-D-test", ok: true, schemas: "as Studio wrote them" });
-  });
-
-  it("with Meta out of money and Bedrock off, the question gets a sentence, not an error", async () => {
-    db = await openPglite();
-    await db.migrate(path.join(ROOT, "drizzle"));
-    const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: "k", model: "muse-spark-1.3", capUsd: 0.001 } });
-    await expect(agent.question("1.1.1.1", {})).rejects.toMatchObject({ status: 429, code: "agent_budget" });
-  });
-
-  it("Meta allowed without a key and Bedrock off: the agent is off (503), not out of money, and the server says so once at start", async () => {
-    db = await openPglite();
-    await db.migrate(path.join(ROOT, "drizzle"));
-    const said: string[] = [];
-    const agent = new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: null, model: "muse-spark-1.3", capUsd: 1 }, log: (m) => said.push(m) });
-    expect(said).toEqual(["Meta allowed but no key: Meta answers nothing, and the live agent is off (LIVE_AGENT is not on)"]);
-    await expect(agent.question("1.1.1.1", { locale: "de" })).rejects.toMatchObject({ status: 503, code: "agent_off", message: TEXT.off.de });
-    const withBedrock: string[] = [];
-    new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: () => fakeClient().client, meta: { baseUrl: "https://x", apiKey: null, model: "muse-spark-1.3", capUsd: 1 }, log: (m) => withBedrock.push(m) });
-    expect(withBedrock).toEqual(["Meta allowed but no key: Amazon Nova answers every turn"]);
-    const quiet: string[] = [];
-    new AgentService({ db: db.db, hashIp: (ip) => `h:${ip}`, now, client: null, meta: { baseUrl: "https://x", apiKey: "k", model: "muse-spark-1.3", capUsd: 1 }, log: (m) => quiet.push(m) });
-    expect(quiet).toEqual([]);
+    expect(files.calls()[0]).toMatchObject({ provider: "meta", lane: "measure-D-test", ok: true, attempt: 1, schemas: "as Studio wrote them" });
   });
 });
 
-describe("server settings", () => {
-  it("the live agent is off unless LIVE_AGENT=on: LIVE_READING=on no longer switches it on", () => {
-    expect(agentLive({} as never)).toBe(false);
-    expect(agentLive({ LIVE_READING: "on" } as never)).toBe(false);
-    expect(agentLive({ LIVE_AGENT: "yes" } as never)).toBe(false);
-    expect(agentLive({ LIVE_AGENT: "on" } as never)).toBe(true);
-  });
-
-  it("the agent's daily sub-ceiling is $0.05 over 24 hours unless AGENT_DAILY_CAP_USD says otherwise", () => {
-    expect(DEFAULT_AGENT_LIMITS.agentDailyCapUsd).toBe(0.05);
-    expect(agentLimitsFrom({ AGENT_DAILY_CAP_USD: "0.2" } as never)).toMatchObject({ agentDailyCapUsd: 0.2 });
-    expect(agentLimitsFrom({ AGENT_DAILY_CAP_USD: "lots" } as never)).not.toHaveProperty("agentDailyCapUsd");
-  });
-
-  it("the daily sub-ceiling: refused before the call and for a new question; spend older than 24 hours does not count", async () => {
-    const { agent, sent } = await service();
-    const { questionId } = await agent.question("1.1.1.1", {});
-    const day = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString();
-    await db.db.insert(spendLedger).values({ id: "old", ts: day(25), kind: "reserve", what: "agent:ledger yesterday", usd: "0.300000", ref: null });
-    await turnAs(agent, turn(questionId));
-    expect(sent).toHaveLength(1); // $0.30 a day ago: under the $0.40 in all, and not today's
-    await db.db.insert(spendLedger).values({ id: "today", ts: day(1), kind: "reserve", what: "agent:ledger today", usd: "0.049990", ref: null });
-    const e = await refused(turnAs(agent, turn(questionId, { locale: "de" })));
-    expect(e).toMatchObject({ status: 429, code: "agent_budget", message: TEXT.budget.de });
-    expect(sent).toHaveLength(1);
-    t = Date.now();
-    await expect(agent.question("4.4.4.4", {})).rejects.toMatchObject({ code: "agent_budget" });
+describe("repairArgs", () => {
+  it("fills execute_query's one allowed `kind` when a model leaves it out, and nothing else", () => {
+    expect(repairArgs("execute_query", { query: { variant: "aggregation" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
+    expect(repairArgs("execute_query", { query: { variant: "aggregation", kind: "apiQuery" } })).toEqual({ query: { variant: "aggregation", kind: "apiQuery" } });
+    expect(repairArgs("ledger_line", { line: "4" })).toEqual({ line: "4" });
   });
 });
 
+describe("routes", () => {
+  it("POST /api/agent/question gives an id; POST /api/agent/turn runs one turn; a limit is a 429 JSON sentence", async () => {
+    const { agent } = await service({ answers: [said("Your hold paid $21.45.")], limits: { questionsPerHour: 1 } });
+    setAgentServiceForTests(agent);
+    const post = (url: string, body: unknown) => new Request(`http://localhost${url}`, { method: "POST", body: JSON.stringify(body), headers: { "content-type": "application/json", "x-forwarded-for": "5.5.5.5" } });
+    const q = await questionPOST(post("/api/agent/question", {}));
+    expect(q.status).toBe(201);
+    const { questionId } = await q.json();
+    const r = await turnPOST(post("/api/agent/turn", turn(questionId)));
+    expect(r.status).toBe(200);
+    expect((await r.json()).output[0].content[0].text).toBe("Your hold paid $21.45.");
+    const stranger = await turnPOST(new Request("http://localhost/api/agent/turn", { method: "POST", body: JSON.stringify(turn(questionId)), headers: { "content-type": "application/json", "x-forwarded-for": "7.7.7.7" } }));
+    expect(stranger.status).toBe(403);
+    const again = await questionPOST(post("/api/agent/question", { locale: "de" }));
+    expect(again.status).toBe(429);
+    expect(await again.json()).toEqual({ error: "agent_hourly", message: TEXT.hourly.de, limit: true });
+  });
+});

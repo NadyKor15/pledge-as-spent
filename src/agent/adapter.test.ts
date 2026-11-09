@@ -1,6 +1,6 @@
 import type { AgAiTelemetryEvent, AgLlmAdapter, AgLlmRequest, AgLlmResponse } from "ag-studio";
 import { describe, expect, it } from "vitest";
-import { afterComplete, guardedAdapter, novaAdapter, type GuardOutcome } from "./adapter";
+import { afterComplete, guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
 import { FactRegistry, factsFromQueryResult } from "./facts";
 import { TEXT } from "./i18n";
 import { NEED_SUM_QUERY } from "./route";
@@ -72,7 +72,7 @@ describe("guardedAdapter", () => {
   });
 });
 
-describe("novaAdapter", () => {
+describe("liveAdapter", () => {
   const fetchReturning = (status: number, body: unknown) => {
     const sent: { url: string; body: unknown }[] = [];
     const f = (async (url: string, init: RequestInit) => {
@@ -84,7 +84,7 @@ describe("novaAdapter", () => {
 
   it("sends the question id, the agent, the conversation, the tools and the locale", async () => {
     const { f, sent } = fetchReturning(200, { id: "x", output: msg("ok").output, status: "completed", usage: { inputTokens: 1, outputTokens: 1 }, model: "m" });
-    const { r } = await drive(novaAdapter({ agentId: "ledger", getQuestionId: () => "q-12345678", locale: () => "ja", fetch: f }));
+    const { r } = await drive(liveAdapter({ agentId: "ledger", getQuestionId: () => "q-12345678", locale: () => "ja", fetch: f }));
     expect(textOf(r)).toBe("ok");
     expect(sent[0]).toMatchObject({ url: "/api/agent/turn", body: { questionId: "q-12345678", agentId: "ledger", locale: "ja", input: req.input, tools: [] } });
   });
@@ -92,15 +92,23 @@ describe("novaAdapter", () => {
   it("a 429 with a sentence becomes that sentence as the answer, and the limit is reported", async () => {
     const { f } = fetchReturning(429, { error: "agent_budget", message: TEXT.budget.en, limit: true });
     const limits: string[] = [];
-    const guarded = guardedAdapter(novaAdapter({ agentId: "ledger", getQuestionId: () => "q-12345678", locale: () => "en", fetch: f, onLimit: (c) => limits.push(c) }), { facts: () => [], locale: () => "en" });
+    const guarded = guardedAdapter(liveAdapter({ agentId: "ledger", getQuestionId: () => "q-12345678", locale: () => "en", fetch: f, onLimit: (c) => limits.push(c) }), { facts: () => [], locale: () => "en" });
     const { r } = await drive(guarded);
     expect(textOf(r)).toBe(TEXT.budget.en);
     expect(limits).toEqual(["agent_budget"]);
   });
 
+  it("Muse Spark failing twice: the server's 503 'busy' sentence becomes the answer, in the reader's language", async () => {
+    const { f } = fetchReturning(503, { error: "agent_busy", message: TEXT.busy.de, limit: true });
+    const limits: string[] = [];
+    const { r } = await drive(guardedAdapter(liveAdapter({ agentId: "ledger", getQuestionId: () => "q-12345678", locale: () => "de", fetch: f, onLimit: (c) => limits.push(c) }), { facts: () => [], locale: () => "de" }));
+    expect(textOf(r)).toBe(TEXT.busy.de);
+    expect(limits).toEqual(["agent_busy"]);
+  });
+
   it("any other failure fails the turn (Studio shows the run as failed)", async () => {
     const { f } = fetchReturning(502, { error: "model_failed", message: "The live AI did not answer." });
-    await expect(drive(novaAdapter({ agentId: "data", getQuestionId: () => "q-12345678", locale: () => "en", fetch: f }))).rejects.toThrow("The live AI did not answer.");
+    await expect(drive(liveAdapter({ agentId: "data", getQuestionId: () => "q-12345678", locale: () => "en", fetch: f }))).rejects.toThrow("The live AI did not answer.");
   });
 });
 
@@ -132,7 +140,7 @@ describe("FactRegistry", () => {
     const finished = (id: string, name: string, agentId: string) => ev({ type: "tool_execution_finished", toolCallId: id, name, kind: "client", ok: true, result: JSON.stringify({ success: true, response: "", data: { result: [] } }), trace: trace(agentId), timestamp: 0 });
     const reg = new FactRegistry(() => "JPY");
     expect(reg.delegationStep()).toBeNull();
-    // The instructions Nova Lite wrote in the live measure: a query's JSON and a stray ">>".
+    // The instructions a model wrote in the live measure: a query's JSON and a stray ">>".
     reg.observer.onEvent(started("1", "delegate_to", { instructions: '{"variant":"aggregation"}> Then report each need\'s sum exactly as the query returned it.>>', type: { id: "data" } }, "ledger"));
     expect(reg.delegationStep()).toBe("query");
     reg.observer.onEvent(started("2", "execute_query", { query: NEED_SUM_QUERY }, "data"));

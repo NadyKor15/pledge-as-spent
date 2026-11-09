@@ -1,14 +1,14 @@
 import type { AgentLocale } from "./money-parse";
 
 /**
- * Which model the server is set to answer with, known before any question: "meta" when Meta Muse Spark is
- * allowed and has a key on the server (Amazon Nova Lite answers whatever Meta cannot), else "nova". Only this
- * word reaches the browser, never the key (src/server/agent-env.ts agentModelPlan).
+ * Whether the server can answer live, known before any question: "meta" when Meta Muse Spark, the agent's only
+ * model, is allowed and has a key on the server, else "off". Only this word reaches the browser, never the key
+ * (src/server/agent-env.ts agentModelPlan).
  */
-export type ModelPlan = "meta" | "nova";
+export type ModelPlan = "meta" | "off";
 
-const NOVA_LITE = "Amazon Nova Lite";
-const FALLS_BACK: Record<AgentLocale, string> = { en: "falls back to", de: "ersatzweise", ja: "予備は" };
+export const META_MUSE_SPARK = "Meta Muse Spark";
+const OFF: Record<AgentLocale, string> = { en: "Live AI off", de: "Live-KI aus", ja: "ライブAIはオフ" };
 
-/** The chat's small print until the server names the model that answered: "Meta Muse Spark · falls back to Amazon Nova Lite". */
-export const planLabel = (plan: ModelPlan, locale: AgentLocale = "en"): string => (plan === "meta" ? `Meta Muse Spark · ${FALLS_BACK[locale]} ${NOVA_LITE}` : NOVA_LITE);
+/** The chat's small print until the server names the model that answered: "Meta Muse Spark". */
+export const planLabel = (plan: ModelPlan, locale: AgentLocale = "en"): string => (plan === "meta" ? META_MUSE_SPARK : (OFF[locale] ?? OFF.en));

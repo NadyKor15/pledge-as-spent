@@ -59,7 +59,7 @@ export interface TurnReply {
   incompleteDetails?: { reason: "max_output_tokens" };
   usage: { inputTokens: number; outputTokens: number };
   model: string;
-  /** What the reader is told answered ("Meta Muse Spark" / "Amazon Nova"). */
+  /** What the reader is told answered ("Meta Muse Spark"). */
   modelLabel?: string;
 }
 

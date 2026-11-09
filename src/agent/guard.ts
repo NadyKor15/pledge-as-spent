@@ -5,7 +5,7 @@ import type { Fact } from "./types";
 // it. The figures a delegate wrote in its summary do not count — a model wrote them. What the
 // guard cannot place stops the answer; the caller asks the model once more or says so.
 
-/** Nova writes its reasoning in <thinking> tags in auto mode; the reader never sees it and the guard ignores it. */
+/** A model may write its reasoning in <thinking> tags; the reader never sees it and the guard ignores it. */
 export function stripThinking(text: string): string {
   return text
     .replace(/<thinking>[\s\S]*?<\/thinking>/gi, "")

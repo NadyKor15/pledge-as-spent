@@ -1,7 +1,7 @@
 import type { AgentLocale } from "./money-parse";
 import { NEED_SUM_QUERY } from "./route";
 
-// What our `ledger` agent is told every turn. Short on purpose: Nova Lite reads it on every call.
+// What our `ledger` agent is told every turn. Short on purpose: the model reads it on every call.
 // The example answer uses made-up figures on purpose: if the model copied them, the guard would stop it.
 
 const LANGUAGE: Record<AgentLocale, string> = { en: "English", de: "German", ja: "Japanese" };

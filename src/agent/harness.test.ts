@@ -13,7 +13,7 @@ describe("the model the chat names before the server has answered", () => {
   it("is the page's setting until a question names the model that answered", () => {
     const meta = new LedgerAgent({ getView: () => view, modelPlan: "meta" });
     expect(meta.get()).toMatchObject({ modelPlan: "meta", modelLabel: null });
-    expect(new LedgerAgent({ getView: () => view }).get()).toMatchObject({ modelPlan: "nova", modelLabel: null });
+    expect(new LedgerAgent({ getView: () => view }).get()).toMatchObject({ modelPlan: "off", modelLabel: null });
   });
 });
 

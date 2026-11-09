@@ -6,7 +6,7 @@ import type { DriveView } from "../../src/ui/types";
 import { heroClosed } from "../fixtures/closed-hero";
 
 // "Ask the book" on the Ledger page: the chat in the book's slot, over the book. The drive is the closed demo
-// snapshot and the model's turns are the ones Nova Lite gave in the live measure (eval/agent/recorded/A), or
+// snapshot and the model's turns are the ones recorded in the live measure (eval/agent/recorded/A), or
 // made up where a case needs it; the server's /api/agent routes are answered here. Everything between runs for
 // real: AG Studio's agent loop, the book's tools, the guard, the widget, the book narrowed by the answer.
 
@@ -29,7 +29,7 @@ const message = (text: string) => ({ id: `m_${Math.random()}`, kind: "output", t
 const call = (name: string, args: object) => ({ id: `fc_${Math.random()}`, kind: "output", type: "function_call", callId: `c_${Math.random().toString(36).slice(2)}`, name, arguments: JSON.stringify(args) });
 
 /** Serves model turns in order, per agent; `holdNext` keeps the next one waiting until released. */
-function model(page: Page, list: { agentId: string; output: unknown[] }[], label = "Amazon Nova") {
+function model(page: Page, list: { agentId: string; output: unknown[] }[], label = "Meta Muse Spark") {
   const queue: Record<string, { output: unknown[] }[]> = { ledger: list.filter((t) => t.agentId === "ledger"), data: list.filter((t) => t.agentId === "data") };
   const seen: string[] = [];
   let hold: Promise<void> | null = null;
@@ -56,7 +56,7 @@ function model(page: Page, list: { agentId: string; output: unknown[] }[], label
 }
 
 let asked = 0;
-const questions = (page: Page, answer: "ok" | { status: number; json: unknown } = "ok", label = "Amazon Nova") =>
+const questions = (page: Page, answer: "ok" | { status: number; json: unknown } = "ok", label = "Meta Muse Spark") =>
   page.route("**/api/agent/question", (route) => (answer === "ok" ? route.fulfill({ status: 201, json: { questionId: `e2e-question-${++asked}`, model: label } }) : route.fulfill(answer)));
 
 const errors: string[] = [];
@@ -89,7 +89,7 @@ test("a question gets an answer with checked chips, and the book narrows to the 
   await openLedger(page);
   await expect(page.getByTestId("ask-model")).toBeVisible();
   await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · read-only");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
   await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
   await expect(answer).toContainText("Your ✓$30.00 hold paid ✓$21.45 for Diapers size M");
@@ -152,7 +152,7 @@ test("the report rebuilt in the middle of an answer (the window resized): \"ask 
 });
 
 test("a sum across donors: the step names what Studio's data agent did in a fixed sentence, not the model's instructions", async ({ page }) => {
-  const Q5 = recorded("Q5"); // Nova Lite's delegation instructions here are a query's JSON ending in ">>"
+  const Q5 = recorded("Q5"); // the recorded delegation instructions here are a query's JSON ending in ">>"
   await questions(page);
   const served = model(page, turnsOf(Q5));
   await openLedger(page);
@@ -240,17 +240,30 @@ test("in German the chat speaks German: quick question answered by the book's co
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
-  await expect(page.getByTestId("ask-model")).toContainText("Amazon Nova Lite · nur lesend");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · nur lesend");
   await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
 });
 
-test("the model's name follows the server: Meta Muse Spark when it answered", async ({ page }) => {
+test("one model, named alone: Meta Muse Spark before and after it answered, no other model in the small print", async ({ page }) => {
   await questions(page, "ok", "Meta Muse Spark");
   model(page, turnsOf(Q1), "Meta Muse Spark");
   await openLedger(page);
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-answer")).toContainText("✓$21.45");
-  await expect(page.getByTestId("ask-model")).toContainText("Meta Muse Spark · read-only");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
+  await expect(page.getByTestId("ask-widget")).not.toContainText(/Nova|Amazon|falls back/);
+});
+
+test("Muse Spark failed twice on the server: the chat says the assistant is busy, in a sentence, not an error", async ({ page }) => {
+  await questions(page);
+  await page.route("**/api/agent/turn", (route) => route.fulfill({ status: 503, json: { error: "agent_busy", message: TEXT.busy.en, limit: true } }));
+  await openLedger(page);
+  await ask(page, Q1.question);
+  await expect(page.getByTestId("ask-note")).toHaveText("The assistant is busy, please try again in a minute.");
+  expect(await phase(page)).toBe("limit");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
+  expect(errors).toEqual([]);
 });
 
 test.describe("on a phone", () => {

@@ -1,9 +1,9 @@
-import { forNova } from "./flatten";
+import { flatSchema } from "./flatten";
 import type { TurnBody, TurnReply } from "./wire";
 
-// Variant D of the measure: Meta's Muse Spark 1.3 through the Model API's Responses endpoint
+// The live agent's only model: Meta's Muse Spark 1.3 through the Model API's Responses endpoint
 // (POST {base}/responses, OpenAI Responses format, items almost one to one with AG Studio's).
-// Standard model only: "-contributor" models may train on what they are sent. Local runs only.
+// Standard model only: "-contributor" models may train on what they are sent.
 
 export const META_MODEL = "muse-spark-1.3";
 /** USD per 1M tokens, Standard (Meta docs, pricing-rate-limits, read 26.10.2026). */
@@ -25,7 +25,7 @@ const stripThinking = (s: string) =>
 
 /**
  * Studio's turn -> a Responses request. Tool schemas go as Studio wrote them ($defs, anyOf); `flat`
- * sends them flattened as for Nova, for a provider that refuses the first form.
+ * sends them flattened (flatSchema), should the provider refuse the first form.
  */
 export function toMetaRequest(t: TurnBody, model: string, maxOutputTokens: number, flat = false): Json {
   const system: string[] = t.instructions ? [t.instructions] : [];
@@ -44,7 +44,7 @@ export function toMetaRequest(t: TurnBody, model: string, maxOutputTokens: numbe
       input.push({ type: "function_call_output", call_id: item.callId, output: item.output || "(empty)" });
     }
   }
-  const tools = t.tools.map((x) => ({ type: "function", name: x.name, description: x.description, parameters: flat ? forNova(x.parameters as Json) : x.parameters }));
+  const tools = t.tools.map((x) => ({ type: "function", name: x.name, description: x.description, parameters: flat ? flatSchema(x.parameters as Json) : x.parameters }));
   const c = t.toolChoice;
   const toolChoice = c === undefined ? undefined : typeof c === "object" ? { type: "function", name: c.name } : c;
   return {
@@ -88,7 +88,7 @@ export function metaBody(text: string): MetaResponse {
   return final;
 }
 
-/** A Responses answer -> Studio's output items. Text beside a tool call is dropped, as for Nova. */
+/** A Responses answer -> Studio's output items. Text beside a tool call is the model thinking aloud: dropped. */
 export function fromMetaResponse(r: MetaResponse, model: string, repair: (name: string, input: unknown) => unknown): TurnReply {
   if (r.status === "failed") throw new Error(`Meta response failed: ${r.error?.message ?? "no reason given"}`);
   const items = r.output ?? [];

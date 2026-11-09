@@ -20,7 +20,10 @@ export default defineConfig({
   webServer: {
     command: "npx tsx tests/e2e/server.ts",
     cwd: "../..",
-    env: { PORT: String(PORT), NODE_ENV: "production" },
+    // Meta is "on" as on the hosted demo, so the page names Meta Muse Spark. The key is a placeholder that never leaves
+    // this machine: every /api/agent/* request is answered by page.route, and any call that got through would go to a
+    // closed local port, not to Meta.
+    env: { PORT: String(PORT), NODE_ENV: "production", AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: "0.01", META_MODEL_API_KEY: "e2e-placeholder-not-a-key", META_MODEL_API_BASE_URL: "http://127.0.0.1:9/v1" },
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: false,
     timeout: 180_000,

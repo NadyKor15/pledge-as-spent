@@ -158,7 +158,7 @@ describe("percentages and words for a share: only what a tool returned (must-lig
 });
 
 describe("stripThinking", () => {
-  it("removes Nova's thinking, closed or cut off, before the guard and the reader", () => {
+  it("removes a model's thinking, closed or cut off, before the guard and the reader", () => {
     expect(stripThinking("<thinking>I add $21.45 + $8.55</thinking>\nYou paid $21.45.")).toBe("You paid $21.45.");
     expect(stripThinking("You paid $21.45. <thinking>maybe $99")).toBe("You paid $21.45.");
     expect(checkAnswer(stripThinking("<thinking>$99.99</thinking>You paid $21.45."), MARK).ok).toBe(true);

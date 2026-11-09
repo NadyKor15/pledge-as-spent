@@ -35,6 +35,12 @@ export const TEXT = {
     de: "Die Live-KI ist auf diesem Server ausgeschaltet. Die Schnellfragen oben funktionieren weiter: Der Code des Buchs beantwortet sie selbst.",
     ja: "このサーバーではライブAIがオフになっています。上の「よくある質問」は帳簿のコードが答えるので、引き続き使えます。",
   },
+  /** Muse Spark failed a turn twice: the assistant asks the reader to try again soon. */
+  busy: {
+    en: "The assistant is busy, please try again in a minute.",
+    de: "Der Assistent ist gerade ausgelastet, bitte versuchen Sie es in einer Minute noch einmal.",
+    ja: "アシスタントは混み合っています。1分ほどしてからもう一度お試しください。",
+  },
   /** The guard replaced an answer it could not confirm. */
   cannotConfirm: {
     en: "I can't confirm that figure from the book.",

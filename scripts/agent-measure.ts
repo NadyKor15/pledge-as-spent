@@ -1,27 +1,25 @@
 // The live agent's measure (rule 84): seven donor questions on the closed demo drive, asked through
 // the debug page in Playwright's own Chromium, so AG Studio's loop, the delegation to its data agent,
-// the book's tools and the guard all run for real. Three variants:
-//   A  Nova Lite everywhere, the model picks every tool
-//   B  Nova Pro for our `ledger` agent, Lite for Studio's `data` agent
-//   C  Nova Lite, the book's code routes a question it recognises before the model's first turn
-//   D  Meta Muse Spark 1.3 (Responses API) for both agents, routing as A unless --route code. The key comes
-//      only through the campaign's Meta wrapper script (tools/p3), money goes to eval/meta-spend-ledger.jsonl
-//      and never over $1 in all
+// the book's tools and the guard all run for real. The agent runs on one model:
+//   D  Meta Muse Spark 1.3 (Responses API) for both agents; the model picks every tool unless --route code.
+//      The key comes only through the campaign's Meta wrapper script (tools/p3), money goes to
+//      eval/meta-spend-ledger.jsonl and never over $1 in all.
+// Variants A, B and C were tried on 06.11 (another provider's models); their recorded runs stay in
+// eval/agent/recorded/{A,B,C} and can be replayed, not run live: the server has no model but Muse Spark.
 //
 // Each run starts its own `next dev` (and stops it), so the limits are the server's, not a promise:
-//   --live       real Nova through ../tools/p3/withp3.sh; needs --max-calls and --max-usd. The server
-//                refuses any call past either (AGENT_DEV_MAX_CALLS for this run's lane, AGENT_DEV_MAX_USD
-//                over all "agent-dev" entries, never above $0.20), and this script stops before a question
-//                when the run has used either. Writes eval/agent/recorded/<mode>/Q*.json and
-//                eval/agent/results-<mode>.json.
-//   --sim        the simulated model (src/agent/simulate.ts): no AWS, no money; checks the plumbing and
+//   --live       real Muse Spark (mode D only); needs --max-calls and --max-usd. The server refuses any call
+//                past either (AGENT_DEV_MAX_CALLS for this run's lane, AGENT_DEV_META_MAX_USD over all
+//                "agent-dev" entries of the Meta ledger, never above $1), and this script stops before a
+//                question when the run has used either. Writes eval/agent/recorded/D/Q*.json and
+//                eval/agent/results-D.json.
+//   --sim        the simulated model (src/agent/simulate.ts): no key, no money; checks the plumbing and
 //                counts turns. Writes eval/agent/recorded/sim-<mode>/ and eval/agent/results-sim-<mode>.json.
 //   (neither)    replays eval/agent/recorded/<set>/ (default <mode>) and checks each replay matches.
 //
-//   npx tsx scripts/agent-measure.ts --mode C --live --max-calls 20 --max-usd 0.02
-//   npx tsx scripts/agent-measure.ts --mode A --sim
-//   npx tsx scripts/agent-measure.ts --mode A --set r1-lite
 //   npx tsx scripts/agent-measure.ts --mode D --live --max-calls 30 --max-usd 1
+//   npx tsx scripts/agent-measure.ts --mode D --sim
+//   npx tsx scripts/agent-measure.ts --mode A --set r1-lite
 
 import { chromium } from "@playwright/test";
 import { spawn, type ChildProcess } from "node:child_process";
@@ -30,20 +28,18 @@ import path from "node:path";
 import closed from "../tests/fixtures/drives/closed.json";
 import { evalQuestions, scoreAnswer } from "../eval/agent/questions";
 import { META_PRICES, metaUsd } from "../src/agent/meta-wire";
-import { novaUsd } from "../src/receipts/spend";
+// Prices of the models of the variants tried on 06.11, for replays of their recorded runs only.
+import { modelUsd as recordedUsd } from "../src/receipts/spend";
 import type { DriveView } from "../src/ui/types";
 import { runPage, type PageRun } from "./agent-browser";
 
 const ROOT = path.resolve(__dirname, "..");
 const CAMPAIGN = path.resolve(ROOT, "..");
-const LEDGER = path.join(ROOT, "eval", "spend-ledger.jsonl");
 const META_LEDGER = path.join(ROOT, "eval", "meta-spend-ledger.jsonl");
 /** 06.11: Meta's credits; past them the card is charged. */
 const ALL_META_USD = 1;
 // Every live call's line, kept out of the repository (tmp/ is ignored); AGENT_CALLS_LOG puts it elsewhere.
 const CALLS_LOG = process.env.AGENT_CALLS_LOG ?? path.join(ROOT, "tmp", "agent-live-calls.jsonl");
-/** 06.11: every "agent-dev" entry together stays under this. */
-const ALL_DEV_USD = 0.2;
 const PER_QUESTION_CALLS = 10; // the server's own limit per question
 
 const arg = (name: string) => {
@@ -63,9 +59,10 @@ const base = `http://localhost:${port}`;
 if (!["A", "B", "C", "D"].includes(mode)) throw new Error("--mode A|B|C|D");
 if (live && sim) throw new Error("--live or --sim, not both");
 if (live && !(maxCalls > 0 && maxUsd > 0)) throw new Error("--live needs --max-calls N and --max-usd X");
+if (live && mode !== "D") throw new Error("--live runs mode D only: the agent has no model but Meta Muse Spark (A, B and C can be replayed)");
 
 /** What all "agent-dev" entries of a file ledger add up to. */
-function devSpent(file = LEDGER): number {
+function devSpent(file: string): number {
   if (!existsSync(file)) return 0;
   return readFileSync(file, "utf8")
     .split("\n")
@@ -87,11 +84,11 @@ function laneCalls(lane: string): { n: number; usd: number } {
 
 async function startServer(env: NodeJS.ProcessEnv, logFile: string): Promise<ChildProcess> {
   const out = openSync(logFile, "a");
-  // D needs both keys: Meta's for its turns, Bedrock's for the turns Meta hands over (the fallback to A).
+  // A live run gets Meta's key from the campaign's wrapper scripts; nothing else.
   const p3 = (name: string) => path.join(CAMPAIGN, "tools", "p3", name);
   const cmd = live ? p3("withp3.sh") : "npx";
   const dev = ["next", "dev", "-p", String(port)];
-  const args = !live ? dev : mode === "D" ? [p3("with-meta-nadya.sh"), "npx", ...dev] : ["npx", ...dev];
+  const args = !live ? dev : [p3("with-meta-nadya.sh"), "npx", ...dev];
   const child = spawn(cmd, args, { cwd: ROOT, env, detached: true, stdio: ["ignore", out, out] });
   closeSync(out);
   for (let i = 0; i < 180; i++) {
@@ -116,7 +113,7 @@ function stopServer(child: ChildProcess | null) {
   }
 }
 
-const priced = (model: string, i: number, o: number) => (META_PRICES[model] ? metaUsd(model, i, o) : novaUsd(model, i, o));
+const priced = (model: string, i: number, o: number) => (META_PRICES[model] ? metaUsd(model, i, o) : recordedUsd(model, i, o));
 const usdOf = (turns: { response: { model?: string; usage?: { inputTokens: number; outputTokens: number } } }[]) =>
   turns.reduce((s, t) => (t.response.model && t.response.model !== "simulated" && t.response.usage ? s + priced(t.response.model, t.response.usage.inputTokens, t.response.usage.outputTokens) : s), 0);
 
@@ -134,27 +131,21 @@ async function main() {
   delete env.AWS_ACCESS_KEY_ID;
   delete env.AWS_SECRET_ACCESS_KEY;
   if (live) {
-    const ceiling = Math.min(ALL_DEV_USD, devSpent() + maxUsd);
+    const metaCeiling = Math.min(ALL_META_USD, devSpent(META_LEDGER) + maxUsd);
     Object.assign(env, {
-      LIVE_AGENT: "on",
-      AGENT_DEV_LEDGER: LEDGER,
       AGENT_DEV_CALLS_LOG: CALLS_LOG,
       AGENT_DEV_LANE: lane,
       AGENT_DEV_MAX_CALLS: String(maxCalls),
-      AGENT_DEV_MAX_USD: ceiling.toFixed(6),
       AGENT_QUESTIONS_PER_HOUR: "100",
       AGENT_QUESTIONS_PER_DAY: "200",
       AGENT_QUESTIONS_PER_DAY_ALL: "400",
-      AGENT_MODEL_LEDGER: mode === "B" ? "pro" : "lite",
-      AGENT_MODEL_DATA: "lite",
+      AGENT_META_ALLOWED: "yes",
+      META_AGENT_CAP_USD: metaCeiling.toFixed(6),
+      VAULT_EGRESS_OK: "api.meta.ai",
+      AGENT_DEV_META_LEDGER: META_LEDGER,
+      AGENT_DEV_META_MAX_USD: metaCeiling.toFixed(6),
     });
-    if (mode === "D") {
-      const metaCeiling = Math.min(ALL_META_USD, devSpent(META_LEDGER) + maxUsd);
-      Object.assign(env, { AGENT_META_ALLOWED: "yes", META_AGENT_CAP_USD: metaCeiling.toFixed(6), VAULT_EGRESS_OK: "api.meta.ai", AGENT_DEV_META_LEDGER: META_LEDGER, AGENT_DEV_META_MAX_USD: metaCeiling.toFixed(6) });
-      console.log(`live D (Meta): lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all Meta entries under $${metaCeiling.toFixed(4)}; now $${devSpent(META_LEDGER).toFixed(6)})`);
-    } else {
-      console.log(`live ${mode}: lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all agent-dev entries under $${ceiling.toFixed(4)}; now $${devSpent().toFixed(6)})`);
-    }
+    console.log(`live D (Meta): lane ${lane}, at most ${maxCalls} calls and $${maxUsd} (all Meta entries under $${metaCeiling.toFixed(4)}; now $${devSpent(META_LEDGER).toFixed(6)})`);
   } else if (!sim && !existsSync(recDir)) {
     throw new Error(`no recordings in ${recDir}`);
   }
@@ -213,7 +204,7 @@ async function main() {
   const usd = rows.reduce((s, r) => s + (r.usd as number), 0);
   const summary = { mode, routing, source: live ? "live" : sim ? "simulated" : `replay of ${set}`, at: new Date().toISOString(), right, of: rows.length, calls, usd: Number(usd.toFixed(6)), avgCalls: rows.length ? Number((calls / rows.length).toFixed(2)) : 0, avgUsd: rows.length ? Number((usd / rows.length).toFixed(6)) : 0, lane: live ? lane : null, serverCalls: live ? laneCalls(lane) : null, rows };
   if (live || sim) writeFileSync(path.join(ROOT, "eval", "agent", `results-${set}.json`), JSON.stringify(summary, null, 2) + "\n");
-  console.log(`\n${mode} (${summary.source}): RIGHT ${right} of ${rows.length}; calls ${calls} (avg ${summary.avgCalls}); $${summary.usd} (avg $${summary.avgUsd})${live ? `; server booked ${JSON.stringify(summary.serverCalls)}; all agent-dev now $${devSpent().toFixed(6)}; Meta now $${devSpent(META_LEDGER).toFixed(6)}` : ""}`);
+  console.log(`\n${mode} (${summary.source}): RIGHT ${right} of ${rows.length}; calls ${calls} (avg ${summary.avgCalls}); $${summary.usd} (avg $${summary.avgUsd})${live ? `; server booked ${JSON.stringify(summary.serverCalls)}; Meta now $${devSpent(META_LEDGER).toFixed(6)}` : ""}`);
 }
 
 void main().catch((e) => {
