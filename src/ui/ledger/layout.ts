@@ -98,6 +98,9 @@ const EDGE = 12;
 /** The hold's bar inside a desktop label (HoldMeter, size "label"), and its gap from the name. */
 export const LABEL_METER_W = 72;
 const LABEL_METER_GAP = 10;
+/** The same bar in a phone's compact label (21 px), beside the city (ledger.css .lg-small .lg-meter). */
+export const LABEL_METER_W_SMALL = 30;
+const LABEL_METER_GAP_SMALL = 6;
 /** The gap between the map and the shelter's card, and how far from the phone's edge the shelter sits. */
 const HUB_GAP = 5;
 const HUB_INSET = 34;
@@ -193,8 +196,8 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   for (const line of lines) {
     const { donor, at, bow, spends } = line;
     const text = compact ? (donor.city ?? donor.name) : donor.label;
-    // On the desktop map the label carries the hold's bar beside the name (S1); the phone's compact label stays plain.
-    const meter = !compact && donor.meter ? LABEL_METER_W + LABEL_METER_GAP : 0;
+    // The label carries the hold's bar beside the name (S1); a phone's compact label a shorter one beside the city.
+    const meter = donor.meter ? (compact ? LABEL_METER_W_SMALL + LABEL_METER_GAP_SMALL : LABEL_METER_W + LABEL_METER_GAP) : 0;
     const lw = textWidth(text, labelPx) + (compact ? 14 : 20) + meter;
     // Near an edge the label slides along it rather than falling off the map.
     const slide = (x: number) => Math.max(3, Math.min(x, width - lw - 3));

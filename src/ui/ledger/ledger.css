@@ -64,6 +64,9 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 /* S1: the hold's bar beside the donor's name (layout.ts LABEL_METER_W + LABEL_METER_GAP). */
 .lg-label.lg-has-meter { justify-content: flex-start; gap: 10px; padding: 0 10px; }
 .lg-label .lg-meter { flex: none; width: 72px; height: 7px; border-radius: 3.5px; }
+/* The phone's compact label (21 px): a shorter bar beside the city (layout.ts LABEL_METER_W_SMALL + LABEL_METER_GAP_SMALL). */
+.lg-label.lg-small.lg-has-meter { gap: 6px; padding: 0 7px; }
+.lg-label.lg-small .lg-meter { width: 30px; height: 5px; border-radius: 2.5px; }
 .lg-label.is-on { box-shadow: 0 0 0 2px var(--spent); }
 .lg-pill { font-size: 14.5px; font-weight: 600; color: #FFFFFF; pointer-events: none; font-variant-numeric: tabular-nums; }
 .lg-pill-spent { background: #1F7A4D; }

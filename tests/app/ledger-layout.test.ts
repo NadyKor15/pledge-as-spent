@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { deriveLedger, type LedgerDonor } from "@/ui/ledger/derive";
 import { locate, project } from "@/ui/ledger/geo";
 import land from "@/ui/ledger/land.json";
-import { LABEL_METER_W, landPath, MAX_ARCS, planMap, textWidth, type Box, type MapPlan } from "@/ui/ledger/layout";
+import { LABEL_METER_W, LABEL_METER_W_SMALL, landPath, MAX_ARCS, planMap, textWidth, type Box, type MapPlan } from "@/ui/ledger/layout";
 import { focusOf, linesOf, LedgerStore } from "@/ui/ledger/store";
 import { COLORS } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
@@ -190,11 +190,26 @@ describe("what the arcs say", () => {
         expectInside(plan, s.width, s.height);
       }
     }
-    // A hand-made donor without a hold's parts keeps the plain label; on a phone the label stays plain (T1 puts it there).
+    // A hand-made donor without a hold's parts keeps the plain label; on a phone the bar is the short one.
     const plain = planMap([donor(1, "Berlin", "DE", 500, 0)], SIZES[0]).placed[0];
     expect(plain.label.w).toBeLessThan(textWidth(plain.text, 14) + 20 + LABEL_METER_W);
     const phone = planMap(deriveLedger(fixture("closed")).donors, SIZES[2]).placed[0];
     expect(phone.label.w).toBeLessThan(textWidth(phone.text, 11.5) + 14 + LABEL_METER_W);
+  });
+
+  it("a phone's compact label carries the short bar beside the city: wider by it, every donor still fits, nothing overlaps (three languages, both drives)", () => {
+    for (const name of ["closed", "open"]) {
+      for (const lang of ["en", "de", "ja"] as const) {
+        const plan = planMap(deriveLedger(fixture(name), lang).donors, SIZES[2]);
+        expect(plan.listed, `${name} ${lang}`).toEqual([]);
+        for (const p of plan.placed) expect(p.label.w).toBeCloseTo(textWidth(p.text, 11.5) + 14 + LABEL_METER_W_SMALL + 6, 6);
+        expectNoOverlap(plan);
+        expectInside(plan, SIZES[2].width, SIZES[2].height);
+      }
+    }
+    const EIGHT_PLAN = planMap(EIGHT, SIZES[2]);
+    expectNoOverlap(EIGHT_PLAN);
+    expectInside(EIGHT_PLAN, SIZES[2].width, SIZES[2].height);
   });
 
   it("the shelter sits on the edge of its card: past the map's right edge, under the phone's map", () => {

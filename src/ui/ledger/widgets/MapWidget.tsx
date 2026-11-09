@@ -150,8 +150,8 @@ export function MapWidget(params: AgWidgetParams) {
             const id = p.donor.pledgeId;
             const on = focus?.donors.has(id) ?? false;
             const pick: Pick = { kind: "donor", pledgeId: id };
-            // The hold's bar inside the donor's label; the phone's compact map gets it from the donors' card (T1).
-            const meter = !compact ? p.donor.meter : undefined;
+            // The hold's bar inside the donor's label, a shorter one in a phone's compact label (layout.ts sizes both).
+            const meter = p.donor.meter;
             return (
               <div key={id} className={`lg-tags${focus && !on ? " is-dim" : ""}`}>
                 <button

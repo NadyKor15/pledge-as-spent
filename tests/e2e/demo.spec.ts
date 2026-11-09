@@ -403,7 +403,8 @@ for (const { width, height } of [
     expect(labels.out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
     await expect(page.locator(".lg-head")).toHaveCount(0);
-    await expect(page.locator(".lg-label .pas-meter")).toHaveCount(width < 600 ? 0 : 3);
+    // Every label carries its hold's bar: beside the name on a desktop, a short one beside the city on a phone (T1).
+    await expect(page.locator(".lg-label .pas-meter")).toHaveCount(3);
     const body = page.locator("body");
     // Mark's $8.55 never charged: the phone's donors card says it; on the desktop map it is in his label's bar.
     if (width < 600) await expect(body).toContainText("$8.55");
