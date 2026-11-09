@@ -15,7 +15,7 @@ closeReceipt(image: ReceiptImage, bands: Band[], purchaseLines: PurchaseLine[]):
 - A pixel stays as printed only inside a band of a purchase line and inside no other band. A line opens only when all of its bands open; a band taller than 2.5 times the receipt's usual band, a band given twice or one that cannot be drawn stays closed.
 - Everything else is a background made from the brightest part of cells much larger than a letter (median-cleaned, softened, spread back smoothly): the light of the paper and the desk, no print.
 - Same size and media type as the photo, no EXIF or other metadata carried over, and a mark written into the file. The image route serves only bytes that carry the mark.
-- `null` when no purchase line can be opened or the photo cannot be decoded: then no photo is published at all. There is no fallback to a blurred copy or to the original, and copies stored before closing are no longer served.
+- `null` when no purchase line can be opened or the photo cannot be decoded: then no photo is published at all. There is no fallback to any other copy or to the original, and copies stored before closing are no longer served.
 
 The approach is ported from the author's own BillRadar closing (started October 26, 2026), rewritten in TypeScript for receipts.
 
@@ -49,6 +49,6 @@ All 20 closed images were looked at: on each, only the purchase lines are printe
 
 The corner method (each row's corners taken through the photo's perspective by the browser) is checked against the browser's own box of each personal-data span. It came within 1.01 px on two receipts (holdout-en-02, holdout-ja-06), while their re-renders were byte-identical to the photos, so the check allows 1.5 px (`tools/receipts/rows.ts`). A band reaches a third of a row into the gaps, far more than that.
 
-The same measuring of rows closes the five forged receipts of the cheat page (`tools/receipts/forgeries.ts`), which refuses to publish when a personal-data box touches the open area or print is left in it. The demo's sample receipt, the one on the judge's path, is closed by the bands of Meta's own answer for it (`eval/live/shipped/hero-ja-01.meta.json`: the pixel bands, the second reading's text of each, and the bands of each purchase line, shipped by `tools/receipts/ship-meta.ts`).
+The same measuring of rows closes the five forged receipts of the cheat page (`tools/receipts/forgeries.ts`), which refuses to publish when a personal-data box touches the open area or print is left in it. The demo's sample receipt, the one on the judge's path, is closed by the bands of Meta's own answer for it (`eval/live/shipped/hero-ja-01.meta.json`: the pixel bands, the second reading's text of each, and the bands of each purchase line, shipped by `tools/receipts/ship-meta.ts`). The Florida drive's sample, a copy of the synthetic receipt v1-en-06 with its recorded reading, is closed by rows measured the same way from its truth (`tools/receipts/sample-bands.ts`, shipped in `eval/live/shipped/florida-sample.bands.json`); that tool also refuses to write rows that leave personal data open or print in its box.
 
 `--bands slicer` (the reader's own pixel bands) is not measured here: the slicer is not in this build, and without it the app publishes only the sample receipt, closed by its shipped rows.
