@@ -41,7 +41,7 @@ import type { FetchLike } from "../paypal/recording";
 import type { PayPalGateway } from "../paypal/types";
 import type { ConverseClient } from "../receipts/bedrock";
 import type { OcrEngine } from "../receipts/ocr";
-import { allocateTax, checkReceipt, reconcile as reconcileTotals, toFundableLines, type CoordinatorApproval, type ReceiptFlag } from "../receipts/checks";
+import { checkReceipt, reconcile as reconcileTotals, splitTax, toFundableLines, type CoordinatorApproval, type ReceiptFlag } from "../receipts/checks";
 import { dHash, semanticKey, sha256Hex } from "../receipts/hash";
 import type { Recordings } from "../receipts/recorded";
 import type { LineClassification, ParsedReceipt, ReceiptImage } from "../receipts/types";
@@ -621,10 +621,11 @@ export class PledgeService {
     const lines = reading.classified.lines;
     const needs = s.needIds.map((id) => s.needs[id]);
     const { fundable, rejected } = toFundableLines(parsed, lines, needs, s.drive!, s.qtyCovered, { receiptId, ...(approval ? { coordinatorApproved: approval } : {}) });
-    const tax = allocateTax(parsed) ?? parsed.lines.map(() => 0);
+    // A refused line is shown with its own share of tax; a share that cannot be known is shown as none.
+    const tax = splitTax(parsed, lines)?.shares ?? parsed.lines.map(() => 0);
     const amountOf = (lineNo: number) => {
       const i = parsed.lines.findIndex((l) => l.lineNo === lineNo);
-      return i < 0 ? 0 : Math.max(0, parsed.lines[i].amountMinor + tax[i]);
+      return i < 0 ? 0 : Math.max(0, parsed.lines[i].amountMinor + (tax[i] ?? 0));
     };
     const steps = [...fundable.map((f) => ({ lineNo: f.lineNo, f, r: null })), ...rejected.map((r) => ({ lineNo: r.lineNo, f: null, r }))].sort((x, y) => x.lineNo - y.lineNo);
     for (const step of steps) {
@@ -657,8 +658,9 @@ export class PledgeService {
   }
 
   /**
-   * The coordinator approves what they were shown as flagged: lines held only for low confidence or a
-   * quantity that does not fit (eligible, no rule code), and a total mismatch when that held the receipt.
+   * The coordinator approves what they were shown as flagged: lines held only for low confidence, a
+   * quantity that does not fit or an unknown share of tax (eligible, no rule code; the last funded at its printed
+   * price only), and a total mismatch when that held the receipt.
    * Lines the classifier itself marked "review" (or eligible with a rule code) stay refused unless named in `lineNos`.
    * A line that points to none of the drive's needs is approved only with the need the coordinator picks for it
    * (`lineNeeds`: one of this drive's needs, not yet covered); picking a need approves the line. Its quantity is the
@@ -727,7 +729,7 @@ export class PledgeService {
         : stored;
       const held = toFundableLines(reading.parsed, reading.classified.lines, needs, s.drive!, s.qtyCovered, { receiptId }).rejected;
       const shown = held
-        .filter((x) => (x.code === "low_confidence" || x.code === "review") && cls.get(x.lineNo)?.verdict === "eligible" && !cls.get(x.lineNo)?.ruleCode)
+        .filter((x) => (x.code === "low_confidence" || x.code === "review" || x.code === "tax_unknown") && cls.get(x.lineNo)?.verdict === "eligible" && !cls.get(x.lineNo)?.ruleCode)
         .map((x) => x.lineNo);
       const approval: CoordinatorApproval = {
         by,

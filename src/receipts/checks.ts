@@ -78,30 +78,97 @@ export function reconcile(r: ParsedReceipt): Reconciliation {
 }
 
 /**
- * Splits `taxMinor` over the lines by the largest-remainder method, weighted by
- * amount x line rate (a discount line without a rate takes the rate of the line above; when any line has a rate, lines without one carry none;
- * when no line has a rate, by amount). The shares always add up to `taxMinor`.
- * Tax already inside the prices is not split: all zeros. Null when no split exists.
+ * Rates a country charges, in basis points. Japan marks only its reduced-rate lines (※, 8 %) and leaves the
+ * standard-rate lines (10 %) unmarked, so an unmarked line may carry the country's highest rate though none is printed.
  */
-export function allocateTax(r: ParsedReceipt): number[] | null {
-  const zeros = r.lines.map(() => 0);
-  if (!isTaxOnTop(r) || !r.taxMinor) return zeros;
-  // A discount line printed without a rate belongs to the line above it and takes that line's rate,
-  // so a discounted line carries tax on its net amount, not on its gross.
-  let above: number | null = null;
-  const rates = r.lines.map((l) => {
-    if (l.amountMinor >= 0) above = l.taxRateBp;
-    return l.amountMinor < 0 && l.taxRateBp === null ? above : l.taxRateBp;
+const COUNTRY_RATES_BP: Record<string, readonly number[]> = { JP: [800, 1000], TR: [100, 1000, 2000], ES: [400, 1000, 2100] };
+const COUNTRY_OF_CURRENCY: Record<string, string> = { JPY: "JP", TRY: "TR" };
+
+export interface TaxSplit {
+  /** Each line's share of the tax added on top, in minor units; null where the line's tax cannot be known. */
+  shares: (number | null)[];
+  /** Why some shares are null; null when every share is known and they add up to `taxMinor`. */
+  unknownWhy: string | null;
+}
+
+const TAX_UNKNOWN_WHY = "This receipt has more than one tax rate and this line prints none, so its share of the tax cannot be worked out.";
+
+const BIG0 = BigInt(0);
+const BIG1 = BigInt(1);
+const TEN_K = BigInt(10000);
+const floorDiv = (a: bigint, b: bigint) => (a >= BIG0 ? a / b : -((-a + b - BIG1) / b));
+const ceilDiv = (a: bigint, b: bigint) => -floorDiv(-a, b);
+
+/**
+ * The rate of the lines that print none, on a receipt where other lines print theirs: 0 when the printed lines' own
+ * rates already make the tax (exempt lines, a US receipt), else the highest rate the receipt or its country has when
+ * that makes the tax (a Japanese receipt's unmarked 10 % lines). The receipt rounds each rate's tax once, so each
+ * rate's total may be rounded down or up. Only these two rates are tried: no line can truly carry less than 0 or more
+ * than the highest rate, so when one of them makes the tax, a line that truly has another rate is off by less than
+ * the rounding. Null when neither does: the rate cannot be told.
+ */
+function rateOfUnmarked(r: ParsedReceipt, rates: (number | null)[]): number | null {
+  const bases = new Map<number, bigint>();
+  let unmarked = BIG0;
+  r.lines.forEach((l, i) => {
+    const rate = rates[i];
+    if (rate === null) unmarked += BigInt(l.amountMinor);
+    else bases.set(rate, (bases.get(rate) ?? BIG0) + BigInt(l.amountMinor));
   });
-  const anyRate = rates.some((x) => x !== null);
-  const zero = BigInt(0);
+  if (unmarked < BIG0 || [...bases.values()].some((b) => b < BIG0)) return null;
+  const country = r.country?.trim().toUpperCase() || COUNTRY_OF_CURRENCY[normalizeCurrency(r.currency ?? "")] || "";
+  const top = Math.max(0, ...bases.keys(), ...(COUNTRY_RATES_BP[country] ?? []));
+  const tax = BigInt(r.taxMinor ?? 0);
+  const makes = (c: number) => {
+    const groups = [...bases, [c, unmarked] as [number, bigint]];
+    const lo = groups.reduce((s, [rate, base]) => s + floorDiv(base * BigInt(rate), TEN_K), BIG0);
+    const hi = groups.reduce((s, [rate, base]) => s + ceilDiv(base * BigInt(rate), TEN_K), BIG0);
+    return lo <= tax && tax <= hi;
+  };
+  for (const c of [0, top]) if (makes(c)) return c;
+  return null;
+}
+
+/**
+ * Each line's share of the tax added on top. Weighted by amount x line rate; a discount line printed without a rate
+ * takes the rate of the line above, so a discounted line carries tax on its net amount. When no line prints a rate,
+ * by amount (one rate). When some lines print a rate and others do not, the others get the rate that makes the
+ * receipt's tax (rateOfUnmarked); when none does, the split is not made: a line with a printed rate gets its own tax at
+ * that rate, rounded down, and a line without one gets null, for a person to decide, never another line's share.
+ * A gift card the classifier named (`classifications`, rule gift_card) and printed without a rate is taxed at 0: gift
+ * and prepaid cards carry no sales or consumption tax when sold. Should the classifier be wrong, the 0 % no longer
+ * makes the receipt's tax and the other unmarked lines are held, not overcharged.
+ * Tax already inside the prices is not split: all zeros. Null when no split exists at all (nothing to weigh).
+ */
+export function splitTax(r: ParsedReceipt, classifications?: readonly LineClassification[]): TaxSplit | null {
+  const zeros = r.lines.map(() => 0);
+  if (!isTaxOnTop(r) || !r.taxMinor) return { shares: zeros, unknownWhy: null };
+  const anyRate = r.lines.some((l) => l.taxRateBp !== null);
+  const giftCards = new Set((classifications ?? []).filter((c) => c.ruleCode === "gift_card").map((c) => c.lineNo));
+  let above: number | null = null;
+  let rates: (number | null)[] = r.lines.map((l) => {
+    const printed = anyRate && l.taxRateBp === null && l.amountMinor >= 0 && giftCards.has(l.lineNo) ? 0 : l.taxRateBp;
+    if (l.amountMinor >= 0) above = printed;
+    return l.amountMinor < 0 && printed === null ? above : printed;
+  });
+  if (anyRate && rates.some((x) => x === null)) {
+    const c = rateOfUnmarked(r, rates);
+    if (c === null) {
+      const own = rates.map((rate, i) => (rate === null ? null : Number(floorDiv(BigInt(r.lines[i].amountMinor) * BigInt(rate), TEN_K))));
+      const known = own.reduce<number>((s, x) => s + (x ?? 0), 0);
+      // Printed rates that already ask for more tax than the receipt charged: the reading is wrong, nothing is known.
+      const shares = known > r.taxMinor || known < 0 ? own.map(() => null) : own;
+      return { shares, unknownWhy: TAX_UNKNOWN_WHY };
+    }
+    rates = rates.map((x) => x ?? c);
+  }
   const weights = r.lines.map((l, i) => BigInt(l.amountMinor) * BigInt(anyRate ? (rates[i] ?? 0) : 1));
-  const total = weights.reduce((s, w) => s + w, zero);
-  if (total <= zero) return null;
+  const total = weights.reduce((s, w) => s + w, BIG0);
+  if (total <= BIG0) return null;
   const tax = BigInt(r.taxMinor);
-  const floors = weights.map((w) => (tax * w) / total - (tax * w < zero && (tax * w) % total !== zero ? BigInt(1) : zero));
+  const floors = weights.map((w) => floorDiv(tax * w, total));
   const rems = weights.map((w, i) => tax * w - floors[i] * total);
-  let left = Number(tax - floors.reduce((s, f) => s + f, zero));
+  let left = Number(tax - floors.reduce((s, f) => s + f, BIG0));
   const order = rems.map((rem, i) => ({ rem, i })).sort((a, b) => (a.rem === b.rem ? a.i - b.i : a.rem > b.rem ? -1 : 1));
   const shares = floors.map(Number);
   for (const { i } of order) {
@@ -109,7 +176,13 @@ export function allocateTax(r: ParsedReceipt): number[] | null {
     shares[i] += 1;
     left -= 1;
   }
-  return shares;
+  return { shares, unknownWhy: null };
+}
+
+/** The full split of `taxMinor` over the lines (shares add up to it), or null when there is none (see splitTax). */
+export function allocateTax(r: ParsedReceipt, classifications?: readonly LineClassification[]): number[] | null {
+  const s = splitTax(r, classifications);
+  return s && s.unknownWhy === null ? (s.shares as number[]) : null;
 }
 
 // ------------------------------------------------------------ duplicates
@@ -184,7 +257,8 @@ export type ReceiptFlagCode =
   | "pre_disaster"
   | "zone_unknown"
   | "out_of_zone"
-  | "low_confidence";
+  | "low_confidence"
+  | "tax_unknown";
 
 export interface ReceiptFlag {
   code: ReceiptFlagCode;
@@ -255,6 +329,17 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   const misfit = (input.classifications ?? []).filter((c) => c.verdict === "eligible" && c.needId && !c.ruleCode && c.needQty !== null && !quantityFits(c.needQty, r.lines.find((l) => l.lineNo === c.lineNo)?.qty ?? 1, MAX_PACK_SIZE)).map((c) => c.lineNo);
   const toConfirm = [...new Set([...doubtful, ...unanswered, ...misfit])].sort((a, b) => a - b);
   if (toConfirm.length) add("low_confidence", "review", `${toConfirm.length === 1 ? "Line" : "Lines"} ${toConfirm.join(", ")} ${toConfirm.length === 1 ? "needs" : "need"} a person to confirm.`);
+
+  // A line whose share of the tax cannot be worked out is held, unless it is refused anyway: a person must know.
+  if (r.readability !== "unreadable") {
+    const split = splitTax(r, input.classifications);
+    const refused = new Set((input.classifications ?? []).filter((c) => c.verdict === "rejected").map((c) => c.lineNo));
+    const unknown = split?.unknownWhy ? r.lines.filter((l, i) => split.shares[i] === null && l.amountMinor >= 0 && !refused.has(l.lineNo)).map((l) => l.lineNo) : [];
+    if (unknown.length) {
+      const one = unknown.length === 1;
+      add("tax_unknown", "review", `This receipt has more than one tax rate and ${one ? "line" : "lines"} ${unknown.join(", ")} ${one ? "prints" : "print"} none, so ${one ? "its" : "their"} share of the tax is unknown: a person should confirm ${one ? "it" : "them"}. Only the printed price is funded then, never another line's tax.`);
+    }
+  }
   return flags;
 }
 
@@ -293,7 +378,8 @@ export type RejectCode =
   | "drive_closed"
   | "currency_mismatch"
   | "total_mismatch"
-  | "tax_unallocatable";
+  | "tax_unallocatable"
+  | "tax_unknown";
 
 export interface RejectedLine {
   lineNo: number;
@@ -346,10 +432,12 @@ export const MAX_PACK_SIZE = 24;
  *   a whole multiple of it (1..MAX_PACK_SIZE need-units per printed unit; an unprinted quantity counts as 1).
  * A discount line (negative amount) is netted into the line above it. A line larger than what
  * the need still lacks is funded pro rata, rounded down. Lines are handled in order, so earlier
- * lines fill a need first.
+ * lines fill a need first. Tax added on top is split by `splitTax`; a line whose share cannot be known is held
+ * ("tax_unknown") and never takes another line's share.
  *
  * A coordinator's approval (`coordinatorApproved`) can fund a receipt with a mismatching total and lines held
- * for review (review verdict, low confidence, a quantity that does not fit, a soft rule code). It never
+ * for review (review verdict, low confidence, a quantity that does not fit, a soft rule code, an unknown share of
+ * tax: then only its printed price, without tax). It never
  * overrides a forbidden item, a closed drive, a wrong currency, duplicate line numbers or a bad quantity,
  * it only ever funds the read line amounts, and it is recorded in `overrides`.
  */
@@ -377,8 +465,8 @@ export function toFundableLines(
   if (lineNos.size !== receipt.lines.length) return rejectAll("duplicate_line_no");
   const totalMismatchAccepted = !reconcile(receipt).ok && !!approval?.acceptTotalMismatch;
   if (!reconcile(receipt).ok && !totalMismatchAccepted) return rejectAll("total_mismatch");
-  const taxShares = allocateTax(receipt);
-  if (!taxShares) return rejectAll("tax_unallocatable");
+  const split = splitTax(receipt, classifications);
+  if (!split) return rejectAll("tax_unallocatable");
 
   const min = opts.minConfidence ?? DEFAULT_MIN_CONFIDENCE;
   const byLine = new Map<number, LineClassification[]>();
@@ -391,16 +479,20 @@ export function toFundableLines(
   const used: NeedProgress = {};
   const overridden: number[] = [];
 
-  // A head line with the discount lines that follow it.
-  const heads: { lineNo: number; net: number }[] = [];
+  // A head line with the discount lines that follow it. A line whose share of the tax is unknown carries none here:
+  // it is held for a person, and if released only its printed price (net of discounts) is funded.
+  const heads: { lineNo: number; net: number; taxUnknown: boolean }[] = [];
   receipt.lines.forEach((l, i) => {
-    const share = taxShares[i];
-    if (l.amountMinor < 0 && heads.length) heads[heads.length - 1].net += l.amountMinor + share;
-    else if (l.amountMinor < 0) rejected.push({ lineNo: l.lineNo, code: "orphan_discount", reasonEn: "A discount with no line above it." });
-    else heads.push({ lineNo: l.lineNo, net: l.amountMinor + share });
+    const share = split.shares[i];
+    if (l.amountMinor < 0 && heads.length) {
+      const h = heads[heads.length - 1];
+      h.net += l.amountMinor + (share ?? 0);
+      if (share === null) h.taxUnknown = true;
+    } else if (l.amountMinor < 0) rejected.push({ lineNo: l.lineNo, code: "orphan_discount", reasonEn: "A discount with no line above it." });
+    else heads.push({ lineNo: l.lineNo, net: l.amountMinor + (share ?? 0), taxUnknown: share === null });
   });
 
-  for (const { lineNo, net } of heads) {
+  for (const { lineNo, net, taxUnknown } of heads) {
     const reject = (code: RejectCode, reasonEn: string) => rejected.push({ lineNo, code, reasonEn });
     const c = (byLine.get(lineNo) ?? [])[0];
     if (!c) {
@@ -439,6 +531,7 @@ export function toFundableLines(
         held = { code: "review", reasonEn: `The quantity ${c.needQty} does not fit the printed quantity ${printed} (a whole multiple, at most ${maxPack} per unit).` };
       }
     }
+    if (!held && taxUnknown) held = { code: "tax_unknown", reasonEn: split.unknownWhy ?? "This line's share of the tax cannot be worked out." };
     if (held) {
       if (approval && (approval.lineNos === undefined || approval.lineNos.includes(lineNo))) overridden.push(lineNo);
       else {

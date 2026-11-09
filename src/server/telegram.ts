@@ -18,6 +18,7 @@ const FLAG_WORDS: Record<string, string> = {
   low_confidence: "some lines need a person to confirm them",
   date_unknown: "no purchase date could be read",
   zone_unknown: "no store address could be read",
+  tax_unknown: "the tax on some lines cannot be worked out",
 };
 const reviewWhy = (codes: string[]) => [...new Set(codes.map((c) => FLAG_WORDS[c]).filter(Boolean))].join(" and ") || "a person should check it";
 

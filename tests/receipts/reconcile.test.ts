@@ -115,13 +115,17 @@ describe("allocateTax", () => {
     expect(allocateTax(onTop([line(1, 0), line(2, 0)], 50))).toBeNull();
   });
 
-  it("property: shares always add up to the tax", () => {
+  it("property: shares add up to the tax, or there is no split", () => {
     const l = fc.record({ a: fc.integer({ min: 1, max: 100000 }), r: fc.constantFrom(null, 800, 1000) });
     fc.assert(
       fc.property(fc.array(l, { minLength: 1, maxLength: 15 }), fc.integer({ min: 1, max: 100000 }), (ls, tax) => {
         const lines = ls.map((x, i) => line(i + 1, x.a, x.r));
-        const shares = allocateTax(onTop(lines, tax))!;
-        expect(shares).not.toBeNull();
+        const shares = allocateTax(onTop(lines, tax));
+        // No split only where some lines print a rate and others print none, and no rate for those makes the tax.
+        if (shares === null) {
+          expect(ls.some((x) => x.r === null) && ls.some((x) => x.r !== null)).toBe(true);
+          return;
+        }
         expect(shares.reduce((s, x) => s + x, 0)).toBe(tax);
         expect(shares.every((s) => s >= 0)).toBe(true);
       }),
