@@ -5,7 +5,7 @@ import type { FetchLike } from "../../../src/paypal/recording";
 import type { ConverseClient } from "../../../src/receipts/bedrock";
 import { Recordings } from "../../../src/receipts/recorded";
 import type { Pipeline, SavedAnswer } from "../../../src/server/reading";
-import { PledgeService, type Limits } from "../../../src/server/service";
+import { PledgeService, type Limits, type ServiceDeps } from "../../../src/server/service";
 import { FAKE_EPOCH } from "./fake-sandbox";
 
 export const ROOT = path.resolve(__dirname, "../../..");
@@ -51,6 +51,8 @@ export async function harness(o: {
   savedAnswers?: SavedAnswer[];
   bedrock?: () => ConverseClient;
   pipeline?: Pipeline;
+  metaReading?: ServiceDeps["metaReading"];
+  closeReceipt?: ServiceDeps["closeReceipt"];
   limits?: Partial<Limits>;
   webhookId?: string | null;
   demoPayoutEmail?: string | null;
@@ -70,6 +72,8 @@ export async function harness(o: {
       ipHashKey: "test-key",
       bedrock: o.bedrock,
       pipeline: o.pipeline,
+      metaReading: o.metaReading,
+      closeReceipt: o.closeReceipt,
       now: c.now,
       limits: o.limits,
       log: () => {},

@@ -45,7 +45,7 @@ import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from
 import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive, demoPledgeId, fxFor } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
-import { ReceiptReading, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
+import { ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
 import { redactImage } from "./redact";
 import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
@@ -88,6 +88,10 @@ export interface ServiceDeps {
   ipHashKey: string;
   /** Bedrock client for live reading; absent: only cached readings. */
   bedrock?: () => ConverseClient;
+  /** Live reading by Meta (READING_PIPELINE=meta): Nadya's key and the reading's own ceiling. */
+  metaReading?: { apiKey: string; baseUrl?: string; capUsd: number; fetch?: typeof fetch };
+  /** Closes the published copy of a photo by its rows (src/receipts/close.ts). */
+  closeReceipt?: CloseReceipt;
   /** Live pipeline (default ocr-lite) and the OCR engine it needs. */
   pipeline?: Pipeline;
   ocr?: () => OcrEngine;
@@ -123,7 +127,8 @@ export class PledgeService {
       d.db,
       { answers: d.savedAnswers, recordings: d.recordings },
       this.limits,
-      d.bedrock ? { pipeline: d.pipeline ?? "ocr-lite", bedrock: d.bedrock, ocr: d.ocr } : undefined,
+      d.pipeline === "meta" ? (d.metaReading ? { pipeline: "meta", meta: d.metaReading } : undefined) : d.bedrock ? { pipeline: d.pipeline ?? "ocr-lite", bedrock: d.bedrock, ocr: d.ocr } : undefined,
+      d.closeReceipt,
     );
   }
 
@@ -534,11 +539,12 @@ export class PledgeService {
         dhash: dh,
         semanticKey: fingerprint.semanticKey,
         image: bytes,
-        imageRedacted: redaction.bytes,
+        // A reading that knows its rows publishes only its closed copy (or nothing); an older one the blurred copy.
+        imageRedacted: reading.closed !== undefined ? reading.closed : redaction.bytes,
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,
-        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}) },
+        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}), ...(reading.bands ? { bands: reading.bands, bandTexts: reading.bandTexts ?? {}, purchaseLines: reading.purchaseLines ?? [] } : {}) },
         status: flags.length ? "review" : "funded",
         channel,
         reader: reading.reader,

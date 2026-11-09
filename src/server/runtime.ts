@@ -7,7 +7,7 @@ import { bedrockClient } from "./aws";
 import { ServiceError } from "./errors";
 import type { Pipeline } from "./reading";
 import { PledgeService, type Limits } from "./service";
-import { fileLedgerTotal, seedCarryOver } from "./spend";
+import { fileLedgerTotal, META_READ_CAP_MAX_USD, seedCarryOver } from "./spend";
 
 // One service per server process, built on first use from the environment, so
 // `next build` needs no configuration at all.
@@ -19,7 +19,8 @@ import { fileLedgerTotal, seedCarryOver } from "./spend";
 // APP_BASE_URL          public origin, for PayPal return/cancel links
 // LIVE_READING=on       allow live Bedrock Nova reading
 // AWS_ROLE_ARN          on Vercel: the Nova-only role, reached through OIDC (src/server/aws.ts)
-// READING_PIPELINE      nova-lite | ocr-lite | ocr-pro (default ocr-lite)
+// READING_PIPELINE      meta | nova-lite | ocr-lite | ocr-pro (default ocr-lite)
+// READ_META_ALLOWED=yes + META_READ_CAP_USD (<= $3 in code) + META_MODEL_API_KEY   live reading by Meta (READING_PIPELINE=meta)
 // DEMO_DRIVES_PER_HOUR, LIVE_READS_PER_DAY   per-address limits (defaults in service.ts)
 // DEMO_PAYOUT_EMAIL     sandbox account that receives demo payouts (default: Nadezhda's sandbox volunteer)
 // LIVE_AGENT=on         allow the live "Ask the book" agent (Bedrock Nova Lite); off otherwise (src/server/agent.ts)
@@ -34,8 +35,15 @@ const state = (slot.__pledgeAsSpent ??= {});
 
 function pipelineFrom(value: string | undefined): Pipeline {
   if (value === undefined) return "ocr-lite";
-  if (value === "nova-lite" || value === "ocr-lite" || value === "ocr-pro") return value;
+  if (value === "meta" || value === "nova-lite" || value === "ocr-lite" || value === "ocr-pro") return value;
   throw new ServiceError(503, "not_configured", `READING_PIPELINE ${value} is not a reading pipeline.`);
+}
+
+/** Live reading by Meta: only with READ_META_ALLOWED=yes, a key, and a ceiling above zero (at most $3 in code). */
+function metaReadingFrom(env: NodeJS.ProcessEnv): { metaReading?: { apiKey: string; baseUrl?: string; capUsd: number } } {
+  const cap = Number(env.META_READ_CAP_USD ?? "0");
+  if (env.READ_META_ALLOWED !== "yes" || !env.META_MODEL_API_KEY || !(cap > 0)) return {};
+  return { metaReading: { apiKey: env.META_MODEL_API_KEY, capUsd: Math.min(cap, META_READ_CAP_MAX_USD), ...(env.META_MODEL_API_BASE_URL ? { baseUrl: env.META_MODEL_API_BASE_URL } : {}) } };
 }
 
 /** A judging panel can share one address, so the per-address limits come from the environment. */
@@ -69,6 +77,7 @@ async function build(): Promise<PledgeService> {
     ipHashKey,
     bedrock: env.LIVE_READING === "on" ? () => bedrockClient() : undefined,
     pipeline: pipelineFrom(env.READING_PIPELINE),
+    ...metaReadingFrom(env),
     limits: limitsFrom(env),
     ocr: () => (state.ocr ??= new TesseractEngine(path.join(process.cwd(), "vendor", "tessdata"))),
   });

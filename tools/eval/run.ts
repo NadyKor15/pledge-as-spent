@@ -1,5 +1,8 @@
 // Benchmark: how well a reader + classifier pass the receipt sets, scored against ground truth.
-//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix --set v1|adversarial|hero|holdout [--classifier <same choices>]
+//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix|meta|meta-replay --set v1|adversarial|hero|holdout [--classifier <same choices>]
+// meta: Meta's Muse Spark reads each photo twice (whole photo, numbered rows) and a line passes only when both agree;
+// it needs META_MODEL_API_KEY and spends from eval/meta-spend-ledger.jsonl (entries "read-meta-eval:", ceiling
+// META_SPEND_MAX_USD, default $5). meta-replay re-runs the comparison on the saved answers in eval/live/meta, no model.
 // Writes eval/results/<reader>-<set>-<UTC>.json and .md. The recorded reader replays the ground truth, so it must score 100 %.
 
 import { createHash } from "node:crypto";
@@ -12,11 +15,14 @@ import { RefiningClassifier } from "../../src/receipts/quantity";
 import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { RecordedClassifier, RecordedReader, Recordings, classificationKey, receiptKey } from "../../src/receipts/recorded";
-import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
-import type { LineClassification, LineClassifier, ModelUsage, ParsedReceipt, ReceiptReader } from "../../src/receipts/types";
+import { AgreeingClassifier, MetaRawClassifier, MetaTwoReadings, RecordedRawClassifier } from "../../src/receipts/meta-reader";
+import { JsonlSpendLedger, PrefixJsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
+import { sha256Hex } from "../../src/receipts/hash";
+import { LineClassification as LineClassificationSchema, ParsedReceipt as ParsedReceiptSchema, SecondReading as SecondReadingSchema, type Agreement, type LineClassification, type LineClassifier, type ModelUsage, type ParsedReceipt, type ReceiptReader, type SecondReading } from "../../src/receipts/types";
 import { HERO_NEEDS, SCENARIOS } from "../receipts/scenario";
 import { Truth } from "../receipts/truth";
-import { FLAGS, add, flagStats, ratio, scoreReceipt, tally, type CheatFlag, type FlagTally, type ReceiptScore, type Tally } from "./metrics";
+import { FLAGS, add, flagStats, matchLines, ratio, scoreReceipt, tally, type CheatFlag, type FlagTally, type ReceiptScore, type Tally } from "./metrics";
+import { z } from "zod";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
 const RECEIPTS = path.join(ROOT, "eval/receipts");
@@ -44,7 +50,16 @@ export interface EvalInput {
   known: Truth[];
   root?: string;
   /** Called once per receipt with what the reader and classifier returned, for saving live answers. */
-  onReceipt?: (r: { truth: Truth; reading: ParsedReceipt | null; labels: LineClassification[] | null; usage: ModelUsage[]; errors: string[]; latencyMs: { read: number; classify: number | null } }) => Promise<void> | void;
+  onReceipt?: (r: {
+    truth: Truth;
+    reading: ParsedReceipt | null;
+    labels: LineClassification[] | null;
+    usage: ModelUsage[];
+    errors: string[];
+    latencyMs: { read: number; classify: number | null };
+    second?: SecondReading;
+    agreement?: Agreement;
+  }) => Promise<void> | void;
 }
 
 export async function runEval(input: EvalInput) {
@@ -68,6 +83,9 @@ export async function runEval(input: EvalInput) {
   const errors: { id: string; stage: string; message: string }[] = [];
   const perReceipt: unknown[] = [];
   const latencies: { read: number; classify: number | null }[] = [];
+  // Money: lines held for a person, and lines that would be funded wrongly (only on receipts with no flag at all,
+  // since any flag sends the whole receipt to the coordinator and nothing moves until they decide).
+  const money = { productLines: 0, held: 0, wrongEligible: 0, wrongCharges: 0, autoFunded: 0 };
 
   for (const t of input.truths) {
     const sc = t.locale === "ja" && t.set === "hero" ? { ...SCENARIOS.ja, needs: HERO_NEEDS } : SCENARIOS[t.locale];
@@ -75,6 +93,8 @@ export async function runEval(input: EvalInput) {
     const image = { bytes, mediaType: t.image.mediaType };
     let pred: ParsedReceipt | null = null;
     let labels: LineClassification[] | null = null;
+    let second: SecondReading | undefined;
+    let agreement: Agreement | undefined;
     const mine: ModelUsage[] = [];
     const myErrors: string[] = [];
     // A call that came back unusable was still paid for: count it, and keep what it sent.
@@ -92,6 +112,7 @@ export async function runEval(input: EvalInput) {
     try {
       const r = await input.reader.read(image, { currency: sc.drive.baseCurrency, languages: sc.languages });
       pred = r.receipt;
+      second = r.second;
       usage.push(r.usage);
       mine.push(r.usage);
     } catch (e) {
@@ -102,8 +123,9 @@ export async function runEval(input: EvalInput) {
     clock.read = Math.round(performance.now() - t0);
     if (pred && pred.readability !== "unreadable") {
       try {
-        const c = await input.classifier.classify({ receipt: pred, needs: sc.needs, rules: sc.drive.rules });
+        const c = await input.classifier.classify({ receipt: pred, needs: sc.needs, rules: sc.drive.rules, ...(second ? { second } : {}) });
         labels = c.lines;
+        agreement = c.agreement;
         usage.push(c.usage);
         mine.push(c.usage);
       } catch (e) {
@@ -115,11 +137,28 @@ export async function runEval(input: EvalInput) {
 
     if (pred && pred.readability !== "unreadable") clock.classify = Math.round(performance.now() - t0 - clock.read);
     latencies.push(clock);
-    await input.onReceipt?.({ truth: t, reading: pred, labels, usage: mine, errors: myErrors, latencyMs: clock });
+    await input.onReceipt?.({ truth: t, reading: pred, labels, usage: mine, errors: myErrors, latencyMs: clock, ...(second ? { second } : {}), ...(agreement ? { agreement } : {}) });
 
     // Fraud flags from the deterministic checks, on what the reader returned.
     const others = knownFp.filter((k) => k.receiptId !== t.id);
-    const raised = pred ? new Set(checkReceipt({ receipt: pred, drive: sc.drive, fingerprint: fingerprint(image, pred), known: others }).map((f) => f.code)) : new Set<string>();
+    const raised = pred ? new Set(checkReceipt({ receipt: pred, drive: sc.drive, fingerprint: fingerprint(image, pred), known: others, ...(labels ? { classifications: labels } : {}) }).map((f) => f.code)) : new Set<string>();
+    if (pred && labels && !t.expect.unreadable) {
+      const product = labels.filter((c) => (pred!.lines.find((l) => l.lineNo === c.lineNo)?.amountMinor ?? -1) >= 0);
+      money.productLines += product.length;
+      money.held += product.filter((c) => c.verdict === "review").length;
+      const pairs = new Map(matchLines(t.receipt.lines, pred.lines).map(([ti, pi]) => [pred!.lines[pi].lineNo, t.receipt.lines[ti].lineNo]));
+      const wrong = product.filter((c) => {
+        if (c.verdict !== "eligible") return false;
+        const truthNo = pairs.get(c.lineNo);
+        const want = truthNo === undefined ? undefined : t.labels.find((l) => l.lineNo === truthNo);
+        return !want || want.verdict !== "eligible" || want.needId !== c.needId || want.needQty !== c.needQty;
+      }).length;
+      money.wrongEligible += wrong;
+      if (raised.size === 0) {
+        money.autoFunded += 1;
+        money.wrongCharges += wrong;
+      }
+    }
     const expected: Record<CheatFlag, boolean> = { duplicate: t.expect.duplicateOf !== null, pre_disaster: t.expect.preDisaster, out_of_zone: t.expect.outOfZone, unreadable: t.expect.unreadable };
     for (const f of FLAGS) {
       const got = raised.has(f);
@@ -157,7 +196,7 @@ export async function runEval(input: EvalInput) {
       l.fn += score.fn;
       add(l.total, score.totalExact);
     }
-    perReceipt.push({ id: t.id, locale: t.locale, readability: pred?.readability ?? null, flags: [...raised], score });
+    perReceipt.push({ id: t.id, locale: t.locale, readability: pred?.readability ?? null, flags: [...raised], score, held: agreement?.held ?? [] });
   }
 
   const f1 = (tp: number, fp: number, fn: number) => {
@@ -181,6 +220,7 @@ export async function runEval(input: EvalInput) {
     lineClass: rate(agg.lineClass),
     needQty: rate(agg.needQty),
     ruleLines: { ...rate(agg.ruleLines), fundedByMistake: agg.ruleLinesFunded },
+    money: { ...money, heldRate: ratio(money.held, money.productLines), coordinatorReceipts: perReceipt.filter((p) => (p as { flags: string[] }).flags.length > 0).length },
     pii: { found: rate(agg.pii), covered: rate(agg.piiCovered), meanIou: ious.length ? ious.reduce((a, b) => a + b, 0) / ious.length : null },
     flags: Object.fromEntries(FLAGS.map((f) => [f, flagStats(flags[f])])) as Record<CheatFlag, ReturnType<typeof flagStats>>,
     otherFlagsRaised: otherFlags,
@@ -215,6 +255,9 @@ Run ${when}. ${r.receipts} receipts (${r.scoredReceipts} scored on content; unre
 | Line class (verdict + need) | ${t(r.lineClass)} |
 | Need quantity exact (eligible lines) | ${t(r.needQty)} |
 | Rule lines rejected with the right code (alcohol, tobacco, gift card) | ${t(r.ruleLines)}; funded by mistake: ${r.ruleLines.fundedByMistake} |
+| Product lines held for a person | ${r.money.held} of ${r.money.productLines} (${pct(r.money.heldRate)}) |
+| Wrong charges (an eligible line with the wrong need, quantity or no such line, on a receipt with no flag) | ${r.money.wrongCharges} (${r.money.autoFunded} receipts would fund without a person; wrong eligible lines on any receipt: ${r.money.wrongEligible}) |
+| Receipts sent to the coordinator | ${r.money.coordinatorReceipts} of ${r.receipts} |
 | Personal data found by text / covered by a blur box / mean box overlap | ${t(r.pii.found)} / ${t(r.pii.covered)} / ${pct(r.pii.meanIou)} |
 | Median latency per receipt | reader ${r.latency.readerMedianMs ?? "n/a"} ms; reader + classifier ${r.latency.receiptMedianMs ?? "n/a"} ms |
 | Spend | ${r.spend.calls} answered calls, ${r.spend.tokensIn} in / ${r.spend.tokensOut} out tokens, $${r.spend.usdActual.toFixed(4)} actual; ledger moved by ${r.spend.ledgerDeltaUsd === null ? "n/a" : "$" + r.spend.ledgerDeltaUsd.toFixed(4)} (failed calls stay reserved at their ceiling) |
@@ -249,6 +292,8 @@ async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onRece
     // The needs and rules the lines were matched against: a drive with others cannot reuse them.
     classifiedFor: x.reading ? classificationKey(x.reading, sc.needs, sc.drive.rules) : null,
     usage: x.usage,
+    ...(x.second ? { second: x.second } : {}),
+    ...(x.agreement ? { rawClassifications: x.agreement.raw } : {}),
     latencyMs: x.latencyMs,
     errors: x.errors,
     trace: x.trace ?? null,
@@ -268,16 +313,50 @@ export async function loadLiveRecordings(dir: string): Promise<Recordings> {
   return Recordings.parse(rec);
 }
 
-type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro" | "ocr-mix";
-const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro", "ocr-mix"];
+type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro" | "ocr-mix" | "meta" | "meta-replay";
+const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro", "ocr-mix", "meta", "meta-replay"];
+const META_CHOICES: Choice[] = ["meta", "meta-replay"];
+
+/** The Meta measure's ledger entries; the measure's ceiling counts only these. */
+export const META_EVAL_PREFIX = "read-meta-eval:";
+
+const SavedMeta = z.object({ imageSha256: z.string(), reading: ParsedReceiptSchema.nullable(), second: SecondReadingSchema.optional(), rawClassifications: z.object({ first: z.array(LineClassificationSchema), second: z.array(LineClassificationSchema) }).optional() });
+
+/** Saved answers of a Meta run, replayed: the readings by photo, the raw classifications by reading. */
+export async function loadMetaRecordings(dir: string) {
+  const byImage = new Map<string, { reading: ParsedReceipt; second?: SecondReading }>();
+  const byReading = new Map<string, { first: LineClassification[]; second: LineClassification[] }>();
+  for (const f of (await readdir(dir)).filter((n) => n.endsWith(".json")).sort()) {
+    const x = SavedMeta.parse(JSON.parse(await readFile(path.join(dir, f), "utf8")));
+    if (!x.reading) continue;
+    byImage.set(x.imageSha256, { reading: x.reading, ...(x.second ? { second: x.second } : {}) });
+    if (x.rawClassifications) byReading.set(receiptKey(x.reading), x.rawClassifications);
+  }
+  const reader: ReceiptReader = {
+    async read(image) {
+      const r = byImage.get(sha256Hex(image.bytes));
+      if (!r) throw new Error(`no saved Meta reading for image sha256 ${sha256Hex(image.bytes)}`);
+      return { receipt: structuredClone(r.reading), usage: { model: "recorded", tokensIn: 0, tokensOut: 0, usdCeiling: 0, usdActual: 0 }, ...(r.second ? { second: structuredClone(r.second) } : {}) };
+    },
+  };
+  return { reader, classifier: new AgreeingClassifier(new RecordedRawClassifier((p) => byReading.get(receiptKey(p)))) };
+}
 const OCR_CHOICES: Choice[] = ["ocr-lite", "ocr-pro", "ocr-mix"];
 /** The model that classifies lines for a reader choice: the reader's own model (ocr-mix: Lite copies the numbers, Pro does the rest). */
-const classifierFor = (c: Choice): Choice => (c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" || c === "ocr-mix" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
+const classifierFor = (c: Choice): Choice => (META_CHOICES.includes(c) ? c : c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" || c === "ocr-mix" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
 
 const TESSDATA = path.join(ROOT, "vendor/tessdata");
 
 async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings, engine: TesseractEngine, trace?: (t: ReadTrace) => void) {
   if (choice === "recorded") return { reader: new RecordedReader(recordings), classifier: new RecordedClassifier(recordings) };
+  if (choice === "meta-replay") return loadMetaRecordings(process.env.EVAL_REPLAY_DIR ? path.resolve(process.env.EVAL_REPLAY_DIR) : path.join(ROOT, "eval/live/meta"));
+  if (choice === "meta") {
+    const apiKey = process.env.META_MODEL_API_KEY;
+    if (!apiKey) throw new Error("META_MODEL_API_KEY is not set: run through tools/p3/with-meta-nadya.sh");
+    const metaCap = new SpendCap(new PrefixJsonlSpendLedger(path.join(ROOT, "eval/meta-spend-ledger.jsonl"), META_EVAL_PREFIX), Number(process.env.META_SPEND_MAX_USD ?? "5"));
+    const o = { apiKey, cap: metaCap, prefix: META_EVAL_PREFIX, ...(process.env.META_MODEL_API_BASE_URL ? { baseUrl: process.env.META_MODEL_API_BASE_URL } : {}) };
+    return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o)), cap: metaCap };
+  }
   const cap = ledger!;
   const client = createBedrockClient();
   const modelId = choice === "nova-lite" || choice === "nova-lite-2pass" || choice === "ocr-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
@@ -300,8 +379,8 @@ async function main() {
   }
   const classifierChoice = (arg("classifier") as Choice | undefined) ?? classifierFor(readerChoice);
   const recordings = Recordings.parse(JSON.parse(await readFile(path.join(RECEIPTS, "recorded.json"), "utf8")));
-  const live = readerChoice !== "recorded" || classifierChoice !== "recorded";
-  const cap = live ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
+  const live = (readerChoice !== "recorded" || classifierChoice !== "recorded") && readerChoice !== "meta-replay";
+  const cap = live && !META_CHOICES.includes(readerChoice) ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
   const engine = new TesseractEngine(TESSDATA);
   let trace: ReadTrace | null = null;
   const r = await build(readerChoice, cap, recordings, engine, (t) => {
@@ -312,7 +391,8 @@ async function main() {
   const name = classifierChoice === classifierFor(readerChoice) ? readerChoice : `${readerChoice}+${classifierChoice}`;
 
   const truths = await loadTruths(set);
-  const ledgerBefore = cap ? await cap.ledger.total() : null;
+  const spendCap = (r as { cap?: SpendCap }).cap ?? cap;
+  const ledgerBefore = spendCap ? await spendCap.ledger.total() : null;
   const known = set === "v1" ? truths : await loadTruths("v1");
   const liveDir = live ? (process.env.EVAL_LIVE_DIR ? path.resolve(process.env.EVAL_LIVE_DIR) : path.join(ROOT, "eval/live", name)) : null;
   const result = await runEval({
@@ -331,7 +411,7 @@ async function main() {
   });
 
   await engine.close();
-  if (cap) result.spend.ledgerDeltaUsd = (await cap.ledger.total()) - ledgerBefore!;
+  if (spendCap) result.spend.ledgerDeltaUsd = (await spendCap.ledger.total()) - ledgerBefore!;
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
   const label = process.env.EVAL_LABEL ? `${process.env.EVAL_LABEL}-` : "";
   const base = path.join(ROOT, "eval/results", `${result.reader}-${set}-${label}${stamp}`);
