@@ -76,7 +76,7 @@
 .lg-jr-status { padding: 3px 8px; border-radius: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
 .lg-jr-done { background: color-mix(in srgb, var(--pas-charged) 16%, #FFFFFF); color: var(--spent-text); }
 .lg-jr-info { background: #E3F0EE; color: #1F5F5B; }
-.lg-jr-never { background: color-mix(in srgb, var(--pas-never) 22%, #FFFFFF); color: #3C4656; }
+.lg-jr-never { background: color-mix(in srgb, var(--pas-never) 35%, #FFFFFF); color: var(--pas-never-text); }
 .lg-jr-wait { background: #FBF0DA; color: var(--held-text); }
 .lg-jr-bad { background: color-mix(in srgb, var(--pas-refused) 14%, #FFFFFF); color: var(--refused); }
 .lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
