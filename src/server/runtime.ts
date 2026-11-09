@@ -20,7 +20,7 @@ import { fileLedgerTotal, META_READ_CAP_MAX_USD, seedCarryOver } from "./spend";
 // LIVE_READING=on       allow live Bedrock Nova reading
 // AWS_ROLE_ARN          on Vercel: the Nova-only role, reached through OIDC (src/server/aws.ts)
 // READING_PIPELINE      meta | nova-lite | ocr-lite | ocr-pro (default ocr-lite)
-// READ_META_ALLOWED=yes + META_READ_CAP_USD (<= $3 in code) + META_MODEL_API_KEY   live reading by Meta (READING_PIPELINE=meta)
+// READ_META_ALLOWED=yes + META_READ_CAP_USD (<= $5 in code) + META_MODEL_API_KEY   live reading by Meta (READING_PIPELINE=meta)
 // DEMO_DRIVES_PER_HOUR, LIVE_READS_PER_DAY   per-address limits (defaults in service.ts)
 // DEMO_PAYOUT_EMAIL     sandbox account that receives demo payouts (default: Nadezhda's sandbox volunteer)
 // LIVE_AGENT=on         allow the live "Ask the book" agent (Bedrock Nova Lite); off otherwise (src/server/agent.ts)
@@ -39,7 +39,7 @@ function pipelineFrom(value: string | undefined): Pipeline {
   throw new ServiceError(503, "not_configured", `READING_PIPELINE ${value} is not a reading pipeline.`);
 }
 
-/** Live reading by Meta: only with READ_META_ALLOWED=yes, a key, and a ceiling above zero (at most $3 in code). */
+/** Live reading by Meta: only with READ_META_ALLOWED=yes, a key, and a ceiling above zero (at most $5 in code). */
 function metaReadingFrom(env: NodeJS.ProcessEnv): { metaReading?: { apiKey: string; baseUrl?: string; capUsd: number } } {
   const cap = Number(env.META_READ_CAP_USD ?? "0");
   if (env.READ_META_ALLOWED !== "yes" || !env.META_MODEL_API_KEY || !(cap > 0)) return {};

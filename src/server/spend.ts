@@ -40,8 +40,8 @@ export class PgSpendLedger implements SpendLedger {
 export const META_SPEND_PREFIX = "agent-meta:";
 /** Meta's spend for live receipt reading: its own ceiling (META_READ_CAP_USD), outside Bedrock's $5 and the agent's. */
 export const META_READ_PREFIX = "read-meta:";
-/** The most live Meta reading may cost in all, whatever the environment says (the author's word, 2026-11-08: $3). */
-export const META_READ_CAP_MAX_USD = 3;
+/** The most live Meta reading may cost in all, whatever the environment says (the author's word, 2026-11-09: $5). */
+export const META_READ_CAP_MAX_USD = 5;
 
 /** Rows that are not Bedrock's: Meta's, for the agent and for reading. */
 export const notMeta = () => and(notLike(spendLedger.what, `${META_SPEND_PREFIX}%`), notLike(spendLedger.what, `${META_READ_PREFIX}%`));

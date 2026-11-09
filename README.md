@@ -167,7 +167,7 @@ npm ci
 npm run dev
 ```
 
-The app opens at http://localhost:3000 with a local PGlite database. Opening a drive needs your own PayPal sandbox app: set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET`, and `NEXT_PUBLIC_PAYPAL_CLIENT_ID` for the pledge form. Live reading is optional: `READING_PIPELINE=meta`, `READ_META_ALLOWED=yes`, a ceiling in `META_READ_CAP_USD` (at most $3 in code) and a Meta Model API key in `META_MODEL_API_KEY`; without them, only the sample and benchmark receipts are read. The server settings are listed at the top of [`src/server/runtime.ts`](src/server/runtime.ts).
+The app opens at http://localhost:3000 with a local PGlite database. Opening a drive needs your own PayPal sandbox app: set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET`, and `NEXT_PUBLIC_PAYPAL_CLIENT_ID` for the pledge form. Live reading is optional: `READING_PIPELINE=meta`, `READ_META_ALLOWED=yes`, a ceiling in `META_READ_CAP_USD` (at most $5 in code) and a Meta Model API key in `META_MODEL_API_KEY`; without them, only the sample and benchmark receipts are read. The server settings are listed at the top of [`src/server/runtime.ts`](src/server/runtime.ts).
 
 To check a drive against PayPal's own records, read-only: `PAYPAL_CLIENT_ID=... PAYPAL_CLIENT_SECRET=... node scripts/paypal-proof.mjs <drive id>`. It takes the drive's PayPal ids from its public API, asks PayPal's sandbox for each hold, capture and payout with GET only (plus PayPal's token exchange), prints "N of N objects answered by PayPal" and writes the answers to `evidence/`. The ids are visible only to the sandbox app that made them, so use the keys of that app.
 
