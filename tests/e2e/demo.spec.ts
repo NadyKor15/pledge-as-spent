@@ -48,7 +48,7 @@ test("the way in: who it is for, a judge's read-only path, one action that write
   const judge = page.locator(".ld-judge");
   await expect(judge.getByRole("heading")).toHaveText("Judging Pledge-as-Spent? See the whole thing in 90 seconds.");
   await expect(judge.getByRole("link", { name: "See a finished drive" })).toHaveAttribute("href", "/drive/demo-41e3886eeb?as=ledger");
-  await expect(judge.getByRole("link", { name: "Read a donor’s statement" })).toHaveAttribute("href", "/pledge/demo-f372326129.diapers");
+  await expect(judge.getByRole("link", { name: "Read a donor’s statement" })).toHaveAttribute("href", "/pledge/demo-41e3886eeb.diapers");
   await expect(judge).toContainText("Judge it in 90 seconds in the README");
   await expect(judge).toContainText("Fictional drive · PayPal Sandbox · no real money moves");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
