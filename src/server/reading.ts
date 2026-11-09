@@ -25,6 +25,8 @@ import { META_READ_PREFIX, PgMetaReadLedger, PgSpendLedger } from "./spend";
 //   4. a live answer stored for the same photo in another drive                        reader "copy"
 //   5. the live pipeline, under the per-IP daily limit and its spend cap               reader "live:<pipeline>"
 //      (Bedrock's $5 for the Nova pipelines; Meta reading's own ceiling, at most $3, for "meta")
+// On the "meta" pipeline 2-4 are used only when complete (an answer for these needs, and from 4 its rows too);
+// anything less is read live from the start, never classified on one reading.
 
 /**
  * Live pipelines (src/receipts). "meta": Meta's Muse Spark reads the photo twice (the whole photo, and the numbered
@@ -224,6 +226,10 @@ export class ReceiptReading {
     if (own) return { parsed: own.parsed as ParsedReceipt, classified: own.classified as StoredClassification, reader: "copy", usage: [], ...boxesOf(own.checks) };
 
     const key = (p: ParsedReceipt) => classificationKey(p, input.needs, input.rules);
+    // Meta passes a line only when its two readings agree. A reading kept without its second one (a recording with no
+    // recorded classification, a stored reading of another pipeline or for other needs) is not classified alone on
+    // that path: the photo is read twice, as a new one is. A kept answer that is complete is still used as it is.
+    const twoReadings = this.live?.pipeline === "meta";
 
     const look = input.sampleLook;
     const exact = this.answers.get(input.sha256);
@@ -235,7 +241,10 @@ export class ReceiptReading {
         ...(exact && saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {}),
         ...(exact && saved.bands && saved.purchaseLines ? this.rowsOf(input.image, saved.bands, saved.bandTexts ?? {}, saved.purchaseLines) : {}),
       };
-      if (key(parsed) !== saved.classifiedFor) return { ...(await this.classifyLive(input, parsed, [])), ...boxes };
+      if (key(parsed) !== saved.classifiedFor) {
+        if (twoReadings) return this.readLive(input);
+        return { ...(await this.classifyLive(input, parsed, [])), ...boxes };
+      }
       return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [], ...boxes };
     }
 
@@ -247,6 +256,7 @@ export class ReceiptReading {
         const { lines } = await new RecordedClassifier(this.recordings).classify({ receipt: parsed, needs: input.needs, rules: input.rules });
         return { parsed, classified: { key: key(parsed), lines }, reader: "recorded", usage: [], ...rows };
       }
+      if (twoReadings) return this.readLive(input);
       return { ...(await this.classifyLive(input, parsed, [])), ...rows };
     }
 
@@ -254,10 +264,19 @@ export class ReceiptReading {
     if (stored) {
       const parsed = stored.parsed as ParsedReceipt;
       const cls = stored.classified as StoredClassification | null;
-      if (cls && cls.key === key(parsed)) return { parsed, classified: cls, reader: "copy", usage: [], ...boxesOf(stored.checks) };
-      return { ...(await this.classifyLive(input, parsed, [])), ...boxesOf(stored.checks) };
+      const kept = boxesOf(stored.checks);
+      // On Meta's path only a two-reading answer is copied: it carries the rows that close the published photo.
+      const complete = !twoReadings || (kept.bands !== undefined && kept.purchaseLines !== undefined);
+      if (cls && cls.key === key(parsed) && complete) return { parsed, classified: cls, reader: "copy", usage: [], ...kept };
+      if (twoReadings) return this.readLive(input);
+      return { ...(await this.classifyLive(input, parsed, [])), ...kept };
     }
 
+    return this.readLive(input);
+  }
+
+  /** A new photo: the live pipeline reads it (Meta: both readings, the rows, the agreement, the closed copy). */
+  private async readLive(input: ReadInput): Promise<Reading> {
     const models = await this.liveModels(input);
     const { receipt: parsed, usage, lineBoxes, second } = await this.guard(() =>
       models.reader.read(input.image, { currency: input.baseCurrency, languages: LANGUAGES[input.baseCurrency] ?? ["en"] }),

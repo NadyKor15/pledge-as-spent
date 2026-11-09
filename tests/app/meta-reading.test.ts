@@ -3,13 +3,14 @@ import { describe, expect, it } from "vitest";
 import { like } from "drizzle-orm";
 import { receipts, spendLedger } from "../../src/db/schema";
 import { sha256Hex } from "../../src/receipts/hash";
+import { receiptKey } from "../../src/receipts/recorded";
 import type { Band, PurchaseLine } from "../../src/receipts/types";
 import { ReceiptReading, type CloseReceipt } from "../../src/server/reading";
 import { closeReceipt, isClosedCopy } from "../../src/receipts/close";
 import { PgSpendLedger, META_READ_CAP_MAX_USD, PgMetaReadLedger } from "../../src/server/spend";
 import { demoDrive } from "../../src/server/demo";
 import { fakeSandbox } from "./support/fake-sandbox";
-import { harness, heroBytes } from "./support/harness";
+import { harness, heroBytes, loadRecordings } from "./support/harness";
 
 // The production path of reading by Meta: a fake Model API answers (no test reaches Meta), the spend goes to its own
 // rows with its own ceiling, the rows of each purchase line are kept with the receipt, and only the closed copy of
@@ -102,6 +103,82 @@ describe("live reading by Meta", () => {
     const reading = new ReceiptReading(h.db.db, { answers: [], recordings: { readings: {}, classifications: {} } }, { liveReadsPerDay: 5, spendCapUsd: 5, liveReadMs: 30_000 }, { pipeline: "meta", meta: { apiKey: "k", capUsd: 0.001, fetch: meta.fetch } });
     await expect(reading.read({ driveId: "demo-meta-cap", image: { bytes, mediaType: "image/png" }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() })).rejects.toMatchObject({ code: "spend_cap" });
     expect(meta.sent).toHaveLength(0);
+  });
+
+  // Meta passes a line only when two readings agree. A reading kept from elsewhere without its second one (a recorded
+  // reading with no recorded classification, a stored reading of another pipeline or for other needs) is never
+  // classified alone on this path: the photo is read twice, as a new one is.
+  describe("a reading without its second one is read again by Meta", () => {
+    const heroParsed = () => loadRecordings().readings[sha256Hex(heroBytes())];
+
+    async function expectFullLiveRead(h: Awaited<ReturnType<typeof harness>>, driveId: string, sent: unknown[], before: number) {
+      const out = await h.svc.submitReceipt({ driveId, bytes: freshPhoto() });
+      expect(out.receipt.reader).toBe("live:meta");
+      // Reading A, reading B (the rows), one classification of both.
+      expect(sent).toHaveLength(before + 3);
+      expect(out.receipt.lines.map((l) => [l.lineNo, l.needId])).toEqual([[1, "water"]]);
+      expect(out.receipt.lines.every((l) => !/no second reading was made/.test(l.reasonEn ?? ""))).toBe(true);
+      const [row] = await h.db.db.select().from(receipts).where(like(receipts.id, `${driveId}.%`));
+      expect((row.checks as { purchaseLines?: PurchaseLine[] }).purchaseLines).toEqual([{ lineNo: 1, bandIndexes: [12, 13] }]);
+      expect(isClosedCopy(row.imageRedacted!)).toBe(true);
+      return out;
+    }
+
+    it("a recorded reading with no recorded classification", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const recordings = { readings: { [sha256Hex(freshPhoto())]: heroParsed() }, classifications: {} };
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch }, recordings });
+      const driveId = (await h.svc.createDemoDrive({ driveId: "demo-meta-half" })).drive.id;
+      await expectFullLiveRead(h, driveId, meta.sent, 0);
+    });
+
+    it("a stored reading of another pipeline, matched against other needs", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
+      const first = (await h.svc.createDemoDrive({ driveId: "demo-meta-old" })).drive.id;
+      await h.svc.submitReceipt({ driveId: first, bytes: freshPhoto() });
+      // As on the server: the photo was read on 1 November by OCR + Nova, for a drive whose needs have changed since.
+      const [old] = await h.db.db.select().from(receipts).where(like(receipts.id, `${first}.%`));
+      await h.db.db
+        .update(receipts)
+        .set({ reader: "live:ocr-pro", checks: { flags: [] }, classified: { ...(old.classified as object), key: "matched-against-other-needs" } })
+        .where(like(receipts.id, `${first}.%`));
+      const second = (await h.svc.createDemoDrive({ driveId: "demo-meta-new" })).drive.id;
+      await expectFullLiveRead(h, second, meta.sent, 3);
+    });
+
+    it("a stored reading of another pipeline keeps no rows, so it is not copied either", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
+      const first = (await h.svc.createDemoDrive({ driveId: "demo-meta-ocr" })).drive.id;
+      await h.svc.submitReceipt({ driveId: first, bytes: freshPhoto() });
+      await h.db.db.update(receipts).set({ reader: "live:ocr-pro", checks: { flags: [] } }).where(like(receipts.id, `${first}.%`));
+      const second = (await h.svc.createDemoDrive({ driveId: "demo-meta-ocr2" })).drive.id;
+      await expectFullLiveRead(h, second, meta.sent, 3);
+    });
+
+    it("a two-reading answer stored in another drive is still copied, with no model call", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
+      await h.svc.submitReceipt({ driveId: (await h.svc.createDemoDrive({ driveId: "demo-meta-a" })).drive.id, bytes: freshPhoto() });
+      const b = (await h.svc.createDemoDrive({ driveId: "demo-meta-b" })).drive.id;
+      const out = await h.svc.submitReceipt({ driveId: b, bytes: freshPhoto() });
+      expect(out.receipt.reader).toBe("copy");
+      expect(meta.sent).toHaveLength(3);
+      const [row] = await h.db.db.select().from(receipts).where(like(receipts.id, `${b}.%`));
+      expect(isClosedCopy(row.imageRedacted!)).toBe(true);
+    });
+
+    it("a full recorded pair is still replayed, with no model call", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const parsed = heroParsed();
+      const recordings = { readings: { [sha256Hex(freshPhoto())]: parsed }, classifications: { [receiptKey(parsed)]: loadRecordings().classifications[receiptKey(parsed)] } };
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch }, recordings });
+      const driveId = (await h.svc.createDemoDrive({ driveId: "demo-meta-pair" })).drive.id;
+      const out = await h.svc.submitReceipt({ driveId, bytes: freshPhoto() });
+      expect(out.receipt.reader).toBe("recorded");
+      expect(meta.sent).toHaveLength(0);
+    });
   });
 
   it("is off without its key and ceiling: the sample receipt is offered instead", async () => {
