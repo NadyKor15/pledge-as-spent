@@ -260,7 +260,9 @@ export class ReceiptReading {
       return { ...(await this.classifyLive(input, parsed, [])), ...rows };
     }
 
-    const stored = sameSha.find((r) => r.reader.startsWith("live:") || r.reader === "copy");
+    const reusable = sameSha.filter((r) => r.reader.startsWith("live:") || r.reader === "copy");
+    // On Meta's path the oldest reading that kept its rows, so one row-less older reading does not cost every new drive a live one.
+    const stored = (twoReadings ? reusable.find((r) => RowsKept.safeParse(r.checks ?? {}).data?.purchaseLines) : undefined) ?? reusable[0];
     if (stored) {
       const parsed = stored.parsed as ParsedReceipt;
       const cls = stored.classified as StoredClassification | null;

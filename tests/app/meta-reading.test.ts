@@ -157,6 +157,21 @@ describe("live reading by Meta", () => {
       await expectFullLiveRead(h, second, meta.sent, 3);
     });
 
+    it("once read twice, the photo is copied from that reading, not from the older one without rows", async () => {
+      const meta = fakeMeta([A, B, CLS]);
+      const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
+      const first = (await h.svc.createDemoDrive({ driveId: "demo-meta-old1" })).drive.id;
+      await h.svc.submitReceipt({ driveId: first, bytes: freshPhoto() });
+      await h.db.db.update(receipts).set({ reader: "live:ocr-pro", checks: { flags: [] } }).where(like(receipts.id, `${first}.%`));
+      await expectFullLiveRead(h, (await h.svc.createDemoDrive({ driveId: "demo-meta-old2" })).drive.id, meta.sent, 3);
+      const third = (await h.svc.createDemoDrive({ driveId: "demo-meta-old3" })).drive.id;
+      const out = await h.svc.submitReceipt({ driveId: third, bytes: freshPhoto() });
+      expect(out.receipt.reader).toBe("copy");
+      expect(meta.sent).toHaveLength(6);
+      const [row] = await h.db.db.select().from(receipts).where(like(receipts.id, `${third}.%`));
+      expect(isClosedCopy(row.imageRedacted!)).toBe(true);
+    });
+
     it("a two-reading answer stored in another drive is still copied, with no model call", async () => {
       const meta = fakeMeta([A, B, CLS]);
       const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
