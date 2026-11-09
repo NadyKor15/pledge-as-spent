@@ -54,7 +54,7 @@ async function main() {
     if (shut.length || plan.lines.length !== reading.lines.length) throw new Error(`${name}: lines not opened: ${shut.map((l) => `${l.lineNo} (${l.why})`).join(", ")}`);
     const closed = closeReceipt({ bytes, mediaType: "image/png" }, bands, purchaseLines);
     if (!closed || !isClosedCopy(closed)) throw new Error(`${name}: no closed copy`);
-    const leak = closedLeak(t, closed, bands, purchaseLines);
+    const leak = closedLeak(t, closed, bands, purchaseLines, bytes);
     if (leak) throw new Error(`${name}: ${leak}`);
     const out = {
       imageSha256: sha,

@@ -105,7 +105,7 @@ export function openPlan(bands: readonly Band[], purchaseLines: readonly Purchas
  * Pixels of a polygon, by their centres: a pixel belongs to it when (x + 0.5, y + 0.5) lies inside (even-odd rule,
  * half-open across, so two bands that share an edge never both take a pixel on it).
  */
-function fillPolygon(mask: Uint8Array, width: number, height: number, poly: Point[], value: number): void {
+function eachPixel(width: number, height: number, poly: Point[], at: (p: number) => void): void {
   const ys = poly.map((p) => p[1]);
   const top = Math.max(0, Math.floor(Math.min(...ys)));
   const bottom = Math.min(height - 1, Math.ceil(Math.max(...ys)));
@@ -123,20 +123,103 @@ function fillPolygon(mask: Uint8Array, width: number, height: number, poly: Poin
     for (let k = 0; k + 1 < xs.length; k += 2) {
       const from = Math.max(0, Math.ceil(xs[k] - 0.5));
       const to = Math.min(width, Math.ceil(xs[k + 1] - 0.5));
-      for (let x = from; x < to; x++) mask[y * width + x] = value;
+      for (let x = from; x < to; x++) at(y * width + x);
     }
   }
+}
+
+function fillPolygon(mask: Uint8Array, width: number, height: number, poly: Point[], value: number): void {
+  eachPixel(width, height, poly, (p) => (mask[p] = value));
+}
+
+const lum = (d: Uint8Array, i: number) => 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+
+/** Print, for the seams: a pixel darker than this (luminance 0..255). The closing measure counts print the same way. */
+export const PRINT_LUM = 120;
+
+/** A gap between two open bands taller than this share of the receipt's usual band could hold a row of its own. */
+const SEAM = 1 / 3;
+
+/**
+ * A band that lies as a row does: corners clockwise from top left, its top and bottom edges running left to right and
+ * more across than down, the bottom below the top. Only between two such bands is "the gap between them" well drawn.
+ */
+function lying(q: Point[]): boolean {
+  const [tl, tr, br, bl] = q;
+  const across = (a: Point, b: Point) => b[0] > a[0] && Math.abs(b[1] - a[1]) <= b[0] - a[0];
+  return across(tl, tr) && across(bl, br) && bl[1] > tl[1] && br[1] > tr[1];
+}
+
+/** y of the edge a→b at x (the edge runs left to right). */
+const edgeY = (a: Point, b: Point, x: number) => a[1] + ((x - a[0]) * (b[1] - a[1])) / (b[0] - a[0]);
+
+/**
+ * The seam between two open bands that follow each other (`upper` then `lower`), or null when it must stay closed.
+ * The seam is every pixel whose centre lies between the upper band's bottom edge and the lower band's top edge, across
+ * only where both edges run, and inside no band. It opens whole or not at all: null when the two do not lie as rows,
+ * when the gap is taller than a third of the receipt's usual band, when any other band reaches into it, or when any
+ * of its pixels is print. An empty list: the two bands touch or overlap, there is nothing between them.
+ */
+function seam(photo: Raster, owner: Int32Array, upper: { q: Point[]; at: number }, lower: { q: Point[]; at: number }, usual: number): number[] | null {
+  if (!lying(upper.q) || !lying(lower.q)) return null;
+  const [, , br, bl] = upper.q;
+  const [tl, tr] = lower.q;
+  const xa = Math.max(bl[0], tl[0]);
+  const xb = Math.min(br[0], tr[0]);
+  if (!(xb > xa)) return [];
+  const gap = (x: number) => edgeY(tl, tr, x) - edgeY(bl, br, x);
+  if (Math.max(gap(xa), gap(xb)) > SEAM * usual) return null;
+  const { width: w, height: h, data } = photo;
+  const out: number[] = [];
+  for (let x = Math.max(0, Math.ceil(xa - 0.5)); x < Math.min(w, Math.ceil(xb - 0.5)); x++) {
+    const xc = x + 0.5;
+    const from = Math.max(0, Math.ceil(edgeY(bl, br, xc) - 0.5));
+    const to = Math.min(h, Math.ceil(edgeY(tl, tr, xc) - 0.5));
+    for (let y = from; y < to; y++) {
+      const p = y * w + x;
+      const o = owner[p];
+      if (o === upper.at || o === lower.at) continue; // the pair's own pixel, open already
+      if (o !== 0) return null; // another band, or two
+      if (lum(data, p * 4) < PRINT_LUM) return null;
+      out.push(p);
+    }
+  }
+  return out;
 }
 
 /**
  * 1 where the photo stays as printed: inside an open band and inside no other band. Where a closed band and an open
  * one overlap, the closed one wins.
+ *
+ * With the photo, also the seams: the hairline of paper the reader's bands leave between two rows. A seam opens only
+ * between two OPEN bands that follow each other (index k and k + 1: rows of one purchase line, or the last row of a
+ * line and the first of the next), only across where both bands run, and only when no pixel of it is print; then it
+ * shows plain paper that sits between two rows already shown. Next to a closed band, nothing beyond the open bands
+ * opens. Without the photo, only the bands: nothing that has not been looked at opens.
  */
-export function openMask(width: number, height: number, bands: readonly Band[], purchaseLines: readonly PurchaseLine[]): Uint8Array {
+export function openMask(width: number, height: number, bands: readonly Band[], purchaseLines: readonly PurchaseLine[], photo?: Raster): Uint8Array {
   const mask = new Uint8Array(width * height);
   const plan = openPlan(bands, purchaseLines);
   const open = new Set(plan.open.map((b) => b.index));
   for (const b of plan.open) fillPolygon(mask, width, height, corners(b)!, 1);
+  if (photo && photo.width === width && photo.height === height && plan.open.length > 1) {
+    // Which band each pixel belongs to: its place in `bands` + 1, 0 for none, -1 for more than one.
+    const owner = new Int32Array(width * height);
+    const drawn: { b: Band; q: Point[]; at: number }[] = [];
+    bands.forEach((b, i) => {
+      const q = b ? corners(b) : null;
+      if (!q) return;
+      drawn.push({ b, q, at: i + 1 });
+      eachPixel(width, height, q, (p) => (owner[p] = owner[p] === 0 ? i + 1 : -1));
+    });
+    const usual = median(drawn.map((d) => heightOf(d.q)));
+    const byIndex = new Map(drawn.filter((d) => open.has(d.b.index)).map((d) => [d.b.index, d]));
+    for (const [k, upper] of byIndex) {
+      const lower = byIndex.get(k + 1);
+      if (!lower) continue;
+      for (const p of seam(photo, owner, upper, lower, usual) ?? []) mask[p] = 1;
+    }
+  }
   for (const b of bands) {
     if (!b || open.has(b.index)) continue;
     const q = corners(b);
@@ -144,8 +227,6 @@ export function openMask(width: number, height: number, bands: readonly Band[], 
   }
   return mask;
 }
-
-const lum = (d: Uint8Array, i: number) => 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
 
 /**
  * The photo without print: in cells much larger than a letter, the colour of the brightest part of each cell (paper
@@ -252,7 +333,7 @@ export function smoothBackground(img: Raster): Uint8Array {
 
 /** The closed raster: the original inside the open mask, the smooth background everywhere else. Same size. */
 export function closeRaster(img: Raster, bands: readonly Band[], purchaseLines: readonly PurchaseLine[]): Raster {
-  const mask = openMask(img.width, img.height, bands, purchaseLines);
+  const mask = openMask(img.width, img.height, bands, purchaseLines, img);
   const out = smoothBackground(img);
   for (let p = 0; p < mask.length; p++) {
     if (!mask[p]) continue;

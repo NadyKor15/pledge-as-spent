@@ -126,12 +126,13 @@ function boxPixels(w: number, h: number, b: { x: number; y: number; w: number; h
 }
 
 /**
- * Why a closed copy must not be published, or null: a pixel of a personal-data box inside the open area, or a dark
- * pixel (print) left in one on the closed image itself.
+ * Why a closed copy must not be published, or null: a pixel of a personal-data box inside the open area (the bands
+ * and the seams the closing opened between them, read off the original photo as the closing did), or a dark pixel
+ * (print) left in one on the closed image itself.
  */
-export function closedLeak(t: Truth, closed: Uint8Array, bands: readonly Band[], purchaseLines: readonly PurchaseLine[]): string | null {
+export function closedLeak(t: Truth, closed: Uint8Array, bands: readonly Band[], purchaseLines: readonly PurchaseLine[], original: Uint8Array): string | null {
   const img = decodeRaster(closed);
-  const mask = openMask(img.width, img.height, bands, purchaseLines);
+  const mask = openMask(img.width, img.height, bands, purchaseLines, decodeRaster(original));
   const d = img.data;
   for (const [i, p] of t.receipt.pii.entries()) {
     if (!p.bbox) return `personal data #${i} (${p.kind}) has no box`;

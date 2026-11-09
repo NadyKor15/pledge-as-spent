@@ -12,16 +12,19 @@
 // same photo size, the personal data's boxes where the truth has them, and the corner method against the browser's
 // own box of each personal-data span. A receipt that fails a check is reported, not measured.
 //
-// A leak: any pixel of a personal-data box (card number, member number, name) inside the open area; and, read off the
-// closed image itself, any dark pixel left in such a box. A lost line: any pixel of a purchase line's printed rows
-// closed, or not the photo's own. Two controls show the counters can see: opening every row must leak every item,
-// opening none must lose every line.
+// The open area is the closing's own (openMask with the photo): the bands of the purchase lines and the print-free
+// seams it opens between two of them. A leak: any pixel of a personal-data box (card number, member number, name)
+// inside the open area; and, read off the closed image itself, any dark pixel left in such a box. A lost line: any
+// pixel of PRINT (darker than PRINT_LUM on the photo) inside a purchase line's printed rows closed, or not the photo's
+// own on the closed copy; that is what a reader would miss. Paper closed inside those rows (a hairline between two
+// bands, a band's edge) is counted apart, not gated: it shows as a seam, it hides nothing. Two controls show the
+// counters can see: opening every row must leak every item, opening none must lose every line.
 
 import { chromium, type Page } from "@playwright/test";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { closeBytes, closeReceipt, decodeRaster, isClosedCopy, openMask, type Band, type PurchaseLine, type Raster } from "../../src/receipts/close";
+import { closeBytes, closeReceipt, decodeRaster, isClosedCopy, openMask, PRINT_LUM, type Band, type PurchaseLine, type Raster } from "../../src/receipts/close";
 import { rendered, rerenderProblem, type Geometry, type Quad } from "../receipts/rows";
 import { Truth } from "../receipts/truth";
 
@@ -90,6 +93,7 @@ interface Row {
   darkLeftInPii: number;
   lines: number;
   lost: number;
+  paperClosedInLines: number;
   otherRowsOpen: number;
   openShare: number;
   controlAllOpenLeaks: number;
@@ -99,7 +103,7 @@ interface Row {
 
 async function measure(page: Page, file: string, outDir: string): Promise<Row> {
   const t = Truth.parse(JSON.parse(await readFile(path.join(SET, file), "utf8")));
-  const row: Row = { id: t.id, ok: false, problem: null, sameShot: false, cornerCheckPx: 0, piiBoxGapMax: 0, pii: t.receipt.pii.length, leaks: 0, darkLeftInPii: 0, lines: t.receipt.lines.length, lost: 0, otherRowsOpen: 0, openShare: 0, controlAllOpenLeaks: 0, controlNoneLost: 0, file: null };
+  const row: Row = { id: t.id, ok: false, problem: null, sameShot: false, cornerCheckPx: 0, piiBoxGapMax: 0, pii: t.receipt.pii.length, leaks: 0, darkLeftInPii: 0, lines: t.receipt.lines.length, lost: 0, paperClosedInLines: 0, otherRowsOpen: 0, openShare: 0, controlAllOpenLeaks: 0, controlNoneLost: 0, file: null };
   const { size, pii, geo, sameShot } = await rendered(page, t);
   row.sameShot = sameShot;
   row.cornerCheckPx = Math.round(geo.cornerCheckPx * 100) / 100;
@@ -117,19 +121,22 @@ async function measure(page: Page, file: string, outDir: string): Promise<Row> {
   await writeFile(path.join(outDir, name), closed);
   row.file = name;
   const after: Raster = decodeRaster(closed);
-  const mask = openMask(W, H, bands, purchase);
+  const mask = openMask(W, H, bands, purchase, before);
   const open = mask.reduce((s, v) => s + v, 0);
   row.openShare = Math.round((open / (W * H)) * 1000) / 1000;
 
   const leaksWith = (m: Uint8Array) => t.receipt.pii.filter((p) => rectPixels(W, H, p.bbox!).some((q) => m[q])).length;
   row.leaks = leaksWith(mask);
-  for (const p of t.receipt.pii) row.darkLeftInPii += rectPixels(W, H, p.bbox!).filter((q) => lum(after.data, q * 4) < 120).length;
+  for (const p of t.receipt.pii) row.darkLeftInPii += rectPixels(W, H, p.bbox!).filter((q) => lum(after.data, q * 4) < PRINT_LUM).length;
 
   const purchaseRows = new Set(geo.purchase.flatMap((l) => l.bandIndexes)); // printed rows of the purchase lines, from the truth
   const same = (q: number) => after.data[q * 4] === before.data[q * 4] && after.data[q * 4 + 1] === before.data[q * 4 + 1] && after.data[q * 4 + 2] === before.data[q * 4 + 2];
-  const lostWith = (m: Uint8Array, img: Raster | null) =>
-    geo.purchase.filter((l) => l.bandIndexes.some((i) => inside(W, H, geo.frames[i - 1]).some((q) => !m[q] || (img !== null && !same(q))))).length;
+  const print = (q: number) => lum(before.data, q * 4) < PRINT_LUM;
+  const lineRows = geo.purchase.map((l) => l.bandIndexes.flatMap((i) => inside(W, H, geo.frames[i - 1])));
+  const shut = (m: Uint8Array, img: Raster | null) => (q: number) => !m[q] || (img !== null && !same(q));
+  const lostWith = (m: Uint8Array, img: Raster | null) => lineRows.filter((px) => px.some((q) => print(q) && shut(m, img)(q))).length;
   row.lost = lostWith(mask, after);
+  row.paperClosedInLines = lineRows.reduce((s, px) => s + px.filter((q) => !print(q) && shut(mask, after)(q)).length, 0);
   row.otherRowsOpen = geo.frames.filter((f, i) => !purchaseRows.has(i + 1) && inside(W, H, f).some((q) => mask[q])).length;
 
   // Controls: the same counters must light up when the closing is wrong on purpose.
@@ -157,7 +164,7 @@ async function main() {
     for (const f of files) {
       const r = await measure(page, f, outDir);
       rows.push(r);
-      console.log(`${r.id}  ${r.ok ? "ok" : "FAIL"}  leaks ${r.leaks}/${r.pii}  dark ${r.darkLeftInPii}  lost ${r.lost}/${r.lines}  other rows open ${r.otherRowsOpen}  controls ${r.controlAllOpenLeaks}/${r.pii} ${r.controlNoneLost}/${r.lines}${r.problem ? `  ${r.problem}` : ""}`);
+      console.log(`${r.id}  ${r.ok ? "ok" : "FAIL"}  leaks ${r.leaks}/${r.pii}  dark ${r.darkLeftInPii}  lost ${r.lost}/${r.lines}  paper closed ${r.paperClosedInLines}  other rows open ${r.otherRowsOpen}  controls ${r.controlAllOpenLeaks}/${r.pii} ${r.controlNoneLost}/${r.lines}${r.problem ? `  ${r.problem}` : ""}`);
     }
   } finally {
     await browser.close();
@@ -172,6 +179,7 @@ async function main() {
     darkLeftInPii: sum("darkLeftInPii"),
     lines: sum("lines"),
     lost: sum("lost"),
+    paperClosedInLines: sum("paperClosedInLines"),
     otherRowsOpen: sum("otherRowsOpen"),
     controlAllOpenLeaks: sum("controlAllOpenLeaks"),
     controlNoneLost: sum("controlNoneLost"),
@@ -187,7 +195,8 @@ async function main() {
     `|---|---|`,
     `| Personal data items with a pixel in the open area | ${totals.leaks} of ${totals.pii} |`,
     `| Dark pixels left inside personal-data boxes on the closed images | ${totals.darkLeftInPii} |`,
-    `| Purchase lines with a pixel closed or changed | ${totals.lost} of ${totals.lines} |`,
+    `| Purchase lines with a pixel of print closed or changed | ${totals.lost} of ${totals.lines} |`,
+    `| Paper pixels closed or changed inside the purchase lines' rows (seams, band edges; not gated) | ${totals.paperClosedInLines} |`,
     `| Other printed rows (header, totals, payment) with a pixel open | ${totals.otherRowsOpen} |`,
     `| Control, every row opened: personal data items caught | ${totals.controlAllOpenLeaks} of ${totals.pii} |`,
     `| Control, no row opened: purchase lines caught as lost | ${totals.controlNoneLost} of ${totals.lines} |`,

@@ -210,6 +210,174 @@ describe("which bands open", () => {
   });
 });
 
+// Seams: the reader's bands of two neighbouring rows often leave a hairline of paper between them. Between two OPEN
+// bands such a hairline opens when it holds no print; next to a closed band, or with print in it, it stays closed.
+
+/** Flat rows of type at y t..t+10 (t = ROWS), on paper with a fine grain so the background never equals it. */
+function grained(marks: [number, number, number, number][] = []): Raster {
+  const data = new Uint8Array(W * H * 4);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const onPaper = x >= 6 && x < 214;
+      const inked = onPaper && x >= 14 && x < 206 && x % 4 < 2 && ROWS.some((t) => y >= t && y < t + 10);
+      const marked = marks.some(([x0, y0, x1, y1]) => x >= x0 && x < x1 && y >= y0 && y < y1);
+      const grain = ((x * 7 + y * 13) % 9) - 4;
+      const c = !onPaper ? DESK : inked || marked ? INK : (PAPER.map((v) => v + grain) as [number, number, number]);
+      data.set([c[0], c[1], c[2], 255], (y * W + x) * 4);
+    }
+  return { width: W, height: H, data };
+}
+
+/** Band k (1-based) over flat row k, from `up` px above the type to `down` px below it, x 8..212. */
+function flat(k: number, up = 8, down = 8): Band {
+  const t = ROWS[k - 1];
+  return { index: k, y0: t - up, y1: t + 10 + down, quad: [[8, t - up], [212, t - up], [212, t + 10 + down], [8, t + 10 + down]] };
+}
+const FLAT = [1, 2, 3, 4, 5].map((k) => flat(k)); // band 2 is y 42..68, band 3 is y 72..98: a seam of 4 rows
+
+/** Pixel indexes of the rectangle x0..x1-1, y0..y1-1. */
+function rect(x0: number, y0: number, x1: number, y1: number): number[] {
+  const out: number[] = [];
+  for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) out.push(y * W + x);
+  return out;
+}
+const SEAM_2_3 = rect(8, 68, 212, 72); // 4 rows x 204 columns, between band 2 (to y 68) and band 3 (from y 72)
+const sameAt = (a: Raster, b: Raster, p: number) => a.data[p * 4] === b.data[p * 4] && a.data[p * 4 + 1] === b.data[p * 4 + 1] && a.data[p * 4 + 2] === b.data[p * 4 + 2];
+
+describe("seams between open bands", () => {
+  it("a seam with no print between two open bands of neighbouring lines opens, as printed", () => {
+    const photo = grained();
+    const lines = [{ lineNo: 1, bandIndexes: [2] }, { lineNo: 2, bandIndexes: [3] }];
+    const m = openMask(W, H, FLAT, lines, photo);
+    expect(SEAM_2_3).toHaveLength(816);
+    expect(SEAM_2_3.filter((p) => m[p] === 1)).toHaveLength(816);
+    const out = decodeRaster(closeReceipt({ bytes: png(photo), mediaType: "image/png" }, FLAT, lines)!);
+    expect(SEAM_2_3.filter((p) => sameAt(out, photo, p))).toHaveLength(816);
+    // The seam is paper only: one row above and one below it are the bands' own.
+    expect(rect(8, 67, 212, 68).every((p) => m[p] === 1) && rect(8, 72, 212, 73).every((p) => m[p] === 1)).toBe(true);
+    // Across, the seam ends where the bands end.
+    expect(rect(0, 68, 8, 72).concat(rect(212, 68, W, 72)).some((p) => m[p])).toBe(false);
+  });
+
+  it("the same between two bands of one line", () => {
+    const photo = grained();
+    const m = openMask(W, H, FLAT, [{ lineNo: 1, bandIndexes: [2, 3] }], photo);
+    expect(SEAM_2_3.filter((p) => m[p] === 1)).toHaveLength(816);
+  });
+
+  it("a seam with print in it stays closed, all of it: a speck, or a row of small type such as a card number", () => {
+    const lines = [{ lineNo: 1, bandIndexes: [2] }, { lineNo: 2, bandIndexes: [3] }];
+    for (const mark of [[100, 69, 102, 71], [30, 69, 90, 71], [8, 71, 9, 72]] as [number, number, number, number][]) {
+      const photo = grained([mark]);
+      const m = openMask(W, H, FLAT, lines, photo);
+      expect(SEAM_2_3.filter((p) => m[p]), `mark ${mark}`).toHaveLength(0);
+      const out = decodeRaster(closeReceipt({ bytes: png(photo), mediaType: "image/png" }, FLAT, lines)!);
+      const [x0, y0, x1, y1] = mark;
+      expect(rect(x0, y0, x1, y1).filter((p) => lum(out.data, p * 4) < 120), `mark ${mark} on the copy`).toHaveLength(0);
+    }
+  });
+
+  it("a seam next to a closed band stays closed: above the first open band, below the last, and between them when the middle one is closed", () => {
+    const photo = grained();
+    const m = openMask(W, H, FLAT, [{ lineNo: 1, bandIndexes: [2] }, { lineNo: 2, bandIndexes: [4] }], photo);
+    for (const [y0, y1] of [[38, 42], [68, 72], [98, 102], [128, 132]]) expect(rect(8, y0, 212, y1).filter((p) => m[p]), `y ${y0}..${y1}`).toHaveLength(0);
+    // Band 3 is closed: nothing of it opens either.
+    expect(rect(8, 72, 212, 98).filter((p) => m[p])).toHaveLength(0);
+  });
+
+  it("a gap taller than a third of the usual band, or one another band reaches into, stays closed", () => {
+    const photo = grained();
+    const lines = [{ lineNo: 1, bandIndexes: [2] }, { lineNo: 2, bandIndexes: [3] }];
+    // Bands 22 px high, 8 px apart (band 2 ends at y 68, band 3 starts at y 76): more than a third of a band.
+    const wide = [flat(1, 4, 8), flat(2, 4, 8), flat(3, 4, 8), flat(4, 4, 8), flat(5, 4, 8)];
+    const m = openMask(W, H, wide, lines, photo);
+    expect(rect(8, 67, 212, 68).every((p) => m[p] === 1) && rect(8, 76, 212, 77).every((p) => m[p] === 1)).toBe(true);
+    expect(rect(8, 68, 212, 76).filter((p) => m[p])).toHaveLength(0);
+    // A closed band across part of the seam.
+    const across: Band = { index: 6, y0: 0, y1: 0, quad: [[100, 66], [120, 66], [120, 74], [100, 74]] };
+    const n = openMask(W, H, [...FLAT, across], lines, photo);
+    expect(SEAM_2_3.filter((p) => n[p])).toHaveLength(0);
+  });
+
+  it("without the photo, only the bands open: what the photo is not checked for is not opened", () => {
+    const m = openMask(W, H, FLAT, [{ lineNo: 1, bandIndexes: [2, 3] }]);
+    expect(SEAM_2_3.filter((p) => m[p])).toHaveLength(0);
+  });
+
+  it("property: nothing opens outside the open bands but whole, print-free seams between two open neighbours", () => {
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+    let opened = 0;
+    for (let trial = 0; trial < 40; trial++) {
+      const slope = (rnd() - 0.5) * 0.16;
+      const tops = [14, 42, 70, 98, 126, 150].map((t) => t + Math.floor(rnd() * 4));
+      const marks: [number, number, number, number][] = [];
+      // Print between the rows now and then: a speck or a short row of small type.
+      for (let k = 0; k + 1 < tops.length; k++)
+        if (rnd() < 0.35) {
+          const x = 10 + Math.floor(rnd() * 180);
+          marks.push([x, tops[k] + 12 + Math.floor(rnd() * 6), x + 1 + Math.floor(rnd() * 30), tops[k] + 14 + Math.floor(rnd() * 6)]);
+        }
+      const data = new Uint8Array(W * H * 4);
+      for (let y = 0; y < H; y++)
+        for (let x = 0; x < W; x++) {
+          const onPaper = x >= 6 && x < 214;
+          const yy = y - slope * (x - 10);
+          const inked = onPaper && x >= 14 && x < 206 && x % 4 < 2 && tops.some((t) => yy >= t && yy < t + 10);
+          const marked = marks.some(([x0, y0, x1, y1]) => x >= x0 && x < x1 && yy >= y0 && yy < y1);
+          const grain = ((x * 7 + y * 13) % 9) - 4;
+          const c = !onPaper ? DESK : inked || marked ? INK : (PAPER.map((v) => v + grain) as [number, number, number]);
+          data.set([c[0], c[1], c[2], 255], (y * W + x) * 4);
+        }
+      const photo: Raster = { width: W, height: H, data };
+      const at = (x: number, y: number): [number, number] => [x, y + slope * (x - 10)];
+      const bands: Band[] = tops.map((t, i) => {
+        const y0 = t - 2 - rnd() * 6;
+        const y1 = t + 12 + rnd() * 6;
+        const x0 = 8 + Math.floor(rnd() * 3);
+        const x1 = 212 - Math.floor(rnd() * 3);
+        return { index: i + 1, y0, y1, quad: [at(x0, y0), at(x1, y0), at(x1, y1), at(x0, y1)] };
+      });
+      const lines: PurchaseLine[] = [];
+      for (const b of bands) if (rnd() < 0.6) lines.push({ lineNo: b.index, bandIndexes: [b.index] });
+      const openIdx = new Set(lines.map((l) => l.bandIndexes[0]));
+      const m = openMask(W, H, bands, lines, photo);
+      const plain = openMask(W, H, bands, lines);
+      const pixelsOf = (b: Band) => openMask(W, H, [b], [{ lineNo: 1, bandIndexes: [b.index] }]);
+      const closed = bands.filter((b) => !openIdx.has(b.index)).map(pixelsOf);
+      // The strip between band k's bottom edge and band k+1's top edge, where both edges reach, by pixel centres.
+      const strip = (k: number) => {
+        const [, , br, bl] = bands[k - 1].quad;
+        const [tl, tr] = bands[k].quad;
+        const out: number[] = [];
+        for (let y = 0; y < H; y++)
+          for (let x = 0; x < W; x++) {
+            const xc = x + 0.5;
+            const yc = y + 0.5;
+            if (xc < Math.max(bl[0], tl[0]) || xc >= Math.min(br[0], tr[0])) continue;
+            const yb = bl[1] + ((xc - bl[0]) * (br[1] - bl[1])) / (br[0] - bl[0]);
+            const yt = tl[1] + ((xc - tl[0]) * (tr[1] - tl[1])) / (tr[0] - tl[0]);
+            if (yc >= yb && yc < yt) out.push(y * W + x);
+          }
+        return out;
+      };
+      const strips = new Map<number, Set<number>>();
+      for (const k of openIdx) if (openIdx.has(k + 1)) strips.set(k, new Set(strip(k)));
+      for (let p = 0; p < W * H; p++) {
+        if (!m[p] || plain[p]) continue;
+        opened++;
+        expect(lum(photo.data, p * 4), `trial ${trial}: print opened at ${p % W},${Math.floor(p / W)}`).toBeGreaterThanOrEqual(120);
+        expect(closed.some((c) => c[p]), `trial ${trial}: a closed band opened`).toBe(false);
+        const k = [...strips.keys()].find((s) => strips.get(s)!.has(p));
+        expect(k, `trial ${trial}: ${p % W},${Math.floor(p / W)} is in no seam of two open bands`).toBeDefined();
+        // The whole seam is free of print.
+        expect([...strips.get(k!)!].filter((q) => !plain[q] && lum(photo.data, q * 4) < 120), `trial ${trial}: seam ${k} holds print`).toHaveLength(0);
+      }
+    }
+    expect(opened).toBeGreaterThan(2000);
+  });
+});
+
 describe("the background", () => {
   it("is smooth: no letter, digit or bar survives, only the light across paper and desk", () => {
     const img = drawn();

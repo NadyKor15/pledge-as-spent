@@ -106,7 +106,7 @@ async function publishable(page: Page, png: Uint8Array, t: Truth): Promise<{ jpg
   if (plan.lines.length !== t.receipt.lines.length) throw new Error(`${t.id}: ${plan.lines.length} lines placed, the reading has ${t.receipt.lines.length}`);
   const closed = closeReceipt({ bytes: png, mediaType: "image/png" }, r.geo.bands, r.geo.purchase);
   if (!closed || !isClosedCopy(closed)) throw new Error(`${t.id}: no closed copy: not publishing this photo`);
-  const leak = closedLeak(t, closed, r.geo.bands, r.geo.purchase);
+  const leak = closedLeak(t, closed, r.geo.bands, r.geo.purchase, png);
   if (leak) throw new Error(`${t.id}: ${leak}: not publishing this photo`);
   const raster = decodeRaster(closed);
   const jpg = encodeRaster(raster, "image/jpeg", { jpegQuality: 82 });
