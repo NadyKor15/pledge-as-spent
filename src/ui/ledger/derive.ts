@@ -173,7 +173,7 @@ const OVER: Hold["status"][] = ["voided", "expired", "captured", "denied"];
 const keptMinor = (r: LedgerRow) => (r.status === "uncollected" ? 0 : (r.amount ?? 0) - (r.reversed ?? 0));
 
 /** The same in the drive's currency. */
-function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
+export function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
   if (r.status === "uncollected") return 0;
   const back = r.reversed ?? 0;
   // All of it came back: nothing is left, whatever the rounding of each side says.

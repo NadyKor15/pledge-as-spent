@@ -1,0 +1,27 @@
+/* A need's bar in tones (need-meter.ts): bought, approved and waiting for PayPal, promised on holds, never charged.
+   The colours are the Ledger's own (ledger.css .lg-screen); only their lighter mixes are made here. The finished bar
+   is the base rule: the grow animation starts from something else, so with reduced motion the bar is simply there. */
+.nm-bar { display: flex; height: calc(18px * var(--s)); margin-top: calc(10px * var(--s)); border-radius: 999px; background: #E4E6E8; overflow: hidden; transform-origin: left; animation: nm-grow .9s cubic-bezier(.3, 0, .2, 1) backwards; }
+.nm-seg { display: block; flex: none; height: 100%; }
+.nm-bought { background: var(--spent); }
+.nm-waiting { background: repeating-linear-gradient(135deg, var(--spent) 0 4px, color-mix(in srgb, var(--spent) 40%, #FFFFFF) 4px 8px); }
+.nm-promised { background: var(--held); }
+.nm-never { background: color-mix(in srgb, var(--back) 22%, #C9CED4); }
+/* Under the bar: what the holds still promise, or what PayPal released. Two lines at most, kept the same height
+   whatever the amounts say, so a figure never moves the report. */
+.nm-money { margin-top: calc(6px * var(--s)); font-size: calc(15px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.lg-screen:lang(ja) .nm-money { word-break: keep-all; word-break: auto-phrase; line-break: strict; overflow-wrap: anywhere; }
+/* The tones on screen, under the needs. */
+.nm-legend { flex: none; display: flex; flex-wrap: wrap; gap: calc(4px * var(--s)) calc(16px * var(--s)); margin-top: calc(8px * var(--s)); padding-top: calc(8px * var(--s)); border-top: 1px solid var(--line); font-size: calc(13px * var(--s)); line-height: 1.3; color: var(--muted); }
+.nm-legend > span { display: flex; align-items: center; gap: 7px; }
+.nm-swatch { flex: none; width: 13px; height: 13px; border-radius: 3px; }
+
+[data-stacked="true"] .nm-bar { grid-column: 1 / -1; height: 13px; margin-top: 9px; }
+[data-stacked="true"] .nm-money { grid-column: 1 / -1; margin-top: 4px; font-size: 12.5px; min-height: calc(2 * 1.3em); }
+[data-stacked="true"] .nm-legend { gap: 2px 12px; margin-top: 2px; padding-top: 6px; font-size: 11.5px; min-height: calc(2 * 1.3em + 8px); align-content: flex-start; }
+[data-stacked="true"] .nm-swatch { width: 11px; height: 11px; }
+
+@keyframes nm-grow { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .nm-bar { animation: none; }
+}
