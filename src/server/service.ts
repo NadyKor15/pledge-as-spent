@@ -47,7 +47,7 @@ import type { Recordings } from "../receipts/recorded";
 import type { LineClassification, ParsedReceipt, ReceiptImage } from "../receipts/types";
 import { auditingFetch, collectCalls } from "./audit";
 import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from "./book";
-import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive, demoPledgeId, fxFor } from "./demo";
+import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_SCENARIOS, demoDrive, demoPledgeId, fxFor, isDemoScenarioId, type DemoScenarioId } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
 import { ReceiptReading, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
@@ -272,7 +272,9 @@ export class PledgeService {
     return rows.length > 0;
   }
 
-  async createDemoDrive(input: { ip?: string | null; driveId?: string; payoutEmail?: string | null; enforceLimit?: boolean } = {}): Promise<DriveView> {
+  async createDemoDrive(input: { ip?: string | null; driveId?: string; payoutEmail?: string | null; enforceLimit?: boolean; scenario?: DemoScenarioId } = {}): Promise<DriveView> {
+    const scenario = input.scenario ?? "kitasora";
+    if (!isDemoScenarioId(scenario)) throw new ServiceError(400, "unknown_scenario", `No demo scenario "${String(scenario)}"; the scenarios are kitasora and florida.`);
     this.gateway(); // no PayPal, no demo drive: refuse before anything is written
     const now = this.now();
     const ipHash = this.hashIp(input.ip);
@@ -292,7 +294,7 @@ export class PledgeService {
     const payoutEmail = input.payoutEmail !== undefined ? input.payoutEmail : (this.d.demoPayoutEmail ?? DEFAULT_DEMO_PAYOUT_EMAIL);
     await withDrive(this.db, driveId, async (b) => {
       if (b.state.drive) return;
-      const { drive, needs } = demoDrive(driveId, now);
+      const { drive, needs } = demoDrive(driveId, now, scenario);
       await b.append({ id: `opened:${driveId}`, type: "DriveOpened", at: now, driveId, drive, needs }, "app");
       await b.tx.insert(drives).values({
         id: driveId,
@@ -309,7 +311,7 @@ export class PledgeService {
       });
     });
     // Each hold is its own step with a request id derived from the pledge id: a rerun after a crash resumes, PayPal replays.
-    for (const p of DEMO_PLEDGES) {
+    for (const p of DEMO_SCENARIOS[scenario].pledges) {
       const pledgeId = demoPledgeId(driveId, p.key);
       const state = await this.openBook(driveId);
       if (lookup(state.pledges, pledgeId)) continue;

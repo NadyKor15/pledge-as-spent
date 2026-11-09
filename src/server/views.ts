@@ -5,7 +5,7 @@ import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledg
 import type { ReceiptFlag } from "../receipts/checks";
 import { LineBox, type ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
-import { DEMO_DISPLAY } from "./demo";
+import { demoDisplayFor, demoScenarioOf } from "./demo";
 import { ServiceError } from "./errors";
 import type { StoredClassification } from "./reading";
 
@@ -82,11 +82,21 @@ export async function driveView(db: Db, driveId: string) {
   const calls = await db.select().from(paypalCalls).where(eq(paypalCalls.driveId, driveId)).orderBy(asc(paypalCalls.id));
   const [count] = await db.select({ n: sql<number>`count(*)::int` }).from(events).where(eq(events.driveId, driveId));
   const demo = row?.demo ?? false;
+  const display = demo ? demoDisplayFor(state.drive) : null;
   return {
-    drive: { ...state.drive, demo, displayTitle: demo ? DEMO_DISPLAY.title : state.drive.title, volunteerName: demo ? DEMO_DISPLAY.volunteerName : null },
+    drive: {
+      ...state.drive,
+      demo,
+      displayTitle: display ? display.title : state.drive.title,
+      volunteerName: display ? display.volunteerName : null,
+      /** Demo drives: which scenario (kitasora, florida), its sample receipt and its shelter photo (null: none). */
+      scenario: demo ? (demoScenarioOf(state.drive)?.id ?? "kitasora") : null,
+      sample: demo ? (demoScenarioOf(state.drive)?.sample ?? "hero") : null,
+      shelterPhoto: display ? display.shelterPhoto : null,
+    },
     needs: state.needIds.map((id) => {
       const need = needProgress(state, id);
-      return { ...need, displayLabel: (demo ? DEMO_DISPLAY.needLabels[id] : undefined) ?? need.label };
+      return { ...need, displayLabel: display?.needLabels[id] ?? need.label };
     }),
     holds: state.pledgeIds.map((id) => {
       const p = state.pledges[id];
