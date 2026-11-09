@@ -180,7 +180,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
     { key: "held", stat: s.sHeld, value: m.held, word: "held", always: live },
     { key: "returning", stat: s.sBack, value: m.returning, word: "Returning at PayPal…", always: false },
     // Known once the hold is over: on a live hold "€0.00 never charged" would say nothing true yet.
-    { key: "never", stat: s.sNever, value: m.never, word: "never charged", always: !live && !returning },
+    { key: "never", stat: s.sRel, value: m.never, word: "never charged", always: !live && !returning },
     { key: "refunded", stat: s.sRefund, value: m.back, word: "refunded after capture", always: false },
   ].filter((p) => p.always || p.value > 0);
   return (
