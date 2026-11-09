@@ -120,18 +120,25 @@ describe("needMeter on an open drive", () => {
     const w = needMeter(v, "water");
     expect(w.promised).toBe(0);
     expect(w.never).toBe(0);
+    expect(w.returning).toBeGreaterThan(0);
     expect(meterLine(w, "en")).toBe("€15.42 on its way back at PayPal");
   });
 });
 
 describe("never charged only where PayPal released the hold", () => {
-  it("must differ: after a refund, Mark's rest is returned, not never charged; Lena's stays never charged", () => {
+  it("must differ: a refunded share is returned (charged, then given back); only what PayPal released is never charged", () => {
     const v = showcase();
-    refund(v, v.ledger.find((r) => r.kind === "donor_share" && r.donorName?.startsWith("Mark")) as LedgerRow);
+    const row = v.ledger.find((r) => r.kind === "donor_share" && r.donorName?.startsWith("Mark")) as LedgerRow;
+    refund(v, row);
     const d = needMeter(v, "diapers");
-    expect(d.never).toBe(0);
-    expect(d.neverIn).toEqual([]);
-    expect(meterLine(d, "en")).toMatch(/ returned$/);
+    expect(d.back).toBeGreaterThan(0);
+    expect(d.returnedIn).toEqual([{ currency: "USD", minor: row.amount }]);
+    expect(d.neverIn).toEqual([{ currency: "USD", minor: holdOf(v, "Mark").released }]);
+    expect(meterLine(d, "en")).toBe(`$8.55 never charged; $${((row.amount ?? 0) / 100).toFixed(2)} returned`);
+    expect(tonesOf([d])).toEqual(["bought", "never", "back"]);
+    // The need's rests add up to the donor's own rest in the drive's currency, whatever the split.
+    const mark = deriveLedger(v).donors.find((x) => x.name === "Mark")!;
+    expect(d.never + d.back).toBe(mark.heldBase + mark.backBase);
     expect(meterLine(needMeter(v, "water"), "en")).toBe("€15.42 never charged");
   });
 
@@ -140,7 +147,9 @@ describe("never charged only where PayPal released the hold", () => {
     Object.assign(holdOf(v, "Lena"), { status: "authorized", released: 0 });
     const w = needMeter(v, "water");
     expect(w.never).toBe(0);
+    expect(w.returning).toBe(deriveLedger(v).donors.find((x) => x.name === "Lena")!.backBase);
     expect(meterLine(w, "en")).toBe("€15.42 on its way back at PayPal");
+    expect(tonesOf([w])).toEqual(["bought", "returning"]);
   });
 });
 
@@ -170,7 +179,14 @@ describe("the shelter card draws the tones and the money lines", () => {
     const params = { context: { store }, widgetApi: { setDisplayState: () => {} } } as never;
     return renderToStaticMarkup(createElement(ShelterWidget, params));
   };
-  const tonesIn = (html: string) => [...html.matchAll(/class="nm-seg nm-(\w+)"/g)].map((x) => x[1]);
+  const tonesIn = (html: string) => [...html.matchAll(/<i class="nm-seg pas-seg pas-seg-\w+" data-tone="(\w+)"/g)].map((x) => x[1]);
+
+  it("each tone is drawn in the hold's own colour (hold-meter.css), so a need and a hold read alike", () => {
+    const html = render(openThreeTones(), "en");
+    expect(html).toContain('class="nm-seg pas-seg pas-seg-charged" data-tone="bought"');
+    expect(html).toContain('class="nm-seg pas-seg pas-seg-waiting" data-tone="waiting"');
+    expect(html).toContain('class="nm-seg pas-seg pas-seg-held" data-tone="promised"');
+  });
 
   it("closed showcase, EN / DE / JA: bought and never charged on each need, the line and a two-tone legend", () => {
     const v = showcase();

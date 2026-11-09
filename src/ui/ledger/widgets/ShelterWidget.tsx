@@ -4,14 +4,16 @@ import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
 import { NeedIcon } from "../../icons";
 import type { Lang } from "../../format";
-import { meterLabel, meterLine, meterWidths, needMeter, tonesOf, type NeedMeter, type Tone } from "../need-meter";
+import { meterLabel, meterLine, meterWidths, needMeter, TONE_PART, TONES, tonesOf, type NeedMeter, type Tone } from "../need-meter";
 import { focusOf, type Pick } from "../store";
 import { HOLD_WORDS } from "../words-hold";
 import { useWidget } from "./useWidget";
+import "../../hold-meter.css";
 import "../need-meter.css";
 
 // What the money became: the shelter's card, one row per need with the real count, and under it the need's money in
 // tones (need-meter.ts): bought, approved and waiting for PayPal, promised on holds nobody was charged for, never charged.
+// The tones are the holds' own parts and colours (hold-meter.css), so a need's bar and a donor's bar read alike.
 
 const PICTURES: Record<string, { src: string; w: number; h: number }> = {
   water: { src: "/ledger/water.png", w: 100, h: 150 },
@@ -31,7 +33,7 @@ export function NeedBar({ meter, lang, delay, empty }: { meter: NeedMeter | null
   const label = meter ? meterLabel(meter, lang) : "";
   return (
     <span className="nm-bar" role="img" aria-label={label || empty} style={{ animationDelay: `${delay}s` }}>
-      {widths && (Object.keys(widths) as Tone[]).map((t) => (widths[t] > 0 ? <span key={t} className={`nm-seg nm-${t}`} data-tone={t} style={{ width: `${widths[t]}%` }} /> : null))}
+      {widths && TONES.map((t) => (widths[t] > 0 ? <i key={t} className={`nm-seg pas-seg pas-seg-${TONE_PART[t]}`} data-tone={t} style={{ width: `${widths[t]}%` }} /> : null))}
     </span>
   );
 }
@@ -45,7 +47,7 @@ export function NeedLegend({ tones, lang }: { tones: Tone[]; lang: Lang }) {
     <div className="nm-legend" role="list" aria-label={w.legend}>
       {tones.map((t) => (
         <span key={t} role="listitem" data-tone={t}>
-          <span className={`nm-swatch nm-${t}`} aria-hidden="true" />
+          <span className={`nm-swatch pas-seg-${TONE_PART[t]}`} aria-hidden="true" />
           {w.tone[t]}
         </span>
       ))}

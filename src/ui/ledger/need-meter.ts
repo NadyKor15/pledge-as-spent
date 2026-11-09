@@ -1,37 +1,36 @@
-import { holdById, returningAtPayPal, shareStage } from "../derive";
+import { holdById, shareStage } from "../derive";
 import { moneyIn, type Lang } from "../format";
+import { meterParts, type MeterKey } from "../hold-meter";
 import type { DriveView } from "../types";
 import { deriveLedger, keptBase, type LedgerModel, type LedgerPhase } from "./derive";
 import { HOLD_WORDS } from "./words-hold";
 
-// A need's money in four tones, read from the drive view and nothing else: what PayPal took for it, what is approved
-// and waits for PayPal, what donors' holds still promise it (nobody charged), and on a closed drive what PayPal
-// released (never charged). The scale is the need's own total of these; its unit count stays the card's words.
+// A need's money in tones, read from the drive view and nothing else: what PayPal took for it, what is approved and
+// waits for PayPal, what donors' holds still promise it (nobody charged), and what left the holds: never charged when
+// PayPal released it, on its way back while a void is unanswered, returned after a refund. A hold's rest is split as
+// the hold's own bar splits it (hold-meter.ts meterParts). The scale is the need's own total; its count stays words.
 
-export type Tone = "bought" | "waiting" | "promised" | "never";
-export const TONES: readonly Tone[] = ["bought", "waiting", "promised", "never"];
+export type Tone = "bought" | "waiting" | "promised" | "returning" | "never" | "back";
+export const TONES: readonly Tone[] = ["bought", "waiting", "promised", "returning", "never", "back"];
+/** Each tone drawn as the hold's own part (hold-meter.css .pas-seg-*), so a need and a hold share their colours. */
+export const TONE_PART: Record<Tone, MeterKey> = { bought: "charged", waiting: "waiting", promised: "held", returning: "returning", never: "never", back: "back" };
 
 export interface Amount {
   currency: string;
   minor: number;
 }
 
-export interface NeedMeter {
+export interface NeedMeter extends Record<Tone, number> {
   needId: string;
   phase: LedgerPhase;
   baseCurrency: string;
-  /** In the drive's currency. bought + waiting count the donors' and the match's shares of the need's lines. */
-  bought: number;
-  waiting: number;
-  /** What the live holds of the need's donors still keep: promised, nobody charged. The match has no need: never here. */
-  promised: number;
-  /** The rest of a hold PayPal released (VOIDED or EXPIRED) with nothing refunded: never charged. */
-  never: number;
-  /** A rest that is neither: a void PayPal has not answered yet, or a rest after a refund. Drawn as the bare track. */
-  back: number;
-  /** The bar's 100 %. */
+  /**
+   * All in the drive's currency. bought + waiting: the donors' and the match's shares of the need's lines. promised:
+   * what the live holds of the need's donors still keep (the match has no need, so never here). returning: a void
+   * PayPal has not answered yet. never: released by PayPal, never charged. back: charged, then refunded.
+   */
   total: number;
-  /** The same rests in each donor's own currency, as the donors' holds count them. */
+  /** The holds' rests in each donor's own currency, as the donors' holds count them. */
   promisedIn: Amount[];
   neverIn: Amount[];
   onItsWayIn: Amount[];
@@ -47,6 +46,20 @@ function add(list: Amount[], currency: string, minor: number) {
   else list.push({ currency, minor });
 }
 
+/** Splits `whole` (drive currency) by `parts` (donor currency) in proportion; the last part takes the rounding. */
+function split(whole: number, parts: number[]): number[] {
+  const sum = parts.reduce((s, p) => s + p, 0);
+  if (sum <= 0) return parts.map(() => 0);
+  let left = whole;
+  const last = parts.reduce((at, p, i) => (p > 0 ? i : at), -1);
+  return parts.map((p, i) => {
+    if (i === last) return left;
+    const v = Math.round((whole * p) / sum);
+    left -= v;
+    return v;
+  });
+}
+
 /** One need's meter. Pass the Ledger's model when there is one: the holds' rests are its donors' own figures. */
 export function needMeter(view: DriveView, needId: string, model: LedgerModel = deriveLedger(view)): NeedMeter {
   const base = view.drive.baseCurrency;
@@ -58,6 +71,7 @@ export function needMeter(view: DriveView, needId: string, model: LedgerModel = 
     bought: 0,
     waiting: 0,
     promised: 0,
+    returning: 0,
     never: 0,
     back: 0,
     total: 0,
@@ -82,43 +96,36 @@ export function needMeter(view: DriveView, needId: string, model: LedgerModel = 
     if (h.kind !== "donor" || h.needId !== needId) continue;
     const d = model.donors.find((x) => x.pledgeId === h.pledgeId);
     if (!d) continue;
-    if (d.restWord === "held") {
-      // A live hold. Withdrawn and not yet voided by PayPal: on its way back, not a promise any more.
-      if (returningAtPayPal(h)) {
-        m.back += d.heldBase + d.backBase;
-        add(m.onItsWayIn, d.currency, d.held + d.back);
-        continue;
-      }
-      m.promised += d.heldBase;
-      add(m.promisedIn, d.currency, d.held);
-      if (d.held > 0) m.promisedBy.push(d.name);
-      m.back += d.backBase;
-      add(m.returnedIn, d.currency, d.back);
-    } else if (d.neverCharged) {
-      m.never += d.backBase;
-      add(m.neverIn, d.currency, d.back);
-    } else {
-      // Over without PayPal's release: the void is still on its way, or part was refunded after it was taken.
-      m.back += d.backBase;
-      add(h.status === "authorized" || h.status === "partially_captured" ? m.onItsWayIn : m.returnedIn, d.currency, d.back);
-    }
+    const p = meterParts(h);
+    // A closed drive keeps no promise: a hold still live there is waiting for PayPal to answer its void.
+    const promised = closed ? 0 : p.held;
+    const returning = p.returning + (closed ? p.held : 0);
+    const [pb, rb, nb, bb] = split(d.heldBase + d.backBase, [promised, returning, p.never, p.back]);
+    m.promised += pb;
+    m.returning += rb;
+    m.never += nb;
+    m.back += bb;
+    add(m.promisedIn, d.currency, promised);
+    if (promised > 0) m.promisedBy.push(d.name);
+    add(m.onItsWayIn, d.currency, returning);
+    add(m.neverIn, d.currency, p.never);
+    add(m.returnedIn, d.currency, p.back);
   }
 
-  m.total = m.bought + m.waiting + m.promised + m.never + m.back;
+  m.total = TONES.reduce((s, t) => s + m[t], 0);
   return m;
 }
 
 /** Each tone's share of the bar, in percent of the need's own total (0 for an empty need). */
 export function meterWidths(m: NeedMeter): Record<Tone, number> {
-  const pc = (v: number) => (m.total > 0 ? (v / m.total) * 100 : 0);
-  return { bought: pc(m.bought), waiting: pc(m.waiting), promised: pc(m.promised), never: pc(m.never) };
+  return Object.fromEntries(TONES.map((t) => [t, m.total > 0 ? (m[t] / m.total) * 100 : 0])) as Record<Tone, number>;
 }
 
 /** The tones a set of meters draws, in the legend's order. */
 export const tonesOf = (meters: NeedMeter[]): Tone[] => TONES.filter((t) => meters.some((m) => m[t] > 0));
 
 /** Each amount in the reader's language, kept whole on one line ("15,42 €" never breaks before its sign). */
-const amountsIn = (lang: Lang, list: Amount[]) => list.map((a) => moneyIn(lang, a.currency, a.minor).replace(/ /g, "\u00a0")).join(" · ");
+const amountsIn = (lang: Lang, list: Amount[]) => list.map((a) => moneyIn(lang, a.currency, a.minor).replace(/ /g, " ")).join(" · ");
 
 /** The line under the bar: "€X promised on Lena's hold, nobody charged", "€X never charged"; "" when neither. */
 export function meterLine(m: NeedMeter, lang: Lang): string {
