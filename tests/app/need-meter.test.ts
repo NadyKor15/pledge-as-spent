@@ -93,7 +93,9 @@ describe("needMeter on an open drive", () => {
     expect(w.promised).toBe(deriveLedger(v).donors.find((d) => d.name === "Lena")!.heldBase);
     expect(w.never).toBe(0);
     expect(w.total).toBe(w.bought + w.waiting + w.promised);
-    expect(meterLine(w, "en")).toBe("€15.42 promised on Lena’s hold, nobody charged");
+    expect(meterLine(w, "en")).toBe("€15.42 on Lena’s hold · nobody charged");
+    expect(meterLine(w, "de")).toBe("15,42 € reserviert · Lena nicht belastet");
+    expect(meterLine(w, "ja")).toBe("€15.42 Lenaの保留・請求なし");
     expect(tonesOf([w])).toEqual(["bought", "waiting", "promised"]);
     const pc = meterWidths(w);
     expect(pc.bought + pc.waiting + pc.promised).toBeCloseTo(100, 6);
@@ -109,9 +111,9 @@ describe("needMeter on an open drive", () => {
     holdOf(v, "Mark").needId = "water";
     const w = needMeter(v, "water");
     expect(w.promisedBy).toEqual(["Lena", "Mark"]);
-    expect(meterLine(w, "en")).toBe("€15.42 · $8.55 promised on 2 holds, nobody charged");
-    expect(meterLine(w, "de")).toBe("15,42 € · 8,55 $ zugesagt in 2 Reservierungen, niemand belastet");
-    expect(meterLine(w, "ja")).toMatch(/は2件の保留に約束済み・誰も請求されず$/);
+    expect(meterLine(w, "en")).toBe("€15.42 · $8.55 on 2 holds · nobody charged");
+    expect(meterLine(w, "de")).toBe("15,42 € · 8,55 $ in 2 Reservierungen · unbelastet");
+    expect(meterLine(w, "ja")).toMatch(/ 2件の保留・請求なし$/);
   });
 
   it("a withdrawn hold PayPal has not voided yet is on its way back, not promised and not never charged", () => {
@@ -210,7 +212,7 @@ describe("the shelter card draws the tones and the money lines", () => {
   it("open with three tones: the water bar has bought, waiting and promised, and the legend all three", () => {
     const html = render(openThreeTones(), "en");
     expect(tonesIn(html).slice(0, 3)).toEqual(["bought", "waiting", "promised"]);
-    expect(html).toContain("€15.42 promised on Lena’s hold, nobody charged");
+    expect(html).toContain("€15.42 on Lena’s hold · nobody charged");
     expect([...html.matchAll(/role="listitem" data-tone="(\w+)"/g)].map((x) => x[1])).toEqual(["bought", "waiting", "promised"]);
   });
 });
