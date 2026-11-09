@@ -75,6 +75,10 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-note { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: calc(18px * var(--s)); line-height: 1.25; color: #4A5160; }
 .lg-note-rest { color: var(--back); }
 [data-stacked="true"] .lg-note { padding: 0 8px; font-size: 13px; align-items: flex-start; }
+/* Japanese has no spaces between words, so a narrow note broke anywhere and left one kana alone on the next line
+   ("…引き落とし待" / "ち"). It breaks between phrases instead (keep-all where auto-phrase is unknown: then only at the
+   space after the amount), lines balanced; a phrase too long for the widget may still break rather than spill out. */
+.lg-screen:lang(ja) .lg-note p { word-break: keep-all; word-break: auto-phrase; line-break: strict; text-wrap: balance; overflow-wrap: anywhere; }
 .lg-nolines { position: absolute; z-index: 3; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 15px; }
 
 /* Cards */
