@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { api, useAction } from "./api";
-import { day, money } from "./format";
+import { day, money, qtyText } from "./format";
 import type { StatementView } from "./types";
 
 // "Move what is left to another need": one press on the donor's statement.
@@ -66,7 +66,7 @@ export function RebindOffer({ pledgeId, offer, labelOf, onMoved }: RebindOfferPr
           <label key={t.needId} style={{ ...choice, borderColor: pick === t.needId ? "var(--btn)" : "var(--line)" }}>
             <input type="radio" name={`rebind-${pledgeId}`} value={t.needId} checked={pick === t.needId} onChange={() => { setPick(t.needId); setConfirming(false); }} />
             <span>
-              {label(t.needId, t.label)} <span style={{ color: "var(--slate)" }}>· still needs {t.remainingQty} {t.unit}</span>
+              {label(t.needId, t.label)} <span style={{ color: "var(--slate)" }}>· still needs {qtyText(t.remainingQty, t.unit)}</span>
             </span>
           </label>
         ))}

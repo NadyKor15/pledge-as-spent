@@ -75,7 +75,7 @@ function unitNoun(unit: string): string | null {
   return !noun || noun === "piece" ? null : noun;
 }
 
-const plural = (noun: string, n: number) => (n === 1 ? noun : /(s|x|ch|sh)$/.test(noun) ? `${noun}es` : `${noun}s`);
+const plural = (noun: string, n: number) => (n === 1 ? noun : /(s|x|ch|sh)$/.test(noun) ? `${noun}es` : /[^aeiou]y$/.test(noun) ? `${noun.slice(0, -1)}ies` : `${noun}s`);
 
 /** "12 of 40 bottles"; "50 of 50" for pieces. */
 export function ofCount(covered: number, needed: number, unit: string): string {
