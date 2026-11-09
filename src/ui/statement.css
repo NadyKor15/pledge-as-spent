@@ -27,6 +27,9 @@
 .st-sumAmt { font-size: 26px; font-weight: 700; letter-spacing: -1.2px; }
 .st-sumLbl { margin-left: 7.7px; font-size: 12.8px; letter-spacing: -.5px; color: var(--slate); }
 .st-tag { float: right; margin-top: 6px; height: 22px; padding: 0 9px; border-radius: 6px; background: #EAEDF0; color: #4B535D; font-size: 11.6px; font-weight: 600; line-height: 22px; }
+.st-meter { margin: 4.9px .5px 0 -.4px; }
+.st-sNever b { color: var(--pas-never); }
+.st-sRefund b { color: #5B6472; }
 .st-bar { margin: 4.9px .5px 0 -.4px; height: 11.8px; border-radius: 5.9px; background: var(--track); display: flex; overflow: hidden; }
 .st-bar i { display: block; height: 100%; }
 .st-bSpent { background: var(--bar-green); }
@@ -43,7 +46,7 @@
 .st-sSpent b { color: var(--green); letter-spacing: -.9px; }
 .st-sWait b { color: var(--green); }
 .st-sHeld b { color: var(--held-ink); }
-.st-sBack b { color: var(--rel-ink); }
+.st-sBack b { color: var(--pas-never); }
 .st-sBack span { line-height: 14px; white-space: normal; }
 .st-sRel b { color: var(--rel-ink); letter-spacing: -1px; }
 .st-note { margin: 7px 14px 0; font-size: 11.6px; line-height: 16px; color: var(--no); }

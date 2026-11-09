@@ -78,7 +78,7 @@ const EN: CheckWords = {
   endsBy: (d) => `PayPal ends this hold by ${d}`,
   endDate: (d) => `End date PayPal set for this hold: ${d}`,
   bookSame: "our book: the same date",
-  bookOther: (d) => `our book: ${d}`,
+  bookOther: (d) => `our book differs: ${d}`,
 };
 
 const DE: CheckWords = {
@@ -121,7 +121,7 @@ const DE: CheckWords = {
   endsBy: (d) => `PayPal beendet diese Reservierung spätestens am ${d}`,
   endDate: (d) => `Von PayPal gesetztes Enddatum dieser Reservierung: ${d}`,
   bookSame: "unser Buch: dasselbe Datum",
-  bookOther: (d) => `unser Buch: ${d}`,
+  bookOther: (d) => `unser Buch weicht ab: ${d}`,
 };
 
 const JA: CheckWords = {
@@ -164,7 +164,7 @@ const JA: CheckWords = {
   endsBy: (d) => `PayPal はこの保留を ${d} までに終了します`,
   endDate: (d) => `PayPal が定めたこの保留の終了日: ${d}`,
   bookSame: "帳簿も同じ日付",
-  bookOther: (d) => `帳簿: ${d}`,
+  bookOther: (d) => `帳簿は異なる日付: ${d}`,
 };
 
 export const CHECK_WORDS: Record<Lang, CheckWords> = { en: EN, de: DE, ja: JA };

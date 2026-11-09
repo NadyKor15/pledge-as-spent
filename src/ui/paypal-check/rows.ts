@@ -23,11 +23,11 @@ const LIVE = new Set(["CREATED", "PARTIALLY_CAPTURED", "PENDING"]);
  * A hold's end date in the check's table: the day PayPal ends it by itself (expiration_time), and whether the book
  * has the same day. Null for captures, payouts and holds PayPal gave no date for.
  */
-export function endLine(r: CheckRow, lang: Lang): { says: string; book: string | null; verdict: ExpiryVerdict | null } | null {
+export function endLine(r: CheckRow, lang: Lang): { says: string; date: string; book: string | null; verdict: ExpiryVerdict | null } | null {
   if (r.kind !== "authorization" || !r.paypal.expires) return null;
   const w = CHECK_WORDS[lang];
   const date = utc(r.paypal.expires);
   const says = r.paypal.status && LIVE.has(r.paypal.status) ? w.endsBy(date) : w.endDate(date);
   const book = r.book.expires ? (r.expiry === "agrees" ? w.bookSame : w.bookOther(utc(r.book.expires))) : null;
-  return { says, book, verdict: r.book.expires ? r.expiry : null };
+  return { says, date, book, verdict: r.book.expires ? r.expiry : null };
 }

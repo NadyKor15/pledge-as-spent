@@ -20,9 +20,13 @@ const s = classes("dn");
 
 const UNIT_WORD: Record<string, string> = { JPY: "yen", USD: "dollar", EUR: "euro", GBP: "pound" };
 
-function heroText(role: Role, status: DriveView["drive"]["status"]): string {
+/** The donor screen's opening line; a closed drive says "never charged" only if no hold had a refund after capture. */
+export function heroText(role: Role, status: DriveView["drive"]["status"], holds: readonly Pick<Hold, "reversed">[] = []): string {
   if (role === "shelter") return "What this drive has bought for your shelter, line by line. There is nothing to do here: volunteers send receipts and donors pledge.";
-  if (status === "closed") return "This drive is closed. Donors paid only for verified purchases; the rest of every hold was never charged.";
+  if (status === "closed")
+    return holds.some((h) => h.reversed > 0)
+      ? "This drive is closed. Donors paid only for verified purchases, and everything else went back to them."
+      : "This drive is closed. Donors paid only for verified purchases; the rest of every hold was never charged.";
   return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent is never charged: PayPal releases it when the drive closes.";
 }
 
@@ -43,7 +47,7 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
               <DriveTitle title={view.drive.displayTitle} />
             </h1>
             <div className={s.chip}>{driveBadge(view.drive.demo)}</div>
-            <p>{heroText(role, view.drive.status)}</p>
+            <p>{heroText(role, view.drive.status, view.holds)}</p>
           </div>
         </section>
 
@@ -191,7 +195,7 @@ function MoneyColumn({ view }: { view: DriveView }) {
             { key: "waiting", cls: s.wait, v: a.waiting, word: "waiting" },
             { key: "held", cls: s.h, v: a.held, word: "held" },
             { key: "returning", cls: s.back, v: a.returning, word: "returning" },
-            { key: "back", cls: s.x, v: a.released, word: "back" },
+            { key: "back", cls: s.x, v: a.released, word: "never charged" },
           ].filter((p) => p.v > 0);
           return (
             <div className={s.pc} key={h.pledgeId} data-flow={`hold:${h.pledgeId}`}>
@@ -268,7 +272,7 @@ function MoneyColumn({ view }: { view: DriveView }) {
                       <b>{money(h.currency, a.spent)}</b> used of {money(h.currency, a.total)}
                     </>
                   )}
-                  {a.released > 0 ? ` · ${money(h.currency, a.released)} back` : ""}
+                  {a.released > 0 ? ` · ${money(h.currency, a.released)} never charged` : ""}
                 </span>
                 <span className={s.klBar}>
                   <i data-part="spent" style={{ width: `${pct(a.spent, a.total)}%` }} />

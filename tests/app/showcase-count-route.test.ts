@@ -31,6 +31,15 @@ describe("GET /api/showcase/count", () => {
     await h.svc.closeDrive(DEFAULT_SHOWCASE_DRIVE_ID);
     await h.svc.reconcile(DEFAULT_SHOWCASE_DRIVE_ID, { graceMinutes: 0 });
     const body = await (await countGET()).json();
+    // A closed drive's book no longer changes: the line is kept a minute, so landing visits do not replay the book.
+    const reads = { n: 0 };
+    const read = h.svc.getDriveView.bind(h.svc);
+    h.svc.getDriveView = (async (id: string) => {
+      reads.n += 1;
+      return read(id);
+    }) as typeof h.svc.getDriveView;
+    expect((await (await countGET()).json()).line).toBe(body.line);
+    expect(reads.n).toBe(0);
     expect(body.line).toMatch(/^On the finished drive, donors pledged ¥[\d,]+: ¥5,224 paid for checked receipt lines, and ¥[\d,]+ was never charged\.$/);
   });
 });
