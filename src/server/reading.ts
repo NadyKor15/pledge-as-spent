@@ -4,6 +4,7 @@ import type { Db } from "../db/client";
 import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
+import { closeReceipt } from "../receipts/close";
 import { hammingHex } from "../receipts/hash";
 import { uprightImage } from "../receipts/orient";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
@@ -63,9 +64,6 @@ export interface Reading {
    */
   closed?: Uint8Array | null;
 }
-
-/** Why a photo read by rows is not published: its closed copy could not be made, and the original never is. */
-export const NOT_CLOSED_NOTE = "This photo could not be closed to its purchase lines, so it is not published.";
 
 /** Closes a photo by its rows: every pixel outside the open rows of the purchase lines becomes plain background. */
 export type CloseReceipt = (image: ReceiptImage, bands: Band[], purchaseLines: PurchaseLine[]) => Uint8Array | null;
@@ -129,7 +127,7 @@ const SavedFile = z.object({
 
 const BoxesFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), lineBoxes: z.array(LineBox) });
 
-/** `boxes`: the line boxes measured on the same photo; boxes of another photo are refused. */
+/** `boxes`: line boxes measured on the same photo (boxes of another photo are refused); rows come in the answer itself. */
 export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): SavedAnswer {
   const f = SavedFile.parse(json);
   const b = boxes === undefined ? null : BoxesFile.parse(boxes);
@@ -178,8 +176,8 @@ export class ReceiptReading {
     sources: { answers?: SavedAnswer[]; recordings?: Recordings },
     private readonly limits: LiveLimits,
     private readonly live?: LiveReading,
-    /** Closes the published copy by rows (src/receipts/close.ts); without it a Meta reading publishes nothing. */
-    private readonly close?: CloseReceipt,
+    /** Closes the published copy by rows (src/receipts/close.ts); a test may hand in its own. */
+    private readonly close: CloseReceipt = closeReceipt,
   ) {
     this.answers = new Map((sources.answers ?? SHIPPED_ANSWERS).map((a) => [a.imageSha256, a]));
     this.recordings = sources.recordings ?? { readings: {}, classifications: {} };
@@ -252,7 +250,7 @@ export class ReceiptReading {
   private rowsOf(image: ReceiptImage, bands: Band[], bandTexts: Record<string, string>, purchaseLines: PurchaseLine[]): Pick<Reading, "bands" | "bandTexts" | "purchaseLines" | "closed"> {
     let closed: Uint8Array | null = null;
     try {
-      closed = this.close ? this.close(image, bands, purchaseLines) : null;
+      closed = this.close(image, bands, purchaseLines);
     } catch {
       closed = null; // closed by default: a copy that could not be closed is not published
     }

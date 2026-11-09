@@ -1,0 +1,66 @@
+/* "Ask PayPal yourself": the dialog in the top layer, and the button's default look. Everything is prefixed pc-. */
+.pc-open { color: #0A74C9; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
+
+.pc-dialog {
+  width: min(1060px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 22px 26px 18px; border: 0; border-radius: 14px;
+  background: #FFFFFF; color: #1C1B19; box-shadow: 0 18px 60px rgba(20, 24, 32, .28); font-size: 14.5px; line-height: 1.45; letter-spacing: normal; text-align: left; white-space: normal;
+}
+.pc-dialog::backdrop { background: rgba(18, 22, 30, .45); }
+.pc-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.pc-head h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+.pc-x { width: 34px; height: 34px; border: 0; border-radius: 8px; background: #F1F2F4; color: #3B4250; font-size: 22px; line-height: 1; cursor: pointer; }
+.pc-lead { margin: 6px 0 12px; color: #4A5160; max-width: 78ch; }
+.pc-wait { margin: 18px 0; color: #0A74C9; font-weight: 600; }
+.pc-error { margin: 14px 0; padding: 10px 14px; border-radius: 10px; background: #FDECEF; color: #8F1D33; }
+.pc-error p { margin: 0; }
+.pc-sum { margin: 6px 0 2px; font-size: 18px; }
+.pc-sum b { color: #256F4B; }
+.pc-honest { margin: 0 0 10px; color: #55595F; font-size: 13px; }
+.pc-narrow { margin: 0 0 10px; color: #4A5160; font-size: 13.5px; }
+.pc-link { background: none; border: 0; padding: 0; color: #0A74C9; text-decoration: underline; text-underline-offset: 3px; font: inherit; cursor: pointer; }
+
+.pc-table { border-top: 1px solid #E8E4DC; }
+.pc-row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1.5fr) 74px; gap: 14px; padding: 10px 2px; border-bottom: 1px solid #E8E4DC; align-items: start; }
+.pc-th { padding: 8px 2px; color: #55595F; font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.pc-mcol { text-align: center; }
+.pc-obj, .pc-book, .pc-pp { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pc-who { color: #4A5160; }
+.pc-id { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; color: #3B4250; overflow-wrap: anywhere; }
+.pc-amt { font-variant-numeric: tabular-nums; font-weight: 600; }
+.pc-status { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; font-weight: 600; }
+.pc-times { color: #55595F; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.pc-mark { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 22px; font-weight: 700; line-height: 1; }
+.pc-mark .pc-sr { font-size: 11px; font-weight: 500; line-height: 1.2; text-align: center; color: #55595F; }
+.pc-agrees .pc-mark { color: #2F855A; }
+.pc-differs .pc-mark { color: #D0294A; }
+.pc-ahead .pc-mark { color: #B7791F; }
+.pc-no_answer .pc-mark { color: #7A808A; }
+.pc-differs { background: #FFF6F7; }
+.pc-json { margin-top: 4px; font-size: 12.5px; }
+.pc-json summary { cursor: pointer; color: #0A74C9; }
+.pc-json pre { margin: 6px 0 0; padding: 10px; max-height: 260px; overflow: auto; border-radius: 8px; background: #F6F7F9; font-size: 11.5px; line-height: 1.4; white-space: pre; }
+.pc-foot { margin: 10px 0 0; color: #55595F; font-size: 12.5px; }
+.pc-foot a { color: #0A74C9; }
+.pc-acts { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+.pc-again, .pc-close { height: 38px; padding: 0 16px; border-radius: 9px; font: inherit; font-weight: 600; cursor: pointer; }
+.pc-again { border: 1px solid #0A74C9; background: #FFFFFF; color: #0A74C9; }
+.pc-again:disabled { opacity: .5; cursor: default; }
+.pc-close { border: 0; background: #046C7E; color: #FFFFFF; }
+
+/* A phone: each object is a small card, its three columns one under the other. */
+@media (max-width: 700px) {
+  .pc-dialog { width: calc(100vw - 16px); max-height: calc(100vh - 16px); padding: 16px 14px 14px; font-size: 14px; }
+  .pc-head h2 { font-size: 19px; }
+  .pc-th { display: none; }
+  .pc-row { grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 10px; }
+  .pc-obj { grid-column: 1; }
+  .pc-mark { grid-column: 2; grid-row: 1 / span 3; }
+  .pc-book, .pc-pp { grid-column: 1; }
+  .pc-book::before, .pc-pp::before { content: attr(data-head); color: #55595F; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+}
+
+/* Where the button sits: the Ledger's bottom line (beside "Download the book") and the donor's statement. */
+.lg-frame .lg-ask-paypal { color: #0A74C9; font-weight: 600; cursor: pointer; }
+.pc-st { margin-top: 8px; padding: 9px 10px 12px; }
+.pc-st-text { margin: 3px 0 0; font-size: 12.4px; line-height: 17px; color: #4A5160; letter-spacing: -.2px; }
+.pc-st-btn { border: 0; cursor: pointer; font-family: inherit; }

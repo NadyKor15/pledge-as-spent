@@ -1,0 +1,5 @@
+{
+  "what": "GET /v2/payments/authorizations/{id} answers for the four holds of the app-e2e run, read by 'Ask PayPal yourself' in the browser tests.",
+  "provenance": "Not recorded live. Built from the void answers of the same run (app-e2e/018-021: PayPal's own representation of each authorization after its void, with Prefer: return=representation), in the shape of a recorded GET (story/039-void-get-eur.json): the same id, status, amount, times (turned into UTC) and debug id, plus the order id and custom_id from the run's order answers (app-e2e/001-004).",
+  "kept apart": "Outside app-e2e/ so the strict replay of that run (tests/app/demo-replay.test.ts) still counts only what was recorded."
+}

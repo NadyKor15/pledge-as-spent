@@ -11,6 +11,7 @@ import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
+import { StatementCheck } from "./paypal-check/StatementCheck";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
 
@@ -301,7 +302,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
 
         {receipts[0]?.image.url && (
           <a className={s.btn} href={receipts[0].image.url} target="_blank" rel="noopener noreferrer">
-            See the full receipt
+            See the receipt
           </a>
         )}
         <Withdraw view={view} st={st} follow={follow} refresh={refresh} />
@@ -326,6 +327,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
       )}
 
       <StatementActions data={data} view={view} />
+      <StatementCheck view={view} st={st} />
 
       <Link className={s.back} href={roleHref(view.drive.id, "donor")}>
         Back to the drive
@@ -335,25 +337,25 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
 }
 
 /**
- * Two windows on the same photo, as on the reference: this donor's lines and the
- * payment block. There are no line positions in the reading, so the first window
- * follows the line's place in the list across the part of a receipt that holds lines.
+ * A window on the published photo at this donor's first line. The photo is closed to its purchase lines, so the
+ * payment block and the rest are plain paper and get no window of their own. With the line's printed box the window
+ * starts just above it; without one it follows the line's place in the list across the part of a receipt that holds
+ * lines.
  */
 function ReceiptFrame({ receipt: r, firstLine }: { receipt: Receipt; firstLine: number }) {
   if (!r.image.published || !r.image.url) return <p className={s.empty}>{r.image.note}</p>;
-  const alt = `Receipt photo from ${r.merchant ?? "the store"}, lines from ${firstLine} on and the total; personal data blurred`;
+  const alt = `Receipt photo from ${r.merchant ?? "the store"}, lines from ${firstLine} on; only its purchase lines are shown`;
+  const box = r.lines.find((l) => l.lineNo === firstLine)?.box;
   const along = (firstLine - 1) / Math.max(1, r.lines.length - 1);
+  const shift = box ? Math.max(0, box.y * 100 - 1.5) : 24.69 + along * 38.5;
   return (
     <>
       <div className={s.frame}>
         <div className={`${s.win} ${s.winA}`}>
-          <Image src={r.image.url} alt={alt} width={630} height={1292} unoptimized style={{ transform: `translateY(-${(24.69 + along * 38.5).toFixed(2)}%)` }} />
-        </div>
-        <div className={`${s.win} ${s.winB}`}>
-          <Image src={r.image.url} alt="" width={630} height={1292} unoptimized />
+          <Image src={r.image.url} alt={alt} width={630} height={1292} unoptimized style={{ transform: `translateY(-${shift.toFixed(2)}%)` }} />
         </div>
       </div>
-      <p className={s.caption}>{(r.image.blurredRegions ?? 0) > 0 ? "Published with card digits and member name hidden" : "No personal data was found on this receipt"}</p>
+      <p className={s.caption}>Only the purchase lines are shown; the rest of the receipt is covered</p>
     </>
   );
 }

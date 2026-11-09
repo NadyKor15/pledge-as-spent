@@ -55,7 +55,7 @@ export const receipts = pgTable(
     dhash: text("dhash"),
     semanticKey: text("semantic_key"),
     image: bytea("image").notNull(),
-    /** The only copy that is ever published; null when personal data could not be blurred. */
+    /** The only copy that is ever published; the photo closed to its purchase lines (src/receipts/close.ts); null when it could not be closed. */
     imageRedacted: bytea("image_redacted"),
     mediaType: text("media_type").notNull(),
     parsed: jsonb("parsed"),

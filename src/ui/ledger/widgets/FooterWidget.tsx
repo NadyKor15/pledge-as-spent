@@ -2,11 +2,12 @@
 
 import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
+import { AskPayPal } from "../../paypal-check/AskPayPal";
 import { bookCsv, type LedgerModel } from "../derive";
 import { WORDS } from "../i18n";
 import { useWidget } from "./useWidget";
 
-// The bottom line: the receipt itself, what was refused, the rates, and the way into the book.
+// The bottom line: the receipt itself, what was refused, the rates, the way into the book, and PayPal's own word on it.
 
 function download(m: LedgerModel) {
   const url = URL.createObjectURL(new Blob([bookCsv(m)], { type: "text/csv;charset=utf-8" }));
@@ -57,6 +58,7 @@ export function FooterWidget(params: AgWidgetParams) {
             {w.downloadCsv}
           </button>
         )}
+        <AskPayPal driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-ask-paypal" />
       </div>
     </div>
   );

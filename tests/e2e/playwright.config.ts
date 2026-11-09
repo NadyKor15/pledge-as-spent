@@ -9,7 +9,7 @@ const PORT = 3311;
 
 export default defineConfig({
   testDir: ".",
-  testMatch: "demo.spec.ts",
+  testMatch: ["demo.spec.ts", "judge-tools.spec.ts"],
   outputDir: "../../tmp/playwright",
   workers: 1,
   timeout: 120_000,

@@ -50,6 +50,10 @@ describe("the sample receipt after a messenger recompressed it", () => {
     expect(receipt.reader).toBe("recognized:meta");
     expect(receipt.lines.length).toBeGreaterThan(0);
     expect(receipt.lines.every((l) => l.box === null)).toBe(true);
+    // Its rows too were measured on the sample's own pixels: a look-alike is not closed by them, so no photo is shown.
+    expect(SHIPPED_ANSWERS[0].closing?.bands.length).toBeGreaterThan(0);
+    expect(receipt.image).toMatchObject({ published: false });
+    expect(await h.svc.getReceiptImage(receipt.id)).toBeNull();
   });
 
   it("on a real drive is read live like any other photo", async () => {

@@ -45,8 +45,8 @@ import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from
 import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive, demoPledgeId, fxFor } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
-import { NOT_CLOSED_NOTE, ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
-import { redactImage } from "./redact";
+import { ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
+import { publishedCopy } from "./redact";
 import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
 
@@ -512,9 +512,8 @@ export class PledgeService {
     const now = this.now();
     const needs = state.needIds.map((id) => state.needs[id]);
     const reading = await this.reading.read({ driveId, image, sha256: sha, needs, rules: state.drive!.rules, baseCurrency: state.drive!.baseCurrency, ipHash, now, sampleLook: row.demo ? dh : null });
-    // A reading that knows its rows publishes only its closed copy (only the purchase lines' rows open), or nothing;
-    // an older reading the copy blurred where the model placed personal data.
-    const redaction = reading.closed !== undefined ? { bytes: reading.closed, regions: reading.purchaseLines?.length ?? 0, note: reading.closed ? null : NOT_CLOSED_NOTE } : redactImage(image, reading.parsed.pii);
+    // Published only as the reading's copy closed to its purchase lines, or not at all: never the original, never a blur.
+    const redaction = publishedCopy(reading);
 
     const { receiptId, cmds } = await withDrive(this.db, driveId, async (b) => {
       const drive = b.state.drive!;
@@ -545,7 +544,7 @@ export class PledgeService {
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,
-        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}), ...(reading.bands ? { bands: reading.bands, bandTexts: reading.bandTexts ?? {}, purchaseLines: reading.purchaseLines ?? [] } : {}) },
+        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { closed: redaction.closed, openLines: redaction.openLines, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}), ...(reading.bands ? { bands: reading.bands, bandTexts: reading.bandTexts ?? {}, purchaseLines: reading.purchaseLines ?? [] } : {}) },
         status: flags.length ? "review" : "funded",
         channel,
         reader: reading.reader,
@@ -981,7 +980,7 @@ export class PledgeService {
     return receiptView(row);
   }
 
-  /** The published (blurred) copy only; null when it may not be published. */
+  /** The stored closed copy only; null when there is none. The route serves it only if it carries the closing mark. */
   async getReceiptImage(receiptId: string): Promise<{ bytes: Uint8Array; mediaType: string } | null> {
     const [row] = await this.db.select({ img: receipts.imageRedacted, mediaType: receipts.mediaType }).from(receipts).where(eq(receipts.id, receiptId));
     if (!row) throw new ServiceError(404, "unknown_receipt", `No receipt ${receiptId}.`);

@@ -151,7 +151,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 986 unit and integration tests, 90 browser tests.
+30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 1033 unit and integration tests, 96 browser tests.
 
 ## Run it
 
@@ -183,7 +183,8 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
 - Synthetic receipts and a fictional drive only. No real donations.
 - Receipt reading was measured on synthetic receipts only (two held-out sets of 20). A line both readings misread the same way would pass; none did in these runs. A refusal never overcharges a donor, but it can underpay a volunteer.
-- Muse Spark sees the whole original photo, card and name included; only the published copy is closed. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
+- Receipt photos are published closed: only purchase lines are visible, everything else is a plain background; a photo that cannot be closed is not published. A purchase line's own text is shown as printed, so a name printed inside an item line would be shown too.
+- Muse Spark sees the whole original photo, card and name included. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
 - Rates are a fixed demo snapshot.
 
 ## How this was built

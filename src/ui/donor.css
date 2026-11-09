@@ -279,3 +279,6 @@ select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; 
 .sc-stack .dn-ltCap { margin-top: 4px; height: auto; white-space: normal; }
 .sc-stack .dn-ltCap span { top: 0; }
 .sc-stack .dn-ltFrom { margin: 2px 8px 0 0; height: auto; top: 0; font-size: 12.5px; white-space: normal; }
+/* A scenario without a shelter photo: a plain plate of the same size, a house drawn in the page's muted ink. */
+.dn-heroPlate { display: flex; align-items: center; justify-content: center; background: #EEF1F2; color: #8A949E; }
+.sc-stack .dn-heroPlate svg { width: 28px; height: 24px; }

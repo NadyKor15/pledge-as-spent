@@ -84,10 +84,13 @@ describe("buildStatementXlsx: the numbers", () => {
     expect(c.get(`${baseHeader.replace(/\d+/g, "")}${headRow + 1}`)).toMatchObject({ v: "399" });
   });
 
-  it("carries the hold id and every row's request id", () => {
+  it("carries the hold id and PayPal's capture ids, and none of the app's request ids", () => {
     expect(sheet).toContain("2Y816602392541815");
-    expect(sheet).toContain("demo-f372326129:capture:1");
+    expect(sheet).toContain("3WP65983GD053501C");
     expect(sheet).toContain("hold_expired");
+    expect(lenaStatement.statement.rows.some((r) => r.requestId)).toBe(true);
+    for (const r of lenaStatement.statement.rows) if (r.requestId) expect(sheet).not.toContain(r.requestId);
+    expect(sheet).not.toContain("Request ID");
   });
 
   it.skipIf(!haveOpenpyxl)("opens in openpyxl: sums match the statement", () => {
@@ -115,6 +118,7 @@ print(json.dumps({"rows": rows, "title": ws.title, "fmt": [[c.number_format for 
     expect(shares.reduce((a, b) => a + b, 0)).toBeCloseTo(lenaStatement.statement.totals.share / 100, 10);
     expect(data.map((r) => r[idx("PayPal capture ID")])).toEqual(["3WP65983GD053501C", "3WP65983GD053501C", "3WP65983GD053501C", null, null, null]);
     expect(data.map((r) => typeof r[idx("PayPal capture ID")])).not.toContain("number");
+    expect(rows[head]).not.toContain("Request ID");
     const find = (label: string) => rows.find((r) => r[0] === label);
     expect(find("Charged")?.[1]).toBeCloseTo(lenaStatement.statement.totals.charged / 100, 10);
     expect(find("Pledged")?.[1]).toBeCloseTo(20, 10);

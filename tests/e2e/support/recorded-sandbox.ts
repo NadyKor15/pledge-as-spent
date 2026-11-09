@@ -7,13 +7,15 @@ import { loadExchanges, type FetchLike, type RecordedExchange } from "../../../s
 // is mapped to the recorded one for the lookup, and back in the answer. POSTs
 // are matched by path + PayPal-Request-Id, GETs by path (the last recorded
 // answer, so the payout lookup reads SUCCESS). A request with no recording
-// fails like a network error, which the app treats as "PayPal did not answer".
+// fails like a network error, which the app treats as "PayPal did not answer". The GETs of the run's four holds,
+// which "Ask PayPal yourself" reads, come from app-e2e-reads (see app-e2e-reads.meta.json for how they were made).
 
 const DIR = path.join(__dirname, "../../fixtures/paypal/app-e2e");
+const READS = path.join(__dirname, "../../fixtures/paypal/app-e2e-reads");
 const DRIVE_ID = /demo-[0-9a-f]{10}/g;
 
-export function recordedSandbox(dir = DIR): FetchLike {
-  const exchanges = loadExchanges(dir);
+export function recordedSandbox(dir = DIR, reads: string | null = READS): FetchLike {
+  const exchanges = [...loadExchanges(dir), ...(reads ? loadExchanges(reads) : [])];
   const recordedDrive = exchanges.map((e) => e.request.headers["paypal-request-id"]?.match(DRIVE_ID)?.[0]).find(Boolean);
   if (!recordedDrive) throw new Error(`No drive id in the recordings under ${dir}`);
   const byKey = new Map<string, RecordedExchange>();

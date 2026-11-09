@@ -1,10 +1,9 @@
 import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type Page, type Route } from "@playwright/test";
-import shipped from "../../eval/live/shipped/hero-ja-01.json";
 import { TEXT } from "../../src/agent/i18n";
-import { redactImage } from "../../src/server/redact";
 import type { DriveView } from "../../src/ui/types";
+import { heroClosed } from "../fixtures/closed-hero";
 
 // "Ask the book" on the Ledger page: the chat in the book's slot, over the book. The drive is the closed demo
 // snapshot and the model's turns are the ones Nova Lite gave in the live measure (eval/agent/recorded/A), or
@@ -16,7 +15,8 @@ const SHOTS = process.env.AGENT_SHOTS ?? path.join(ROOT, "tmp/agent-shots");
 mkdirSync(SHOTS, { recursive: true });
 
 const fixture = () => JSON.parse(readFileSync(path.join(ROOT, "tests/fixtures/drives/closed.json"), "utf8")) as DriveView;
-const published = Buffer.from(redactImage({ bytes: new Uint8Array(readFileSync(path.join(ROOT, "eval/receipts/hero/hero-ja-01.png"))), mediaType: "image/png" }, shipped.reading.pii as never).bytes!);
+/** The published copy of the sample receipt: the photo closed to its purchase lines, as the reading makes it. */
+const published = heroClosed();
 
 interface Turn {
   agentId: string;

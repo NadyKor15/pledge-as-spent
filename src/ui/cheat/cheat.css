@@ -1,0 +1,65 @@
+/* "Try to cheat the receipt": the landing page's tokens and typeface, one column that widens for the line table. */
+.ch-page { max-width: 1120px; margin: 0 auto; padding: 22px 20px 40px; color: var(--text); }
+.ch-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ch-brand { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.03em; color: var(--primary); text-decoration: none; }
+.ch-badge { padding: 4px 12px; border-radius: 9px; background: #EDF1F4; color: #445168; font-size: 13px; }
+.ch-intro h1 { margin-top: 18px; font-size: 30px; line-height: 37px; font-weight: 700; letter-spacing: -.025em; }
+.ch-intro p { margin-top: 8px; max-width: 76ch; font-size: 16px; line-height: 24px; color: rgba(28, 27, 25, .78); }
+
+.ch-cards { margin-top: 20px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.ch-card { display: flex; flex-direction: column; align-items: stretch; padding: 0; overflow: hidden; border: 1px solid var(--border, #E3E1DC); border-radius: 12px; background: var(--surface, #fff); text-align: left; cursor: pointer; font: inherit; color: inherit; }
+.ch-card img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: top; background: #EEE; }
+.ch-card-txt { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 12px; font-size: 13px; line-height: 18px; color: rgba(28, 27, 25, .74); }
+.ch-card-txt b { font-size: 14.5px; line-height: 19px; color: var(--text); }
+.ch-card[aria-pressed="true"] { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+.ch-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.ch-result { margin-top: 22px; }
+.ch-hint { color: rgba(28, 27, 25, .66); font-size: 15px; }
+.ch-error { color: var(--rejected, #C53030); font-size: 15px; }
+.ch-score { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border-radius: 12px; background: #EEF7F1; border: 1px solid #CFE6D7; }
+.ch-score-label { font-size: 14px; font-weight: 600; color: #256F4B; text-transform: uppercase; letter-spacing: .04em; }
+.ch-score-sum { font-size: 32px; line-height: 38px; font-weight: 700; color: #1F5C3E; font-variant-numeric: tabular-nums; }
+.ch-score-honest { font-size: 14px; color: #3B5D4A; }
+
+.ch-receipt { margin-top: 16px; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; align-items: start; }
+.ch-photo img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 10px rgba(40, 36, 28, .18); }
+.ch-detail h2 { font-size: 21px; line-height: 27px; font-weight: 700; }
+.ch-meta { margin-top: 4px; font-size: 13.5px; color: rgba(28, 27, 25, .66); }
+.ch-flags { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.ch-flags li { padding: 8px 12px; border-radius: 9px; background: #FFF4E5; color: #6B4A12; font-size: 14px; }
+.ch-flags li[data-severity="block"] { background: #FDECEF; color: #8F1D33; }
+.ch-noflag { margin-top: 10px; padding: 8px 12px; border-radius: 9px; background: #F1F3F6; font-size: 14px; color: #3B4250; }
+
+.ch-lines { margin-top: 12px; border-top: 1px solid #E8E4DC; }
+.ch-line { display: grid; grid-template-columns: 28px minmax(0, 1.2fr) 82px minmax(0, 1.5fr); gap: 12px; padding: 9px 2px; border-bottom: 1px solid #E8E4DC; align-items: start; font-size: 14px; line-height: 19px; }
+.ch-no { color: rgba(28, 27, 25, .55); font-variant-numeric: tabular-nums; }
+.ch-what { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ch-orig { font-size: 12px; color: rgba(28, 27, 25, .55); }
+.ch-forged { align-self: flex-start; margin-top: 2px; padding: 0 7px; border-radius: 6px; background: #FDECEF; color: #8F1D33; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.ch-amt { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.ch-verdict { display: flex; flex-direction: column; gap: 2px; min-width: 0; color: rgba(28, 27, 25, .74); }
+.ch-verdict b { color: var(--text); }
+.ch-refused .ch-verdict b, .ch-blocked .ch-verdict b { color: #B4233F; }
+.ch-held .ch-verdict b { color: #8A5A0E; }
+.ch-paid .ch-verdict b { color: #256F4B; }
+.ch-charged { font-size: 12.5px; color: #256F4B; font-variant-numeric: tabular-nums; }
+.ch-honesty { margin-top: 12px; font-size: 13px; color: rgba(28, 27, 25, .62); }
+.ch-more { margin-top: 26px; font-size: 15px; }
+.ch-more a { color: var(--primary); font-weight: 600; }
+
+@media (max-width: 960px) {
+  .ch-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ch-receipt { grid-template-columns: minmax(0, 1fr); }
+  .ch-photo { max-width: 260px; }
+}
+@media (max-width: 520px) {
+  .ch-page { padding: 16px 16px 32px; }
+  .ch-intro h1 { font-size: 24px; line-height: 31px; }
+  .ch-cards { grid-template-columns: minmax(0, 1fr); }
+  .ch-card { flex-direction: row; }
+  .ch-card img { width: 96px; height: 120px; flex: none; }
+  .ch-score-sum { font-size: 26px; line-height: 32px; }
+  .ch-line { grid-template-columns: 22px minmax(0, 1fr) 70px; }
+  .ch-verdict { grid-column: 2 / 4; }
+}

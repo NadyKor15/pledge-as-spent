@@ -1,0 +1,789 @@
+[
+ {
+  "id": "pre-disaster",
+  "source": "eval/receipts/adversarial/adv-predisaster-ja.png",
+  "image": "/cheat/pre-disaster.jpg",
+  "sha256": "cbded6283509039fcd880cdcfe5775545b9f3e717393dcd2bed53dbe48288e8b",
+  "dHash": "ffff9fff8f4e8fae8756997e84fe8bfe947e8b7e82ff82ff85fd8d9df38dfffb",
+  "reading": {
+   "merchantName": "ドラッグ ヒカリ 北空中央店",
+   "merchantAddress": "空川県北空市中央3-5-12",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-10-27T11:20:00",
+   "receiptNumber": "3996",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+     "translationEn": "Baby Love pants M, 38 count",
+     "qty": 1,
+     "unitPriceMinor": 1098,
+     "amountMinor": 1098,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "単3電池 10本入",
+     "translationEn": "AA batteries, pack of 10",
+     "qty": 2,
+     "unitPriceMinor": 398,
+     "amountMinor": 796,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ボタン電池 CR2032",
+     "translationEn": "Coin cell battery CR2032",
+     "qty": 1,
+     "unitPriceMinor": 398,
+     "amountMinor": 398,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "単4 アルカリ乾電池 4本入",
+     "translationEn": "Alkaline AAA batteries, pack of 4",
+     "qty": 2,
+     "unitPriceMinor": 238,
+     "amountMinor": 476,
+     "taxRateBp": 1000
+    }
+   ],
+   "subtotalMinor": 2768,
+   "taxMinor": 251,
+   "taxIncluded": true,
+   "totalMinor": 2768,
+   "pii": [
+    {
+     "kind": "card_number",
+     "text": "************0728",
+     "bbox": {
+      "x": 0.5681,
+      "y": 0.7616,
+      "w": 0.2316,
+      "h": 0.0277
+     }
+    }
+   ],
+   "readability": "good"
+  },
+  "labels": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Coin cell battery CR2032 is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+    "confidence": 1
+   }
+  ]
+ },
+ {
+  "id": "duplicate",
+  "source": "eval/receipts/hero/hero-ja-01.png",
+  "image": "/cheat/duplicate.jpg",
+  "sha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+  "dHash": "00fe830c8f1c807e823e809e885e883e801e801e801e105e81fe407e460edb78",
+  "reading": {
+   "merchantName": "ミナト生活館 北空店",
+   "merchantAddress": "空川県北空市港町2-8-1",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-05T14:32:00",
+   "receiptNumber": "8258",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "北空の天然水 2L 6本ケース",
+     "translationEn": "Kitasora natural water 2 L, case of 6",
+     "qty": 1,
+     "unitPriceMinor": 798,
+     "amountMinor": 798,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "雪解けの水 2L",
+     "translationEn": "Snowmelt water 2 L",
+     "qty": 4,
+     "unitPriceMinor": 118,
+     "amountMinor": 472,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ミネラルウォーター 2Lペット",
+     "translationEn": "Mineral water 2 L bottle",
+     "qty": 2,
+     "unitPriceMinor": 108,
+     "amountMinor": 216,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "ソフトキッズ おむつ M 44枚",
+     "translationEn": "Soft Kids diapers M, 44 count",
+     "qty": 2,
+     "unitPriceMinor": 1298,
+     "amountMinor": 2596,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ﾍﾞﾋﾞｰﾗﾌﾞ ﾊﾟﾝﾂ M",
+     "translationEn": "Baby Love pants M, 38 count",
+     "qty": 3,
+     "unitPriceMinor": 1098,
+     "amountMinor": 3294,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "紙おむつ M 18枚 お試しパック",
+     "translationEn": "Diapers M, 18 count trial pack",
+     "qty": 1,
+     "unitPriceMinor": 598,
+     "amountMinor": 598,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 7,
+     "rawText": "アルカリ乾電池 単3 20本入",
+     "translationEn": "Alkaline AA batteries, pack of 20",
+     "qty": 1,
+     "unitPriceMinor": 698,
+     "amountMinor": 698,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 8,
+     "rawText": "単3電池 10本入",
+     "translationEn": "AA batteries, pack of 10",
+     "qty": 2,
+     "unitPriceMinor": 398,
+     "amountMinor": 796,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 9,
+     "rawText": "単3 ばら",
+     "translationEn": "AA battery, single",
+     "qty": 10,
+     "unitPriceMinor": 98,
+     "amountMinor": 980,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 10,
+     "rawText": "缶ビール 350ml 6缶",
+     "translationEn": "Canned beer 350 ml, 6 cans",
+     "qty": 1,
+     "unitPriceMinor": 1198,
+     "amountMinor": 1198,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 11,
+     "rawText": "ギフトカード 3,000円",
+     "translationEn": "Gift card 3,000 yen",
+     "qty": 1,
+     "unitPriceMinor": 3000,
+     "amountMinor": 3000,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 14646,
+   "taxMinor": 1033,
+   "taxIncluded": true,
+   "totalMinor": 14646,
+   "pii": [
+    {
+     "kind": "card_number",
+     "text": "************9591",
+     "bbox": {
+      "x": 0.6008,
+      "y": 0.7532,
+      "w": 0.2337,
+      "h": 0.0171
+     }
+    },
+    {
+     "kind": "name",
+     "text": "ﾐｼﾏ ﾚﾝ",
+     "bbox": {
+      "x": 0.2119,
+      "y": 0.8323,
+      "w": 0.0746,
+      "h": 0.0149
+     }
+    },
+    {
+     "kind": "member_id",
+     "text": "3216 2141 5525",
+     "bbox": {
+      "x": 0.6366,
+      "y": 0.8451,
+      "w": 0.2054,
+      "h": 0.0165
+     }
+    }
+   ],
+   "readability": "good"
+  },
+  "labels": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Kitasora natural water 2 L, case of 6 counts toward Drinking water 2 L.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Soft Kids diapers M, 44 count counts toward Baby diapers size M.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 5,
+    "needId": "diapers",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 6,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Diapers M, 18 count trial pack counts toward Baby diapers size M.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 8,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 9,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA battery, single counts toward AA batteries.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 10,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Alcohol is never funded.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 11,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded.",
+    "confidence": 1
+   }
+  ]
+ },
+ {
+  "id": "out-of-zone",
+  "source": "eval/receipts/adversarial/adv-outofzone-ja.png",
+  "image": "/cheat/out-of-zone.jpg",
+  "sha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+  "dHash": "00ff031f03160506003e082e005e885e009e80be803e805e804e841c800c0040",
+  "reading": {
+   "merchantName": "潮風マート 海風店",
+   "merchantAddress": "海原県海風市浜通5-1",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-05T12:43:00",
+   "receiptNumber": "4108",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ツナ缶 3缶パック",
+     "translationEn": "Tuna cans, pack of 3",
+     "qty": 4,
+     "unitPriceMinor": 458,
+     "amountMinor": 1832,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "ティッシュ 5箱",
+     "translationEn": "Tissues, 5 boxes",
+     "qty": 1,
+     "unitPriceMinor": 398,
+     "amountMinor": 398,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "チョコレート",
+     "translationEn": "Chocolate bar",
+     "qty": 1,
+     "unitPriceMinor": 128,
+     "amountMinor": 128,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "牛乳 1L",
+     "translationEn": "Milk 1 L",
+     "qty": 1,
+     "unitPriceMinor": 198,
+     "amountMinor": 198,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "アルカリ乾電池 単3 20本入",
+     "translationEn": "Alkaline AA batteries, pack of 20",
+     "qty": 2,
+     "unitPriceMinor": 698,
+     "amountMinor": 1396,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "ミネラルウォーター 2Lペット",
+     "translationEn": "Mineral water 2 L bottle",
+     "qty": 3,
+     "unitPriceMinor": 108,
+     "amountMinor": 324,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 4276,
+   "taxMinor": 377,
+   "taxIncluded": false,
+   "totalMinor": 4653,
+   "pii": [
+    {
+     "kind": "card_number",
+     "text": "************1033",
+     "bbox": {
+      "x": 0.5681,
+      "y": 0.6841,
+      "w": 0.2316,
+      "h": 0.0254
+     }
+    },
+    {
+     "kind": "name",
+     "text": "ｼﾗｲｼ ﾘﾝ",
+     "bbox": {
+      "x": 0.1758,
+      "y": 0.759,
+      "w": 0.0845,
+      "h": 0.0202
+     }
+    },
+    {
+     "kind": "member_id",
+     "text": "5449 1448 4664",
+     "bbox": {
+      "x": 0.5886,
+      "y": 0.7972,
+      "w": 0.2017,
+      "h": 0.0248
+     }
+    }
+   ],
+   "readability": "good"
+  },
+  "labels": [
+   {
+    "lineNo": 1,
+    "needId": "canned",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Tuna cans, pack of 3 counts toward Canned food.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Tissues, 5 boxes is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Chocolate bar is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Milk 1 L is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 40,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Alkaline AA batteries, pack of 20 counts toward AA batteries.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 6,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+    "confidence": 1
+   }
+  ]
+ },
+ {
+  "id": "edited-total",
+  "source": "eval/cheat/cheat-total-ja.png",
+  "image": "/cheat/edited-total.jpg",
+  "sha256": "8e110a6649be5f9653ccfa9d5f8bf2b3d48e0a1bf7838281d558b483a24c6fa4",
+  "dHash": "01f80006870e870e8d0e021e011e02de005e001e100e001e060e060e02160000",
+  "reading": {
+   "merchantName": "スマイルマート 北空駅前店",
+   "merchantAddress": "空川県北空市駅前通1-4",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-06T10:14:00",
+   "receiptNumber": "7099",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "雪解けの水 2L",
+     "translationEn": "Snowmelt water 2 L",
+     "qty": 6,
+     "unitPriceMinor": 118,
+     "amountMinor": 708,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "ベビーラブ パンツM 38枚",
+     "translationEn": "Baby Love pants M, 38 count",
+     "qty": 1,
+     "unitPriceMinor": 1098,
+     "amountMinor": 1098,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "単3電池 10本入",
+     "translationEn": "AA batteries, pack of 10",
+     "qty": 1,
+     "unitPriceMinor": 398,
+     "amountMinor": 398,
+     "taxRateBp": 1000
+    }
+   ],
+   "subtotalMinor": 11204,
+   "taxMinor": 188,
+   "taxIncluded": true,
+   "totalMinor": 11204,
+   "pii": [],
+   "readability": "good"
+  },
+  "labels": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 2,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 3,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+    "confidence": 1
+   }
+  ]
+ },
+ {
+  "id": "forbidden-items",
+  "source": "eval/receipts/adversarial/adv-rules-ja.png",
+  "image": "/cheat/forbidden-items.jpg",
+  "sha256": "9ef55b54aff42fc7d900a838fb5ffd62a0c4fcb8493d87b999626c778d776b00",
+  "dHash": "80ff87df879e85ce817e8c7e81fe81de83de87de83de86de81cf869f858ffff9",
+  "reading": {
+   "merchantName": "ドラッグ ヒカリ 北空中央店",
+   "merchantAddress": "空川県北空市中央3-5-12",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-03T20:11:00",
+   "receiptNumber": "0777",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ギフトカード 3,000円",
+     "translationEn": "Gift card 3,000 yen",
+     "qty": 1,
+     "unitPriceMinor": 3000,
+     "amountMinor": 3000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "缶ビール 350ml 6缶",
+     "translationEn": "Canned beer 350 ml, 6 cans",
+     "qty": 1,
+     "unitPriceMinor": 1198,
+     "amountMinor": 1198,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "単4 アルカリ乾電池 4本入",
+     "translationEn": "Alkaline AAA batteries, pack of 4",
+     "qty": 1,
+     "unitPriceMinor": 238,
+     "amountMinor": 238,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "雪解けの水 2L",
+     "translationEn": "Snowmelt water 2 L",
+     "qty": 2,
+     "unitPriceMinor": 118,
+     "amountMinor": 236,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ノート A5",
+     "translationEn": "Notebook A5",
+     "qty": 1,
+     "unitPriceMinor": 148,
+     "amountMinor": 148,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "ホシノ メンソール",
+     "translationEn": "Hoshino menthol cigarettes",
+     "qty": 1,
+     "unitPriceMinor": 580,
+     "amountMinor": 580,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 7,
+     "rawText": "ﾐﾈﾗﾙｳｫｰﾀｰ 2L",
+     "translationEn": "Mineral water 2 L bottle",
+     "qty": 3,
+     "unitPriceMinor": 108,
+     "amountMinor": 324,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 5724,
+   "taxMinor": 237,
+   "taxIncluded": true,
+   "totalMinor": 5724,
+   "pii": [
+    {
+     "kind": "card_number",
+     "text": "************2050",
+     "bbox": {
+      "x": 0.5739,
+      "y": 0.6995,
+      "w": 0.233,
+      "h": 0.0191
+     }
+    },
+    {
+     "kind": "name",
+     "text": "ﾐｼﾏ ﾚﾝ",
+     "bbox": {
+      "x": 0.1675,
+      "y": 0.7833,
+      "w": 0.0769,
+      "h": 0.0176
+     }
+    },
+    {
+     "kind": "member_id",
+     "text": "7788 0428 0676",
+     "bbox": {
+      "x": 0.5981,
+      "y": 0.809,
+      "w": 0.2034,
+      "h": 0.0182
+     }
+    }
+   ],
+   "readability": "good"
+  },
+  "labels": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Alcohol is never funded.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Alkaline AAA batteries, pack of 4 is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Notebook A5 is not one of the drive's needs.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Tobacco is never funded.",
+    "confidence": 1
+   },
+   {
+    "lineNo": 7,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water 2 L bottle counts toward Drinking water 2 L.",
+    "confidence": 1
+   }
+  ]
+ }
+]

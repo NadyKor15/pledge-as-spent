@@ -1,0 +1,51 @@
+{
+  "seq": 3,
+  "label": "get-authorization-batteries",
+  "recordedAt": "2026-10-23T15:49:48.605Z",
+  "derivedFrom": "app-e2e/020-close.json",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/2RA55308JN808934C",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f386974b9df87",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "2RA55308JN808934C",
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "3000"
+      },
+      "custom_id": "demo-deedc05de3.batteries",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "9MK251473Y685683A"
+        }
+      },
+      "expiration_time": "2026-11-21T15:49:17Z",
+      "create_time": "2026-10-23T15:49:17Z",
+      "update_time": "2026-10-23T15:49:48Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2RA55308JN808934C",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9MK251473Y685683A",
+          "rel": "up",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

@@ -1,9 +1,8 @@
 import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
-import shipped from "../../eval/live/shipped/hero-ja-01.json";
-import { redactImage } from "../../src/server/redact";
 import type { DriveView } from "../../src/ui/types";
+import { heroClosed } from "../fixtures/closed-hero";
 
 // The book of the Ledger tab as its design (PROOF-B) draws it:
 // a strip of the printed receipt line in each row, PayPal's capture, the status pill, a proof band under a pressed
@@ -15,8 +14,8 @@ const SHOTS = process.env.BOOK_SHOTS ?? path.join(ROOT, "tmp/book-shots");
 mkdirSync(SHOTS, { recursive: true });
 
 const fixture = (name: "closed" | "open") => JSON.parse(readFileSync(path.join(ROOT, `tests/fixtures/drives/${name}.json`), "utf8")) as DriveView;
-/** The published copy of the sample receipt: the photo with its three personal rows blurred, as the server makes it. */
-const published = Buffer.from(redactImage({ bytes: new Uint8Array(readFileSync(path.join(ROOT, "eval/receipts/hero/hero-ja-01.png"))), mediaType: "image/png" }, shipped.reading.pii as never).bytes!);
+/** The published copy of the sample receipt: the photo closed to its purchase lines, as the reading makes it. */
+const published = heroClosed();
 
 const MARK4 = "demo-f372326129.r1:4/demo-f372326129.diapers";
 

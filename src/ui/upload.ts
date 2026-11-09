@@ -2,7 +2,7 @@ import { ApiError } from "./api";
 
 // A receipt photo on its way to the server. The platform refuses request bodies
 // over 4.5 MB, so anything larger is re-encoded in the browser first. A JPEG or
-// PNG that already fits goes untouched: the server blurs those two formats only,
+// PNG that already fits goes untouched: the server closes those two formats only,
 // and a known sample keeps its fingerprint.
 
 export const MAX_UPLOAD_BYTES = 3.5 * 1024 * 1024;

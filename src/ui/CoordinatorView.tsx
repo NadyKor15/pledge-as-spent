@@ -327,7 +327,7 @@ function ReceiptBody({
       <div className={s.mbody}>
         <div className={s.receipt} data-flow="receipt">
           {r.image.published && r.image.url ? (
-            <Image src={r.image.url} alt={`Receipt photo from ${r.merchant ?? "the store"}, personal data blurred`} fill unoptimized sizes="298px" />
+            <Image src={r.image.url} alt={`Receipt photo from ${r.merchant ?? "the store"}, only its purchase lines shown`} fill unoptimized sizes="298px" />
           ) : (
             <div className={s.noImage}>{r.image.note}</div>
           )}

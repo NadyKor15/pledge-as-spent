@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { GET as cronGET } from "../../src/app/api/cron/daily/route";
 import { POST as demoPOST } from "../../src/app/api/demo/drives/route";
@@ -12,10 +13,14 @@ import { POST as revokePOST } from "../../src/app/api/pledges/[id]/revoke/route"
 import { GET as statementGET } from "../../src/app/api/pledges/[id]/statement/route";
 import { POST as decisionPOST } from "../../src/app/api/receipts/[id]/decision/route";
 import { GET as imageGET } from "../../src/app/api/receipts/[id]/image/route";
+import { receipts } from "../../src/db/schema";
+import { isClosedCopy } from "../../src/receipts/close";
 import { respond } from "../../src/server/http";
+import { LEGACY_NOTE } from "../../src/server/redact";
 import { setServiceForTests } from "../../src/server/runtime";
 import { fakeSandbox } from "./support/fake-sandbox";
-import { harness, heroBytes, receiptBytes } from "./support/harness";
+import { placeLines } from "../fixtures/closed-hero";
+import { harness, heroBytes, receiptBytes, type Harness } from "./support/harness";
 
 const ctx = (id: string) => ({ params: Promise.resolve({ id }) });
 const req = (path: string, init: RequestInit & { ip?: string } = {}) =>
@@ -29,10 +34,12 @@ const upload = (bytes: Uint8Array, extra: Record<string, string> = {}) => {
 };
 
 let driveId = "";
+let h: Harness;
 const secret = process.env.CRON_SECRET;
 
 beforeAll(async () => {
-  const h = await harness({ fetch: fakeSandbox().fetch });
+  h = await harness({ fetch: fakeSandbox().fetch });
+  placeLines(h.svc);
   setServiceForTests(h.svc);
 });
 afterAll(() => {
@@ -74,10 +81,34 @@ describe("API routes", () => {
     expect(big.status).toBe(413);
   });
 
-  it("GET /api/receipts/[id]/image serves the blurred copy", async () => {
+  it("GET /api/receipts/[id]/image serves the copy closed to the purchase lines", async () => {
     const res = await imageGET(req(`/api/receipts/${driveId}.r1/image`), ctx(`${driveId}.r1`));
     expect(res.status).toBe(200);
     expect(res.headers.get("content-type")).toBe("image/png");
+    expect(isClosedCopy(new Uint8Array(await res.arrayBuffer()))).toBe(true);
+  });
+
+  it("GET /api/receipts/[id]/image never serves a copy stored before closing, nor a photo without a closed copy", async () => {
+    const legacy = `${driveId}.legacy`;
+    await h.db.db.insert(receipts).values({
+      id: legacy,
+      driveId,
+      sha256: "legacy",
+      image: heroBytes(),
+      imageRedacted: heroBytes(), // what an older deployment stored: not closed, no mark
+      mediaType: "image/png",
+      checks: { flags: [], redaction: { regions: 3, note: null } },
+      status: "funded",
+      channel: "web",
+      reader: "recorded",
+      uploadedAt: new Date().toISOString(),
+    });
+    const res = await imageGET(req(`/api/receipts/${legacy}/image`), ctx(legacy));
+    expect(res.status).toBe(404);
+    expect(await res.json()).toMatchObject({ error: "not_published" });
+    expect((await h.svc.getReceipt(legacy)).image).toEqual({ published: false, note: LEGACY_NOTE });
+    expect((await h.svc.getDriveView(driveId)).receipts.find((r) => r.id === legacy)!.image).toEqual({ published: false, note: LEGACY_NOTE });
+    await h.db.db.delete(receipts).where(eq(receipts.id, legacy));
   });
 
   it("POST /api/receipts/[id]/decision from the debug form redirects back", async () => {
