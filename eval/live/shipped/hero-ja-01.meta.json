@@ -69,7 +69,7 @@
    {
     "lineNo": 7,
     "rawText": "アルカリ乾電池 単3 20本入",
-    "translationEn": "Alkaline AAA batteries 20pk",
+    "translationEn": "Alkaline AA batteries 20pk",
     "qty": null,
     "unitPriceMinor": null,
     "amountMinor": 698,
@@ -78,7 +78,7 @@
    {
     "lineNo": 8,
     "rawText": "単3電池 10本入",
-    "translationEn": "AAA batteries 10pk",
+    "translationEn": "AA batteries 10pk",
     "qty": 2,
     "unitPriceMinor": 398,
     "amountMinor": 796,
@@ -87,7 +87,7 @@
    {
     "lineNo": 9,
     "rawText": "単3 ばら",
-    "translationEn": "AAA battery loose",
+    "translationEn": "AA battery loose",
     "qty": 10,
     "unitPriceMinor": 98,
     "amountMinor": 980,
@@ -236,7 +236,7 @@
    "confidence": 0.99
   }
  ],
- "classifiedFor": "e823a778c4f1871dc8bf28a24adfccb89ee1e0754be84457f0754449b88b69f8",
+ "classifiedFor": "333a56ca0414e745b992fbca2dec27b7b177d34e2fa316d719a3bf60bc17b32f",
  "lineBoxes": [
   {
    "lineNo": 1,

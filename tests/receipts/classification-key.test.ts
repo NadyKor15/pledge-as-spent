@@ -21,6 +21,16 @@ describe("classification key", () => {
     expect(classificationKey(boxed, needs, drive.rules)).toBe(saved.classifiedFor);
   });
 
+  it("names the 単3 lines AA, never AAA: the drive buys AA batteries (単3) only", () => {
+    // 単3 is AA and 単4 is AAA; the saved answer once said AAA for all three, and the screen showed it.
+    const tan3 = saved.reading.lines.filter((l) => l.rawText.replace(/\s/g, "").includes("単3"));
+    expect(tan3.map((l) => l.lineNo)).toEqual([7, 8, 9]);
+    for (const l of tan3) {
+      expect(l.translationEn, `line ${l.lineNo}`).toMatch(/\bAA\b/);
+      expect(l.translationEn, `line ${l.lineNo}`).not.toMatch(/AAA/);
+    }
+  });
+
   it("moves when a line, a need or a rule changes", () => {
     const other = structuredClone(saved.reading);
     other.lines[0].amountMinor += 1;
