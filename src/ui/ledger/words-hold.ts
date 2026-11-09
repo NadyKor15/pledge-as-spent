@@ -19,6 +19,8 @@ export interface HoldWords {
   returnedSum: (amount: string) => string;
   /** The legend's name for screen readers. */
   legend: string;
+  /** A donor's hold on the phone's donors card: "€20.00 pledged". */
+  pledgedSum: (amount: string) => string;
 }
 
 export const HOLD_WORDS: Record<Lang, HoldWords> = {
@@ -30,6 +32,7 @@ export const HOLD_WORDS: Record<Lang, HoldWords> = {
     onItsWayBack: (a) => `${a} on its way back at PayPal`,
     returnedSum: (a) => `${a} returned`,
     legend: "What the colours mean",
+    pledgedSum: (a) => `${a} pledged`,
   },
   de: {
     tone: { bought: "gekauft", waiting: "freigegeben, wartet auf PayPal", promised: "in Reservierungen zugesagt, niemand belastet", returning: "auf dem Rückweg bei PayPal", never: "nie belastet: PayPal hat die Reservierung freigegeben", back: "belastet, dann erstattet" },
@@ -39,6 +42,7 @@ export const HOLD_WORDS: Record<Lang, HoldWords> = {
     onItsWayBack: (a) => `${a} auf dem Rückweg bei PayPal`,
     returnedSum: (a) => `${a} zurück`,
     legend: "Was die Farben bedeuten",
+    pledgedSum: (a) => `${a} zugesagt`,
   },
   ja: {
     tone: { bought: "購入済み", waiting: "承認済み・PayPal待ち", promised: "保留に約束済み・誰も請求されず", returning: "PayPalで返却中", never: "請求されず: PayPalが保留を解放", back: "請求後に返金" },
@@ -48,5 +52,6 @@ export const HOLD_WORDS: Record<Lang, HoldWords> = {
     onItsWayBack: (a) => `${a} はPayPalで返却中`,
     returnedSum: (a) => `${a} 返金済み`,
     legend: "色の意味",
+    pledgedSum: (a) => `${a} を約束`,
   },
 };
