@@ -80,6 +80,8 @@ test("try to cheat the receipt: every forgery costs donors nothing, and the hone
   await expect(page.locator(".ch-card")).toHaveCount(5);
   for (const id of ["pre-disaster", "duplicate", "out-of-zone", "edited-total", "forbidden-items"]) {
     await page.locator(`.ch-card[data-forgery="${id}"]`).click();
+    // The previous result stays (dimmed) while this one runs: wait for this one's.
+    await expect(page.locator(".ch-out")).toHaveAttribute("data-shown", id);
     await expect(page.getByTestId("cheat-score")).toContainText("Charged to donors for forged lines");
     await expect(page.locator(".ch-score-sum")).toHaveText("€0.00 · $0.00 · ¥0");
     await expect(page.locator(".ch-honesty")).toContainText("Recorded reading — no model call.");
@@ -89,6 +91,7 @@ test("try to cheat the receipt: every forgery costs donors nothing, and the hone
   await expect(page.locator('.ch-line[data-outcome="refused"]')).toHaveCount(5);
   await expect(page.locator(".ch-score-honest")).toContainText("Honest lines on the same receipt pass and are paid");
   await page.locator('.ch-card[data-forgery="duplicate"]').click();
+  await expect(page.locator(".ch-out")).toHaveAttribute("data-shown", "duplicate");
   await expect(page.locator('.ch-line[data-outcome="blocked"]')).toHaveCount(11);
   await expect(page.locator(".ch-flags")).toContainText("already uploaded");
 });
@@ -99,6 +102,85 @@ test("the cheat page and the dialog fit a phone", async ({ page }) => {
   await page.locator('.ch-card[data-forgery="edited-total"]').click();
   await expect(page.locator(".ch-score-sum")).toHaveText("€0.00 · $0.00 · ¥0");
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+});
+
+const FORGERY_IDS = ["pre-disaster", "duplicate", "out-of-zone", "edited-total", "forbidden-items"];
+
+test.describe("the cheat page on a touch phone, 390 × 844", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test("a tap on each card picks that card, in order and back again", async ({ page }) => {
+    await page.goto("/cheat");
+    for (const id of [...FORGERY_IDS, ...FORGERY_IDS.slice().reverse(), "pre-disaster", "forbidden-items", "pre-disaster"]) {
+      await page.locator(`.ch-card[data-forgery="${id}"]`).tap();
+      await expect(page.locator('.ch-card[aria-pressed="true"]')).toHaveAttribute("data-forgery", id);
+      await expect(page.locator(".ch-out")).toHaveAttribute("data-shown", id);
+    }
+  });
+
+  test("the cards stay under the finger while the next result runs", async ({ page }) => {
+    await page.goto("/cheat");
+    await page.locator('.ch-card[data-forgery="forbidden-items"]').tap();
+    await expect(page.locator(".ch-out")).toHaveAttribute("data-shown", "forbidden-items");
+    // Hold the next answer back, to look at the page while the checks run.
+    let release!: () => void;
+    const held = new Promise<void>((ok) => (release = ok));
+    await page.route((url) => url.pathname === "/api/cheat", async (route) => {
+      await held;
+      await route.continue();
+    });
+    const card = page.locator('.ch-card[data-forgery="edited-total"]');
+    await card.evaluate((e) => e.scrollIntoView({ block: "center" }));
+    const before = await card.evaluate((e) => Math.round(e.getBoundingClientRect().top));
+    await card.tap();
+    await expect(page.locator(".ch-out.ch-stale")).toHaveCount(1);
+    const during = await card.evaluate((e) => Math.round(e.getBoundingClientRect().top));
+    expect(Math.abs(during - before)).toBeLessThanOrEqual(1);
+    // A second tap during the wait lands where the finger is.
+    await page.locator('.ch-card[data-forgery="out-of-zone"]').tap();
+    await expect(page.locator('.ch-card[aria-pressed="true"]')).toHaveAttribute("data-forgery", "out-of-zone");
+    release();
+    await expect(page.locator(".ch-out")).toHaveAttribute("data-shown", "out-of-zone");
+    await expect(page.locator(".ch-flags")).toContainText("outside the drive zone");
+  });
+});
+
+/** The dialog's distance from each edge of the window. */
+async function dialogGaps(page: Page) {
+  const dialog = page.locator("dialog.pc-dialog[open]");
+  await expect(dialog.locator(".pc-again")).toBeEnabled({ timeout: 20_000 });
+  return dialog.evaluate((e) => {
+    const r = e.getBoundingClientRect();
+    return { left: r.left, right: innerWidth - r.right, top: r.top, bottom: innerHeight - r.bottom };
+  });
+}
+
+test("Ask PayPal yourself opens in the middle of the window at 1440", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.goto(`/drive/${driveId}?as=ledger`);
+  await page.getByRole("button", { name: "Ask PayPal yourself" }).first().click();
+  const g = await dialogGaps(page);
+  expect(g.left).toBeGreaterThan(100);
+  expect(Math.abs(g.left - g.right)).toBeLessThanOrEqual(1);
+  expect(g.top).toBeGreaterThan(0);
+  expect(Math.abs(g.top - g.bottom)).toBeLessThanOrEqual(1);
+});
+
+test.describe("Ask PayPal yourself on a phone, 390 × 844", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test("the dialog is as wide as the phone less an even margin, in the middle", async ({ page }) => {
+    const driveId = await openDemo(page);
+    await page.goto(`/drive/${driveId}?as=ledger`);
+    await page.getByRole("button", { name: "Ask PayPal yourself" }).first().tap();
+    const g = await dialogGaps(page);
+    for (const side of [g.left, g.right]) {
+      expect(side).toBeGreaterThanOrEqual(8);
+      expect(side).toBeLessThanOrEqual(16);
+    }
+    expect(Math.abs(g.left - g.right)).toBeLessThanOrEqual(1);
+    expect(Math.abs(g.top - g.bottom)).toBeLessThanOrEqual(1);
+  });
 });
 
 test("the landing page leads to the cheat page; the Florida drive stays hidden unless switched on", async ({ page }) => {

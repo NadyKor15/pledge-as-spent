@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CheatLine, CheatResult, ForgeryCard } from "@/server/cheat";
 import { api, asApiError, type ApiError } from "../api";
 import { money } from "../format";
@@ -12,6 +12,10 @@ import "./cheat.css";
 // "Try to cheat the receipt": the judge picks a forged receipt, the server checks it against a copy of the demo drive,
 // and the page shows each line's fate and what the forged lines would have cost donors: a sum the server computes
 // from the allocation, so a check that let a forged line through would show here as money.
+//
+// While the next forgery runs, the last result stays on the page, dimmed and inert. Taking it away for that moment
+// made the page ~1,700 px shorter on a phone: a reader scrolled down to the lower cards had the page jump under the
+// finger (scrollY 520 -> 284), so the next tap could land on a different card.
 
 const OUTCOME: Record<CheatLine["outcome"], string> = { paid: "Paid", refused: "Refused", held: "Held for a person", blocked: "Blocked" };
 
@@ -28,21 +32,29 @@ export function CheatLab({ forgeries }: { forgeries: ForgeryCard[] }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
 
+  // Only the latest pick's answer counts: an earlier one arriving late is dropped.
+  const latest = useRef(0);
+
   const run = async (id: string) => {
+    const n = ++latest.current;
     setPicked(id);
     setBusy(true);
     setError(null);
     try {
-      setResult(await api<CheatResult>(`/api/cheat?forgery=${encodeURIComponent(id)}`));
+      const r = await api<CheatResult>(`/api/cheat?forgery=${encodeURIComponent(id)}`);
+      if (n === latest.current) setResult(r);
     } catch (e) {
+      if (n !== latest.current) return;
       setResult(null);
       setError(asApiError(e));
     } finally {
-      setBusy(false);
+      if (n === latest.current) setBusy(false);
     }
   };
 
-  const shown = result && result.forgery.id === picked ? result : null;
+  // The result of the pick on screen, or while a new pick runs, the previous one (stale).
+  const shown = result;
+  const stale = busy || (result !== null && result.forgery.id !== picked);
   const honest = shown ? shown.chargedHonest.some((m) => m.minor > 0) : false;
 
   return (
@@ -82,8 +94,8 @@ export function CheatLab({ forgeries }: { forgeries: ForgeryCard[] }) {
             {error.message}
           </p>
         )}
-        {shown && !busy && (
-          <>
+        {shown && (
+          <div className={stale ? "ch-out ch-stale" : "ch-out"} data-shown={stale ? undefined : shown.forgery.id} inert={stale || undefined}>
             <div className="ch-score" data-testid="cheat-score">
               <span className="ch-score-label">Charged to donors for forged lines</span>
               <b className="ch-score-sum">{amounts(shown.chargedForged)}</b>
@@ -137,7 +149,7 @@ export function CheatLab({ forgeries }: { forgeries: ForgeryCard[] }) {
                 <p className="ch-honesty">Recorded reading — no model call. The reading is the receipt set’s own truth, so this tests the checks, not the AI that reads photos. Checks ran at {utcTime(shown.ranAt)}.</p>
               </div>
             </div>
-          </>
+          </div>
         )}
       </section>
 

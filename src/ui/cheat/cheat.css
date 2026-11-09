@@ -17,6 +17,8 @@
 .ch-result { margin-top: 22px; }
 .ch-hint { color: rgba(28, 27, 25, .66); font-size: 15px; }
 .ch-error { color: var(--rejected, #C53030); font-size: 15px; }
+/* The previous result while the next pick runs: kept, so the page does not shrink and jump under a finger. */
+.ch-stale { opacity: .4; transition: opacity .15s; }
 .ch-score { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border-radius: 12px; background: #EEF7F1; border: 1px solid #CFE6D7; }
 .ch-score-label { font-size: 14px; font-weight: 600; color: #256F4B; text-transform: uppercase; letter-spacing: .04em; }
 .ch-score-sum { font-size: 32px; line-height: 38px; font-weight: 700; color: #1F5C3E; font-variant-numeric: tabular-nums; }
