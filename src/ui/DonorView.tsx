@@ -22,8 +22,8 @@ const UNIT_WORD: Record<string, string> = { JPY: "yen", USD: "dollar", EUR: "eur
 
 function heroText(role: Role, status: DriveView["drive"]["status"]): string {
   if (role === "shelter") return "What this drive has bought for your shelter, line by line. There is nothing to do here: volunteers send receipts and donors pledge.";
-  if (status === "closed") return "This drive is closed. Donors paid only for verified purchases, and everything else went back to them.";
-  return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent goes back when the drive closes.";
+  if (status === "closed") return "This drive is closed. Donors paid only for verified purchases; the rest of every hold was never charged.";
+  return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent is never charged: PayPal releases it when the drive closes.";
 }
 
 /** The public drive page: needs with the PayPal pledge form (donor) or read-only (shelter), and where the money went. */

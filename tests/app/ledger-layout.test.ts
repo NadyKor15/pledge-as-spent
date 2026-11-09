@@ -56,6 +56,7 @@ function donor(i: number, city: string, country: string, spentBase: number, rest
     spentWord: "spent",
     restText: `$${restBase}.00`,
     restWord: "back",
+    neverCharged: false,
     spentBase,
     waitingBase: 0,
     restBase,
@@ -170,7 +171,18 @@ describe("what the arcs say", () => {
       expect(p.arcs[1].head).not.toBeNull();
       expect(p.pills.map((x) => x.flow)).toEqual(["spent", "back"]);
     }
-    expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text))).toEqual(expect.arrayContaining(["$21.45", "$8.55 back", "€4.58", "€15.42 back", "¥1,237", "¥1,763 back"]));
+    expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text))).toEqual(expect.arrayContaining(["$21.45", "$8.55 never charged", "€4.58", "€15.42 never charged", "¥1,237", "¥1,763 never charged"]));
+  });
+
+  it("where a return pill with its words has no room, it keeps the amount alone rather than leave the map (700 px, three languages)", () => {
+    for (const lang of ["en", "de", "ja"] as const) {
+      const plan = planMap(deriveLedger(fixture("closed"), lang).donors, SIZES[1]);
+      expect(plan.listed, lang).toEqual([]);
+      for (const p of plan.placed) {
+        const back = p.pills.find((x) => x.flow === "back")!;
+        expect([p.donor.restText, `${p.donor.restText} ${p.donor.words?.rest}`], lang).toContain(back.text);
+      }
+    }
   });
 
   it("the shelter sits on the edge of its card: past the map's right edge, under the phone's map", () => {

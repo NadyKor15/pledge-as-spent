@@ -32,7 +32,13 @@ export interface LedgerDonor {
   spentWord: "spent" | "waiting" | "approved";
   /** What did not go to the shelter, with the word for it. */
   restText: string;
+  /** "back" also for a rest PayPal released: the assistant's tools read this code (src/agent/tools.ts), unchanged. */
   restWord: "back" | "held";
+  /**
+   * The rest was released by PayPal (void or expiry) and nothing of this hold was refunded: it was never charged.
+   * False while a void is on its way, and after any refund (that money was charged, then given back).
+   */
+  neverCharged: boolean;
   /** The two words in the reader's language (left out by hand-made donors in tests: the codes stand in). */
   words?: { spent: string; rest: string };
   /** The same in the drive's currency: these add up to the totals, and weigh the arcs. */
@@ -121,6 +127,12 @@ export interface LedgerModel {
   /** The third total: what went back on a closed drive, what is still held on any other. */
   rest: number;
   restLabel: string;
+  /** The third total's title on screen: "Never charged" when every rest is, else restLabel (which stays the data's name). */
+  restTitle: string;
+  /** The donors' card heading. */
+  donorsTitle: string;
+  /** Every donor whose money went back had it released by PayPal, never charged (none was refunded); false if none went back. */
+  allNeverCharged: boolean;
   /** The line under Held when part of the money has already gone back. */
   restNote: string | null;
   /** The line under Spent while shares are recorded but PayPal has not captured them. */
@@ -206,6 +218,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   const label = city ? `${name} · ${city}` : name;
   const spentWord = waiting === 0 ? "spent" : waiting < spent ? "approved" : "waiting";
   const restWord = over ? "back" : "held";
+  const neverCharged = (h.status === "voided" || h.status === "expired") && h.reversed === 0;
   return {
     pledgeId: h.pledgeId,
     name,
@@ -221,7 +234,8 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
     spentWord,
     restText: moneyIn(lang, h.currency, over ? back : held),
     restWord,
-    words: { spent: w.donorWord[spentWord], rest: w.donorWord[restWord] },
+    neverCharged,
+    words: { spent: w.donorWord[spentWord], rest: w.donorWord[neverCharged ? "never" : restWord] },
     pledgedBase,
     spentBase,
     waitingBase,
@@ -365,6 +379,9 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const waiting = sum((d) => d.waitingBase);
   const match = v.ledger.filter((r) => r.kind === "match_share").reduce((total, r) => total + keptBase(r, holdById(v, r.pledgeId), base), 0);
   const matchName = v.match.holds[0]?.donorName ?? null;
+  // "Never charged" only when it is true of every donor whose money went back: a refund was charged first.
+  const gone = donors.filter((d) => d.backBase > 0);
+  const allNever = gone.length > 0 && gone.every((d) => d.neverCharged);
   return {
     driveId: v.drive.id,
     lang,
@@ -382,7 +399,10 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
     returned,
     rest: closed ? returned : held,
     restLabel: closed ? w.returnedToDonors : w.held,
-    restNote: !closed && returned > 0 ? w.alreadyReturned(moneyIn(lang, base, returned)) : null,
+    restTitle: closed ? (allNever ? w.neverCharged : w.returnedToDonors) : w.held,
+    donorsTitle: closed ? (allNever ? w.neverToDonors : w.backToDonors) : w.heldForDonors,
+    allNeverCharged: allNever,
+    restNote: !closed && returned > 0 ? (allNever ? w.alreadyNever : w.alreadyReturned)(moneyIn(lang, base, returned)) : null,
     // The screens say shares are "captured once a day"; a drive may batch on another rhythm.
     waitingNote: waiting > 0 ? w.waitingFor(moneyIn(lang, base, waiting), v.drive.batch.maxAgeHours === 24) : null,
     match,

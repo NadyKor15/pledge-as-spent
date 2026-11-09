@@ -29,9 +29,13 @@ export interface Words {
   /** The shelter card's heading. */
   boughtForShelter: string;
   returnedToDonors: string;
+  /** The third total on a closed drive when every rest was released by PayPal, never charged (a refund is not). */
+  neverCharged: string;
   held: string;
   companyMatch: string;
   alreadyReturned: (amount: string) => string;
+  /** The same note when what went back was released by PayPal, never charged. */
+  alreadyNever: (amount: string) => string;
   waitingFor: (amount: string, daily: boolean) => string;
   withMatch: (amount: string) => string;
   receiptSum: (amount: string, count: number) => string;
@@ -40,11 +44,13 @@ export interface Words {
   withdrawn: string;
   match: string;
   /** The donor's words beside their amounts (LedgerDonor.spentWord / restWord). */
-  donorWord: Record<"spent" | "waiting" | "approved" | "back" | "held", string>;
+  donorWord: Record<"spent" | "waiting" | "approved" | "back" | "held" | "never", string>;
   /** "12 of 40 bottles". */
   count: (covered: number, needed: number, unit: string) => string;
   // Widgets
   backToDonors: string;
+  /** The donors' card on a closed drive when every rest was never charged. */
+  neverToDonors: string;
   heldForDonors: string;
   replay: string;
   refresh: string;
@@ -102,9 +108,11 @@ const EN: Words = {
   plusMatch: (m, t) => `+ company match ${m} = ${t} bought`,
   boughtForShelter: "Bought for the shelter",
   returnedToDonors: "Returned to donors",
+  neverCharged: "Never charged",
   held: "Held",
   companyMatch: "Company match",
   alreadyReturned: (a) => `${a} already returned`,
+  alreadyNever: (a) => `${a} already released, never charged`,
   waitingFor: (a, daily) => `${a} waiting for the ${daily ? "daily" : "next"} capture`,
   withMatch: (a) => `${a} with the match`,
   receiptSum: (a, n) => `receipt${n === 1 ? "" : "s"} ${a}`,
@@ -112,9 +120,10 @@ const EN: Words = {
   feesNote: "PayPal’s fees are paid from the drive’s balance, not from pledges",
   withdrawn: "Withdrawn",
   match: "match",
-  donorWord: { spent: "spent", waiting: "waiting", approved: "approved", back: "back", held: "held" },
+  donorWord: { spent: "spent", waiting: "waiting", approved: "approved", back: "back", held: "held", never: "never charged" },
   count: () => "", // English counts come from format.ts ofCount, unchanged
   backToDonors: "Back to donors",
+  neverToDonors: "Rest never charged",
   heldForDonors: "Held for donors",
   replay: "Replay",
   refresh: "Refresh",
@@ -155,9 +164,11 @@ const DE: Words = {
   plusMatch: (m, t) => `+ Firmenzuschuss ${m} = ${t} gekauft`,
   boughtForShelter: "Für die Unterkunft gekauft",
   returnedToDonors: "An Spender zurück",
+  neverCharged: "Nie belastet",
   held: "Reserviert",
   companyMatch: "Firmenzuschuss",
   alreadyReturned: (a) => `${a} schon zurück`,
+  alreadyNever: (a) => `${a} schon freigegeben, nie belastet`,
   waitingFor: (a, daily) => `${a} warten auf die ${daily ? "tägliche" : "nächste"} Abbuchung`,
   withMatch: (a) => `${a} mit Zuschuss`,
   receiptSum: (a, n) => `${n === 1 ? "Beleg" : "Belege"} ${a}`,
@@ -165,13 +176,14 @@ const DE: Words = {
   feesNote: "PayPal-Gebühren zahlt die Sammlung, nicht die Spender",
   withdrawn: "Zurückgezogen",
   match: "Zuschuss",
-  donorWord: { spent: "ausgegeben", waiting: "wartet", approved: "freigegeben", back: "zurück", held: "reserviert" },
+  donorWord: { spent: "ausgegeben", waiting: "wartet", approved: "freigegeben", back: "zurück", held: "reserviert", never: "nie belastet" },
   count: (c, n, unit) => {
     const noun = unitNoun(unit);
     const word = noun ? (UNIT.de[noun]?.[n === 1 ? 0 : 1] ?? noun) : null;
     return `${c} von ${n}${word ? ` ${word}` : ""}`;
   },
   backToDonors: "Zurück an Spender",
+  neverToDonors: "Rest nie belastet",
   heldForDonors: "Für Spender reserviert",
   replay: "Nochmal",
   refresh: "Aktualisieren",
@@ -212,9 +224,11 @@ const JA: Words = {
   plusMatch: (m, t) => `＋ 企業マッチング ${m} ＝ 購入 ${t}`,
   boughtForShelter: "避難所のために購入",
   returnedToDonors: "寄付者へ返金",
+  neverCharged: "請求されず",
   held: "保留中",
   companyMatch: "企業マッチング",
   alreadyReturned: (a) => `${a} 返金済み`,
+  alreadyNever: (a) => `${a} 解放済み・請求されず`,
   waitingFor: (a, daily) => `${a} は${daily ? "毎日" : "次回"}の引き落とし待ち`,
   withMatch: (a) => `マッチング込み ${a}`,
   receiptSum: (a) => `レシート ${a}`,
@@ -222,13 +236,14 @@ const JA: Words = {
   feesNote: "PayPal手数料は寄付金ではなく募金の残高から支払われます",
   withdrawn: "取り消し",
   match: "マッチング",
-  donorWord: { spent: "支出", waiting: "待ち", approved: "承認", back: "返金", held: "保留" },
+  donorWord: { spent: "支出", waiting: "待ち", approved: "承認", back: "返金", held: "保留", never: "請求されず" },
   count: (c, n, unit) => {
     const noun = unitNoun(unit);
     const word = noun ? (UNIT.ja[noun]?.[0] ?? "") : "個";
     return `${c} / ${n}${word}`;
   },
   backToDonors: "寄付者へ返金",
+  neverToDonors: "残りは請求されず",
   heldForDonors: "寄付者のために保留",
   replay: "もう一度",
   refresh: "更新",

@@ -41,7 +41,7 @@ describe("the Ledger in three languages: the same figures, other words", () => {
       ["AA-Batterien", "50 von 50"],
     ]);
     const mark = m.donors.find((d) => d.name === "Mark")!;
-    expect([mark.spentText, mark.restText, mark.words?.spent, mark.words?.rest]).toEqual(["21,45 $", "8,55 $", "ausgegeben", "zurück"]);
+    expect([mark.spentText, mark.restText, mark.words?.spent, mark.words?.rest]).toEqual(["21,45 $", "8,55 $", "ausgegeben", "nie belastet"]);
     expect(m.refused.map((r) => `${r.name} ${r.amount}`)).toEqual(["Alkohol 1.198 ¥", "Gutschein 3.000 ¥"]);
     expect(new Set(m.book.map((r) => r.status))).toEqual(new Set(["Bezahlt", "Abgelehnt"]));
   });

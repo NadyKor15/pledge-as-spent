@@ -1,7 +1,6 @@
 "use client";
 
 import type { AgWidgetParams } from "ag-studio";
-import { WORDS } from "../i18n";
 import { focusOf } from "../store";
 import { useWidget } from "./useWidget";
 
@@ -10,12 +9,10 @@ import { useWidget } from "./useWidget";
 export function DonorsWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLElement>(params);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
-  const closed = snap.model.phase === "closed";
-  const w = WORDS[snap.lang];
 
   return (
     <section className="lg-card lg-donors" ref={root}>
-      <h2>{closed ? w.backToDonors : w.heldForDonors}</h2>
+      <h2>{snap.model.donorsTitle}</h2>
       <ul>
         {snap.model.donors.map((d) => {
           const on = focus?.donors.has(d.pledgeId) ?? false;

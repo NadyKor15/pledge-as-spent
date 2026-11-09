@@ -255,7 +255,7 @@ test.describe("EN · DE · JA", () => {
     await page.getByRole("button", { name: "DE", exact: true }).click();
     await expect(page).toHaveURL(/[?&]lang=de/);
     await expect(page.locator(".ag-studio-value-widget-content").first()).toHaveText("10.783 ¥", { timeout: 15_000 });
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "An Spender zurück" })).toHaveCount(1);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Nie belastet" })).toHaveCount(1);
     await openTheBook(page, /Jede Zeile des Buchs/);
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["Zeile", "Belegzeile", "Bedarf", "Zahler", "Anteil", "PayPal-Abbuchung", "Status"]);
     await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"])`)).toContainText("8,58 $");

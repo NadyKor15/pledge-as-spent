@@ -138,7 +138,8 @@ function holdFate(view: DriveView, st: Statement): string {
   const b = st.balance;
   const expires = b.expiresAt ? day(b.expiresAt, false) : null;
   if (returningAtPayPal(b)) return "returning at PayPal";
-  if (b.status === "voided") return "returned";
+  // A refund was charged first: only a rest PayPal released untouched is never charged.
+  if (b.status === "voided") return b.reversed > 0 ? "returned" : "never charged: PayPal released the hold";
   if (b.status === "captured") return "fully spent";
   if (b.status === "expired") return "expired";
   if (b.status === "denied") return "declined by PayPal";
@@ -174,7 +175,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
     { key: "waiting", bar: s.bWait, stat: s.sWait, value: a.waiting, word: "waiting", always: false },
     { key: "held", bar: s.bHeld, stat: s.sHeld, value: a.held, word: "held", always: live },
     { key: "returning", bar: s.bBack, stat: s.sBack, value: a.returning, word: "Returning at PayPal…", always: false },
-    { key: "returned", bar: s.bRel, stat: s.sRel, value: a.released, word: "returned", always: !returning },
+    { key: "returned", bar: s.bRel, stat: s.sRel, value: a.released, word: b.reversed > 0 ? "returned" : "never charged", always: !returning },
   ].filter((p) => p.always || p.value > 0);
   return (
     <div className={s.page}>
@@ -235,7 +236,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             {returning
               ? `Nothing was bought with this pledge. Your ${money(st.currency, a.returning)} is on its way back at PayPal and was never charged.`
               : a.total > 0 && b.authorized > 0 && a.held === 0
-                ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} went back at PayPal and was never charged.`
+                ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} was never charged: PayPal released the hold.`
                 : `Nothing yet. ${a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.`}
           </p>
         )}
@@ -307,7 +308,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             {live && (
               <>
                 <br />
-                Whatever is not spent goes back when the drive closes.
+                Whatever is not spent is never charged: PayPal releases it when the drive closes.
               </>
             )}
             {rate && (
@@ -387,7 +388,7 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   if (b.revoked) {
     return (
       <p className={s.withdrawn} role="status">
-        {returningAtPayPal(b) ? "You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal." : "You withdrew this pledge. What was already bought stays paid; the rest went back at PayPal."}
+        {returningAtPayPal(b) ? "You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal." : "You withdrew this pledge. What was already bought stays paid; the rest was never charged: PayPal released the hold."}
       </p>
     );
   }
@@ -406,7 +407,7 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   };
   return (
     <div className={s.confirm}>
-      <p>Withdraw this pledge? What was already bought stays paid. The rest of the hold goes back to you.</p>
+      <p>Withdraw this pledge? What was already bought stays paid. PayPal releases the rest of the hold: it is never charged.</p>
       <div className={s.confirmActs}>
         <button type="button" className={s.yes} disabled={busy !== null} onClick={withdraw}>
           {busy ? "Withdrawing…" : "Yes, withdraw"}

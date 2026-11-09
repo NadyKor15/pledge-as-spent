@@ -197,7 +197,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
   if (x.stacked) {
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, 58, 21, "center"), at(0, 0, 48, r.kpi));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, 38, 16, "center"), at(0, r.kpi, 24, r.pair));
-    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, 38, 16, "center"), at(24, r.kpi, 24, r.pair));
+    place("kpi-rest", kpi(m.restTitle, "totals.rest", rest, 38, 16, "center"), at(24, r.kpi, 24, r.pair));
     let y = r.kpi + r.pair;
     if (r.note) {
       note(NOTE_WAITING, at(0, y, 24, r.note));
@@ -229,7 +229,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
     const band = r.kpi - r.note;
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, top, label, "center"), at(0, 0, 16, band));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, top, label, "center"), at(16, 0, 16, band - r.match));
-    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
+    place("kpi-rest", kpi(m.restTitle, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
     if (m.plusMatch) place("plus-match", plusMatch(Math.round(19 * s), m.plusMatch), at(16, band - r.match, 16, r.match));
     if (m.restNote) note(NOTE_REST, at(32, band - r.match, 16, r.match));
     if (r.note) note(NOTE_WAITING, at(16, band, 16, r.note));

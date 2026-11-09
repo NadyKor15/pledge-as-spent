@@ -109,7 +109,7 @@ describe("2. a hold that ended inside an open drive", () => {
     const m = deriveLedger(v);
     expect(m.restLabel).toBe("Held");
     expect(yen(m.rest)).toBe("¥3,796");
-    expect(m.restNote).toBe("¥1,763 already returned");
+    expect(m.restNote).toBe("¥1,763 already released, never charged");
     adds(m);
     const yuki = m.donors.find((d) => d.name === "Yuki")!;
     expect([yuki.restText, yuki.restWord]).toEqual(["¥1,763", "back"]);

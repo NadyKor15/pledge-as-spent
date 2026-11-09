@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DemoStart } from "@/ui/DemoStart";
+import { ShowcaseCount } from "@/ui/ShowcaseCount";
 import { FLORIDA_SCENARIO, floridaDemoOn } from "@/ui/demo-flags";
 import { readmeJudgeUrl, showcaseLinks } from "@/ui/showcase";
 import "@/ui/landing.css";
@@ -17,8 +18,9 @@ export default function Home() {
     <main className="ld-page">
       <div className="ld-col">
         <div className="ld-brand">Pledge-as-Spent</div>
-        <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest goes back.</h1>
+        <h1>A donor’s pledge stays a PayPal hold: money moves only for receipt lines that pass the checks, and the rest is never charged.</h1>
         <p className="ld-promise">Your €20 for water can only buy water.</p>
+        <ShowcaseCount />
         <p className="ld-for">For small relief drives and mutual-aid groups that already take PayPal, and for the donors who want to see what their money bought.</p>
 
         {/* Everything here only reads: a finished drive, a statement, the README. Nothing is held or charged. */}
@@ -26,7 +28,7 @@ export default function Home() {
           <h2 id="ld-judge-title">Judging Pledge-as-Spent? See the whole thing in 90 seconds.</h2>
           <ol>
             <li>
-              <Link href={finished.ledger}>See a finished drive</Link>: the Ledger, where every pledge was spent on receipt lines or went back. Its “Ask PayPal yourself” reads every hold, capture and payout back from PayPal.
+              <Link href={finished.ledger}>See a finished drive</Link>: the Ledger, where every pledge was spent on receipt lines or never charged. Its “Ask PayPal yourself” reads every hold, capture and payout back from PayPal.
             </li>
             <li>
               <Link href={finished.statement}>Read a donor’s statement</Link>: what one donor’s hold bought, line by line.
@@ -64,10 +66,10 @@ export default function Home() {
             <b>Follow the money.</b> Each approved line is split across donor holds and the company match. “Capture now” takes only those shares at PayPal.
           </li>
           <li>
-            <b>Close the drive.</b> “Close drive” sends what is left of every hold back to its donor. Open a donor’s name to read what that pledge bought.
+            <b>Close the drive.</b> “Close drive” has PayPal release what is left of every hold: it is never charged. Open a donor’s name to read what that pledge bought.
           </li>
           <li>
-            <b>See where the money went.</b> The Ledger puts every pledge on one page: spent, returned, and the receipt lines behind each yen.
+            <b>See where the money went.</b> The Ledger puts every pledge on one page: spent, never charged, and the receipt lines behind each yen.
           </li>
         </ol>
       </div>

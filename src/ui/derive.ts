@@ -42,7 +42,9 @@ export function holdTag(h: HoldMoney): string {
     case "pending_approval":
       return "Waiting for approval";
     case "voided":
-      return a.spent > 0 ? "Rest returned" : "Returned";
+      // PayPal released the hold: never charged, unless part was charged and then refunded.
+      if (h.reversed > 0) return a.spent > 0 ? "Rest returned" : "Returned";
+      return a.spent > 0 ? "Rest never charged" : "Never charged";
     case "captured":
       return "Fully spent";
     case "expired":
@@ -355,7 +357,11 @@ export function paypalActivity(v: DriveView): Activity[] {
       build = (s) => ({ parts: [`Payout to ${volunteer}`, amount, s].filter(Boolean), short: `Payout to ${volunteer} — ${s}` });
     } else if (kind === "void") {
       const pledgeId = rest[1];
-      build = (s) => ({ parts: ["Rest of the hold returned", who(pledgeId), s], short: `${who(pledgeId)} hold returned — ${s}` });
+      // Only a void PayPal answered VOIDED released the rest; anything else is the request, not the release.
+      build = (s) =>
+        s === "VOIDED"
+          ? { parts: ["Rest of the hold released, never charged", who(pledgeId), s], short: `${who(pledgeId)} hold released, never charged — ${s}` }
+          : { parts: ["Release of the rest of the hold", who(pledgeId), s], short: `${who(pledgeId)} hold release — ${s}` };
     } else if (kind === "reauth") {
       const pledgeId = rest[1];
       build = (s) => ({ parts: ["Hold re-authorized", who(pledgeId), s], short: `${who(pledgeId)} hold re-authorized — ${s}` });

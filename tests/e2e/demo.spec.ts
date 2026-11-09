@@ -392,7 +392,7 @@ for (const { width, height } of [
   test(`ledger at ${width} px: closed drive, the money went back`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     await openLedger(page, "closed");
-    await expectTotals(page, "Returned to donors");
+    await expectTotals(page, "Never charged");
     expect(await wider(page)).toBeLessThanOrEqual(0);
     const labels = await crowded(page);
     expect(labels.count).toBeGreaterThan(8);
@@ -748,9 +748,9 @@ test("ledger of a drive taken through the app: held before the close, returned a
   await closeDrive(page);
 
   await page.goto(`/drive/${driveId}?as=ledger`);
-  await expectTotals(page, "Returned to donors");
+  await expectTotals(page, "Never charged");
   await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
-  await expect(page.locator("body")).toContainText("$8.55 back");
+  await expect(page.locator("body")).toContainText("$8.55 never charged");
 });
 
 // Drives the two snapshots never show.
@@ -789,7 +789,7 @@ test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ 
   });
   await page.goto(`/drive/${id}?as=ledger`);
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Held" })).toHaveCount(1, { timeout: 60_000 });
-  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Returned to donors" })).toHaveCount(1, { timeout: 15_000 });
+  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Never charged" })).toHaveCount(1, { timeout: 15_000 });
   await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
 });
 
@@ -847,9 +847,9 @@ test("ledger: Yuki withdrew from an open drive: the header, the note and the row
   });
   await openLedger(page, "open", body);
   await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796"], { timeout: 15_000 });
-  await expect(page.getByText("¥1,763 already returned")).toBeVisible();
+  await expect(page.getByText("¥1,763 already released, never charged")).toBeVisible();
   await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
-  await expect(page.locator(".lg-map")).toContainText("¥1,763 back");
+  await expect(page.locator(".lg-map")).toContainText("¥1,763 never charged");
   await expect(page.locator(".lg-back .lg-line")).toHaveCount(1);
   expect((await crowded(page)).out).toEqual([]);
 });
@@ -889,7 +889,7 @@ test("finding 1, 4: the screen leads step by step: sample, capture, close, ledge
     if (r.method() === "POST" && r.url().endsWith("/close")) posts += 1;
   });
   await close.click();
-  await expect(page.getByText("Close the drive? Shares still waiting are captured and unspent holds go back to donors.")).toBeVisible();
+  await expect(page.getByText("Close the drive? Shares still waiting are captured, and PayPal releases what is left of every hold: it is never charged.")).toBeVisible();
   expect(posts).toBe(0);
   await page.getByRole("button", { name: "Keep it open" }).click();
   await expect(page.getByText("Close the drive?")).toHaveCount(0);

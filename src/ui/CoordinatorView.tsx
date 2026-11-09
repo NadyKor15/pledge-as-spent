@@ -567,10 +567,10 @@ function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy:
   const status = view.drive.status;
   const sub =
     status === "open"
-      ? "Closing captures what is waiting and sends what is left of every hold back to its donor."
+      ? "Closing captures what is waiting, then PayPal releases what is left of every hold: it is never charged."
       : status === "closing"
-        ? "Closing: waiting shares are captured first, then what is left of each hold goes back once PayPal confirms."
-        : "Every hold is settled: pledged = spent + returned.";
+        ? "Closing: waiting shares are captured first, then PayPal releases what is left of each hold."
+        : view.holds.some((h) => h.reversed > 0) ? "Every hold is settled: pledged = spent + returned." : "Every hold is settled: pledged = spent + never charged.";
   const main = next === "close" || next === "closing";
   return (
     <div className={`${s.panel} ${s.bClose}`}>
@@ -583,7 +583,7 @@ function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy:
         </Link>
       ) : asking && status === "open" && busy !== "close" ? (
         <div className={s.confirm} ref={confirm} role="group" aria-label="Confirm closing the drive">
-          <p>Close the drive? Shares still waiting are captured and unspent holds go back to donors.</p>
+          <p>Close the drive? Shares still waiting are captured, and PayPal releases what is left of every hold: it is never charged.</p>
           <div className={s.confirmActs}>
             <button
               type="button"

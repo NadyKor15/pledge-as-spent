@@ -230,7 +230,8 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
     const pills: Pill[] = [];
     let room = true;
 
-    const pillOn = (text: string, flow: Pill["flow"], a: Point, c: Point, b: Point, own: Point[]) => {
+    /** Places a pill along an arc; false when no spot is free. */
+    const pillOn = (text: string, flow: Pill["flow"], a: Point, c: Point, b: Point, own: Point[]): boolean => {
       const w = textWidth(text, pillPx) + 20;
       const side = pillH / 2 + 9;
       const spots: Box[] = [];
@@ -242,15 +243,17 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
       }
       const box = best(spots, [own]);
       if (box) pills.push({ flow, text, box: take(box) });
-      else room = false;
+      return box !== null;
     };
 
-    if (spends && !compact) pillOn(donor.spentText, "spent", at, bow.out, hub, line.out);
+    if (spends && !compact && !pillOn(donor.spentText, "spent", at, bow.out, hub, line.out)) room = false;
 
     if (returns) {
       const angle = (Math.atan2(tip.y - bow.back.y, tip.x - bow.back.x) * 180) / Math.PI;
       arcs.push({ flow: "back", d: quad(hub, bow.back, tip), width: thick(donor.restBase), head: { x: tip.x, y: tip.y, angle } });
-      if (!compact) pillOn(`${donor.restText} ${donor.words?.rest ?? "back"}`, "back", tip, bow.back, hub, line.back);
+      // The words ("never charged", "nie belastet") make a long pill: with no room for it, the amount alone, as the
+      // spent pill has it, rather than send the donor off the map.
+      if (!compact && !pillOn(`${donor.restText} ${donor.words?.rest ?? "back"}`, "back", tip, bow.back, hub, line.back) && !pillOn(donor.restText, "back", tip, bow.back, hub, line.back)) room = false;
     } else if (donor.restBase > 0 && !compact) {
       // Nothing moved yet: the amount stays with the donor, beside their label.
       const text = `${donor.restText} ${donor.words?.rest ?? donor.restWord}`;
