@@ -4,8 +4,8 @@ import { DEFAULT_SHOWCASE_DRIVE_ID, readmeJudgeUrl, showcaseLinks } from "../../
 
 describe("the landing page's finished drive", () => {
   it("opens the closed demo drive's Ledger and Mark's statement, nothing that writes", () => {
-    expect(DEFAULT_SHOWCASE_DRIVE_ID).toBe("demo-41e3886eeb");
-    expect(showcaseLinks(DEFAULT_SHOWCASE_DRIVE_ID)).toEqual({ ledger: "/drive/demo-41e3886eeb?as=ledger", statement: "/pledge/demo-41e3886eeb.diapers" });
+    expect(DEFAULT_SHOWCASE_DRIVE_ID).toBe("demo-810b24be50");
+    expect(showcaseLinks(DEFAULT_SHOWCASE_DRIVE_ID)).toEqual({ ledger: "/drive/demo-810b24be50?as=ledger", statement: "/pledge/demo-810b24be50.diapers" });
   });
 
   it("follows another drive id without a code change", () => {

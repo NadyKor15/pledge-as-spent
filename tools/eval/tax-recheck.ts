@@ -186,7 +186,7 @@ async function main() {
   }
 
   // The control drive's book: the sample as funded on the hosted demo must come out the same.
-  const control = JSON.parse(readFileSync(path.join(ROOT, "evidence/control-drive-20261109.json"), "utf8"));
+  const control = JSON.parse(readFileSync(path.join(ROOT, "evidence/control-drive-20261109-810b24be50.json"), "utf8"));
   const heroCase = all.find((c) => c.source === "eval/live/shipped")!;
   const ledger = control.drive.ledger as { lineNo: number; base: number }[];
   const nowHero = run(nowChecks, heroCase);

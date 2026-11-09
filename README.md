@@ -19,18 +19,18 @@ Video: {YouTube URL}
 
 | Claim | Proof | What you will see |
 |---|---|---|
-| Pledges in three currencies are held, not charged | PayPal authorizations `2E958442NA768360H` (EUR), `2EE03347X60970605` (USD), `9EP86710L6028340H` (JPY) on [drive demo-41e3886eeb](https://pledge-as-spent.vercel.app/drive/demo-41e3886eeb?as=ledger) | €20.00, $30.00 and ¥3,000 held, one need each |
-| One receipt is split across several donors' holds | captures `6R971261656918244` (€4.58), `624222286A975533Y` ($21.45), `4SD28419XR815771T` (¥1,237) | each donor pays their own share, in their own currency |
-| A company match is captured with them | capture `60M990276G1827829` (¥5,224) | a second hold on the same lines, 1:1 up to a ¥500,000 cap |
-| The volunteer is reimbursed through PayPal Payouts | batch `SRB3MPNH3YJM8` | ¥10,448, confirmed |
+| Pledges in three currencies are held, not charged | PayPal authorizations `1RV76766T26737437` (EUR), `4TR76246YU647721D` (USD), `2CT29967LT177640T` (JPY) on [drive demo-810b24be50](https://pledge-as-spent.vercel.app/drive/demo-810b24be50?as=ledger) | €20.00, $30.00 and ¥3,000 held, one need each |
+| One receipt is split across several donors' holds | captures `4VE88173NF234560B` (€4.58), `50398406KN1796230` ($21.45), `2CM40725YN406312S` (¥1,237) | each donor pays their own share, in their own currency |
+| A company match is captured with them | capture `97T59974KS757452K` (¥5,224) | a second hold on the same lines, 1:1 up to a ¥500,000 cap |
+| The volunteer is reimbursed through PayPal Payouts | batch `CB379GNVYPU8G` | ¥10,448, confirmed |
 | Unspent money goes back | the same drive, Ledger tab | €15.42, $8.55 and ¥1,763 returned, every hold voided |
-| Alcohol and a gift card are refused | [the same receipt](https://pledge-as-spent.vercel.app/drive/demo-41e3886eeb?as=coordinator) | ¥4,198 of ¥14,646 never reaches a donor |
+| Alcohol and a gift card are refused | [the same receipt](https://pledge-as-spent.vercel.app/drive/demo-810b24be50?as=coordinator) | ¥4,198 of ¥14,646 never reaches a donor |
 | AI reads receipts in other languages | held-out [set 2](eval/results/meta-holdout2-h2-20261109T005251Z.md) and [set 1](eval/results/meta-holdout-fixed-20261109T004406Z.md), [more below](#how-ai-is-used) | Meta Muse Spark 1.3 on two sets of 20 receipts in 4 languages: line F1 100% and totals 20/20 on each, no line funded with a wrong need or quantity |
 | The model never moves money | `src/core` | amounts are computed in code; the model only reads and labels lines |
 | Try to cheat the receipt | [/cheat](https://pledge-as-spent.vercel.app/cheat) | five forged receipts (bought before the disaster, the paid receipt again, a store outside the zone, a total raised by hand, beer, cigarettes and a gift card among water) run through the same checks as every upload, on a copy of the demo drive: each line paid, refused or held with its reason, and what the forged lines would have charged donors. Their readings are recorded, not read live; nothing is written and PayPal is not called |
 | Ask PayPal yourself | the button on the Ledger, beside the CSV (and on a donor's statement) | the server reads every hold, capture and payout of the drive back from PayPal's sandbox, GET only, and sets each answer next to the book: "N of N objects answered by PayPal". An answer is kept for a minute; fresh checks are limited per network |
 
-The PayPal ids and amounts come from a control drive opened on the hosted demo on 2026-11-09: [`evidence/control-drive-20261109.json`](evidence/control-drive-20261109.json). PayPal's own records matched the ledger.
+The PayPal ids and amounts come from a control drive opened on the hosted demo on 2026-11-09: [`evidence/control-drive-20261109-810b24be50.json`](evidence/control-drive-20261109-810b24be50.json). PayPal's own records matched the ledger: 9 of 9 objects answered, 9 agree.
 
 ## The story
 
@@ -76,7 +76,7 @@ The prompts were first tuned on three sets of synthetic receipts, so the numbers
 
 Set 1's changes came after looking at its first run ([`eval/results/meta-holdout-20261109T001827Z.md`](eval/results/meta-holdout-20261109T001827Z.md)) and its repeat: a tax base is never the subtotal, the arithmetic and third reading above, and one rule found on the repeat. There both readings agreed on a wrong quantity because code did not know a pack word ("6 ADET"), so a quantity code reads from the row that the model counts differently, with no pack size in the name, now goes to the coordinator instead of passing. Set 1 is therefore not held-out for the changed code; set 2 is. On the 13 adversarial receipts (re-shot duplicates, purchases before the disaster, stores outside the zone, forbidden goods; [`eval/results/meta-adversarial-20261109T002345Z.md`](eval/results/meta-adversarial-20261109T002345Z.md)) every check scored 13 of 13 or all of its cases, except two deliberately out-of-focus photos: the first reading gave no answer for them, which the code now turns into an "unreadable" flag (not measured live since). All receipts are synthetic photos of fictional stores; real crumpled receipts will read worse. A receipt costs about $0.03 at Meta's prices for the two readings and the classification ($0.5850 and $0.5931 for the 20 receipts of each set). Details, every run and its spend: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval -- --reader meta`.
 
-Live reading has its own budget ceiling of $3 in code, apart from the assistant's, with a ledger of every model call. A photo recognized as the demo's sample gets its saved reading (Meta's real answer from the benchmark run, not a hand-written one), on demo drives only, and the screen says so. The benchmark receipts ship with recorded readings, so they use no model call. Any other photo is read live.
+Live reading has its own budget ceiling of $5 in code (`META_READ_CAP_USD` can lower it, not raise it), apart from the assistant's, with a ledger of every model call. A photo recognized as the demo's sample gets its saved reading (Meta's real answer from the benchmark run, not a hand-written one), on demo drives only, and the screen says so. The benchmark receipts ship with recorded readings, so they use no model call. Any other photo is read live.
 
 ## Ask the book
 
