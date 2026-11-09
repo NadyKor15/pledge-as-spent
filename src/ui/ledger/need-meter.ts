@@ -127,19 +127,25 @@ export const tonesOf = (meters: NeedMeter[]): Tone[] => TONES.filter((t) => mete
 /** Each amount in the reader's language, kept whole on one line ("15,42 €" never breaks before its sign). */
 const amountsIn = (lang: Lang, list: Amount[]) => list.map((a) => moneyIn(lang, a.currency, a.minor).replace(/ /g, " ")).join(" · ");
 
-/** The line under the bar: "€X promised on Lena's hold, nobody charged", "€X never charged"; "" when neither. */
-export function meterLine(m: NeedMeter, lang: Lang): string {
+/** The line under the bar in its parts, each with its tone: the screen colours "never charged" as the holds do. */
+export function meterLineParts(m: NeedMeter, lang: Lang): { tone: Tone; text: string }[] {
   const w = HOLD_WORDS[lang];
-  const parts: string[] = [];
+  const parts: { tone: Tone; text: string }[] = [];
   if (m.promisedIn.length) {
     const a = amountsIn(lang, m.promisedIn);
-    parts.push(m.promisedBy.length === 1 ? w.promisedOn(a, m.promisedBy[0]) : w.promisedOnMany(a, m.promisedBy.length));
+    parts.push({ tone: "promised", text: m.promisedBy.length === 1 ? w.promisedOn(a, m.promisedBy[0]) : w.promisedOnMany(a, m.promisedBy.length) });
   }
-  if (m.neverIn.length) parts.push(w.neverChargedSum(amountsIn(lang, m.neverIn)));
-  if (m.onItsWayIn.length) parts.push(w.onItsWayBack(amountsIn(lang, m.onItsWayIn)));
-  if (m.returnedIn.length) parts.push(w.returnedSum(amountsIn(lang, m.returnedIn)));
-  return parts.join("; ");
+  if (m.neverIn.length) parts.push({ tone: "never", text: w.neverChargedSum(amountsIn(lang, m.neverIn)) });
+  if (m.onItsWayIn.length) parts.push({ tone: "returning", text: w.onItsWayBack(amountsIn(lang, m.onItsWayIn)) });
+  if (m.returnedIn.length) parts.push({ tone: "back", text: w.returnedSum(amountsIn(lang, m.returnedIn)) });
+  return parts;
 }
+
+/** The line under the bar: "€X promised on Lena's hold, nobody charged", "€X never charged"; "" when neither. */
+export const meterLine = (m: NeedMeter, lang: Lang): string =>
+  meterLineParts(m, lang)
+    .map((p) => p.text)
+    .join("; ");
 
 /** The bar for a screen reader: each tone with its amount in the drive's currency. */
 export function meterLabel(m: NeedMeter, lang: Lang): string {

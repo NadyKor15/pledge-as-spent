@@ -4,7 +4,7 @@ import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
 import { NeedIcon } from "../../icons";
 import type { Lang } from "../../format";
-import { meterLabel, meterLine, meterWidths, needMeter, TONE_PART, TONES, tonesOf, type NeedMeter, type Tone } from "../need-meter";
+import { meterLabel, meterLineParts, meterWidths, needMeter, TONE_PART, TONES, tonesOf, type NeedMeter, type Tone } from "../need-meter";
 import { focusOf, type Pick } from "../store";
 import { HOLD_WORDS } from "../words-hold";
 import { useWidget } from "./useWidget";
@@ -104,7 +104,14 @@ export function ShelterWidget(params: AgWidgetParams) {
                   </span>
                   <NeedBar meter={meter} lang={lang} delay={0.9 + i * 0.15} empty={n.count} />
                   <span className="nm-money" data-label>
-                    {meter ? meterLine(meter, lang) : ""}
+                    {meter
+                      ? meterLineParts(meter, lang).map((p, k) => (
+                          <span key={p.tone} className={p.tone === "never" ? "nm-never-text" : undefined}>
+                            {k > 0 ? "; " : ""}
+                            {p.text}
+                          </span>
+                        ))
+                      : null}
                   </span>
                 </span>
               </button>

@@ -198,7 +198,9 @@ describe("the shelter card draws the tones and the money lines", () => {
     for (const lang of ["en", "de", "ja"] as Lang[]) {
       const html = render(v, lang);
       expect(tonesIn(html)).toEqual(["bought", "never", "bought", "never", "bought", "never"]);
-      const money = [...html.matchAll(/<span class="nm-money" data-label="[^"]*">([^<]*)<\/span>/g)].map((x) => x[1].replace(/&nbsp;/g, " "));
+      // "never charged" in the holds' own text colour (hold-meter.css --pas-never-text).
+      expect(html.match(/<span class="nm-never-text">/g)).toHaveLength(3);
+      const money = [...html.matchAll(/<span class="nm-money" data-label="[^"]*">((?:<span[^>]*>[^<]*<\/span>)*)<\/span>/g)].map((x) => x[1].replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " "));
       expect(money.map((s) => s.replace(/[  ]/g, " "))).toEqual(lines[lang].map((s) => s.replace(/[  ]/g, " ")));
       expect([...html.matchAll(/role="listitem" data-tone="(\w+)"/g)].map((x) => x[1])).toEqual(["bought", "never"]);
       expect(html).toContain(HOLD_WORDS[lang].tone.never);
