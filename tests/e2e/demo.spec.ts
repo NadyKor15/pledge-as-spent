@@ -502,7 +502,9 @@ test("ledger: the book's text fits, the items get the room, and a selection made
 
   const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
   const itemWidth = await width("item");
-  expect(itemWidth).toBeGreaterThan(300);
+  // The receipt stands beside the open book (T4, S5): the book is 36 of 48 tracks, and the items keep their least
+  // (250 px, cells.tsx) and the largest share of it.
+  expect(itemWidth).toBeGreaterThanOrEqual(250);
   expect(await width("line")).toBeLessThan(100);
   const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
   for (const pick of ["Lena", "Yuki", "Mark"] as const) {
