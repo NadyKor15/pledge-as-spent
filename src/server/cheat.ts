@@ -54,7 +54,7 @@ const ABOUT: Record<string, About> = {
   },
   "edited-total": {
     title: "A total raised by hand",
-    story: "Three real lines for ¥2,204 from a store in the zone; the subtotal and the total were changed to ¥11,204.",
+    story: "Three real lines for ¥2,204 from a store in the zone; the subtotal and the total were changed to ¥11,204. The published copy shows only the purchase lines, so the forged total is hidden here, but the check reads the whole photo.",
     forged: "all",
   },
   "forbidden-items": {
