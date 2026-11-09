@@ -66,6 +66,7 @@ The prompts were tuned on three sets of synthetic receipts, so the number to quo
 | Need quantity exact | 38/60, 63.3% |
 | Forbidden lines refused with the right code | 9/10 |
 | Forbidden lines funded by mistake | 0 |
+| Personal data visible on a closed photo (closing, rows from the page) | 0 of 42, lost purchase lines 0 of 103 |
 
 The same set after a Telegram-like compression scored the same on line F1, totals, dates and line class. All of this is synthetic: real crumpled receipts will read worse. Details and scripts: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval`.
 

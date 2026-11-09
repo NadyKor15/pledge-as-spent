@@ -28,3 +28,27 @@ The approach is ported from the author's own BillRadar closing (started October 
 - A leak is any pixel of a personal-data box inside the open area, or a dark pixel left in such a box on the closed image. A lost line is any pixel of a purchase line's printed rows closed or changed. Controls: opening every row must catch all 42 items, opening none must lose every line.
 
 Gate: 0 leaks of 42, 0 lost lines, controls lit on every receipt, and every closed image looked at.
+
+## Result
+
+`--bands truth`, November 9, 2026 (00:55 UTC), 20 of 20 receipts measured. Gate passed.
+
+| | Count |
+|---|---|
+| Personal data items with a pixel in the open area | 0 of 42 |
+| Dark pixels left inside personal-data boxes on the closed images | 0 |
+| Purchase lines with a pixel closed or changed | 0 of 103 |
+| Other printed rows (header, totals, payment) with a pixel open | 0 |
+| Control, every row opened: personal data items caught | 42 of 42 |
+| Control, no row opened: purchase lines caught as lost | 103 of 103 |
+| Re-render identical to the photo, byte for byte | 20 of 20 |
+
+The two controls run on every receipt: opening every row puts each of the 42 personal data items in the open area, and opening none loses each of the 103 lines, so the zeros above come from counters that can see.
+
+All 20 closed images were looked at: on each, only the purchase lines are printed, with their second name rows and quantity rows ("2 @ $18.99", "2点 x 単468", "2 x 26,90"), and the discount lines the reading counts as lines (coupon, promotion, 値引, İNDİRİM). The store's header, the date, the totals, the tax lines, the payment block and the barcodes are a plain background, and no row is cut.
+
+The corner method (each row's corners taken through the photo's perspective by the browser) is checked against the browser's own box of each personal-data span. It came within 1.01 px on two receipts (holdout-en-02, holdout-ja-06), while their re-renders were byte-identical to the photos, so the check allows 1.5 px (`tools/receipts/rows.ts`). A band reaches a third of a row into the gaps, far more than that.
+
+The same measuring of rows closes the five forged receipts of the cheat page (`tools/receipts/forgeries.ts`) and the demo's sample receipt (`tools/receipts/sample-bands.ts`, shipped in `eval/live/shipped/hero-ja-01.bands.json`). Both tools refuse to publish when a personal-data box touches the open area or print is left in it.
+
+`--bands slicer` (the reader's own pixel bands) is not measured here: the slicer is not in this build, and without it the app publishes only the sample receipt, closed by its shipped rows.

@@ -92,20 +92,13 @@ export interface ForgeryFile {
 }
 
 /**
- * A corner method a little further from the browser's boxes than the measure allows (the hero receipt is 1.03 px off)
- * is still accepted here, because every copy is then checked directly: no pixel of a personal-data box open, and no
- * dark pixel left in one on the closed image.
- */
-const CORNER_TOLERANCE_PX = 2;
-
-/**
  * The published copy: the photo closed to its purchase lines (every line, funded or refused), then a JPEG small enough
  * for a page of five, still carrying the closing mark. Throws rather than publish a copy that is not closed, that
  * leaves a purchase line shut, or that shows any of the personal data.
  */
 async function publishable(page: Page, png: Uint8Array, t: Truth): Promise<{ jpg: Buffer; open: number; lines: number; cornerPx: number }> {
   const r = await rendered(page, t);
-  const { problem } = rerenderProblem(t, r, CORNER_TOLERANCE_PX);
+  const { problem } = rerenderProblem(t, r);
   if (problem) throw new Error(`${t.id}: ${problem}: not publishing this photo`);
   const plan = openPlan(r.geo.bands, r.geo.purchase);
   const shut = plan.lines.filter((l) => !l.open);

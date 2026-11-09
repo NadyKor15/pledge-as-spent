@@ -18,8 +18,6 @@ import { closedLeak, rendered, rerenderProblem } from "./rows";
 import { Truth } from "./truth";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
-/** The hero receipt's corners sit 1.03 px from the browser's own boxes; the closed copy is checked directly below. */
-const CORNER_TOLERANCE_PX = 2;
 const round = (n: number) => Math.round(n * 100) / 100;
 
 async function main() {
@@ -37,7 +35,7 @@ async function main() {
   try {
     const page = await browser.newPage({ deviceScaleFactor: 1 });
     const r = await rendered(page, t);
-    const { problem } = rerenderProblem(t, r, CORNER_TOLERANCE_PX);
+    const { problem } = rerenderProblem(t, r);
     if (problem) throw new Error(`${id}: ${problem}`);
     const bands: Band[] = r.geo.bands.map((b) => ({ index: b.index, y0: round(b.y0), y1: round(b.y1), quad: b.quad.map(([x, y]) => [round(x), round(y)] as [number, number]) }));
     const purchaseLines = r.geo.purchase;
