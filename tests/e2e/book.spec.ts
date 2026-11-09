@@ -459,3 +459,33 @@ test("a line without a box is listed under the photo and still narrows the book"
   const keys = await page.locator(".ag-row [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]);
   expect(keys).toEqual(["demo-f372326129.r1:7"]);
 });
+
+// T3: the PayPal journal. Its rows are PayPal's own calls; a donor's row presses that donor, as their label on the
+// map does; the match, the payout and the receipt are not buttons. Recorded, not live, on a finished drive.
+for (const { width, height, lena, buttons } of [
+  { width: 1440, height: 900, lena: "button[data-donor=Lena]", buttons: 9 },
+  { width: 390, height: 844, lena: "[data-donor-row=Lena]", buttons: 3 },
+]) {
+  test(`the PayPal journal at ${width} px: a press on Lena's row selects Lena`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await openBook(page, fixture("closed"));
+    const journal = page.getByTestId("journal-widget");
+    await expect(journal).toContainText("PayPal journal");
+    await expect(journal).toContainText("Recorded from PayPal sandbox");
+    await expect(journal).not.toContainText("Live from PayPal sandbox");
+    await expect(journal).toContainText("Lena · rest never charged");
+    await expect(journal.locator("button[data-donor-event]")).toHaveCount(buttons);
+    await expect(journal.locator("button[data-donor-event='Kitasora Logistics']")).toHaveCount(0);
+    const row = journal.locator("button[data-donor-event=Lena]").last();
+    await row.click();
+    await expect(row).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(lena)).toHaveClass(/is-on/);
+    await expect(page.locator("[data-need=water]")).toHaveClass(/is-on/);
+    const picked = await store(page, "s.get().selected");
+    expect(picked).toMatchObject({ kind: "donor" });
+    expect((picked as { pledgeId: string }).pledgeId).toMatch(/\.water$/);
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    await row.click();
+    await expect(row).toHaveAttribute("aria-pressed", "false");
+  });
+}

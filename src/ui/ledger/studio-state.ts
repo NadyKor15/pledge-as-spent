@@ -17,6 +17,8 @@ export const BOOK_HEAD_WIDGET = "ledger-book-head";
 export const ASK_WIDGET = "ledger-ask";
 /** The receipt's published photo beside the book, a button over each of its lines (T4). */
 export const RECEIPT_WIDGET = "ledger-receipt";
+/** PayPal's journal of the drive: holds, captures, the payout and the releases, PayPal's word on each (T3). */
+export const JOURNAL_WIDGET = "ledger-journal";
 
 const BOOK_WIDGET_ID = "book";
 export const NOTE_WAITING = "note-waiting";
@@ -138,7 +140,7 @@ export interface Metrics {
   scale: number;
   /** The receipt stands beside the book (12 of 48 tracks, the book 36); else it is over the book, the whole width. */
   beside: boolean;
-  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; ask: number; receipt: number; head: number; book: number };
+  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; journal: number; ask: number; receipt: number; head: number; book: number };
 }
 
 /**
@@ -146,6 +148,9 @@ export interface Metrics {
  * height that followed the number of lines would rebuild Studio (and start the count over) on every read.
  */
 export const RECEIPT_ROWS = { beside: 78, over: 44, phone: 54 } as const;
+
+/** The journal's height in tracks, as fixed as the receipt's: it scrolls inside, however many calls the drive made. */
+export const JOURNAL_ROWS = { desktop: 36, phone: 36 } as const;
 
 /** The book's width on a desktop when the receipt is beside it: 36 of 48 tracks of the frame, less its two 24 px insets. */
 export const bookBesidePx = (scale: number) => Math.floor((1440 * (36 / 48) - 48) * scale);
@@ -236,6 +241,8 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;
     }
+    place("journal", custom(JOURNAL_WIDGET), at(0, y, 48, r.journal));
+    y += r.journal;
     place("receipt", custom(RECEIPT_WIDGET), at(0, y, 48, r.receipt));
     y += r.receipt;
     place("book-head", custom(BOOK_HEAD_WIDGET), at(0, y, 48, r.head));
@@ -255,6 +262,8 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
     place("shelter", custom(SHELTER_WIDGET), at(32, r.kpi, 16, r.map));
     place("footer", custom(FOOTER_WIDGET), at(0, r.kpi + r.map, 48, r.footer));
     let y = r.kpi + r.map + r.footer;
+    place("journal", custom(JOURNAL_WIDGET), at(0, y, 48, r.journal));
+    y += r.journal;
     if (r.ask) {
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;

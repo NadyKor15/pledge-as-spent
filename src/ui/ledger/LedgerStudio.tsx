@@ -22,6 +22,8 @@ import {
   BOOK_ROW_PX,
   DONORS_WIDGET,
   FOOTER_WIDGET,
+  JOURNAL_ROWS,
+  JOURNAL_WIDGET,
   ledgerData,
   ledgerState,
   MAP_WIDGET,
@@ -39,6 +41,7 @@ import { AskSlotWidget } from "./widgets/AskSlotWidget";
 import { BookHeadWidget } from "./widgets/BookHeadWidget";
 import { DonorsWidget } from "./widgets/DonorsWidget";
 import { FooterWidget } from "./widgets/FooterWidget";
+import { JournalWidget } from "./widgets/JournalWidget";
 import { MapWidget } from "./widgets/MapWidget";
 import { NoteWidget } from "./widgets/NoteWidget";
 import { ReceiptWidget } from "./widgets/ReceiptWidget";
@@ -58,7 +61,7 @@ const GRID_LOCALE: Record<Lang, Record<string, string>> = { en: AG_GRID_LOCALE_E
  */
 const STUDIO_MENU = (createWidgets({} as never) as unknown as { menu: { label: string; widgetIds: string[] }[] }).menu;
 /** Our own widgets in Studio's widget menu. */
-const PAS_MENU = { label: "Pledge-as-Spent", widgetIds: [RECEIPT_WIDGET] };
+const PAS_MENU = { label: "Pledge-as-Spent", widgetIds: [RECEIPT_WIDGET, JOURNAL_WIDGET] };
 
 /** One set of widgets per store and language: the book's cells read that store, its grid speaks that language. */
 function widgetsFor(store: LedgerStore, lang: Lang) {
@@ -85,6 +88,16 @@ function widgetsFor(store: LedgerStore, lang: Lang) {
         // its own agent and the built-in data agent, whose instructions read the schema only (:97353) and whose two tools
         // (execute_query :66997, view_schema :67703) never read the catalogue. The 7-question measure is not moved.
         ai: { label: "Receipt and book", description: "The drive's published receipt photo with a clear button over each printed line; a press narrows the book to that line and lights up the donors who paid for it." },
+      },
+      {
+        id: JOURNAL_WIDGET,
+        label: "PayPal journal",
+        comp: JournalWidget,
+        form: noForm,
+        defaultSize: SIZE,
+        minSize: SIZE,
+        // As the receipt's: only Studio's widget catalogue reads it, and none of its readers runs in our harness.
+        ai: { label: "PayPal journal", description: "Every PayPal sandbox call of the drive with PayPal's own status: holds placed, receipt and payout, partial captures, and the rest of each hold released, never charged. A donor's row selects that donor." },
       },
     ],
     menu: [...STUDIO_MENU, PAS_MENU],
@@ -159,6 +172,7 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
       // Room for three links under the refusals: the book, its CSV and "Ask PayPal yourself".
       footer: 15,
+      journal: JOURNAL_ROWS.phone,
       ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
       receipt: RECEIPT_ROWS.phone,
       head: Math.ceil(BOOK_HEAD_PX / rowHeight),
@@ -184,6 +198,7 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       shelter: 56 - note,
       donors: 0,
       footer: 9,
+      journal: JOURNAL_ROWS.desktop,
       ask: counts.ask ? Math.ceil(ASK_PX / 10) : 0,
       receipt: beside ? RECEIPT_ROWS.beside : RECEIPT_ROWS.over,
       head: Math.ceil(BOOK_HEAD_PX / 10),
@@ -210,7 +225,7 @@ function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean): Metrics
 /** Page height in tracks, without the book: the report never scrolls inside itself. The assistant's chat is part of it. */
 function bodyRows(m: Metrics, matched: boolean) {
   const r = m.rows;
-  return (m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer) + r.ask;
+  return (m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer) + r.journal + r.ask;
 }
 
 function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerModel, run: number, layoutKey: string) {

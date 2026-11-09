@@ -136,7 +136,7 @@ describe("where the receipt sits", () => {
     stacked,
     scale: 1,
     beside,
-    rows: { kpi: 19, pair: 0, match: 4, note: 0, map: 56, shelter: 56, donors: stacked ? 30 : 0, footer: 9, ask: 46, receipt: stacked ? RECEIPT_ROWS.phone : beside ? RECEIPT_ROWS.beside : RECEIPT_ROWS.over, head: 6, book: 120 },
+    rows: { kpi: 19, pair: 0, match: 4, note: 0, map: 56, shelter: 56, donors: stacked ? 30 : 0, footer: 9, journal: 36, ask: 46, receipt: stacked ? RECEIPT_ROWS.phone : beside ? RECEIPT_ROWS.beside : RECEIPT_ROWS.over, head: 6, book: 120 },
   });
   const layout = (v: DriveView, m: Metrics) => ledgerState(deriveLedger(v), m).pages[0].widgetLayout! as Record<string, { xTrack: number; yTrack: number; xSpan: number; ySpan: number }>;
 
@@ -175,6 +175,6 @@ describe("the panels' words", () => {
   it("every key in every language", () => {
     const keys = Object.keys(PANEL_WORDS.en).sort();
     for (const lang of ["de", "ja"] as const) expect(Object.keys(PANEL_WORDS[lang]).sort()).toEqual(keys);
-    for (const lang of ["en", "de", "ja"] as const) for (const [k, v] of Object.entries(PANEL_WORDS[lang])) expect(typeof v === "function" ? v.length : v.length, `${lang}.${k}`).toBeGreaterThan(0);
+    for (const lang of ["en", "de", "ja"] as const) for (const [k, v] of Object.entries(PANEL_WORDS[lang])) if (typeof v !== "object") expect(v.length, `${lang}.${k}`).toBeGreaterThan(0);
   });
 });

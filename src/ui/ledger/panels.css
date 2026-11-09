@@ -47,3 +47,45 @@
 [data-stacked="true"] .lg-chip-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 [data-stacked="true"] .lg-chip-short { display: inline; }
 .lg-chip-line { background: #DDEFEC; font-weight: 500; }
+
+/* The PayPal journal (T3). Its height is fixed by the layout; the groups and the phone's list scroll inside. PayPal's
+   statuses are data: the pill only tints them, with the hold's own colours (--pas-*, src/ui/hold-meter.css). */
+.lg-jr { display: flex; flex-direction: column; padding: calc(18px * var(--s)) calc(24px * var(--s)) calc(14px * var(--s)); inset: 6px calc(24px * var(--s)); }
+.lg-jr-head { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; }
+.lg-jr-head h2 { font-size: calc(26px * var(--s)); font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
+.lg-jr-tag { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: #EFECE6; color: #4A5160; font-size: 13.5px; white-space: nowrap; }
+.lg-jr-utc { color: var(--muted); font-size: 12.5px; }
+.lg-jr-empty { margin: auto; color: var(--muted); }
+.lg-jr-groups { flex: 1; min-height: 0; margin-top: calc(14px * var(--s)); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(14px * var(--s)); list-style: none; }
+.lg-jr-group { display: flex; flex-direction: column; min-height: 0; }
+.lg-jr-group h3 { position: relative; flex: none; padding-top: 22px; margin-bottom: 8px; font-size: calc(18px * var(--s)); font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The timeline over the groups: a dot per group on one thin line. */
+.lg-jr-group h3::before { content: ""; position: absolute; left: 6px; right: -14px; top: 6px; height: 1.5px; background: var(--line); }
+.lg-jr-group h3 i { position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 999px; background: var(--teal); }
+.lg-jr-g-never h3 i { background: var(--pas-never); }
+.lg-jr-group:last-child h3::before { right: 0; }
+.lg-jr-group ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; border: 1px solid var(--line); border-radius: 12px; padding: 4px 6px; }
+.lg-jr-none { padding: 10px 8px; color: var(--muted); font-size: 13px; }
+.lg-jr-row { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 10px; text-align: left; font-size: 13.5px; line-height: 1.3; }
+.lg-jr-group li + li .lg-jr-row, .lg-jr-list li + li .lg-jr-row { border-top: 1px solid #F0EDE7; border-radius: 0; }
+.lg-jr-press { cursor: pointer; }
+.lg-jr-press:hover { background: #F2F8F7; }
+.lg-jr-press.is-on { background: #E8F2F0; box-shadow: inset 0 0 0 1.5px var(--teal); border-radius: 10px !important; }
+.lg-jr-time { padding: 2px 6px; border-radius: 6px; background: #F3F1EC; color: #4A5160; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lg-jr-text { min-width: 0; overflow-wrap: anywhere; }
+.lg-jr-status { padding: 3px 8px; border-radius: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+.lg-jr-done { background: color-mix(in srgb, var(--pas-charged) 16%, #FFFFFF); color: var(--spent-text); }
+.lg-jr-info { background: #E3F0EE; color: #1F5F5B; }
+.lg-jr-never { background: color-mix(in srgb, var(--pas-never) 22%, #FFFFFF); color: #3C4656; }
+.lg-jr-wait { background: #FBF0DA; color: var(--held-text); }
+.lg-jr-bad { background: color-mix(in srgb, var(--pas-refused) 14%, #FFFFFF); color: var(--refused); }
+.lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
+
+/* Phone (and any narrow box): the newest five, the rest on demand, inside the same height. */
+.lg-jr-list { flex: 1; min-height: 0; display: flex; flex-direction: column; margin-top: 8px; }
+.lg-jr-list ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; }
+.lg-jr-list .lg-jr-row { grid-template-columns: auto minmax(0, 1fr) auto; padding: 8px 4px; font-size: 13.5px; }
+.lg-jr-all { flex: none; align-self: flex-start; margin-top: 6px; color: var(--teal); font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+[data-stacked="true"] .lg-jr { inset: 5px 12px; padding: 14px 14px 10px; }
+[data-stacked="true"] .lg-jr-head h2 { font-size: 21px; }
+[data-stacked="true"] .lg-jr-tag { height: 24px; font-size: 12px; padding: 0 9px; }
