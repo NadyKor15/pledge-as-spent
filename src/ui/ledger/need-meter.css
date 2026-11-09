@@ -4,8 +4,11 @@
    the bar is simply there. */
 .nm-bar { display: flex; height: calc(18px * var(--s)); margin-top: calc(10px * var(--s)); border-radius: 999px; background: var(--pas-track); overflow: hidden; transform-origin: left; animation: nm-grow .9s cubic-bezier(.3, 0, .2, 1) backwards; }
 .nm-seg { flex: none; }
+/* A need's row is as tall as its words: the card keeps the map's height and its list scrolls (ledger.css
+   .lg-shelter ul), rather than rows shrinking under their text and running into the next one. */
+.lg-card.lg-shelter li { flex: 1 0 auto; }
 /* Under the bar: what the holds still promise, or what PayPal released. */
-.nm-money { margin-top: calc(6px * var(--s)); font-size: calc(15px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.nm-money { margin-top: calc(5px * var(--s)); font-size: calc(14px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
 .nm-never-text { color: var(--pas-never-text); }
 .lg-screen:lang(ja) .nm-money { word-break: keep-all; word-break: auto-phrase; line-break: strict; overflow-wrap: anywhere; }
 /* The tones on screen, under the needs. */
