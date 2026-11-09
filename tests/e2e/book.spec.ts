@@ -177,9 +177,11 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     const without = await height();
     await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
-    // The press focuses the row's cell, and the browser then scrolls a cell that sits partly above the window into
-    // view (here 27 px, once the chat's room is gone): press the band's button once the page stands still.
-    await expect.poll(() => page.locator(".ag-row.lg-proof-row").evaluate((e) => e.getBoundingClientRect().top)).toBeGreaterThanOrEqual(-1);
+    // Without the chat's room the page ends right under the book and the open row sits partly above the window (27 px).
+    // A press in the band then focuses the row's cell (the grid does that on mousedown) and the browser scrolls the
+    // cell into view between mousedown and mouseup, so the press lands beside the button. A person sees the row first:
+    // bring it into view, as a person would scroll to it, and press once the page stands still.
+    await page.locator(".ag-row.lg-proof-row").evaluate((e) => e.scrollIntoView({ block: "center" }));
     await scrolled(page);
     await page.getByRole("button", { name: "Ask about this line" }).click();
     expect(await page.evaluate(() => (window as unknown as { asked: string[] }).asked)).toEqual(["demo-f372326129.r1:4"]);
