@@ -17,7 +17,7 @@ export interface LineProof {
   item: string;
   /** The line as the receipt prints it. */
   printed: string;
-  /** The published (blurred) photo and where the line is on it; null without a box or a published photo. */
+  /** The published photo (closed to its purchase lines) and where the line is on it; null without a box or a published photo. */
   strip: { url: string; box: Box } | null;
   /** "ミナト生活館 北空店 · receipt ¥14,646". */
   receipt: string;

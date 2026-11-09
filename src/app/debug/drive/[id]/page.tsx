@@ -145,7 +145,7 @@ async function DriveDebug({ params }: { params: Promise<{ id: string }> }) {
           )}
           <Table rows={r.lines} cols={["lineNo", "text", "translationEn", "amount", "verdict", "needId", "needQty", "ruleCode", "reasonEn"]} />
           {/* eslint-disable-next-line @next/next/no-img-element -- debug page: the API serves the blurred copy */}
-          {r.image.published ? <img src={r.image.url} alt={`receipt ${r.id}, personal data blurred`} width={240} /> : <p>{r.image.note}</p>}
+          {r.image.published ? <img src={r.image.url} alt={`receipt ${r.id}, only its purchase lines shown`} width={240} /> : <p>{r.image.note}</p>}
         </section>
       ))}
 

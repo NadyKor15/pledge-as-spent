@@ -7,6 +7,7 @@ import { LineBox, type ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
 import { DEMO_DISPLAY } from "./demo";
 import { ServiceError } from "./errors";
+import { publication } from "./redact";
 import type { StoredClassification } from "./reading";
 
 /** Postgres text of a timestamptz -> ISO 8601 UTC. */
@@ -27,8 +28,9 @@ function boxesOf(stored: unknown): Map<number, LineBox["box"]> {
 export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & { imageRedacted?: Uint8Array | null; published?: boolean }) {
   const parsed = row.parsed as ParsedReceipt | null;
   const classified = row.classified as StoredClassification | null;
-  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { regions: number; note: string | null }; lineBoxes?: unknown };
-  const published = row.published ?? Boolean(row.imageRedacted);
+  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { closed?: boolean; openLines?: number; note: string | null }; lineBoxes?: unknown };
+  // Only a copy closed to its purchase lines is shown; a stored copy from before closing is not.
+  const { published, note } = publication(row.published ?? Boolean(row.imageRedacted), checks.redaction);
   const boxes = boxesOf(checks.lineBoxes);
   return {
     id: row.id,
@@ -61,8 +63,8 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
     }),
     decision: row.decision ?? null,
     image: published
-      ? { published: true, url: `/api/receipts/${encodeURIComponent(row.id)}/image`, blurredRegions: checks.redaction?.regions ?? 0 }
-      : { published: false, note: checks.redaction?.note ?? "Not published." },
+      ? { published: true, url: `/api/receipts/${encodeURIComponent(row.id)}/image`, openLines: checks.redaction?.openLines ?? 0 }
+      : { published: false, note },
   };
 }
 

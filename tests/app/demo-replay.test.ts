@@ -6,6 +6,7 @@ import { runScenario, type ScenarioResult } from "../../scripts/lib/e2e-scenario
 import { allocateLine, rejectLine, replay, type LedgerEvent } from "../../src/core";
 import { events, paypalCalls } from "../../src/db/schema";
 import { toFundableLines } from "../../src/receipts/checks";
+import { NOT_CLOSED_NOTE } from "../../src/server/redact";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { harness, ROOT, type Harness } from "./support/harness";
 import { appE2eMeta, sandboxReplay } from "./support/sandbox-replay";
@@ -189,8 +190,11 @@ describe("demo drive replayed from the live sandbox run", () => {
     expect(touches(r.preDisaster.id)).toEqual([]);
   });
 
-  it("publishes only blurred copies of the receipts", () => {
-    for (const x of r.final.receipts) expect(x.image).toMatchObject({ published: true });
-    expect(r.final.receipts[0].image).toMatchObject({ blurredRegions: 3 });
+  it("publishes a receipt photo only closed to its purchase lines, or not at all", () => {
+    expect(r.final.receipts.length).toBeGreaterThan(0);
+    for (const x of r.final.receipts) {
+      if (x.image.published) expect(x.image.openLines).toBeGreaterThan(0);
+      else expect(x.image.note).toBe(NOT_CLOSED_NOTE);
+    }
   });
 });
