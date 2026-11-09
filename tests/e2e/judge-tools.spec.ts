@@ -91,7 +91,8 @@ test("what if we vanish: a live hold's statement names the day PayPal ends it, a
   await page.getByTestId("statement-ask-paypal").click();
   await expect(page.locator("dialog.pc-dialog[open]").getByTestId("paypal-check-ends").first()).toContainText("our book: the same date", { timeout: 20_000 });
   await page.locator("dialog.pc-dialog[open] .pc-close").click();
-  await expect(line).toContainText("PayPal confirms this date.");
+  // The recorded run's hold answers are its final ones (VOIDED): PayPal is ahead of this live book, and says so.
+  await expect(line).toContainText("PayPal now reports this hold VOIDED: nothing more can be charged from it.");
 });
 
 test("try to cheat the receipt: every forgery costs donors nothing, and the honest water on the same receipt is paid", async ({ page }) => {

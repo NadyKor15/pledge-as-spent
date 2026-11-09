@@ -61,6 +61,8 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-label, .lg-pill { position: absolute; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 999px; animation: lg-fade .4s ease-out 1.1s backwards; }
 .lg-label { background: #FFFFFF; color: var(--ink); font-size: 14px; font-weight: 500; box-shadow: 0 1px 4px rgba(40, 36, 28, .12); }
 .lg-label.lg-small { font-size: 11.5px; }
+.lg-label.lg-has-meter { padding-bottom: 6px; line-height: 1; }
+.lg-label .lg-meter { position: absolute; left: 12px; right: 12px; bottom: 5px; width: auto; height: 3px; }
 .lg-label.is-on { box-shadow: 0 0 0 2px var(--spent); }
 .lg-pill { font-size: 14.5px; font-weight: 600; color: #FFFFFF; pointer-events: none; font-variant-numeric: tabular-nums; }
 .lg-pill-spent { background: #1F7A4D; }

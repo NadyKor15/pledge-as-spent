@@ -115,7 +115,7 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await closeDrive(page);
   const holds = page.locator(".co-card");
   await expect(holds).toHaveCount(4);
-  for (const hold of await holds.all()) await expect(hold).toContainText("back");
+  for (const hold of await holds.all()) await expect(hold).toContainText("never charged");
   // Four voids came after the payout: it still stands in PayPal's list.
   await expect(page.locator(".co-act", { hasText: "Payout to Haruto" })).toContainText("¥10,448");
 

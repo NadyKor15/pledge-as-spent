@@ -47,6 +47,8 @@ export interface Words {
   donorWord: Record<"spent" | "waiting" | "approved" | "back" | "held" | "never", string>;
   /** "12 of 40 bottles". */
   count: (covered: number, needed: number, unit: string) => string;
+  /** A hold's parts in its bar (src/ui/hold-meter.ts): what each part of the money is. */
+  meterWord: Record<"charged" | "waiting" | "held" | "returning" | "never" | "back", string>;
   // Widgets
   backToDonors: string;
   /** The donors' card on a closed drive when every rest was never charged. */
@@ -122,6 +124,7 @@ const EN: Words = {
   match: "match",
   donorWord: { spent: "spent", waiting: "waiting", approved: "approved", back: "back", held: "held", never: "never charged" },
   count: () => "", // English counts come from format.ts ofCount, unchanged
+  meterWord: { charged: "spent", waiting: "waiting for capture", held: "held", returning: "on its way back at PayPal", never: "never charged", back: "refunded after capture" },
   backToDonors: "Back to donors",
   neverToDonors: "Rest never charged",
   heldForDonors: "Held for donors",
@@ -182,6 +185,7 @@ const DE: Words = {
     const word = noun ? (UNIT.de[noun]?.[n === 1 ? 0 : 1] ?? noun) : null;
     return `${c} von ${n}${word ? ` ${word}` : ""}`;
   },
+  meterWord: { charged: "ausgegeben", waiting: "wartet auf Abbuchung", held: "reserviert", returning: "bei PayPal auf dem Rückweg", never: "nie belastet", back: "nach Abbuchung erstattet" },
   backToDonors: "Zurück an Spender",
   neverToDonors: "Rest nie belastet",
   heldForDonors: "Für Spender reserviert",
@@ -242,6 +246,7 @@ const JA: Words = {
     const word = noun ? (UNIT.ja[noun]?.[0] ?? "") : "個";
     return `${c} / ${n}${word}`;
   },
+  meterWord: { charged: "支出", waiting: "引き落とし待ち", held: "保留", returning: "PayPalで返却処理中", never: "請求されず", back: "引き落とし後に返金" },
   backToDonors: "寄付者へ返金",
   neverToDonors: "残りは請求されず",
   heldForDonors: "寄付者のために保留",

@@ -172,7 +172,12 @@ function Row({ row: r, lang }: { row: CheckRow; lang: Lang }) {
         </span>
         {end && (
           <span className={`pc-ends${end.verdict === "differs" ? " pc-ends-differs" : ""}`} data-testid="paypal-check-ends" data-expiry={end.verdict ?? "none"}>
-            <span>{end.says}</span>
+            <span>
+              {/* The date stays on one line: "2026-11-21" must not break at its hyphens. */}
+              {end.says.slice(0, end.says.indexOf(end.date))}
+              <span className="pc-nw">{end.date}</span>
+              {end.says.slice(end.says.indexOf(end.date) + end.date.length)}
+            </span>
             {end.book && (
               <span className="pc-ends-book">
                 {end.verdict && (

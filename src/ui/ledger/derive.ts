@@ -1,5 +1,6 @@
 import { toBase } from "@/core/money";
 import { holdById, latestFunded, lineName, needById, shareStage } from "../derive";
+import { meterParts, type MeterParts } from "../hold-meter";
 import { decimals, donorParts, moneyIn, ofCount, pct, rateTextIn, shelterShort, shortName, type Lang } from "../format";
 import type { DriveView, Hold, LedgerRow, Need } from "../types";
 import { locate, type LonLat } from "./geo";
@@ -39,6 +40,8 @@ export interface LedgerDonor {
    * False while a void is on its way, and after any refund (that money was charged, then given back).
    */
   neverCharged: boolean;
+  /** The hold's parts for its bar (HoldMeter), in the donor's currency; left out by hand-made donors in tests. */
+  meter?: MeterParts;
   /** The two words in the reader's language (left out by hand-made donors in tests: the codes stand in). */
   words?: { spent: string; rest: string };
   /** The same in the drive's currency: these add up to the totals, and weigh the arcs. */
@@ -235,6 +238,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
     restText: moneyIn(lang, h.currency, over ? back : held),
     restWord,
     neverCharged,
+    meter: meterParts(h),
     words: { spent: w.donorWord[spentWord], rest: w.donorWord[neverCharged ? "never" : restWord] },
     pledgedBase,
     spentBase,

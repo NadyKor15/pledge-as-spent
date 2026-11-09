@@ -198,7 +198,8 @@ function holdParts(a: ReturnType<typeof holdAmounts>) {
     { key: "waiting", cls: s.wait, label: s.lw, value: a.waiting, word: "waiting" },
     { key: "held", cls: s.h, label: s.lh, value: a.held, word: "held" },
     { key: "returning", cls: s.back, label: s.lx, value: a.returning, word: "returning" },
-    { key: "back", cls: s.x, label: s.lx, value: a.released, word: "back" },
+    // Released by PayPal (void, expiry): never charged. A refund after capture is not in it (holdAmounts).
+    { key: "back", cls: s.x, label: s.lx, value: a.released, word: "never charged" },
   ].filter((p) => p.value > 0);
 }
 
@@ -283,7 +284,7 @@ function MatchCard({ hold: h, ratio }: { hold: Hold; ratio: DriveView["match"]["
         {a.released > 0 && (
           <>
             {" · "}
-            <b>{money(h.currency, a.released)}</b> <span className={s.w}>back</span>
+            <b>{money(h.currency, a.released)}</b> <span className={s.w}>never charged</span>
           </>
         )}
       </div>

@@ -78,7 +78,7 @@ export function RebindOffer({ pledgeId, offer, labelOf, onMoved }: RebindOfferPr
       ) : (
         <>
           <p style={{ ...p, color: "var(--ink)" }} data-testid="rebind-confirm-text">
-            Same PayPal hold, same amount, same expiry{offer.expiresAt ? ` (${day(offer.expiresAt)})` : ""}. Nothing is charged now. {label(offer.needId)} gets nothing more from it; {label(target!.needId, target!.label)} can use up to {left}, only for what it still lacks. Whatever is not spent is never charged and goes back to you at the close.
+            Same PayPal hold, same amount, same expiry{offer.expiresAt ? ` (${day(offer.expiresAt)})` : ""}. Nothing is charged now. {label(offer.needId)} gets nothing more from it; {label(target!.needId, target!.label)} can use up to {left}, only for what it still lacks. Whatever is not spent is never charged: PayPal releases it at the close.
           </p>
           <button type="button" style={btn} disabled={action.busy === "rebind"} onClick={move} data-testid="rebind-confirm">
             {action.busy === "rebind" ? "Moving…" : `Yes, move ${left}`}
