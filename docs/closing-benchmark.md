@@ -49,6 +49,6 @@ All 20 closed images were looked at: on each, only the purchase lines are printe
 
 The corner method (each row's corners taken through the photo's perspective by the browser) is checked against the browser's own box of each personal-data span. It came within 1.01 px on two receipts (holdout-en-02, holdout-ja-06), while their re-renders were byte-identical to the photos, so the check allows 1.5 px (`tools/receipts/rows.ts`). A band reaches a third of a row into the gaps, far more than that.
 
-The same measuring of rows closes the five forged receipts of the cheat page (`tools/receipts/forgeries.ts`) and the demo's sample receipt (`tools/receipts/sample-bands.ts`, shipped in `eval/live/shipped/hero-ja-01.bands.json`). Both tools refuse to publish when a personal-data box touches the open area or print is left in it.
+The same measuring of rows closes the five forged receipts of the cheat page (`tools/receipts/forgeries.ts`), which refuses to publish when a personal-data box touches the open area or print is left in it. The demo's sample receipt, the one on the judge's path, is closed by the bands of Meta's own answer for it (`eval/live/shipped/hero-ja-01.meta.json`: the pixel bands, the second reading's text of each, and the bands of each purchase line, shipped by `tools/receipts/ship-meta.ts`).
 
 `--bands slicer` (the reader's own pixel bands) is not measured here: the slicer is not in this build, and without it the app publishes only the sample receipt, closed by its shipped rows.
