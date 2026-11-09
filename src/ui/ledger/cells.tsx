@@ -4,6 +4,7 @@ import type { AgWidgetField } from "ag-studio";
 import type { GridApi, IRowNode } from "ag-grid-community";
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ComponentType } from "react";
+import { HoldMeter } from "../HoldMeter";
 import type { LedgerBookRow } from "./derive";
 import { WORDS } from "./i18n";
 import { lineProof } from "./proof";
@@ -283,6 +284,23 @@ export function bookCells(store: LedgerStore): (field: AgWidgetField) => Compone
   const tone = (code: string | undefined) =>
     code === "captured" ? "spent" : code === "rejected" || code === "unfunded" ? "refused" : code === "reversed" || code === "partly_reversed" || code === "uncollected" ? "back" : "waiting";
 
+  /**
+   * The payer, and on a donor's row the donor's whole hold as a bar (the same parts as their label on the map): what
+   * PayPal took, what waits, what the hold keeps, what was released and never charged. The bar is the donor's, not the
+   * row's: every row of one donor shows the same hold. The match and refused lines have no hold of a donor: no bar.
+   */
+  function PayerCell({ value, data }: CustomCellRendererProps) {
+    const row = useRow(store, data);
+    const snap = useSnap(store);
+    const donor = row?.kind === "donor_share" ? snap.model.donors.find((d) => d.pledgeId === row.pledgeId) : undefined;
+    return (
+      <span className="lg-payer">
+        <span className="lg-payer-name">{String(value ?? "")}</span>
+        {donor?.meter && <HoldMeter parts={donor.meter} size="cell" lang={snap.lang} className="lg-payer-meter" />}
+      </span>
+    );
+  }
+
   function StatusCell({ value, data }: CustomCellRendererProps) {
     const row = useRow(store, data);
     return (
@@ -321,6 +339,7 @@ export function bookCells(store: LedgerStore): (field: AgWidgetField) => Compone
     [BOOK.line]: LineCell,
     [BOOK.item]: ItemCell,
     [BOOK.need]: NeedCell,
+    [BOOK.payer]: PayerCell,
     [BOOK.capture]: CaptureCell,
     [BOOK.status]: StatusCell,
     [BOOK.what]: WhatCell,

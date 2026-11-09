@@ -516,3 +516,27 @@ for (const { width, height, lena, buttons } of [
     await expect(row).toHaveAttribute("aria-pressed", "false");
   });
 }
+
+// T1 in the book: the Payer cell of a donor's row carries the donor's hold as a bar, under the name, inside the row.
+test("the Payer cell: a donor's row shows the donor's hold bar under the name; the match and refused lines show none", async ({ page }) => {
+  await openBook(page, fixture("closed"));
+  const payer = (key: string) => page.locator(`.ag-row:has([data-row-key="${key}"]) .ag-cell[col-id="book.payerLabel"]`);
+  const mark = payer(MARK4);
+  await expect(mark.locator(".pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
+  await expect(mark.locator(".pas-seg")).toHaveCount(2);
+  await expect(payer("demo-f372326129.r1:4/demo-f372326129.match").locator(".pas-meter")).toHaveCount(0);
+  await expect(payer("demo-f372326129.r1:10/rejected").locator(".pas-meter")).toHaveCount(0);
+  // Every donor row has one, the same hold on each of a donor's rows.
+  await expect(page.locator('.ag-cell[col-id="book.payerLabel"] .pas-meter')).toHaveCount(9);
+  // The bar sits under the name, even a name on two lines, and inside its row.
+  for (const key of [MARK4, "demo-f372326129.r1:1/demo-f372326129.water"]) {
+    const box = await payer(key).evaluate((cell) => {
+      const r = (s: string) => cell.querySelector(s)!.getBoundingClientRect();
+      const row = cell.closest(".ag-row")!.getBoundingClientRect();
+      return { nameBottom: r(".lg-payer-name").bottom, barTop: r(".pas-meter").top, barBottom: r(".pas-meter").bottom, rowTop: row.top, rowBottom: row.bottom, rowHeight: row.height };
+    });
+    expect(box.barTop).toBeGreaterThanOrEqual(box.nameBottom);
+    expect(box.barBottom).toBeLessThanOrEqual(box.rowBottom);
+    expect(box.rowHeight).toBe(64);
+  }
+});

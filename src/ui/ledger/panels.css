@@ -46,6 +46,10 @@
    64 px row, as on S5, instead of being cut. */
 .lg-frame .ag-cell[col-id="book.payerLabel"], .lg-frame .ag-cell[col-id="book.payerLabel"] * { white-space: normal; line-height: 1.25; }
 .lg-screen:lang(ja) .lg-frame .ag-cell[col-id="book.payerLabel"] { word-break: keep-all; overflow-wrap: anywhere; }
+/* The payer's name over the donor's hold bar (cells.tsx PayerCell): two lines of name and the bar fit the 64 px row. */
+.lg-payer { display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; width: 100%; }
+.lg-payer-name { min-width: 0; }
+.lg-payer-meter { flex: none; max-width: 132px; }
 /* The sentence over the book for a pressed line (BookHeadWidget): the whole sentence on a desktop, its short form on a phone. */
 .lg-chip-short { display: none; }
 [data-stacked="true"] .lg-chip-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
