@@ -60,7 +60,7 @@ describe("the day PayPal ends a hold, in the check's table", () => {
 
   it("a live hold: PayPal ends it by its date, and our book says the same", () => {
     const line = endLine(hold("CREATED", "2026-12-08T04:45:39Z", "2026-12-08T04:45:39.000Z", "agrees"), "en")!;
-    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-08 04:45:39 UTC", book: "our book: the same date", verdict: "agrees" });
+    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-08 04:45:39 UTC", date: "2026-12-08 04:45:39 UTC", book: "our book: the same date", verdict: "agrees" });
     expect(endLine(hold("PARTIALLY_CAPTURED", "2026-12-08T04:45:39Z", "2026-12-08T04:45:39.000Z", "agrees"), "en")!.says).toMatch(/^PayPal ends this hold by /);
   });
 
@@ -71,20 +71,20 @@ describe("the day PayPal ends a hold, in the check's table", () => {
 
   it("must differ: a book date that is not PayPal's is printed beside it, marked", () => {
     const line = endLine(hold("CREATED", "2026-12-09T04:45:39Z", "2026-12-08T04:45:39.000Z", "differs"), "en")!;
-    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-09 04:45:39 UTC", book: "our book: 2026-12-08 04:45:39 UTC", verdict: "differs" });
+    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-09 04:45:39 UTC", date: "2026-12-09 04:45:39 UTC", book: "our book: 2026-12-08 04:45:39 UTC", verdict: "differs" });
   });
 
   it("no line without PayPal's date, and none for captures or payouts", () => {
     expect(endLine(hold("CREATED", null, "2026-12-08T04:45:39.000Z", null), "en")).toBeNull();
     expect(endLine({ ...hold("COMPLETED", null, null, null), kind: "capture" } as CheckRow, "en")).toBeNull();
     // PayPal's date without one in the book: shown, with no verdict.
-    expect(endLine(hold("CREATED", "2026-12-08T04:45:39Z", null, null), "en")).toEqual({ says: "PayPal ends this hold by 2026-12-08 04:45:39 UTC", book: null, verdict: null });
+    expect(endLine(hold("CREATED", "2026-12-08T04:45:39Z", null, null), "en")).toEqual({ says: "PayPal ends this hold by 2026-12-08 04:45:39 UTC", date: "2026-12-08 04:45:39 UTC", book: null, verdict: null });
   });
 
   it("German and Japanese say the same, with the date as data", () => {
     const live = hold("CREATED", "2026-12-08T04:45:39Z", "2026-12-08T04:45:39.000Z", "agrees");
-    expect(endLine(live, "de")).toEqual({ says: "PayPal beendet diese Reservierung spätestens am 2026-12-08 04:45:39 UTC", book: "unser Buch: dasselbe Datum", verdict: "agrees" });
-    expect(endLine(live, "ja")).toEqual({ says: "PayPal はこの保留を 2026-12-08 04:45:39 UTC までに終了します", book: "帳簿も同じ日付", verdict: "agrees" });
+    expect(endLine(live, "de")).toEqual({ says: "PayPal beendet diese Reservierung spätestens am 2026-12-08 04:45:39 UTC", date: "2026-12-08 04:45:39 UTC", book: "unser Buch: dasselbe Datum", verdict: "agrees" });
+    expect(endLine(live, "ja")).toEqual({ says: "PayPal はこの保留を 2026-12-08 04:45:39 UTC までに終了します", date: "2026-12-08 04:45:39 UTC", book: "帳簿も同じ日付", verdict: "agrees" });
     expect(endLine(hold("VOIDED", "2026-12-08T04:45:39Z", null, null), "de")!.says).toBe("Von PayPal gesetztes Enddatum dieser Reservierung: 2026-12-08 04:45:39 UTC");
     expect(endLine(hold("VOIDED", "2026-12-08T04:45:39Z", null, null), "ja")!.says).toBe("PayPal が定めたこの保留の終了日: 2026-12-08 04:45:39 UTC");
   });

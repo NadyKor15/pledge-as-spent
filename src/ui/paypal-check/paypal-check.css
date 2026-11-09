@@ -33,6 +33,7 @@
 .pc-times { color: #55595F; font-size: 12.5px; font-variant-numeric: tabular-nums; }
 .pc-ends { display: flex; flex-direction: column; gap: 1px; font-size: 12.5px; font-variant-numeric: tabular-nums; color: #2B2F36; }
 .pc-ends-book { color: #55595F; }
+.pc-nw { white-space: nowrap; }
 .pc-ends-mark { margin-right: 4px; font-weight: 700; color: #2F855A; }
 .pc-ends-differs .pc-ends-mark { color: #D0294A; }
 .pc-ends-differs .pc-ends-book { color: #D0294A; }

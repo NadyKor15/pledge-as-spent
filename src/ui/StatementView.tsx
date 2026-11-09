@@ -6,11 +6,13 @@ import { use, useCallback, useEffect, useRef, useState } from "react";
 import { api, asApiError, useAction, useDrive, type ApiError } from "./api";
 import { classes } from "./cls";
 import { captureState, holdAmounts, holdTag, reauthorized, returningAtPayPal } from "./derive";
-import { day, itemPhrase, lineRange, money, pct, rateText, titleParts } from "./format";
+import { day, itemPhrase, lineRange, money, rateText, titleParts } from "./format";
 import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
+import { HoldMeter } from "./HoldMeter";
+import { meterParts } from "./hold-meter";
 import { StatementCheck } from "./paypal-check/StatementCheck";
 import { vanishLine } from "./statement/vanish";
 import type { CheckResult } from "@/server/paypal-check";
@@ -139,7 +141,7 @@ function holdFate(view: DriveView, st: Statement): string {
   const expires = b.expiresAt ? day(b.expiresAt, false) : null;
   if (returningAtPayPal(b)) return "returning at PayPal";
   // A refund was charged first: only a rest PayPal released untouched is never charged.
-  if (b.status === "voided") return b.reversed > 0 ? "returned" : "never charged: PayPal released the hold";
+  if (b.status === "voided") return b.reversed > 0 ? "returned" : b.captured + b.capturePending + b.accrued > 0 ? "rest never charged" : "never charged";
   if (b.status === "captured") return "fully spent";
   if (b.status === "expired") return "expired";
   if (b.status === "denied") return "declined by PayPal";
@@ -170,12 +172,16 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
   const live = (b.status === "authorized" || b.status === "partially_captured") && !returning;
   const pending = items.some((i) => !captureState(i.statuses).done);
   const rate = rateText(view.holds.find((h) => h.pledgeId === b.pledgeId)?.fx);
+  // The figures under the bar are its parts (src/ui/hold-meter.ts): the same numbers, in the same order.
+  const m = meterParts(b);
   const parts = [
-    { key: "spent", bar: s.bSpent, stat: s.sSpent, value: a.spent, word: "spent", always: true },
-    { key: "waiting", bar: s.bWait, stat: s.sWait, value: a.waiting, word: "waiting", always: false },
-    { key: "held", bar: s.bHeld, stat: s.sHeld, value: a.held, word: "held", always: live },
-    { key: "returning", bar: s.bBack, stat: s.sBack, value: a.returning, word: "Returning at PayPal…", always: false },
-    { key: "returned", bar: s.bRel, stat: s.sRel, value: a.released, word: b.reversed > 0 ? "returned" : "never charged", always: !returning },
+    { key: "spent", stat: s.sSpent, value: m.charged, word: "spent", always: true },
+    { key: "waiting", stat: s.sWait, value: m.waiting, word: "waiting", always: false },
+    { key: "held", stat: s.sHeld, value: m.held, word: "held", always: live },
+    { key: "returning", stat: s.sBack, value: m.returning, word: "Returning at PayPal…", always: false },
+    // Known once the hold is over: on a live hold "€0.00 never charged" would say nothing true yet.
+    { key: "never", stat: s.sRel, value: m.never, word: "never charged", always: !live && !returning },
+    { key: "refunded", stat: s.sRel, value: m.back, word: "refunded after capture", always: false },
   ].filter((p) => p.always || p.value > 0);
   return (
     <div className={s.page}>
@@ -193,11 +199,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
           <span className={s.sumLbl}>pledged</span>
           {b.revoked && <span className={s.tag}>{holdTag(b)}</span>}
         </div>
-        <div className={s.bar} role="img" aria-label={parts.map((p) => `${money(st.currency, p.value)} ${p.word}`).join(", ")}>
-          {parts.map((p) => (
-            <i key={p.key} className={p.bar} data-part={p.key} style={{ width: `${pct(p.value, a.total)}%` }} />
-          ))}
-        </div>
+        <HoldMeter parts={m} size="card" lang="en" className={s.meter} />
         <div className={s.stats}>
           {parts.map((p) => (
             <div key={p.key} className={`${s.stat} ${p.stat}`}>
