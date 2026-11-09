@@ -4,7 +4,7 @@ import { CATALOG, OUTSIDE_STORES, STORES, type Catalog, type Item, type Store } 
 import { HOLDOUT_CATALOG } from "./catalog-holdout";
 import { HOLDOUT2_CATALOG, HOLDOUT2_STORES } from "./catalog-holdout2";
 import { Rng } from "./rng";
-import { LOCALES, type Locale } from "./scenario";
+import { FLORIDA, LOCALES, type Locale } from "./scenario";
 import { buildSpec, type Entry, type PhotoParams, type ReceiptSpec } from "./spec";
 
 export function photoParams(seed: number, kind: "normal" | "unreadable" = "normal"): PhotoParams {
@@ -217,4 +217,67 @@ export function buildHero(): ReceiptSpec {
     card: true,
     loyalty: true,
   });
+}
+
+/**
+ * The Florida demo drive's synthetic receipts (tools/receipts/scenario.ts FLORIDA): a fictional store with a fictional
+ * address in Hallandale Beach, dated after the fictional storm of 2026-11-05. fl-01 is the drive's sample receipt.
+ * Ice-cream bars are on it on purpose: a product named "ice" that is not bagged ice.
+ */
+export const FLORIDA_STORE: Store = { name: "SEAGRAPE FOOD MART #3", address: ["410 Coral Fan Avenue", "Hallandale Beach, FL"], city: "Hallandale Beach", phone: "(555) 010-0091" };
+
+export function buildFlorida(): ReceiptSpec[] {
+  const en = CATALOG.en;
+  const find = (first: string) => [...en.needItems, ...en.filler, ...en.rejected].find((i) => i.name[0] === first)!;
+  const ice: Item = { name: ["BAGGED ICE 10LB"], en: "Bagged ice 10 lb", unit: 299, rate: null, need: { id: "ice", per: 1 } };
+  const iceCream: Item = { name: ["ICE CREAM BARS 6CT"], en: "Ice cream bars, 6 count", unit: 549, rate: 700 };
+  const flashlight: Item = { name: ["LED FLASHLIGHT"], en: "LED flashlight", unit: 1299, rate: 700 };
+  const tax = (it: Item): Item => (it.rate === null ? it : { ...it, rate: 700 }); // Broward County: 6% state + 1% county
+  const make = (id: string, seed: number, purchasedAt: string, entries: Entry[], card: boolean, loyalty: boolean) =>
+    buildSpec({
+      id,
+      set: "florida",
+      locale: "en",
+      seed,
+      store: FLORIDA_STORE,
+      purchasedAt,
+      entries: entries.map((e) => ({ ...e, item: tax(e.item) })),
+      taxIncluded: false,
+      photo: photoParams(seed + 7),
+      card,
+      loyalty,
+      needs: FLORIDA.needs,
+    });
+  return [
+    make(
+      "fl-01",
+      9101,
+      "2026-11-08T10:42:00",
+      [
+        { item: find("SPRING WATER 1GAL"), qty: 6 },
+        { item: ice, qty: 4 },
+        { item: find("AA ALKALINE 24PK"), qty: 1 },
+        { item: find("SOFTIES DIAPERS SZ 3 38CT"), qty: 2 },
+        { item: iceCream, qty: 1 },
+        { item: find("FLEECE THROW"), qty: 2 },
+        { item: find("LAGER 6PK BTL"), qty: 1 },
+      ],
+      true,
+      true,
+    ),
+    make(
+      "fl-02",
+      9102,
+      "2026-11-09T15:10:00",
+      [
+        { item: find("DEER CREEK WATER"), qty: 10 },
+        { item: ice, qty: 6 },
+        { item: find("AA BATTERY 8PK"), qty: 2 },
+        { item: flashlight, qty: 1 },
+        { item: find("GIFT CARD $25"), qty: 1 },
+      ],
+      false,
+      false,
+    ),
+  ];
 }

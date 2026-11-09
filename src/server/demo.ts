@@ -1,5 +1,5 @@
 import type { CurrencyCode, Drive, FxRate, Money, Need } from "../core/types";
-import { SCENARIOS } from "../../tools/receipts/scenario";
+import { FLORIDA, SCENARIOS } from "../../tools/receipts/scenario";
 
 // The judges' demo drives. Two scenarios, one engine:
 //   kitasora: the Kitasora flood relief drive of the hero receipt (eval/receipts/hero/README.md):
@@ -58,6 +58,8 @@ export interface DemoScenario {
   display: DemoDisplay;
   /** The sample receipt judges upload: form field sample=<this>. */
   sample: string;
+  /** A real receipt's closed copy judges can upload too (sample=<this>): its own reading, its own refusals. */
+  realSample?: string;
 }
 
 const KITASORA = SCENARIOS.ja;
@@ -84,37 +86,37 @@ const kitasora: DemoScenario = {
   sample: "hero",
 };
 
-// The Florida drive. Until the real receipt is in (its closed copy only), the sample is the
-// synthetic English receipt v1-en-06 with its recorded reading, so the zone is its fictional
-// town. Swapping in the real receipt changes this object only: zone, date, needs, sample.
-const BRINDLEWOOD = SCENARIOS.en;
-const FL_NEED_QTY: Record<string, number> = { water: 40, diapers: 6, batteries: 48, blankets: 10 };
-
+// The Florida drive: a fictional shelter in Hallandale Beach after a fictional hurricane (tools/receipts/scenario.ts
+// FLORIDA). Its sample is a synthetic receipt of a fictional store in the same city, dated after the storm, with its
+// recorded reading; "florida-real" is the closed copy of a real Florida grocery receipt from 2019, read by Meta, which
+// the checks hold back as bought before the storm.
 const florida: DemoScenario = {
   id: "florida",
   paypalTitle: "Hurricane relief (demo)",
   drive: {
     baseCurrency: "USD",
-    disasterDate: BRINDLEWOOD.drive.disasterDate,
-    zone: BRINDLEWOOD.drive.zone,
-    rules: BRINDLEWOOD.drive.rules,
-    batch: BRINDLEWOOD.drive.batch,
+    disasterDate: FLORIDA.disasterDate,
+    zone: [...FLORIDA.zone],
+    rules: FLORIDA.rules,
+    batch: { maxAgeHours: 24, thresholdMinor: {} },
   },
-  needs: BRINDLEWOOD.needs.filter((n) => n.id in FL_NEED_QTY).map((n) => ({ ...n, qtyNeeded: FL_NEED_QTY[n.id] })),
+  needs: FLORIDA.needs.map((n) => ({ ...n })),
   pledges: [
     { key: "water", needId: "water", donorName: "Sofia (Madrid)", donorCountry: "ES", amount: { currency: "EUR", minor: 2500 } },
+    { key: "ice", needId: "ice", donorName: "Lucia (Miami)", donorCountry: "US", amount: { currency: "USD", minor: 2500 } },
     { key: "diapers", needId: "diapers", donorName: "Kenji (Osaka)", donorCountry: "JP", amount: { currency: "JPY", minor: 4000 } },
     { key: "batteries", needId: "batteries", donorName: "Dana (Atlanta)", donorCountry: "US", amount: { currency: "USD", minor: 3000 } },
     { key: "blankets", needId: "blankets", donorName: "Omar (Chicago)", donorCountry: "US", amount: { currency: "USD", minor: 2000 } },
     { key: "match", needId: null, donorName: "Gulf Coast Grocers", donorCountry: "US", amount: { currency: "USD", minor: 50_000 }, match: { ratioNum: 1, ratioDen: 1 } },
   ],
   display: {
-    title: "Brindlewood Community Shelter — Hurricane relief",
+    title: "Hallandale Beach Shelter (fictional) — Hurricane relief",
     volunteerName: "Maria",
-    needLabels: { water: "Water 1 gallon", diapers: "Diapers size 3", batteries: "AA batteries", blankets: "Blankets" },
+    needLabels: { water: "Water 1 gallon", ice: "Bagged ice 10 lb", diapers: "Diapers size 3", batteries: "AA batteries", blankets: "Blankets" },
     shelterPhoto: null,
   },
   sample: "florida",
+  realSample: "florida-real",
 };
 
 export const DEMO_SCENARIOS: Record<DemoScenarioId, DemoScenario> = { kitasora, florida };

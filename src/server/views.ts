@@ -98,6 +98,8 @@ export async function driveView(db: Db, driveId: string) {
       /** Demo drives: which scenario (kitasora, florida), its sample receipt and its shelter photo (null: none). */
       scenario: demo ? (demoScenarioOf(state.drive)?.id ?? "kitasora") : null,
       sample: demo ? (demoScenarioOf(state.drive)?.sample ?? "hero") : null,
+      /** A real receipt's closed copy this demo drive also takes (sample=<this>), or null. */
+      realSample: demo ? (demoScenarioOf(state.drive)?.realSample ?? null) : null,
       shelterPhoto: display ? display.shelterPhoto : null,
     },
     needs: state.needIds.map((id) => {

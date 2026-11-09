@@ -14,6 +14,7 @@ import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings } from "../receipts/meta-reader";
 import { Band, LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type PurchaseLine, type ReceiptImage, type ReceiptReader, type SecondReading } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.meta.json";
+import floridaRealAnswer from "../../eval/live/shipped/florida-real-2019.meta.json";
 import floridaRows from "../../eval/live/shipped/florida-sample.bands.json";
 import { ServiceError } from "./errors";
 import { META_READ_PREFIX, PgMetaReadLedger, PgSpendLedger } from "./spend";
@@ -143,8 +144,10 @@ export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): S
 /**
  * The sample receipt's reading: what Meta's two readings really answered on that photo in the benchmark's live run
  * (tools/receipts/ship-meta.ts), not its truth file. Its rows close the published copy as a live reading's would.
+ * The Florida drive's real receipt (florida-real) is Meta's live reading of the original photo, kept with the closed copy
+ * that is the only image in the repository (tools/receipts/read-private.ts, ship-private.ts).
  */
-export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "meta")];
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "meta"), savedAnswer(floridaRealAnswer, "meta")];
 
 const RowsFile = z.object({
   imageSha256: z.string().regex(/^[0-9a-f]{64}$/),

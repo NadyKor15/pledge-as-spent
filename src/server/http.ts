@@ -72,11 +72,12 @@ export function bearerMatches(req: Request, secret: string | undefined): boolean
 
 /**
  * The sample receipts (their readings ship with the app: no model call). Static paths, so file tracing ships them.
- * hero: the Kitasora drive's receipt. florida: the Florida drive's receipt (until the closed copy of a real
- * receipt is in, a copy of the synthetic English receipt v1-en-06 with its recorded reading).
+ * hero: the Kitasora drive's receipt. florida: the Florida drive's synthetic receipt of a fictional Hallandale Beach store,
+ * with its recorded reading. florida-real: the closed copy of a real Florida grocery receipt (2019), with Meta's reading.
  */
 export async function sampleBytes(name: string): Promise<Uint8Array> {
   if (name === "hero") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "hero", "hero-ja-01.png")));
-  if (name === "florida") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "florida", "florida-sample.png")));
-  throw new ServiceError(400, "unknown_sample", `No sample receipt "${name}"; the samples are "hero" and "florida".`);
+  if (name === "florida") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "florida", "fl-01.png")));
+  if (name === "florida-real") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "florida", "florida-real-2019.jpg")));
+  throw new ServiceError(400, "unknown_sample", `No sample receipt "${name}"; the samples are "hero", "florida" and "florida-real".`);
 }

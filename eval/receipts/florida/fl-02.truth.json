@@ -1,0 +1,339 @@
+{
+ "id": "fl-02",
+ "set": "florida",
+ "locale": "en",
+ "seed": 9102,
+ "driveId": "drive-hallandale",
+ "image": {
+  "file": "fl-02.png",
+  "sha256": "1a8fad9b719012bd4ee0b2466286108325219bd35fc4c804ca8549088e24a708",
+  "mediaType": "image/png",
+  "width": 607,
+  "height": 811
+ },
+ "receipt": {
+  "merchantName": "SEAGRAPE FOOD MART #3",
+  "merchantAddress": "410 Coral Fan Avenue, Hallandale Beach, FL",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-09T15:10:00",
+  "receiptNumber": "5553",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DEER CREEK WATER 1 GALLON JUG",
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 10,
+    "unitPriceMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BAGGED ICE 10LB",
+    "translationEn": "Bagged ice 10 lb",
+    "qty": 6,
+    "unitPriceMinor": 299,
+    "amountMinor": 1794,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 4,
+    "rawText": "LED FLASHLIGHT",
+    "translationEn": "LED flashlight",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 5,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 8881,
+  "taxMinor": 203,
+  "taxIncluded": false,
+  "totalMinor": 9084,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "ice",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Bagged ice 10 lb counts toward Bagged ice 10 lb.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "LED flashlight is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "fl-02",
+  "set": "florida",
+  "locale": "en",
+  "seed": 9102,
+  "store": {
+   "name": "SEAGRAPE FOOD MART #3",
+   "address": [
+    "410 Coral Fan Avenue",
+    "Hallandale Beach, FL"
+   ],
+   "city": "Hallandale Beach",
+   "phone": "(555) 010-0091"
+  },
+  "purchasedAt": "2026-11-09T15:10:00",
+  "receiptNumber": "5553",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "DEER CREEK WATER",
+     "1 GALLON JUG"
+    ],
+    "translationEn": "Deer Creek water 1 gallon",
+    "qty": 10,
+    "unitMinor": 169,
+    "amountMinor": 1690,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Deer Creek water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BAGGED ICE 10LB"
+    ],
+    "translationEn": "Bagged ice 10 lb",
+    "qty": 6,
+    "unitMinor": 299,
+    "amountMinor": 1794,
+    "taxRateBp": null,
+    "label": {
+     "needId": "ice",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Bagged ice 10 lb counts toward Bagged ice 10 lb."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA BATTERY 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitMinor": 799,
+    "amountMinor": 1598,
+    "taxRateBp": 700,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "LED FLASHLIGHT"
+    ],
+    "translationEn": "LED flashlight",
+    "qty": 1,
+    "unitMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 700,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "LED flashlight is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GIFT CARD $25"
+    ],
+    "translationEn": "Gift card $25",
+    "qty": 1,
+    "unitMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 700,
+    "baseMinor": 2897,
+    "taxMinor": 203
+   }
+  ],
+  "taxMinor": 203,
+  "subtotalMinor": 8881,
+  "totalMinor": 9084,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 10000,
+   "changeMinor": 916,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": 1.442,
+   "rotX": -3.414,
+   "rotY": -1.958,
+   "perspective": 1491,
+   "blurPx": 0.405,
+   "noise": 0.054,
+   "lightAngle": 334,
+   "lightStrength": 0.201,
+   "glare": {
+    "x": 0.577,
+    "y": 0.156,
+    "strength": 0.207
+   },
+   "creases": [
+    {
+     "x": 0.863,
+     "y": 0.129,
+     "angle": -52,
+     "width": 42,
+     "length": 474,
+     "strength": 0.084
+    },
+    {
+     "x": 0.829,
+     "y": 0.072,
+     "angle": -70,
+     "width": 31,
+     "length": 530,
+     "strength": 0.053
+    },
+    {
+     "x": 0.326,
+     "y": 0.1,
+     "angle": 43,
+     "width": 31,
+     "length": 528,
+     "strength": 0.062
+    },
+    {
+     "x": 0.479,
+     "y": 0.883,
+     "angle": 34,
+     "width": 50,
+     "length": 245,
+     "strength": 0.088
+    },
+    {
+     "x": 0.789,
+     "y": 0.853,
+     "angle": 58,
+     "width": 38,
+     "length": 419,
+     "strength": 0.117
+    },
+    {
+     "x": 0.312,
+     "y": 0.575,
+     "angle": -34,
+     "width": 67,
+     "length": 232,
+     "strength": 0.074
+    },
+    {
+     "x": 0.57,
+     "y": 0.554,
+     "angle": -37,
+     "width": 28,
+     "length": 440,
+     "strength": 0.099
+    }
+   ],
+   "desk": "slate",
+   "seed": 9109
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

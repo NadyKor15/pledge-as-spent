@@ -1,5 +1,5 @@
-// The printed rows of a sample receipt whose reading is the recorded one (the Florida drive's sample, a copy of the
-// synthetic receipt v1-en-06), so the demo publishes it closed to its purchase lines with no model call. The page that
+// The printed rows of a sample receipt whose reading is the recorded one (the Florida drive's sample, the synthetic
+// receipt fl-01 of a fictional Hallandale Beach store), so the demo publishes it closed to its purchase lines with no model call. The page that
 // made the photo is rendered again from its truth's spec and every printed row measured on the photo
 // (tools/receipts/rows.ts, as the closing is measured and as the cheat page's receipts are closed); each purchase line
 // of the recorded reading gets the rows its truth line is printed on (name rows and its quantity row).
@@ -24,7 +24,7 @@ const round = (n: number) => Math.round(n * 100) / 100;
 
 /** Samples served with their recorded reading: the photo judges upload, and the truth of the receipt it is a copy of. */
 const SAMPLES: Record<string, { photo: string; truth: string }> = {
-  florida: { photo: "eval/receipts/florida/florida-sample.png", truth: "eval/receipts/v1/v1-en-06.truth.json" },
+  florida: { photo: "eval/receipts/florida/fl-01.png", truth: "eval/receipts/florida/fl-01.truth.json" },
 };
 
 async function main() {

@@ -47,7 +47,7 @@ export type PhotoParams = z.infer<typeof PhotoParams>;
 
 export const ReceiptSpec = z.object({
   id: z.string(),
-  set: z.enum(["v1", "adversarial", "hero", "holdout", "holdout2"]),
+  set: z.enum(["v1", "adversarial", "hero", "holdout", "holdout2", "florida"]),
   locale: z.enum(["ja", "tr", "es", "en"]),
   seed: z.number().int(),
   store: z.object({
@@ -106,9 +106,8 @@ function labelFor(item: Item, qty: number, needLabel: (id: string) => string): L
   return { needId: null, needQty: null, verdict: "rejected", ruleCode: "not_in_needs", reasonEn: `${item.en} is not one of the drive's needs.` };
 }
 
-export function specLines(locale: Locale, entries: Entry[]): SpecLine[] {
-  const sc = SCENARIOS[locale];
-  const needLabel = (id: string) => sc.needs.find((n) => n.id === id)?.label ?? id;
+export function specLines(locale: Locale, entries: Entry[], needs: readonly { id: string; label: string }[] = SCENARIOS[locale].needs): SpecLine[] {
+  const needLabel = (id: string) => needs.find((n) => n.id === id)?.label ?? id;
   const out: SpecLine[] = [];
   for (const e of entries) {
     const label = labelFor(e.item, e.qty, needLabel);
@@ -173,6 +172,8 @@ export interface SpecInput {
   /** Force the payment and loyalty choices; otherwise drawn from the seed. */
   card?: boolean;
   loyalty?: boolean;
+  /** The drive's needs, for the labels' wording; the locale's scenario by default. */
+  needs?: readonly { id: string; label: string }[];
 }
 
 const digits = (rng: Rng, n: number) => Array.from({ length: n }, () => rng.int(0, 9)).join("");
@@ -180,7 +181,7 @@ const digits = (rng: Rng, n: number) => Array.from({ length: n }, () => rng.int(
 export function buildSpec(input: SpecInput): ReceiptSpec {
   const rng = new Rng(input.seed ^ 0x5bd1e995);
   const { locale } = input;
-  const lines = specLines(locale, input.entries);
+  const lines = specLines(locale, input.entries, input.needs);
   const tax = computeTax(locale, lines, input.taxIncluded);
   const withSubtotal = locale === "ja" || locale === "en";
   const card = input.card ?? rng.chance(0.55);

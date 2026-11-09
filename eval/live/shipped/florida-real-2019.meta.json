@@ -1,0 +1,1206 @@
+{
+ "madeBy": "tools/receipts/ship-private.ts from a live Meta reading of a real receipt (reader meta, Muse Spark 1.3, read twice); names, phone, receipt number and every non-purchase row's text removed",
+ "receiptId": "florida-real-2019",
+ "set": "florida-real",
+ "imageSha256": "d6830a4f2fba2f6c18bbb9f1e3e5d376eaf7fdff227a80aeac8366cd6e9f2661",
+ "imageDHash": "087e007e01fe08ef106f12ef12c718ef0eef0fff0fff0fff0fff07df01cf81c7",
+ "reading": {
+  "merchantName": "Publix",
+  "merchantAddress": "1400 E.Hallandale Bch Blvd Hallandale Beach, FL 33009",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2019-02-17T11:57:00",
+  "receiptNumber": null,
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CHIX TNDR WHL SUB",
+    "translationEn": "Chicken tender whole sub",
+    "qty": null,
+    "unitPriceMinor": 909,
+    "amountMinor": 909,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BH HAM WHL SUB",
+    "translationEn": "Ham whole sub",
+    "qty": null,
+    "unitPriceMinor": 809,
+    "amountMinor": 809,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "BLUE SML BRD DGFD",
+    "translationEn": "Blue small dog food",
+    "qty": null,
+    "unitPriceMinor": 1899,
+    "amountMinor": 1899,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "DELI DRINKS 44 OZ",
+    "translationEn": "Deli drink 44 oz",
+    "qty": null,
+    "unitPriceMinor": 179,
+    "amountMinor": 179,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ICE CUBES SPEARMNT",
+    "translationEn": "Spearmint ice cubes",
+    "qty": null,
+    "unitPriceMinor": 369,
+    "amountMinor": 369,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "NURSERY PURE WATER",
+    "translationEn": "Nursery pure water",
+    "qty": null,
+    "unitPriceMinor": 135,
+    "amountMinor": 135,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "NURSERY PURE WATER",
+    "translationEn": "Nursery pure water",
+    "qty": null,
+    "unitPriceMinor": 135,
+    "amountMinor": 135,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "Voided Item NURSERY PURE WATER",
+    "translationEn": "Nursery pure water void",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -135,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "PUPPERONI DG SNACK",
+    "translationEn": "Pupperoni dog snack",
+    "qty": null,
+    "unitPriceMinor": 619,
+    "amountMinor": 619,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "PUPPERONI DG SNACK",
+    "translationEn": "Pupperoni dog snack",
+    "qty": null,
+    "unitPriceMinor": 619,
+    "amountMinor": 619,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "Promotion",
+    "translationEn": "Promotion discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -619,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 12,
+    "rawText": "NERF TENNIS BALL",
+    "translationEn": "Nerf tennis ball",
+    "qty": null,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 370,
+  "taxIncluded": false,
+  "totalMinor": 5788,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "[closed]",
+    "bbox": null
+   },
+   {
+    "kind": "phone",
+    "text": "[closed]",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "[closed]",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chicken tender sub is food and is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Ham sub is food and is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dog food is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Deli drink is not drinking water and is not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Spearmint Ice Cubes is chewing gum, not bagged ice for coolers.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The two readings disagree on this line: the first says unsure, the second unsure.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The two readings disagree on this line: the first says unsure, the second unsure.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "Cannot tell whether the voided nursery water was in a 1 gallon jug as required.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dog snack is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Dog snack is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This discount reduces dog snacks which are not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 12,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tennis ball is not one of the needs.",
+   "confidence": 0.99
+  }
+ ],
+ "classifiedFor": "03a69e5cedd1ae47b0da27d533e7dbe5a3e7b46899f041337d3313aea918414f",
+ "lineBoxes": [
+  {
+   "lineNo": 1,
+   "box": {
+    "x": 0.183,
+    "y": 0.21316666666666667,
+    "w": 0.5868888888888888,
+    "h": 0.02808333333333332
+   }
+  },
+  {
+   "lineNo": 2,
+   "box": {
+    "x": 0.18322222222222223,
+    "y": 0.23941666666666667,
+    "w": 0.5867777777777778,
+    "h": 0.02516666666666667
+   }
+  },
+  {
+   "lineNo": 3,
+   "box": {
+    "x": 0.18333333333333332,
+    "y": 0.26275,
+    "w": 0.5868888888888889,
+    "h": 0.026833333333333376
+   }
+  },
+  {
+   "lineNo": 4,
+   "box": {
+    "x": 0.18355555555555556,
+    "y": 0.28775,
+    "w": 0.5867777777777777,
+    "h": 0.025999999999999968
+   }
+  },
+  {
+   "lineNo": 5,
+   "box": {
+    "x": 0.18366666666666667,
+    "y": 0.3119166666666667,
+    "w": 0.5868888888888889,
+    "h": 0.024333333333333318
+   }
+  },
+  {
+   "lineNo": 6,
+   "box": {
+    "x": 0.18366666666666667,
+    "y": 0.3119166666666667,
+    "w": 0.5870000000000001,
+    "h": 0.05349999999999999
+   }
+  },
+  {
+   "lineNo": 7,
+   "box": {
+    "x": 0.18388888888888888,
+    "y": 0.3344166666666667,
+    "w": 0.587,
+    "h": 0.05516666666666664
+   }
+  },
+  {
+   "lineNo": 8,
+   "box": {
+    "x": 0.18422222222222223,
+    "y": 0.38775,
+    "w": 0.5867777777777778,
+    "h": 0.025583333333333347
+   }
+  },
+  {
+   "lineNo": 9,
+   "box": {
+    "x": 0.18444444444444444,
+    "y": 0.41150000000000003,
+    "w": 0.5867777777777778,
+    "h": 0.028083333333333294
+   }
+  },
+  {
+   "lineNo": 10,
+   "box": {
+    "x": 0.18455555555555556,
+    "y": 0.43775,
+    "w": 0.5868888888888888,
+    "h": 0.0264166666666667
+   }
+  },
+  {
+   "lineNo": 11,
+   "box": {
+    "x": 0.1847777777777778,
+    "y": 0.4623333333333333,
+    "w": 0.5867777777777777,
+    "h": 0.023083333333333345
+   }
+  },
+  {
+   "lineNo": 12,
+   "box": {
+    "x": 0.1848888888888889,
+    "y": 0.4835833333333333,
+    "w": 0.5868888888888889,
+    "h": 0.038916666666666655
+   }
+  }
+ ],
+ "bands": [
+  {
+   "index": 1,
+   "y0": 25,
+   "y1": 79,
+   "quad": [
+    [
+     163.4,
+     12
+    ],
+    [
+     691.4,
+     9.3
+    ],
+    [
+     691.6,
+     36.3
+    ],
+    [
+     163.6,
+     39
+    ]
+   ]
+  },
+  {
+   "index": 2,
+   "y0": 80,
+   "y1": 126,
+   "quad": [
+    [
+     163.6,
+     39.5
+    ],
+    [
+     691.6,
+     36.8
+    ],
+    [
+     691.7,
+     59.8
+    ],
+    [
+     163.7,
+     62.5
+    ]
+   ]
+  },
+  {
+   "index": 3,
+   "y0": 127,
+   "y1": 182,
+   "quad": [
+    [
+     163.7,
+     63
+    ],
+    [
+     691.7,
+     60.3
+    ],
+    [
+     691.8,
+     87.8
+    ],
+    [
+     163.8,
+     90.5
+    ]
+   ]
+  },
+  {
+   "index": 4,
+   "y0": 183,
+   "y1": 252,
+   "quad": [
+    [
+     163.8,
+     91
+    ],
+    [
+     691.8,
+     88.3
+    ],
+    [
+     692,
+     122.8
+    ],
+    [
+     164,
+     125.5
+    ]
+   ]
+  },
+  {
+   "index": 5,
+   "y0": 252,
+   "y1": 307,
+   "quad": [
+    [
+     164,
+     125.5
+    ],
+    [
+     692,
+     122.8
+    ],
+    [
+     692.1,
+     150.3
+    ],
+    [
+     164.2,
+     153
+    ]
+   ]
+  },
+  {
+   "index": 6,
+   "y0": 308,
+   "y1": 366,
+   "quad": [
+    [
+     164.2,
+     153.5
+    ],
+    [
+     692.2,
+     150.8
+    ],
+    [
+     692.3,
+     179.8
+    ],
+    [
+     164.3,
+     182.5
+    ]
+   ]
+  },
+  {
+   "index": 7,
+   "y0": 366,
+   "y1": 424,
+   "quad": [
+    [
+     164.3,
+     182.5
+    ],
+    [
+     692.3,
+     179.8
+    ],
+    [
+     692.5,
+     208.8
+    ],
+    [
+     164.5,
+     211.5
+    ]
+   ]
+  },
+  {
+   "index": 8,
+   "y0": 424,
+   "y1": 474,
+   "quad": [
+    [
+     164.5,
+     211.5
+    ],
+    [
+     692.5,
+     208.8
+    ],
+    [
+     692.6,
+     233.8
+    ],
+    [
+     164.6,
+     236.5
+    ]
+   ]
+  },
+  {
+   "index": 9,
+   "y0": 474,
+   "y1": 517,
+   "quad": [
+    [
+     164.6,
+     236.5
+    ],
+    [
+     692.6,
+     233.8
+    ],
+    [
+     692.7,
+     255.3
+    ],
+    [
+     164.7,
+     258
+    ]
+   ]
+  },
+  {
+   "index": 10,
+   "y0": 518,
+   "y1": 580,
+   "quad": [
+    [
+     164.7,
+     258.5
+    ],
+    [
+     692.7,
+     255.8
+    ],
+    [
+     692.9,
+     286.8
+    ],
+    [
+     164.9,
+     289.5
+    ]
+   ]
+  },
+  {
+   "index": 11,
+   "y0": 581,
+   "y1": 636,
+   "quad": [
+    [
+     164.9,
+     290
+    ],
+    [
+     692.9,
+     287.3
+    ],
+    [
+     693,
+     314.8
+    ],
+    [
+     165,
+     317.5
+    ]
+   ]
+  },
+  {
+   "index": 12,
+   "y0": 637,
+   "y1": 696,
+   "quad": [
+    [
+     165,
+     318
+    ],
+    [
+     693,
+     315.3
+    ],
+    [
+     693.2,
+     344.8
+    ],
+    [
+     165.2,
+     347.5
+    ]
+   ]
+  },
+  {
+   "index": 13,
+   "y0": 697,
+   "y1": 754,
+   "quad": [
+    [
+     165.2,
+     348
+    ],
+    [
+     693.2,
+     345.3
+    ],
+    [
+     693.3,
+     373.8
+    ],
+    [
+     165.3,
+     376.5
+    ]
+   ]
+  },
+  {
+   "index": 14,
+   "y0": 755,
+   "y1": 808,
+   "quad": [
+    [
+     165.3,
+     377
+    ],
+    [
+     693.3,
+     374.3
+    ],
+    [
+     693.5,
+     400.8
+    ],
+    [
+     165.5,
+     403.5
+    ]
+   ]
+  },
+  {
+   "index": 15,
+   "y0": 809,
+   "y1": 878,
+   "quad": [
+    [
+     165.5,
+     404
+    ],
+    [
+     693.5,
+     401.3
+    ],
+    [
+     693.6,
+     435.8
+    ],
+    [
+     165.7,
+     438.5
+    ]
+   ]
+  },
+  {
+   "index": 16,
+   "y0": 879,
+   "y1": 936,
+   "quad": [
+    [
+     165.7,
+     439
+    ],
+    [
+     693.6,
+     436.3
+    ],
+    [
+     693.8,
+     464.8
+    ],
+    [
+     165.8,
+     467.5
+    ]
+   ]
+  },
+  {
+   "index": 17,
+   "y0": 937,
+   "y1": 993,
+   "quad": [
+    [
+     165.8,
+     468
+    ],
+    [
+     693.8,
+     465.3
+    ],
+    [
+     693.9,
+     493.3
+    ],
+    [
+     166,
+     496
+    ]
+   ]
+  },
+  {
+   "index": 18,
+   "y0": 994,
+   "y1": 1056,
+   "quad": [
+    [
+     166,
+     496.5
+    ],
+    [
+     693.9,
+     493.8
+    ],
+    [
+     694.1,
+     524.8
+    ],
+    [
+     166.1,
+     527.5
+    ]
+   ]
+  },
+  {
+   "index": 19,
+   "y0": 1057,
+   "y1": 1115,
+   "quad": [
+    [
+     166.1,
+     528
+    ],
+    [
+     694.1,
+     525.3
+    ],
+    [
+     694.3,
+     554.3
+    ],
+    [
+     166.3,
+     557
+    ]
+   ]
+  },
+  {
+   "index": 20,
+   "y0": 1116,
+   "y1": 1166,
+   "quad": [
+    [
+     166.3,
+     557.5
+    ],
+    [
+     694.3,
+     554.8
+    ],
+    [
+     694.4,
+     579.8
+    ],
+    [
+     166.4,
+     582.5
+    ]
+   ]
+  },
+  {
+   "index": 21,
+   "y0": 1167,
+   "y1": 1255,
+   "quad": [
+    [
+     166.4,
+     583
+    ],
+    [
+     694.4,
+     580.3
+    ],
+    [
+     694.6,
+     624.3
+    ],
+    [
+     166.6,
+     627
+    ]
+   ]
+  },
+  {
+   "index": 22,
+   "y0": 1274,
+   "y1": 1360,
+   "quad": [
+    [
+     166.7,
+     636.5
+    ],
+    [
+     694.7,
+     633.8
+    ],
+    [
+     694.9,
+     676.8
+    ],
+    [
+     166.9,
+     679.5
+    ]
+   ]
+  },
+  {
+   "index": 23,
+   "y0": 1361,
+   "y1": 1425,
+   "quad": [
+    [
+     166.9,
+     680
+    ],
+    [
+     694.9,
+     677.3
+    ],
+    [
+     695.1,
+     709.3
+    ],
+    [
+     167.1,
+     712
+    ]
+   ]
+  },
+  {
+   "index": 24,
+   "y0": 1425,
+   "y1": 1492,
+   "quad": [
+    [
+     167.1,
+     712
+    ],
+    [
+     695.1,
+     709.3
+    ],
+    [
+     695.3,
+     742.8
+    ],
+    [
+     167.3,
+     745.5
+    ]
+   ]
+  },
+  {
+   "index": 25,
+   "y0": 1492,
+   "y1": 1561,
+   "quad": [
+    [
+     167.3,
+     745.5
+    ],
+    [
+     695.3,
+     742.8
+    ],
+    [
+     695.4,
+     777.3
+    ],
+    [
+     167.4,
+     780
+    ]
+   ]
+  },
+  {
+   "index": 26,
+   "y0": 1561,
+   "y1": 1645,
+   "quad": [
+    [
+     167.4,
+     780
+    ],
+    [
+     695.4,
+     777.3
+    ],
+    [
+     695.7,
+     819.3
+    ],
+    [
+     167.7,
+     822
+    ]
+   ]
+  },
+  {
+   "index": 27,
+   "y0": 1694,
+   "y1": 1778,
+   "quad": [
+    [
+     167.8,
+     846.5
+    ],
+    [
+     695.8,
+     843.8
+    ],
+    [
+     696,
+     885.8
+    ],
+    [
+     168,
+     888.5
+    ]
+   ]
+  },
+  {
+   "index": 28,
+   "y0": 1779,
+   "y1": 1845,
+   "quad": [
+    [
+     168,
+     889
+    ],
+    [
+     696,
+     886.3
+    ],
+    [
+     696.2,
+     919.3
+    ],
+    [
+     168.2,
+     922
+    ]
+   ]
+  },
+  {
+   "index": 29,
+   "y0": 1846,
+   "y1": 1912,
+   "quad": [
+    [
+     168.2,
+     922.5
+    ],
+    [
+     696.2,
+     919.8
+    ],
+    [
+     696.4,
+     952.8
+    ],
+    [
+     168.4,
+     955.5
+    ]
+   ]
+  },
+  {
+   "index": 30,
+   "y0": 1913,
+   "y1": 1993,
+   "quad": [
+    [
+     168.4,
+     956
+    ],
+    [
+     696.4,
+     953.3
+    ],
+    [
+     696.6,
+     993.3
+    ],
+    [
+     168.6,
+     996
+    ]
+   ]
+  },
+  {
+   "index": 31,
+   "y0": 1993,
+   "y1": 2065,
+   "quad": [
+    [
+     168.6,
+     996
+    ],
+    [
+     696.6,
+     993.3
+    ],
+    [
+     696.8,
+     1029.3
+    ],
+    [
+     168.8,
+     1032
+    ]
+   ]
+  },
+  {
+   "index": 32,
+   "y0": 2066,
+   "y1": 2145,
+   "quad": [
+    [
+     168.8,
+     1032.5
+    ],
+    [
+     696.8,
+     1029.8
+    ],
+    [
+     697,
+     1069.3
+    ],
+    [
+     169,
+     1072
+    ]
+   ]
+  }
+ ],
+ "bandTexts": {
+  "10": "CHIX TNDR WHL SUB              9.09 T",
+  "11": "BH HAM WHL SUB              8.09 T",
+  "12": "BLUE SML BRD DGFD              18.99 T",
+  "13": "DELI DRINKS 44 OZ              1.79 T F",
+  "14": "ICE CUBES SPEARMNT              3.69 T F",
+  "15": "NURSERY PURE WATER              1.35 F",
+  "16": "Voided Item",
+  "17": "NURSERY PURE WATER            -1.35 F",
+  "18": "PUPPERONI DG SNACK              6.19 T",
+  "19": "PUPPERONI DG SNACK              6.19 T",
+  "20": "Promotion            -6.19 T",
+  "21": "NERF TENNIS BALL            4.99 T"
+ },
+ "purchaseLines": [
+  {
+   "lineNo": 1,
+   "bandIndexes": [
+    10
+   ]
+  },
+  {
+   "lineNo": 2,
+   "bandIndexes": [
+    11
+   ]
+  },
+  {
+   "lineNo": 3,
+   "bandIndexes": [
+    12
+   ]
+  },
+  {
+   "lineNo": 4,
+   "bandIndexes": [
+    13
+   ]
+  },
+  {
+   "lineNo": 5,
+   "bandIndexes": [
+    14
+   ]
+  },
+  {
+   "lineNo": 6,
+   "bandIndexes": [
+    14,
+    15
+   ]
+  },
+  {
+   "lineNo": 7,
+   "bandIndexes": [
+    15,
+    16
+   ]
+  },
+  {
+   "lineNo": 8,
+   "bandIndexes": [
+    17
+   ]
+  },
+  {
+   "lineNo": 9,
+   "bandIndexes": [
+    18
+   ]
+  },
+  {
+   "lineNo": 10,
+   "bandIndexes": [
+    19
+   ]
+  },
+  {
+   "lineNo": 11,
+   "bandIndexes": [
+    20
+   ]
+  },
+  {
+   "lineNo": 12,
+   "bandIndexes": [
+    21
+   ]
+  }
+ ],
+ "held": [
+  {
+   "lineNo": 6,
+   "why": "The two readings disagree on this line: the first says unsure, the second unsure."
+  },
+  {
+   "lineNo": 7,
+   "why": "The two readings disagree on this line: the first says unsure, the second unsure."
+  }
+ ]
+}

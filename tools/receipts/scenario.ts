@@ -105,6 +105,26 @@ export const SCENARIOS: Record<Locale, Scenario> = {
   },
 };
 
+/**
+ * The Florida demo drive (src/server/demo.ts): a fictional shelter in Hallandale Beach (Broward County), after a
+ * fictional hurricane. No real storm, declaration or shelter is meant. Its needs follow a real Florida grocery receipt
+ * from 2019 (water, ice) plus the drive's usual ones. Its synthetic receipts (the "florida" set) come from a fictional
+ * store with a fictional address in the same city.
+ */
+export const FLORIDA = {
+  driveId: "drive-hallandale",
+  disasterDate: "2026-11-05",
+  zone: ["Hallandale Beach"],
+  rules: `${RULES_COMMON} Size 3 diapers only; AA batteries only; water in 1 gallon jugs; ice only as bagged ice for coolers.`,
+  needs: [
+    need("drive-hallandale", "water", "Drinking water 1 gallon", "gallon jug", 40),
+    need("drive-hallandale", "ice", "Bagged ice 10 lb", "bag 10 lb", 30),
+    need("drive-hallandale", "diapers", "Baby diapers size 3", "pack", 6),
+    need("drive-hallandale", "batteries", "AA batteries", "piece", 48),
+    need("drive-hallandale", "blankets", "Blankets", "piece", 10),
+  ],
+} as const;
+
 /** The demo receipt's drive: the Kitasora drive with the three needs of the demo. */
 export const HERO_NEEDS = SCENARIOS.ja.needs.slice(0, 3);
 

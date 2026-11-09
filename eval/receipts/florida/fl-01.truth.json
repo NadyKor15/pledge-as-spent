@@ -1,0 +1,455 @@
+{
+ "id": "fl-01",
+ "set": "florida",
+ "locale": "en",
+ "seed": 9101,
+ "driveId": "drive-hallandale",
+ "image": {
+  "file": "fl-01.png",
+  "sha256": "c6143221fab0ce6122c3e9fb52a5368048703f5b79a52609618d2c74ca051bc1",
+  "mediaType": "image/png",
+  "width": 611,
+  "height": 972
+ },
+ "receipt": {
+  "merchantName": "SEAGRAPE FOOD MART #3",
+  "merchantAddress": "410 Coral Fan Avenue, Hallandale Beach, FL",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T10:42:00",
+  "receiptNumber": "2160",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitPriceMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BAGGED ICE 10LB",
+    "translationEn": "Bagged ice 10 lb",
+    "qty": 4,
+    "unitPriceMinor": 299,
+    "amountMinor": 1196,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 4,
+    "rawText": "SOFTIES DIAPERS SZ 3 38CT",
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 2,
+    "unitPriceMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ICE CREAM BARS 6CT",
+    "translationEn": "Ice cream bars, 6 count",
+    "qty": 1,
+    "unitPriceMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 6,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitPriceMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 700
+   },
+   {
+    "lineNo": 7,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 700
+   }
+  ],
+  "subtotalMinor": 10733,
+  "taxMinor": 605,
+  "taxIncluded": false,
+  "totalMinor": 11338,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0931",
+    "bbox": {
+     "x": 0.5911,
+     "y": 0.6939,
+     "w": 0.2373,
+     "h": 0.0192
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.1998,
+     "y": 0.7877,
+     "w": 0.1722,
+     "h": 0.0179
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "0993640915",
+    "bbox": {
+     "x": 0.6831,
+     "y": 0.8114,
+     "w": 0.1481,
+     "h": 0.0181
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "ice",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Bagged ice 10 lb counts toward Bagged ice 10 lb.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Ice cream bars, 6 count is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw blanket counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "fl-01",
+  "set": "florida",
+  "locale": "en",
+  "seed": 9101,
+  "store": {
+   "name": "SEAGRAPE FOOD MART #3",
+   "address": [
+    "410 Coral Fan Avenue",
+    "Hallandale Beach, FL"
+   ],
+   "city": "Hallandale Beach",
+   "phone": "(555) 010-0091"
+  },
+  "purchasedAt": "2026-11-08T10:42:00",
+  "receiptNumber": "2160",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER 1GAL"
+    ],
+    "translationEn": "Spring water 1 gallon",
+    "qty": 6,
+    "unitMinor": 149,
+    "amountMinor": 894,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BAGGED ICE 10LB"
+    ],
+    "translationEn": "Bagged ice 10 lb",
+    "qty": 4,
+    "unitMinor": 299,
+    "amountMinor": 1196,
+    "taxRateBp": null,
+    "label": {
+     "needId": "ice",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Bagged ice 10 lb counts toward Bagged ice 10 lb."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AA ALKALINE 24PK"
+    ],
+    "translationEn": "AA alkaline batteries, 24 pack",
+    "qty": 1,
+    "unitMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": 700,
+    "label": {
+     "needId": "batteries",
+     "needQty": 24,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA alkaline batteries, 24 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SOFTIES DIAPERS SZ 3 38CT"
+    ],
+    "translationEn": "Softies diapers size 3, 38 count",
+    "qty": 2,
+    "unitMinor": 1249,
+    "amountMinor": 2498,
+    "taxRateBp": 700,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Softies diapers size 3, 38 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ICE CREAM BARS 6CT"
+    ],
+    "translationEn": "Ice cream bars, 6 count",
+    "qty": 1,
+    "unitMinor": 549,
+    "amountMinor": 549,
+    "taxRateBp": 700,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Ice cream bars, 6 count is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW",
+     "BLANKET"
+    ],
+    "translationEn": "Fleece throw blanket",
+    "qty": 2,
+    "unitMinor": 1499,
+    "amountMinor": 2998,
+    "taxRateBp": 700,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw blanket counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "LAGER 6PK BTL"
+    ],
+    "translationEn": "Lager, 6 pack bottles",
+    "qty": 1,
+    "unitMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 700,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 700,
+    "baseMinor": 8643,
+    "taxMinor": 605
+   }
+  ],
+  "taxMinor": 605,
+  "subtotalMinor": 10733,
+  "totalMinor": 11338,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "0931"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0931"
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "0993640915"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.423,
+   "rotX": -4.299,
+   "rotY": -4.892,
+   "perspective": 1456,
+   "blurPx": 0.355,
+   "noise": 0.041,
+   "lightAngle": 282,
+   "lightStrength": 0.255,
+   "glare": {
+    "x": 0.33,
+    "y": 0.289,
+    "strength": 0.118
+   },
+   "creases": [
+    {
+     "x": 0.782,
+     "y": 0.525,
+     "angle": -43,
+     "width": 35,
+     "length": 401,
+     "strength": 0.066
+    },
+    {
+     "x": 0.551,
+     "y": 0.377,
+     "angle": -38,
+     "width": 67,
+     "length": 408,
+     "strength": 0.059
+    },
+    {
+     "x": 0.163,
+     "y": 0.286,
+     "angle": 37,
+     "width": 26,
+     "length": 584,
+     "strength": 0.057
+    },
+    {
+     "x": 0.412,
+     "y": 0.252,
+     "angle": -60,
+     "width": 33,
+     "length": 332,
+     "strength": 0.102
+    },
+    {
+     "x": 0.132,
+     "y": 0.492,
+     "angle": -15,
+     "width": 39,
+     "length": 396,
+     "strength": 0.089
+    },
+    {
+     "x": 0.895,
+     "y": 0.9,
+     "angle": -45,
+     "width": 34,
+     "length": 424,
+     "strength": 0.061
+    },
+    {
+     "x": 0.71,
+     "y": 0.211,
+     "angle": -54,
+     "width": 50,
+     "length": 468,
+     "strength": 0.061
+    }
+   ],
+   "desk": "wood",
+   "seed": 9108
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

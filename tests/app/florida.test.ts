@@ -7,18 +7,22 @@ import { closeReport, replay, type LedgerEvent } from "../../src/core";
 import { events } from "../../src/db/schema";
 import { isClosedCopy } from "../../src/receipts/close";
 import { sha256Hex } from "../../src/receipts/hash";
+import { classificationKey } from "../../src/receipts/recorded";
 import { DEMO_SCENARIOS, demoDisplayFor, demoDrive, demoScenarioOf, fxFor } from "../../src/server/demo";
 import { ServiceError } from "../../src/server/errors";
 import { sampleBytes } from "../../src/server/http";
+import { SHIPPED_ANSWERS } from "../../src/server/reading";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, loadRecordings } from "./support/harness";
 
-// The second demo drive: hurricane relief in USD for a fictional Florida shelter,
-// donors in EUR, JPY and USD and a 1:1 company match, next to the Kitasora drive.
+// The second demo drive: hurricane relief in USD for a fictional shelter in Hallandale Beach after a fictional storm,
+// donors in EUR, JPY and USD and a 1:1 company match, next to the Kitasora drive. Its sample is a synthetic receipt of a
+// fictional store; "florida-real" is the closed copy of a real Florida grocery receipt from 2019 with Meta's reading.
 
-async function florida(driveId = "demo-florida") {
+async function florida(driveId = "demo-florida", o: { shipped?: boolean } = {}) {
   const pp = fakeSandbox();
-  const h = await harness({ fetch: pp.fetch, recordings: loadRecordings() });
+  // shipped: the saved Meta answers production serves (the harness serves none by default)
+  const h = await harness({ fetch: pp.fetch, recordings: loadRecordings(), ...(o.shipped ? { savedAnswers: SHIPPED_ANSWERS } : {}) });
   const view = await h.svc.createDemoDrive({ driveId, scenario: "florida" });
   const book = async () => replay((await h.db.db.select().from(events).where(eq(events.driveId, driveId)).orderBy(events.seq)).map((e) => e.payload as LedgerEvent));
   return { pp, h, driveId, view, book };
@@ -46,41 +50,45 @@ describe("demo scenarios", () => {
   it("ships the Florida sample on a path the host uploads", async () => {
     const bytes = await sampleBytes("florida");
     expect(bytes.length).toBeGreaterThan(1000);
-    await expect(sampleBytes("nope")).rejects.toThrow(/samples are "hero" and "florida"/);
+    expect((await sampleBytes("florida-real")).length).toBeGreaterThan(1000);
+    await expect(sampleBytes("nope")).rejects.toThrow(/samples are "hero", "florida" and "florida-real"/);
   });
 });
 
 describe("the Florida demo drive", () => {
-  it("opens in USD with four needs and five holds in three currencies, all authorized", async () => {
+  it("opens in USD with five needs and six holds in three currencies, all authorized, marked fictional", async () => {
     const { view, pp } = await florida();
-    expect(view.drive).toMatchObject({ baseCurrency: "USD", demo: true, scenario: "florida", sample: "florida", shelterPhoto: null, displayTitle: "Brindlewood Community Shelter — Hurricane relief", volunteerName: "Maria" });
+    expect(view.drive).toMatchObject({ baseCurrency: "USD", demo: true, scenario: "florida", sample: "florida", realSample: "florida-real", shelterPhoto: null, displayTitle: "Hallandale Beach Shelter (fictional) — Hurricane relief", volunteerName: "Maria", zone: ["Hallandale Beach"], disasterDate: "2026-11-05" });
     expect(view.needs.map((n) => [n.needId, n.qtyNeeded, n.displayLabel])).toEqual([
       ["water", 40, "Water 1 gallon"],
+      ["ice", 30, "Bagged ice 10 lb"],
       ["diapers", 6, "Diapers size 3"],
       ["batteries", 48, "AA batteries"],
       ["blankets", 10, "Blankets"],
     ]);
     expect(view.holds.map((x) => [x.donorName, x.currency, x.authorized, x.status])).toEqual([
       ["Sofia (Madrid)", "EUR", 2500, "authorized"],
+      ["Lucia (Miami)", "USD", 2500, "authorized"],
       ["Kenji (Osaka)", "JPY", 4000, "authorized"],
       ["Dana (Atlanta)", "USD", 3000, "authorized"],
       ["Omar (Chicago)", "USD", 2000, "authorized"],
       ["Gulf Coast Grocers", "USD", 50_000, "authorized"],
     ]);
     // PayPal saw the hurricane drive's title in every hold
-    expect(pp.calls.filter((c) => c.path.includes("/v2/checkout/orders") && c.method === "POST").length).toBeGreaterThanOrEqual(5);
+    expect(pp.calls.filter((c) => c.path.includes("/v2/checkout/orders") && c.method === "POST").length).toBeGreaterThanOrEqual(6);
   });
 
-  it("funds the sample receipt from the right holds, pays the volunteer in USD and settles every donor at the close", async () => {
+  it("funds the synthetic sample from the right holds, pays the volunteer in USD and settles every donor at the close", async () => {
     const s = await florida();
     const out = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: await sampleBytes("florida") });
     expect(out.receipt.reader).toBe("recorded");
+    expect(out.receipt.flags).toEqual([]);
     const v = await s.h.svc.getDriveView(s.driveId);
-    // v1-en-06: AA 8-pack (8 batteries), diapers size 3 x3, water 4 + 3 gallons; wrong-size diapers, bread and a gift card refused
+    // fl-01, 2026-11-08: water 6 gallons, ice 4 bags, AA 24-pack, diapers size 3 x2, blankets x2; ice-cream bars and lager refused
     const covered = Object.fromEntries(v.needs.map((n) => [n.needId, n.qtyCovered]));
-    expect(covered).toEqual({ water: 7, diapers: 3, batteries: 8, blankets: 0 });
+    expect(covered).toEqual({ water: 6, ice: 4, diapers: 2, batteries: 24, blankets: 2 });
     const refused = v.ledger.filter((r) => r.kind === "rejected").map((r) => r.code);
-    expect(refused).toEqual(expect.arrayContaining(["not_in_needs", "gift_card"]));
+    expect(refused.sort()).toEqual(["alcohol", "not_in_needs"]);
     expect(s.pp.payouts).toHaveLength(1);
     expect(s.pp.payouts[0].currency).toBe("USD");
 
@@ -93,11 +101,15 @@ describe("the Florida demo drive", () => {
       expect(row.settled).toBe(true);
       expect(row.spent + row.released + row.uncollected + row.reversed).toBe(row.pledged);
     }
-    const blankets = closeReport(state).find((r) => r.pledgeId === `${s.driveId}.blankets`)!;
-    expect([blankets.spent, blankets.released]).toEqual([0, 2000]);
+    // every donor need was on the receipt: each donor paid a part, none all of it
+    for (const key of ["water", "ice", "diapers", "batteries", "blankets"]) {
+      const row = closeReport(state).find((r) => r.pledgeId === `${s.driveId}.${key}`)!;
+      expect(row.spent).toBeGreaterThan(0);
+      expect(row.released).toBeGreaterThan(0);
+    }
   });
 
-  it("publishes the sample only closed to its seven purchase lines: the member's name and number are plain paper", async () => {
+  it("publishes the sample only closed to its seven purchase lines: the card, the member's name and number are plain paper", async () => {
     const s = await florida();
     const original = await sampleBytes("florida");
     const { receipt: r } = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: original });
@@ -106,7 +118,7 @@ describe("the Florida demo drive", () => {
     expect(isClosedCopy(img.bytes)).toBe(true);
     expect(sha256Hex(img.bytes)).not.toBe(sha256Hex(original));
     // the truth of the receipt the sample is a copy of holds where its personal data is printed
-    const truth = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../eval/receipts/v1/v1-en-06.truth.json"), "utf8")) as { receipt: { pii: { bbox: { x: number; y: number; w: number; h: number } }[] } };
+    const truth = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../eval/receipts/florida/fl-01.truth.json"), "utf8")) as { receipt: { pii: { bbox: { x: number; y: number; w: number; h: number } }[] } };
     const dark = (bytes: Uint8Array) => {
       const p = PNG.sync.read(Buffer.from(bytes));
       let n = 0;
@@ -118,7 +130,7 @@ describe("the Florida demo drive", () => {
           }
       return n;
     };
-    expect(truth.receipt.pii).toHaveLength(2);
+    expect(truth.receipt.pii).toHaveLength(3);
     expect(dark(original)).toBeGreaterThan(50); // the counter sees the print on the photo
     expect(dark(img.bytes)).toBe(0);
   });
@@ -152,5 +164,60 @@ describe("the Florida demo drive", () => {
     const v = await h.svc.createDemoDrive({ driveId: "demo-ja" });
     expect(v.drive).toMatchObject({ baseCurrency: "JPY", scenario: "kitasora", sample: "hero", shelterPhoto: "kitasora", displayTitle: "Kitasora Community Shelter — Earthquake relief", volunteerName: "Haruto" });
     expect(v.holds.map((x) => x.donorName)).toEqual(["Lena (Berlin)", "Mark (Columbus)", "Yuki (Osaka)", "Kitasora Logistics"]);
+  });
+});
+
+describe("a real Florida grocery receipt (2019) on the Florida drive", () => {
+  const shipped = () =>
+    JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../eval/live/shipped/florida-real-2019.meta.json"), "utf8")) as {
+      imageSha256: string;
+      reading: { purchasedAt: string; receiptNumber: string | null; pii: { text: string; bbox: unknown }[] } & Parameters<typeof classificationKey>[0];
+      classifiedFor: string;
+      bandTexts: Record<string, string>;
+      purchaseLines: { lineNo: number; bandIndexes: number[] }[];
+    };
+
+  it("is read from Meta's saved answer with no model call, held back as bought before the storm, and moves no money", async () => {
+    const s = await florida("demo-florida", { shipped: true });
+    const out = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: await sampleBytes("florida-real") });
+    expect(out.receipt.reader).toBe("cached:meta");
+    // bought before the storm; the nursery water rows the two readings could not settle wait for a person too
+    expect(out.receipt.flags.map((f) => f.code).sort()).toEqual(["low_confidence", "pre_disaster"]);
+    expect(out.receipt.status).toBe("review");
+    const lines = out.receipt.lines;
+    expect(lines).toHaveLength(12);
+    expect(lines.some((l) => l.verdict === "eligible")).toBe(false);
+    // "ICE CUBES SPEARMNT" is chewing gum: the word "ice" alone does not make it the drive's bagged ice
+    const gum = lines.find((l) => /ICE CUBES/.test(l.text))!;
+    expect(gum).toMatchObject({ verdict: "rejected", ruleCode: "not_in_needs", needId: null });
+    expect(gum.reasonEn).toMatch(/gum/i);
+    // the dog food and the tennis ball are not needs
+    for (const t of [/DGFD/, /TENNIS BALL/]) expect(lines.find((l) => t.test(l.text))).toMatchObject({ verdict: "rejected", ruleCode: "not_in_needs" });
+    // even the coordinator's approval funds nothing: no line names a need
+    await s.h.svc.coordinatorDecision(out.receipt.id, "approve", "checked by phone");
+    const v = await s.h.svc.getDriveView(s.driveId);
+    expect(v.ledger.filter((r) => r.receiptId === out.receipt.id && r.kind !== "rejected")).toEqual([]);
+    expect([s.pp.captures.length, s.pp.payouts.length]).toEqual([0, 0]);
+    // published closed: the only image of it in the repository is already the closed copy
+    const img = (await s.h.svc.getReceiptImage(out.receipt.id))!;
+    expect(isClosedCopy(img.bytes)).toBe(true);
+    expect(isClosedCopy(await sampleBytes("florida-real"))).toBe(true);
+  });
+
+  it("keeps its saved answer valid for the drive: the same needs and rules, or the server would call the model", () => {
+    const a = shipped();
+    const { drive, needs } = demoDrive("any", "2026-11-09T00:00:00Z", "florida");
+    expect(classificationKey(a.reading, needs, drive.rules)).toBe(a.classifiedFor);
+    expect(a.reading.purchasedAt.startsWith("2019-")).toBe(true); // the date is not edited
+  });
+
+  it("carries no personal text: names and phone closed, no receipt number, only purchase rows' text", async () => {
+    const a = shipped();
+    expect(a.imageSha256).toBe(sha256Hex(await sampleBytes("florida-real")));
+    expect(a.reading.pii.every((p) => p.text === "[closed]" && p.bbox === null)).toBe(true);
+    expect(a.reading.receiptNumber).toBeNull();
+    const purchase = new Set(a.purchaseLines.flatMap((l) => l.bandIndexes.map(String)));
+    expect(Object.keys(a.bandTexts).every((k) => purchase.has(k))).toBe(true);
+    expect(JSON.stringify(a)).not.toMatch(/\(\d{3}\)\s?\d{3}-\d{4}|\d{3}-\d{3}-\d{4}/);
   });
 });

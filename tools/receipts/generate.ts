@@ -9,8 +9,8 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { receiptKey, type Recordings } from "../../src/receipts/recorded";
 import { renderHtml } from "./render";
-import { HERO_PLEDGES_JPY, SCENARIOS } from "./scenario";
-import { buildAdversarial, buildHero, buildHoldout, buildHoldout2, buildV1 } from "./sets";
+import { FLORIDA, HERO_PLEDGES_JPY, SCENARIOS } from "./scenario";
+import { buildAdversarial, buildFlorida, buildHero, buildHoldout, buildHoldout2, buildV1 } from "./sets";
 import { specToClassifications, specToReceipt, type Bbox, type ReceiptSpec } from "./spec";
 import { Truth } from "./truth";
 
@@ -23,7 +23,7 @@ const arg = (name: string) => {
 
 export function allSpecs(): ReceiptSpec[] {
   const v1 = buildV1();
-  return [...v1, ...buildAdversarial(v1), buildHero()];
+  return [...v1, ...buildAdversarial(v1), buildHero(), ...buildFlorida()];
 }
 
 export async function render(page: import("@playwright/test").Page, spec: ReceiptSpec) {
@@ -106,7 +106,7 @@ async function main() {
         set: spec.set,
         locale: spec.locale,
         seed: spec.seed,
-        driveId: SCENARIOS[spec.locale].drive.id,
+        driveId: spec.set === "florida" ? FLORIDA.driveId : SCENARIOS[spec.locale].drive.id,
         image: { file, sha256: createHash("sha256").update(png).digest("hex"), mediaType: "image/png", width: size.width, height: size.height },
         receipt,
         labels: specToClassifications(spec),

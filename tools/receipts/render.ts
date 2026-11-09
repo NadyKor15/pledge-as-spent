@@ -167,7 +167,7 @@ function en(spec: ReceiptSpec): Rows {
   out.push(row(fmtDate("en", spec.purchasedAt), `REG ${spec.register}`), row(`TRANS #${spec.receiptNumber}`, ""), sep());
   for (const l of spec.lines) out.push(...enLine(l));
   out.push(sep());
-  out.push(row("SUBTOTAL", m(spec.subtotalMinor ?? 0)), row("SALES TAX 7.25%", m(spec.taxMinor)), row("TOTAL", m(spec.totalMinor), "total"));
+  out.push(row("SUBTOTAL", m(spec.subtotalMinor ?? 0)), row(`SALES TAX ${enTaxRate(spec)}%`, m(spec.taxMinor)), row("TOTAL", m(spec.totalMinor), "total"));
   const p = spec.payment;
   if (p.method === "cash") out.push(row("CASH", m(p.tenderedMinor!)), row("CHANGE", m(p.changeMinor!)));
   else out.push(row("VISA", piiSpan(spec, "card_number")), row("APPROVED", m(spec.totalMinor)));
@@ -278,4 +278,10 @@ export function renderHtml(spec: ReceiptSpec): string {
   return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${esc(spec.id)}</title><style>${CSS}</style></head>
 <body><div class="stage"><div class="scene"><div class="wrap"><div class="paper">${BODY[spec.locale](spec).join("\n")}</div></div></div></div>
 <script>${PHOTO_JS}</script></body></html>`;
+}
+
+/** The printed sales-tax rate of an English receipt: the rate of its taxed lines (7.25 for the Brindlewood stores). */
+function enTaxRate(spec: ReceiptSpec): string {
+  const rates = [...new Set(spec.lines.map((l) => l.taxRateBp).filter((r): r is number => r !== null))];
+  return rates.length === 1 ? String(rates[0] / 100) : "7.25";
 }

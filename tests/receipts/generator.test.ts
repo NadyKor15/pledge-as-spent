@@ -7,6 +7,7 @@ import { checkReceipt, reconcile, toFundableLines } from "../../src/receipts/che
 import { Recordings, receiptKey } from "../../src/receipts/recorded";
 import { semanticKey } from "../../src/receipts/hash";
 import { LineClassification, ParsedReceipt } from "../../src/receipts/types";
+import { demoDrive } from "../../src/server/demo";
 import { allSpecs, render } from "../../tools/receipts/generate";
 import { renderHtml } from "../../tools/receipts/render";
 import { HERO_NEEDS, HERO_PLEDGES_JPY, SCENARIOS } from "../../tools/receipts/scenario";
@@ -93,7 +94,7 @@ describe("hero receipt", () => {
 });
 
 describe("committed sets", () => {
-  const all = ["v1", "adversarial", "hero"].flatMap(truths);
+  const all = ["v1", "adversarial", "hero", "florida"].flatMap(truths);
 
   it("has the promised number of receipts per set and language", () => {
     const n = (set: string, l?: string) => truths(set).filter((t) => !l || t.locale === l).length;
@@ -134,7 +135,8 @@ describe("committed sets", () => {
 
   it("raises exactly the expected flags", () => {
     for (const t of all) {
-      const drive = SCENARIOS[t.locale].drive;
+      // The Florida set belongs to the Florida demo drive, not to the English scenario's town.
+      const drive = t.set === "florida" ? demoDrive("fl", "2026-11-09T00:00:00Z", "florida").drive : SCENARIOS[t.locale].drive;
       const codes = checkReceipt({ receipt: t.receipt, drive }).map((f) => f.code);
       const expected = [t.expect.preDisaster && "pre_disaster", t.expect.outOfZone && "out_of_zone", t.expect.unreadable && "unreadable"].filter(Boolean);
       expect(codes.sort(), t.id).toEqual((expected as string[]).sort());
