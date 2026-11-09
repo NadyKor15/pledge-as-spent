@@ -134,6 +134,7 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 - The money stays on the donor's own PayPal hold until a verified purchase. Nothing is collected first and explained later.
 - One receipt line is shared across donors and a company match, each charged in their own currency.
 - The Ledger splits every pledge into spent, waiting for capture, still held and returned, and the four add up to the pledge.
+- A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). It is behind the `REBIND_ENABLED` switch.
 
 ## Platform findings
 
@@ -182,7 +183,8 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - Synthetic receipts and a fictional drive only. No real donations.
 - Need quantities are read correctly only 63.3% of the time on the held-out set, and a garbled item name can be refused as not needed. A refusal never overcharges a donor, but it can underpay a volunteer.
 - The blur missed 7 of 42 personal data items on the held-out set. A real drive needs a person to check a receipt before it is published.
-- Rates are a fixed demo snapshot.
+- Rates are a fixed demo snapshot, for the dollar drive too (EUR and JPY to USD are the yen rates divided out).
+- A hold moves to another need once, only while the drive is open, and not in its last 3 days. Lines it already paid for stay with the first need. The company match follows donor money, so a need left without donors gets no match either.
 
 ## How this was built
 
