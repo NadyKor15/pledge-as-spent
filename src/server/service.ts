@@ -20,6 +20,7 @@ import {
   payoutSubmittedEvent,
   rebindEvent,
   rebindOffer,
+  type DonorStatement,
   type HoldRebind,
   type RebindOffer,
   receiptFundedBase,
@@ -1032,7 +1033,8 @@ export class PledgeService {
     return row.img ? { bytes: row.img, mediaType: row.mediaType } : null;
   }
 
-  async getStatement(pledgeId: string) {
+  /** `rebind`: what the donor may move now (null while REBIND_ENABLED is off; older callers may omit it). */
+  async getStatement(pledgeId: string): Promise<{ drive: { id: string; title: string }; statement: DonorStatement; rebind?: RebindOffer | null }> {
     const { state } = await this.pledgeDrive(pledgeId);
     return {
       drive: { id: state.drive!.id, title: state.drive!.title },

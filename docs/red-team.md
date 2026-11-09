@@ -1,8 +1,8 @@
-# Red team: 30 attacks on the money path
+# Red team: 37 attacks on the money path
 
 Attacks go through the service's real write path on an in-memory Postgres and a test sandbox that answers like the live one, or straight at the checks and the money core where the test column says so. A hold's money can only move through the same code the demo runs.
 
-**Result:** 30 of 30 hold today. Four did not hold when first tried, and each was fixed before this table was written:
+**Result:** 37 of 37 hold today (#31-#37: moving a hold's rest to another need, switched off by default with `REBIND_ENABLED`; the move never calls PayPal, checked with the sandbox fake's call count, and property-tested in `src/core/engine.property.test.ts`). Four did not hold when first tried, and each was fixed before this table was written:
 
 - #4: the same receipt paid on two real drives. Duplicate checks now cover all real drives; demo drives stay apart so every judge can use the sample.
 - #8, #19: every line was refused and no money moved, but the receipt still read "funded". It now reads "rejected".
@@ -40,5 +40,12 @@ Attacks go through the service's real write path on an in-memory Postgres and a 
 | 28 | PayPal | Forged webhook | changes nothing | `tests/app/webhooks.test.ts` |
 | 29 | PayPal | Replayed webhook | changes nothing | `tests/app/webhooks.test.ts` |
 | 30 | PayPal | Void refused on a live hold | hold stays alive in the book | `tests/app/pledges-daily.test.ts` |
+| 31 | Rebind | Same move pressed twice, then a second need | one move per hold; the same press answers the same | `tests/app/rebind.test.ts` |
+| 32 | Rebind | Two presses for two needs at once | the hold moves once | `tests/app/rebind.test.ts` |
+| 33 | Rebind | Move after the close or after a withdrawal | refused | `tests/app/rebind.test.ts` |
+| 34 | Rebind | Move onto a covered need, or from a stale screen | refused | `tests/app/rebind.test.ts` |
+| 35 | Rebind | The company match, or another drive's pledge | match never moves; a pledge moves only inside its drive | `tests/app/rebind.test.ts` |
+| 36 | Rebind | Move onto a need of another drive, in another currency | refused | `tests/app/rebind.test.ts` |
+| 37 | Rebind | Move in the last 3 days of the hold | refused | `tests/app/rebind.test.ts`, `src/core/rebind.test.ts` |
 
 Not covered, on purpose: a forged receipt that is internally consistent. The product checks arithmetic, dates, zone, duplicates and rules. It cannot prove that a well-made fake was never printed by a store.
