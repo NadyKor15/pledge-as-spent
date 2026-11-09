@@ -4,6 +4,7 @@ import path from "node:path";
 import next from "next";
 import { openPglite } from "../../src/db/client";
 import { Recordings } from "../../src/receipts/recorded";
+import { loadForCheck, PayPalCheck, setPayPalCheckForTests } from "../../src/server/paypal-check";
 import { setServiceForTests } from "../../src/server/runtime";
 import { PledgeService } from "../../src/server/service";
 import { recordedSandbox } from "./support/recorded-sandbox";
@@ -35,6 +36,10 @@ async function main() {
       limits: { lookupGraceMinutes: 0, demoDrivesPerHour: 1000 },
       log: () => {},
     }),
+  );
+  // "Ask PayPal yourself" reads the same recorded answers, GET only.
+  setPayPalCheckForTests(
+    new PayPalCheck({ load: (id) => loadForCheck(db.db, id), keys: { clientId: "recorded", clientSecret: "recorded" }, fetch: recordedSandbox(), hashIp: (ip) => ip, limits: { checksPerHour: 1000 } }),
   );
   const app = next({ dev, dir: ROOT, port, hostname: "127.0.0.1" });
   const handle = app.getRequestHandler();

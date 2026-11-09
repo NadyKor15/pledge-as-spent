@@ -1,0 +1,51 @@
+{
+  "seq": 4,
+  "label": "get-authorization-match",
+  "recordedAt": "2026-10-23T15:49:49.596Z",
+  "derivedFrom": "app-e2e/021-close.json",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/5LJ60939C6988804E",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f221032d46abd",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "5LJ60939C6988804E",
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "JPY",
+        "value": "500000"
+      },
+      "custom_id": "demo-deedc05de3.match",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "9R801163BE0281634"
+        }
+      },
+      "expiration_time": "2026-11-21T15:49:20Z",
+      "create_time": "2026-10-23T15:49:20Z",
+      "update_time": "2026-10-23T15:49:49Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/5LJ60939C6988804E",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9R801163BE0281634",
+          "rel": "up",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

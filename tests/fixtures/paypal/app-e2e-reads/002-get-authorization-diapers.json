@@ -1,0 +1,51 @@
+{
+  "seq": 2,
+  "label": "get-authorization-diapers",
+  "recordedAt": "2026-10-23T15:49:47.612Z",
+  "derivedFrom": "app-e2e/019-close.json",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/4BD44583JM488111B",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f206609d47a38",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "4BD44583JM488111B",
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "USD",
+        "value": "30.00"
+      },
+      "custom_id": "demo-deedc05de3.diapers",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "9NU18810WU3743749"
+        }
+      },
+      "expiration_time": "2026-11-21T15:49:15Z",
+      "create_time": "2026-10-23T15:49:15Z",
+      "update_time": "2026-10-23T15:49:47Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4BD44583JM488111B",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9NU18810WU3743749",
+          "rel": "up",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

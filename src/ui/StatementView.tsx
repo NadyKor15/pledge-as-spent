@@ -11,6 +11,7 @@ import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
+import { StatementCheck } from "./paypal-check/StatementCheck";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
 
@@ -326,6 +327,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
       )}
 
       <StatementActions data={data} view={view} />
+      <StatementCheck view={view} st={st} />
 
       <Link className={s.back} href={roleHref(view.drive.id, "donor")}>
         Back to the drive

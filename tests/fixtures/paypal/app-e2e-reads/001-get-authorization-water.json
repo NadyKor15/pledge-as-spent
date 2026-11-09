@@ -1,0 +1,51 @@
+{
+  "seq": 1,
+  "label": "get-authorization-water",
+  "recordedAt": "2026-10-23T15:49:46.728Z",
+  "derivedFrom": "app-e2e/018-close.json",
+  "request": {
+    "method": "GET",
+    "url": "https://api-m.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "paypal-debug-id": "f7454931e0c11",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    "body": {
+      "id": "4NU570054U695994N",
+      "status": "VOIDED",
+      "amount": {
+        "currency_code": "EUR",
+        "value": "20.00"
+      },
+      "custom_id": "demo-deedc05de3.water",
+      "seller_protection": {
+        "status": "NOT_ELIGIBLE"
+      },
+      "supplementary_data": {
+        "related_ids": {
+          "order_id": "46B57490943089630"
+        }
+      },
+      "expiration_time": "2026-11-21T15:49:13Z",
+      "create_time": "2026-10-23T15:49:13Z",
+      "update_time": "2026-10-23T15:49:46Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/4NU570054U695994N",
+          "rel": "self",
+          "method": "GET"
+        },
+        {
+          "href": "https://api.sandbox.paypal.com/v2/checkout/orders/46B57490943089630",
+          "rel": "up",
+          "method": "GET"
+        }
+      ]
+    }
+  }
+}

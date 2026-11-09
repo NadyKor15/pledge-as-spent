@@ -130,7 +130,8 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       map: Math.ceil((Math.min(width, 640) * 0.56) / rowHeight),
       shelter: Math.ceil((112 + counts.needs * 104) / rowHeight),
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
-      footer: 13,
+      // Room for three links under the refusals: the book, its CSV and "Ask PayPal yourself".
+      footer: 15,
       ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
       head: Math.ceil(BOOK_HEAD_PX / rowHeight),
       book: bookRows(rowHeight),
