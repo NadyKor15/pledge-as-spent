@@ -238,7 +238,7 @@ test("a desktop window turned into a phone (device mode) lays the coordinator an
     ["ledger", '.lg-screen[data-stacked="true"]'],
   ] as const) {
     await page.goto(`/drive/${driveId}?as=${role}`);
-    await expect(page.locator("header")).toBeVisible();
+    await expect(page.locator("header.hd-top")).toBeVisible();
     for (let i = 0; i < 3; i++) {
       await device(true);
       await expect(page.locator(stacked).first()).toBeVisible();
