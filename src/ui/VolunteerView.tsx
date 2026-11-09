@@ -216,7 +216,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
         <div className={s.cBody}>
           <div className={s.photo}>
             {r.image.published && r.image.url ? (
-              <Image src={r.image.url} alt={`Receipt from ${r.merchant ?? "the store"}, personal data blurred`} fill unoptimized sizes="164px" />
+              <Image src={r.image.url} alt={`Receipt from ${r.merchant ?? "the store"}, only its purchase lines shown`} fill unoptimized sizes="164px" />
             ) : (
               <div className={s.noImage}>{r.image.note}</div>
             )}

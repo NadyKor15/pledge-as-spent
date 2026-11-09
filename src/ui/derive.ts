@@ -261,11 +261,9 @@ export function receiptChecks(r: Receipt): Check[] {
   const known = new Set(["duplicate", "pre_disaster", "date_unknown", "out_of_zone", "zone_unknown"]);
   for (const f of r.flags) if (!known.has(f.code)) out.push({ ok: false, severity: f.severity, text: f.messageEn });
   out.push(
-    r.image.published && (r.image.blurredRegions ?? 0) > 0
-      ? { ok: true, severity: "ok", text: "Card digits and member name\nhidden when published" }
-      : r.image.published
-        ? { ok: true, severity: "ok", text: "No personal data found\nto hide" }
-        : { ok: false, severity: "review", text: r.image.note ?? "The photo is not published." },
+    r.image.published
+      ? { ok: true, severity: "ok", text: "Only the purchase lines\nshown when published" }
+      : { ok: false, severity: "review", text: r.image.note ?? "The photo is not published." },
   );
   return out;
 }
@@ -361,10 +359,8 @@ export function liveFeed(v: DriveView, n: number): { key: string; ok: boolean | 
       r.status === "review"
         ? "Receipt sent to the coordinator"
         : r.image.published
-          ? (r.image.blurredRegions ?? 0) > 0
-            ? "Receipt published with sensitive details hidden"
-            : "Receipt published"
-          : "Receipt kept private: details could not be hidden";
+          ? "Receipt published: only its purchase lines show"
+          : "Receipt kept private: its purchase lines could not be placed";
     items.push({ key: `receipt:${r.id}`, at: r.uploadedAt, ok: r.status === "review" ? null : r.image.published, text });
   }
   return items.sort((a, b) => a.at.localeCompare(b.at)).slice(-n);

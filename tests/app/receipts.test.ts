@@ -1,5 +1,4 @@
 import { eq } from "drizzle-orm";
-import jpeg from "jpeg-js";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
@@ -9,11 +8,13 @@ import type { LineClassification, ParsedReceipt } from "../../src/receipts/types
 import { sha256Hex } from "../../src/receipts/hash";
 import { demoDrive } from "../../src/server/demo";
 import { ReceiptReading, SHIPPED_ANSWERS, type SavedAnswer } from "../../src/server/reading";
-import { NOT_BLURRED_NOTE, redactImage } from "../../src/server/redact";
+import { closeReceipt, isClosedCopy } from "../../src/receipts/close";
+import { LEGACY_NOTE, NOT_CLOSED_NOTE, publication, publishedCopy } from "../../src/server/redact";
 import { ServiceError } from "../../src/server/errors";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, loadRecordings, receiptBytes } from "./support/harness";
 import { noisePng, syntheticReceipt } from "./support/synthetic";
+import { heroClosing, placeLines } from "../fixtures/closed-hero";
 
 /** The reader's plain-text rows (RECEIPT / LINE / PII), as src/receipts/bedrock.ts asks Nova to answer. */
 function readerText(r: ParsedReceipt): string {
@@ -105,10 +106,15 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     expect(await books(SHIPPED_ANSWERS)).toEqual(await books([]));
   });
 
-  it("publishes the photo with its three personal rows blurred", async () => {
+  it("publishes the photo only closed to its purchase lines, never the original; the reading still finds the three personal rows", async () => {
     const { h, driveId, rec } = await setup({ savedAnswers: SHIPPED_ANSWERS });
     const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
-    expect(r.image).toMatchObject({ published: true, blurredRegions: 3 });
+    const img = await h.svc.getReceiptImage(r.id);
+    if (r.image.published) expect(isClosedCopy(img!.bytes)).toBe(true);
+    else {
+      expect(r.image).toMatchObject({ published: false, note: NOT_CLOSED_NOTE });
+      expect(img).toBeNull();
+    }
     const truth = rec.readings[sha256Hex(heroBytes())];
     expect(truth.pii).toHaveLength(3);
     const answer = SHIPPED_ANSWERS[0].reading.pii;
@@ -294,47 +300,60 @@ describe("receipt checks", () => {
   });
 });
 
-describe("personal data", () => {
-  it("blurs the three boxes on the hero receipt and nothing else", () => {
-    const bytes = heroBytes();
-    const truth = loadRecordings().readings[sha256Hex(bytes)];
-    const out = redactImage({ bytes, mediaType: "image/png" }, truth.pii);
-    expect(out.regions).toBe(3);
-    const a = PNG.sync.read(Buffer.from(bytes));
-    const b = PNG.sync.read(Buffer.from(out.bytes!));
-    const inBox = (x: number, y: number) =>
-      truth.pii.some((p) => {
-        const m = Math.max(4, p.bbox!.h * a.height * 0.5);
-        return x >= p.bbox!.x * a.width - m - 1 && x <= (p.bbox!.x + p.bbox!.w) * a.width + m + 1 && y >= p.bbox!.y * a.height - m - 1 && y <= (p.bbox!.y + p.bbox!.h) * a.height + m + 1;
-      });
-    let changedOutside = 0;
-    let changedInside = 0;
-    for (let y = 0; y < a.height; y++) {
-      for (let x = 0; x < a.width; x++) {
-        const i = (y * a.width + x) * 4;
-        const diff = Math.abs(a.data[i] - b.data[i]) + Math.abs(a.data[i + 1] - b.data[i + 1]) + Math.abs(a.data[i + 2] - b.data[i + 2]);
-        if (diff === 0) continue;
-        if (inBox(x, y)) changedInside += 1;
-        else changedOutside += 1;
-      }
-    }
-    expect(changedOutside).toBe(0);
-    expect(changedInside).toBeGreaterThan(2000);
+describe("publishing a receipt photo", () => {
+  const dark = (bytes: Uint8Array, boxes: { x: number; y: number; w: number; h: number }[]) => {
+    const p = PNG.sync.read(Buffer.from(bytes));
+    let n = 0;
+    for (const b of boxes)
+      for (let y = Math.floor(b.y * p.height); y < Math.ceil((b.y + b.h) * p.height); y++)
+        for (let x = Math.floor(b.x * p.width); x < Math.ceil((b.x + b.w) * p.width); x++) {
+          const i = (y * p.width + x) * 4;
+          if (0.299 * p.data[i] + 0.587 * p.data[i + 1] + 0.114 * p.data[i + 2] < 120) n++;
+        }
+    return n;
+  };
+
+  it("a reading that placed its lines publishes the photo closed to them: the card, the name and the member number are plain paper", async () => {
+    const { h, driveId } = await setup({ savedAnswers: SHIPPED_ANSWERS });
+    placeLines(h.svc);
+    const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    expect(r.image).toMatchObject({ published: true, url: `/api/receipts/${r.id}/image`, openLines: 11 });
+    const img = (await h.svc.getReceiptImage(r.id))!;
+    expect(img.mediaType).toBe("image/png");
+    expect(isClosedCopy(img.bytes)).toBe(true);
+    expect(sha256Hex(img.bytes)).not.toBe(sha256Hex(heroBytes()));
+    const a = PNG.sync.read(Buffer.from(heroBytes()));
+    const b = PNG.sync.read(Buffer.from(img.bytes));
+    expect([b.width, b.height]).toEqual([a.width, a.height]);
+    const pii = loadRecordings().readings[sha256Hex(heroBytes())].pii.map((p) => p.bbox!);
+    expect(pii).toHaveLength(3);
+    expect(dark(heroBytes(), pii)).toBeGreaterThan(100);
+    expect(dark(img.bytes, pii)).toBe(0);
   });
 
-  it("blurs JPEG too; publishes nothing when a box is missing or the format cannot be decoded", () => {
-    const raw = jpeg.encode({ width: 100, height: 60, data: Buffer.alloc(100 * 60 * 4, 120) }, 90).data;
-    const pii = [{ kind: "name" as const, text: "X", bbox: { x: 0.1, y: 0.1, w: 0.3, h: 0.1 } }];
-    expect(redactImage({ bytes: new Uint8Array(raw), mediaType: "image/jpeg" }, pii).bytes).not.toBeNull();
-    expect(redactImage({ bytes: heroBytes(), mediaType: "image/png" }, [{ kind: "phone", text: "0123", bbox: null }])).toEqual({ bytes: null, regions: 0, note: NOT_BLURRED_NOTE });
-    expect(redactImage({ bytes: new Uint8Array([1, 2, 3]), mediaType: "image/webp" }, pii)).toEqual({ bytes: null, regions: 0, note: NOT_BLURRED_NOTE });
-  });
-
-  it("the API serves only the blurred copy", async () => {
+  it("a reading without a closed copy publishes nothing: no original, no blurred copy", async () => {
     const { h, driveId } = await setup();
     const r = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
-    const img = await h.svc.getReceiptImage(r.receipt.id);
-    expect(img!.mediaType).toBe("image/png");
-    expect(sha256Hex(img!.bytes)).not.toBe(sha256Hex(heroBytes()));
+    expect(r.receipt.image).toMatchObject({ published: false, note: NOT_CLOSED_NOTE });
+    expect(await h.svc.getReceiptImage(r.receipt.id)).toBeNull();
+  });
+
+  it("takes only a marked copy that opens a purchase line", () => {
+    const { bands, purchaseLines } = heroClosing();
+    const closed = closeReceipt({ bytes: heroBytes(), mediaType: "image/png" }, bands, purchaseLines)!;
+    expect(publishedCopy({ bands, purchaseLines, closed })).toMatchObject({ closed: true, openLines: 11, note: null });
+    const refused = { bytes: null, openLines: 0, closed: false, note: NOT_CLOSED_NOTE };
+    expect(publishedCopy({})).toEqual(refused);
+    expect(publishedCopy({ bands, purchaseLines, closed: null })).toEqual(refused);
+    expect(publishedCopy({ bands, purchaseLines, closed: heroBytes() })).toEqual(refused); // the original: no mark
+    expect(publishedCopy({ bands, purchaseLines: [], closed })).toEqual(refused);
+    expect(publishedCopy({ closed })).toEqual(refused);
+  });
+
+  it("a copy stored before closing is never shown again", () => {
+    expect(publication(true, { closed: true, note: null })).toEqual({ published: true, note: "" });
+    expect(publication(true, { regions: 3, note: null } as never)).toEqual({ published: false, note: LEGACY_NOTE });
+    expect(publication(false, { closed: false, note: NOT_CLOSED_NOTE })).toEqual({ published: false, note: NOT_CLOSED_NOTE });
+    expect(publication(false, undefined)).toEqual({ published: false, note: "Not published." });
   });
 });

@@ -46,7 +46,7 @@ import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_PLEDGES, demoDrive
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
 import { ReceiptReading, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
-import { redactImage } from "./redact";
+import { publishedCopy } from "./redact";
 import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
 
@@ -507,7 +507,8 @@ export class PledgeService {
     const now = this.now();
     const needs = state.needIds.map((id) => state.needs[id]);
     const reading = await this.reading.read({ driveId, image, sha256: sha, needs, rules: state.drive!.rules, baseCurrency: state.drive!.baseCurrency, ipHash, now, sampleLook: row.demo ? dh : null });
-    const redaction = redactImage(image, reading.parsed.pii);
+    // Published only as the reading's copy closed to its purchase lines, or not at all: never the original, never a blur.
+    const redaction = publishedCopy(reading);
 
     const { receiptId, cmds } = await withDrive(this.db, driveId, async (b) => {
       const drive = b.state.drive!;
@@ -538,7 +539,7 @@ export class PledgeService {
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,
-        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { regions: redaction.regions, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}) },
+        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { closed: redaction.closed, openLines: redaction.openLines, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}) },
         status: flags.length ? "review" : "funded",
         channel,
         reader: reading.reader,
@@ -974,7 +975,7 @@ export class PledgeService {
     return receiptView(row);
   }
 
-  /** The published (blurred) copy only; null when it may not be published. */
+  /** The stored closed copy only; null when there is none. The route serves it only if it carries the closing mark. */
   async getReceiptImage(receiptId: string): Promise<{ bytes: Uint8Array; mediaType: string } | null> {
     const [row] = await this.db.select({ img: receipts.imageRedacted, mediaType: receipts.mediaType }).from(receipts).where(eq(receipts.id, receiptId));
     if (!row) throw new ServiceError(404, "unknown_receipt", `No receipt ${receiptId}.`);

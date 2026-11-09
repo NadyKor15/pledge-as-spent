@@ -326,7 +326,7 @@ function ReceiptColumn({ view, receipt: r, role }: { view: DriveView; receipt: R
       <div className={s.rcBody}>
         <div className={s.rcPhoto} data-flow="receipt">
           {r.image.published && r.image.url ? (
-            <Image src={r.image.url} alt={`Receipt from ${r.merchant ?? "the store"}, card digits and member name blurred`} fill unoptimized sizes="250px" />
+            <Image src={r.image.url} alt={`Receipt from ${r.merchant ?? "the store"}, only its purchase lines shown`} fill unoptimized sizes="250px" />
           ) : (
             <div className={s.none}>{r.image.note}</div>
           )}

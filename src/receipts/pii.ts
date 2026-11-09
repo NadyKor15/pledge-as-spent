@@ -1,6 +1,8 @@
 // Personal data found by where it stands on a receipt, not by what a model thought of the text: OCR turns a masked
 // card number into noise and a katakana name into Latin letters, but the rows around them do not change. Everything
-// here works on rows below the total; what a row holds decides the box, and the blur follows the box.
+// here works on rows below the total; what a row holds decides the box. The boxes are what the reading reports as
+// personal data; publishing does not depend on them: a published photo is closed to its purchase lines
+// (src/receipts/close.ts), so personal data is covered whether or not it was found here.
 
 import type { Box } from "./prep";
 import type { OcrLine, OcrWord } from "./ocr";

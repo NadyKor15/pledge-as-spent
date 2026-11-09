@@ -7,6 +7,9 @@ import { zipStore } from "./zip";
 // outside the Studio licence, so this does not use it and adds no dependency.
 // Money is a number in major units with a currency number format, so Excel can
 // sum and sort it; PayPal ids are text, so they never turn into 3.2E+15.
+// The donor gets PayPal's own ids only: the app's request ids are bookkeeping, as on
+// the printed statement, and there is no photo and nothing from the receipt but its
+// purchase lines.
 
 type Cell = { v: string | number | null; s?: number };
 
@@ -123,7 +126,7 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
 
   const head: string[] = ["Receipt", "Line", "Item", "Qty", "Unit", `Your share (${cur})`];
   if (!sameCurrency) head.push(`Your share (${base})`);
-  head.push(`Match unlocked (${base})`, "Status", "PayPal capture ID", "Request ID", `Taken back (${cur})`, "Not collected because", "Date (UTC)");
+  head.push(`Match unlocked (${base})`, "Status", "PayPal capture ID", `Taken back (${cur})`, "Not collected because", "Date (UTC)");
   const headerRow = rows.length + 1;
   rows.push(head.map((v) => ({ v, s: S.head })));
 
@@ -141,7 +144,6 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
       { v: major(base, r.matchBase), s: S.moneyB },
       { v: STATUS_WORDS[r.status] ?? r.status },
       { v: r.captureId, s: S.text },
-      { v: r.requestId, s: S.text },
       { v: r.reversed ? major(cur, r.reversed) : null, s: S.moneyA },
       { v: r.uncollectedReason },
       { v: serial(r.at), s: S.date },
@@ -170,7 +172,7 @@ export function buildStatementXlsx(view: StatementView, opts: XlsxOptions = {}):
   total("Match unlocked", st.totals.matchBase, base);
   total("Help bought, total", st.totals.helpBase, base, true);
 
-  const widths = sameCurrency ? [36, 20, 26, 8, 14, 16, 18, 28, 22, 30, 16, 24, 18] : [36, 20, 26, 8, 14, 16, 16, 18, 28, 22, 30, 16, 24, 18];
+  const widths = sameCurrency ? [36, 20, 26, 8, 14, 16, 18, 28, 22, 16, 24, 18] : [36, 20, 26, 8, 14, 16, 16, 18, 28, 22, 16, 24, 18];
   const cols = widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join("");
   const sheetRows = rows
     .map((cells, i) => {

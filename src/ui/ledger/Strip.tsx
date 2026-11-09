@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { stripStyle, type Box } from "./proof";
 
-// A printed line of the receipt, cut out of its published (blurred) photo: the photo is the strip's background,
+// A printed line of the receipt, cut out of its published photo (closed to the purchase lines): the photo is the strip's background,
 // scaled and moved so exactly the line's box shows. The photo's size is read once per URL.
 
 const sizes = new Map<string, Promise<{ width: number; height: number }>>();

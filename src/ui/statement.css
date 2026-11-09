@@ -74,9 +74,7 @@
 .st-frame { margin: 8.5px 0 0 .5px; width: calc(100% - 1px); border-radius: var(--r-frame); overflow: hidden; background: var(--surface); display: flex; flex-direction: column; gap: 1.5px; }
 .st-win { position: relative; flex: none; overflow: hidden; }
 .st-winA { height: 86.4px; }
-.st-winB { height: 83.8px; }
 .st-win img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: auto; }
-.st-winB img { transform: translateY(-72.91%); }
 .st-caption { margin-top: 5.2px; text-align: center; font-size: 9.5px; line-height: 14px; letter-spacing: -.19px; color: var(--slate-2); }
 .st-hr { margin: 7.8px .5px 0; height: 1px; background: var(--line); }
 .st-hold { margin-top: 8.1px; display: flex; align-items: flex-start; }
