@@ -415,6 +415,10 @@ for (const { width, height, mark } of [
       const grid = (await page.locator(".ag-root-wrapper").boundingBox())!;
       if (width === 1440) expect(w.x + w.width).toBeLessThanOrEqual(grid.x + 1);
       else expect(w.y + w.height).toBeLessThanOrEqual(grid.y);
+      // The narrower book still fits its columns: nothing scrolls sideways inside it.
+      await expect
+        .poll(() => page.locator(".ag-center-cols-viewport").evaluate((e) => e.scrollWidth - e.clientWidth))
+        .toBeLessThanOrEqual(0);
       await line4.click();
       await expect(line4).toHaveAttribute("aria-pressed", "true");
       await expect(rows(page)).toHaveCount(2);
@@ -455,9 +459,11 @@ test("a line without a box is listed under the photo and still narrows the book"
   await expect(widget.locator(".lg-rc-photo .lg-rc-line")).toHaveCount(10);
   await expect(widget.locator(".lg-rc-unplaced")).toContainText("1 line not placed on the photo");
   await widget.locator(".lg-rc-unplaced button").click();
-  await expect(rows(page).first()).toBeVisible();
-  const keys = await page.locator(".ag-row [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]);
-  expect(keys).toEqual(["demo-f372326129.r1:7"]);
+  await expect(widget.locator(".lg-rc-unplaced button")).toHaveAttribute("aria-pressed", "true");
+  // The grid filters after the press: wait for it, then every row left is line 7's.
+  await expect
+    .poll(() => page.locator(".ag-row [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]))
+    .toEqual(["demo-f372326129.r1:7"]);
 });
 
 // T3: the PayPal journal. Its rows are PayPal's own calls; a donor's row presses that donor, as their label on the

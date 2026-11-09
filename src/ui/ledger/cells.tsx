@@ -38,6 +38,25 @@ const PHONE_COLUMNS: typeof COLUMNS = [
   [BOOK.state, 0.2, 70],
 ];
 
+/**
+ * Each column at its share, never under its least; when a column held at its least pushes the sum past the width
+ * (the book beside the receipt), the others give up the excess from what they have over their least.
+ */
+export function fit(columns: typeof COLUMNS, width: number): { key: string; newWidth: number }[] {
+  const out = columns.map(([key, share, least]) => ({ key, least, newWidth: Math.max(least, Math.floor(width * share)) }));
+  let excess = out.reduce((sum, c) => sum + c.newWidth, 0) - width;
+  const slack = out.reduce((sum, c) => sum + c.newWidth - c.least, 0);
+  if (excess > 0 && slack > 0) {
+    const take = Math.min(excess, slack);
+    for (const c of out) {
+      const cut = Math.min(c.newWidth - c.least, Math.ceil((take * (c.newWidth - c.least)) / slack), excess);
+      c.newWidth -= cut;
+      excess -= cut;
+    }
+  }
+  return out.map(({ key, newWidth }) => ({ key, newWidth }));
+}
+
 const listening = new WeakSet<GridApi>();
 const queued = new WeakSet<GridApi>();
 
@@ -49,7 +68,7 @@ function holdColumns(api: GridApi, grid: Element) {
     queued.delete(api);
     const width = grid.clientWidth;
     if (api.isDestroyed() || !width) return;
-    const target = (api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS).map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
+    const target = fit(api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS, width);
     const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
     if (off) api.setColumnWidths(target, true);
     const shown = HIDDEN_FIELDS.filter((f) => api.getColumn(f)?.isVisible());
