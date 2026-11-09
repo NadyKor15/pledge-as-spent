@@ -28,7 +28,18 @@ async function openBook(page: Page, view: DriveView | ((count?: boolean) => Driv
   await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
   await page.getByRole("button", { name: /Every line of the book|Jede Zeile des Buchs|帳簿の全行/ }).click();
   await expect(page.locator(".ag-root-wrapper")).toBeVisible();
+  await scrolled(page);
   return id;
+}
+
+/**
+ * Opening the book scrolls the page down to it, smoothly. A press while the page still moves can go down on one
+ * element and up on another, and then nothing is clicked: wait until the page stands still.
+ */
+async function scrolled(page: Page) {
+  await expect
+    .poll(() => page.evaluate(() => new Promise<boolean>((done) => { const y = window.scrollY; setTimeout(() => done(window.scrollY === y), 250); })))
+    .toBe(true);
 }
 
 const rows = (page: Page) => page.locator(".ag-row");
@@ -166,6 +177,10 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     const without = await height();
     await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
+    // The press focuses the row's cell, and the browser then scrolls a cell that sits partly above the window into
+    // view (here 27 px, once the chat's room is gone): press the band's button once the page stands still.
+    await expect.poll(() => page.locator(".ag-row.lg-proof-row").evaluate((e) => e.getBoundingClientRect().top)).toBeGreaterThanOrEqual(-1);
+    await scrolled(page);
     await page.getByRole("button", { name: "Ask about this line" }).click();
     expect(await page.evaluate(() => (window as unknown as { asked: string[] }).asked)).toEqual(["demo-f372326129.r1:4"]);
     // A component for the slot: the report makes room for it right over the book.

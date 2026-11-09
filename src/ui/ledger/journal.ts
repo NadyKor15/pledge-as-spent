@@ -85,10 +85,12 @@ export function journalOf(v: DriveView, m: LedgerModel, lang: Lang = m.lang ?? "
     const status = raw === "NO ANSWER" ? w.noAnswer : raw;
     const never = kind === "void" && raw === "VOIDED" && (hold?.reversed ?? 0) === 0;
     let text: string;
-    if (kind === "hold" || kind === "order") text = w[kind](who, hold ? moneyIn(lang, hold.currency, hold.pledged) : "");
+    // An amount never breaks between its figure and its sign ("20,00 €").
+    const money = (currency: string, minor: number) => moneyIn(lang, currency, minor).replace(/\s/g, " ");
+    if (kind === "hold" || kind === "order") text = w[kind](who, hold ? money(hold.currency, hold.pledged) : "");
     else if (kind === "pay") {
       const attempt = v.payouts.flatMap((p) => p.attempts).find((x) => x.senderBatchId === a.key);
-      text = w.pay(v.drive.volunteerName ?? w.volunteer, attempt ? moneyIn(lang, base, attempt.amount) : "");
+      text = w.pay(v.drive.volunteerName ?? w.volunteer, attempt ? money(base, attempt.amount) : "");
     } else if (kind === "void") text = raw === "VOIDED" ? (never ? w.never(who) : w.released(who)) : w.releaseAsked(who);
     else text = w[kind as "authorize" | "reauth" | "cap"](who);
     events.push({ key: a.key, kind, group: GROUP_OF[kind], at: a.last, time: clock(a.last), pledgeId, donor: Boolean(pledgeId && donors.has(pledgeId)), who: pledgeId ? who : null, text, status, ok: a.ok, never });

@@ -76,7 +76,8 @@ export function receiptPanel(v: DriveView | null, m: LedgerModel, lang: Lang = m
   const placed = marks.filter((x) => x.box);
   return {
     url: m.receiptUrl,
-    head: w.receiptHead(receipt.merchant ?? "", receipt.total === null ? "" : moneyIn(lang, currency, receipt.total)),
+    // The total never breaks between its figure and its sign ("14.646 ¥" in German).
+    head: w.receiptHead(receipt.merchant ?? "", receipt.total === null ? "" : moneyIn(lang, currency, receipt.total).replace(/\s/g, " ")),
     placed,
     unplaced: marks.filter((x) => !x.box),
     region: linesRegion(placed.map((x) => x.box!)),
