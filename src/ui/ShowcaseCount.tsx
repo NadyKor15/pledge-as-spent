@@ -2,22 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { api } from "./api";
-import { countLine } from "./landing-count";
-import { deriveLedger } from "./ledger/derive";
-import { SHOWCASE_DRIVE_ID } from "./showcase";
-import type { DriveView } from "./types";
 
 /**
- * The landing page's count of the finished drive, read from the drive itself and added up by the Ledger's own derive.
- * The drive cannot be read (a fresh database, a deployment without it): no line, rather than a number nobody checked.
+ * The landing page's count of the finished drive, added up on the server by the Ledger's own derive
+ * (/api/showcase/count). No such drive, or no answer: no line, rather than a number nobody checked.
  */
 export function ShowcaseCount() {
   const [line, setLine] = useState<string | null>(null);
   useEffect(() => {
     let live = true;
-    api<DriveView>(`/api/drives/${encodeURIComponent(SHOWCASE_DRIVE_ID)}`).then(
-      (v) => {
-        if (live) setLine(countLine(deriveLedger(v, "en")));
+    api<{ line: string | null }>("/api/showcase/count").then(
+      (r) => {
+        if (live) setLine(r.line);
       },
       () => {
         if (live) setLine(null);

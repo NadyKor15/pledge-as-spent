@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { deriveLedger, type LedgerDonor } from "@/ui/ledger/derive";
 import { locate, project } from "@/ui/ledger/geo";
 import land from "@/ui/ledger/land.json";
-import { landPath, MAX_ARCS, planMap, type Box, type MapPlan } from "@/ui/ledger/layout";
+import { landPath, MAX_ARCS, planMap, textWidth, type Box, type MapPlan } from "@/ui/ledger/layout";
 import { focusOf, linesOf, LedgerStore } from "@/ui/ledger/store";
 import { COLORS } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
@@ -172,6 +172,16 @@ describe("what the arcs say", () => {
       expect(p.pills.map((x) => x.flow)).toEqual(["spent", "back"]);
     }
     expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text))).toEqual(expect.arrayContaining(["$21.45", "$8.55 never charged", "€4.58", "€15.42 never charged", "¥1,237", "¥1,763 never charged"]));
+  });
+
+  it("a Japanese pill is wide enough for its words: a kana or kanji takes a full em, not a Latin letter's share", () => {
+    const plan = planMap(deriveLedger(fixture("closed"), "ja").donors, size);
+    const back = plan.placed.flatMap((p) => p.pills).filter((x) => x.flow === "back" && x.text.includes("請求されず"));
+    expect(back.length).toBeGreaterThan(0);
+    // Five full-width characters at the pill's 14.5 px, plus the amount and the padding.
+    for (const x of back) expect(x.box.w).toBeGreaterThanOrEqual(5 * 14.5 + 20);
+    expect(textWidth("請求されず", 14.5)).toBeCloseTo(5 * 14.5, 5);
+    expect(textWidth("never", 14.5)).toBeLessThan(5 * 14.5);
   });
 
   it("where a return pill with its words has no room, it keeps the amount alone rather than leave the map (700 px, three languages)", () => {

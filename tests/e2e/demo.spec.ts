@@ -55,7 +55,9 @@ test("the way in: who it is for, a judge's read-only path, one action that write
   // What if we vanish: the hold's end date is PayPal's, on the statement, next to Withdraw.
   await expect(judge.locator("li")).toHaveCount(5);
   await expect(judge.locator("li").last()).toContainText("What if we vanish? A pledge is a PayPal hold with an end date PayPal sets.");
-  await expect(judge.getByRole("link", { name: "A donor’s statement" })).toHaveAttribute("href", "/pledge/demo-810b24be50.diapers");
+  await expect(judge.getByRole("link", { name: "A donor’s statement", exact: true })).toHaveAttribute("href", "/pledge/demo-810b24be50.diapers");
+  // The count of the finished drive comes from that drive; the test server has none, so there is no line, and no failed request.
+  await expect(page.getByTestId("landing-count")).toHaveCount(0);
   await expect(judge).toContainText("Fictional drive · PayPal Sandbox · no real money moves");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
   await expect(page.getByText("Places 4 new sandbox holds")).toBeVisible();

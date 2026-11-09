@@ -60,7 +60,10 @@ export const MAX_ARCS = 6;
 const CHAR_EM = 0.6;
 const PAD = 4;
 
-const textWidth = (text: string, px: number) => text.length * px * CHAR_EM;
+/** Kana, kanji and full-width forms: each takes a whole em, not a Latin letter's share. */
+const WIDE = /[\u1100-\u115F\u2E80-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE30-\uFE4F\uFF00-\uFF60\uFFE0-\uFFE6]/;
+/** The width of a text in the map's sans-serif, estimated: the planner has no fonts to measure with. */
+export const textWidth = (text: string, px: number) => [...text].reduce((w, c) => w + px * (WIDE.test(c) ? 1 : CHAR_EM), 0);
 const overlaps = (a: Box, b: Box, m = PAD) => a.x < b.x + b.w + m && b.x < a.x + a.w + m && a.y < b.y + b.h + m && b.y < a.y + a.h + m;
 const inside = (b: Box, width: number, height: number) => b.x >= 2 && b.y >= 2 && b.x + b.w <= width - 2 && b.y + b.h <= height - 2;
 
