@@ -53,24 +53,26 @@ The server uses the official [`@paypal/paypal-server-sdk`](https://www.npmjs.com
 
 ## How AI is used
 
-Tesseract OCR reads the rows, and Amazon Nova Pro on Bedrock structures them and checks the digits against the photo. A second Nova Pro pass matches each line to a listed need and applies the drive's rules in plain words. Then deterministic code decides: duplicates, purchases before the disaster, stores outside the zone, totals that do not add up. Card digits and names are blurred before a receipt is published, and the table below says how often the blur finds them. A doubtful receipt waits for a person: the coordinator sees its lines and approves or rejects.
+Receipts are read only by Meta's models, twice and independently. Meta Muse Spark 1.3 reads the whole photo once. Code then finds every printed row by its pixels, cuts the rows out and lays them on a numbered sheet, and Muse Spark reads that sheet a second time: the number next to each row is the row's exact place on the photo, so no model coordinates are used. One Muse Spark text call matches the lines of both readings to the drive's needs and rules. Then code compares: a line is funded only when both readings agree on its amount (to the cent), on the quantity code derives from the printed row and pack size, and on the need. When they disagree, arithmetic decides first (the reading whose quantity times unit price makes the printed amount), then a third Muse Spark reading of that line's rows, enlarged, which counts only if it agrees with one of the two and adds up. Anything still unsettled waits for the coordinator. A refusal for alcohol, tobacco or a gift card stands if either reading sees it. Deterministic code decides the rest: duplicates, purchases before the disaster, stores outside the zone, totals that do not add up, and every amount of money.
 
-The prompts were tuned on three sets of synthetic receipts, so the number to quote comes from a set they never saw: 20 receipts in Japanese, Turkish, Spanish and English, with fresh seeds and a different shelf of products.
+Only the purchase lines' rows are ever shown: the published copy of a receipt keeps those rows and turns everything else (name, card, address, member number) into plain paper.
 
-| Held-out set, 20 receipts | Result |
-|---|---|
-| Line F1 | 95.6% |
-| Receipt total exact | 20/20 |
-| Date exact | 20/20 |
-| Line class (verdict + need) | 80/98, 81.6% |
-| Need quantity exact | 38/60, 63.3% |
-| Forbidden lines refused with the right code | 9/10 |
-| Forbidden lines funded by mistake | 0 |
-| Personal data covered by a blur box | 35/42, 83.3% |
+The prompts were first tuned on three sets of synthetic receipts, so the numbers to quote come from sets they never saw. Held-out set 1: 20 receipts in Japanese, Turkish, Spanish and English with fresh seeds and their own shelf of products. Held-out set 2: 20 more, with another shelf of products and other stores, made and committed before any change that set 1 suggested.
 
-The same set after a Telegram-like compression scored the same on line F1, totals, dates and line class. All of this is synthetic: real crumpled receipts will read worse. Details and scripts: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval`.
+| Held-out receipts | Set 2 (never seen) | Set 1 (after the changes) | Set 1, first run | Before (Tesseract + Amazon Nova Pro) |
+|---|---|---|---|---|
+| Line F1 | 100% | 100% | 100% | 95.6% |
+| Receipt total exact | 20/20 | 20/20 | 20/20 | 20/20 |
+| Date exact | 20/20 | 20/20 | 20/20 | 20/20 |
+| Line class (verdict + need) | 99/99 | 95/98, 96.9% | 91/98, 92.9% | 80/98, 81.6% |
+| Need quantity exact | 58/58 | 57/60, 95.0% | 53/60, 88.3% | 38/60, 63.3% |
+| Forbidden lines refused with the right code | 10/10 | 10/10 | 10/10 | 9/10 |
+| Lines funded with a wrong need or quantity | 0 | 0 | 0 | 0 |
+| Lines sent to the coordinator | 0 of 99 | 1 of 98 | 6 of 98 | |
 
-Live reading has a budget ceiling of $5 in code, with a ledger of every model call. A photo recognized as the demo's sample gets its saved, checked reading, on demo drives only, and the screen says so. The benchmark receipts also ship with recorded readings, so they use no model call. Any other photo is read live.
+Set 1's changes came after looking at its first run: a tax base is never the subtotal, the arithmetic and third reading above, and one rule found on its repeat run. That repeat (same code as the first run) agreed on line F1 and totals and read quantities 55/60; it also showed both readings agreeing on a wrong quantity because code did not know a pack word ("6 ADET"), so a quantity code reads from the row that the model counts differently, with no pack size in the name, now goes to the coordinator instead of passing. On the 13 adversarial receipts (re-shot duplicates, purchases before the disaster, stores outside the zone, forbidden goods) every check scored 13 of 13 or all of its cases, except two deliberately blurred photos: the first reading gave no answer for them, which the code now turns into an "unreadable" flag (not measured live since). All receipts are synthetic photos of fictional stores; real crumpled receipts will read worse. A median receipt takes about 25 seconds and $0.03 of Meta's prices for the two readings and the classification. Details, every run and its spend: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval -- --reader meta`.
+
+Live reading has its own budget ceiling of $3 in code, apart from the assistant's, with a ledger of every model call. A photo recognized as the demo's sample gets its saved reading (Meta's real answer from the benchmark run, not a hand-written one), on demo drives only, and the screen says so. The benchmark receipts ship with recorded readings, so they use no model call. Any other photo is read live.
 
 ## Ask the book
 
@@ -180,13 +182,13 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - The volunteer still pays first and is reimbursed afterwards.
 - The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
 - Synthetic receipts and a fictional drive only. No real donations.
-- Need quantities are read correctly only 63.3% of the time on the held-out set, and a garbled item name can be refused as not needed. A refusal never overcharges a donor, but it can underpay a volunteer.
-- The blur missed 7 of 42 personal data items on the held-out set. A real drive needs a person to check a receipt before it is published.
+- Receipt reading was measured on synthetic receipts only (two held-out sets of 20). A line both readings misread the same way would pass; none did in these runs. A refusal never overcharges a donor, but it can underpay a volunteer.
+- Muse Spark sees the whole original photo, card and name included; only the published copy is closed. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
 - Rates are a fixed demo snapshot.
 
 ## How this was built
 
-Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Amazon Nova Pro on Bedrock and Tesseract OCR for receipts; the Ledger's assistant runs on Meta Muse Spark 1.3 with Amazon Nova Lite as fallback.
+Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Meta Muse Spark 1.3 reads every receipt (twice, with a third look at a disputed line); the Ledger's assistant runs on Meta Muse Spark 1.3 with Amazon Nova Lite as fallback.
 
 ## License
 
