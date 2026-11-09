@@ -1,0 +1,1216 @@
+{
+ "receiptId": "holdout-ja-07",
+ "set": "holdout",
+ "imageSha256": "0be85f4a513e5fac5102325b5d9c20bedd18a6e1203075548a314ab4da2fd651",
+ "reading": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T08:49:00",
+  "receiptNumber": "0559",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ふんわりテープ M 40枚",
+    "translationEn": "Soft tape M 40 sheets",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "いわし蒲焼 缶",
+    "translationEn": "Canned sardine kabayaki",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 178,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "紙巻たばこ 1箱",
+    "translationEn": "Cigarettes 1 pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 580,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "テープおむつ S 60枚",
+    "translationEn": "Tape diapers S 60 pcs",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1180,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 3,
+    "unitPriceMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 7,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "AA alkaline batteries 8-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 468,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5684,
+  "taxMinor": 545,
+  "taxIncluded": false,
+  "totalMinor": 6229,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "シマ レ 様",
+    "bbox": {
+     "x": 0.24,
+     "y": 0.8,
+     "w": 0.18,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3871 9663 0304",
+    "bbox": {
+     "x": 0.56,
+     "y": 0.82,
+     "w": 0.33,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tape diapers in size M count toward the size M diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned sardines count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size S diapers are not the size M diapers this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "An 8-pack of AA alkaline batteries brings 8 AA pieces toward the batteries need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "0fb62c22605a583e4aa80b6ebb53925700754fd507d96c7bfa875c0f3f2eb73e",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4694,
+   "tokensOut": 4549,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.025201
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1759,
+   "tokensOut": 1667,
+   "usdCeiling": 0.043596,
+   "usdActual": 0.009284
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "スマイルマート",
+   "merchantAddress": "空川県北空市駅前通1-4",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-05T08:49:00",
+   "receiptNumber": "0559",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ふんわりテープ M 40枚",
+     "translationEn": "adhesive tape",
+     "qty": 2,
+     "unitPriceMinor": 1180,
+     "amountMinor": 2360,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "いわし蒲焼 缶",
+     "translationEn": "canned sardines",
+     "qty": 3,
+     "unitPriceMinor": 168,
+     "amountMinor": 504,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ゼリー飲料",
+     "translationEn": "jelly drink",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 178,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "紙巻たばこ 1箱",
+     "translationEn": "cigarettes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 580,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "テープおむつ S 60枚",
+     "translationEn": "tape diapers",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1180,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "山里の湧水 2L",
+     "translationEn": "bottled water",
+     "qty": 3,
+     "unitPriceMinor": 138,
+     "amountMinor": 414,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 7,
+     "rawText": "単三アルカリ 8本パック",
+     "translationEn": "AAA batteries",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 468,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 5684,
+   "taxMinor": 545,
+   "taxIncluded": false,
+   "totalMinor": 6229,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12,
+    13
+   ],
+   [
+    14
+   ],
+   [
+    15
+   ],
+   [
+    16
+   ],
+   [
+    17,
+    18
+   ],
+   [
+    19
+   ]
+  ],
+  "bandTexts": {
+   "1": "スマイルマート",
+   "2": "北空駅前店",
+   "3": "空川県北空市駅前通1-4",
+   "4": "TEL 0123-22-0042",
+   "5": "登録番号 T0000100000551",
+   "6": "--------------------------------------------------",
+   "7": "2026年11月05日(木) 08:49",
+   "8": "レジ05              No.0559",
+   "9": "--------------------------------------------------",
+   "10": "ふんわりテープ M 40枚              ¥2,360",
+   "11": "2点 x 単1,180",
+   "12": "いわし蒲焼 缶              ¥504※",
+   "13": "3点 x 単168",
+   "14": "ゼリー飲料              ¥178※",
+   "15": "紙巻たばこ 1箱              ¥580",
+   "16": "テープおむつ S 60枚              ¥1,180",
+   "17": "山里の湧水 2L              ¥414※",
+   "18": "3点 x 単138",
+   "19": "単三アルカリ 8本パック              ¥468",
+   "20": "小計 (7点)              ¥5,684",
+   "21": "外税8% 対象 ¥1,096              消費税 ¥87",
+   "22": "外税10% 対象 ¥4,588              消費税 ¥458",
+   "23": "合計              ¥6,229",
+   "24": "お預り              ¥7,000",
+   "25": "お釣り              ¥771",
+   "26": "--------------------------------------------------",
+   "27": "ポイントカード",
+   "28": "ミマ レン 様",
+   "29": "会員番号              3871 9663 0304",
+   "30": "--------------------------------------------------",
+   "31": "※は軽減税率(8%)対象商品です",
+   "32": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 126,
+    "y1": 188,
+    "quad": [
+     [
+      119.7,
+      93.2
+     ],
+     [
+      526.9,
+      108.9
+     ],
+     [
+      525.7,
+      139.9
+     ],
+     [
+      118.5,
+      124.2
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 195,
+    "y1": 250,
+    "quad": [
+     [
+      118.4,
+      127.7
+     ],
+     [
+      525.6,
+      143.4
+     ],
+     [
+      524.5,
+      170.8
+     ],
+     [
+      117.3,
+      155.2
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 251,
+    "y1": 303,
+    "quad": [
+     [
+      117.3,
+      155.7
+     ],
+     [
+      524.5,
+      171.3
+     ],
+     [
+      523.5,
+      197.3
+     ],
+     [
+      116.3,
+      181.7
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 303,
+    "y1": 351,
+    "quad": [
+     [
+      116.3,
+      181.7
+     ],
+     [
+      523.5,
+      197.3
+     ],
+     [
+      522.6,
+      221.3
+     ],
+     [
+      115.4,
+      205.7
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 351,
+    "y1": 404,
+    "quad": [
+     [
+      115.4,
+      205.7
+     ],
+     [
+      522.6,
+      221.3
+     ],
+     [
+      521.6,
+      247.8
+     ],
+     [
+      114.4,
+      232.1
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 405,
+    "y1": 442,
+    "quad": [
+     [
+      114.3,
+      232.6
+     ],
+     [
+      521.5,
+      248.3
+     ],
+     [
+      520.8,
+      266.8
+     ],
+     [
+      113.6,
+      251.1
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 445,
+    "y1": 492,
+    "quad": [
+     [
+      113.6,
+      252.6
+     ],
+     [
+      520.8,
+      268.3
+     ],
+     [
+      519.9,
+      291.8
+     ],
+     [
+      112.7,
+      276.1
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 492,
+    "y1": 544,
+    "quad": [
+     [
+      112.7,
+      276.1
+     ],
+     [
+      519.9,
+      291.8
+     ],
+     [
+      518.9,
+      317.7
+     ],
+     [
+      111.7,
+      302.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 546,
+    "y1": 580,
+    "quad": [
+     [
+      111.6,
+      303.1
+     ],
+     [
+      518.8,
+      318.7
+     ],
+     [
+      518.2,
+      335.7
+     ],
+     [
+      111,
+      320.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 580,
+    "y1": 632,
+    "quad": [
+     [
+      111,
+      320.1
+     ],
+     [
+      518.2,
+      335.7
+     ],
+     [
+      517.2,
+      361.7
+     ],
+     [
+      110,
+      346.1
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 633,
+    "y1": 674,
+    "quad": [
+     [
+      110,
+      346.6
+     ],
+     [
+      517.2,
+      362.2
+     ],
+     [
+      516.4,
+      382.7
+     ],
+     [
+      109.2,
+      367
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 674,
+    "y1": 723,
+    "quad": [
+     [
+      109.2,
+      367
+     ],
+     [
+      516.4,
+      382.7
+     ],
+     [
+      515.4,
+      407.2
+     ],
+     [
+      108.2,
+      391.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 723,
+    "y1": 764,
+    "quad": [
+     [
+      108.2,
+      391.5
+     ],
+     [
+      515.4,
+      407.2
+     ],
+     [
+      514.7,
+      427.7
+     ],
+     [
+      107.5,
+      412
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 765,
+    "y1": 813,
+    "quad": [
+     [
+      107.4,
+      412.5
+     ],
+     [
+      514.6,
+      428.2
+     ],
+     [
+      513.7,
+      452.1
+     ],
+     [
+      106.5,
+      436.5
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 813,
+    "y1": 861,
+    "quad": [
+     [
+      106.5,
+      436.5
+     ],
+     [
+      513.7,
+      452.1
+     ],
+     [
+      512.8,
+      476.1
+     ],
+     [
+      105.6,
+      460.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 862,
+    "y1": 909,
+    "quad": [
+     [
+      105.6,
+      461
+     ],
+     [
+      512.8,
+      476.6
+     ],
+     [
+      511.9,
+      500.1
+     ],
+     [
+      104.7,
+      484.5
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 910,
+    "y1": 956,
+    "quad": [
+     [
+      104.7,
+      485
+     ],
+     [
+      511.9,
+      500.6
+     ],
+     [
+      511,
+      523.6
+     ],
+     [
+      103.8,
+      507.9
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 956,
+    "y1": 997,
+    "quad": [
+     [
+      103.8,
+      507.9
+     ],
+     [
+      511,
+      523.6
+     ],
+     [
+      510.2,
+      544.1
+     ],
+     [
+      103,
+      528.4
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 998,
+    "y1": 1045,
+    "quad": [
+     [
+      103,
+      528.9
+     ],
+     [
+      510.2,
+      544.6
+     ],
+     [
+      509.3,
+      568.1
+     ],
+     [
+      102.1,
+      552.4
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1084,
+    "y1": 1132,
+    "quad": [
+     [
+      101.3,
+      571.9
+     ],
+     [
+      508.5,
+      587.5
+     ],
+     [
+      507.6,
+      611.5
+     ],
+     [
+      100.4,
+      595.9
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1133,
+    "y1": 1179,
+    "quad": [
+     [
+      100.4,
+      596.4
+     ],
+     [
+      507.6,
+      612
+     ],
+     [
+      506.7,
+      635
+     ],
+     [
+      99.5,
+      619.4
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1179,
+    "y1": 1228,
+    "quad": [
+     [
+      99.5,
+      619.4
+     ],
+     [
+      506.7,
+      635
+     ],
+     [
+      505.8,
+      659.5
+     ],
+     [
+      98.6,
+      643.8
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1231,
+    "y1": 1288,
+    "quad": [
+     [
+      98.5,
+      645.3
+     ],
+     [
+      505.7,
+      661
+     ],
+     [
+      504.6,
+      689.5
+     ],
+     [
+      97.4,
+      673.8
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1289,
+    "y1": 1336,
+    "quad": [
+     [
+      97.4,
+      674.3
+     ],
+     [
+      504.6,
+      690
+     ],
+     [
+      503.7,
+      713.4
+     ],
+     [
+      96.5,
+      697.8
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1336,
+    "y1": 1384,
+    "quad": [
+     [
+      96.5,
+      697.8
+     ],
+     [
+      503.7,
+      713.4
+     ],
+     [
+      502.8,
+      737.4
+     ],
+     [
+      95.6,
+      721.8
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1387,
+    "y1": 1416,
+    "quad": [
+     [
+      95.5,
+      723.3
+     ],
+     [
+      502.7,
+      738.9
+     ],
+     [
+      502.1,
+      753.4
+     ],
+     [
+      94.9,
+      737.8
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1417,
+    "y1": 1462,
+    "quad": [
+     [
+      94.9,
+      738.3
+     ],
+     [
+      502.1,
+      753.9
+     ],
+     [
+      501.3,
+      776.4
+     ],
+     [
+      94.1,
+      760.8
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1463,
+    "y1": 1508,
+    "quad": [
+     [
+      94,
+      761.3
+     ],
+     [
+      501.2,
+      776.9
+     ],
+     [
+      500.4,
+      799.4
+     ],
+     [
+      93.2,
+      783.7
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1509,
+    "y1": 1562,
+    "quad": [
+     [
+      93.2,
+      784.2
+     ],
+     [
+      500.4,
+      799.9
+     ],
+     [
+      499.3,
+      826.4
+     ],
+     [
+      92.1,
+      810.7
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1562,
+    "y1": 1594,
+    "quad": [
+     [
+      92.1,
+      810.7
+     ],
+     [
+      499.3,
+      826.4
+     ],
+     [
+      498.7,
+      842.3
+     ],
+     [
+      91.5,
+      826.7
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1594,
+    "y1": 1632,
+    "quad": [
+     [
+      91.5,
+      826.7
+     ],
+     [
+      498.7,
+      842.3
+     ],
+     [
+      498,
+      861.3
+     ],
+     [
+      90.8,
+      845.7
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "y0": 1633,
+    "y1": 1674,
+    "quad": [
+     [
+      90.8,
+      846.2
+     ],
+     [
+      498,
+      861.8
+     ],
+     [
+      497.2,
+      882.3
+     ],
+     [
+      90,
+      866.7
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 616,
+   "height": 1004
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Tape diapers in size M count toward the size M diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned sardines count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not one of the listed needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Size S diapers are not the size M diapers this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "An 8-pack of AA alkaline batteries brings 8 AA pieces toward the batteries need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Tape diapers in size M count toward the size M diapers need despite the adhesive tape translation.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned sardines count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not one of the listed needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Size S tape diapers printed on the receipt are not the size M diapers this drive needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 6,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "The receipt prints Tan-san AA batteries in an 8-pack, bringing 8 AA pieces toward the batteries need.",
+    "confidence": 0.9
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1759,
+   "tokensOut": 1667,
+   "usdCeiling": 0.043596,
+   "usdActual": 0.009284
+  }
+ },
+ "latencyMs": {
+  "read": 27691,
+  "classify": 14226
+ },
+ "errors": [],
+ "trace": null
+}

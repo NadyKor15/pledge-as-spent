@@ -1,0 +1,1098 @@
+{
+ "receiptId": "holdout-tr-04",
+ "set": "holdout",
+ "imageSha256": "90c97064025463788cecb3ad863d3e9d5f511d5e6cc1487ecf3e1daf542127fb",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-05T12:48:00",
+  "receiptNumber": "4657",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DİŞ FIRÇASI",
+    "translationEn": "Toothbrush",
+    "qty": 2,
+    "unitPriceMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOĞAL KAYNAK 5 LİTRE",
+    "translationEn": "Natural spring water 5 liter",
+    "qty": 3,
+    "unitPriceMinor": 2690,
+    "amountMinor": 8070,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POLAR BATTANİYE 150X200",
+    "translationEn": "Polar blanket 150x200",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 52900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton diapers size 4 40 pcs",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500g",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA batteries 6 pcs",
+    "qty": 2,
+    "unitPriceMinor": 11490,
+    "amountMinor": 22980,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 157477,
+  "taxMinor": 28053,
+  "taxIncluded": true,
+  "totalMinor": 185530,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7221824956",
+    "bbox": {
+     "x": 0.7,
+     "y": 0.81,
+     "w": 0.23,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": {
+     "x": 0.2,
+     "y": 0.85,
+     "w": 0.32,
+     "h": 0.04
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural spring water in 5 L bottles counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A polar fleece blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 diapers packs count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese is food and is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 6-packs of AA batteries bring 12 pieces toward the batteries need.",
+   "confidence": 0.97
+  }
+ ],
+ "classifiedFor": "6f51961a4638f64a2c7b84c73701f24b1b393179d578305ebcd59ded65d3290c",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4298,
+   "tokensOut": 5054,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.026853000000000002
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1711,
+   "tokensOut": 904,
+   "usdCeiling": 0.043455,
+   "usdActual": 0.005981
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "SÜPER YILDIZ MARKET",
+   "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+   "country": "TR",
+   "currency": "TRY",
+   "purchasedAt": "2026-11-05T12:48:00",
+   "receiptNumber": "4657",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "DİŞ FIRÇASI",
+     "translationEn": "toothbrush",
+     "qty": 2,
+     "unitPriceMinor": 3990,
+     "amountMinor": 7980,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "DOĞAL KAYNAK 5 LİTRE",
+     "translationEn": "natural water 5L",
+     "qty": 3,
+     "unitPriceMinor": 2690,
+     "amountMinor": 8070,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "POLAR BATTANİYE 150X200",
+     "translationEn": "fleece blanket",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 52900,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+     "translationEn": "cotton diapers",
+     "qty": 2,
+     "unitPriceMinor": 31900,
+     "amountMinor": 63800,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "BEYAZ PEYNİR 500 GR",
+     "translationEn": "white cheese",
+     "qty": 2,
+     "unitPriceMinor": 14900,
+     "amountMinor": 29800,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "ALKALİN AA 6 ADET",
+     "translationEn": "alkaline AA batteries",
+     "qty": 2,
+     "unitPriceMinor": 11490,
+     "amountMinor": 22980,
+     "taxRateBp": 2000
+    }
+   ],
+   "subtotalMinor": 157477,
+   "taxMinor": 28053,
+   "taxIncluded": true,
+   "totalMinor": 185530,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    8,
+    9
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17,
+    18
+   ]
+  ],
+  "bandTexts": {
+   "1": "SÜPER YILDIZ MARKET",
+   "2": "Çarşı Cd. No:12",
+   "3": "Merkez / Yıldızova",
+   "4": "TEL 0 555 000 00 42",
+   "5": "VKN: 0000000042",
+   "6": "------------------------------------------------------",
+   "7": "TARİH: 05.11.2026 12:48 FİŞ NO: 4657",
+   "8": "DİŞ FIRÇASI %20 *79,80",
+   "9": "2 x 39,90",
+   "10": "DOĞAL KAYNAK 5 LİTRE %10 *80,70",
+   "11": "3 x 26,90",
+   "12": "POLAR BATTANİYE 150X200 %20 *529,00",
+   "13": "PAMUKLU BEZ 4 NUMARA 40 ADET %20 *638,00",
+   "14": "2 x 319,00",
+   "15": "BEYAZ PEYNİR 500 GR %10 *298,00",
+   "16": "2 x 149,00",
+   "17": "ALKALİN AA 6 ADET %20 *229,80",
+   "18": "2 x 114,90",
+   "19": "------------------------------------------------------",
+   "20": "KDV %10 MATRAH 344,27 *34,43",
+   "21": "KDV %20 MATRAH 1.230,50 *246,10",
+   "22": "TOPKDV *280,53",
+   "23": "TOPLAM *1.855,30",
+   "24": "NAKİT *1.860,00",
+   "25": "PARA ÜSTÜ *4,70",
+   "26": "..............................................................",
+   "27": "MÜŞTERİ KARTI 7221824956",
+   "28": "AYŞE DEMİRKAN",
+   "29": "TEŞEKKÜR EDERİZ"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 95,
+    "y1": 155,
+    "quad": [
+     [
+      95.2,
+      132.3
+     ],
+     [
+      502.7,
+      111.7
+     ],
+     [
+      504.2,
+      141.6
+     ],
+     [
+      96.7,
+      162.3
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 164,
+    "y1": 210,
+    "quad": [
+     [
+      96.9,
+      166.8
+     ],
+     [
+      504.4,
+      146.1
+     ],
+     [
+      505.6,
+      169.1
+     ],
+     [
+      98.1,
+      189.8
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 210,
+    "y1": 254,
+    "quad": [
+     [
+      98.1,
+      189.8
+     ],
+     [
+      505.6,
+      169.1
+     ],
+     [
+      506.7,
+      191.1
+     ],
+     [
+      99.2,
+      211.7
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 256,
+    "y1": 300,
+    "quad": [
+     [
+      99.2,
+      212.7
+     ],
+     [
+      506.7,
+      192.1
+     ],
+     [
+      507.8,
+      214.1
+     ],
+     [
+      100.4,
+      234.7
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 303,
+    "y1": 346,
+    "quad": [
+     [
+      100.4,
+      236.2
+     ],
+     [
+      507.9,
+      215.6
+     ],
+     [
+      509,
+      237
+     ],
+     [
+      101.5,
+      257.7
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 354,
+    "y1": 382,
+    "quad": [
+     [
+      101.7,
+      261.7
+     ],
+     [
+      509.2,
+      241
+     ],
+     [
+      509.9,
+      255
+     ],
+     [
+      102.4,
+      275.6
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 383,
+    "y1": 437,
+    "quad": [
+     [
+      102.5,
+      276.1
+     ],
+     [
+      509.9,
+      255.5
+     ],
+     [
+      511.3,
+      282.5
+     ],
+     [
+      103.8,
+      303.1
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 471,
+    "y1": 520,
+    "quad": [
+     [
+      104.7,
+      320.1
+     ],
+     [
+      512.2,
+      299.4
+     ],
+     [
+      513.4,
+      323.9
+     ],
+     [
+      105.9,
+      344.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 521,
+    "y1": 558,
+    "quad": [
+     [
+      106,
+      345.1
+     ],
+     [
+      513.4,
+      324.4
+     ],
+     [
+      514.4,
+      342.9
+     ],
+     [
+      106.9,
+      363.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 559,
+    "y1": 609,
+    "quad": [
+     [
+      106.9,
+      364
+     ],
+     [
+      514.4,
+      343.4
+     ],
+     [
+      515.7,
+      368.4
+     ],
+     [
+      108.2,
+      389
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 609,
+    "y1": 648,
+    "quad": [
+     [
+      108.2,
+      389
+     ],
+     [
+      515.7,
+      368.4
+     ],
+     [
+      516.6,
+      387.8
+     ],
+     [
+      109.2,
+      408.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 649,
+    "y1": 697,
+    "quad": [
+     [
+      109.2,
+      409
+     ],
+     [
+      516.7,
+      388.3
+     ],
+     [
+      517.9,
+      412.3
+     ],
+     [
+      110.4,
+      432.9
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 700,
+    "y1": 745,
+    "quad": [
+     [
+      110.5,
+      434.4
+     ],
+     [
+      518,
+      413.8
+     ],
+     [
+      519.1,
+      436.3
+     ],
+     [
+      111.6,
+      456.9
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 746,
+    "y1": 785,
+    "quad": [
+     [
+      111.6,
+      457.4
+     ],
+     [
+      519.1,
+      436.8
+     ],
+     [
+      520.1,
+      456.2
+     ],
+     [
+      112.6,
+      476.9
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 786,
+    "y1": 832,
+    "quad": [
+     [
+      112.7,
+      477.4
+     ],
+     [
+      520.1,
+      456.7
+     ],
+     [
+      521.3,
+      479.7
+     ],
+     [
+      113.8,
+      500.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 835,
+    "y1": 875,
+    "quad": [
+     [
+      113.9,
+      501.9
+     ],
+     [
+      521.4,
+      481.2
+     ],
+     [
+      522.4,
+      501.2
+     ],
+     [
+      114.9,
+      521.8
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 875,
+    "y1": 921,
+    "quad": [
+     [
+      114.9,
+      521.8
+     ],
+     [
+      522.4,
+      501.2
+     ],
+     [
+      523.5,
+      524.2
+     ],
+     [
+      116.1,
+      544.8
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 925,
+    "y1": 966,
+    "quad": [
+     [
+      116.2,
+      546.8
+     ],
+     [
+      523.6,
+      526.2
+     ],
+     [
+      524.7,
+      546.6
+     ],
+     [
+      117.2,
+      567.3
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 972,
+    "y1": 1000,
+    "quad": [
+     [
+      117.4,
+      570.3
+     ],
+     [
+      524.8,
+      549.6
+     ],
+     [
+      525.5,
+      563.6
+     ],
+     [
+      118.1,
+      584.2
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1004,
+    "y1": 1047,
+    "quad": [
+     [
+      118.2,
+      586.2
+     ],
+     [
+      525.6,
+      565.6
+     ],
+     [
+      526.7,
+      587.1
+     ],
+     [
+      119.3,
+      607.7
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1047,
+    "y1": 1090,
+    "quad": [
+     [
+      119.3,
+      607.7
+     ],
+     [
+      526.7,
+      587.1
+     ],
+     [
+      527.8,
+      608.6
+     ],
+     [
+      120.3,
+      629.2
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1090,
+    "y1": 1140,
+    "quad": [
+     [
+      120.3,
+      629.2
+     ],
+     [
+      527.8,
+      608.6
+     ],
+     [
+      529.1,
+      633.5
+     ],
+     [
+      121.6,
+      654.2
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1148,
+    "y1": 1203,
+    "quad": [
+     [
+      121.8,
+      658.2
+     ],
+     [
+      529.3,
+      637.5
+     ],
+     [
+      530.7,
+      665
+     ],
+     [
+      123.2,
+      685.6
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1203,
+    "y1": 1253,
+    "quad": [
+     [
+      123.2,
+      685.6
+     ],
+     [
+      530.7,
+      665
+     ],
+     [
+      531.9,
+      689.9
+     ],
+     [
+      124.5,
+      710.6
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1254,
+    "y1": 1305,
+    "quad": [
+     [
+      124.5,
+      711.1
+     ],
+     [
+      532,
+      690.4
+     ],
+     [
+      533.3,
+      715.9
+     ],
+     [
+      125.8,
+      736.6
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1308,
+    "y1": 1342,
+    "quad": [
+     [
+      125.9,
+      738.1
+     ],
+     [
+      533.3,
+      717.4
+     ],
+     [
+      534.2,
+      734.4
+     ],
+     [
+      126.7,
+      755
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1342,
+    "y1": 1400,
+    "quad": [
+     [
+      126.7,
+      755
+     ],
+     [
+      534.2,
+      734.4
+     ],
+     [
+      535.7,
+      763.4
+     ],
+     [
+      128.2,
+      784
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1400,
+    "y1": 1446,
+    "quad": [
+     [
+      128.2,
+      784
+     ],
+     [
+      535.7,
+      763.4
+     ],
+     [
+      536.8,
+      786.3
+     ],
+     [
+      129.4,
+      807
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1446,
+    "y1": 1487,
+    "quad": [
+     [
+      129.4,
+      807
+     ],
+     [
+      536.8,
+      786.3
+     ],
+     [
+      537.9,
+      806.8
+     ],
+     [
+      130.4,
+      827.4
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 633,
+   "height": 936
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrush is not one of the needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural spring water in 5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A polar fleece blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 diapers packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "White cheese is food and is not one of the needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.97
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrush is not one of the needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 diapers packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "White cheese is food and is not one of the needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.97
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1711,
+   "tokensOut": 904,
+   "usdCeiling": 0.043455,
+   "usdActual": 0.005981
+  }
+ },
+ "latencyMs": {
+  "read": 19897,
+  "classify": 5696
+ },
+ "errors": [],
+ "trace": null
+}

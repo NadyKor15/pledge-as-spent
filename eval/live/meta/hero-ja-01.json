@@ -1,0 +1,1697 @@
+{
+ "receiptId": "hero-ja-01",
+ "set": "hero",
+ "imageSha256": "f6f2ab92ba3ec1a74baccddc790bcf78b784c12ff50cb1afd9a41dd63626b6d8",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T14:32:00",
+  "receiptNumber": "8258",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "北空の天然水 2L 6本ケース",
+    "translationEn": "Natural water 2L case",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Melted snow water 2L",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ミネラルウォーター 2Lペット",
+    "translationEn": "Mineral water 2L bottle",
+    "qty": 2,
+    "unitPriceMinor": 108,
+    "amountMinor": 216,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ソフトキッズ おむつ M 44枚",
+    "translationEn": "Soft kids diapers M 44pcs",
+    "qty": 2,
+    "unitPriceMinor": 1298,
+    "amountMinor": 2596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ベビーラブ パンツ M",
+    "translationEn": "Baby pants diapers M",
+    "qty": 3,
+    "unitPriceMinor": 1098,
+    "amountMinor": 3294,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "紙おむつ M 18枚 お試しパック",
+    "translationEn": "Paper diapers M trial pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 598,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "アルカリ乾電池 単3 20本入",
+    "translationEn": "Alkaline AAA batteries 20pk",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 698,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AAA batteries 10pk",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 9,
+    "rawText": "単3 ばら",
+    "translationEn": "AAA battery loose",
+    "qty": 10,
+    "unitPriceMinor": 98,
+    "amountMinor": 980,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 10,
+    "rawText": "缶ビール 350ml 6缶",
+    "translationEn": "Canned beer 350ml 6pk",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 11,
+    "rawText": "ギフトカード 3,000円",
+    "translationEn": "Gift card 3000 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 14646,
+  "taxMinor": 1033,
+  "taxIncluded": true,
+  "totalMinor": 14646,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9591",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "ミヲア レ 様",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "3216 2141 5525",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A case of six 2 L natural waters counts as six bottles toward the water need.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Four 2 L drinking waters count toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 2 L mineral waters count toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two packs of size M baby diapers count toward the diapers need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Three packs of baby pants in size M are size M diapers for this drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A trial pack of size M paper diapers counts as one pack toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 20-pack labeled 単3 is twenty AA batteries toward the batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 8,
+   "needId": "batteries",
+   "needQty": 20,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 10-packs labeled 単3 are twenty AA batteries toward the batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 9,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Ten loose 単3 cells are ten AA batteries toward the batteries need.",
+   "confidence": 0.96
+  },
+  {
+   "lineNo": 10,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Canned beer is alcohol, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 11,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A gift card is never funded by this drive.",
+   "confidence": 0.99
+  }
+ ],
+ "classifiedFor": "e823a778c4f1871dc8bf28a24adfccb89ee1e0754be84457f0754449b88b69f8",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 5756,
+   "tokensOut": 4871,
+   "usdCeiling": 0.106034,
+   "usdActual": 0.027897
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 2065,
+   "tokensOut": 1599,
+   "usdCeiling": 0.044888,
+   "usdActual": 0.009377
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ミナト生活館",
+   "merchantAddress": "空川県北空市港町2-8-1",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-05T14:32:00",
+   "receiptNumber": "8258",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "北空の天然水 2L 6本ケース",
+     "translationEn": "Natural water 2L case",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 798,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "雪解けの水 2L",
+     "translationEn": "Water 2L",
+     "qty": 4,
+     "unitPriceMinor": 118,
+     "amountMinor": 472,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ミネラルウォーター 2Lペット",
+     "translationEn": "Mineral water 2L",
+     "qty": 2,
+     "unitPriceMinor": 108,
+     "amountMinor": 216,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "ソフトキッズ おむつ M 44枚",
+     "translationEn": "Diapers M 44pcs",
+     "qty": 2,
+     "unitPriceMinor": 1298,
+     "amountMinor": 2596,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ベビーラブ パンツ M",
+     "translationEn": "Baby pants M",
+     "qty": 3,
+     "unitPriceMinor": 1098,
+     "amountMinor": 3294,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "紙おむつ M 18枚 お試しパック",
+     "translationEn": "Trial diapers M 18pcs",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 598,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 7,
+     "rawText": "アルカリ乾電池 単3 20本入",
+     "translationEn": "AAA alkaline batteries 20pk",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 698,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 8,
+     "rawText": "単3電池 10本入",
+     "translationEn": "AAA batteries 10pk",
+     "qty": 2,
+     "unitPriceMinor": 398,
+     "amountMinor": 796,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 9,
+     "rawText": "単3 ばら",
+     "translationEn": "AAA battery single",
+     "qty": 10,
+     "unitPriceMinor": 98,
+     "amountMinor": 980,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 10,
+     "rawText": "缶ビール 350ml 6缶",
+     "translationEn": "Canned beer 350ml 6pk",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 1198,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 11,
+     "rawText": "ギフトカード 3,000円",
+     "translationEn": "Gift card 3000 yen",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 3000,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 14646,
+   "taxMinor": 1033,
+   "taxIncluded": true,
+   "totalMinor": 14646,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12,
+    13
+   ],
+   [
+    14,
+    15,
+    16
+   ],
+   [
+    17,
+    18
+   ],
+   [
+    19,
+    20
+   ],
+   [
+    21,
+    22
+   ],
+   [
+    23
+   ],
+   [
+    24,
+    25
+   ],
+   [
+    26,
+    27
+   ],
+   [
+    28
+   ],
+   [
+    29
+   ]
+  ],
+  "bandTexts": {
+   "1": "ミナト生活館",
+   "2": "北空店",
+   "3": "空川県北空市港町2-8-1",
+   "4": "TEL 0123-45-6789",
+   "5": "登録番号 T0000100000427",
+   "6": "------------------------------------------------",
+   "7": "2026年11月05日(木) 14:32",
+   "8": "レジ04 No.8258",
+   "9": "------------------------------------------------",
+   "10": "北空の天然水 2L ¥798※",
+   "11": "6本ケース",
+   "12": "雪解けの水 2L ¥472※",
+   "13": "4点 x 単118",
+   "14": "ミネラルウォーター ¥216※",
+   "15": "2Lペット",
+   "16": "2点 x 単108",
+   "17": "ソフトキッズ おむつ M 44枚 ¥2,596",
+   "18": "2点 x 単1,298",
+   "19": "ベビーラブ パンツ M ¥3,294",
+   "20": "3点 x 単1,098",
+   "21": "紙おむつ M 18枚 ¥598",
+   "22": "お試しパック",
+   "23": "アルカリ乾電池 単3 20本入 ¥698",
+   "24": "単3電池 10本入 ¥796",
+   "25": "2点 x 単398",
+   "26": "単3 ばら ¥980",
+   "27": "10点 x 単98",
+   "28": "缶ビール 350ml 6缶 ¥1,198",
+   "29": "ギフトカード 3,000円 ¥3,000",
+   "30": "小計 (11点) ¥14,646",
+   "31": "8%対象 ¥1,486",
+   "32": "10%対象 ¥10,160",
+   "33": "非課税対象 ¥3,000",
+   "34": "(内消費税等 8% ¥110)",
+   "35": "(内消費税等 10% ¥923)",
+   "36": "合計 ¥14,646",
+   "37": "クレジット ************9591",
+   "38": "お支払い ¥14,646",
+   "39": "ポイントカード",
+   "40": "ミマ レソ 様",
+   "41": "会員番号 3216 2141 5525",
+   "42": "................................................................................",
+   "43": "※は軽減税率(8%)対象商品です",
+   "44": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 126,
+    "y1": 186,
+    "quad": [
+     [
+      99.2,
+      123.3
+     ],
+     [
+      506,
+      111.2
+     ],
+     [
+      506.9,
+      141.2
+     ],
+     [
+      100.1,
+      153.2
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 192,
+    "y1": 244,
+    "quad": [
+     [
+      100.2,
+      156.2
+     ],
+     [
+      507,
+      144.2
+     ],
+     [
+      507.8,
+      170.2
+     ],
+     [
+      101,
+      182.2
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 244,
+    "y1": 292,
+    "quad": [
+     [
+      101,
+      182.2
+     ],
+     [
+      507.8,
+      170.2
+     ],
+     [
+      508.5,
+      194.1
+     ],
+     [
+      101.7,
+      206.2
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 293,
+    "y1": 338,
+    "quad": [
+     [
+      101.7,
+      206.7
+     ],
+     [
+      508.5,
+      194.6
+     ],
+     [
+      509.2,
+      217.1
+     ],
+     [
+      102.3,
+      229.2
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 338,
+    "y1": 388,
+    "quad": [
+     [
+      102.3,
+      229.2
+     ],
+     [
+      509.2,
+      217.1
+     ],
+     [
+      509.9,
+      242.1
+     ],
+     [
+      103.1,
+      254.2
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 388,
+    "y1": 426,
+    "quad": [
+     [
+      103.1,
+      254.2
+     ],
+     [
+      509.9,
+      242.1
+     ],
+     [
+      510.5,
+      261.1
+     ],
+     [
+      103.7,
+      273.2
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 427,
+    "y1": 472,
+    "quad": [
+     [
+      103.7,
+      273.7
+     ],
+     [
+      510.5,
+      261.6
+     ],
+     [
+      511.2,
+      284.1
+     ],
+     [
+      104.3,
+      296.2
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 473,
+    "y1": 523,
+    "quad": [
+     [
+      104.4,
+      296.7
+     ],
+     [
+      511.2,
+      284.6
+     ],
+     [
+      511.9,
+      309.6
+     ],
+     [
+      105.1,
+      321.7
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 523,
+    "y1": 557,
+    "quad": [
+     [
+      105.1,
+      321.7
+     ],
+     [
+      511.9,
+      309.6
+     ],
+     [
+      512.4,
+      326.6
+     ],
+     [
+      105.6,
+      338.7
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 557,
+    "y1": 610,
+    "quad": [
+     [
+      105.6,
+      338.7
+     ],
+     [
+      512.4,
+      326.6
+     ],
+     [
+      513.2,
+      353.1
+     ],
+     [
+      106.4,
+      365.2
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 611,
+    "y1": 647,
+    "quad": [
+     [
+      106.4,
+      365.7
+     ],
+     [
+      513.2,
+      353.6
+     ],
+     [
+      513.8,
+      371.6
+     ],
+     [
+      106.9,
+      383.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 647,
+    "y1": 698,
+    "quad": [
+     [
+      106.9,
+      383.6
+     ],
+     [
+      513.8,
+      371.6
+     ],
+     [
+      514.5,
+      397.1
+     ],
+     [
+      107.7,
+      409.1
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 699,
+    "y1": 736,
+    "quad": [
+     [
+      107.7,
+      409.6
+     ],
+     [
+      514.5,
+      397.6
+     ],
+     [
+      515.1,
+      416
+     ],
+     [
+      108.3,
+      428.1
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 737,
+    "y1": 787,
+    "quad": [
+     [
+      108.3,
+      428.6
+     ],
+     [
+      515.1,
+      416.5
+     ],
+     [
+      515.8,
+      441.5
+     ],
+     [
+      109,
+      453.6
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 787,
+    "y1": 827,
+    "quad": [
+     [
+      109,
+      453.6
+     ],
+     [
+      515.8,
+      441.5
+     ],
+     [
+      516.4,
+      461.5
+     ],
+     [
+      109.6,
+      473.6
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 828,
+    "y1": 867,
+    "quad": [
+     [
+      109.6,
+      474.1
+     ],
+     [
+      516.4,
+      462
+     ],
+     [
+      517,
+      481.5
+     ],
+     [
+      110.2,
+      493.6
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 867,
+    "y1": 915,
+    "quad": [
+     [
+      110.2,
+      493.6
+     ],
+     [
+      517,
+      481.5
+     ],
+     [
+      517.7,
+      505.5
+     ],
+     [
+      110.9,
+      517.6
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 915,
+    "y1": 955,
+    "quad": [
+     [
+      110.9,
+      517.6
+     ],
+     [
+      517.7,
+      505.5
+     ],
+     [
+      518.3,
+      525.5
+     ],
+     [
+      111.5,
+      537.6
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 956,
+    "y1": 1003,
+    "quad": [
+     [
+      111.5,
+      538.1
+     ],
+     [
+      518.3,
+      526
+     ],
+     [
+      519,
+      549.5
+     ],
+     [
+      112.2,
+      561.6
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1004,
+    "y1": 1045,
+    "quad": [
+     [
+      112.2,
+      562.1
+     ],
+     [
+      519,
+      550
+     ],
+     [
+      519.7,
+      570.5
+     ],
+     [
+      112.8,
+      582.6
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1045,
+    "y1": 1093,
+    "quad": [
+     [
+      112.8,
+      582.6
+     ],
+     [
+      519.7,
+      570.5
+     ],
+     [
+      520.4,
+      594.5
+     ],
+     [
+      113.5,
+      606.5
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1094,
+    "y1": 1134,
+    "quad": [
+     [
+      113.6,
+      607
+     ],
+     [
+      520.4,
+      595
+     ],
+     [
+      521,
+      615
+     ],
+     [
+      114.2,
+      627
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1134,
+    "y1": 1182,
+    "quad": [
+     [
+      114.2,
+      627
+     ],
+     [
+      521,
+      615
+     ],
+     [
+      521.7,
+      639
+     ],
+     [
+      114.9,
+      651
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1182,
+    "y1": 1230,
+    "quad": [
+     [
+      114.9,
+      651
+     ],
+     [
+      521.7,
+      639
+     ],
+     [
+      522.4,
+      662.9
+     ],
+     [
+      115.6,
+      675
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1231,
+    "y1": 1272,
+    "quad": [
+     [
+      115.6,
+      675.5
+     ],
+     [
+      522.4,
+      663.4
+     ],
+     [
+      523,
+      683.9
+     ],
+     [
+      116.2,
+      696
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1273,
+    "y1": 1319,
+    "quad": [
+     [
+      116.2,
+      696.5
+     ],
+     [
+      523,
+      684.4
+     ],
+     [
+      523.7,
+      707.4
+     ],
+     [
+      116.9,
+      719.5
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1320,
+    "y1": 1361,
+    "quad": [
+     [
+      116.9,
+      720
+     ],
+     [
+      523.7,
+      707.9
+     ],
+     [
+      524.3,
+      728.4
+     ],
+     [
+      117.5,
+      740.5
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1361,
+    "y1": 1409,
+    "quad": [
+     [
+      117.5,
+      740.5
+     ],
+     [
+      524.3,
+      728.4
+     ],
+     [
+      525.1,
+      752.4
+     ],
+     [
+      118.2,
+      764.5
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1410,
+    "y1": 1459,
+    "quad": [
+     [
+      118.2,
+      765
+     ],
+     [
+      525.1,
+      752.9
+     ],
+     [
+      525.8,
+      777.4
+     ],
+     [
+      119,
+      789.5
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1497,
+    "y1": 1546,
+    "quad": [
+     [
+      119.5,
+      808.5
+     ],
+     [
+      526.4,
+      796.4
+     ],
+     [
+      527.1,
+      820.9
+     ],
+     [
+      120.3,
+      832.9
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1546,
+    "y1": 1594,
+    "quad": [
+     [
+      120.3,
+      832.9
+     ],
+     [
+      527.1,
+      820.9
+     ],
+     [
+      527.8,
+      844.9
+     ],
+     [
+      121,
+      856.9
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "y0": 1594,
+    "y1": 1642,
+    "quad": [
+     [
+      121,
+      856.9
+     ],
+     [
+      527.8,
+      844.9
+     ],
+     [
+      528.5,
+      868.9
+     ],
+     [
+      121.7,
+      880.9
+     ]
+    ]
+   },
+   {
+    "index": 33,
+    "y0": 1643,
+    "y1": 1690,
+    "quad": [
+     [
+      121.7,
+      881.4
+     ],
+     [
+      528.5,
+      869.3
+     ],
+     [
+      529.2,
+      892.8
+     ],
+     [
+      122.4,
+      904.9
+     ]
+    ]
+   },
+   {
+    "index": 34,
+    "y0": 1691,
+    "y1": 1731,
+    "quad": [
+     [
+      122.4,
+      905.4
+     ],
+     [
+      529.2,
+      893.3
+     ],
+     [
+      529.8,
+      913.3
+     ],
+     [
+      123,
+      925.4
+     ]
+    ]
+   },
+   {
+    "index": 35,
+    "y0": 1731,
+    "y1": 1775,
+    "quad": [
+     [
+      123,
+      925.4
+     ],
+     [
+      529.8,
+      913.3
+     ],
+     [
+      530.5,
+      935.3
+     ],
+     [
+      123.7,
+      947.4
+     ]
+    ]
+   },
+   {
+    "index": 36,
+    "y0": 1782,
+    "y1": 1841,
+    "quad": [
+     [
+      123.8,
+      950.9
+     ],
+     [
+      530.6,
+      938.8
+     ],
+     [
+      531.5,
+      968.3
+     ],
+     [
+      124.6,
+      980.4
+     ]
+    ]
+   },
+   {
+    "index": 37,
+    "y0": 1842,
+    "y1": 1890,
+    "quad": [
+     [
+      124.7,
+      980.9
+     ],
+     [
+      531.5,
+      968.8
+     ],
+     [
+      532.2,
+      992.8
+     ],
+     [
+      125.4,
+      1004.9
+     ]
+    ]
+   },
+   {
+    "index": 38,
+    "y0": 1891,
+    "y1": 1944,
+    "quad": [
+     [
+      125.4,
+      1005.4
+     ],
+     [
+      532.2,
+      993.3
+     ],
+     [
+      533,
+      1019.8
+     ],
+     [
+      126.2,
+      1031.9
+     ]
+    ]
+   },
+   {
+    "index": 39,
+    "y0": 1977,
+    "y1": 2027,
+    "quad": [
+     [
+      126.7,
+      1048.4
+     ],
+     [
+      533.5,
+      1036.3
+     ],
+     [
+      534.2,
+      1061.3
+     ],
+     [
+      127.4,
+      1073.3
+     ]
+    ]
+   },
+   {
+    "index": 40,
+    "y0": 2028,
+    "y1": 2075,
+    "quad": [
+     [
+      127.4,
+      1073.8
+     ],
+     [
+      534.2,
+      1061.8
+     ],
+     [
+      534.9,
+      1085.3
+     ],
+     [
+      128.1,
+      1097.3
+     ]
+    ]
+   },
+   {
+    "index": 41,
+    "y0": 2076,
+    "y1": 2128,
+    "quad": [
+     [
+      128.1,
+      1097.8
+     ],
+     [
+      534.9,
+      1085.8
+     ],
+     [
+      535.7,
+      1111.7
+     ],
+     [
+      128.9,
+      1123.8
+     ]
+    ]
+   },
+   {
+    "index": 42,
+    "y0": 2134,
+    "y1": 2164,
+    "quad": [
+     [
+      129,
+      1126.8
+     ],
+     [
+      535.8,
+      1114.7
+     ],
+     [
+      536.3,
+      1129.7
+     ],
+     [
+      129.4,
+      1141.8
+     ]
+    ]
+   },
+   {
+    "index": 43,
+    "y0": 2165,
+    "y1": 2206,
+    "quad": [
+     [
+      129.4,
+      1142.3
+     ],
+     [
+      536.3,
+      1130.2
+     ],
+     [
+      536.9,
+      1150.7
+     ],
+     [
+      130.1,
+      1162.8
+     ]
+    ]
+   },
+   {
+    "index": 44,
+    "y0": 2206,
+    "y1": 2247,
+    "quad": [
+     [
+      130.1,
+      1162.8
+     ],
+     [
+      536.9,
+      1150.7
+     ],
+     [
+      537.5,
+      1171.2
+     ],
+     [
+      130.7,
+      1183.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 630,
+   "height": 1292
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A case of six 2 L natural waters counts as six bottles toward the water need.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Four 2 L drinking waters count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 2 L mineral waters count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two packs of size M baby diapers count toward the diapers need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "diapers",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three packs of baby pants in size M are size M diapers for this drive.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A trial pack of size M paper diapers counts as one pack toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 20-pack labeled 単3 is twenty AA batteries toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 8,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 10-packs labeled 単3 are twenty AA batteries toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 9,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Ten loose 単3 cells are ten AA batteries toward the batteries need.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 10,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Canned beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 11,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A gift card is never funded by this drive.",
+    "confidence": 0.99
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A case of six 2 L natural waters counts as six bottles toward the water need.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Four 2 L drinking waters count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 2 L mineral waters count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two packs of size M diapers count toward the diapers need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "diapers",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three packs of baby pants in size M are size M diapers for this drive.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A trial pack of size M diapers counts as one pack toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 20-pack labeled 単3 is twenty AA batteries toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 8,
+    "needId": "batteries",
+    "needQty": 20,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 10-packs labeled 単3 are twenty AA batteries toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 9,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Ten loose 単3 cells are ten AA batteries toward the batteries need.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 10,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Canned beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 11,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A gift card is never funded by this drive.",
+    "confidence": 0.99
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 2065,
+   "tokensOut": 1599,
+   "usdCeiling": 0.044888,
+   "usdActual": 0.009377
+  }
+ },
+ "latencyMs": {
+  "read": 23541,
+  "classify": 10723
+ },
+ "errors": [],
+ "trace": null
+}

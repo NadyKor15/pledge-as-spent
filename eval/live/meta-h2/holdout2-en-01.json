@@ -1,0 +1,778 @@
+{
+ "receiptId": "holdout2-en-01",
+ "set": "holdout2",
+ "imageSha256": "6cd307e2354a31a6ac94991d3059928b01349a58fe8e8a9e52296420f735063f",
+ "reading": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-09T16:22:00",
+  "receiptNumber": "5540",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water gallon",
+    "qty": 2,
+    "unitPriceMinor": 159,
+    "amountMinor": 318,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ENERGIZER AA 8PK",
+    "translationEn": "AA batteries 8-pack",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Baby diapers 48ct",
+    "qty": null,
+    "unitPriceMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 4515,
+  "taxMinor": 304,
+  "taxIncluded": false,
+  "totalMinor": 4819,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1308",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "5624069266",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "23dc27ce5784c20aba667aec274341bee7bc1c1b05358b7951fe83631c9124de",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3680,
+   "tokensOut": 3479,
+   "usdCeiling": 0.096661,
+   "usdActual": 0.019386
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1451,
+   "tokensOut": 975,
+   "usdCeiling": 0.042314,
+   "usdActual": 0.005958
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "MAPLE STREET MARKET",
+   "merchantAddress": "41 Maple Street Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-09T16:22:00",
+   "receiptNumber": "5540",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "SPRING WATER GALLON",
+     "translationEn": "spring water",
+     "qty": 2,
+     "unitPriceMinor": 159,
+     "amountMinor": 318,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "ENERGIZER AA 8PK",
+     "translationEn": "batteries",
+     "qty": 2,
+     "unitPriceMinor": 999,
+     "amountMinor": 1998,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "COMFY BABY DPR S3 48CT",
+     "translationEn": "baby diapers",
+     "qty": 1,
+     "unitPriceMinor": 2199,
+     "amountMinor": 2199,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 4515,
+   "taxMinor": 304,
+   "taxIncluded": false,
+   "totalMinor": 4819,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7,
+    8
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ]
+  ],
+  "bandTexts": {
+   "1": "MAPLE STREET MARKET",
+   "2": "41 Maple Street",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0071",
+   "5": "11/09/2026 04:22 PM REG 04",
+   "6": "TRANS #5540",
+   "7": "SPRING WATER GALLON $3.18 F",
+   "8": "2 @ $1.59",
+   "9": "ENERGIZER AA 8PK $19.98 T",
+   "10": "2 @ $9.99",
+   "11": "COMFY BABY DPR S3 48CT $21.99 T",
+   "12": "SUBTOTAL $45.15",
+   "13": "SALES TAX 7.25% $3.04",
+   "14": "TOTAL $48.19",
+   "15": "VISA ************1308",
+   "16": "APPROVED $48.19",
+   "17": "...........................................................................",
+   "18": "REWARDS MEMBER",
+   "19": "JORDAN WELLS",
+   "20": "MEMBER # 5624069266",
+   "21": "T = TAXABLE F = NON-TAXABLE",
+   "22": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 100,
+    "y1": 154,
+    "quad": [
+     [
+      121.6,
+      101.9
+     ],
+     [
+      524.2,
+      119.4
+     ],
+     [
+      523.1,
+      146.4
+     ],
+     [
+      120.5,
+      128.8
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 167,
+    "y1": 215,
+    "quad": [
+     [
+      120.2,
+      135.3
+     ],
+     [
+      522.8,
+      152.9
+     ],
+     [
+      521.7,
+      176.9
+     ],
+     [
+      119.1,
+      159.3
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 215,
+    "y1": 263,
+    "quad": [
+     [
+      119.1,
+      159.3
+     ],
+     [
+      521.7,
+      176.9
+     ],
+     [
+      520.7,
+      200.9
+     ],
+     [
+      118.1,
+      183.3
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 264,
+    "y1": 310,
+    "quad": [
+     [
+      118.1,
+      183.8
+     ],
+     [
+      520.7,
+      201.4
+     ],
+     [
+      519.7,
+      224.3
+     ],
+     [
+      117,
+      206.8
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 354,
+    "y1": 400,
+    "quad": [
+     [
+      116.1,
+      228.7
+     ],
+     [
+      518.7,
+      246.3
+     ],
+     [
+      517.7,
+      269.3
+     ],
+     [
+      115.1,
+      251.7
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 404,
+    "y1": 447,
+    "quad": [
+     [
+      115,
+      253.7
+     ],
+     [
+      517.6,
+      271.3
+     ],
+     [
+      516.7,
+      292.8
+     ],
+     [
+      114.1,
+      275.2
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 492,
+    "y1": 535,
+    "quad": [
+     [
+      113.1,
+      297.7
+     ],
+     [
+      515.7,
+      315.3
+     ],
+     [
+      514.8,
+      336.7
+     ],
+     [
+      112.1,
+      319.2
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 539,
+    "y1": 580,
+    "quad": [
+     [
+      112.1,
+      321.2
+     ],
+     [
+      514.7,
+      338.7
+     ],
+     [
+      513.8,
+      359.2
+     ],
+     [
+      111.2,
+      341.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 583,
+    "y1": 626,
+    "quad": [
+     [
+      111.1,
+      343.1
+     ],
+     [
+      513.7,
+      360.7
+     ],
+     [
+      512.8,
+      382.2
+     ],
+     [
+      110.2,
+      364.6
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 629,
+    "y1": 670,
+    "quad": [
+     [
+      110.1,
+      366.1
+     ],
+     [
+      512.7,
+      383.7
+     ],
+     [
+      511.8,
+      404.2
+     ],
+     [
+      109.2,
+      386.6
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 672,
+    "y1": 718,
+    "quad": [
+     [
+      109.2,
+      387.6
+     ],
+     [
+      511.8,
+      405.2
+     ],
+     [
+      510.8,
+      428.1
+     ],
+     [
+      108.1,
+      410.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 758,
+    "y1": 805,
+    "quad": [
+     [
+      107.3,
+      430.5
+     ],
+     [
+      509.9,
+      448.1
+     ],
+     [
+      508.9,
+      471.6
+     ],
+     [
+      106.3,
+      454
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 806,
+    "y1": 854,
+    "quad": [
+     [
+      106.2,
+      454.5
+     ],
+     [
+      508.8,
+      472.1
+     ],
+     [
+      507.8,
+      496.1
+     ],
+     [
+      105.2,
+      478.5
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 863,
+    "y1": 916,
+    "quad": [
+     [
+      105,
+      483
+     ],
+     [
+      507.6,
+      500.6
+     ],
+     [
+      506.4,
+      527.1
+     ],
+     [
+      103.8,
+      509.5
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 916,
+    "y1": 963,
+    "quad": [
+     [
+      103.8,
+      509.5
+     ],
+     [
+      506.4,
+      527.1
+     ],
+     [
+      505.4,
+      550.5
+     ],
+     [
+      102.8,
+      533
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 963,
+    "y1": 1011,
+    "quad": [
+     [
+      102.8,
+      533
+     ],
+     [
+      505.4,
+      550.5
+     ],
+     [
+      504.4,
+      574.5
+     ],
+     [
+      101.8,
+      556.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 1016,
+    "y1": 1046,
+    "quad": [
+     [
+      101.7,
+      559.4
+     ],
+     [
+      504.3,
+      577
+     ],
+     [
+      503.6,
+      592
+     ],
+     [
+      101,
+      574.4
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1048,
+    "y1": 1091,
+    "quad": [
+     [
+      101,
+      575.4
+     ],
+     [
+      503.6,
+      593
+     ],
+     [
+      502.6,
+      614.5
+     ],
+     [
+      100,
+      596.9
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1094,
+    "y1": 1138,
+    "quad": [
+     [
+      99.9,
+      598.4
+     ],
+     [
+      502.6,
+      616
+     ],
+     [
+      501.6,
+      637.9
+     ],
+     [
+      99,
+      620.4
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1141,
+    "y1": 1189,
+    "quad": [
+     [
+      98.9,
+      621.9
+     ],
+     [
+      501.5,
+      639.4
+     ],
+     [
+      500.5,
+      663.4
+     ],
+     [
+      97.9,
+      645.8
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1189,
+    "y1": 1226,
+    "quad": [
+     [
+      97.9,
+      645.8
+     ],
+     [
+      500.5,
+      663.4
+     ],
+     [
+      499.7,
+      681.9
+     ],
+     [
+      97.1,
+      664.3
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1227,
+    "y1": 1266,
+    "quad": [
+     [
+      97,
+      664.8
+     ],
+     [
+      499.7,
+      682.4
+     ],
+     [
+      498.8,
+      701.9
+     ],
+     [
+      96.2,
+      684.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 617,
+   "height": 821
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1451,
+   "tokensOut": 975,
+   "usdCeiling": 0.042314,
+   "usdActual": 0.005958
+  }
+ },
+ "latencyMs": {
+  "read": 18881,
+  "classify": 6812
+ },
+ "errors": [],
+ "trace": null
+}

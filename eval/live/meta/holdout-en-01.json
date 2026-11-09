@@ -1,0 +1,760 @@
+{
+ "receiptId": "holdout-en-01",
+ "set": "holdout",
+ "imageSha256": "1d7167761e7cdcbf79b16568a5bd0b4deb8ba7d07d88b296afae6e21443b18ad",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street Brindlewood, Marlow Co.",
+  "country": null,
+  "currency": "USD",
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Diapers",
+    "qty": 2,
+    "unitPriceMinor": 1899,
+    "amountMinor": 3798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gal",
+    "qty": 4,
+    "unitPriceMinor": 139,
+    "amountMinor": 556,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PREPAID VISA $50",
+    "translationEn": "Prepaid Visa card",
+    "qty": null,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PEANUT BUTTER 16OZ",
+    "translationEn": "Peanut butter",
+    "qty": null,
+    "unitPriceMinor": 289,
+    "amountMinor": 289,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 9643,
+  "taxMinor": 275,
+  "taxIncluded": false,
+  "totalMinor": 9918,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 diapers in packs count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "1-gallon distilled water jugs count toward the water need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A prepaid Visa card is a gift card, which this drive never funds.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Peanut butter is food and is not one of the needs.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "ee8b4396e46e8ada289518e1b0d30b85ac1bdafb7acc57d8dd7f5f2421085196",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3468,
+   "tokensOut": 3013,
+   "usdCeiling": 0.095975,
+   "usdActual": 0.017141
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1533,
+   "tokensOut": 1240,
+   "usdCeiling": 0.042666,
+   "usdActual": 0.007186
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "BRINDLEWOOD GROCERY",
+   "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-03T12:22:00",
+   "receiptNumber": "2965",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "TINY STEPS DIAPER SZ3 52CT",
+     "translationEn": "diapers;8",
+     "qty": 2,
+     "unitPriceMinor": 1899,
+     "amountMinor": 3798,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "DISTILLED WTR 1GAL",
+     "translationEn": "distilled water;10",
+     "qty": 4,
+     "unitPriceMinor": 139,
+     "amountMinor": 556,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "PREPAID VISA $50",
+     "translationEn": "prepaid Visa card",
+     "qty": 1,
+     "unitPriceMinor": 5000,
+     "amountMinor": 5000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "PEANUT BUTTER 16OZ",
+     "translationEn": "peanut butter",
+     "qty": 1,
+     "unitPriceMinor": 289,
+     "amountMinor": 289,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 9643,
+   "taxMinor": 275,
+   "taxIncluded": false,
+   "totalMinor": 9918,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7
+   ],
+   [
+    9
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ]
+  ],
+  "bandTexts": {
+   "1": "BRINDLEWOOD GROCERY",
+   "2": "210 Mill Street",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0042",
+   "5": "11/03/2026 12:22 PM              REG 06",
+   "6": "TRANS #2965",
+   "7": "TINY STEPS DIAPER SZ3 52CT         $37.98 T",
+   "8": "2 @ $18.99",
+   "9": "DISTILLED WTR 1GAL                 $5.56 F",
+   "10": "4 @ $1.39",
+   "11": "PREPAID VISA $50                  $50.00 F",
+   "12": "PEANUT BUTTER 16OZ                $2.89 F",
+   "13": "----------------------------------------------------------",
+   "14": "SUBTOTAL                          $96.43",
+   "15": "SALES TAX 7.25%                    $2.75",
+   "16": "TOTAL                            $99.18",
+   "17": "CASH                             $100.00",
+   "18": "CHANGE                             $0.82",
+   "19": "T = TAXABLE F = NON-TAXABLE",
+   "20": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 99,
+    "y1": 154,
+    "quad": [
+     [
+      129.4,
+      103
+     ],
+     [
+      530.7,
+      127.5
+     ],
+     [
+      529,
+      155
+     ],
+     [
+      127.8,
+      130.5
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 165,
+    "y1": 210,
+    "quad": [
+     [
+      127.4,
+      135.9
+     ],
+     [
+      528.7,
+      160.5
+     ],
+     [
+      527.3,
+      182.9
+     ],
+     [
+      126,
+      158.4
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 214,
+    "y1": 262,
+    "quad": [
+     [
+      125.9,
+      160.4
+     ],
+     [
+      527.2,
+      184.9
+     ],
+     [
+      525.7,
+      208.9
+     ],
+     [
+      124.5,
+      184.4
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 263,
+    "y1": 309,
+    "quad": [
+     [
+      124.4,
+      184.9
+     ],
+     [
+      525.7,
+      209.4
+     ],
+     [
+      524.3,
+      232.4
+     ],
+     [
+      123,
+      207.8
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 352,
+    "y1": 399,
+    "quad": [
+     [
+      121.7,
+      229.3
+     ],
+     [
+      523,
+      253.8
+     ],
+     [
+      521.5,
+      277.3
+     ],
+     [
+      120.3,
+      252.7
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 403,
+    "y1": 445,
+    "quad": [
+     [
+      120.2,
+      254.7
+     ],
+     [
+      521.4,
+      279.3
+     ],
+     [
+      520.1,
+      300.2
+     ],
+     [
+      118.9,
+      275.7
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 490,
+    "y1": 533,
+    "quad": [
+     [
+      117.5,
+      298.1
+     ],
+     [
+      518.8,
+      322.7
+     ],
+     [
+      517.4,
+      344.1
+     ],
+     [
+      116.2,
+      319.6
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 537,
+    "y1": 578,
+    "quad": [
+     [
+      116.1,
+      321.6
+     ],
+     [
+      517.3,
+      346.1
+     ],
+     [
+      516.1,
+      366.6
+     ],
+     [
+      114.8,
+      342.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 580,
+    "y1": 625,
+    "quad": [
+     [
+      114.8,
+      343.1
+     ],
+     [
+      516,
+      367.6
+     ],
+     [
+      514.6,
+      390.1
+     ],
+     [
+      113.4,
+      365.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 626,
+    "y1": 667,
+    "quad": [
+     [
+      113.4,
+      366
+     ],
+     [
+      514.6,
+      390.6
+     ],
+     [
+      513.3,
+      411
+     ],
+     [
+      112.1,
+      386.5
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 669,
+    "y1": 715,
+    "quad": [
+     [
+      112,
+      387.5
+     ],
+     [
+      513.3,
+      412
+     ],
+     [
+      511.9,
+      435
+     ],
+     [
+      110.6,
+      410.4
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 716,
+    "y1": 764,
+    "quad": [
+     [
+      110.6,
+      410.9
+     ],
+     [
+      511.9,
+      435.5
+     ],
+     [
+      510.4,
+      459.4
+     ],
+     [
+      109.1,
+      434.9
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 770,
+    "y1": 799,
+    "quad": [
+     [
+      109,
+      437.9
+     ],
+     [
+      510.2,
+      462.4
+     ],
+     [
+      509.3,
+      476.9
+     ],
+     [
+      108.1,
+      452.4
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 802,
+    "y1": 850,
+    "quad": [
+     [
+      108,
+      453.9
+     ],
+     [
+      509.2,
+      478.4
+     ],
+     [
+      507.8,
+      502.3
+     ],
+     [
+      106.5,
+      477.8
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 850,
+    "y1": 899,
+    "quad": [
+     [
+      106.5,
+      477.8
+     ],
+     [
+      507.8,
+      502.3
+     ],
+     [
+      506.3,
+      526.8
+     ],
+     [
+      105,
+      502.3
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 906,
+    "y1": 959,
+    "quad": [
+     [
+      104.8,
+      505.8
+     ],
+     [
+      506.1,
+      530.3
+     ],
+     [
+      504.4,
+      556.7
+     ],
+     [
+      103.2,
+      532.2
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 959,
+    "y1": 1007,
+    "quad": [
+     [
+      103.2,
+      532.2
+     ],
+     [
+      504.4,
+      556.7
+     ],
+     [
+      503,
+      580.7
+     ],
+     [
+      101.7,
+      556.2
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1007,
+    "y1": 1053,
+    "quad": [
+     [
+      101.7,
+      556.2
+     ],
+     [
+      503,
+      580.7
+     ],
+     [
+      501.6,
+      603.7
+     ],
+     [
+      100.3,
+      579.1
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1054,
+    "y1": 1091,
+    "quad": [
+     [
+      100.3,
+      579.6
+     ],
+     [
+      501.5,
+      604.2
+     ],
+     [
+      500.4,
+      622.6
+     ],
+     [
+      99.2,
+      598.1
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1092,
+    "y1": 1131,
+    "quad": [
+     [
+      99.1,
+      598.6
+     ],
+     [
+      500.4,
+      623.1
+     ],
+     [
+      499.2,
+      642.6
+     ],
+     [
+      97.9,
+      618
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 624,
+   "height": 760
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 diapers in packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "1-gallon distilled water jugs count toward the water need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid Visa card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Peanut butter is food and is not one of the needs.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 diapers in packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "1-gallon distilled water jugs count toward the water need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid Visa card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Peanut butter is food and is not one of the needs.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1533,
+   "tokensOut": 1240,
+   "usdCeiling": 0.042666,
+   "usdActual": 0.007186
+  }
+ },
+ "latencyMs": {
+  "read": 11311,
+  "classify": 7504
+ },
+ "errors": [],
+ "trace": null
+}

@@ -1,0 +1,26 @@
+{
+ "receiptId": "adv-unreadable-tr",
+ "set": "adversarial",
+ "imageSha256": "798cd879017d6474026a58f307a0351b4d928aa00610e517bde8ea571b7c085c",
+ "reading": null,
+ "classifications": null,
+ "classifiedFor": null,
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 2110,
+   "tokensOut": 644,
+   "usdCeiling": 0.095985,
+   "usdActual": 0.005374
+  }
+ ],
+ "latencyMs": {
+  "read": 3912,
+  "classify": null
+ },
+ "errors": [
+  "read: read A (whole photo): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency\n✖ Invalid input: expected number, received null\n  → at totalMinor",
+  "raw: \"RECEIPT: readability=unreadable\""
+ ],
+ "trace": null
+}

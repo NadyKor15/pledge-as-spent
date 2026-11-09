@@ -1,0 +1,1069 @@
+{
+ "reader": "meta-replay",
+ "set": "holdout",
+ "receipts": 20,
+ "scoredReceipts": 20,
+ "errors": [],
+ "lines": {
+  "precision": 1,
+  "recall": 1,
+  "f1": 1,
+  "tp": 103,
+  "fp": 0,
+  "fn": 0
+ },
+ "lineAmountExact": {
+  "num": 103,
+  "den": 103,
+  "rate": 1
+ },
+ "totalExact": {
+  "num": 20,
+  "den": 20,
+  "rate": 1
+ },
+ "dateExact": {
+  "num": 20,
+  "den": 20,
+  "rate": 1
+ },
+ "dateTimeExact": {
+  "num": 20,
+  "den": 20,
+  "rate": 1
+ },
+ "merchant": {
+  "meanSimilarity": 0.9583333333333334,
+  "atLeast80": {
+   "num": 18,
+   "den": 20,
+   "rate": 0.9
+  }
+ },
+ "lineClass": {
+  "num": 91,
+  "den": 98,
+  "rate": 0.9285714285714286
+ },
+ "needQty": {
+  "num": 53,
+  "den": 60,
+  "rate": 0.8833333333333333
+ },
+ "ruleLines": {
+  "num": 10,
+  "den": 10,
+  "rate": 1,
+  "fundedByMistake": 0
+ },
+ "money": {
+  "productLines": 98,
+  "held": 6,
+  "wrongEligible": 0,
+  "wrongCharges": 0,
+  "autoFunded": 14,
+  "heldRate": 0.061224489795918366,
+  "coordinatorReceipts": 6
+ },
+ "pii": {
+  "found": {
+   "num": 36,
+   "den": 42,
+   "rate": 0.8571428571428571
+  },
+  "covered": {
+   "num": 4,
+   "den": 42,
+   "rate": 0.09523809523809523
+  },
+  "meanIou": 0.11209126633333336
+ },
+ "flags": {
+  "duplicate": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 20,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "pre_disaster": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 20,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "out_of_zone": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 20,
+   "recall": null,
+   "falseAlarmRate": 0
+  },
+  "unreadable": {
+   "tp": 0,
+   "fn": 0,
+   "fp": 0,
+   "tn": 20,
+   "recall": null,
+   "falseAlarmRate": 0
+  }
+ },
+ "otherFlagsRaised": {
+  "total_mismatch": 4,
+  "low_confidence": 4
+ },
+ "byLanguage": {
+  "en": {
+   "precision": 1,
+   "recall": 1,
+   "f1": 1,
+   "totalExact": {
+    "num": 4,
+    "den": 4,
+    "rate": 1
+   }
+  },
+  "es": {
+   "precision": 1,
+   "recall": 1,
+   "f1": 1,
+   "totalExact": {
+    "num": 4,
+    "den": 4,
+    "rate": 1
+   }
+  },
+  "ja": {
+   "precision": 1,
+   "recall": 1,
+   "f1": 1,
+   "totalExact": {
+    "num": 8,
+    "den": 8,
+    "rate": 1
+   }
+  },
+  "tr": {
+   "precision": 1,
+   "recall": 1,
+   "f1": 1,
+   "totalExact": {
+    "num": 4,
+    "den": 4,
+    "rate": 1
+   }
+  }
+ },
+ "latency": {
+  "readerMedianMs": 0,
+  "receiptMedianMs": 0
+ },
+ "spend": {
+  "ledgerDeltaUsd": null,
+  "calls": 40,
+  "tokensIn": 0,
+  "tokensOut": 0,
+  "usdActual": 0,
+  "usdCeiling": 0
+ },
+ "perReceipt": [
+  {
+   "id": "holdout-en-01",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 4
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-en-02",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-en-03",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-en-04",
+   "locale": "en",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 4
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": [
+     0,
+     0,
+     0
+    ]
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-es-01",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-es-02",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "low_confidence"
+   ],
+   "score": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 5
+    },
+    "needQty": {
+     "num": 3,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": [
+    {
+     "lineNo": 2,
+     "why": "The two readings disagree on this line: the first says 6 for batteries, the second 1 for batteries."
+    }
+   ]
+  },
+  {
+   "id": "holdout-es-03",
+   "locale": "es",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 6
+    },
+    "needQty": {
+     "num": 2,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-es-04",
+   "locale": "es",
+   "readability": "good",
+   "flags": [
+    "low_confidence"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 4
+    },
+    "needQty": {
+     "num": 1,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": [
+     0.037441996,
+     0,
+     0.007461393
+    ]
+   },
+   "held": [
+    {
+     "lineNo": 4,
+     "why": "The two readings disagree on this line: the first says unsure, the second unsure."
+    }
+   ]
+  },
+  {
+   "id": "holdout-ja-01",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 3,
+     "den": 3
+    },
+    "piiIou": [
+     0.640866459,
+     0.235924191
+    ]
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-02",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 3,
+     "den": 3
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.5833333333333333,
+    "lineClass": {
+     "num": 3,
+     "den": 3
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 1,
+     "den": 2
+    },
+    "piiIou": [
+     0.087127358
+    ]
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-03",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 4,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-04",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 5,
+     "den": 5
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 3,
+     "den": 3
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-05",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 7,
+     "den": 7
+    },
+    "needQty": {
+     "num": 4,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-06",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [
+    "low_confidence"
+   ],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 0.5833333333333333,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 4,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-07",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 7,
+     "den": 7
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 7,
+     "den": 7
+    },
+    "needQty": {
+     "num": 4,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-ja-08",
+   "locale": "ja",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 6,
+     "den": 6
+    },
+    "needQty": {
+     "num": 4,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 1,
+     "den": 1
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 1
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-tr-01",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch"
+   ],
+   "score": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 4,
+     "den": 4
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 4,
+     "den": 4
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 3,
+     "den": 3
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 3
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-tr-02",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 2,
+     "den": 2
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 2
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-tr-03",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 5,
+     "den": 5
+    },
+    "needQty": {
+     "num": 2,
+     "den": 2
+    },
+    "ruleLines": {
+     "num": 1,
+     "den": 1
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 0,
+     "den": 0
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 0
+    },
+    "piiIou": []
+   },
+   "held": []
+  },
+  {
+   "id": "holdout-tr-04",
+   "locale": "tr",
+   "readability": "good",
+   "flags": [
+    "total_mismatch",
+    "low_confidence"
+   ],
+   "score": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "lineAmountExact": {
+     "num": 6,
+     "den": 6
+    },
+    "totalExact": true,
+    "dateExact": true,
+    "dateTimeExact": true,
+    "merchantSimilarity": 1,
+    "lineClass": {
+     "num": 2,
+     "den": 6
+    },
+    "needQty": {
+     "num": 0,
+     "den": 4
+    },
+    "ruleLines": {
+     "num": 0,
+     "den": 0
+    },
+    "ruleLinesFunded": 0,
+    "pii": {
+     "num": 2,
+     "den": 2
+    },
+    "piiCovered": {
+     "num": 0,
+     "den": 2
+    },
+    "piiIou": []
+   },
+   "held": [
+    {
+     "lineNo": 2,
+     "why": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line."
+    },
+    {
+     "lineNo": 3,
+     "why": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line."
+    },
+    {
+     "lineNo": 4,
+     "why": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line."
+    },
+    {
+     "lineNo": 6,
+     "why": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line."
+    }
+   ]
+  }
+ ]
+}

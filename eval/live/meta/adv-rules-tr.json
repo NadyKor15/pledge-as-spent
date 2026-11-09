@@ -1,0 +1,1039 @@
+{
+ "receiptId": "adv-rules-tr",
+ "set": "adversarial",
+ "imageSha256": "2398b12d43165ff0fba883c427371c196ea46b9f9696ad7aef092da84f5f39b2",
+ "reading": {
+  "merchantName": "GÖLPINAR TOPTAN GIDA",
+  "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T08:14:00",
+  "receiptNumber": "0723",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MİNİ BEBEK BEZİ 4 NO",
+    "translationEn": "Mini baby diapers size 4",
+    "qty": 2,
+    "unitPriceMinor": 28990,
+    "amountMinor": 57980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "RAKI 70 CL",
+    "translationEn": "Raki 70 cl",
+    "qty": null,
+    "unitPriceMinor": 68900,
+    "amountMinor": 68900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+    "translationEn": "Baby diapers size 4 jumbo 42 pcs",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "YILDIZ SİGARA MAVİ",
+    "translationEn": "Star cigarettes blue",
+    "qty": null,
+    "unitPriceMinor": 9500,
+    "amountMinor": 9500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "HEDİYE KARTI 500 TL",
+    "translationEn": "Gift card 500 TL",
+    "qty": null,
+    "unitPriceMinor": 50000,
+    "amountMinor": 50000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AA PİL 10'LU PAKET",
+    "translationEn": "AA batteries 10-pack",
+    "qty": null,
+    "unitPriceMinor": 16990,
+    "amountMinor": 16990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "BATTANİYE TEK KİŞİLİK",
+    "translationEn": "Single blanket",
+    "qty": 2,
+    "unitPriceMinor": 44900,
+    "amountMinor": 89800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 362970,
+  "taxMinor": 52162,
+  "taxIncluded": true,
+  "totalMinor": 362970,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "0 555 000 00 57",
+    "bbox": null
+   },
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 2115",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Raki is a spirit alcohol, which this drive does not fund.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A gift card is never funded by this drive.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 10-pack of AA batteries brings 10 pieces toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A single blanket counts toward the blankets need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "27ae29cb6b1558e3b2fb9d48298ad6c6a35c94299e53bce6403b793b010f7382",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3875,
+   "tokensOut": 4535,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.024118
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1801,
+   "tokensOut": 1024,
+   "usdCeiling": 0.04382,
+   "usdActual": 0.006603
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "GÖLPINAR TOPTAN GIDA",
+   "merchantAddress": "Sanayi Sk. No:7 Yıldızova",
+   "country": "TR",
+   "currency": "TRY",
+   "purchasedAt": "2026-11-06T08:14:00",
+   "receiptNumber": "0723",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "MİNİ BEBEK BEZİ 4 NO",
+     "translationEn": "mini baby diapers",
+     "qty": 2,
+     "unitPriceMinor": 28990,
+     "amountMinor": 57980,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "RAKI 70 CL",
+     "translationEn": "raki 70cl",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 68900,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "SEVİMLİ BEBEK BEZİ NO:4 JUMBO 42'Lİ",
+     "translationEn": "baby diapers",
+     "qty": 2,
+     "unitPriceMinor": 34900,
+     "amountMinor": 69800,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "YILDIZ SİGARA MAVİ",
+     "translationEn": "cigarettes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 9500,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "HEDİYE KARTI 500 TL",
+     "translationEn": "gift card",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 50000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "AA PİL 10'LU PAKET",
+     "translationEn": "AA batteries 10-pack",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 16990,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 7,
+     "rawText": "BATTANİYE TEK KİŞİLİK",
+     "translationEn": "single blanket",
+     "qty": 2,
+     "unitPriceMinor": 44900,
+     "amountMinor": 89800,
+     "taxRateBp": 2000
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 52162,
+   "taxIncluded": true,
+   "totalMinor": 362970,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12,
+    13,
+    14
+   ],
+   [
+    15
+   ],
+   [
+    16
+   ],
+   [
+    17
+   ],
+   [
+    18,
+    19
+   ]
+  ],
+  "bandTexts": {
+   "1": "GÖLPINAR TOPTAN GIDA",
+   "2": "Sanayi Sk. No:7",
+   "3": "Yıldızova",
+   "4": "TEL 0 555 000 00 57",
+   "5": "VKN: 0000000057",
+   "6": "------------------------------------------------",
+   "7": "TARİH: 06.11.2026 08:14      FİŞ NO: 0723",
+   "8": "------------------------------------------------------",
+   "9": "MİNİ BEBEK BEZİ 4 NO              %20 *579,80",
+   "10": "2 x 289,90",
+   "11": "RAKI 70 CL                        %20 *689,00",
+   "12": "SEVİMLİ BEBEK BEZİ                %20 *698,00",
+   "13": "NO:4 JUMBO 42'Lİ",
+   "14": "2 x 349,00",
+   "15": "YILDIZ SİGARA MAVİ                %20 *95,00",
+   "16": "HEDİYE KARTI 500 TL                  *500,00",
+   "17": "AA PİL 10'LU PAKET                %20 *169,90",
+   "18": "BATTANİYE TEK KİŞİLİK             %20 *898,00",
+   "19": "2 x 449,00",
+   "20": "KDV %20  MATRAH 2.608,08              *521,62",
+   "21": "TOPKDV                             *521,62",
+   "22": "TOPLAM                          *3.629,70",
+   "23": "KREDİ KARTI                     *3.629,70",
+   "24": "**** **** **** 2115",
+   "25": "TEŞEKKÜR EDERİZ"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 95,
+    "y1": 159,
+    "quad": [
+     [
+      112.7,
+      98.8
+     ],
+     [
+      517,
+      109.4
+     ],
+     [
+      516.2,
+      141.4
+     ],
+     [
+      111.8,
+      130.8
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 170,
+    "y1": 218,
+    "quad": [
+     [
+      111.7,
+      136.3
+     ],
+     [
+      516,
+      146.9
+     ],
+     [
+      515.4,
+      170.9
+     ],
+     [
+      111,
+      160.3
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 219,
+    "y1": 264,
+    "quad": [
+     [
+      111,
+      160.8
+     ],
+     [
+      515.4,
+      171.4
+     ],
+     [
+      514.8,
+      193.9
+     ],
+     [
+      110.4,
+      183.3
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 267,
+    "y1": 314,
+    "quad": [
+     [
+      110.4,
+      184.8
+     ],
+     [
+      514.8,
+      195.4
+     ],
+     [
+      514.2,
+      218.9
+     ],
+     [
+      109.8,
+      208.3
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 318,
+    "y1": 362,
+    "quad": [
+     [
+      109.7,
+      210.3
+     ],
+     [
+      514.1,
+      220.9
+     ],
+     [
+      513.5,
+      242.8
+     ],
+     [
+      109.2,
+      232.3
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 370,
+    "y1": 401,
+    "quad": [
+     [
+      109.1,
+      236.3
+     ],
+     [
+      513.4,
+      246.8
+     ],
+     [
+      513,
+      262.3
+     ],
+     [
+      108.7,
+      251.8
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 401,
+    "y1": 458,
+    "quad": [
+     [
+      108.7,
+      251.8
+     ],
+     [
+      513,
+      262.3
+     ],
+     [
+      512.3,
+      290.8
+     ],
+     [
+      107.9,
+      280.2
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 461,
+    "y1": 490,
+    "quad": [
+     [
+      107.9,
+      281.7
+     ],
+     [
+      512.2,
+      292.3
+     ],
+     [
+      511.8,
+      306.8
+     ],
+     [
+      107.5,
+      296.2
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 490,
+    "y1": 544,
+    "quad": [
+     [
+      107.5,
+      296.2
+     ],
+     [
+      511.8,
+      306.8
+     ],
+     [
+      511.1,
+      333.8
+     ],
+     [
+      106.8,
+      323.2
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 544,
+    "y1": 583,
+    "quad": [
+     [
+      106.8,
+      323.2
+     ],
+     [
+      511.1,
+      333.8
+     ],
+     [
+      510.6,
+      353.3
+     ],
+     [
+      106.3,
+      342.7
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 586,
+    "y1": 633,
+    "quad": [
+     [
+      106.2,
+      344.2
+     ],
+     [
+      510.6,
+      354.8
+     ],
+     [
+      510,
+      378.3
+     ],
+     [
+      105.6,
+      367.7
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 633,
+    "y1": 681,
+    "quad": [
+     [
+      105.6,
+      367.7
+     ],
+     [
+      510,
+      378.3
+     ],
+     [
+      509.3,
+      402.3
+     ],
+     [
+      105,
+      391.7
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 682,
+    "y1": 720,
+    "quad": [
+     [
+      105,
+      392.2
+     ],
+     [
+      509.3,
+      402.8
+     ],
+     [
+      508.8,
+      421.8
+     ],
+     [
+      104.5,
+      411.2
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 723,
+    "y1": 762,
+    "quad": [
+     [
+      104.4,
+      412.7
+     ],
+     [
+      508.8,
+      423.3
+     ],
+     [
+      508.3,
+      442.8
+     ],
+     [
+      103.9,
+      432.2
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 763,
+    "y1": 810,
+    "quad": [
+     [
+      103.9,
+      432.7
+     ],
+     [
+      508.3,
+      443.3
+     ],
+     [
+      507.7,
+      466.8
+     ],
+     [
+      103.3,
+      456.2
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 811,
+    "y1": 858,
+    "quad": [
+     [
+      103.3,
+      456.7
+     ],
+     [
+      507.6,
+      467.3
+     ],
+     [
+      507,
+      490.8
+     ],
+     [
+      102.7,
+      480.2
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 858,
+    "y1": 905,
+    "quad": [
+     [
+      102.7,
+      480.2
+     ],
+     [
+      507,
+      490.8
+     ],
+     [
+      506.4,
+      514.3
+     ],
+     [
+      102.1,
+      503.7
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 906,
+    "y1": 955,
+    "quad": [
+     [
+      102,
+      504.2
+     ],
+     [
+      506.4,
+      514.8
+     ],
+     [
+      505.8,
+      539.2
+     ],
+     [
+      101.4,
+      528.7
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 955,
+    "y1": 995,
+    "quad": [
+     [
+      101.4,
+      528.7
+     ],
+     [
+      505.8,
+      539.2
+     ],
+     [
+      505.2,
+      559.2
+     ],
+     [
+      100.9,
+      548.7
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1034,
+    "y1": 1075,
+    "quad": [
+     [
+      100.4,
+      568.1
+     ],
+     [
+      504.7,
+      578.7
+     ],
+     [
+      504.2,
+      599.2
+     ],
+     [
+      99.8,
+      588.6
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1076,
+    "y1": 1121,
+    "quad": [
+     [
+      99.8,
+      589.1
+     ],
+     [
+      504.2,
+      599.7
+     ],
+     [
+      503.6,
+      622.2
+     ],
+     [
+      99.2,
+      611.6
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1133,
+    "y1": 1181,
+    "quad": [
+     [
+      99.1,
+      617.6
+     ],
+     [
+      503.4,
+      628.2
+     ],
+     [
+      502.8,
+      652.2
+     ],
+     [
+      98.4,
+      641.6
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1186,
+    "y1": 1232,
+    "quad": [
+     [
+      98.4,
+      644.1
+     ],
+     [
+      502.7,
+      654.7
+     ],
+     [
+      502.1,
+      677.7
+     ],
+     [
+      97.8,
+      667.1
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1235,
+    "y1": 1275,
+    "quad": [
+     [
+      97.7,
+      668.6
+     ],
+     [
+      502.1,
+      679.2
+     ],
+     [
+      501.6,
+      699.2
+     ],
+     [
+      97.2,
+      688.6
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1276,
+    "y1": 1318,
+    "quad": [
+     [
+      97.2,
+      689.1
+     ],
+     [
+      501.6,
+      699.7
+     ],
+     [
+      501,
+      720.7
+     ],
+     [
+      96.7,
+      710.1
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 613,
+   "height": 841
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Raki is a spirit alcohol, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A gift card is never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 10-pack of AA batteries brings 10 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A single blanket counts toward the blankets need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Raki is a spirit alcohol, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A gift card is never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 10,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 10-pack of AA batteries brings 10 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A single blanket counts toward the blankets need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1801,
+   "tokensOut": 1024,
+   "usdCeiling": 0.04382,
+   "usdActual": 0.006603
+  }
+ },
+ "latencyMs": {
+  "read": 17549,
+  "classify": 7591
+ },
+ "errors": [],
+ "trace": null
+}

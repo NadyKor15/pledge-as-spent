@@ -1,0 +1,1117 @@
+{
+ "receiptId": "holdout-ja-04",
+ "set": "holdout",
+ "imageSha256": "6afeeb111224ceb847a8a6f8805ccdfd41b420743880c25d07956b21b517cc9f",
+ "reading": {
+  "merchantName": "ミナト生活館 北空店",
+  "merchantAddress": "空川県北空市港町2-8-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:56:00",
+  "receiptNumber": "5824",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 2,
+    "unitPriceMinor": 138,
+    "amountMinor": 276,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "レトルトカレー",
+    "translationEn": "Retort curry",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 228,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "いわし蒲焼 缶",
+    "translationEn": "Canned sardines",
+    "qty": 3,
+    "unitPriceMinor": 168,
+    "amountMinor": 504,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Water 2L 6-pack",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3080,
+  "taxMinor": 228,
+  "taxIncluded": true,
+  "totalMinor": 3080,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1354",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "ジマ レツ 様",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "4633 1577 4131",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 2 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Retort curry is not canned food and is not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not drinking water and is not one of the needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned sardines count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 6-packs of 2 L water bring 12 bottles toward the water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "74ddad214bbb76f04b39b7eedbf3b010aefc5ef71d71ffa9297a2c6877e7764b",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4544,
+   "tokensOut": 3332,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.019840999999999998
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1607,
+   "tokensOut": 1005,
+   "usdCeiling": 0.042865,
+   "usdActual": 0.00628
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ミナト生活館",
+   "merchantAddress": "空川県北空市港町2-8-1",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-08T10:56:00",
+   "receiptNumber": "5824",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "山里の湧水 2L",
+     "translationEn": "spring water 2L",
+     "qty": 2,
+     "unitPriceMinor": 138,
+     "amountMinor": 276,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "レトルトカレー",
+     "translationEn": "retort curry",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 228,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ゼリー飲料",
+     "translationEn": "jelly drink",
+     "qty": 2,
+     "unitPriceMinor": 178,
+     "amountMinor": 356,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "いわし蒲焼 缶",
+     "translationEn": "grilled sardine can",
+     "qty": 3,
+     "unitPriceMinor": 168,
+     "amountMinor": 504,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "おいしい水 2L 6本入",
+     "translationEn": "water 2L pack",
+     "qty": 2,
+     "unitPriceMinor": 858,
+     "amountMinor": 1716,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 3080,
+   "taxMinor": 228,
+   "taxIncluded": true,
+   "totalMinor": 3080,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17,
+    18,
+    19
+   ]
+  ],
+  "bandTexts": {
+   "1": "ミナト生活館",
+   "2": "北空店",
+   "3": "空川県北空市港町2-8-1",
+   "4": "TEL 0123-45-6789",
+   "5": "登録番号 T0000100000427",
+   "6": "------------------------------------------------",
+   "7": "2026年11月08日(日) 10:56",
+   "8": "レジ05                     No.5824",
+   "9": "------------------------------------------------",
+   "10": "山里の湧水 2L                     ¥276※",
+   "11": "2点 x 単138",
+   "12": "レトルトカレー                     ¥228※",
+   "13": "ゼリー飲料                     ¥356※",
+   "14": "2点 x 単178",
+   "15": "いわし蒲焼 缶                     ¥504※",
+   "16": "3点 x 単168",
+   "17": "おいしい水 2L                     ¥1,716※",
+   "18": "6本入",
+   "19": "2点 x 単858",
+   "20": "小計 (5点)                     ¥3,080",
+   "21": "8%対象                     ¥3,080",
+   "22": "(内消費税等 8%                     ¥228)",
+   "23": "合計                     ¥3,080",
+   "24": "クレジット             ************1354",
+   "25": "お支払い                     ¥3,080",
+   "26": "........................................................................",
+   "27": "ポイントカード",
+   "28": "ミマ レノ 様",
+   "29": "会員番号             4633 1577 4131",
+   "30": "........................................................................",
+   "31": "※は軽減税率(8%)対象商品です",
+   "32": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 107,
+    "y1": 168,
+    "quad": [
+     [
+      129.3,
+      111.8
+     ],
+     [
+      536.7,
+      132.5
+     ],
+     [
+      535.2,
+      163
+     ],
+     [
+      127.7,
+      142.3
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 171,
+    "y1": 221,
+    "quad": [
+     [
+      127.6,
+      143.8
+     ],
+     [
+      535.1,
+      164.5
+     ],
+     [
+      533.9,
+      189.4
+     ],
+     [
+      126.4,
+      168.8
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 221,
+    "y1": 270,
+    "quad": [
+     [
+      126.4,
+      168.8
+     ],
+     [
+      533.9,
+      189.4
+     ],
+     [
+      532.6,
+      213.9
+     ],
+     [
+      125.1,
+      193.2
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 270,
+    "y1": 314,
+    "quad": [
+     [
+      125.1,
+      193.2
+     ],
+     [
+      532.6,
+      213.9
+     ],
+     [
+      531.5,
+      235.9
+     ],
+     [
+      124,
+      215.2
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 315,
+    "y1": 364,
+    "quad": [
+     [
+      124,
+      215.7
+     ],
+     [
+      531.5,
+      236.4
+     ],
+     [
+      530.2,
+      260.8
+     ],
+     [
+      122.8,
+      240.2
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 364,
+    "y1": 399,
+    "quad": [
+     [
+      122.8,
+      240.2
+     ],
+     [
+      530.2,
+      260.8
+     ],
+     [
+      529.4,
+      278.3
+     ],
+     [
+      121.9,
+      257.7
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 400,
+    "y1": 445,
+    "quad": [
+     [
+      121.8,
+      258.2
+     ],
+     [
+      529.3,
+      278.8
+     ],
+     [
+      528.2,
+      301.3
+     ],
+     [
+      120.7,
+      280.6
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 445,
+    "y1": 498,
+    "quad": [
+     [
+      120.7,
+      280.6
+     ],
+     [
+      528.2,
+      301.3
+     ],
+     [
+      526.8,
+      327.7
+     ],
+     [
+      119.4,
+      307.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 499,
+    "y1": 531,
+    "quad": [
+     [
+      119.3,
+      307.6
+     ],
+     [
+      526.8,
+      328.2
+     ],
+     [
+      526,
+      344.2
+     ],
+     [
+      118.5,
+      323.6
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 532,
+    "y1": 581,
+    "quad": [
+     [
+      118.5,
+      324.1
+     ],
+     [
+      526,
+      344.7
+     ],
+     [
+      524.7,
+      369.2
+     ],
+     [
+      117.3,
+      348.5
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 581,
+    "y1": 619,
+    "quad": [
+     [
+      117.3,
+      348.5
+     ],
+     [
+      524.7,
+      369.2
+     ],
+     [
+      523.8,
+      388.2
+     ],
+     [
+      116.3,
+      367.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 619,
+    "y1": 670,
+    "quad": [
+     [
+      116.3,
+      367.5
+     ],
+     [
+      523.8,
+      388.2
+     ],
+     [
+      522.5,
+      413.6
+     ],
+     [
+      115,
+      393
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 670,
+    "y1": 716,
+    "quad": [
+     [
+      115,
+      393
+     ],
+     [
+      522.5,
+      413.6
+     ],
+     [
+      521.3,
+      436.6
+     ],
+     [
+      113.9,
+      416
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 717,
+    "y1": 756,
+    "quad": [
+     [
+      113.8,
+      416.5
+     ],
+     [
+      521.3,
+      437.1
+     ],
+     [
+      520.3,
+      456.6
+     ],
+     [
+      112.8,
+      435.9
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 757,
+    "y1": 806,
+    "quad": [
+     [
+      112.8,
+      436.4
+     ],
+     [
+      520.3,
+      457.1
+     ],
+     [
+      519.1,
+      481.5
+     ],
+     [
+      111.6,
+      460.9
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 807,
+    "y1": 847,
+    "quad": [
+     [
+      111.6,
+      461.4
+     ],
+     [
+      519,
+      482
+     ],
+     [
+      518,
+      502
+     ],
+     [
+      110.5,
+      481.4
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 848,
+    "y1": 898,
+    "quad": [
+     [
+      110.5,
+      481.9
+     ],
+     [
+      518,
+      502.5
+     ],
+     [
+      516.7,
+      527.5
+     ],
+     [
+      109.3,
+      506.8
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 898,
+    "y1": 935,
+    "quad": [
+     [
+      109.3,
+      506.8
+     ],
+     [
+      516.7,
+      527.5
+     ],
+     [
+      515.8,
+      546
+     ],
+     [
+      108.3,
+      525.3
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 936,
+    "y1": 978,
+    "quad": [
+     [
+      108.3,
+      525.8
+     ],
+     [
+      515.8,
+      546.5
+     ],
+     [
+      514.7,
+      567.4
+     ],
+     [
+      107.2,
+      546.8
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1019,
+    "y1": 1069,
+    "quad": [
+     [
+      106.2,
+      567.3
+     ],
+     [
+      513.7,
+      587.9
+     ],
+     [
+      512.4,
+      612.9
+     ],
+     [
+      104.9,
+      592.2
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1069,
+    "y1": 1116,
+    "quad": [
+     [
+      104.9,
+      592.2
+     ],
+     [
+      512.4,
+      612.9
+     ],
+     [
+      511.2,
+      636.3
+     ],
+     [
+      103.7,
+      615.7
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1116,
+    "y1": 1160,
+    "quad": [
+     [
+      103.7,
+      615.7
+     ],
+     [
+      511.2,
+      636.3
+     ],
+     [
+      510.1,
+      658.3
+     ],
+     [
+      102.6,
+      637.7
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1168,
+    "y1": 1225,
+    "quad": [
+     [
+      102.4,
+      641.7
+     ],
+     [
+      509.9,
+      662.3
+     ],
+     [
+      508.5,
+      690.8
+     ],
+     [
+      101,
+      670.1
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1226,
+    "y1": 1275,
+    "quad": [
+     [
+      101,
+      670.6
+     ],
+     [
+      508.4,
+      691.3
+     ],
+     [
+      507.2,
+      715.7
+     ],
+     [
+      99.7,
+      695.1
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1275,
+    "y1": 1327,
+    "quad": [
+     [
+      99.7,
+      695.1
+     ],
+     [
+      507.2,
+      715.7
+     ],
+     [
+      505.9,
+      741.7
+     ],
+     [
+      98.4,
+      721.1
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1330,
+    "y1": 1362,
+    "quad": [
+     [
+      98.3,
+      722.6
+     ],
+     [
+      505.8,
+      743.2
+     ],
+     [
+      505,
+      759.2
+     ],
+     [
+      97.5,
+      738.5
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1367,
+    "y1": 1417,
+    "quad": [
+     [
+      97.4,
+      741
+     ],
+     [
+      504.9,
+      761.7
+     ],
+     [
+      503.6,
+      786.7
+     ],
+     [
+      96.1,
+      766
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1418,
+    "y1": 1463,
+    "quad": [
+     [
+      96.1,
+      766.5
+     ],
+     [
+      503.6,
+      787.2
+     ],
+     [
+      502.4,
+      809.6
+     ],
+     [
+      95,
+      789
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1464,
+    "y1": 1517,
+    "quad": [
+     [
+      94.9,
+      789.5
+     ],
+     [
+      502.4,
+      810.1
+     ],
+     [
+      501.1,
+      836.6
+     ],
+     [
+      93.6,
+      815.9
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1517,
+    "y1": 1551,
+    "quad": [
+     [
+      93.6,
+      815.9
+     ],
+     [
+      501.1,
+      836.6
+     ],
+     [
+      500.2,
+      853.6
+     ],
+     [
+      92.7,
+      832.9
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1552,
+    "y1": 1592,
+    "quad": [
+     [
+      92.7,
+      833.4
+     ],
+     [
+      500.2,
+      854.1
+     ],
+     [
+      499.2,
+      874
+     ],
+     [
+      91.7,
+      853.4
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "y0": 1592,
+    "y1": 1636,
+    "quad": [
+     [
+      91.7,
+      853.4
+     ],
+     [
+      499.2,
+      874
+     ],
+     [
+      498.1,
+      896
+     ],
+     [
+      90.6,
+      875.4
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 633,
+   "height": 1003
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Retort curry is not canned food and is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not drinking water and is not one of the needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "canned",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned sardines count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2 L water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Retort curry is not canned food and is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not drinking water and is not one of the needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "canned",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned sardines count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2 L water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1607,
+   "tokensOut": 1005,
+   "usdCeiling": 0.042865,
+   "usdActual": 0.00628
+  }
+ },
+ "latencyMs": {
+  "read": 14485,
+  "classify": 5848
+ },
+ "errors": [],
+ "trace": null
+}

@@ -1,0 +1,912 @@
+{
+ "receiptId": "holdout2-es-02",
+ "set": "holdout2",
+ "imageSha256": "bc922b0f34939dfef5df2a6b9c4409a316fe8a18a58781d93b90d1e2f99bce35",
+ "reading": {
+  "merchantName": "DROGUERÍA SANTA ANA",
+  "merchantAddress": "Av. Constitución 18 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T13:05:00",
+  "receiptNumber": "0260",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ARROZ REDONDO 1KG",
+    "translationEn": "Round rice 1kg",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Promotion discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -22,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA MINERAL NATURAL 1,5L",
+    "translationEn": "Natural mineral water 1.5L",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TABACO DE LIAR 30G",
+    "translationEn": "Rolling tobacco 30g",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 590,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece blanket",
+    "qty": 2,
+    "unitPriceMinor": 1295,
+    "amountMinor": 2590,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 596,
+  "taxIncluded": true,
+  "totalMinor": 3661,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1933",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Rice is not one of the needs this drive funds.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This discount reduces rice, which is not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blankets count toward the blankets need.",
+   "confidence": 0.97
+  }
+ ],
+ "classifiedFor": "5a753233e534562f69871fbbd34f1255cb2861186daf0d400097cf49c31865e5",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3873,
+   "tokensOut": 3863,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.02126
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1616,
+   "tokensOut": 1204,
+   "usdCeiling": 0.043093,
+   "usdActual": 0.007137
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "DROGUERÍA SANTA ANA",
+   "merchantAddress": "Av. Constitución 18, 00000 Villa Alborada",
+   "country": "ES",
+   "currency": "EUR",
+   "purchasedAt": "2026-11-04T13:05:00",
+   "receiptNumber": "0260",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ARROZ REDONDO 1KG",
+     "translationEn": "Round rice 1kg",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 149,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "DTO. PROMOCIÓN",
+     "translationEn": "Promotion discount",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": -22,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "AGUA MINERAL NATURAL 1,5L",
+     "translationEn": "Natural mineral water 1.5L",
+     "qty": 6,
+     "unitPriceMinor": 59,
+     "amountMinor": 354,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "TABACO DE LIAR 30G",
+     "translationEn": "Rolling tobacco 30g",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 590,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 5,
+     "rawText": "MANTA POLAR 130X170",
+     "translationEn": "Fleece blanket 130x170",
+     "qty": 2,
+     "unitPriceMinor": 1295,
+     "amountMinor": 2590,
+     "taxRateBp": 2100
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 596,
+   "taxIncluded": true,
+   "totalMinor": 3661,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14,
+    15
+   ],
+   [
+    16
+   ],
+   [
+    17,
+    18
+   ]
+  ],
+  "bandTexts": {
+   "1": "",
+   "2": "DROGUERÍA SANTA ANA",
+   "3": "Av. Constitución 18",
+   "4": "00000 Villa Alborada",
+   "5": "TEL 900 000 079",
+   "6": "CIF B00000079",
+   "7": "------------------------------------------------",
+   "8": "FACTURA SIMPLIFICADA         Nº 0260",
+   "9": "04/11/2026 13:05         CAJA 03",
+   "10": "------------------------------------------------",
+   "11": "DESCRIPCIÓN         IMPORTE",
+   "12": "ARROZ REDONDO 1KG         1,49 A",
+   "13": "DTO. PROMOCIÓN         -0,22 A",
+   "14": "AGUA MINERAL NATURAL 1,5L         3,54 A",
+   "15": "6 x 0,59",
+   "16": "TABACO DE LIAR 30G         5,90 B",
+   "17": "MANTA POLAR 130X170         25,90 B",
+   "18": "2 x 12,95",
+   "19": "TOTAL (IVA INCLUIDO)         36,61 EUR",
+   "20": "A  IVA 10%  BASE 4,37         CUOTA 0,44",
+   "21": "B  IVA 21%  BASE 26,28         CUOTA 5,52",
+   "22": "PAGO TARJETA         36,61",
+   "23": "**** **** **** 1933",
+   "24": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 48,
+    "y1": 87,
+    "quad": [
+     [
+      84.2,
+      81.1
+     ],
+     [
+      500.3,
+      62.9
+     ],
+     [
+      501.2,
+      82.4
+     ],
+     [
+      85.1,
+      100.6
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 126,
+    "y1": 185,
+    "quad": [
+     [
+      85.9,
+      120.1
+     ],
+     [
+      502,
+      101.9
+     ],
+     [
+      503.3,
+      131.4
+     ],
+     [
+      87.2,
+      149.5
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 195,
+    "y1": 241,
+    "quad": [
+     [
+      87.5,
+      154.5
+     ],
+     [
+      503.6,
+      136.4
+     ],
+     [
+      504.6,
+      159.3
+     ],
+     [
+      88.5,
+      177.5
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 245,
+    "y1": 291,
+    "quad": [
+     [
+      88.5,
+      179.5
+     ],
+     [
+      504.6,
+      161.3
+     ],
+     [
+      505.6,
+      184.3
+     ],
+     [
+      89.5,
+      202.5
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 294,
+    "y1": 339,
+    "quad": [
+     [
+      89.6,
+      204
+     ],
+     [
+      505.7,
+      185.8
+     ],
+     [
+      506.7,
+      208.3
+     ],
+     [
+      90.6,
+      226.5
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 343,
+    "y1": 387,
+    "quad": [
+     [
+      90.7,
+      228.5
+     ],
+     [
+      506.8,
+      210.3
+     ],
+     [
+      507.7,
+      232.3
+     ],
+     [
+      91.6,
+      250.4
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 396,
+    "y1": 426,
+    "quad": [
+     [
+      91.8,
+      254.9
+     ],
+     [
+      507.9,
+      236.8
+     ],
+     [
+      508.6,
+      251.7
+     ],
+     [
+      92.5,
+      269.9
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 430,
+    "y1": 478,
+    "quad": [
+     [
+      92.6,
+      271.9
+     ],
+     [
+      508.7,
+      253.7
+     ],
+     [
+      509.7,
+      277.7
+     ],
+     [
+      93.6,
+      295.9
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 478,
+    "y1": 528,
+    "quad": [
+     [
+      93.6,
+      295.9
+     ],
+     [
+      509.7,
+      277.7
+     ],
+     [
+      510.8,
+      302.7
+     ],
+     [
+      94.7,
+      320.9
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 534,
+    "y1": 562,
+    "quad": [
+     [
+      94.8,
+      323.9
+     ],
+     [
+      510.9,
+      305.7
+     ],
+     [
+      511.6,
+      319.7
+     ],
+     [
+      95.5,
+      337.9
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 566,
+    "y1": 608,
+    "quad": [
+     [
+      95.5,
+      339.8
+     ],
+     [
+      511.6,
+      321.7
+     ],
+     [
+      512.6,
+      342.7
+     ],
+     [
+      96.5,
+      360.8
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 610,
+    "y1": 656,
+    "quad": [
+     [
+      96.5,
+      361.8
+     ],
+     [
+      512.6,
+      343.7
+     ],
+     [
+      513.6,
+      366.6
+     ],
+     [
+      97.5,
+      384.8
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 657,
+    "y1": 705,
+    "quad": [
+     [
+      97.5,
+      385.3
+     ],
+     [
+      513.6,
+      367.1
+     ],
+     [
+      514.7,
+      391.1
+     ],
+     [
+      98.6,
+      409.3
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 707,
+    "y1": 754,
+    "quad": [
+     [
+      98.6,
+      410.3
+     ],
+     [
+      514.7,
+      392.1
+     ],
+     [
+      515.7,
+      415.6
+     ],
+     [
+      99.6,
+      433.8
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 756,
+    "y1": 795,
+    "quad": [
+     [
+      99.7,
+      434.8
+     ],
+     [
+      515.8,
+      416.6
+     ],
+     [
+      516.6,
+      436.1
+     ],
+     [
+      100.5,
+      454.2
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 797,
+    "y1": 842,
+    "quad": [
+     [
+      100.6,
+      455.2
+     ],
+     [
+      516.7,
+      437.1
+     ],
+     [
+      517.7,
+      459.6
+     ],
+     [
+      101.6,
+      477.7
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 845,
+    "y1": 890,
+    "quad": [
+     [
+      101.6,
+      479.2
+     ],
+     [
+      517.7,
+      461
+     ],
+     [
+      518.7,
+      483.5
+     ],
+     [
+      102.6,
+      501.7
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 892,
+    "y1": 932,
+    "quad": [
+     [
+      102.7,
+      502.7
+     ],
+     [
+      518.8,
+      484.5
+     ],
+     [
+      519.6,
+      504.5
+     ],
+     [
+      103.5,
+      522.7
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 973,
+    "y1": 1024,
+    "quad": [
+     [
+      104.4,
+      543.2
+     ],
+     [
+      520.5,
+      525
+     ],
+     [
+      521.6,
+      550.5
+     ],
+     [
+      105.5,
+      568.6
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1027,
+    "y1": 1068,
+    "quad": [
+     [
+      105.6,
+      570.1
+     ],
+     [
+      521.7,
+      552
+     ],
+     [
+      522.6,
+      572.4
+     ],
+     [
+      106.5,
+      590.6
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1068,
+    "y1": 1109,
+    "quad": [
+     [
+      106.5,
+      590.6
+     ],
+     [
+      522.6,
+      572.4
+     ],
+     [
+      523.5,
+      592.9
+     ],
+     [
+      107.4,
+      611.1
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1110,
+    "y1": 1158,
+    "quad": [
+     [
+      107.4,
+      611.6
+     ],
+     [
+      523.5,
+      593.4
+     ],
+     [
+      524.6,
+      617.4
+     ],
+     [
+      108.5,
+      635.6
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1158,
+    "y1": 1200,
+    "quad": [
+     [
+      108.5,
+      635.6
+     ],
+     [
+      524.6,
+      617.4
+     ],
+     [
+      525.5,
+      638.4
+     ],
+     [
+      109.4,
+      656.5
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1201,
+    "y1": 1239,
+    "quad": [
+     [
+      109.4,
+      657
+     ],
+     [
+      525.5,
+      638.9
+     ],
+     [
+      526.3,
+      657.9
+     ],
+     [
+      110.2,
+      676
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 622,
+   "height": 796
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is not one of the needs this drive funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "This discount reduces rice, which is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blankets count toward the blankets need.",
+    "confidence": 0.97
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is not one of the needs this drive funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "This discount reduces rice, which is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 5,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blankets count toward the blankets need.",
+    "confidence": 0.97
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1616,
+   "tokensOut": 1204,
+   "usdCeiling": 0.043093,
+   "usdActual": 0.007137
+  }
+ },
+ "latencyMs": {
+  "read": 17419,
+  "classify": 9822
+ },
+ "errors": [],
+ "trace": null
+}

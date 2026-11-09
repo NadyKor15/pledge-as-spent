@@ -1,0 +1,939 @@
+{
+ "receiptId": "holdout-es-02",
+ "set": "holdout",
+ "imageSha256": "108dd4ec0c873388e78a0241b86b1ac657ee2b4d6f8f49a98b7c61a6ab731281",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T11:25:00",
+  "receiptNumber": "4110",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "CEPILLO DENTAL",
+    "translationEn": "Toothbrush",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 215,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "BLISTER 6 PILAS AA",
+    "translationEn": "AA batteries 6-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa cover",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Diapers size 3",
+    "qty": 2,
+    "unitPriceMinor": 945,
+    "amountMinor": 1890,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+    "translationEn": "Spring water 1.5L",
+    "qty": 2,
+    "unitPriceMinor": 72,
+    "amountMinor": 144,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 5074,
+  "taxMinor": 862,
+  "taxIncluded": true,
+  "totalMinor": 5936,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "7026242380",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A toothbrush is not one of the needs this drive funds.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The two readings disagree on this line: the first says 6 for batteries, the second 1 for batteries.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A sofa throw in blanket size counts toward the blankets need.",
+   "confidence": 0.75
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers count toward the size 3 diapers need.",
+   "confidence": 0.96
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring drinking water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.96
+  }
+ ],
+ "classifiedFor": "51ee04e5c34808f5ed9e6092ab068bbd0bc8b26a738a3f64bc733ec964317b06",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3919,
+   "tokensOut": 3323,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.019021
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1639,
+   "tokensOut": 1571,
+   "usdCeiling": 0.043071,
+   "usdActual": 0.008726
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "SUPERMERCADO EL FARO",
+   "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+   "country": null,
+   "currency": "EUR",
+   "purchasedAt": "2026-11-04T11:25:00",
+   "receiptNumber": "4110",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "CEPILLO DENTAL",
+     "translationEn": "toothbrush",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 215,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 2,
+     "rawText": "BLISTER 6 PILAS AA",
+     "translationEn": "AA batteries 6-pack",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 489,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 3,
+     "rawText": "COBERTOR SOFÁ 150X200",
+     "translationEn": "sofa cover;12",
+     "qty": 2,
+     "unitPriceMinor": 1599,
+     "amountMinor": 3198,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 4,
+     "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+     "translationEn": "diapers size 3 40 pcs;14",
+     "qty": 2,
+     "unitPriceMinor": 945,
+     "amountMinor": 1890,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "AGUA DE MANANTIAL 1,5 LITROS",
+     "translationEn": "spring water 1.5L;16",
+     "qty": 2,
+     "unitPriceMinor": 72,
+     "amountMinor": 144,
+     "taxRateBp": 1000
+    }
+   ],
+   "subtotalMinor": 5074,
+   "taxMinor": 862,
+   "taxIncluded": true,
+   "totalMinor": 5936,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9
+   ],
+   [
+    10
+   ],
+   [
+    11
+   ],
+   [
+    13
+   ],
+   [
+    15
+   ]
+  ],
+  "bandTexts": {
+   "1": "SUPERMERCADO EL FARO",
+   "2": "Av. del Río 45",
+   "3": "00000 Villa Alborada",
+   "4": "TEL 900 000 057",
+   "5": "CIF B00000057",
+   "6": "FACTURA SIMPLIFICADA Nº 4110",
+   "7": "04/11/2026 11:25 CAJA 06",
+   "8": "DESCRIPCIÓN IMPORTE",
+   "9": "CEPILLO DENTAL 2,15 B",
+   "10": "BLISTER 6 PILAS AA 4,89 B",
+   "11": "COBERTOR SOFÁ 150X200 31,98 B",
+   "12": "2 x 15,99",
+   "13": "PAÑAL DORMILÓN TALLA 3 40UD 18,90 A",
+   "14": "2 x 9,45",
+   "15": "AGUA DE MANANTIAL 1,5 LITROS 1,44 A",
+   "16": "2 x 0,72",
+   "17": "TOTAL (IVA INCLUIDO) 59,36 EUR",
+   "18": "A IVA 10% BASE 18,49 CUOTA 1,85",
+   "19": "B IVA 21% BASE 32,25 CUOTA 6,77",
+   "20": "EFECTIVO 60,00",
+   "21": "CAMBIO 0,64",
+   "22": "................................................................................",
+   "23": "SOCIO 7026242380",
+   "24": "LUCÍA FERRANDO",
+   "25": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 102,
+    "y1": 157,
+    "quad": [
+     [
+      95.7,
+      111.1
+     ],
+     [
+      498.6,
+      102
+     ],
+     [
+      499.2,
+      129.5
+     ],
+     [
+      96.3,
+      138.6
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 168,
+    "y1": 213,
+    "quad": [
+     [
+      96.4,
+      144.1
+     ],
+     [
+      499.3,
+      135
+     ],
+     [
+      499.8,
+      157.5
+     ],
+     [
+      96.9,
+      166.6
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 217,
+    "y1": 263,
+    "quad": [
+     [
+      97,
+      168.6
+     ],
+     [
+      499.9,
+      159.5
+     ],
+     [
+      500.4,
+      182.5
+     ],
+     [
+      97.5,
+      191.6
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 267,
+    "y1": 311,
+    "quad": [
+     [
+      97.6,
+      193.6
+     ],
+     [
+      500.5,
+      184.5
+     ],
+     [
+      501,
+      206.5
+     ],
+     [
+      98.1,
+      215.6
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 316,
+    "y1": 360,
+    "quad": [
+     [
+      98.1,
+      218.1
+     ],
+     [
+      501,
+      209
+     ],
+     [
+      501.5,
+      230.9
+     ],
+     [
+      98.6,
+      240.1
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 405,
+    "y1": 450,
+    "quad": [
+     [
+      99.1,
+      262.6
+     ],
+     [
+      502,
+      253.4
+     ],
+     [
+      502.5,
+      275.9
+     ],
+     [
+      99.6,
+      285.1
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 454,
+    "y1": 500,
+    "quad": [
+     [
+      99.7,
+      287.1
+     ],
+     [
+      502.6,
+      277.9
+     ],
+     [
+      503.1,
+      300.9
+     ],
+     [
+      100.2,
+      310.1
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 539,
+    "y1": 581,
+    "quad": [
+     [
+      100.6,
+      329.6
+     ],
+     [
+      503.5,
+      320.4
+     ],
+     [
+      504,
+      341.4
+     ],
+     [
+      101.1,
+      350.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 585,
+    "y1": 632,
+    "quad": [
+     [
+      101.2,
+      352.6
+     ],
+     [
+      504.1,
+      343.4
+     ],
+     [
+      504.6,
+      366.9
+     ],
+     [
+      101.7,
+      376.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 634,
+    "y1": 679,
+    "quad": [
+     [
+      101.7,
+      377.1
+     ],
+     [
+      504.6,
+      367.9
+     ],
+     [
+      505.1,
+      390.4
+     ],
+     [
+      102.2,
+      399.5
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 680,
+    "y1": 729,
+    "quad": [
+     [
+      102.2,
+      400
+     ],
+     [
+      505.1,
+      390.9
+     ],
+     [
+      505.7,
+      415.4
+     ],
+     [
+      102.8,
+      424.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 729,
+    "y1": 767,
+    "quad": [
+     [
+      102.8,
+      424.5
+     ],
+     [
+      505.7,
+      415.4
+     ],
+     [
+      506.1,
+      434.4
+     ],
+     [
+      103.2,
+      443.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 768,
+    "y1": 818,
+    "quad": [
+     [
+      103.2,
+      444
+     ],
+     [
+      506.1,
+      434.9
+     ],
+     [
+      506.7,
+      459.9
+     ],
+     [
+      103.8,
+      469
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 818,
+    "y1": 858,
+    "quad": [
+     [
+      103.8,
+      469
+     ],
+     [
+      506.7,
+      459.9
+     ],
+     [
+      507.2,
+      479.9
+     ],
+     [
+      104.3,
+      489
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 859,
+    "y1": 905,
+    "quad": [
+     [
+      104.3,
+      489.5
+     ],
+     [
+      507.2,
+      480.4
+     ],
+     [
+      507.7,
+      503.4
+     ],
+     [
+      104.8,
+      512.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 906,
+    "y1": 945,
+    "quad": [
+     [
+      104.8,
+      513
+     ],
+     [
+      507.7,
+      503.9
+     ],
+     [
+      508.1,
+      523.4
+     ],
+     [
+      105.3,
+      532.5
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 989,
+    "y1": 1041,
+    "quad": [
+     [
+      105.8,
+      554.5
+     ],
+     [
+      508.6,
+      545.4
+     ],
+     [
+      509.2,
+      571.4
+     ],
+     [
+      106.3,
+      580.5
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1042,
+    "y1": 1085,
+    "quad": [
+     [
+      106.4,
+      581
+     ],
+     [
+      509.2,
+      571.9
+     ],
+     [
+      509.7,
+      593.4
+     ],
+     [
+      106.8,
+      602.5
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1085,
+    "y1": 1125,
+    "quad": [
+     [
+      106.8,
+      602.5
+     ],
+     [
+      509.7,
+      593.4
+     ],
+     [
+      510.2,
+      613.3
+     ],
+     [
+      107.3,
+      622.5
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1126,
+    "y1": 1174,
+    "quad": [
+     [
+      107.3,
+      623
+     ],
+     [
+      510.2,
+      613.8
+     ],
+     [
+      510.7,
+      637.8
+     ],
+     [
+      107.8,
+      647
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1174,
+    "y1": 1223,
+    "quad": [
+     [
+      107.8,
+      647
+     ],
+     [
+      510.7,
+      637.8
+     ],
+     [
+      511.3,
+      662.3
+     ],
+     [
+      108.4,
+      671.5
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1225,
+    "y1": 1254,
+    "quad": [
+     [
+      108.4,
+      672.5
+     ],
+     [
+      511.3,
+      663.3
+     ],
+     [
+      511.7,
+      677.8
+     ],
+     [
+      108.8,
+      687
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1257,
+    "y1": 1303,
+    "quad": [
+     [
+      108.8,
+      688.5
+     ],
+     [
+      511.7,
+      679.3
+     ],
+     [
+      512.2,
+      702.3
+     ],
+     [
+      109.3,
+      711.5
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1303,
+    "y1": 1347,
+    "quad": [
+     [
+      109.3,
+      711.5
+     ],
+     [
+      512.2,
+      702.3
+     ],
+     [
+      512.7,
+      724.3
+     ],
+     [
+      109.8,
+      733.5
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1349,
+    "y1": 1389,
+    "quad": [
+     [
+      109.8,
+      734.5
+     ],
+     [
+      512.7,
+      725.3
+     ],
+     [
+      513.2,
+      745.3
+     ],
+     [
+      110.3,
+      754.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 608,
+   "height": 874
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "A toothbrush is not one of the needs this drive funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 6-pack of AA batteries brings 6 pieces toward the AA batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A sofa throw in blanket size counts toward the blankets need.",
+    "confidence": 0.75
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the size 3 diapers need.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring drinking water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.96
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "A toothbrush is not one of the needs this drive funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 6-pack of AA batteries brings 6 pieces toward the AA batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A sofa throw in blanket size counts toward the blankets need.",
+    "confidence": 0.75
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the size 3 diapers need.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring drinking water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.96
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1639,
+   "tokensOut": 1571,
+   "usdCeiling": 0.043071,
+   "usdActual": 0.008726
+  }
+ },
+ "latencyMs": {
+  "read": 10035,
+  "classify": 9909
+ },
+ "errors": [],
+ "trace": null
+}

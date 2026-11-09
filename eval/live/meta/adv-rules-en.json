@@ -1,0 +1,1261 @@
+{
+ "receiptId": "adv-rules-en",
+ "set": "adversarial",
+ "imageSha256": "69464ed7aa02012dd40ef858f54761e365faee0b2588966a95c319b7d83d1db4",
+ "reading": {
+  "merchantName": "HARBOR HARDWARE & HOME",
+  "merchantAddress": "88 Station Road Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T12:58:00",
+  "receiptNumber": "2147",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AA BATTERY 8PK",
+    "translationEn": "AA batteries 8-pack",
+    "qty": 3,
+    "unitPriceMinor": 799,
+    "amountMinor": 2397,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6-pack bottles",
+    "qty": null,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "WATER 24PK .5L",
+    "translationEn": "Water 24-pack 0.5L",
+    "qty": null,
+    "unitPriceMinor": 499,
+    "amountMinor": 499,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW BLANKET",
+    "translationEn": "Fleece throw blanket",
+    "qty": 4,
+    "unitPriceMinor": 1499,
+    "amountMinor": 5996,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries 24-pack",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "SPIRAL NOTEBOOK",
+    "translationEn": "Spiral notebook",
+    "qty": 2,
+    "unitPriceMinor": 199,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "GIFT CARD $25",
+    "translationEn": "Gift card $25",
+    "qty": null,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CIGARETTES MENTHOL",
+    "translationEn": "Menthol cigarettes",
+    "qty": null,
+    "unitPriceMinor": 849,
+    "amountMinor": 849,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 16836,
+  "taxMinor": 1003,
+  "taxIncluded": false,
+  "totalMinor": 17839,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************6540",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "8224286873",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries in an 8-pack count toward the AA batteries need, three packs is 24 pieces.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "0.5L water bottles are not the 1-gallon jug size this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece throw counts as a blanket for this drive.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 48,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the AA batteries need, two 24-packs is 48 pieces.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "A spiral notebook is stationery and is not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded by this drive.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Menthol cigarettes are tobacco, which this drive never funds.",
+   "confidence": 0.99
+  }
+ ],
+ "classifiedFor": "59cbfb01bc0caa1bd5ace1fcaf7d53a623678f0ea2f83b537dcbd21a08a53e12",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4540,
+   "tokensOut": 3818,
+   "usdCeiling": 0.095975,
+   "usdActual": 0.021901999999999998
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1787,
+   "tokensOut": 1339,
+   "usdCeiling": 0.044015,
+   "usdActual": 0.007924
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "HARBOR HARDWARE & HOME",
+   "merchantAddress": "88 Station Road, Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-06T12:58:00",
+   "receiptNumber": "2147",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "AA BATTERY 8PK",
+     "translationEn": "AA batteries",
+     "qty": 3,
+     "unitPriceMinor": 799,
+     "amountMinor": 2397,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "LAGER 6PK BTL",
+     "translationEn": "lager beer",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 999,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "WATER 24PK .5L",
+     "translationEn": "bottled water",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 499,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "FLEECE THROW BLANKET",
+     "translationEn": "fleece blanket",
+     "qty": 4,
+     "unitPriceMinor": 1499,
+     "amountMinor": 5996,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "AA ALKALINE 24PK",
+     "translationEn": "AA batteries",
+     "qty": 2,
+     "unitPriceMinor": 1599,
+     "amountMinor": 3198,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "SPIRAL NOTEBOOK",
+     "translationEn": "notebook",
+     "qty": 2,
+     "unitPriceMinor": 199,
+     "amountMinor": 398,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 7,
+     "rawText": "GIFT CARD $25",
+     "translationEn": "gift card",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 2500,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 8,
+     "rawText": "CIGARETTES MENTHOL",
+     "translationEn": "menthol cigarettes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 849,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 16836,
+   "taxMinor": 1003,
+   "taxIncluded": false,
+   "totalMinor": 17839,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14,
+    15
+   ],
+   [
+    16,
+    17
+   ],
+   [
+    18,
+    19
+   ],
+   [
+    20
+   ],
+   [
+    21
+   ]
+  ],
+  "bandTexts": {
+   "1": "HARBOR HARDWARE & HOME",
+   "2": "88 Station Road",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0057",
+   "5": "------------------------------------------------",
+   "6": "11/06/2026 12:58 PM         REG 05",
+   "7": "TRANS #2147",
+   "8": "------------------------------------------------",
+   "9": "AA BATTERY 8PK               $23.97 T",
+   "10": "3 @ $7.99",
+   "11": "LAGER 6PK BTL                $9.99 T",
+   "12": "WATER 24PK .5L               $4.99 F",
+   "13": "FLEECE THROW                 $59.96 T",
+   "14": "BLANKET",
+   "15": "4 @ $14.99",
+   "16": "AA ALKALINE 24PK             $31.98 T",
+   "17": "2 @ $15.99",
+   "18": "SPIRAL NOTEBOOK              $3.98 T",
+   "19": "2 @ $1.99",
+   "20": "GIFT CARD $25                $25.00 F",
+   "21": "CIGARETTES MENTHOL           $8.49 T",
+   "22": "SUBTOTAL                    $168.36",
+   "23": "SALES TAX 7.25%              $10.03",
+   "24": "TOTAL                        $178.39",
+   "25": "VISA               ************6540",
+   "26": "APPROVED                     $178.39",
+   "27": "............................................................",
+   "28": "REWARDS MEMBER",
+   "29": "AVA PRESCOTT",
+   "30": "MEMBER #                     8224286873",
+   "31": "T = TAXABLE F = NON-TAXABLE",
+   "32": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 110,
+    "y1": 173,
+    "quad": [
+     [
+      96,
+      115.7
+     ],
+     [
+      501.6,
+      98
+     ],
+     [
+      503,
+      129.5
+     ],
+     [
+      97.3,
+      147.2
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 180,
+    "y1": 227,
+    "quad": [
+     [
+      97.5,
+      150.7
+     ],
+     [
+      503.1,
+      133
+     ],
+     [
+      504.1,
+      156.5
+     ],
+     [
+      98.5,
+      174.2
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 229,
+    "y1": 279,
+    "quad": [
+     [
+      98.6,
+      175.2
+     ],
+     [
+      504.2,
+      157.5
+     ],
+     [
+      505.3,
+      182.5
+     ],
+     [
+      99.7,
+      200.2
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 279,
+    "y1": 327,
+    "quad": [
+     [
+      99.7,
+      200.2
+     ],
+     [
+      505.3,
+      182.5
+     ],
+     [
+      506.3,
+      206.4
+     ],
+     [
+      100.7,
+      224.1
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 332,
+    "y1": 366,
+    "quad": [
+     [
+      100.8,
+      226.6
+     ],
+     [
+      506.4,
+      208.9
+     ],
+     [
+      507.2,
+      225.9
+     ],
+     [
+      101.5,
+      243.6
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 367,
+    "y1": 422,
+    "quad": [
+     [
+      101.6,
+      244.1
+     ],
+     [
+      507.2,
+      226.4
+     ],
+     [
+      508.4,
+      253.9
+     ],
+     [
+      102.8,
+      271.6
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 425,
+    "y1": 469,
+    "quad": [
+     [
+      102.8,
+      273.1
+     ],
+     [
+      508.4,
+      255.4
+     ],
+     [
+      509.4,
+      277.4
+     ],
+     [
+      103.8,
+      295.1
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 472,
+    "y1": 505,
+    "quad": [
+     [
+      103.9,
+      296.6
+     ],
+     [
+      509.5,
+      278.9
+     ],
+     [
+      510.2,
+      295.3
+     ],
+     [
+      104.6,
+      313.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 506,
+    "y1": 557,
+    "quad": [
+     [
+      104.6,
+      313.6
+     ],
+     [
+      510.2,
+      295.8
+     ],
+     [
+      511.3,
+      321.3
+     ],
+     [
+      105.7,
+      339
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 561,
+    "y1": 601,
+    "quad": [
+     [
+      105.8,
+      341
+     ],
+     [
+      511.4,
+      323.3
+     ],
+     [
+      512.3,
+      343.3
+     ],
+     [
+      106.7,
+      361
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 601,
+    "y1": 648,
+    "quad": [
+     [
+      106.7,
+      361
+     ],
+     [
+      512.3,
+      343.3
+     ],
+     [
+      513.3,
+      366.8
+     ],
+     [
+      107.7,
+      384.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 649,
+    "y1": 696,
+    "quad": [
+     [
+      107.7,
+      385
+     ],
+     [
+      513.3,
+      367.3
+     ],
+     [
+      514.4,
+      390.8
+     ],
+     [
+      108.7,
+      408.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 697,
+    "y1": 744,
+    "quad": [
+     [
+      108.8,
+      409
+     ],
+     [
+      514.4,
+      391.3
+     ],
+     [
+      515.4,
+      414.7
+     ],
+     [
+      109.8,
+      432.4
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 748,
+    "y1": 786,
+    "quad": [
+     [
+      109.9,
+      434.4
+     ],
+     [
+      515.5,
+      416.7
+     ],
+     [
+      516.3,
+      435.7
+     ],
+     [
+      110.7,
+      453.4
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 789,
+    "y1": 830,
+    "quad": [
+     [
+      110.8,
+      454.9
+     ],
+     [
+      516.4,
+      437.2
+     ],
+     [
+      517.3,
+      457.7
+     ],
+     [
+      111.7,
+      475.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 830,
+    "y1": 873,
+    "quad": [
+     [
+      111.7,
+      475.4
+     ],
+     [
+      517.3,
+      457.7
+     ],
+     [
+      518.2,
+      479.2
+     ],
+     [
+      112.6,
+      496.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 877,
+    "y1": 918,
+    "quad": [
+     [
+      112.7,
+      498.9
+     ],
+     [
+      518.3,
+      481.2
+     ],
+     [
+      519.2,
+      501.6
+     ],
+     [
+      113.6,
+      519.4
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 920,
+    "y1": 963,
+    "quad": [
+     [
+      113.6,
+      520.4
+     ],
+     [
+      519.2,
+      502.6
+     ],
+     [
+      520.2,
+      524.1
+     ],
+     [
+      114.6,
+      541.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 966,
+    "y1": 1007,
+    "quad": [
+     [
+      114.6,
+      543.3
+     ],
+     [
+      520.2,
+      525.6
+     ],
+     [
+      521.1,
+      546.1
+     ],
+     [
+      115.5,
+      563.8
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1009,
+    "y1": 1054,
+    "quad": [
+     [
+      115.6,
+      564.8
+     ],
+     [
+      521.2,
+      547.1
+     ],
+     [
+      522.2,
+      569.6
+     ],
+     [
+      116.6,
+      587.3
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1056,
+    "y1": 1101,
+    "quad": [
+     [
+      116.6,
+      588.3
+     ],
+     [
+      522.2,
+      570.6
+     ],
+     [
+      523.2,
+      593.1
+     ],
+     [
+      117.6,
+      610.8
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1142,
+    "y1": 1188,
+    "quad": [
+     [
+      118.5,
+      631.3
+     ],
+     [
+      524.1,
+      613.5
+     ],
+     [
+      525.1,
+      636.5
+     ],
+     [
+      119.5,
+      654.2
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1188,
+    "y1": 1235,
+    "quad": [
+     [
+      119.5,
+      654.2
+     ],
+     [
+      525.1,
+      636.5
+     ],
+     [
+      526.1,
+      660
+     ],
+     [
+      120.5,
+      677.7
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1245,
+    "y1": 1298,
+    "quad": [
+     [
+      120.7,
+      682.7
+     ],
+     [
+      526.3,
+      665
+     ],
+     [
+      527.5,
+      691.5
+     ],
+     [
+      121.9,
+      709.2
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1299,
+    "y1": 1346,
+    "quad": [
+     [
+      121.9,
+      709.7
+     ],
+     [
+      527.5,
+      692
+     ],
+     [
+      528.5,
+      715.4
+     ],
+     [
+      122.9,
+      733.2
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1347,
+    "y1": 1395,
+    "quad": [
+     [
+      122.9,
+      733.7
+     ],
+     [
+      528.6,
+      715.9
+     ],
+     [
+      529.6,
+      739.9
+     ],
+     [
+      124,
+      757.6
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1398,
+    "y1": 1429,
+    "quad": [
+     [
+      124.1,
+      759.1
+     ],
+     [
+      529.7,
+      741.4
+     ],
+     [
+      530.3,
+      756.9
+     ],
+     [
+      124.7,
+      774.6
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1430,
+    "y1": 1473,
+    "quad": [
+     [
+      124.8,
+      775.1
+     ],
+     [
+      530.4,
+      757.4
+     ],
+     [
+      531.3,
+      778.9
+     ],
+     [
+      125.7,
+      796.6
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1476,
+    "y1": 1519,
+    "quad": [
+     [
+      125.8,
+      798.1
+     ],
+     [
+      531.4,
+      780.4
+     ],
+     [
+      532.3,
+      801.9
+     ],
+     [
+      126.7,
+      819.6
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1522,
+    "y1": 1570,
+    "quad": [
+     [
+      126.8,
+      821.1
+     ],
+     [
+      532.4,
+      803.4
+     ],
+     [
+      533.4,
+      827.3
+     ],
+     [
+      127.8,
+      845
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1570,
+    "y1": 1606,
+    "quad": [
+     [
+      127.8,
+      845
+     ],
+     [
+      533.4,
+      827.3
+     ],
+     [
+      534.2,
+      845.3
+     ],
+     [
+      128.6,
+      863
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "y0": 1606,
+    "y1": 1645,
+    "quad": [
+     [
+      128.6,
+      863
+     ],
+     [
+      534.2,
+      845.3
+     ],
+     [
+      535.1,
+      864.8
+     ],
+     [
+      129.4,
+      882.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 632,
+   "height": 1007
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "batteries",
+    "needQty": 24,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA batteries in an 8-pack count toward the AA batteries need, three packs is 24 pieces.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "0.5L water bottles are not the 1-gallon jug size this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket for this drive.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 48,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA alkaline batteries count toward the AA batteries need, two 24-packs is 48 pieces.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "A spiral notebook is stationery and is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 8,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Menthol cigarettes are tobacco, which this drive never funds.",
+    "confidence": 0.99
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "batteries",
+    "needQty": 24,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA batteries in an 8-pack count toward the AA batteries need, three packs is 24 pieces.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "0.5L water bottles are not the 1-gallon jug size this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket for this drive.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 48,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA alkaline batteries count toward the AA batteries need, two 24-packs is 48 pieces.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "A notebook is stationery and is not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 8,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Menthol cigarettes are tobacco, which this drive never funds.",
+    "confidence": 0.99
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1787,
+   "tokensOut": 1339,
+   "usdCeiling": 0.044015,
+   "usdActual": 0.007924
+  }
+ },
+ "latencyMs": {
+  "read": 16270,
+  "classify": 9838
+ },
+ "errors": [],
+ "trace": null
+}

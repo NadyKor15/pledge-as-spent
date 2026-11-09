@@ -1,0 +1,774 @@
+{
+ "receiptId": "holdout2-tr-04",
+ "set": "holdout2",
+ "imageSha256": "ba497b437fad9f9da0718128fa3894fd5ef9c4ff34d0fa065f8ca8f7aaeaf917",
+ "reading": {
+  "merchantName": "KARDEŞLER BAKKAL",
+  "merchantAddress": "Gül Sk. No:3 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T18:05:00",
+  "receiptNumber": "0885",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi 48-pack",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water PET 5L",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SİGARA MAVİ 20'Lİ",
+    "translationEn": "Blue cigarettes 20-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 10500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KALEM PİL AA 4'LÜ",
+    "translationEn": "AA batteries 4-pack",
+    "qty": 3,
+    "unitPriceMinor": 8990,
+    "amountMinor": 26970,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 18323,
+  "taxIncluded": true,
+  "totalMinor": 112170,
+  "pii": [
+   {
+    "kind": "phone",
+    "text": "0 555 000 00 71",
+    "bbox": {
+     "x": 0.34,
+     "y": 0.289,
+     "w": 0.32,
+     "h": 0.022
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers in 48-packs count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water in 5 L bottles counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "9a9cd9f484f6750263296ea7d9f494d2e65bc6d4bb30b24e86f0ec53fe9ad74c",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3572,
+   "tokensOut": 3784,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.020548
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1567,
+   "tokensOut": 1357,
+   "usdCeiling": 0.04273,
+   "usdActual": 0.007726
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "KARDEŞLER BAKKAL",
+   "merchantAddress": "Gül Sk. No:3 Yıldızova",
+   "country": "TR",
+   "currency": "TRY",
+   "purchasedAt": "2026-11-08T18:05:00",
+   "receiptNumber": "0885",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+     "translationEn": "baby diapers maxi",
+     "qty": 2,
+     "unitPriceMinor": 34900,
+     "amountMinor": 69800,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "İÇME SUYU PET 5 LT",
+     "translationEn": "drinking water 5L",
+     "qty": 2,
+     "unitPriceMinor": 2450,
+     "amountMinor": 4900,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "SİGARA MAVİ 20'Lİ",
+     "translationEn": "blue cigarettes",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 10500,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "KALEM PİL AA 4'LÜ",
+     "translationEn": "AA batteries 4-pack",
+     "qty": 3,
+     "unitPriceMinor": 8990,
+     "amountMinor": 26970,
+     "taxRateBp": 2000
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 18323,
+   "taxIncluded": true,
+   "totalMinor": 112170,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7,
+    8
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12,
+    13
+   ]
+  ],
+  "bandTexts": {
+   "1": "KARDEŞLER BAKKAL",
+   "2": "Gül Sk. No:3",
+   "3": "Yıldızova",
+   "4": "TEL 0 555 000 00 71",
+   "5": "VKN: 0000000071",
+   "6": "TARİH: 08.11.2026  18:05     FİŞ NO: 0885",
+   "7": "BEBEK BEZİ MAXİ 4 NO 48'Lİ         %20 *698,00",
+   "8": "2 x 349,00",
+   "9": "İÇME SUYU PET 5 LT                %10 *49,00",
+   "10": "2 x 24,50",
+   "11": "SİGARA MAVİ 20'Lİ                %20 *105,00",
+   "12": "KALEM PİL AA 4'LÜ                %20 *269,70",
+   "13": "3 x 89,90",
+   "14": "KDV %10  MATRAH 44,55                 *4,45",
+   "15": "KDV %20  MATRAH 893,92               *178,78",
+   "16": "TOPKDV                            *183,23",
+   "17": "TOPLAM                          *1.121,70",
+   "18": "NAKİT                           *1.130,00",
+   "19": "PARA ÜSTÜ                          *8,30",
+   "20": "TEŞEKKÜR EDERİZ"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 98,
+    "y1": 155,
+    "quad": [
+     [
+      94.1,
+      115.2
+     ],
+     [
+      495.9,
+      104
+     ],
+     [
+      496.7,
+      132.4
+     ],
+     [
+      94.8,
+      143.7
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 162,
+    "y1": 205,
+    "quad": [
+     [
+      94.9,
+      147.2
+     ],
+     [
+      496.8,
+      135.9
+     ],
+     [
+      497.4,
+      157.4
+     ],
+     [
+      95.5,
+      168.7
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 210,
+    "y1": 254,
+    "quad": [
+     [
+      95.6,
+      171.2
+     ],
+     [
+      497.5,
+      159.9
+     ],
+     [
+      498.1,
+      181.9
+     ],
+     [
+      96.2,
+      193.1
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 260,
+    "y1": 303,
+    "quad": [
+     [
+      96.3,
+      196.1
+     ],
+     [
+      498.2,
+      184.9
+     ],
+     [
+      498.8,
+      206.4
+     ],
+     [
+      96.9,
+      217.6
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 309,
+    "y1": 351,
+    "quad": [
+     [
+      97,
+      220.6
+     ],
+     [
+      498.8,
+      209.4
+     ],
+     [
+      499.4,
+      230.4
+     ],
+     [
+      97.6,
+      241.6
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 393,
+    "y1": 445,
+    "quad": [
+     [
+      98.2,
+      262.6
+     ],
+     [
+      500,
+      251.4
+     ],
+     [
+      500.7,
+      277.4
+     ],
+     [
+      98.9,
+      288.6
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 482,
+    "y1": 532,
+    "quad": [
+     [
+      99.4,
+      307.1
+     ],
+     [
+      501.3,
+      295.9
+     ],
+     [
+      502,
+      320.9
+     ],
+     [
+      100.1,
+      332.1
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 534,
+    "y1": 573,
+    "quad": [
+     [
+      100.1,
+      333.1
+     ],
+     [
+      502,
+      321.9
+     ],
+     [
+      502.5,
+      341.4
+     ],
+     [
+      100.7,
+      352.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 574,
+    "y1": 624,
+    "quad": [
+     [
+      100.7,
+      353.1
+     ],
+     [
+      502.5,
+      341.9
+     ],
+     [
+      503.2,
+      366.8
+     ],
+     [
+      101.4,
+      378.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 624,
+    "y1": 663,
+    "quad": [
+     [
+      101.4,
+      378.1
+     ],
+     [
+      503.2,
+      366.8
+     ],
+     [
+      503.8,
+      386.3
+     ],
+     [
+      101.9,
+      397.6
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 663,
+    "y1": 710,
+    "quad": [
+     [
+      101.9,
+      397.6
+     ],
+     [
+      503.8,
+      386.3
+     ],
+     [
+      504.4,
+      409.8
+     ],
+     [
+      102.6,
+      421.1
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 711,
+    "y1": 758,
+    "quad": [
+     [
+      102.6,
+      421.6
+     ],
+     [
+      504.5,
+      410.3
+     ],
+     [
+      505.1,
+      433.8
+     ],
+     [
+      103.3,
+      445
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 761,
+    "y1": 801,
+    "quad": [
+     [
+      103.3,
+      446.5
+     ],
+     [
+      505.2,
+      435.3
+     ],
+     [
+      505.7,
+      455.3
+     ],
+     [
+      103.9,
+      466.5
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 838,
+    "y1": 879,
+    "quad": [
+     [
+      104.4,
+      485
+     ],
+     [
+      506.2,
+      473.8
+     ],
+     [
+      506.8,
+      494.3
+     ],
+     [
+      105,
+      505.5
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 879,
+    "y1": 921,
+    "quad": [
+     [
+      105,
+      505.5
+     ],
+     [
+      506.8,
+      494.3
+     ],
+     [
+      507.4,
+      515.3
+     ],
+     [
+      105.5,
+      526.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 921,
+    "y1": 967,
+    "quad": [
+     [
+      105.5,
+      526.5
+     ],
+     [
+      507.4,
+      515.3
+     ],
+     [
+      508,
+      538.3
+     ],
+     [
+      106.2,
+      549.5
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 978,
+    "y1": 1028,
+    "quad": [
+     [
+      106.3,
+      555
+     ],
+     [
+      508.2,
+      543.8
+     ],
+     [
+      508.9,
+      568.8
+     ],
+     [
+      107,
+      580
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1033,
+    "y1": 1078,
+    "quad": [
+     [
+      107.1,
+      582.5
+     ],
+     [
+      508.9,
+      571.3
+     ],
+     [
+      509.6,
+      593.8
+     ],
+     [
+      107.7,
+      605
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1079,
+    "y1": 1123,
+    "quad": [
+     [
+      107.7,
+      605.5
+     ],
+     [
+      509.6,
+      594.3
+     ],
+     [
+      510.2,
+      616.3
+     ],
+     [
+      108.4,
+      627.5
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1123,
+    "y1": 1165,
+    "quad": [
+     [
+      108.4,
+      627.5
+     ],
+     [
+      510.2,
+      616.3
+     ],
+     [
+      510.8,
+      637.2
+     ],
+     [
+      108.9,
+      648.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 607,
+   "height": 766
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers in 48-packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Drinking water in 5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers in 48-packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Drinking water in 5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco, which this drive does not fund.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1567,
+   "tokensOut": 1357,
+   "usdCeiling": 0.04273,
+   "usdActual": 0.007726
+  }
+ },
+ "latencyMs": {
+  "read": 10897,
+  "classify": 7005
+ },
+ "errors": [],
+ "trace": null
+}

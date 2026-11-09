@@ -1,0 +1,817 @@
+{
+ "receiptId": "holdout-ja-01",
+ "set": "holdout",
+ "imageSha256": "e6f19800c6190235557bbe274973dddc2a241b0f08c444dc8350c61972194046",
+ "reading": {
+  "merchantName": "ドラッグ ヒカリ",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:13:00",
+  "receiptNumber": "7283",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Water 2L 6-pack",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "プリペイドカード 5,000円",
+    "translationEn": "Prepaid card 5000 yen",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 138,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 6854,
+  "taxMinor": 148,
+  "taxIncluded": false,
+  "totalMinor": 7002,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4980",
+    "bbox": {
+     "x": 0.57,
+     "y": 0.64,
+     "w": 0.28,
+     "h": 0.02
+    }
+   },
+   {
+    "kind": "name",
+    "text": "コウノ ハルカ 様",
+    "bbox": {
+     "x": 0.2,
+     "y": 0.73,
+     "w": 0.18,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "4918 7673 3547",
+    "bbox": {
+     "x": 0.58,
+     "y": 0.78,
+     "w": 0.27,
+     "h": 0.02
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 6-packs of 2 L drinking water bring 12 bottles toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in the 2 L size counts toward the drinking water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "c1e74f0af514c8790ca1a609f36e0b2445450fa9e52a78325cf3730b6d8984fa",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3761,
+   "tokensOut": 3145,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.018068
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1490,
+   "tokensOut": 923,
+   "usdCeiling": 0.042303,
+   "usdActual": 0.005785
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ドラッグ ヒカリ",
+   "merchantAddress": "空川県北空市中央3-5-12",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-08T10:13:00",
+   "receiptNumber": "7283",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "おいしい水 2L 6本入",
+     "translationEn": "water 2L",
+     "qty": 2,
+     "unitPriceMinor": 858,
+     "amountMinor": 1716,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "プリペイドカード 5,000円",
+     "translationEn": "prepaid card",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 5000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "山里の湧水 2L",
+     "translationEn": "spring water 2L",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 138,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 6854,
+   "taxMinor": 148,
+   "taxIncluded": false,
+   "totalMinor": 7002,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    8,
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ]
+  ],
+  "bandTexts": {
+   "1": "ドラッグ ヒカリ",
+   "2": "北空中央店",
+   "3": "空川県北空市中央3-5-12",
+   "4": "TEL 0123-33-7788",
+   "5": "登録番号 T0000100000634",
+   "6": "2026年11月08日(日) 10:13",
+   "7": "レジ03 No.7283",
+   "8": "おいしい水 2L ¥1,716※",
+   "9": "6本入",
+   "10": "2点 x 単858",
+   "11": "プリペイドカード 5,000円 ¥5,000",
+   "12": "山里の湧水 2L ¥138※",
+   "13": "小計 (3点) ¥6,854",
+   "14": "外税8% 対象 ¥1,854 消費税 ¥148",
+   "15": "非課税対象 ¥5,000",
+   "16": "合計 ¥7,002",
+   "17": "クレジット ************4980",
+   "18": "お支払い ¥7,002",
+   "19": "ポイントカード",
+   "20": "コウノ ハルカ 様",
+   "21": "会員番号 4918 7675 3547",
+   "22": "※は軽減税率(8%)対象商品です",
+   "23": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 101,
+    "y1": 159,
+    "quad": [
+     [
+      137.2,
+      99.3
+     ],
+     [
+      539.4,
+      124.6
+     ],
+     [
+      537.6,
+      153.6
+     ],
+     [
+      135.4,
+      128.3
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 169,
+    "y1": 220,
+    "quad": [
+     [
+      135.1,
+      133.3
+     ],
+     [
+      537.3,
+      158.6
+     ],
+     [
+      535.7,
+      184
+     ],
+     [
+      133.5,
+      158.7
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 225,
+    "y1": 272,
+    "quad": [
+     [
+      133.3,
+      161.2
+     ],
+     [
+      535.5,
+      186.5
+     ],
+     [
+      534.1,
+      210
+     ],
+     [
+      131.8,
+      184.7
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 276,
+    "y1": 319,
+    "quad": [
+     [
+      131.7,
+      186.7
+     ],
+     [
+      533.9,
+      212
+     ],
+     [
+      532.6,
+      233.4
+     ],
+     [
+      130.4,
+      208.1
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 324,
+    "y1": 370,
+    "quad": [
+     [
+      130.2,
+      210.6
+     ],
+     [
+      532.4,
+      235.9
+     ],
+     [
+      531,
+      258.9
+     ],
+     [
+      128.8,
+      233.6
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 414,
+    "y1": 460,
+    "quad": [
+     [
+      127.4,
+      255.5
+     ],
+     [
+      529.6,
+      280.8
+     ],
+     [
+      528.2,
+      303.8
+     ],
+     [
+      125.9,
+      278.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 462,
+    "y1": 508,
+    "quad": [
+     [
+      125.9,
+      279.5
+     ],
+     [
+      528.1,
+      304.8
+     ],
+     [
+      526.6,
+      327.7
+     ],
+     [
+      124.4,
+      302.4
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 551,
+    "y1": 598,
+    "quad": [
+     [
+      123.1,
+      323.9
+     ],
+     [
+      525.3,
+      349.2
+     ],
+     [
+      523.8,
+      372.7
+     ],
+     [
+      121.6,
+      347.4
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 599,
+    "y1": 639,
+    "quad": [
+     [
+      121.6,
+      347.9
+     ],
+     [
+      523.8,
+      373.2
+     ],
+     [
+      522.5,
+      393.1
+     ],
+     [
+      120.3,
+      367.8
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 640,
+    "y1": 681,
+    "quad": [
+     [
+      120.3,
+      368.3
+     ],
+     [
+      522.5,
+      393.6
+     ],
+     [
+      521.2,
+      414.1
+     ],
+     [
+      119,
+      388.8
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 684,
+    "y1": 732,
+    "quad": [
+     [
+      118.9,
+      390.3
+     ],
+     [
+      521.1,
+      415.6
+     ],
+     [
+      519.6,
+      439.5
+     ],
+     [
+      117.4,
+      414.2
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 732,
+    "y1": 778,
+    "quad": [
+     [
+      117.4,
+      414.2
+     ],
+     [
+      519.6,
+      439.5
+     ],
+     [
+      518.2,
+      462.5
+     ],
+     [
+      116,
+      437.2
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 819,
+    "y1": 866,
+    "quad": [
+     [
+      114.7,
+      457.6
+     ],
+     [
+      516.9,
+      482.9
+     ],
+     [
+      515.4,
+      506.4
+     ],
+     [
+      113.2,
+      481.1
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 867,
+    "y1": 914,
+    "quad": [
+     [
+      113.2,
+      481.6
+     ],
+     [
+      515.4,
+      506.9
+     ],
+     [
+      513.9,
+      530.3
+     ],
+     [
+      111.7,
+      505
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 915,
+    "y1": 961,
+    "quad": [
+     [
+      111.7,
+      505.5
+     ],
+     [
+      513.9,
+      530.8
+     ],
+     [
+      512.4,
+      553.8
+     ],
+     [
+      110.2,
+      528.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 969,
+    "y1": 1024,
+    "quad": [
+     [
+      110,
+      532.5
+     ],
+     [
+      512.2,
+      557.8
+     ],
+     [
+      510.4,
+      585.2
+     ],
+     [
+      108.2,
+      559.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 1026,
+    "y1": 1071,
+    "quad": [
+     [
+      108.2,
+      560.9
+     ],
+     [
+      510.4,
+      586.2
+     ],
+     [
+      509,
+      608.7
+     ],
+     [
+      106.8,
+      583.4
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1073,
+    "y1": 1122,
+    "quad": [
+     [
+      106.7,
+      584.4
+     ],
+     [
+      508.9,
+      609.7
+     ],
+     [
+      507.4,
+      634.1
+     ],
+     [
+      105.2,
+      608.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1158,
+    "y1": 1203,
+    "quad": [
+     [
+      104,
+      626.8
+     ],
+     [
+      506.2,
+      652.1
+     ],
+     [
+      504.8,
+      674.6
+     ],
+     [
+      102.6,
+      649.3
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1206,
+    "y1": 1251,
+    "quad": [
+     [
+      102.5,
+      650.8
+     ],
+     [
+      504.7,
+      676.1
+     ],
+     [
+      503.3,
+      698.5
+     ],
+     [
+      101.1,
+      673.2
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1252,
+    "y1": 1298,
+    "quad": [
+     [
+      101.1,
+      673.7
+     ],
+     [
+      503.3,
+      699
+     ],
+     [
+      501.8,
+      722
+     ],
+     [
+      99.6,
+      696.7
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1334,
+    "y1": 1373,
+    "quad": [
+     [
+      98.5,
+      714.6
+     ],
+     [
+      500.7,
+      739.9
+     ],
+     [
+      499.5,
+      759.4
+     ],
+     [
+      97.3,
+      734.1
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1373,
+    "y1": 1411,
+    "quad": [
+     [
+      97.3,
+      734.1
+     ],
+     [
+      499.5,
+      759.4
+     ],
+     [
+      498.3,
+      778.4
+     ],
+     [
+      96.1,
+      753.1
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 633,
+   "height": 899
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2 L drinking water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in the 2 L size counts toward the drinking water need.",
+    "confidence": 0.9
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2 L drinking water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in the 2 L size counts toward the drinking water need.",
+    "confidence": 0.9
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1490,
+   "tokensOut": 923,
+   "usdCeiling": 0.042303,
+   "usdActual": 0.005785
+  }
+ },
+ "latencyMs": {
+  "read": 12281,
+  "classify": 6470
+ },
+ "errors": [],
+ "trace": null
+}

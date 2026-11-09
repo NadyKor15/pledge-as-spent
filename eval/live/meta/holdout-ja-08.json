@@ -1,0 +1,1107 @@
+{
+ "receiptId": "holdout-ja-08",
+ "set": "holdout",
+ "imageSha256": "ebdff881ef2be1a0ebda1edf80226dad5eeb6c309c022a8ecbd94aa7a9c896a7",
+ "reading": {
+  "merchantName": "ホームセンター ツバメ 北空東店",
+  "merchantAddress": "空川県北空市東町7-20",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-09T13:32",
+  "receiptNumber": "3565",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "AA alkaline batteries 8-pack",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket",
+    "qty": null,
+    "unitPriceMinor": 1480,
+    "amountMinor": 1480,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ふんわりテープ M 40枚",
+    "translationEn": "Soft tape M 40 sheets",
+    "qty": 2,
+    "unitPriceMinor": 1180,
+    "amountMinor": 2360,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Water 2L 6-pack",
+    "qty": 2,
+    "unitPriceMinor": 858,
+    "amountMinor": 1716,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "歯ブラシ 3本",
+    "translationEn": "Toothbrush 3-pack",
+    "qty": null,
+    "unitPriceMinor": 248,
+    "amountMinor": 248,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 7096,
+  "taxMinor": null,
+  "taxIncluded": true,
+  "totalMinor": 7096,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "*************5268",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drink is not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 8-packs of AA alkaline batteries bring 16 AA pieces toward the batteries need.",
+   "confidence": 0.85
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece blanket counts toward the blankets need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Soft tape diapers in size M count toward the size M diapers need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 6-packs of 2L drinking water bring 12 bottles toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "08dafd6474183324bd15cafabf74656e5d68888c16f6b1ec9bd2e92240f7b698",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4350,
+   "tokensOut": 4101,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.022867
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1699,
+   "tokensOut": 1531,
+   "usdCeiling": 0.043294,
+   "usdActual": 0.008631
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ホームセンター ツバメ",
+   "merchantAddress": "空川県北空市東町7-20",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-09T13:32:00",
+   "receiptNumber": "3565",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ゼリー飲料",
+     "translationEn": "jelly drink",
+     "qty": 2,
+     "unitPriceMinor": 178,
+     "amountMinor": 356,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "単三アルカリ 8本パック",
+     "translationEn": "AAA batteries 8-pack",
+     "qty": 2,
+     "unitPriceMinor": 468,
+     "amountMinor": 936,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "フリース毛布 140x200",
+     "translationEn": "fleece blanket",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1480,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "ふんわりテープ M 40枚",
+     "translationEn": "tape M 40pcs",
+     "qty": 2,
+     "unitPriceMinor": 1180,
+     "amountMinor": 2360,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "おいしい水 2L 6本入",
+     "translationEn": "water 2L 6-pack",
+     "qty": 2,
+     "unitPriceMinor": 858,
+     "amountMinor": 1716,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 6,
+     "rawText": "歯ブラシ 3本",
+     "translationEn": "toothbrush 3pcs",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 248,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 7096,
+   "taxMinor": 609,
+   "taxIncluded": true,
+   "totalMinor": 7096,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11,
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14,
+    15
+   ],
+   [
+    16,
+    17,
+    18
+   ],
+   [
+    19
+   ]
+  ],
+  "bandTexts": {
+   "1": "ホームセンター ツバメ",
+   "2": "北空東店",
+   "3": "空川県北空市東町7-20",
+   "4": "TEL 0123-55-1100",
+   "5": "登録番号 T0000100000712",
+   "6": "------------------------------------------------",
+   "7": "2026年11月09日(月) 13:32",
+   "8": "レジ01 No.3565",
+   "9": "ゼリー飲料 ¥356※",
+   "10": "2点 x 単178",
+   "11": "単三アルカリ 8本パック ¥936",
+   "12": "2点 x 単468",
+   "13": "フリース毛布 140x200 ¥1,480",
+   "14": "ふんわりテープ M 40枚 ¥2,360",
+   "15": "2点 x 単1,180",
+   "16": "おいしい水 2L ¥1,716※",
+   "17": "6本入",
+   "18": "2点 x 単858",
+   "19": "歯ブラシ 3本 ¥248",
+   "20": "小計 (6点) ¥7,096",
+   "21": "8%対象 ¥2,072",
+   "22": "10%対象 ¥5,024",
+   "23": "(内消費税等 8% ¥153)",
+   "24": "(内消費税等 10% ¥456)",
+   "25": "合計 ¥7,096",
+   "26": "クレジット ************5268",
+   "27": "お支払い ¥7,096",
+   "28": "................................................................................",
+   "29": "※は軽減税率(8%)対象商品です",
+   "30": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 102,
+    "y1": 160,
+    "quad": [
+     [
+      123.9,
+      109
+     ],
+     [
+      529.5,
+      126
+     ],
+     [
+      528.3,
+      154.9
+     ],
+     [
+      122.7,
+      137.9
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 167,
+    "y1": 218,
+    "quad": [
+     [
+      122.5,
+      141.4
+     ],
+     [
+      528.2,
+      158.4
+     ],
+     [
+      527.1,
+      183.9
+     ],
+     [
+      121.5,
+      166.9
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 219,
+    "y1": 267,
+    "quad": [
+     [
+      121.4,
+      167.4
+     ],
+     [
+      527.1,
+      184.4
+     ],
+     [
+      526.1,
+      208.4
+     ],
+     [
+      120.4,
+      191.4
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 267,
+    "y1": 312,
+    "quad": [
+     [
+      120.4,
+      191.4
+     ],
+     [
+      526.1,
+      208.4
+     ],
+     [
+      525.1,
+      230.9
+     ],
+     [
+      119.5,
+      213.9
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 312,
+    "y1": 361,
+    "quad": [
+     [
+      119.5,
+      213.9
+     ],
+     [
+      525.1,
+      230.9
+     ],
+     [
+      524.1,
+      255.3
+     ],
+     [
+      118.5,
+      238.3
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 366,
+    "y1": 397,
+    "quad": [
+     [
+      118.4,
+      240.8
+     ],
+     [
+      524,
+      257.8
+     ],
+     [
+      523.3,
+      273.3
+     ],
+     [
+      117.7,
+      256.3
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 398,
+    "y1": 445,
+    "quad": [
+     [
+      117.7,
+      256.8
+     ],
+     [
+      523.3,
+      273.8
+     ],
+     [
+      522.3,
+      297.3
+     ],
+     [
+      116.7,
+      280.3
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 446,
+    "y1": 496,
+    "quad": [
+     [
+      116.7,
+      280.8
+     ],
+     [
+      522.3,
+      297.8
+     ],
+     [
+      521.3,
+      322.8
+     ],
+     [
+      115.6,
+      305.8
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 531,
+    "y1": 579,
+    "quad": [
+     [
+      114.9,
+      323.3
+     ],
+     [
+      520.5,
+      340.3
+     ],
+     [
+      519.5,
+      364.2
+     ],
+     [
+      113.9,
+      347.2
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 580,
+    "y1": 621,
+    "quad": [
+     [
+      113.9,
+      347.7
+     ],
+     [
+      519.5,
+      364.7
+     ],
+     [
+      518.7,
+      385.2
+     ],
+     [
+      113,
+      368.2
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 621,
+    "y1": 669,
+    "quad": [
+     [
+      113,
+      368.2
+     ],
+     [
+      518.7,
+      385.2
+     ],
+     [
+      517.7,
+      409.2
+     ],
+     [
+      112,
+      392.2
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 669,
+    "y1": 710,
+    "quad": [
+     [
+      112,
+      392.2
+     ],
+     [
+      517.7,
+      409.2
+     ],
+     [
+      516.8,
+      429.7
+     ],
+     [
+      111.1,
+      412.7
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 711,
+    "y1": 761,
+    "quad": [
+     [
+      111.1,
+      413.2
+     ],
+     [
+      516.8,
+      430.2
+     ],
+     [
+      515.7,
+      455.2
+     ],
+     [
+      110.1,
+      438.2
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 761,
+    "y1": 808,
+    "quad": [
+     [
+      110.1,
+      438.2
+     ],
+     [
+      515.7,
+      455.2
+     ],
+     [
+      514.7,
+      478.6
+     ],
+     [
+      109.1,
+      461.6
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 809,
+    "y1": 849,
+    "quad": [
+     [
+      109.1,
+      462.1
+     ],
+     [
+      514.7,
+      479.1
+     ],
+     [
+      513.9,
+      499.1
+     ],
+     [
+      108.2,
+      482.1
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 850,
+    "y1": 898,
+    "quad": [
+     [
+      108.2,
+      482.6
+     ],
+     [
+      513.9,
+      499.6
+     ],
+     [
+      512.9,
+      523.6
+     ],
+     [
+      107.2,
+      506.6
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 898,
+    "y1": 937,
+    "quad": [
+     [
+      107.2,
+      506.6
+     ],
+     [
+      512.9,
+      523.6
+     ],
+     [
+      512,
+      543.1
+     ],
+     [
+      106.4,
+      526.1
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 938,
+    "y1": 979,
+    "quad": [
+     [
+      106.4,
+      526.6
+     ],
+     [
+      512,
+      543.6
+     ],
+     [
+      511.2,
+      564.1
+     ],
+     [
+      105.5,
+      547.1
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 979,
+    "y1": 1028,
+    "quad": [
+     [
+      105.5,
+      547.1
+     ],
+     [
+      511.2,
+      564.1
+     ],
+     [
+      510.1,
+      588.5
+     ],
+     [
+      104.5,
+      571.5
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1069,
+    "y1": 1118,
+    "quad": [
+     [
+      103.6,
+      592
+     ],
+     [
+      509.3,
+      609
+     ],
+     [
+      508.2,
+      633.5
+     ],
+     [
+      102.6,
+      616.5
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1118,
+    "y1": 1166,
+    "quad": [
+     [
+      102.6,
+      616.5
+     ],
+     [
+      508.2,
+      633.5
+     ],
+     [
+      507.2,
+      657.5
+     ],
+     [
+      101.6,
+      640.5
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1166,
+    "y1": 1213,
+    "quad": [
+     [
+      101.6,
+      640.5
+     ],
+     [
+      507.2,
+      657.5
+     ],
+     [
+      506.3,
+      681
+     ],
+     [
+      100.6,
+      664
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1213,
+    "y1": 1255,
+    "quad": [
+     [
+      100.6,
+      664
+     ],
+     [
+      506.3,
+      681
+     ],
+     [
+      505.4,
+      701.9
+     ],
+     [
+      99.7,
+      684.9
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1256,
+    "y1": 1300,
+    "quad": [
+     [
+      99.7,
+      685.4
+     ],
+     [
+      505.4,
+      702.4
+     ],
+     [
+      504.4,
+      724.4
+     ],
+     [
+      98.8,
+      707.4
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1308,
+    "y1": 1365,
+    "quad": [
+     [
+      98.6,
+      711.4
+     ],
+     [
+      504.3,
+      728.4
+     ],
+     [
+      503.1,
+      756.9
+     ],
+     [
+      97.4,
+      739.9
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1365,
+    "y1": 1415,
+    "quad": [
+     [
+      97.4,
+      739.9
+     ],
+     [
+      503.1,
+      756.9
+     ],
+     [
+      502,
+      781.9
+     ],
+     [
+      96.4,
+      764.9
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1415,
+    "y1": 1466,
+    "quad": [
+     [
+      96.4,
+      764.9
+     ],
+     [
+      502,
+      781.9
+     ],
+     [
+      501,
+      807.4
+     ],
+     [
+      95.3,
+      790.4
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1470,
+    "y1": 1500,
+    "quad": [
+     [
+      95.2,
+      792.4
+     ],
+     [
+      500.9,
+      809.4
+     ],
+     [
+      500.3,
+      824.3
+     ],
+     [
+      94.6,
+      807.3
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1501,
+    "y1": 1541,
+    "quad": [
+     [
+      94.6,
+      807.8
+     ],
+     [
+      500.2,
+      824.8
+     ],
+     [
+      499.4,
+      844.8
+     ],
+     [
+      93.7,
+      827.8
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1542,
+    "y1": 1584,
+    "quad": [
+     [
+      93.7,
+      828.3
+     ],
+     [
+      499.4,
+      845.3
+     ],
+     [
+      498.5,
+      866.3
+     ],
+     [
+      92.8,
+      849.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 623,
+   "height": 976
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 8-packs of AA alkaline batteries bring 16 AA pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece blanket counts toward the blankets need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Soft tape diapers in size M count toward the size M diapers need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2L drinking water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrushes are not one of the listed needs.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drink is not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "The Japanese text says Tan-san AA batteries, so two 8-packs bring 16 AA pieces despite the AAA translation guess.",
+    "confidence": 0.85
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece blanket counts toward the blankets need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Soft tape diapers in size M count toward the size M diapers need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of 2L drinking water bring 12 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrushes are not one of the listed needs.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1699,
+   "tokensOut": 1531,
+   "usdCeiling": 0.043294,
+   "usdActual": 0.008631
+  }
+ },
+ "latencyMs": {
+  "read": 14981,
+  "classify": 9999
+ },
+ "errors": [],
+ "trace": null
+}

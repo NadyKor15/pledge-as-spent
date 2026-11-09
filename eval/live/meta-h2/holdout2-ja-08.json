@@ -1,0 +1,906 @@
+{
+ "receiptId": "holdout2-ja-08",
+ "set": "holdout2",
+ "imageSha256": "bdf8998289444e14ee84c63badef06acc842bc3e2dad3c3160e0b7ee6aab8786",
+ "reading": {
+  "merchantName": "くらしの店 マルミ",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T20:52:00",
+  "receiptNumber": "2727",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Canned mackerel",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単4 アルカリ 4本",
+    "translationEn": "Alkaline batteries",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "値引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -60,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "アルプス水 2L ケース6本",
+    "translationEn": "Water 2L case",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "セブンスター 1個",
+    "translationEn": "Seven Star",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 600,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 2528,
+  "taxMinor": 220,
+  "taxIncluded": false,
+  "totalMinor": 2748,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned mackerel counts toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA battery type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "This discount reduces the AAA batteries which are not a need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A case of six 2 L drinking water bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Seven Star is a cigarette brand which this drive never funds.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "29a6ab2074115bd944078cb831783fe56bcd16f5d910574e4bac08c2e9e70f8d",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3917,
+   "tokensOut": 4437,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.023753
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1587,
+   "tokensOut": 1760,
+   "usdCeiling": 0.042875,
+   "usdActual": 0.009464
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "くらしの店 マルミ 北空本町店",
+   "merchantAddress": "空川県北空市本町1-9-3",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-06T20:52:00",
+   "receiptNumber": "2727",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "さば水煮 缶詰",
+     "translationEn": "canned mackerel",
+     "qty": 4,
+     "unitPriceMinor": 198,
+     "amountMinor": 792,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "単4 アルカリ 4本",
+     "translationEn": "AAA batteries",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 398,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "値引",
+     "translationEn": "discount",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": -60,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "アルプス水 2L ケース6本",
+     "translationEn": "water 2L case",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 798,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "セブンスター 1個",
+     "translationEn": "cigarettes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 600,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 2528,
+   "taxMinor": 220,
+   "taxIncluded": false,
+   "totalMinor": 2748,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14,
+    15
+   ],
+   [
+    16
+   ]
+  ],
+  "bandTexts": {
+   "1": "くらしの店 マルミ",
+   "2": "北空本町店",
+   "3": "空川県北空市本町1-9-3",
+   "4": "TEL 0123-70-3355",
+   "5": "登録番号 T0000100000926",
+   "6": "--------------------------------------------------",
+   "7": "2026年11月06日(金) 20:52",
+   "8": "レジ03 No.2727",
+   "9": "--------------------------------------------------",
+   "10": "さば水煮 缶詰 ¥792※",
+   "11": "4点 x 単198",
+   "12": "単4 アルカリ 4本 ¥398",
+   "13": "値引 -¥60",
+   "14": "アルプス水 2L ¥798※",
+   "15": "ケース6本",
+   "16": "セブンスター 1個 ¥600",
+   "17": "小計 (4点) ¥2,528",
+   "18": "外税8% 対象 ¥1,590 消費税 ¥127",
+   "19": "外税10% 対象 ¥938 消費税 ¥93",
+   "20": "合計 ¥2,748",
+   "21": "お預り ¥3,000",
+   "22": "お釣り ¥252",
+   "23": "※は軽減税率(8%)対象商品です",
+   "24": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 110,
+    "y1": 170,
+    "quad": [
+     [
+      98,
+      116.3
+     ],
+     [
+      501.4,
+      107.8
+     ],
+     [
+      502.1,
+      137.8
+     ],
+     [
+      98.7,
+      146.3
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 174,
+    "y1": 227,
+    "quad": [
+     [
+      98.7,
+      148.3
+     ],
+     [
+      502.1,
+      139.8
+     ],
+     [
+      502.7,
+      166.3
+     ],
+     [
+      99.3,
+      174.8
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 228,
+    "y1": 276,
+    "quad": [
+     [
+      99.3,
+      175.3
+     ],
+     [
+      502.7,
+      166.8
+     ],
+     [
+      503.2,
+      190.8
+     ],
+     [
+      99.8,
+      199.3
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 276,
+    "y1": 322,
+    "quad": [
+     [
+      99.8,
+      199.3
+     ],
+     [
+      503.2,
+      190.8
+     ],
+     [
+      503.7,
+      213.8
+     ],
+     [
+      100.3,
+      222.3
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 323,
+    "y1": 373,
+    "quad": [
+     [
+      100.3,
+      222.8
+     ],
+     [
+      503.7,
+      214.3
+     ],
+     [
+      504.2,
+      239.3
+     ],
+     [
+      100.8,
+      247.8
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 374,
+    "y1": 409,
+    "quad": [
+     [
+      100.8,
+      248.3
+     ],
+     [
+      504.2,
+      239.8
+     ],
+     [
+      504.6,
+      257.3
+     ],
+     [
+      101.2,
+      265.8
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 411,
+    "y1": 457,
+    "quad": [
+     [
+      101.2,
+      266.8
+     ],
+     [
+      504.6,
+      258.3
+     ],
+     [
+      505.1,
+      281.3
+     ],
+     [
+      101.7,
+      289.8
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 458,
+    "y1": 507,
+    "quad": [
+     [
+      101.7,
+      290.2
+     ],
+     [
+      505.1,
+      281.8
+     ],
+     [
+      505.6,
+      306.3
+     ],
+     [
+      102.2,
+      314.7
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 510,
+    "y1": 542,
+    "quad": [
+     [
+      102.2,
+      316.2
+     ],
+     [
+      505.6,
+      307.8
+     ],
+     [
+      506,
+      323.8
+     ],
+     [
+      102.6,
+      332.2
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 542,
+    "y1": 594,
+    "quad": [
+     [
+      102.6,
+      332.2
+     ],
+     [
+      506,
+      323.8
+     ],
+     [
+      506.5,
+      349.8
+     ],
+     [
+      103.1,
+      358.2
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 594,
+    "y1": 635,
+    "quad": [
+     [
+      103.1,
+      358.2
+     ],
+     [
+      506.5,
+      349.8
+     ],
+     [
+      506.9,
+      370.3
+     ],
+     [
+      103.5,
+      378.7
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 635,
+    "y1": 683,
+    "quad": [
+     [
+      103.5,
+      378.7
+     ],
+     [
+      506.9,
+      370.3
+     ],
+     [
+      507.4,
+      394.3
+     ],
+     [
+      104,
+      402.7
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 683,
+    "y1": 730,
+    "quad": [
+     [
+      104,
+      402.7
+     ],
+     [
+      507.4,
+      394.3
+     ],
+     [
+      507.9,
+      417.8
+     ],
+     [
+      104.5,
+      426.2
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 731,
+    "y1": 778,
+    "quad": [
+     [
+      104.5,
+      426.7
+     ],
+     [
+      507.9,
+      418.3
+     ],
+     [
+      508.4,
+      441.8
+     ],
+     [
+      105,
+      450.2
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 779,
+    "y1": 819,
+    "quad": [
+     [
+      105,
+      450.7
+     ],
+     [
+      508.4,
+      442.3
+     ],
+     [
+      508.9,
+      462.3
+     ],
+     [
+      105.5,
+      470.7
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 820,
+    "y1": 868,
+    "quad": [
+     [
+      105.5,
+      471.2
+     ],
+     [
+      508.9,
+      462.8
+     ],
+     [
+      509.4,
+      486.8
+     ],
+     [
+      106,
+      495.2
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 908,
+    "y1": 957,
+    "quad": [
+     [
+      106.4,
+      515.2
+     ],
+     [
+      509.8,
+      506.8
+     ],
+     [
+      510.3,
+      531.2
+     ],
+     [
+      106.9,
+      539.7
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 957,
+    "y1": 1005,
+    "quad": [
+     [
+      106.9,
+      539.7
+     ],
+     [
+      510.3,
+      531.2
+     ],
+     [
+      510.8,
+      555.2
+     ],
+     [
+      107.4,
+      563.7
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1005,
+    "y1": 1054,
+    "quad": [
+     [
+      107.4,
+      563.7
+     ],
+     [
+      510.8,
+      555.2
+     ],
+     [
+      511.3,
+      579.7
+     ],
+     [
+      107.9,
+      588.2
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1060,
+    "y1": 1119,
+    "quad": [
+     [
+      108,
+      591.2
+     ],
+     [
+      511.4,
+      582.7
+     ],
+     [
+      512,
+      612.2
+     ],
+     [
+      108.6,
+      620.7
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1120,
+    "y1": 1169,
+    "quad": [
+     [
+      108.6,
+      621.2
+     ],
+     [
+      512,
+      612.7
+     ],
+     [
+      512.5,
+      637.2
+     ],
+     [
+      109.1,
+      645.7
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1170,
+    "y1": 1218,
+    "quad": [
+     [
+      109.1,
+      646.2
+     ],
+     [
+      512.5,
+      637.7
+     ],
+     [
+      513,
+      661.7
+     ],
+     [
+      109.6,
+      670.2
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1254,
+    "y1": 1295,
+    "quad": [
+     [
+      110,
+      688.2
+     ],
+     [
+      513.4,
+      679.7
+     ],
+     [
+      513.9,
+      700.2
+     ],
+     [
+      110.4,
+      708.7
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1295,
+    "y1": 1337,
+    "quad": [
+     [
+      110.4,
+      708.7
+     ],
+     [
+      513.9,
+      700.2
+     ],
+     [
+      514.3,
+      721.2
+     ],
+     [
+      110.9,
+      729.7
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 607,
+   "height": 841
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA battery type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "This discount reduces the AAA batteries which are not a need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A case of six 2 L drinking water bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Seven Star is a cigarette brand which this drive never funds.",
+    "confidence": 0.9
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA battery type this drive needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "This discount reduces the AAA batteries which are not a need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A case of six 2 L drinking water bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Cigarettes are tobacco which this drive never funds.",
+    "confidence": 0.98
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1587,
+   "tokensOut": 1760,
+   "usdCeiling": 0.042875,
+   "usdActual": 0.009464
+  }
+ },
+ "latencyMs": {
+  "read": 16449,
+  "classify": 11687
+ },
+ "errors": [],
+ "trace": null
+}

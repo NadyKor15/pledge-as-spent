@@ -1,0 +1,869 @@
+{
+ "receiptId": "holdout2-tr-03",
+ "set": "holdout2",
+ "imageSha256": "b2ba5c02e194f119b4850fb865209f4138d8c22b00e61758d018f5d926f6841e",
+ "reading": {
+  "merchantName": "ÇINAR SÜPERMARKET",
+  "merchantAddress": "İstasyon Cd. No:28 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T11:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water 5 L",
+    "qty": 3,
+    "unitPriceMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNCE PİL AAA 4'LÜ",
+    "translationEn": "AAA batteries 4-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 8990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MAKARNA 500 GR",
+    "translationEn": "Pasta 500 g",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ISLAK MENDİL 100'LÜ",
+    "translationEn": "Wet wipes 100 pcs",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 4990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi size 4 48 pcs",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 14858,
+  "taxIncluded": true,
+  "totalMinor": 93620,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5130",
+    "bbox": {
+     "x": 0.22,
+     "y": 0.82,
+     "w": 0.35,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "5 L drinking water counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pasta is not one of the needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wet wipes are not one of the needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "bf292cff57d935fd51fa3a413cf5d9339e4c9f76fbbef241b94a82847e7ba4e1",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3662,
+   "tokensOut": 3790,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.020685000000000002
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1648,
+   "tokensOut": 1099,
+   "usdCeiling": 0.043094,
+   "usdActual": 0.006731
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ÇINAR SÜPERMARKET",
+   "merchantAddress": "İstasyon Cd. No:28 Merkez / Yıldızova",
+   "country": "TR",
+   "currency": "TRY",
+   "purchasedAt": "2026-11-06T11:09:00",
+   "receiptNumber": "3433",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "İÇME SUYU PET 5 LT",
+     "translationEn": "drinking water PET 5L",
+     "qty": 3,
+     "unitPriceMinor": 2450,
+     "amountMinor": 7350,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "İNCE PİL AAA 4'LÜ",
+     "translationEn": "AAA batteries 4-pack",
+     "qty": 1,
+     "unitPriceMinor": 8990,
+     "amountMinor": 8990,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "MAKARNA 500 GR",
+     "translationEn": "pasta 500g",
+     "qty": 1,
+     "unitPriceMinor": 2490,
+     "amountMinor": 2490,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "ISLAK MENDİL 100'LÜ",
+     "translationEn": "wet wipes 100 pcs",
+     "qty": 1,
+     "unitPriceMinor": 4990,
+     "amountMinor": 4990,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+     "translationEn": "baby diapers maxi size 4 48 pcs",
+     "qty": 2,
+     "unitPriceMinor": 34900,
+     "amountMinor": 69800,
+     "taxRateBp": 2000
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 14858,
+   "taxIncluded": true,
+   "totalMinor": 93620,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    8,
+    9
+   ],
+   [
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ]
+  ],
+  "bandTexts": {
+   "1": "ÇINAR SÜPERMARKET",
+   "2": "İstasyon Cd. No:28",
+   "3": "Merkez / Yıldızova",
+   "4": "TEL 0 555 000 00 79",
+   "5": "VKN: 0000000079",
+   "6": "------------------------------------------------",
+   "7": "TARİH: 06.11.2026 11:09 FİŞ NO: 3433",
+   "8": "İÇME SUYU PET 5 LT %10 *73,50",
+   "9": "3 x 24,50",
+   "10": "İNCE PİL AAA 4'LÜ %20 *89,90",
+   "11": "MAKARNA 500 GR %10 *24,90",
+   "12": "ISLAK MENDİL 100'LÜ %20 *49,90",
+   "13": "BEBEK BEZİ MAXİ 4 NO 48'Lİ %20 *698,00",
+   "14": "2 x 349,00",
+   "15": "------------------------------------------------",
+   "16": "KDV %10 MATRAH 89,45 *8,95",
+   "17": "KDV %20 MATRAH 698,17 *139,63",
+   "18": "TOPKDV *148,58",
+   "19": "TOPLAM *936,20",
+   "20": "KREDİ KARTI *936,20",
+   "21": "**** **** **** 5130",
+   "22": "TEŞEKKÜR EDERİZ"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 89,
+    "y1": 150,
+    "quad": [
+     [
+      94.3,
+      117.7
+     ],
+     [
+      496.6,
+      106.5
+     ],
+     [
+      497.5,
+      137
+     ],
+     [
+      95.2,
+      148.2
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 153,
+    "y1": 204,
+    "quad": [
+     [
+      95.2,
+      149.7
+     ],
+     [
+      497.5,
+      138.5
+     ],
+     [
+      498.3,
+      164
+     ],
+     [
+      95.9,
+      175.2
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 205,
+    "y1": 249,
+    "quad": [
+     [
+      95.9,
+      175.7
+     ],
+     [
+      498.3,
+      164.5
+     ],
+     [
+      498.9,
+      186.5
+     ],
+     [
+      96.5,
+      197.7
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 252,
+    "y1": 297,
+    "quad": [
+     [
+      96.6,
+      199.2
+     ],
+     [
+      498.9,
+      188
+     ],
+     [
+      499.5,
+      210.4
+     ],
+     [
+      97.2,
+      221.7
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 300,
+    "y1": 343,
+    "quad": [
+     [
+      97.2,
+      223.2
+     ],
+     [
+      499.6,
+      211.9
+     ],
+     [
+      500.2,
+      233.4
+     ],
+     [
+      97.8,
+      244.7
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 352,
+    "y1": 380,
+    "quad": [
+     [
+      98,
+      249.2
+     ],
+     [
+      500.3,
+      237.9
+     ],
+     [
+      500.7,
+      251.9
+     ],
+     [
+      98.4,
+      263.2
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 382,
+    "y1": 436,
+    "quad": [
+     [
+      98.4,
+      264.2
+     ],
+     [
+      500.7,
+      252.9
+     ],
+     [
+      501.5,
+      279.9
+     ],
+     [
+      99.1,
+      291.2
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 469,
+    "y1": 521,
+    "quad": [
+     [
+      99.6,
+      307.6
+     ],
+     [
+      502,
+      296.4
+     ],
+     [
+      502.7,
+      322.4
+     ],
+     [
+      100.3,
+      333.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 521,
+    "y1": 560,
+    "quad": [
+     [
+      100.3,
+      333.6
+     ],
+     [
+      502.7,
+      322.4
+     ],
+     [
+      503.2,
+      341.9
+     ],
+     [
+      100.9,
+      353.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 560,
+    "y1": 610,
+    "quad": [
+     [
+      100.9,
+      353.1
+     ],
+     [
+      503.2,
+      341.9
+     ],
+     [
+      503.9,
+      366.9
+     ],
+     [
+      101.6,
+      378.1
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 612,
+    "y1": 657,
+    "quad": [
+     [
+      101.6,
+      379.1
+     ],
+     [
+      503.9,
+      367.9
+     ],
+     [
+      504.6,
+      390.4
+     ],
+     [
+      102.2,
+      401.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 657,
+    "y1": 704,
+    "quad": [
+     [
+      102.2,
+      401.6
+     ],
+     [
+      504.6,
+      390.4
+     ],
+     [
+      505.2,
+      413.9
+     ],
+     [
+      102.9,
+      425.1
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 705,
+    "y1": 752,
+    "quad": [
+     [
+      102.9,
+      425.6
+     ],
+     [
+      505.2,
+      414.4
+     ],
+     [
+      505.9,
+      437.9
+     ],
+     [
+      103.6,
+      449.1
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 756,
+    "y1": 796,
+    "quad": [
+     [
+      103.6,
+      451.1
+     ],
+     [
+      506,
+      439.9
+     ],
+     [
+      506.5,
+      459.8
+     ],
+     [
+      104.2,
+      471.1
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 803,
+    "y1": 831,
+    "quad": [
+     [
+      104.3,
+      474.6
+     ],
+     [
+      506.6,
+      463.3
+     ],
+     [
+      507,
+      477.3
+     ],
+     [
+      104.7,
+      488.6
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 834,
+    "y1": 876,
+    "quad": [
+     [
+      104.7,
+      490.1
+     ],
+     [
+      507,
+      478.8
+     ],
+     [
+      507.6,
+      499.8
+     ],
+     [
+      105.3,
+      511.1
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 876,
+    "y1": 918,
+    "quad": [
+     [
+      105.3,
+      511.1
+     ],
+     [
+      507.6,
+      499.8
+     ],
+     [
+      508.2,
+      520.8
+     ],
+     [
+      105.9,
+      532.1
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 919,
+    "y1": 968,
+    "quad": [
+     [
+      105.9,
+      532.6
+     ],
+     [
+      508.2,
+      521.3
+     ],
+     [
+      508.9,
+      545.8
+     ],
+     [
+      106.6,
+      557
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 976,
+    "y1": 1031,
+    "quad": [
+     [
+      106.7,
+      561
+     ],
+     [
+      509,
+      549.8
+     ],
+     [
+      509.8,
+      577.3
+     ],
+     [
+      107.5,
+      588.5
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1032,
+    "y1": 1084,
+    "quad": [
+     [
+      107.5,
+      589
+     ],
+     [
+      509.8,
+      577.8
+     ],
+     [
+      510.5,
+      603.8
+     ],
+     [
+      108.2,
+      615
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1086,
+    "y1": 1129,
+    "quad": [
+     [
+      108.2,
+      616
+     ],
+     [
+      510.6,
+      604.8
+     ],
+     [
+      511.2,
+      626.3
+     ],
+     [
+      108.8,
+      637.5
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1130,
+    "y1": 1173,
+    "quad": [
+     [
+      108.8,
+      638
+     ],
+     [
+      511.2,
+      626.8
+     ],
+     [
+      511.8,
+      648.3
+     ],
+     [
+      109.4,
+      659.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 610,
+   "height": 771
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "5 L drinking water counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Pasta is not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Wet wipes are not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "5 L drinking water counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Pasta is not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Wet wipes are not one of the needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1648,
+   "tokensOut": 1099,
+   "usdCeiling": 0.043094,
+   "usdActual": 0.006731
+  }
+ },
+ "latencyMs": {
+  "read": 11672,
+  "classify": 5949
+ },
+ "errors": [],
+ "trace": null
+}

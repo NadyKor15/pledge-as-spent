@@ -1,0 +1,1059 @@
+{
+ "receiptId": "holdout2-en-04",
+ "set": "holdout2",
+ "imageSha256": "ad29c6ad585879c8372facb72faf7b4796a0a2b1d66dbe6886e3524b410650ad",
+ "reading": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-05T18:26:00",
+  "receiptNumber": "1963",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water gallon",
+    "qty": 5,
+    "unitPriceMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GRANOLA BARS 6CT",
+    "translationEn": "Granola bars",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "IPA 6PK 12OZ",
+    "translationEn": "IPA beer 6-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1099,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW 50X60",
+    "translationEn": "Fleece throw",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1299,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ENERGIZER AA 8PK",
+    "translationEn": "Energizer AA batteries",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA batteries",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 999,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Baby diapers",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2199,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 9187,
+  "taxMinor": 551,
+  "taxIncluded": false,
+  "totalMinor": 9738,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "1523497249",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Granola bars are food and are not one of the needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "IPA beer is alcohol, which this drive does not fund.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+   "confidence": 0.92
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA type this drive needs.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "2c106579c5481226ddad113737cb7e5d84dc63386095dd5f72bf0ff24a649b9a",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4151,
+   "tokensOut": 3261,
+   "usdCeiling": 0.096661,
+   "usdActual": 0.019048000000000002
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1724,
+   "tokensOut": 1262,
+   "usdCeiling": 0.043651,
+   "usdActual": 0.007519
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "MAPLE STREET MARKET",
+   "merchantAddress": "41 Maple Street Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-05T18:26:00",
+   "receiptNumber": "1963",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "SPRING WATER GALLON",
+     "translationEn": "spring water;8",
+     "qty": 5,
+     "unitPriceMinor": 159,
+     "amountMinor": 795,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "GRANOLA BARS 6CT",
+     "translationEn": "granola bars;10",
+     "qty": 2,
+     "unitPriceMinor": 399,
+     "amountMinor": 798,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "IPA 6PK 12OZ",
+     "translationEn": "IPA beer",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 1099,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "FLEECE THROW 50X60",
+     "translationEn": "fleece throw",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 1299,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ENERGIZER AA 8PK",
+     "translationEn": "AA batteries;14",
+     "qty": 2,
+     "unitPriceMinor": 999,
+     "amountMinor": 1998,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "AAA BATTERY 8PK",
+     "translationEn": "AAA batteries",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 999,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 7,
+     "rawText": "COMFY BABY DPR S3 48CT",
+     "translationEn": "baby diapers",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 2199,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 9187,
+   "taxMinor": 551,
+   "taxIncluded": false,
+   "totalMinor": 9738,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7
+   ],
+   [
+    9
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    15
+   ],
+   [
+    16
+   ]
+  ],
+  "bandTexts": {
+   "1": "MAPLE STREET MARKET",
+   "2": "41 Maple Street",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0071",
+   "5": "11/05/2026 06:26 PM             REG 04",
+   "6": "TRANS #1963",
+   "7": "SPRING WATER GALLON             $7.95 F",
+   "8": "5 @ $1.59",
+   "9": "GRANOLA BARS 6CT                $7.98 F",
+   "10": "2 @ $3.99",
+   "11": "IPA 6PK 12OZ                  $10.99 T",
+   "12": "FLEECE THROW 50X60             $12.99 T",
+   "13": "ENERGIZER AA 8PK               $19.98 T",
+   "14": "2 @ $9.99",
+   "15": "AAA BATTERY 8PK                 $9.99 T",
+   "16": "COMFY BABY DPR S3 48CT         $21.99 T",
+   "17": "SUBTOTAL                       $91.87",
+   "18": "SALES TAX 7.25%                 $5.51",
+   "19": "TOTAL                         $97.38",
+   "20": "CASH                          $100.00",
+   "21": "CHANGE                          $2.62",
+   "22": "REWARDS MEMBER",
+   "23": "AVA PRESCOTT",
+   "24": "MEMBER #                 1523497249",
+   "25": "T = TAXABLE F = NON-TAXABLE",
+   "26": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 101,
+    "y1": 152,
+    "quad": [
+     [
+      93.4,
+      123.6
+     ],
+     [
+      498.2,
+      110.8
+     ],
+     [
+      499,
+      136.3
+     ],
+     [
+      94.2,
+      149.1
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 163,
+    "y1": 210,
+    "quad": [
+     [
+      94.4,
+      154.6
+     ],
+     [
+      499.2,
+      141.8
+     ],
+     [
+      499.9,
+      165.3
+     ],
+     [
+      95.1,
+      178
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 210,
+    "y1": 256,
+    "quad": [
+     [
+      95.1,
+      178
+     ],
+     [
+      499.9,
+      165.3
+     ],
+     [
+      500.6,
+      188.3
+     ],
+     [
+      95.8,
+      201
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 257,
+    "y1": 301,
+    "quad": [
+     [
+      95.8,
+      201.5
+     ],
+     [
+      500.6,
+      188.8
+     ],
+     [
+      501.3,
+      210.8
+     ],
+     [
+      96.5,
+      223.5
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 343,
+    "y1": 388,
+    "quad": [
+     [
+      97.2,
+      244.5
+     ],
+     [
+      502,
+      231.8
+     ],
+     [
+      502.7,
+      254.3
+     ],
+     [
+      97.9,
+      267
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 390,
+    "y1": 433,
+    "quad": [
+     [
+      97.9,
+      268
+     ],
+     [
+      502.7,
+      255.3
+     ],
+     [
+      503.4,
+      276.8
+     ],
+     [
+      98.6,
+      289.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 476,
+    "y1": 522,
+    "quad": [
+     [
+      99.3,
+      311
+     ],
+     [
+      504.1,
+      298.3
+     ],
+     [
+      504.8,
+      321.2
+     ],
+     [
+      100,
+      334
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 524,
+    "y1": 564,
+    "quad": [
+     [
+      100,
+      335
+     ],
+     [
+      504.8,
+      322.2
+     ],
+     [
+      505.5,
+      342.2
+     ],
+     [
+      100.7,
+      355
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 566,
+    "y1": 611,
+    "quad": [
+     [
+      100.7,
+      356
+     ],
+     [
+      505.5,
+      343.2
+     ],
+     [
+      506.2,
+      365.7
+     ],
+     [
+      101.4,
+      378.4
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 613,
+    "y1": 654,
+    "quad": [
+     [
+      101.4,
+      379.4
+     ],
+     [
+      506.2,
+      366.7
+     ],
+     [
+      506.9,
+      387.2
+     ],
+     [
+      102.1,
+      399.9
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 656,
+    "y1": 699,
+    "quad": [
+     [
+      102.1,
+      400.9
+     ],
+     [
+      506.9,
+      388.2
+     ],
+     [
+      507.6,
+      409.7
+     ],
+     [
+      102.8,
+      422.4
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 704,
+    "y1": 747,
+    "quad": [
+     [
+      102.9,
+      424.9
+     ],
+     [
+      507.7,
+      412.2
+     ],
+     [
+      508.3,
+      433.7
+     ],
+     [
+      103.5,
+      446.4
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 752,
+    "y1": 796,
+    "quad": [
+     [
+      103.6,
+      448.9
+     ],
+     [
+      508.4,
+      436.2
+     ],
+     [
+      509.1,
+      458.2
+     ],
+     [
+      104.3,
+      470.9
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 798,
+    "y1": 840,
+    "quad": [
+     [
+      104.3,
+      471.9
+     ],
+     [
+      509.1,
+      459.2
+     ],
+     [
+      509.8,
+      480.2
+     ],
+     [
+      105,
+      492.9
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 840,
+    "y1": 883,
+    "quad": [
+     [
+      105,
+      492.9
+     ],
+     [
+      509.8,
+      480.2
+     ],
+     [
+      510.5,
+      501.7
+     ],
+     [
+      105.7,
+      514.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 888,
+    "y1": 931,
+    "quad": [
+     [
+      105.7,
+      516.9
+     ],
+     [
+      510.5,
+      504.2
+     ],
+     [
+      511.2,
+      525.6
+     ],
+     [
+      106.4,
+      538.4
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 976,
+    "y1": 1020,
+    "quad": [
+     [
+      107.1,
+      560.9
+     ],
+     [
+      511.9,
+      548.1
+     ],
+     [
+      512.6,
+      570.1
+     ],
+     [
+      107.8,
+      582.8
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1024,
+    "y1": 1068,
+    "quad": [
+     [
+      107.9,
+      584.8
+     ],
+     [
+      512.7,
+      572.1
+     ],
+     [
+      513.4,
+      594.1
+     ],
+     [
+      108.6,
+      606.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1083,
+    "y1": 1132,
+    "quad": [
+     [
+      108.8,
+      614.3
+     ],
+     [
+      513.6,
+      601.6
+     ],
+     [
+      514.4,
+      626.1
+     ],
+     [
+      109.6,
+      638.8
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1139,
+    "y1": 1184,
+    "quad": [
+     [
+      109.7,
+      642.3
+     ],
+     [
+      514.5,
+      629.6
+     ],
+     [
+      515.2,
+      652.1
+     ],
+     [
+      110.4,
+      664.8
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1187,
+    "y1": 1233,
+    "quad": [
+     [
+      110.4,
+      666.3
+     ],
+     [
+      515.2,
+      653.6
+     ],
+     [
+      516,
+      676.6
+     ],
+     [
+      111.2,
+      689.3
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1278,
+    "y1": 1322,
+    "quad": [
+     [
+      111.9,
+      711.8
+     ],
+     [
+      516.7,
+      699.1
+     ],
+     [
+      517.4,
+      721
+     ],
+     [
+      112.6,
+      733.8
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1328,
+    "y1": 1371,
+    "quad": [
+     [
+      112.7,
+      736.8
+     ],
+     [
+      517.5,
+      724
+     ],
+     [
+      518.1,
+      745.5
+     ],
+     [
+      113.3,
+      758.3
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1373,
+    "y1": 1419,
+    "quad": [
+     [
+      113.4,
+      759.3
+     ],
+     [
+      518.2,
+      746.5
+     ],
+     [
+      518.9,
+      769.5
+     ],
+     [
+      114.1,
+      782.2
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1420,
+    "y1": 1459,
+    "quad": [
+     [
+      114.1,
+      782.7
+     ],
+     [
+      518.9,
+      770
+     ],
+     [
+      519.5,
+      789.5
+     ],
+     [
+      114.7,
+      802.2
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1459,
+    "y1": 1498,
+    "quad": [
+     [
+      114.7,
+      802.2
+     ],
+     [
+      519.5,
+      789.5
+     ],
+     [
+      520.1,
+      809
+     ],
+     [
+      115.3,
+      821.7
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 615,
+   "height": 934
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 5,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Granola bars are food and are not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "IPA beer is alcohol, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+    "confidence": 0.92
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 7,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 5,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Granola bars are food and are not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "IPA beer is alcohol, which this drive does not fund.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+    "confidence": 0.92
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 8-packs of AA batteries bring 16 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 7,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1724,
+   "tokensOut": 1262,
+   "usdCeiling": 0.043651,
+   "usdActual": 0.007519
+  }
+ },
+ "latencyMs": {
+  "read": 13628,
+  "classify": 7591
+ },
+ "errors": [],
+ "trace": null
+}

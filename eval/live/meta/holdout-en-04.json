@@ -1,0 +1,889 @@
+{
+ "receiptId": "holdout-en-04",
+ "set": "holdout",
+ "imageSha256": "497f4c2f5d5296ac68a5cb31816891497cd3168f42d9f0a7e1e08350fd52185d",
+ "reading": {
+  "merchantName": "CORNER PHARMACY #14",
+  "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+  "country": null,
+  "currency": "USD",
+  "purchasedAt": "2026-11-06T20:12:00",
+  "receiptNumber": "6353",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DISTILLED WTR 1GAL",
+    "translationEn": "Distilled water 1 gal",
+    "qty": 3,
+    "unitPriceMinor": 139,
+    "amountMinor": 417,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOUBLE A CELLS 12CT",
+    "translationEn": "AA batteries 12-pack",
+    "qty": null,
+    "unitPriceMinor": 1099,
+    "amountMinor": 1099,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "C BATTERY 4PK",
+    "translationEn": "C batteries 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 899,
+    "amountMinor": 1798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TINY STEPS DIAPER SZ3 52CT",
+    "translationEn": "Baby diapers size 3 52-count",
+    "qty": null,
+    "unitPriceMinor": 1899,
+    "amountMinor": 1899,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 5213,
+  "taxMinor": 348,
+  "taxIncluded": false,
+  "totalMinor": 5561,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9447",
+    "bbox": {
+     "x": 0.61,
+     "y": 0.61,
+     "w": 0.3,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.2,
+     "y": 0.69,
+     "w": 0.27,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3156000307",
+    "bbox": {
+     "x": 0.73,
+     "y": 0.74,
+     "w": 0.2,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Distilled drinking water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 12-pack of AA cells brings 12 pieces toward the batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are a different battery type than the AA batteries this drive needs.",
+   "confidence": 0.96
+  },
+  {
+   "lineNo": 4,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers in size 3 count toward the diapers need.",
+   "confidence": 0.97
+  }
+ ],
+ "classifiedFor": "c37ca329438385e220fef0ae1d9e78d73a576beecb838cdde5be3e7c8a589f65",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3785,
+   "tokensOut": 3717,
+   "usdCeiling": 0.095975,
+   "usdActual": 0.020528
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1538,
+   "tokensOut": 964,
+   "usdCeiling": 0.042701,
+   "usdActual": 0.00602
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "CORNER PHARMACY #14",
+   "merchantAddress": "3 Elm Court, Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-06T20:12:00",
+   "receiptNumber": "6353",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "DISTILLED WTR 1GAL",
+     "translationEn": "distilled water",
+     "qty": 3,
+     "unitPriceMinor": 139,
+     "amountMinor": 417,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "DOUBLE A CELLS 12CT",
+     "translationEn": "AA batteries",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1099,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "C BATTERY 4PK",
+     "translationEn": "C batteries",
+     "qty": 2,
+     "unitPriceMinor": 899,
+     "amountMinor": 1798,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "TINY STEPS DIAPER SZ3 52CT",
+     "translationEn": "diapers",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1899,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 5213,
+   "taxMinor": 348,
+   "taxIncluded": false,
+   "totalMinor": 5561,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12,
+    13
+   ],
+   [
+    14
+   ]
+  ],
+  "bandTexts": {
+   "1": "CORNER PHARMACY #14",
+   "2": "3 Elm Court",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0063",
+   "5": "-------------------------------------------------------",
+   "6": "11/06/2026 08:12 PM              REG 03",
+   "7": "TRANS #6353",
+   "8": "----------------------------------------------------------------",
+   "9": "DISTILLED WTR 1GAL              $4.17 F",
+   "10": "3 @ $1.39",
+   "11": "DOUBLE A CELLS 12CT            $10.99 T",
+   "12": "C BATTERY 4PK                  $17.98 T",
+   "13": "2 @ $8.99",
+   "14": "TINY STEPS DIAPER SZ3 52CT     $18.99 T",
+   "15": "SUBTOTAL                       $52.13",
+   "16": "SALES TAX 7.25%                 $3.48",
+   "17": "TOTAL                          $55.61",
+   "18": "VISA                ************9447",
+   "19": "APPROVED                       $55.61",
+   "20": "REWARDS MEMBER",
+   "21": "JORDAN WELLS",
+   "22": "MEMBER #                    3156000307",
+   "23": "T = TAXABLE F = NON-TAXABLE",
+   "24": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 95,
+    "y1": 152,
+    "quad": [
+     [
+      109.7,
+      109.6
+     ],
+     [
+      513.6,
+      121.6
+     ],
+     [
+      512.7,
+      150
+     ],
+     [
+      108.9,
+      138.1
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 159,
+    "y1": 204,
+    "quad": [
+     [
+      108.8,
+      141.6
+     ],
+     [
+      512.6,
+      153.5
+     ],
+     [
+      511.9,
+      176
+     ],
+     [
+      108.1,
+      164
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 204,
+    "y1": 252,
+    "quad": [
+     [
+      108.1,
+      164
+     ],
+     [
+      511.9,
+      176
+     ],
+     [
+      511.2,
+      200
+     ],
+     [
+      107.4,
+      188
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 253,
+    "y1": 299,
+    "quad": [
+     [
+      107.4,
+      188.5
+     ],
+     [
+      511.2,
+      200.5
+     ],
+     [
+      510.5,
+      223.5
+     ],
+     [
+      106.7,
+      211.5
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 303,
+    "y1": 336,
+    "quad": [
+     [
+      106.7,
+      213.5
+     ],
+     [
+      510.5,
+      225.5
+     ],
+     [
+      510,
+      242
+     ],
+     [
+      106.2,
+      230
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 336,
+    "y1": 385,
+    "quad": [
+     [
+      106.2,
+      230
+     ],
+     [
+      510,
+      242
+     ],
+     [
+      509.3,
+      266.5
+     ],
+     [
+      105.4,
+      254.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 386,
+    "y1": 427,
+    "quad": [
+     [
+      105.4,
+      255
+     ],
+     [
+      509.2,
+      267
+     ],
+     [
+      508.6,
+      287.5
+     ],
+     [
+      104.8,
+      275.5
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 438,
+    "y1": 469,
+    "quad": [
+     [
+      104.7,
+      281
+     ],
+     [
+      508.5,
+      293
+     ],
+     [
+      508,
+      308.5
+     ],
+     [
+      104.2,
+      296.5
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 471,
+    "y1": 519,
+    "quad": [
+     [
+      104.2,
+      297.5
+     ],
+     [
+      508,
+      309.5
+     ],
+     [
+      507.3,
+      333.5
+     ],
+     [
+      103.5,
+      321.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 519,
+    "y1": 558,
+    "quad": [
+     [
+      103.5,
+      321.5
+     ],
+     [
+      507.3,
+      333.5
+     ],
+     [
+      506.7,
+      353
+     ],
+     [
+      102.9,
+      341
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 561,
+    "y1": 609,
+    "quad": [
+     [
+      102.8,
+      342.5
+     ],
+     [
+      506.7,
+      354.5
+     ],
+     [
+      505.9,
+      378.4
+     ],
+     [
+      102.1,
+      366.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 609,
+    "y1": 656,
+    "quad": [
+     [
+      102.1,
+      366.5
+     ],
+     [
+      505.9,
+      378.4
+     ],
+     [
+      505.2,
+      401.9
+     ],
+     [
+      101.4,
+      389.9
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 656,
+    "y1": 697,
+    "quad": [
+     [
+      101.4,
+      389.9
+     ],
+     [
+      505.2,
+      401.9
+     ],
+     [
+      504.6,
+      422.4
+     ],
+     [
+      100.8,
+      410.4
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 699,
+    "y1": 746,
+    "quad": [
+     [
+      100.8,
+      411.4
+     ],
+     [
+      504.6,
+      423.4
+     ],
+     [
+      503.9,
+      446.9
+     ],
+     [
+      100.1,
+      434.9
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 788,
+    "y1": 833,
+    "quad": [
+     [
+      99.5,
+      455.9
+     ],
+     [
+      503.3,
+      467.9
+     ],
+     [
+      502.6,
+      490.4
+     ],
+     [
+      98.8,
+      478.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 836,
+    "y1": 882,
+    "quad": [
+     [
+      98.8,
+      479.9
+     ],
+     [
+      502.6,
+      491.9
+     ],
+     [
+      501.9,
+      514.9
+     ],
+     [
+      98.1,
+      502.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 896,
+    "y1": 944,
+    "quad": [
+     [
+      97.9,
+      509.9
+     ],
+     [
+      501.7,
+      521.9
+     ],
+     [
+      501,
+      545.9
+     ],
+     [
+      97.1,
+      533.9
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 950,
+    "y1": 992,
+    "quad": [
+     [
+      97.1,
+      536.9
+     ],
+     [
+      500.9,
+      548.9
+     ],
+     [
+      500.3,
+      569.9
+     ],
+     [
+      96.4,
+      557.9
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 999,
+    "y1": 1041,
+    "quad": [
+     [
+      96.3,
+      561.4
+     ],
+     [
+      500.2,
+      573.4
+     ],
+     [
+      499.5,
+      594.3
+     ],
+     [
+      95.7,
+      582.4
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1088,
+    "y1": 1131,
+    "quad": [
+     [
+      95,
+      605.9
+     ],
+     [
+      498.8,
+      617.8
+     ],
+     [
+      498.2,
+      639.3
+     ],
+     [
+      94.4,
+      627.3
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1138,
+    "y1": 1181,
+    "quad": [
+     [
+      94.3,
+      630.8
+     ],
+     [
+      498.1,
+      642.8
+     ],
+     [
+      497.5,
+      664.3
+     ],
+     [
+      93.6,
+      652.3
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1184,
+    "y1": 1230,
+    "quad": [
+     [
+      93.6,
+      653.8
+     ],
+     [
+      497.4,
+      665.8
+     ],
+     [
+      496.7,
+      688.8
+     ],
+     [
+      92.9,
+      676.8
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1230,
+    "y1": 1269,
+    "quad": [
+     [
+      92.9,
+      676.8
+     ],
+     [
+      496.7,
+      688.8
+     ],
+     [
+      496.2,
+      708.3
+     ],
+     [
+      92.3,
+      696.3
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1272,
+    "y1": 1311,
+    "quad": [
+     [
+      92.3,
+      697.8
+     ],
+     [
+      496.1,
+      709.8
+     ],
+     [
+      495.5,
+      729.3
+     ],
+     [
+      91.7,
+      717.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 612,
+   "height": 841
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Distilled drinking water in 1 gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 12-pack of AA cells brings 12 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "C batteries are a different battery type than the AA batteries this drive needs.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Baby diapers in size 3 count toward the diapers need.",
+    "confidence": 0.97
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Distilled drinking water in 1 gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 12-pack of AA cells brings 12 pieces toward the batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "C batteries are a different battery type than the AA batteries this drive needs.",
+    "confidence": 0.96
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Baby diapers in size 3 count toward the diapers need.",
+    "confidence": 0.97
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1538,
+   "tokensOut": 964,
+   "usdCeiling": 0.042701,
+   "usdActual": 0.00602
+  }
+ },
+ "latencyMs": {
+  "read": 18658,
+  "classify": 6942
+ },
+ "errors": [],
+ "trace": null
+}

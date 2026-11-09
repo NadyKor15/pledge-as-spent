@@ -1,0 +1,1140 @@
+{
+ "receiptId": "adv-outofzone-ja",
+ "set": "adversarial",
+ "imageSha256": "e325eb0b895af42825b846704c18f4d26fb119c0c59c5d8a2c9ef5e4306adf16",
+ "reading": {
+  "merchantName": "潮風マート",
+  "merchantAddress": "海原県海風市浜通5-1",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T12:43:00",
+  "receiptNumber": "4108",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ツナ缶 3缶パック",
+    "translationEn": "Tuna can 3-pack",
+    "qty": 4,
+    "unitPriceMinor": 458,
+    "amountMinor": 1832,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ティッシュ 5箱",
+    "translationEn": "Tissue 5 boxes",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "チョコレート",
+    "translationEn": "Chocolate",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 128,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "牛乳 1L",
+    "translationEn": "Milk 1L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 198,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "アルカリ乾電池 単3 20本入",
+    "translationEn": "Alkaline AAA batteries 20-pack",
+    "qty": 2,
+    "unitPriceMinor": 698,
+    "amountMinor": 1396,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ミネラルウォーター 2Lペット",
+    "translationEn": "Mineral water 2L bottle",
+    "qty": 3,
+    "unitPriceMinor": 108,
+    "amountMinor": 324,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4276,
+  "taxMinor": 377,
+  "taxIncluded": false,
+  "totalMinor": 4653,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1033",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "シライ リツ 様",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "5449 1448 4664",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Tuna cans count toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tissue is paper goods, not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Chocolate is not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 40,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single-3 batteries are AA batteries, which count toward the batteries need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in 2 L bottles counts toward the water need.",
+   "confidence": 0.98
+  }
+ ],
+ "classifiedFor": "af491e9e7f8767be1455def615406ff8253689e93ea4bc3c1684e38b757a9c5f",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4458,
+   "tokensOut": 4161,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.023257
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1687,
+   "tokensOut": 1305,
+   "usdCeiling": 0.043266,
+   "usdActual": 0.007655
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "潮風マート",
+   "merchantAddress": "海原県海風市浜通5-1",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-05T12:43:00",
+   "receiptNumber": "4108",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ツナ缶 3缶パック",
+     "translationEn": "tuna can 3-pack",
+     "qty": 4,
+     "unitPriceMinor": 458,
+     "amountMinor": 1832,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "ティッシュ 5箱",
+     "translationEn": "tissue 5 boxes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 398,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "チョコレート",
+     "translationEn": "chocolate",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 128,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 4,
+     "rawText": "牛乳 1L",
+     "translationEn": "milk 1L",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 198,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "アルカリ乾電池 単3 20本入",
+     "translationEn": "alkaline AAA batteries 20-pack",
+     "qty": 2,
+     "unitPriceMinor": 698,
+     "amountMinor": 1396,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "ミネラルウォーター 2Lペット",
+     "translationEn": "mineral water 2L PET",
+     "qty": 3,
+     "unitPriceMinor": 108,
+     "amountMinor": 324,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 4276,
+   "taxMinor": 377,
+   "taxIncluded": false,
+   "totalMinor": 4653,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17,
+    18,
+    19
+   ]
+  ],
+  "bandTexts": {
+   "1": "潮風マート",
+   "2": "海風店",
+   "3": "海原県海風市浜通5-1",
+   "4": "TEL 0456-78-1234",
+   "5": "登録番号 T0000100000899",
+   "6": "------------------------------------------------------",
+   "7": "2026年11月05日(木) 12:43",
+   "8": "レジ02 No.4108",
+   "9": "------------------------------------------------------",
+   "10": "ツナ缶 3缶パック ¥1,832※",
+   "11": "4点 x 単458",
+   "12": "ティッシュ 5箱 ¥398",
+   "13": "チョコレート ¥128※",
+   "14": "牛乳 1L ¥198※",
+   "15": "アルカリ乾電池 単3 20本入 ¥1,396",
+   "16": "2点 x 単698",
+   "17": "ミネラルウォーター ¥324※",
+   "18": "2Lペット",
+   "19": "3点 x 単108",
+   "20": "小計 (6点) ¥4,276",
+   "21": "外税8% 対象 ¥2,482 消費税 ¥198",
+   "22": "外税10% 対象 ¥1,794 消費税 ¥179",
+   "23": "合計 ¥4,653",
+   "24": "クレジット ************1033",
+   "25": "お支払い ¥4,653",
+   "26": "ポイントカード",
+   "27": "シライ リツ 様",
+   "28": "会員番号 5449 1448 4664",
+   "29": "......................................................................",
+   "30": "※は軽減税率(8%)対象商品です",
+   "31": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 112,
+    "y1": 172,
+    "quad": [
+     [
+      128.9,
+      95.9
+     ],
+     [
+      535.4,
+      116.5
+     ],
+     [
+      533.9,
+      146.5
+     ],
+     [
+      127.4,
+      125.9
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 180,
+    "y1": 233,
+    "quad": [
+     [
+      127.2,
+      129.9
+     ],
+     [
+      533.7,
+      150.5
+     ],
+     [
+      532.4,
+      176.9
+     ],
+     [
+      125.9,
+      156.3
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 234,
+    "y1": 286,
+    "quad": [
+     [
+      125.9,
+      156.8
+     ],
+     [
+      532.3,
+      177.4
+     ],
+     [
+      531,
+      203.4
+     ],
+     [
+      124.5,
+      182.8
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 286,
+    "y1": 334,
+    "quad": [
+     [
+      124.5,
+      182.8
+     ],
+     [
+      531,
+      203.4
+     ],
+     [
+      529.8,
+      227.4
+     ],
+     [
+      123.3,
+      206.8
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 334,
+    "y1": 385,
+    "quad": [
+     [
+      123.3,
+      206.8
+     ],
+     [
+      529.8,
+      227.4
+     ],
+     [
+      528.5,
+      252.8
+     ],
+     [
+      122,
+      232.2
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 387,
+    "y1": 423,
+    "quad": [
+     [
+      122,
+      233.2
+     ],
+     [
+      528.5,
+      253.8
+     ],
+     [
+      527.6,
+      271.8
+     ],
+     [
+      121.1,
+      251.2
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 426,
+    "y1": 473,
+    "quad": [
+     [
+      121,
+      252.7
+     ],
+     [
+      527.5,
+      273.3
+     ],
+     [
+      526.3,
+      296.8
+     ],
+     [
+      119.8,
+      276.2
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 474,
+    "y1": 524,
+    "quad": [
+     [
+      119.8,
+      276.7
+     ],
+     [
+      526.3,
+      297.3
+     ],
+     [
+      525,
+      322.3
+     ],
+     [
+      118.5,
+      301.7
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 527,
+    "y1": 560,
+    "quad": [
+     [
+      118.5,
+      303.2
+     ],
+     [
+      524.9,
+      323.7
+     ],
+     [
+      524.1,
+      340.2
+     ],
+     [
+      117.6,
+      319.6
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 561,
+    "y1": 613,
+    "quad": [
+     [
+      117.6,
+      320.1
+     ],
+     [
+      524.1,
+      340.7
+     ],
+     [
+      522.8,
+      366.7
+     ],
+     [
+      116.3,
+      346.1
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 614,
+    "y1": 654,
+    "quad": [
+     [
+      116.2,
+      346.6
+     ],
+     [
+      522.7,
+      367.2
+     ],
+     [
+      521.7,
+      387.2
+     ],
+     [
+      115.2,
+      366.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 655,
+    "y1": 703,
+    "quad": [
+     [
+      115.2,
+      367.1
+     ],
+     [
+      521.7,
+      387.7
+     ],
+     [
+      520.5,
+      411.6
+     ],
+     [
+      114,
+      391
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 703,
+    "y1": 751,
+    "quad": [
+     [
+      114,
+      391
+     ],
+     [
+      520.5,
+      411.6
+     ],
+     [
+      519.3,
+      435.6
+     ],
+     [
+      112.8,
+      415
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 751,
+    "y1": 799,
+    "quad": [
+     [
+      112.8,
+      415
+     ],
+     [
+      519.3,
+      435.6
+     ],
+     [
+      518,
+      459.6
+     ],
+     [
+      111.6,
+      439
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 800,
+    "y1": 847,
+    "quad": [
+     [
+      111.5,
+      439.5
+     ],
+     [
+      518,
+      460.1
+     ],
+     [
+      516.8,
+      483.5
+     ],
+     [
+      110.4,
+      463
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 847,
+    "y1": 889,
+    "quad": [
+     [
+      110.4,
+      463
+     ],
+     [
+      516.8,
+      483.5
+     ],
+     [
+      515.8,
+      504.5
+     ],
+     [
+      109.3,
+      483.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 889,
+    "y1": 937,
+    "quad": [
+     [
+      109.3,
+      483.9
+     ],
+     [
+      515.8,
+      504.5
+     ],
+     [
+      514.6,
+      528.5
+     ],
+     [
+      108.1,
+      507.9
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 937,
+    "y1": 977,
+    "quad": [
+     [
+      108.1,
+      507.9
+     ],
+     [
+      514.6,
+      528.5
+     ],
+     [
+      513.5,
+      548.5
+     ],
+     [
+      107.1,
+      527.9
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 977,
+    "y1": 1019,
+    "quad": [
+     [
+      107.1,
+      527.9
+     ],
+     [
+      513.5,
+      548.5
+     ],
+     [
+      512.5,
+      569.4
+     ],
+     [
+      106,
+      548.8
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1057,
+    "y1": 1105,
+    "quad": [
+     [
+      105,
+      567.8
+     ],
+     [
+      511.5,
+      588.4
+     ],
+     [
+      510.3,
+      612.4
+     ],
+     [
+      103.8,
+      591.8
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1105,
+    "y1": 1152,
+    "quad": [
+     [
+      103.8,
+      591.8
+     ],
+     [
+      510.3,
+      612.4
+     ],
+     [
+      509.1,
+      635.8
+     ],
+     [
+      102.6,
+      615.3
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1153,
+    "y1": 1202,
+    "quad": [
+     [
+      102.6,
+      615.8
+     ],
+     [
+      509.1,
+      636.3
+     ],
+     [
+      507.9,
+      660.8
+     ],
+     [
+      101.4,
+      640.2
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1205,
+    "y1": 1262,
+    "quad": [
+     [
+      101.3,
+      641.7
+     ],
+     [
+      507.8,
+      662.3
+     ],
+     [
+      506.3,
+      690.8
+     ],
+     [
+      99.9,
+      670.2
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1263,
+    "y1": 1309,
+    "quad": [
+     [
+      99.8,
+      670.7
+     ],
+     [
+      506.3,
+      691.3
+     ],
+     [
+      505.1,
+      714.2
+     ],
+     [
+      98.7,
+      693.7
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1310,
+    "y1": 1361,
+    "quad": [
+     [
+      98.6,
+      694.2
+     ],
+     [
+      505.1,
+      714.7
+     ],
+     [
+      503.8,
+      740.2
+     ],
+     [
+      97.4,
+      719.6
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1392,
+    "y1": 1440,
+    "quad": [
+     [
+      96.6,
+      735.1
+     ],
+     [
+      503,
+      755.7
+     ],
+     [
+      501.8,
+      779.7
+     ],
+     [
+      95.4,
+      759.1
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1440,
+    "y1": 1486,
+    "quad": [
+     [
+      95.4,
+      759.1
+     ],
+     [
+      501.8,
+      779.7
+     ],
+     [
+      500.7,
+      802.6
+     ],
+     [
+      94.2,
+      782
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1486,
+    "y1": 1537,
+    "quad": [
+     [
+      94.2,
+      782
+     ],
+     [
+      500.7,
+      802.6
+     ],
+     [
+      499.4,
+      828.1
+     ],
+     [
+      92.9,
+      807.5
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1540,
+    "y1": 1570,
+    "quad": [
+     [
+      92.8,
+      809
+     ],
+     [
+      499.3,
+      829.6
+     ],
+     [
+      498.5,
+      844.6
+     ],
+     [
+      92.1,
+      824
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1570,
+    "y1": 1609,
+    "quad": [
+     [
+      92.1,
+      824
+     ],
+     [
+      498.5,
+      844.6
+     ],
+     [
+      497.6,
+      864.1
+     ],
+     [
+      91.1,
+      843.5
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1609,
+    "y1": 1649,
+    "quad": [
+     [
+      91.1,
+      843.5
+     ],
+     [
+      497.6,
+      864.1
+     ],
+     [
+      496.5,
+      884
+     ],
+     [
+      90.1,
+      863.4
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 625,
+   "height": 1006
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "canned",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Tuna cans count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Tissue is paper goods, not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Chocolate is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Milk is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 40,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Single-3 batteries are AA batteries, which count toward the batteries need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 6,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water in 2 L bottles counts toward the water need.",
+    "confidence": 0.98
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "canned",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Tuna cans count toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Tissue is paper goods, not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Chocolate is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Milk is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "batteries",
+    "needQty": 40,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Single-3 batteries are AA batteries, which count toward the batteries need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 6,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water in 2 L bottles counts toward the water need.",
+    "confidence": 0.98
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1687,
+   "tokensOut": 1305,
+   "usdCeiling": 0.043266,
+   "usdActual": 0.007655
+  }
+ },
+ "latencyMs": {
+  "read": 19211,
+  "classify": 8594
+ },
+ "errors": [],
+ "trace": null
+}

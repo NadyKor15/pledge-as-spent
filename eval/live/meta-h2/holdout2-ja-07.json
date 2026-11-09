@@ -1,0 +1,1003 @@
+{
+ "receiptId": "holdout2-ja-07",
+ "set": "holdout2",
+ "imageSha256": "c4e4328271ac24fef93330c6fcc09991c95c891d8bb999ce6487d5bf56820ef4",
+ "reading": {
+  "merchantName": "ファミリーストア あおば",
+  "merchantAddress": "空川県北空市西町4-11",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:11:00",
+  "receiptNumber": "2138",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単4 アルカリ 4本",
+    "translationEn": "AAA alkaline batteries",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さぼ水煮 缶詰",
+    "translationEn": "Canned fish",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "すくすくパンツ Mサイズ 52枚",
+    "translationEn": "Baby pants diapers M 52-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Natural water 2L bottle",
+    "qty": 3,
+    "unitPriceMinor": 118,
+    "amountMinor": 354,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L 44-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1380,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfiber blanket single",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1980,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 6682,
+  "taxMinor": 587,
+  "taxIncluded": true,
+  "totalMinor": 6682,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned fish counts toward the canned food need.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size M baby pants diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in 2 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Size L diapers are not the size M this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A microfiber blanket counts toward the blankets need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "6b1645e623657756db088a6fbffa7b2d2c3c936332bf6ac8fe35231c19d56e74",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4155,
+   "tokensOut": 3024,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.018046
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1698,
+   "tokensOut": 1464,
+   "usdCeiling": 0.043393,
+   "usdActual": 0.008345
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ファミリーストア あおば",
+   "merchantAddress": "空川県北空市西町4-11",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-07T13:11:00",
+   "receiptNumber": "2138",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "単4 アルカリ 4本",
+     "translationEn": "AAA alkaline batteries",
+     "qty": 2,
+     "unitPriceMinor": 398,
+     "amountMinor": 796,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "さば水煮 缶詰",
+     "translationEn": "Canned mackerel",
+     "qty": 4,
+     "unitPriceMinor": 198,
+     "amountMinor": 792,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "すくすくパンツ Mサイズ 52枚",
+     "translationEn": "Diaper pants M 52pcs",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1380,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "森の天然水 2Lペット",
+     "translationEn": "Natural water 2L",
+     "qty": 3,
+     "unitPriceMinor": 118,
+     "amountMinor": 354,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "パンツ L 44枚",
+     "translationEn": "Diaper pants L 44pcs",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1380,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "マイクロ毛布 シングル",
+     "translationEn": "Microfiber blanket single",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1980,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 6682,
+   "taxMinor": null,
+   "taxIncluded": true,
+   "totalMinor": 6682,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    8,
+    9
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ],
+   [
+    15
+   ],
+   [
+    16
+   ]
+  ],
+  "bandTexts": {
+   "1": "ファミリーストア あおば",
+   "2": "北空西店",
+   "3": "空川県北空市西町4-11",
+   "4": "TEL 0123-61-2040",
+   "5": "登録番号 T0000100000918",
+   "6": "2026年11月07日(土) 13:11",
+   "7": "レジ06 No.2138",
+   "8": "単4 アルカリ 4本 ¥796",
+   "9": "2点 x 単398",
+   "10": "さば水煮 缶詰 ¥792※",
+   "11": "4点 x 単198",
+   "12": "すくすくパンツ Mサイズ 52枚 ¥1,380",
+   "13": "森の天然水 2Lペット ¥354※",
+   "14": "3点 x 単118",
+   "15": "パンツ L 44枚 ¥1,380",
+   "16": "マイクロ毛布 シングル ¥1,980",
+   "17": "小計 (6点) ¥6,682",
+   "18": "8%対象 ¥1,146",
+   "19": "10%対象 ¥5,536",
+   "20": "(内消費税等 8% ¥84)",
+   "21": "(内消費税等 10% ¥503)",
+   "22": "合計 ¥6,682",
+   "23": "お預り ¥7,000",
+   "24": "お釣り ¥318",
+   "25": "※は軽減税率(8%)対象商品です",
+   "26": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 98,
+    "y1": 156,
+    "quad": [
+     [
+      95.7,
+      121.7
+     ],
+     [
+      497.4,
+      106.9
+     ],
+     [
+      498.5,
+      135.9
+     ],
+     [
+      96.7,
+      150.6
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 164,
+    "y1": 214,
+    "quad": [
+     [
+      96.9,
+      154.6
+     ],
+     [
+      498.6,
+      139.9
+     ],
+     [
+      499.5,
+      164.9
+     ],
+     [
+      97.8,
+      179.6
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 218,
+    "y1": 263,
+    "quad": [
+     [
+      97.9,
+      181.6
+     ],
+     [
+      499.6,
+      166.9
+     ],
+     [
+      500.4,
+      189.4
+     ],
+     [
+      98.7,
+      204.1
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 266,
+    "y1": 309,
+    "quad": [
+     [
+      98.7,
+      205.6
+     ],
+     [
+      500.5,
+      190.9
+     ],
+     [
+      501.3,
+      212.4
+     ],
+     [
+      99.5,
+      227.1
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 313,
+    "y1": 358,
+    "quad": [
+     [
+      99.6,
+      229.1
+     ],
+     [
+      501.3,
+      214.4
+     ],
+     [
+      502.2,
+      236.8
+     ],
+     [
+      100.4,
+      251.6
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 400,
+    "y1": 446,
+    "quad": [
+     [
+      101.2,
+      272.6
+     ],
+     [
+      502.9,
+      257.8
+     ],
+     [
+      503.8,
+      280.8
+     ],
+     [
+      102,
+      295.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 447,
+    "y1": 492,
+    "quad": [
+     [
+      102.1,
+      296
+     ],
+     [
+      503.8,
+      281.3
+     ],
+     [
+      504.6,
+      303.8
+     ],
+     [
+      102.9,
+      318.5
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 535,
+    "y1": 580,
+    "quad": [
+     [
+      103.7,
+      340
+     ],
+     [
+      505.4,
+      325.3
+     ],
+     [
+      506.2,
+      347.8
+     ],
+     [
+      104.5,
+      362.5
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 580,
+    "y1": 621,
+    "quad": [
+     [
+      104.5,
+      362.5
+     ],
+     [
+      506.2,
+      347.8
+     ],
+     [
+      507,
+      368.3
+     ],
+     [
+      105.2,
+      383
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 623,
+    "y1": 669,
+    "quad": [
+     [
+      105.3,
+      384
+     ],
+     [
+      507,
+      369.3
+     ],
+     [
+      507.9,
+      392.2
+     ],
+     [
+      106.1,
+      407
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 670,
+    "y1": 711,
+    "quad": [
+     [
+      106.1,
+      407.5
+     ],
+     [
+      507.9,
+      392.7
+     ],
+     [
+      508.6,
+      413.2
+     ],
+     [
+      106.9,
+      428
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 712,
+    "y1": 760,
+    "quad": [
+     [
+      106.9,
+      428.5
+     ],
+     [
+      508.6,
+      413.7
+     ],
+     [
+      509.5,
+      437.7
+     ],
+     [
+      107.8,
+      452.4
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 761,
+    "y1": 807,
+    "quad": [
+     [
+      107.8,
+      452.9
+     ],
+     [
+      509.5,
+      438.2
+     ],
+     [
+      510.4,
+      461.2
+     ],
+     [
+      108.7,
+      475.9
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 807,
+    "y1": 848,
+    "quad": [
+     [
+      108.7,
+      475.9
+     ],
+     [
+      510.4,
+      461.2
+     ],
+     [
+      511.1,
+      481.7
+     ],
+     [
+      109.4,
+      496.4
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 851,
+    "y1": 898,
+    "quad": [
+     [
+      109.5,
+      497.9
+     ],
+     [
+      511.2,
+      483.2
+     ],
+     [
+      512.1,
+      506.7
+     ],
+     [
+      110.3,
+      521.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 899,
+    "y1": 947,
+    "quad": [
+     [
+      110.3,
+      521.9
+     ],
+     [
+      512.1,
+      507.2
+     ],
+     [
+      512.9,
+      531.1
+     ],
+     [
+      111.2,
+      545.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 986,
+    "y1": 1035,
+    "quad": [
+     [
+      111.9,
+      565.4
+     ],
+     [
+      513.7,
+      550.6
+     ],
+     [
+      514.6,
+      575.1
+     ],
+     [
+      112.8,
+      589.8
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1035,
+    "y1": 1083,
+    "quad": [
+     [
+      112.8,
+      589.8
+     ],
+     [
+      514.6,
+      575.1
+     ],
+     [
+      515.4,
+      599.1
+     ],
+     [
+      113.7,
+      613.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1084,
+    "y1": 1131,
+    "quad": [
+     [
+      113.7,
+      614.3
+     ],
+     [
+      515.5,
+      599.6
+     ],
+     [
+      516.3,
+      623.1
+     ],
+     [
+      114.6,
+      637.8
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1131,
+    "y1": 1170,
+    "quad": [
+     [
+      114.6,
+      637.8
+     ],
+     [
+      516.3,
+      623.1
+     ],
+     [
+      517,
+      642.6
+     ],
+     [
+      115.3,
+      657.3
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1171,
+    "y1": 1212,
+    "quad": [
+     [
+      115.3,
+      657.8
+     ],
+     [
+      517.1,
+      643.1
+     ],
+     [
+      517.8,
+      663.6
+     ],
+     [
+      116.1,
+      678.3
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1221,
+    "y1": 1279,
+    "quad": [
+     [
+      116.2,
+      682.8
+     ],
+     [
+      518,
+      668.1
+     ],
+     [
+      519,
+      697
+     ],
+     [
+      117.3,
+      711.8
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1280,
+    "y1": 1330,
+    "quad": [
+     [
+      117.3,
+      712.3
+     ],
+     [
+      519.1,
+      697.5
+     ],
+     [
+      520,
+      722.5
+     ],
+     [
+      118.2,
+      737.2
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1330,
+    "y1": 1377,
+    "quad": [
+     [
+      118.2,
+      737.2
+     ],
+     [
+      520,
+      722.5
+     ],
+     [
+      520.8,
+      746
+     ],
+     [
+      119.1,
+      760.7
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1415,
+    "y1": 1455,
+    "quad": [
+     [
+      119.8,
+      779.7
+     ],
+     [
+      521.5,
+      765
+     ],
+     [
+      522.3,
+      785
+     ],
+     [
+      120.5,
+      799.7
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1456,
+    "y1": 1495,
+    "quad": [
+     [
+      120.5,
+      800.2
+     ],
+     [
+      522.3,
+      785.5
+     ],
+     [
+      523,
+      805
+     ],
+     [
+      121.3,
+      819.7
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 618,
+   "height": 932
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned fish counts toward the canned food need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size M baby pants diapers count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Size L diapers are not the size M this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A microfiber blanket counts toward the blankets need.",
+    "confidence": 0.9
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size M diaper pants count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Size L diapers are not the size M this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A microfiber blanket counts toward the blankets need.",
+    "confidence": 0.9
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1698,
+   "tokensOut": 1464,
+   "usdCeiling": 0.043393,
+   "usdActual": 0.008345
+  }
+ },
+ "latencyMs": {
+  "read": 8696,
+  "classify": 8109
+ },
+ "errors": [],
+ "trace": null
+}

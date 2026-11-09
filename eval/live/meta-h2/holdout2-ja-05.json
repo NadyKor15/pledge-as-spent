@@ -1,0 +1,1115 @@
+{
+ "receiptId": "holdout2-ja-05",
+ "set": "holdout2",
+ "imageSha256": "9c65c0fd4fa1243af5406ecd2e80806b203ae31cec34883b902ace82c984d0f3",
+ "reading": {
+  "merchantName": "くらしの店 マルミ",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T08:40:00",
+  "receiptNumber": "1048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カップ麺 しょうゆ",
+    "translationEn": "Soy sauce cup noodles",
+    "qty": 2,
+    "unitPriceMinor": 168,
+    "amountMinor": 336,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Canned boiled mackerel",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfiber blanket single",
+    "qty": null,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Natural water 2L bottle",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "値引",
+    "translationEn": "Discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -10,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3334,
+  "taxMinor": 280,
+  "taxIncluded": true,
+  "totalMinor": 3334,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4505",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "ソライリ リツ 様",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "5943 9399 4738",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cup noodles are food but not canned food and are not one of the needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned mackerel counts toward the canned food need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A microfiber blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in 2 L bottles counts toward the drinking water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "This discount reduces the eligible 2 L water line.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "ebdd3a266c82cef9820508956e1ed44d8b908da2bf7018f1be21f5885c280159",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4694,
+   "tokensOut": 3978,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.022774000000000003
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1592,
+   "tokensOut": 1741,
+   "usdCeiling": 0.042945,
+   "usdActual": 0.009389
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "くらしの店 マルミ",
+   "merchantAddress": "空川県北空市本町1-9-3",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-03T08:40:00",
+   "receiptNumber": "1048",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "カップ麺 しょうゆ",
+     "translationEn": "cup noodles shoyu",
+     "qty": 2,
+     "unitPriceMinor": 168,
+     "amountMinor": 336,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 2,
+     "rawText": "さば水煮 缶詰",
+     "translationEn": "canned mackerel",
+     "qty": 4,
+     "unitPriceMinor": 198,
+     "amountMinor": 792,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "マイクロ毛布 シングル",
+     "translationEn": "microfiber blanket single",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1980,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "森の天然水 2Lペット",
+     "translationEn": "natural water 2L",
+     "qty": 2,
+     "unitPriceMinor": 118,
+     "amountMinor": 236,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "値引",
+     "translationEn": "discount",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": -10,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 3334,
+   "taxMinor": 280,
+   "taxIncluded": true,
+   "totalMinor": 3334,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10,
+    11
+   ],
+   [
+    12,
+    13
+   ],
+   [
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17
+   ]
+  ],
+  "bandTexts": {
+   "1": "くらしの店 マルミ",
+   "2": "北空本町店",
+   "3": "空川県北空市本町1-9-3",
+   "4": "TEL 0123-70-3355",
+   "5": "登録番号 T0000100000926",
+   "6": "------------------------------------------------------------",
+   "7": "2026年11月03日(火) 08:40",
+   "8": "レジ06                  No.1048",
+   "9": "------------------------------------------------------------",
+   "10": "カップ麺 しょうゆ                ¥336※",
+   "11": "2点 x 単168",
+   "12": "さば水煮 缶詰                  ¥792※",
+   "13": "4点 x 単198",
+   "14": "マイクロ毛布 シングル            ¥1,980",
+   "15": "森の天然水 2Lペット              ¥236※",
+   "16": "2点 x 単118",
+   "17": "値引                           -¥10※",
+   "18": "小計 (4点)                   ¥3,334",
+   "19": "8%対象                      ¥1,354",
+   "20": "10%対象                     ¥1,980",
+   "21": "(内消費税等 8%                       ¥100)",
+   "22": "(内消費税等 10%                      ¥180)",
+   "23": "合計                       ¥3,334",
+   "24": "クレジット             ************4505",
+   "25": "お支払い                     ¥3,334",
+   "26": "............................................................",
+   "27": "ポイントカード",
+   "28": "シライシ リン 様",
+   "29": "会員番号                5943 9399 4738",
+   "30": "............................................................",
+   "31": "※は軽減税率(8%)対象商品です",
+   "32": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 108,
+    "y1": 168,
+    "quad": [
+     [
+      112.9,
+      108
+     ],
+     [
+      516.8,
+      117.2
+     ],
+     [
+      516.1,
+      147.2
+     ],
+     [
+      112.2,
+      138
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 171,
+    "y1": 225,
+    "quad": [
+     [
+      112.2,
+      139.5
+     ],
+     [
+      516.1,
+      148.7
+     ],
+     [
+      515.5,
+      175.7
+     ],
+     [
+      111.6,
+      166.5
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 226,
+    "y1": 274,
+    "quad": [
+     [
+      111.6,
+      167
+     ],
+     [
+      515.5,
+      176.2
+     ],
+     [
+      514.9,
+      200.2
+     ],
+     [
+      111,
+      191
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 275,
+    "y1": 320,
+    "quad": [
+     [
+      111,
+      191.5
+     ],
+     [
+      514.9,
+      200.7
+     ],
+     [
+      514.4,
+      223.2
+     ],
+     [
+      110.5,
+      214
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 321,
+    "y1": 371,
+    "quad": [
+     [
+      110.5,
+      214.5
+     ],
+     [
+      514.4,
+      223.7
+     ],
+     [
+      513.8,
+      248.6
+     ],
+     [
+      109.9,
+      239.5
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 372,
+    "y1": 407,
+    "quad": [
+     [
+      109.9,
+      240
+     ],
+     [
+      513.8,
+      249.1
+     ],
+     [
+      513.4,
+      266.6
+     ],
+     [
+      109.5,
+      257.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 410,
+    "y1": 455,
+    "quad": [
+     [
+      109.5,
+      259
+     ],
+     [
+      513.4,
+      268.1
+     ],
+     [
+      512.9,
+      290.6
+     ],
+     [
+      109,
+      281.5
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 456,
+    "y1": 505,
+    "quad": [
+     [
+      109,
+      282
+     ],
+     [
+      512.9,
+      291.1
+     ],
+     [
+      512.3,
+      315.6
+     ],
+     [
+      108.4,
+      306.5
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 508,
+    "y1": 540,
+    "quad": [
+     [
+      108.4,
+      308
+     ],
+     [
+      512.3,
+      317.1
+     ],
+     [
+      511.9,
+      333.1
+     ],
+     [
+      108,
+      324
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 541,
+    "y1": 592,
+    "quad": [
+     [
+      108,
+      324.5
+     ],
+     [
+      511.9,
+      333.6
+     ],
+     [
+      511.3,
+      359.1
+     ],
+     [
+      107.4,
+      350
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 592,
+    "y1": 632,
+    "quad": [
+     [
+      107.4,
+      350
+     ],
+     [
+      511.3,
+      359.1
+     ],
+     [
+      510.9,
+      379.1
+     ],
+     [
+      107,
+      370
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 632,
+    "y1": 680,
+    "quad": [
+     [
+      107,
+      370
+     ],
+     [
+      510.9,
+      379.1
+     ],
+     [
+      510.3,
+      403.1
+     ],
+     [
+      106.4,
+      393.9
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 681,
+    "y1": 721,
+    "quad": [
+     [
+      106.4,
+      394.4
+     ],
+     [
+      510.3,
+      403.6
+     ],
+     [
+      509.9,
+      423.6
+     ],
+     [
+      106,
+      414.4
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 722,
+    "y1": 770,
+    "quad": [
+     [
+      105.9,
+      414.9
+     ],
+     [
+      509.8,
+      424.1
+     ],
+     [
+      509.3,
+      448.1
+     ],
+     [
+      105.4,
+      438.9
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 770,
+    "y1": 817,
+    "quad": [
+     [
+      105.4,
+      438.9
+     ],
+     [
+      509.3,
+      448.1
+     ],
+     [
+      508.8,
+      471.6
+     ],
+     [
+      104.9,
+      462.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 817,
+    "y1": 858,
+    "quad": [
+     [
+      104.9,
+      462.4
+     ],
+     [
+      508.8,
+      471.6
+     ],
+     [
+      508.3,
+      492.1
+     ],
+     [
+      104.4,
+      482.9
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 860,
+    "y1": 907,
+    "quad": [
+     [
+      104.4,
+      483.9
+     ],
+     [
+      508.3,
+      493.1
+     ],
+     [
+      507.7,
+      516.6
+     ],
+     [
+      103.8,
+      507.4
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 946,
+    "y1": 995,
+    "quad": [
+     [
+      103.4,
+      526.9
+     ],
+     [
+      507.3,
+      536.1
+     ],
+     [
+      506.7,
+      560.6
+     ],
+     [
+      102.8,
+      551.4
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 996,
+    "y1": 1044,
+    "quad": [
+     [
+      102.8,
+      551.9
+     ],
+     [
+      506.7,
+      561.1
+     ],
+     [
+      506.2,
+      585.1
+     ],
+     [
+      102.3,
+      575.9
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1044,
+    "y1": 1091,
+    "quad": [
+     [
+      102.3,
+      575.9
+     ],
+     [
+      506.2,
+      585.1
+     ],
+     [
+      505.7,
+      608.6
+     ],
+     [
+      101.8,
+      599.4
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1092,
+    "y1": 1130,
+    "quad": [
+     [
+      101.7,
+      599.9
+     ],
+     [
+      505.6,
+      609.1
+     ],
+     [
+      505.2,
+      628.1
+     ],
+     [
+      101.3,
+      618.9
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1131,
+    "y1": 1175,
+    "quad": [
+     [
+      101.3,
+      619.4
+     ],
+     [
+      505.2,
+      628.6
+     ],
+     [
+      504.7,
+      650.5
+     ],
+     [
+      100.8,
+      641.4
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1179,
+    "y1": 1239,
+    "quad": [
+     [
+      100.8,
+      643.4
+     ],
+     [
+      504.7,
+      652.5
+     ],
+     [
+      504,
+      682.5
+     ],
+     [
+      100.1,
+      673.4
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1239,
+    "y1": 1288,
+    "quad": [
+     [
+      100.1,
+      673.4
+     ],
+     [
+      504,
+      682.5
+     ],
+     [
+      503.4,
+      707
+     ],
+     [
+      99.5,
+      697.9
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1288,
+    "y1": 1343,
+    "quad": [
+     [
+      99.5,
+      697.9
+     ],
+     [
+      503.4,
+      707
+     ],
+     [
+      502.8,
+      734.5
+     ],
+     [
+      98.9,
+      725.4
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1343,
+    "y1": 1373,
+    "quad": [
+     [
+      98.9,
+      725.4
+     ],
+     [
+      502.8,
+      734.5
+     ],
+     [
+      502.5,
+      749.5
+     ],
+     [
+      98.6,
+      740.4
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1374,
+    "y1": 1422,
+    "quad": [
+     [
+      98.6,
+      740.9
+     ],
+     [
+      502.4,
+      750
+     ],
+     [
+      501.9,
+      774
+     ],
+     [
+      98,
+      764.8
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1423,
+    "y1": 1470,
+    "quad": [
+     [
+      98,
+      765.3
+     ],
+     [
+      501.9,
+      774.5
+     ],
+     [
+      501.4,
+      798
+     ],
+     [
+      97.5,
+      788.8
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1470,
+    "y1": 1527,
+    "quad": [
+     [
+      97.5,
+      788.8
+     ],
+     [
+      501.4,
+      798
+     ],
+     [
+      500.7,
+      826.5
+     ],
+     [
+      96.8,
+      817.3
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1527,
+    "y1": 1561,
+    "quad": [
+     [
+      96.8,
+      817.3
+     ],
+     [
+      500.7,
+      826.5
+     ],
+     [
+      500.3,
+      843.5
+     ],
+     [
+      96.4,
+      834.3
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1561,
+    "y1": 1601,
+    "quad": [
+     [
+      96.4,
+      834.3
+     ],
+     [
+      500.3,
+      843.5
+     ],
+     [
+      499.9,
+      863.5
+     ],
+     [
+      96,
+      854.3
+     ]
+    ]
+   },
+   {
+    "index": 32,
+    "y0": 1602,
+    "y1": 1644,
+    "quad": [
+     [
+      96,
+      854.8
+     ],
+     [
+      499.9,
+      864
+     ],
+     [
+      499.4,
+      885
+     ],
+     [
+      95.5,
+      875.8
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 610,
+   "height": 995
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Cup noodles are food but not canned food and are not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A microfiber blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2 L bottles counts toward the drinking water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": null,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "This discount reduces the eligible 2 L water line.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Cup noodles are food but not canned food and are not one of the needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A microfiber blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2 L bottles counts toward the drinking water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 5,
+    "needId": "water",
+    "needQty": null,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "This discount reduces the eligible 2 L water line.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1592,
+   "tokensOut": 1741,
+   "usdCeiling": 0.042945,
+   "usdActual": 0.009389
+  }
+ },
+ "latencyMs": {
+  "read": 19848,
+  "classify": 12022
+ },
+ "errors": [],
+ "trace": null
+}

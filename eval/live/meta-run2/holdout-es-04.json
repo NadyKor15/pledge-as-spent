@@ -1,0 +1,889 @@
+{
+ "receiptId": "holdout-es-04",
+ "set": "holdout",
+ "imageSha256": "69a92b3ac058d679f32b5ceb0608da7e5777ce2d71dc6af0aacc07774c47689c",
+ "reading": {
+  "merchantName": "SUPERMERCADO EL FARO",
+  "merchantAddress": "Av. del Rio 45 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-05T12:57:00",
+  "receiptNumber": "7337",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "PILAS C LR14 2U",
+    "translationEn": "C batteries 2-pack",
+    "qty": 2,
+    "unitPriceMinor": 479,
+    "amountMinor": 958,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ATÚN EN ACEITE PACK 3",
+    "translationEn": "Tuna in oil 3-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 389,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+    "translationEn": "Baby diapers size 3 40ct",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 945,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COBERTOR SOFÁ 150X200",
+    "translationEn": "Sofa cover 150x200",
+    "qty": 2,
+    "unitPriceMinor": 1599,
+    "amountMinor": 3198,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 842,
+  "taxIncluded": true,
+  "totalMinor": 5490,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 6439",
+    "bbox": {
+     "x": 0.22,
+     "y": 0.71,
+     "w": 0.35,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5755114861",
+    "bbox": {
+     "x": 0.68,
+     "y": 0.77,
+     "w": 0.2,
+     "h": 0.03
+    }
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": {
+     "x": 0.22,
+     "y": 0.8,
+     "w": 0.3,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "C batteries are not the AA battery type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Tuna is food, which is not one of the listed needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The two readings disagree on this line: the first says unsure, the second unsure.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "db926cf30a10b31474435460645bce449b2bc0694c78c5961a41bdd11ea905b1",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3789,
+   "tokensOut": 3054,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.017716000000000003
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1574,
+   "tokensOut": 1647,
+   "usdCeiling": 0.04274,
+   "usdActual": 0.008967
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "SUPERMERCADO EL FARO",
+   "merchantAddress": "Av. del Río 45, 00000 Villa Alborada",
+   "country": "ES",
+   "currency": "EUR",
+   "purchasedAt": "2026-11-05T12:57:00",
+   "receiptNumber": "7337",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "PILAS C LR14 2U",
+     "translationEn": "C batteries 2-pack",
+     "qty": 2,
+     "unitPriceMinor": 479,
+     "amountMinor": 958,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 2,
+     "rawText": "ATÚN EN ACEITE PACK 3",
+     "translationEn": "Tuna in oil 3-pack",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 389,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "PAÑAL DORMILÓN TALLA 3 40UD",
+     "translationEn": "Diapers size 3 40ct",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 945,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "COBERTOR SOFÁ 150X200",
+     "translationEn": "Sofa cover",
+     "qty": 2,
+     "unitPriceMinor": 1599,
+     "amountMinor": 3198,
+     "taxRateBp": 2100
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 842,
+   "taxIncluded": true,
+   "totalMinor": 5490,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ]
+  ],
+  "bandTexts": {
+   "1": "SUPERMERCADO EL FARO",
+   "2": "Av. del Río 45",
+   "3": "00000 Villa Alborada",
+   "4": "TEL 900 000 057",
+   "5": "CIF B00000057",
+   "6": "FACTURA SIMPLIFICADA             Nº 7337",
+   "7": "05/11/2026 12:57             CAJA 02",
+   "8": "DESCRIPCIÓN             IMPORTE",
+   "9": "PILAS C LR14 2U             9,58 B",
+   "10": "2 x 4,79",
+   "11": "ATÚN EN ACEITE PACK 3             3,89 A",
+   "12": "PAÑAL DORMILÓN TALLA 3 40UD             9,45 A",
+   "13": "COBERTOR SOFÁ 150X200             31,98 B",
+   "14": "2 x 15,99",
+   "15": "------------------------------------------------------",
+   "16": "TOTAL (IVA INCLUIDO)       54,90 EUR",
+   "17": "A  IVA 10%  BASE 12,13             CUOTA 1,21",
+   "18": "B  IVA 21%  BASE 34,35             CUOTA 7,21",
+   "19": "PAGO TARJETA             54,90",
+   "20": "**** **** **** 6439",
+   "21": "......................................................................",
+   "22": "SOCIO             5755114861",
+   "23": "MARCOS ALBERDI",
+   "24": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 96,
+    "y1": 150,
+    "quad": [
+     [
+      96.6,
+      120.1
+     ],
+     [
+      500,
+      111
+     ],
+     [
+      500.6,
+      138
+     ],
+     [
+      97.2,
+      147.1
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 160,
+    "y1": 204,
+    "quad": [
+     [
+      97.3,
+      152.1
+     ],
+     [
+      500.7,
+      143
+     ],
+     [
+      501.2,
+      165
+     ],
+     [
+      97.8,
+      174.1
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 207,
+    "y1": 251,
+    "quad": [
+     [
+      97.8,
+      175.6
+     ],
+     [
+      501.2,
+      166.5
+     ],
+     [
+      501.7,
+      188.5
+     ],
+     [
+      98.3,
+      197.6
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 255,
+    "y1": 298,
+    "quad": [
+     [
+      98.4,
+      199.6
+     ],
+     [
+      501.8,
+      190.5
+     ],
+     [
+      502.3,
+      211.9
+     ],
+     [
+      98.9,
+      221.1
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 302,
+    "y1": 345,
+    "quad": [
+     [
+      98.9,
+      223.1
+     ],
+     [
+      502.3,
+      213.9
+     ],
+     [
+      502.8,
+      235.4
+     ],
+     [
+      99.4,
+      244.6
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 389,
+    "y1": 433,
+    "quad": [
+     [
+      99.9,
+      266.6
+     ],
+     [
+      503.3,
+      257.4
+     ],
+     [
+      503.8,
+      279.4
+     ],
+     [
+      100.4,
+      288.6
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 437,
+    "y1": 481,
+    "quad": [
+     [
+      100.4,
+      290.6
+     ],
+     [
+      503.8,
+      281.4
+     ],
+     [
+      504.3,
+      303.4
+     ],
+     [
+      100.9,
+      312.6
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 520,
+    "y1": 562,
+    "quad": [
+     [
+      101.4,
+      332.1
+     ],
+     [
+      504.8,
+      322.9
+     ],
+     [
+      505.3,
+      343.9
+     ],
+     [
+      101.9,
+      353.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 566,
+    "y1": 612,
+    "quad": [
+     [
+      101.9,
+      355.1
+     ],
+     [
+      505.3,
+      345.9
+     ],
+     [
+      505.8,
+      368.9
+     ],
+     [
+      102.4,
+      378.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 614,
+    "y1": 654,
+    "quad": [
+     [
+      102.5,
+      379.1
+     ],
+     [
+      505.8,
+      369.9
+     ],
+     [
+      506.3,
+      389.9
+     ],
+     [
+      102.9,
+      399.1
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 655,
+    "y1": 701,
+    "quad": [
+     [
+      102.9,
+      399.6
+     ],
+     [
+      506.3,
+      390.4
+     ],
+     [
+      506.8,
+      413.4
+     ],
+     [
+      103.4,
+      422.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 702,
+    "y1": 749,
+    "quad": [
+     [
+      103.4,
+      423
+     ],
+     [
+      506.8,
+      413.9
+     ],
+     [
+      507.4,
+      437.4
+     ],
+     [
+      104,
+      446.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 749,
+    "y1": 798,
+    "quad": [
+     [
+      104,
+      446.5
+     ],
+     [
+      507.4,
+      437.4
+     ],
+     [
+      507.9,
+      461.9
+     ],
+     [
+      104.5,
+      471
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 802,
+    "y1": 842,
+    "quad": [
+     [
+      104.6,
+      473
+     ],
+     [
+      508,
+      463.9
+     ],
+     [
+      508.4,
+      483.9
+     ],
+     [
+      105,
+      493
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 843,
+    "y1": 875,
+    "quad": [
+     [
+      105,
+      493.5
+     ],
+     [
+      508.4,
+      484.4
+     ],
+     [
+      508.8,
+      500.4
+     ],
+     [
+      105.4,
+      509.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 878,
+    "y1": 934,
+    "quad": [
+     [
+      105.4,
+      511
+     ],
+     [
+      508.8,
+      501.9
+     ],
+     [
+      509.5,
+      529.9
+     ],
+     [
+      106.1,
+      539
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 935,
+    "y1": 977,
+    "quad": [
+     [
+      106.1,
+      539.5
+     ],
+     [
+      509.5,
+      530.4
+     ],
+     [
+      510,
+      551.4
+     ],
+     [
+      106.6,
+      560.5
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 978,
+    "y1": 1021,
+    "quad": [
+     [
+      106.6,
+      561
+     ],
+     [
+      510,
+      551.9
+     ],
+     [
+      510.5,
+      573.4
+     ],
+     [
+      107.1,
+      582.5
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1021,
+    "y1": 1073,
+    "quad": [
+     [
+      107.1,
+      582.5
+     ],
+     [
+      510.5,
+      573.4
+     ],
+     [
+      511.1,
+      599.3
+     ],
+     [
+      107.7,
+      608.5
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1074,
+    "y1": 1120,
+    "quad": [
+     [
+      107.7,
+      609
+     ],
+     [
+      511.1,
+      599.8
+     ],
+     [
+      511.6,
+      622.8
+     ],
+     [
+      108.2,
+      632
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1120,
+    "y1": 1156,
+    "quad": [
+     [
+      108.2,
+      632
+     ],
+     [
+      511.6,
+      622.8
+     ],
+     [
+      512,
+      640.8
+     ],
+     [
+      108.6,
+      650
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1156,
+    "y1": 1213,
+    "quad": [
+     [
+      108.6,
+      650
+     ],
+     [
+      512,
+      640.8
+     ],
+     [
+      512.6,
+      669.3
+     ],
+     [
+      109.2,
+      678.5
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1214,
+    "y1": 1256,
+    "quad": [
+     [
+      109.3,
+      679
+     ],
+     [
+      512.7,
+      669.8
+     ],
+     [
+      513.1,
+      690.8
+     ],
+     [
+      109.7,
+      700
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1257,
+    "y1": 1297,
+    "quad": [
+     [
+      109.7,
+      700.5
+     ],
+     [
+      513.1,
+      691.3
+     ],
+     [
+      513.6,
+      711.3
+     ],
+     [
+      110.2,
+      720.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 612,
+   "height": 833
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "C batteries are not the AA battery type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Tuna is food, which is not one of the listed needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "review",
+    "ruleCode": "unclear",
+    "reasonEn": "It is unclear whether this sofa cover is a blanket throw for warmth.",
+    "confidence": 0.5
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "C batteries are not the AA battery type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Tuna is food, which is not one of the listed needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "review",
+    "ruleCode": "unclear",
+    "reasonEn": "It is unclear whether this sofa cover is a blanket throw for warmth.",
+    "confidence": 0.5
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1574,
+   "tokensOut": 1647,
+   "usdCeiling": 0.04274,
+   "usdActual": 0.008967
+  }
+ },
+ "latencyMs": {
+  "read": 11568,
+  "classify": 13045
+ },
+ "errors": [],
+ "trace": null
+}

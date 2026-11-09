@@ -1,0 +1,825 @@
+{
+ "receiptId": "adv-reshot-en-03",
+ "set": "adversarial",
+ "imageSha256": "903bbe6772f5d3674d86dbee3c73e4d780e2bd5043f8f2932c6e16b687426013",
+ "reading": {
+  "merchantName": "BRINDLEWOOD GROCERY",
+  "merchantAddress": "210 Mill Street Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-04T10:36:00",
+  "receiptNumber": "7223",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER 1GAL",
+    "translationEn": "Spring water 1 gal",
+    "qty": 4,
+    "unitPriceMinor": 149,
+    "amountMinor": 596,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "LAGER 6PK BTL",
+    "translationEn": "Lager 6-pack bottles",
+    "qty": null,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AA ALKALINE 24PK",
+    "translationEn": "AA alkaline batteries 24-pack",
+    "qty": null,
+    "unitPriceMinor": 1599,
+    "amountMinor": 1599,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "COUPON",
+    "translationEn": "Coupon discount",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -240,
+    "taxRateBp": null
+   }
+  ],
+  "subtotalMinor": 2954,
+  "taxMinor": 171,
+  "taxIncluded": false,
+  "totalMinor": 3125,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1105",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "8646828725",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 24,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA alkaline batteries count toward the AA batteries need.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Coupon discount on the eligible AA batteries is eligible.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "3aee8b46f5339e92d67c48d07916987c360f1f26484b9a673eaec23ac10ff078",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3574,
+   "tokensOut": 3120,
+   "usdCeiling": 0.095975,
+   "usdActual": 0.017728
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1504,
+   "tokensOut": 1636,
+   "usdCeiling": 0.042638,
+   "usdActual": 0.008833
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "BRINDLEWOOD GROCERY",
+   "merchantAddress": "210 Mill Street, Brindlewood, Marlow Co.",
+   "country": null,
+   "currency": "USD",
+   "purchasedAt": "2026-11-04T10:36:00",
+   "receiptNumber": "7223",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "SPRING WATER 1GAL",
+     "translationEn": "spring water",
+     "qty": 4,
+     "unitPriceMinor": 149,
+     "amountMinor": 596,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "LAGER 6PK BTL",
+     "translationEn": "lager beer",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 999,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "AA ALKALINE 24PK",
+     "translationEn": "alkaline batteries",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1599,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "COUPON",
+     "translationEn": "coupon discount",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": -240,
+     "taxRateBp": null
+    }
+   ],
+   "subtotalMinor": 2954,
+   "taxMinor": 171,
+   "taxIncluded": false,
+   "totalMinor": 3125,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7,
+    8
+   ],
+   [
+    9
+   ],
+   [
+    10
+   ],
+   [
+    11
+   ]
+  ],
+  "bandTexts": {
+   "1": "BRINDLEWOOD GROCERY",
+   "2": "210 Mill Street",
+   "3": "Brindlewood, Marlow Co.",
+   "4": "TEL (555) 010-0042",
+   "5": "11/04/2026 10:36 AM              REG 01",
+   "6": "TRANS #7223",
+   "7": "SPRING WATER 1GAL               $5.96 F",
+   "8": "4 @ $1.49",
+   "9": "LAGER 6PK BTL                   $9.99 T",
+   "10": "AA ALKALINE 24PK               $15.99 T",
+   "11": "COUPON                         -$2.40",
+   "12": "SUBTOTAL                       $29.54",
+   "13": "SALES TAX 7.25%                 $1.71",
+   "14": "TOTAL              $31.25",
+   "15": "VISA               ************1105",
+   "16": "APPROVED                       $31.25",
+   "17": "....................................................................",
+   "18": "REWARDS MEMBER",
+   "19": "JORDAN WELLS",
+   "20": "MEMBER #                       8646828725",
+   "21": "T = TAXABLE F = NON-TAXABLE",
+   "22": "THANK YOU - COME AGAIN"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 98,
+    "y1": 150,
+    "quad": [
+     [
+      96.3,
+      118.1
+     ],
+     [
+      498.2,
+      109
+     ],
+     [
+      498.7,
+      135
+     ],
+     [
+      96.8,
+      144.1
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 161,
+    "y1": 205,
+    "quad": [
+     [
+      97,
+      149.6
+     ],
+     [
+      498.9,
+      140.5
+     ],
+     [
+      499.4,
+      162.5
+     ],
+     [
+      97.5,
+      171.6
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 209,
+    "y1": 256,
+    "quad": [
+     [
+      97.5,
+      173.6
+     ],
+     [
+      499.4,
+      164.5
+     ],
+     [
+      499.9,
+      188
+     ],
+     [
+      98,
+      197.1
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 256,
+    "y1": 301,
+    "quad": [
+     [
+      98,
+      197.1
+     ],
+     [
+      499.9,
+      188
+     ],
+     [
+      500.5,
+      210.5
+     ],
+     [
+      98.6,
+      219.6
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 345,
+    "y1": 388,
+    "quad": [
+     [
+      99.1,
+      241.6
+     ],
+     [
+      501,
+      232.5
+     ],
+     [
+      501.4,
+      254
+     ],
+     [
+      99.5,
+      263.1
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 392,
+    "y1": 435,
+    "quad": [
+     [
+      99.6,
+      265.1
+     ],
+     [
+      501.5,
+      256
+     ],
+     [
+      502,
+      277.5
+     ],
+     [
+      100.1,
+      286.6
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 480,
+    "y1": 523,
+    "quad": [
+     [
+      100.6,
+      309.1
+     ],
+     [
+      502.5,
+      299.9
+     ],
+     [
+      503,
+      321.4
+     ],
+     [
+      101.1,
+      330.6
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 528,
+    "y1": 569,
+    "quad": [
+     [
+      101.1,
+      333.1
+     ],
+     [
+      503,
+      323.9
+     ],
+     [
+      503.5,
+      344.4
+     ],
+     [
+      101.6,
+      353.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 570,
+    "y1": 613,
+    "quad": [
+     [
+      101.6,
+      354.1
+     ],
+     [
+      503.5,
+      344.9
+     ],
+     [
+      504,
+      366.4
+     ],
+     [
+      102.1,
+      375.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 617,
+    "y1": 661,
+    "quad": [
+     [
+      102.1,
+      377.5
+     ],
+     [
+      504,
+      368.4
+     ],
+     [
+      504.5,
+      390.4
+     ],
+     [
+      102.6,
+      399.5
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 665,
+    "y1": 710,
+    "quad": [
+     [
+      102.7,
+      401.5
+     ],
+     [
+      504.6,
+      392.4
+     ],
+     [
+      505.1,
+      414.9
+     ],
+     [
+      103.2,
+      424
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 752,
+    "y1": 799,
+    "quad": [
+     [
+      103.7,
+      445
+     ],
+     [
+      505.6,
+      435.9
+     ],
+     [
+      506.1,
+      459.4
+     ],
+     [
+      104.2,
+      468.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 800,
+    "y1": 847,
+    "quad": [
+     [
+      104.2,
+      469
+     ],
+     [
+      506.1,
+      459.9
+     ],
+     [
+      506.6,
+      483.4
+     ],
+     [
+      104.8,
+      492.5
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 858,
+    "y1": 910,
+    "quad": [
+     [
+      104.9,
+      498
+     ],
+     [
+      506.8,
+      488.9
+     ],
+     [
+      507.4,
+      514.9
+     ],
+     [
+      105.5,
+      524
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 914,
+    "y1": 961,
+    "quad": [
+     [
+      105.5,
+      526
+     ],
+     [
+      507.4,
+      516.9
+     ],
+     [
+      507.9,
+      540.4
+     ],
+     [
+      106,
+      549.5
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 962,
+    "y1": 1011,
+    "quad": [
+     [
+      106.1,
+      550
+     ],
+     [
+      508,
+      540.9
+     ],
+     [
+      508.5,
+      565.4
+     ],
+     [
+      106.6,
+      574.5
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 1016,
+    "y1": 1047,
+    "quad": [
+     [
+      106.7,
+      577
+     ],
+     [
+      508.6,
+      567.9
+     ],
+     [
+      508.9,
+      583.4
+     ],
+     [
+      107,
+      592.5
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1056,
+    "y1": 1100,
+    "quad": [
+     [
+      107.1,
+      597
+     ],
+     [
+      509,
+      587.9
+     ],
+     [
+      509.5,
+      609.9
+     ],
+     [
+      107.6,
+      619
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1104,
+    "y1": 1146,
+    "quad": [
+     [
+      107.7,
+      621
+     ],
+     [
+      509.6,
+      611.9
+     ],
+     [
+      510,
+      632.9
+     ],
+     [
+      108.1,
+      642
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1147,
+    "y1": 1194,
+    "quad": [
+     [
+      108.2,
+      642.5
+     ],
+     [
+      510.1,
+      633.4
+     ],
+     [
+      510.6,
+      656.9
+     ],
+     [
+      108.7,
+      666
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1195,
+    "y1": 1232,
+    "quad": [
+     [
+      108.7,
+      666.5
+     ],
+     [
+      510.6,
+      657.4
+     ],
+     [
+      511,
+      675.8
+     ],
+     [
+      109.1,
+      685
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1233,
+    "y1": 1272,
+    "quad": [
+     [
+      109.1,
+      685.5
+     ],
+     [
+      511,
+      676.3
+     ],
+     [
+      511.5,
+      695.8
+     ],
+     [
+      109.6,
+      705
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 609,
+   "height": 819
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "batteries",
+    "needQty": 24,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA alkaline batteries count toward the AA batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": null,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Coupon discount on the eligible AA batteries is eligible.",
+    "confidence": 0.9
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 1 gallon jugs counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Lager beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 3,
+    "needId": "batteries",
+    "needQty": 24,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "AA alkaline batteries count toward the AA batteries need.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": null,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Coupon discount on the eligible AA batteries is eligible.",
+    "confidence": 0.9
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1504,
+   "tokensOut": 1636,
+   "usdCeiling": 0.042638,
+   "usdActual": 0.008833
+  }
+ },
+ "latencyMs": {
+  "read": 12189,
+  "classify": 13158
+ },
+ "errors": [],
+ "trace": null
+}

@@ -1,0 +1,1014 @@
+{
+ "receiptId": "holdout2-es-01",
+ "set": "holdout2",
+ "imageSha256": "7d7799af5d580999ba9397dee92b1aba916d4db518187203807a8ca2d06062e8",
+ "reading": {
+  "merchantName": "AUTOSERVICIO LOS PINOS",
+  "merchantAddress": "C/ Olivo 7, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T18:31:00",
+  "receiptNumber": "9514",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA MINERAL NATURAL 1,5L",
+    "translationEn": "Natural mineral water 1.5L",
+    "qty": 3,
+    "unitPriceMinor": 59,
+    "amountMinor": 177,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑALES PEQUEÑÍN T3 44U",
+    "translationEn": "Small diapers T3 44u",
+    "qty": 2,
+    "unitPriceMinor": 1199,
+    "amountMinor": 2398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ARROZ REDONDO 1KG",
+    "translationEn": "Round rice 1kg",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA LR03 4U",
+    "translationEn": "AAA batteries 4u",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 399,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece blanket 130x170",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1295,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PILAS ALCALINAS AA PACK 4",
+    "translationEn": "Alkaline AA batteries pack 4",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 680,
+  "taxIncluded": true,
+  "totalMinor": 5216,
+  "pii": [
+   {
+    "kind": "member_id",
+    "text": "6340880288",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers in packs count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Rice is food and is not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are a different battery type than the AA batteries needed.",
+   "confidence": 0.97
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+   "confidence": 0.97
+  }
+ ],
+ "classifiedFor": "fcd982cd8fc5dd394e6f0546703c8a986c4e23e43ce207022ffdd54d31de7b4d",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4133,
+   "tokensOut": 3719,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.020972
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1725,
+   "tokensOut": 1027,
+   "usdCeiling": 0.043515,
+   "usdActual": 0.006521
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "AUTOSERVICIO LOS PINOS",
+   "merchantAddress": "C/ Olivo 7, 00000 Villa Alborada",
+   "country": "ES",
+   "currency": "EUR",
+   "purchasedAt": "2026-11-06T18:31:00",
+   "receiptNumber": "9514",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "AGUA MINERAL NATURAL 1,5L",
+     "translationEn": "natural mineral water 1.5L",
+     "qty": 3,
+     "unitPriceMinor": 59,
+     "amountMinor": 177,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "PAÑALES PEQUEÑIN T3 44U",
+     "translationEn": "baby diapers T3 44u",
+     "qty": 2,
+     "unitPriceMinor": 1199,
+     "amountMinor": 2398,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "ARROZ REDONDO 1KG",
+     "translationEn": "round rice 1kg",
+     "qty": 1,
+     "unitPriceMinor": 149,
+     "amountMinor": 149,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "PILAS AAA LR03 4U",
+     "translationEn": "AAA batteries 4u",
+     "qty": 1,
+     "unitPriceMinor": 399,
+     "amountMinor": 399,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 5,
+     "rawText": "MANTA POLAR 130X170",
+     "translationEn": "fleece blanket",
+     "qty": 1,
+     "unitPriceMinor": 1295,
+     "amountMinor": 1295,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 6,
+     "rawText": "PILAS ALCALINAS AA PACK 4",
+     "translationEn": "AA alkaline batteries pack 4",
+     "qty": 2,
+     "unitPriceMinor": 399,
+     "amountMinor": 798,
+     "taxRateBp": 2100
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 680,
+   "taxIncluded": true,
+   "totalMinor": 5216,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9,
+    10
+   ],
+   [
+    11,
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14
+   ],
+   [
+    15
+   ],
+   [
+    16,
+    17
+   ]
+  ],
+  "bandTexts": {
+   "1": "AUTOSERVICIO LOS PINOS",
+   "2": "C/ Olivo 7",
+   "3": "00000 Villa Alborada",
+   "4": "TEL 900 000 071",
+   "5": "CIF B00000071",
+   "6": "FACTURA SIMPLIFICADA             Nº 9514",
+   "7": "06/11/2026 18:31             CAJA 03",
+   "8": "DESCRIPCIÓN             IMPORTE",
+   "9": "AGUA MINERAL NATURAL 1,5L             1,77 A",
+   "10": "3 x 0,59",
+   "11": "PAÑALES PEQUEÑIN T3 44U             23,98 A",
+   "12": "2 x 11,99",
+   "13": "ARROZ REDONDO 1KG             1,49 A",
+   "14": "PILAS AAA LR03 4U             3,99 B",
+   "15": "MANTA POLAR 130X170             12,95 B",
+   "16": "PILAS ALCALINAS AA PACK 4             7,98 B",
+   "17": "2 x 3,99",
+   "18": "TOTAL (IVA INCLUIDO)             52,16 EUR",
+   "19": "A  IVA 10%  BASE 24,76             CUOTA 2,48",
+   "20": "B  IVA 21%  BASE 20,60             CUOTA 4,32",
+   "21": "EFECTIVO             60,00",
+   "22": "CAMBIO             7,84",
+   "23": "...........................................................................................",
+   "24": "SOCIO             6340880288",
+   "25": "LUCÍA FERRANDO",
+   "26": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 100,
+    "y1": 153,
+    "quad": [
+     [
+      91.9,
+      126.1
+     ],
+     [
+      498.7,
+      112.6
+     ],
+     [
+      499.6,
+      139.1
+     ],
+     [
+      92.8,
+      152.6
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 162,
+    "y1": 207,
+    "quad": [
+     [
+      92.9,
+      157.1
+     ],
+     [
+      499.7,
+      143.6
+     ],
+     [
+      500.5,
+      166.1
+     ],
+     [
+      93.7,
+      179.6
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 208,
+    "y1": 252,
+    "quad": [
+     [
+      93.7,
+      180.1
+     ],
+     [
+      500.5,
+      166.6
+     ],
+     [
+      501.2,
+      188.5
+     ],
+     [
+      94.4,
+      202
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 256,
+    "y1": 298,
+    "quad": [
+     [
+      94.5,
+      204
+     ],
+     [
+      501.3,
+      190.5
+     ],
+     [
+      502,
+      211.5
+     ],
+     [
+      95.2,
+      225
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 302,
+    "y1": 345,
+    "quad": [
+     [
+      95.3,
+      227
+     ],
+     [
+      502,
+      213.5
+     ],
+     [
+      502.7,
+      235
+     ],
+     [
+      96,
+      248.5
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 386,
+    "y1": 431,
+    "quad": [
+     [
+      96.6,
+      269
+     ],
+     [
+      503.4,
+      255.5
+     ],
+     [
+      504.2,
+      278
+     ],
+     [
+      97.4,
+      291.5
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 434,
+    "y1": 480,
+    "quad": [
+     [
+      97.4,
+      293
+     ],
+     [
+      504.2,
+      279.5
+     ],
+     [
+      505,
+      302.5
+     ],
+     [
+      98.2,
+      316
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 517,
+    "y1": 558,
+    "quad": [
+     [
+      98.8,
+      334.5
+     ],
+     [
+      505.6,
+      321
+     ],
+     [
+      506.3,
+      341.5
+     ],
+     [
+      99.5,
+      355
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 562,
+    "y1": 608,
+    "quad": [
+     [
+      99.6,
+      357
+     ],
+     [
+      506.3,
+      343.5
+     ],
+     [
+      507.1,
+      366.4
+     ],
+     [
+      100.3,
+      379.9
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 609,
+    "y1": 648,
+    "quad": [
+     [
+      100.3,
+      380.4
+     ],
+     [
+      507.1,
+      366.9
+     ],
+     [
+      507.8,
+      386.4
+     ],
+     [
+      101,
+      399.9
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 648,
+    "y1": 697,
+    "quad": [
+     [
+      101,
+      399.9
+     ],
+     [
+      507.8,
+      386.4
+     ],
+     [
+      508.6,
+      410.9
+     ],
+     [
+      101.8,
+      424.4
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 698,
+    "y1": 737,
+    "quad": [
+     [
+      101.8,
+      424.9
+     ],
+     [
+      508.6,
+      411.4
+     ],
+     [
+      509.2,
+      430.9
+     ],
+     [
+      102.5,
+      444.4
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 739,
+    "y1": 785,
+    "quad": [
+     [
+      102.5,
+      445.4
+     ],
+     [
+      509.3,
+      431.9
+     ],
+     [
+      510,
+      454.9
+     ],
+     [
+      103.3,
+      468.4
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 786,
+    "y1": 833,
+    "quad": [
+     [
+      103.3,
+      468.9
+     ],
+     [
+      510.1,
+      455.4
+     ],
+     [
+      510.8,
+      478.9
+     ],
+     [
+      104.1,
+      492.4
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 835,
+    "y1": 881,
+    "quad": [
+     [
+      104.1,
+      493.4
+     ],
+     [
+      510.9,
+      479.9
+     ],
+     [
+      511.6,
+      502.9
+     ],
+     [
+      104.9,
+      516.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 882,
+    "y1": 929,
+    "quad": [
+     [
+      104.9,
+      516.9
+     ],
+     [
+      511.6,
+      503.4
+     ],
+     [
+      512.4,
+      526.9
+     ],
+     [
+      105.7,
+      540.4
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 929,
+    "y1": 969,
+    "quad": [
+     [
+      105.7,
+      540.4
+     ],
+     [
+      512.4,
+      526.9
+     ],
+     [
+      513.1,
+      546.8
+     ],
+     [
+      106.3,
+      560.3
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1015,
+    "y1": 1068,
+    "quad": [
+     [
+      107.1,
+      583.3
+     ],
+     [
+      513.9,
+      569.8
+     ],
+     [
+      514.7,
+      596.3
+     ],
+     [
+      108,
+      609.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1070,
+    "y1": 1113,
+    "quad": [
+     [
+      108,
+      610.8
+     ],
+     [
+      514.8,
+      597.3
+     ],
+     [
+      515.5,
+      618.8
+     ],
+     [
+      108.7,
+      632.3
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1113,
+    "y1": 1156,
+    "quad": [
+     [
+      108.7,
+      632.3
+     ],
+     [
+      515.5,
+      618.8
+     ],
+     [
+      516.2,
+      640.3
+     ],
+     [
+      109.4,
+      653.8
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1157,
+    "y1": 1206,
+    "quad": [
+     [
+      109.4,
+      654.3
+     ],
+     [
+      516.2,
+      640.8
+     ],
+     [
+      517,
+      665.3
+     ],
+     [
+      110.2,
+      678.8
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1207,
+    "y1": 1257,
+    "quad": [
+     [
+      110.3,
+      679.3
+     ],
+     [
+      517,
+      665.8
+     ],
+     [
+      517.9,
+      690.8
+     ],
+     [
+      111.1,
+      704.3
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1261,
+    "y1": 1290,
+    "quad": [
+     [
+      111.2,
+      706.3
+     ],
+     [
+      517.9,
+      692.8
+     ],
+     [
+      518.4,
+      707.3
+     ],
+     [
+      111.6,
+      720.8
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1294,
+    "y1": 1342,
+    "quad": [
+     [
+      111.7,
+      722.8
+     ],
+     [
+      518.5,
+      709.3
+     ],
+     [
+      519.3,
+      733.2
+     ],
+     [
+      112.5,
+      746.7
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1343,
+    "y1": 1389,
+    "quad": [
+     [
+      112.5,
+      747.2
+     ],
+     [
+      519.3,
+      733.7
+     ],
+     [
+      520.1,
+      756.7
+     ],
+     [
+      113.3,
+      770.2
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1392,
+    "y1": 1433,
+    "quad": [
+     [
+      113.3,
+      771.7
+     ],
+     [
+      520.1,
+      758.2
+     ],
+     [
+      520.8,
+      778.7
+     ],
+     [
+      114,
+      792.2
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 612,
+   "height": 900
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers in packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is food and is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are a different battery type than the AA batteries needed.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 5,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+    "confidence": 0.97
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 2,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers in packs count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is food and is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are a different battery type than the AA batteries needed.",
+    "confidence": 0.97
+   },
+   {
+    "lineNo": 5,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A fleece throw counts as a blanket toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+    "confidence": 0.97
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1725,
+   "tokensOut": 1027,
+   "usdCeiling": 0.043515,
+   "usdActual": 0.006521
+  }
+ },
+ "latencyMs": {
+  "read": 16137,
+  "classify": 6416
+ },
+ "errors": [],
+ "trace": null
+}

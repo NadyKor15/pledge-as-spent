@@ -1,0 +1,1284 @@
+{
+ "receiptId": "adv-rules-es",
+ "set": "adversarial",
+ "imageSha256": "d2e4f6caa5991416d009a48ad3266902e62f156a1b80bac6486778ccad070f6a",
+ "reading": {
+  "merchantName": "FERRETERÍA LA LLAVE",
+  "merchantAddress": "Plaza Nueva 3 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-09T12:24:00",
+  "receiptNumber": "7948",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "LECHE ENTERA 1L",
+    "translationEn": "Whole milk 1L",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 99,
+    "taxRateBp": 400
+   },
+   {
+    "lineNo": 2,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L pack 6",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+    "translationEn": "Spring water bottle 1.5L",
+    "qty": 6,
+    "unitPriceMinor": 65,
+    "amountMinor": 390,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AGUA MINERAL 1,5L",
+    "translationEn": "Mineral water 1.5L",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "TARJETA REGALO 50",
+    "translationEn": "Gift card 50",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12 rolls",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 7,
+    "rawText": "PILA AA ALCALINA 4U",
+    "translationEn": "AA alkaline batteries 4-pack",
+    "qty": 2,
+    "unitPriceMinor": 349,
+    "amountMinor": 698,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 8,
+    "rawText": "CERVEZA ALBORADA 6X33",
+    "translationEn": "Beer 6x33cl",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 489,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 9,
+    "rawText": "TABACO LIAR CAJETILLA",
+    "translationEn": "Rolling tobacco pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 460,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 466,
+  "taxIncluded": true,
+  "totalMinor": 8268,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 0888",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "9618947969",
+    "bbox": null
+   },
+   {
+    "kind": "name",
+    "text": "MARCOS ALBERDI",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Milk is not one of the listed needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A 6-pack of 1.5 L water brings 6 bottles toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Mineral water in 1.5 L bottles counts toward the water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded by this drive.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 7,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Beer is alcohol, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 9,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+   "confidence": 0.99
+  }
+ ],
+ "classifiedFor": "b947511a73198bd9c7c122f0dd08cd7f6f6a9df84c2d6a922c76a8d5d911e004",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4480,
+   "tokensOut": 3936,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.022328
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1943,
+   "tokensOut": 1402,
+   "usdCeiling": 0.044521,
+   "usdActual": 0.008387
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "FERRETERÍA LA LLAVE",
+   "merchantAddress": "Plaza Nueva 3, 00000 Villa Alborada",
+   "country": "ES",
+   "currency": "EUR",
+   "purchasedAt": "2026-11-09T12:24:00",
+   "receiptNumber": "7948",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "LECHE ENTERA 1L",
+     "translationEn": "whole milk 1L",
+     "qty": 1,
+     "unitPriceMinor": 99,
+     "amountMinor": 99,
+     "taxRateBp": 400
+    },
+    {
+     "lineNo": 2,
+     "rawText": "AGUA 1,5L PACK 6",
+     "translationEn": "water 1.5L 6-pack",
+     "qty": 1,
+     "unitPriceMinor": 329,
+     "amountMinor": 329,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "AGUA FUENTE CLARA BOTELLA 1,5 L",
+     "translationEn": "spring water bottle 1.5L",
+     "qty": 6,
+     "unitPriceMinor": 65,
+     "amountMinor": 390,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 4,
+     "rawText": "AGUA MINERAL 1,5L",
+     "translationEn": "mineral water 1.5L",
+     "qty": 6,
+     "unitPriceMinor": 59,
+     "amountMinor": 354,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 5,
+     "rawText": "TARJETA REGALO 50",
+     "translationEn": "gift card 50",
+     "qty": 1,
+     "unitPriceMinor": 5000,
+     "amountMinor": 5000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "PAPEL HIGIÉNICO 12R",
+     "translationEn": "toilet paper 12 rolls",
+     "qty": 1,
+     "unitPriceMinor": 449,
+     "amountMinor": 449,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 7,
+     "rawText": "PILA AA ALCALINA 4U",
+     "translationEn": "AA alkaline batteries 4pk",
+     "qty": 2,
+     "unitPriceMinor": 349,
+     "amountMinor": 698,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 8,
+     "rawText": "CERVEZA ALBORADA 6X33",
+     "translationEn": "beer 6x33cl",
+     "qty": 1,
+     "unitPriceMinor": 489,
+     "amountMinor": 489,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 9,
+     "rawText": "TABACO LIAR CAJETILLA",
+     "translationEn": "rolling tobacco pack",
+     "qty": 1,
+     "unitPriceMinor": 460,
+     "amountMinor": 460,
+     "taxRateBp": 2100
+    }
+   ],
+   "subtotalMinor": 2802,
+   "taxMinor": 466,
+   "taxIncluded": true,
+   "totalMinor": 8268,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    10
+   ],
+   [
+    11
+   ],
+   [
+    12,
+    13,
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17
+   ],
+   [
+    18
+   ],
+   [
+    19,
+    20
+   ],
+   [
+    21
+   ],
+   [
+    22
+   ]
+  ],
+  "bandTexts": {
+   "1": "FERRETERÍA LA LLAVE",
+   "2": "Plaza Nueva 3",
+   "3": "00000 Villa Alborada",
+   "4": "TEL 900 000 063",
+   "5": "CIF B00000063",
+   "6": "------------------------------------------------------------",
+   "7": "FACTURA SIMPLIFICADA             Nº 7948",
+   "8": "09/11/2026 12:24                CAJA 01",
+   "9": "DESCRIPCIÓN                     IMPORTE",
+   "10": "LECHE ENTERA 1L                  0,99 A",
+   "11": "AGUA 1,5L PACK 6                 3,29 B",
+   "12": "AGUA FUENTE CLARA                3,90 B",
+   "13": "BOTELLA 1,5 L",
+   "14": "6 x 0,65",
+   "15": "AGUA MINERAL 1,5L                3,54 B",
+   "16": "6 x 0,59",
+   "17": "TARJETA REGALO 50                 50,00",
+   "18": "PAPEL HIGIÉNICO 12R               4,49 C",
+   "19": "PILA AA ALCALINA 4U               6,98 C",
+   "20": "2 x 3,49",
+   "21": "CERVEZA ALBORADA 6X33             4,89 C",
+   "22": "TABACO LIAR CAJETILLA             4,60 C",
+   "23": "TOTAL (IVA INCLUIDO)        82,68 EUR",
+   "24": "A  IVA 4%  BASE 0,95              CUOTA 0,04",
+   "25": "B  IVA 10%  BASE 9,75             CUOTA 0,98",
+   "26": "C  IVA 21%  BASE 17,32             CUOTA 3,64",
+   "27": "PAGO TARJETA                    82,68",
+   "28": "**** **** **** 0888",
+   "29": "SOCIO                       9618947969",
+   "30": "MARCOS ALBERDI",
+   "31": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 127,
+    "y1": 188,
+    "quad": [
+     [
+      93.1,
+      106.3
+     ],
+     [
+      500.4,
+      94.9
+     ],
+     [
+      501.3,
+      125.4
+     ],
+     [
+      93.9,
+      136.8
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 200,
+    "y1": 245,
+    "quad": [
+     [
+      94.1,
+      142.8
+     ],
+     [
+      501.4,
+      131.4
+     ],
+     [
+      502.1,
+      153.9
+     ],
+     [
+      94.7,
+      165.3
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 250,
+    "y1": 295,
+    "quad": [
+     [
+      94.8,
+      167.8
+     ],
+     [
+      502.1,
+      156.4
+     ],
+     [
+      502.8,
+      178.9
+     ],
+     [
+      95.4,
+      190.3
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 300,
+    "y1": 344,
+    "quad": [
+     [
+      95.5,
+      192.8
+     ],
+     [
+      502.8,
+      181.4
+     ],
+     [
+      503.4,
+      203.4
+     ],
+     [
+      96.1,
+      214.8
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 350,
+    "y1": 394,
+    "quad": [
+     [
+      96.2,
+      217.8
+     ],
+     [
+      503.5,
+      206.4
+     ],
+     [
+      504.1,
+      228.4
+     ],
+     [
+      96.8,
+      239.7
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 405,
+    "y1": 433,
+    "quad": [
+     [
+      96.9,
+      245.2
+     ],
+     [
+      504.3,
+      233.9
+     ],
+     [
+      504.7,
+      247.9
+     ],
+     [
+      97.3,
+      259.2
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 439,
+    "y1": 486,
+    "quad": [
+     [
+      97.4,
+      262.2
+     ],
+     [
+      504.8,
+      250.9
+     ],
+     [
+      505.4,
+      274.3
+     ],
+     [
+      98.1,
+      285.7
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 489,
+    "y1": 537,
+    "quad": [
+     [
+      98.1,
+      287.2
+     ],
+     [
+      505.5,
+      275.8
+     ],
+     [
+      506.1,
+      299.8
+     ],
+     [
+      98.8,
+      311.2
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 577,
+    "y1": 618,
+    "quad": [
+     [
+      99.3,
+      331.2
+     ],
+     [
+      506.7,
+      319.8
+     ],
+     [
+      507.3,
+      340.3
+     ],
+     [
+      99.9,
+      351.7
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 622,
+    "y1": 668,
+    "quad": [
+     [
+      100,
+      353.7
+     ],
+     [
+      507.3,
+      342.3
+     ],
+     [
+      508,
+      365.3
+     ],
+     [
+      100.6,
+      376.7
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 671,
+    "y1": 719,
+    "quad": [
+     [
+      100.7,
+      378.2
+     ],
+     [
+      508,
+      366.8
+     ],
+     [
+      508.7,
+      390.8
+     ],
+     [
+      101.3,
+      402.2
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 720,
+    "y1": 766,
+    "quad": [
+     [
+      101.3,
+      402.7
+     ],
+     [
+      508.7,
+      391.3
+     ],
+     [
+      509.3,
+      414.3
+     ],
+     [
+      102,
+      425.7
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 768,
+    "y1": 809,
+    "quad": [
+     [
+      102,
+      426.7
+     ],
+     [
+      509.4,
+      415.3
+     ],
+     [
+      509.9,
+      435.8
+     ],
+     [
+      102.6,
+      447.2
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 810,
+    "y1": 850,
+    "quad": [
+     [
+      102.6,
+      447.7
+     ],
+     [
+      509.9,
+      436.3
+     ],
+     [
+      510.5,
+      456.3
+     ],
+     [
+      103.2,
+      467.7
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 851,
+    "y1": 898,
+    "quad": [
+     [
+      103.2,
+      468.2
+     ],
+     [
+      510.5,
+      456.8
+     ],
+     [
+      511.2,
+      480.3
+     ],
+     [
+      103.8,
+      491.6
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 898,
+    "y1": 938,
+    "quad": [
+     [
+      103.8,
+      491.6
+     ],
+     [
+      511.2,
+      480.3
+     ],
+     [
+      511.7,
+      500.3
+     ],
+     [
+      104.4,
+      511.6
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 941,
+    "y1": 986,
+    "quad": [
+     [
+      104.4,
+      513.1
+     ],
+     [
+      511.8,
+      501.8
+     ],
+     [
+      512.4,
+      524.2
+     ],
+     [
+      105.1,
+      535.6
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 987,
+    "y1": 1035,
+    "quad": [
+     [
+      105.1,
+      536.1
+     ],
+     [
+      512.4,
+      524.7
+     ],
+     [
+      513.1,
+      548.7
+     ],
+     [
+      105.7,
+      560.1
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1036,
+    "y1": 1082,
+    "quad": [
+     [
+      105.8,
+      560.6
+     ],
+     [
+      513.1,
+      549.2
+     ],
+     [
+      513.7,
+      572.2
+     ],
+     [
+      106.4,
+      583.6
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1083,
+    "y1": 1122,
+    "quad": [
+     [
+      106.4,
+      584.1
+     ],
+     [
+      513.8,
+      572.7
+     ],
+     [
+      514.3,
+      592.2
+     ],
+     [
+      107,
+      603.6
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1125,
+    "y1": 1172,
+    "quad": [
+     [
+      107,
+      605.1
+     ],
+     [
+      514.3,
+      593.7
+     ],
+     [
+      515,
+      617.2
+     ],
+     [
+      107.7,
+      628.6
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1172,
+    "y1": 1219,
+    "quad": [
+     [
+      107.7,
+      628.6
+     ],
+     [
+      515,
+      617.2
+     ],
+     [
+      515.7,
+      640.7
+     ],
+     [
+      108.3,
+      652.1
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1260,
+    "y1": 1311,
+    "quad": [
+     [
+      108.9,
+      672.6
+     ],
+     [
+      516.2,
+      661.2
+     ],
+     [
+      516.9,
+      686.7
+     ],
+     [
+      109.6,
+      698.1
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1313,
+    "y1": 1354,
+    "quad": [
+     [
+      109.6,
+      699.1
+     ],
+     [
+      517,
+      687.7
+     ],
+     [
+      517.5,
+      708.2
+     ],
+     [
+      110.2,
+      719.6
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1354,
+    "y1": 1394,
+    "quad": [
+     [
+      110.2,
+      719.6
+     ],
+     [
+      517.5,
+      708.2
+     ],
+     [
+      518.1,
+      728.2
+     ],
+     [
+      110.8,
+      739.5
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1394,
+    "y1": 1434,
+    "quad": [
+     [
+      110.8,
+      739.5
+     ],
+     [
+      518.1,
+      728.2
+     ],
+     [
+      518.7,
+      748.2
+     ],
+     [
+      111.3,
+      759.5
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1435,
+    "y1": 1482,
+    "quad": [
+     [
+      111.3,
+      760
+     ],
+     [
+      518.7,
+      748.7
+     ],
+     [
+      519.3,
+      772.2
+     ],
+     [
+      112,
+      783.5
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1483,
+    "y1": 1523,
+    "quad": [
+     [
+      112,
+      784
+     ],
+     [
+      519.3,
+      772.7
+     ],
+     [
+      519.9,
+      792.6
+     ],
+     [
+      112.6,
+      804
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1564,
+    "y1": 1610,
+    "quad": [
+     [
+      113.1,
+      824.5
+     ],
+     [
+      520.5,
+      813.1
+     ],
+     [
+      521.1,
+      836.1
+     ],
+     [
+      113.8,
+      847.5
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1611,
+    "y1": 1652,
+    "quad": [
+     [
+      113.8,
+      848
+     ],
+     [
+      521.1,
+      836.6
+     ],
+     [
+      521.7,
+      857.1
+     ],
+     [
+      114.4,
+      868.5
+     ]
+    ]
+   },
+   {
+    "index": 31,
+    "y0": 1654,
+    "y1": 1692,
+    "quad": [
+     [
+      114.4,
+      869.5
+     ],
+     [
+      521.7,
+      858.1
+     ],
+     [
+      522.3,
+      877.1
+     ],
+     [
+      114.9,
+      888.5
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 616,
+   "height": 1013
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Milk is not one of the listed needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 6-pack of 1.5 L water brings 6 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toilet paper is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 8,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 9,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+    "confidence": 0.99
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Milk is not one of the listed needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A 6-pack of 1.5 L water brings 6 bottles toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Mineral water in 1.5 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "Gift cards are never funded by this drive.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toilet paper is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 7,
+    "needId": "batteries",
+    "needQty": 8,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 4-packs of AA batteries bring 8 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 8,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "alcohol",
+    "reasonEn": "Beer is alcohol, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 9,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "tobacco",
+    "reasonEn": "Rolling tobacco is tobacco, which this drive never funds.",
+    "confidence": 0.99
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1943,
+   "tokensOut": 1402,
+   "usdCeiling": 0.044521,
+   "usdActual": 0.008387
+  }
+ },
+ "latencyMs": {
+  "read": 20047,
+  "classify": 11983
+ },
+ "errors": [],
+ "trace": null
+}

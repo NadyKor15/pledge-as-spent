@@ -1,0 +1,690 @@
+{
+ "receiptId": "holdout2-tr-01",
+ "set": "holdout2",
+ "imageSha256": "2fed79e7b215f8bffa4ef51a8ca81163760c3b74415d440dad35ce4391ae3173",
+ "reading": {
+  "merchantName": "KARDEŞLER BAKKAL",
+  "merchantAddress": "Gül Sk. No:3 Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water 5L",
+    "qty": 3,
+    "unitPriceMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MAKARNA 500 GR",
+    "translationEn": "Pasta 500g",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 2490,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 12528,
+  "taxIncluded": true,
+  "totalMinor": 79640,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 4 baby diapers count toward the size 4 diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "5 L drinking water bottles count toward the water need.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pasta is not one of the needs.",
+   "confidence": 0.99
+  }
+ ],
+ "classifiedFor": "9dc2fafdac54e0fa8479435e9c08e53acb86b968bb40c453033e9494edeafdce",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3442,
+   "tokensOut": 3121,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.017567
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1483,
+   "tokensOut": 1154,
+   "usdCeiling": 0.042309,
+   "usdActual": 0.006758
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "KARDEŞLER BAKKAL",
+   "merchantAddress": "Gül Sk. No:3 Yıldızova",
+   "country": "TR",
+   "currency": "TRY",
+   "purchasedAt": "2026-11-03T12:22:00",
+   "receiptNumber": "2965",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+     "translationEn": "baby diapers maxi",
+     "qty": 2,
+     "unitPriceMinor": 34900,
+     "amountMinor": 69800,
+     "taxRateBp": 2000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "İÇME SUYU PET 5 LT",
+     "translationEn": "drinking water 5L",
+     "qty": 3,
+     "unitPriceMinor": 2450,
+     "amountMinor": 7350,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "MAKARNA 500 GR",
+     "translationEn": "pasta 500g",
+     "qty": 1,
+     "unitPriceMinor": null,
+     "amountMinor": 2490,
+     "taxRateBp": 1000
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 12528,
+   "taxIncluded": true,
+   "totalMinor": 79640,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    7,
+    8
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    11
+   ]
+  ],
+  "bandTexts": {
+   "1": "KARDEŞLER BAKKAL",
+   "2": "Gül Sk. No:3",
+   "3": "Yıldızova",
+   "4": "TEL 0 555 000 00 71",
+   "5": "VKN: 0000000071",
+   "6": "TARİH: 03.11.2026 12:22 FİŞ NO: 2965",
+   "7": "BEBEK BEZİ MAXİ 4 NO 48'Lİ %20 *698,00",
+   "8": "2 x 349,00",
+   "9": "İÇME SUYU PET 5 LT %10 *73,50",
+   "10": "3 x 24,50",
+   "11": "MAKARNA 500 GR %10 *24,90",
+   "12": "--------------------------------------------",
+   "13": "KDV %10 MATRAH 89,45 *8,95",
+   "14": "KDV %20 MATRAH 581,67 *116,33",
+   "15": "TOPKDV *125,28",
+   "16": "TOPLAM *796,40",
+   "17": "NAKİT *800,00",
+   "18": "PARA ÜSTÜ *3,60",
+   "19": "TEŞEKKÜR EDERİZ"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 96,
+    "y1": 156,
+    "quad": [
+     [
+      127.6,
+      103.5
+     ],
+     [
+      527.9,
+      128
+     ],
+     [
+      526,
+      157.9
+     ],
+     [
+      125.8,
+      133.5
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 162,
+    "y1": 207,
+    "quad": [
+     [
+      125.6,
+      136.4
+     ],
+     [
+      525.8,
+      160.9
+     ],
+     [
+      524.5,
+      183.4
+     ],
+     [
+      124.2,
+      158.9
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 212,
+    "y1": 255,
+    "quad": [
+     [
+      124.1,
+      161.4
+     ],
+     [
+      524.3,
+      185.9
+     ],
+     [
+      523,
+      207.3
+     ],
+     [
+      122.8,
+      182.9
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 260,
+    "y1": 304,
+    "quad": [
+     [
+      122.6,
+      185.4
+     ],
+     [
+      522.9,
+      209.8
+     ],
+     [
+      521.5,
+      231.8
+     ],
+     [
+      121.3,
+      207.3
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 309,
+    "y1": 352,
+    "quad": [
+     [
+      121.1,
+      209.8
+     ],
+     [
+      521.4,
+      234.3
+     ],
+     [
+      520,
+      255.8
+     ],
+     [
+      119.8,
+      231.3
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 395,
+    "y1": 445,
+    "quad": [
+     [
+      118.5,
+      252.7
+     ],
+     [
+      518.7,
+      277.2
+     ],
+     [
+      517.2,
+      302.2
+     ],
+     [
+      117,
+      277.7
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 482,
+    "y1": 533,
+    "quad": [
+     [
+      115.8,
+      296.2
+     ],
+     [
+      516.1,
+      320.6
+     ],
+     [
+      514.5,
+      346.1
+     ],
+     [
+      114.3,
+      321.6
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 533,
+    "y1": 572,
+    "quad": [
+     [
+      114.3,
+      321.6
+     ],
+     [
+      514.5,
+      346.1
+     ],
+     [
+      513.3,
+      365.5
+     ],
+     [
+      113.1,
+      341.1
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 572,
+    "y1": 623,
+    "quad": [
+     [
+      113.1,
+      341.1
+     ],
+     [
+      513.3,
+      365.5
+     ],
+     [
+      511.8,
+      391
+     ],
+     [
+      111.5,
+      366.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 624,
+    "y1": 662,
+    "quad": [
+     [
+      111.5,
+      367
+     ],
+     [
+      511.7,
+      391.5
+     ],
+     [
+      510.6,
+      410.5
+     ],
+     [
+      110.3,
+      386
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 665,
+    "y1": 714,
+    "quad": [
+     [
+      110.2,
+      387.5
+     ],
+     [
+      510.5,
+      412
+     ],
+     [
+      509,
+      436.4
+     ],
+     [
+      108.7,
+      411.9
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 718,
+    "y1": 746,
+    "quad": [
+     [
+      108.6,
+      413.9
+     ],
+     [
+      508.9,
+      438.4
+     ],
+     [
+      508,
+      452.4
+     ],
+     [
+      107.8,
+      427.9
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 750,
+    "y1": 792,
+    "quad": [
+     [
+      107.6,
+      429.9
+     ],
+     [
+      507.9,
+      454.4
+     ],
+     [
+      506.6,
+      475.3
+     ],
+     [
+      106.4,
+      450.9
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 792,
+    "y1": 833,
+    "quad": [
+     [
+      106.4,
+      450.9
+     ],
+     [
+      506.6,
+      475.3
+     ],
+     [
+      505.4,
+      495.8
+     ],
+     [
+      105.1,
+      471.3
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 833,
+    "y1": 884,
+    "quad": [
+     [
+      105.1,
+      471.3
+     ],
+     [
+      505.4,
+      495.8
+     ],
+     [
+      503.8,
+      521.3
+     ],
+     [
+      103.6,
+      496.8
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 887,
+    "y1": 942,
+    "quad": [
+     [
+      103.5,
+      498.3
+     ],
+     [
+      503.7,
+      522.8
+     ],
+     [
+      502,
+      550.2
+     ],
+     [
+      101.8,
+      525.7
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 942,
+    "y1": 990,
+    "quad": [
+     [
+      101.8,
+      525.7
+     ],
+     [
+      502,
+      550.2
+     ],
+     [
+      500.6,
+      574.2
+     ],
+     [
+      100.3,
+      549.7
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 991,
+    "y1": 1039,
+    "quad": [
+     [
+      100.3,
+      550.2
+     ],
+     [
+      500.5,
+      574.7
+     ],
+     [
+      499.1,
+      598.6
+     ],
+     [
+      98.8,
+      574.1
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1040,
+    "y1": 1075,
+    "quad": [
+     [
+      98.8,
+      574.6
+     ],
+     [
+      499,
+      599.1
+     ],
+     [
+      498,
+      616.6
+     ],
+     [
+      97.7,
+      592.1
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 622,
+   "height": 734
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the size 4 diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "5 L drinking water bottles count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Pasta is not one of the needs.",
+    "confidence": 0.99
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 baby diapers count toward the size 4 diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "5 L drinking water bottles count toward the water need.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Pasta is not one of the needs.",
+    "confidence": 0.99
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1483,
+   "tokensOut": 1154,
+   "usdCeiling": 0.042309,
+   "usdActual": 0.006758
+  }
+ },
+ "latencyMs": {
+  "read": 9301,
+  "classify": 6186
+ },
+ "errors": [],
+ "trace": null
+}

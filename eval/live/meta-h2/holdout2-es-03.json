@@ -1,0 +1,799 @@
+{
+ "receiptId": "holdout2-es-03",
+ "set": "holdout2",
+ "imageSha256": "754a57821264c20b467794fd2444713cb79fbdcd75ecd7b4364a48aa3c2cebe6",
+ "reading": {
+  "merchantName": "DROGUERÍA SANTA ANA",
+  "merchantAddress": "Av. Constitución 18 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-03T12:57:00",
+  "receiptNumber": "8228",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece blanket",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1295,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 2,
+    "rawText": "TOALLITAS BEBÉ 80U",
+    "translationEn": "Baby wipes",
+    "qty": 2,
+    "unitPriceMinor": 189,
+    "amountMinor": 378,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PILAS AAA LR03 4U",
+    "translationEn": "AAA batteries 4-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 399,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS ALCALINAS AA PACK 4",
+    "translationEn": "AA alkaline batteries 4-pack",
+    "qty": 3,
+    "unitPriceMinor": 399,
+    "amountMinor": 1197,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ARROZ REDONDO 1KG",
+    "translationEn": "Round rice 1kg",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAÑALES PEQUEÑÍN T3 44U",
+    "translationEn": "Baby diapers size 3",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 1199,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 690,
+  "taxIncluded": true,
+  "totalMinor": 4617,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 4931",
+    "bbox": {
+     "x": 0.21,
+     "y": 0.8,
+     "w": 0.33,
+     "h": 0.03
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blanket counts toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Rice is not one of the listed needs.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "70db63c1c0b17d937cb0c2827a4e28f62c2a5561717645860e7978da7fc3cc05",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3358,
+   "tokensOut": 7434,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.035793
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1694,
+   "tokensOut": 1252,
+   "usdCeiling": 0.043425,
+   "usdActual": 0.007439
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "DROGUERÍA SANTA ANA",
+   "merchantAddress": "Av. Constitución 18 00000 Villa Alborada",
+   "country": "ES",
+   "currency": "EUR",
+   "purchasedAt": "2026-11-03T12:57:00",
+   "receiptNumber": "8228",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "MANTA POLAR 130X170",
+     "translationEn": "polar blanket",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1295,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 2,
+     "rawText": "TOALLITAS BEBÉ 80U",
+     "translationEn": "baby wipes",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 399,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 3,
+     "rawText": "PILAS AAA LR03 4U",
+     "translationEn": "AAA batteries",
+     "qty": 2,
+     "unitPriceMinor": 189,
+     "amountMinor": 378,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 4,
+     "rawText": "PILAS ALCALINAS AA PACK 4",
+     "translationEn": "AA alkaline batteries",
+     "qty": 3,
+     "unitPriceMinor": 399,
+     "amountMinor": 1197,
+     "taxRateBp": 2100
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ARROZ REDONDO 1KG",
+     "translationEn": "round rice 1kg",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 149,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 6,
+     "rawText": "PAÑALES PEQUEÑÍN T3 44U",
+     "translationEn": "baby diapers",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 1199,
+     "taxRateBp": 1000
+    }
+   ],
+   "subtotalMinor": null,
+   "taxMinor": 690,
+   "taxIncluded": true,
+   "totalMinor": 4617,
+   "pii": [],
+   "readability": "poor"
+  },
+  "lineBands": [
+   [
+    8
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    11,
+    12
+   ],
+   [
+    12
+   ],
+   [
+    12,
+    13
+   ]
+  ],
+  "bandTexts": {
+   "1": "DROGUERÍA SANTA ANA",
+   "2": "Av. Constitución 18",
+   "3": "00000 Villa Alborada",
+   "4": "TEL 900 000 079",
+   "5": "CIF B00000079",
+   "6": "FACTURA SIMPLIFICADA Nº 8228 CAJA 04",
+   "7": "03/11/2026 12:57 IMPORTE",
+   "8": "DESCRIPCIÓN MANTA POLAR 130X170 12,95 B",
+   "9": "TOALLITAS BEBÉ 80U",
+   "10": "2 x 1,89 3,99 B PILAS AAA LR03 4U",
+   "11": "PILAS ALCALINAS AA PACK 4 11,97 B",
+   "12": "3 x 3,99 1,49 A ARROZ REDONDO 1KG 11,99 A",
+   "13": "PAÑALES PEQUEÑÍN T3 44U 11,99 A",
+   "14": "TOTAL (IVA INCLUIDO) 46,17 EUR CUOTA 1,23",
+   "15": "A IVA 10% BASE 12,25 B IVA 21% BASE 27,02 CUOTA 5,67 46,17",
+   "16": "PAGO TARJETA 46,17",
+   "17": "**** **** **** 4931 GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 91,
+    "y1": 176,
+    "quad": [
+     [
+      98.5,
+      103.5
+     ],
+     [
+      531,
+      103.5
+     ],
+     [
+      531,
+      146
+     ],
+     [
+      98.5,
+      146
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 176,
+    "y1": 227,
+    "quad": [
+     [
+      98.5,
+      146
+     ],
+     [
+      531,
+      146
+     ],
+     [
+      531,
+      171.5
+     ],
+     [
+      98.5,
+      171.5
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 227,
+    "y1": 277,
+    "quad": [
+     [
+      98.5,
+      171.5
+     ],
+     [
+      531,
+      171.5
+     ],
+     [
+      531,
+      196.5
+     ],
+     [
+      98.5,
+      196.5
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 278,
+    "y1": 324,
+    "quad": [
+     [
+      98.5,
+      197
+     ],
+     [
+      531,
+      197
+     ],
+     [
+      531,
+      220
+     ],
+     [
+      98.5,
+      220
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 325,
+    "y1": 369,
+    "quad": [
+     [
+      98.5,
+      220.5
+     ],
+     [
+      531,
+      220.5
+     ],
+     [
+      531,
+      242.5
+     ],
+     [
+      98.5,
+      242.5
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 370,
+    "y1": 480,
+    "quad": [
+     [
+      98.5,
+      243
+     ],
+     [
+      531,
+      243
+     ],
+     [
+      531,
+      298
+     ],
+     [
+      98.5,
+      298
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 481,
+    "y1": 569,
+    "quad": [
+     [
+      98.5,
+      298.5
+     ],
+     [
+      531,
+      298.5
+     ],
+     [
+      531,
+      342.5
+     ],
+     [
+      98.5,
+      342.5
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 570,
+    "y1": 655,
+    "quad": [
+     [
+      98.5,
+      343
+     ],
+     [
+      531,
+      343
+     ],
+     [
+      531,
+      385.5
+     ],
+     [
+      98.5,
+      385.5
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 656,
+    "y1": 705,
+    "quad": [
+     [
+      98.5,
+      386
+     ],
+     [
+      531,
+      386
+     ],
+     [
+      531,
+      410.5
+     ],
+     [
+      98.5,
+      410.5
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 705,
+    "y1": 786,
+    "quad": [
+     [
+      98.5,
+      410.5
+     ],
+     [
+      531,
+      410.5
+     ],
+     [
+      531,
+      451
+     ],
+     [
+      98.5,
+      451
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 787,
+    "y1": 841,
+    "quad": [
+     [
+      98.5,
+      451.5
+     ],
+     [
+      531,
+      451.5
+     ],
+     [
+      531,
+      478.5
+     ],
+     [
+      98.5,
+      478.5
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 841,
+    "y1": 923,
+    "quad": [
+     [
+      98.5,
+      478.5
+     ],
+     [
+      531,
+      478.5
+     ],
+     [
+      531,
+      519.5
+     ],
+     [
+      98.5,
+      519.5
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 924,
+    "y1": 969,
+    "quad": [
+     [
+      98.5,
+      520
+     ],
+     [
+      531,
+      520
+     ],
+     [
+      531,
+      542.5
+     ],
+     [
+      98.5,
+      542.5
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 970,
+    "y1": 1072,
+    "quad": [
+     [
+      98.5,
+      543
+     ],
+     [
+      531,
+      543
+     ],
+     [
+      531,
+      594
+     ],
+     [
+      98.5,
+      594
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 1073,
+    "y1": 1146,
+    "quad": [
+     [
+      98.5,
+      594.5
+     ],
+     [
+      531,
+      594.5
+     ],
+     [
+      531,
+      631
+     ],
+     [
+      98.5,
+      631
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 1147,
+    "y1": 1194,
+    "quad": [
+     [
+      98.5,
+      631.5
+     ],
+     [
+      531,
+      631.5
+     ],
+     [
+      531,
+      655
+     ],
+     [
+      98.5,
+      655
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 1195,
+    "y1": 1284,
+    "quad": [
+     [
+      98.5,
+      655.5
+     ],
+     [
+      531,
+      655.5
+     ],
+     [
+      531,
+      700
+     ],
+     [
+      98.5,
+      700
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 628,
+   "height": 823
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Baby wipes are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 6,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blanket counts toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Baby wipes are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Rice is not one of the listed needs.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 6,
+    "needId": "diapers",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 3 baby diapers count toward the diapers need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1694,
+   "tokensOut": 1252,
+   "usdCeiling": 0.043425,
+   "usdActual": 0.007439
+  }
+ },
+ "latencyMs": {
+  "read": 52456,
+  "classify": 8800
+ },
+ "errors": [],
+ "trace": null
+}

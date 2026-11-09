@@ -1,0 +1,1149 @@
+{
+ "receiptId": "holdout-ja-05",
+ "set": "holdout",
+ "imageSha256": "e8f3f800499892ca17ae1ac8cb72eb14b369cab634777056436d5c7e5f71f800",
+ "reading": {
+  "merchantName": "ドラッグ ヒカリ 北空中央店",
+  "merchantAddress": "空川県北空市中央3-5-12",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T10:07:00",
+  "receiptNumber": "3842",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "歯ブラシ 3本",
+    "translationEn": "Toothbrush 3-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 248,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単三アルカリ 8本パック",
+    "translationEn": "AAA alkaline batteries",
+    "qty": 2,
+    "unitPriceMinor": 468,
+    "amountMinor": 936,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "プリペイドカード 5,000円",
+    "translationEn": "Prepaid card",
+    "qty": null,
+    "unitPriceMinor": 5000,
+    "amountMinor": 5000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "山里の湧水 2L",
+    "translationEn": "Spring water 2L",
+    "qty": 3,
+    "unitPriceMinor": 138,
+    "amountMinor": 414,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ゼリー飲料",
+    "translationEn": "Jelly drink",
+    "qty": 2,
+    "unitPriceMinor": 178,
+    "amountMinor": 356,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "フリース毛布 140x200",
+    "translationEn": "Fleece blanket",
+    "qty": 2,
+    "unitPriceMinor": 1480,
+    "amountMinor": 2960,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 7,
+    "rawText": "おいしい水 2L 6本入",
+    "translationEn": "Water 2L pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 858,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 10772,
+  "taxMinor": 544,
+  "taxIncluded": false,
+  "totalMinor": 11316,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrushes are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Single-three alkaline batteries are AA batteries, with two 8-piece packs giving 16 pieces.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+   "confidence": 0.98
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Jelly drinks are not one of the listed needs.",
+   "confidence": 0.9
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "A pack with six 2 L water bottles brings 6 bottles toward the water need.",
+   "confidence": 0.9
+  }
+ ],
+ "classifiedFor": "0e21184f74299cc5d1c4df73de416db801b7d7c656ab15813caba6a70e12c7b6",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4500,
+   "tokensOut": 4481,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.024669
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1744,
+   "tokensOut": 1618,
+   "usdCeiling": 0.043549,
+   "usdActual": 0.009057
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ドラッグ ヒカリ",
+   "merchantAddress": "空川県北空市中央3-5-12",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-07T10:07:00",
+   "receiptNumber": "3842",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "歯ブラシ 3本",
+     "translationEn": "toothbrush",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 248,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "単三アルカリ 8本パック",
+     "translationEn": "AAA alkaline batteries",
+     "qty": 2,
+     "unitPriceMinor": 468,
+     "amountMinor": 936,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 3,
+     "rawText": "プリペイドカード 5,000円",
+     "translationEn": "prepaid card",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 5000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "山里の湧水 2L",
+     "translationEn": "water",
+     "qty": 3,
+     "unitPriceMinor": 138,
+     "amountMinor": 414,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 5,
+     "rawText": "ゼリー飲料",
+     "translationEn": "jelly drink",
+     "qty": 2,
+     "unitPriceMinor": 178,
+     "amountMinor": 356,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 6,
+     "rawText": "フリース毛布 140x200",
+     "translationEn": "fleece blanket",
+     "qty": 2,
+     "unitPriceMinor": 1480,
+     "amountMinor": 2960,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 7,
+     "rawText": "おいしい水 2L 6本入",
+     "translationEn": "water",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 858,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 10772,
+   "taxMinor": 544,
+   "taxIncluded": false,
+   "totalMinor": 11316,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13,
+    14
+   ],
+   [
+    15,
+    16
+   ],
+   [
+    17,
+    18
+   ],
+   [
+    19,
+    20
+   ]
+  ],
+  "bandTexts": {
+   "1": "ドラッグ ヒカリ",
+   "2": "北空中央店",
+   "3": "空川県北空市中央3-5-12",
+   "4": "TEL 0123-33-7788",
+   "5": "登録番号 T0000100000634",
+   "6": "--------------------------------------------------",
+   "7": "2026年11月07日(土) 10:07",
+   "8": "レジ05 No.3842",
+   "9": "歯ブラシ 3本 ¥248",
+   "10": "単三アルカリ 8本パック ¥936",
+   "11": "2点 x 単468",
+   "12": "プリペイドカード 5,000円 ¥5,000",
+   "13": "山里の湧水 2L ¥414※",
+   "14": "3点 x 単138",
+   "15": "ゼリー飲料 ¥356※",
+   "16": "2点 x 単178",
+   "17": "フリース毛布 140x200 ¥2,960",
+   "18": "2点 x 単1,480",
+   "19": "おいしい水 2L ¥858※",
+   "20": "6本入",
+   "21": "小計 (7点) ¥10,772",
+   "22": "外税8% 対象 ¥1,628 消費税 ¥130",
+   "23": "外税10% 対象 ¥4,144 消費税 ¥414",
+   "24": "非課税対象 ¥5,000",
+   "25": "合計 ¥11,316",
+   "26": "お預り ¥12,000",
+   "27": "お釣り ¥684",
+   "28": "....................................................................",
+   "29": "※は軽減税率(8%)対象商品です",
+   "30": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 100,
+    "y1": 156,
+    "quad": [
+     [
+      94.6,
+      125
+     ],
+     [
+      500.9,
+      111.5
+     ],
+     [
+      501.8,
+      139.5
+     ],
+     [
+      95.5,
+      153
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 164,
+    "y1": 214,
+    "quad": [
+     [
+      95.6,
+      157
+     ],
+     [
+      501.9,
+      143.5
+     ],
+     [
+      502.7,
+      168.5
+     ],
+     [
+      96.5,
+      182
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 216,
+    "y1": 262,
+    "quad": [
+     [
+      96.5,
+      183
+     ],
+     [
+      502.8,
+      169.5
+     ],
+     [
+      503.5,
+      192.5
+     ],
+     [
+      97.3,
+      206
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 264,
+    "y1": 308,
+    "quad": [
+     [
+      97.3,
+      207
+     ],
+     [
+      503.6,
+      193.5
+     ],
+     [
+      504.3,
+      215.5
+     ],
+     [
+      98,
+      228.9
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 310,
+    "y1": 356,
+    "quad": [
+     [
+      98.1,
+      229.9
+     ],
+     [
+      504.3,
+      216.5
+     ],
+     [
+      505.1,
+      239.5
+     ],
+     [
+      98.8,
+      252.9
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 362,
+    "y1": 391,
+    "quad": [
+     [
+      98.9,
+      255.9
+     ],
+     [
+      505.2,
+      242.5
+     ],
+     [
+      505.7,
+      256.9
+     ],
+     [
+      99.4,
+      270.4
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 397,
+    "y1": 442,
+    "quad": [
+     [
+      99.5,
+      273.4
+     ],
+     [
+      505.8,
+      259.9
+     ],
+     [
+      506.5,
+      282.4
+     ],
+     [
+      100.2,
+      295.9
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 443,
+    "y1": 489,
+    "quad": [
+     [
+      100.3,
+      296.4
+     ],
+     [
+      506.5,
+      282.9
+     ],
+     [
+      507.3,
+      305.9
+     ],
+     [
+      101,
+      319.4
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 529,
+    "y1": 576,
+    "quad": [
+     [
+      101.7,
+      339.4
+     ],
+     [
+      508,
+      325.9
+     ],
+     [
+      508.7,
+      349.4
+     ],
+     [
+      102.5,
+      362.9
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 577,
+    "y1": 623,
+    "quad": [
+     [
+      102.5,
+      363.4
+     ],
+     [
+      508.8,
+      349.9
+     ],
+     [
+      509.5,
+      372.9
+     ],
+     [
+      103.3,
+      386.4
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 624,
+    "y1": 664,
+    "quad": [
+     [
+      103.3,
+      386.9
+     ],
+     [
+      509.5,
+      373.4
+     ],
+     [
+      510.2,
+      393.4
+     ],
+     [
+      103.9,
+      406.8
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 666,
+    "y1": 714,
+    "quad": [
+     [
+      104,
+      407.8
+     ],
+     [
+      510.2,
+      394.4
+     ],
+     [
+      511,
+      418.4
+     ],
+     [
+      104.8,
+      431.8
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 714,
+    "y1": 759,
+    "quad": [
+     [
+      104.8,
+      431.8
+     ],
+     [
+      511,
+      418.4
+     ],
+     [
+      511.8,
+      440.8
+     ],
+     [
+      105.5,
+      454.3
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 761,
+    "y1": 800,
+    "quad": [
+     [
+      105.5,
+      455.3
+     ],
+     [
+      511.8,
+      441.8
+     ],
+     [
+      512.5,
+      461.3
+     ],
+     [
+      106.2,
+      474.8
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 803,
+    "y1": 848,
+    "quad": [
+     [
+      106.2,
+      476.3
+     ],
+     [
+      512.5,
+      462.8
+     ],
+     [
+      513.3,
+      485.3
+     ],
+     [
+      107,
+      498.8
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 850,
+    "y1": 890,
+    "quad": [
+     [
+      107,
+      499.8
+     ],
+     [
+      513.3,
+      486.3
+     ],
+     [
+      514,
+      506.3
+     ],
+     [
+      107.7,
+      519.8
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 893,
+    "y1": 940,
+    "quad": [
+     [
+      107.7,
+      521.3
+     ],
+     [
+      514,
+      507.8
+     ],
+     [
+      514.8,
+      531.3
+     ],
+     [
+      108.5,
+      544.8
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 940,
+    "y1": 982,
+    "quad": [
+     [
+      108.5,
+      544.8
+     ],
+     [
+      514.8,
+      531.3
+     ],
+     [
+      515.5,
+      552.3
+     ],
+     [
+      109.2,
+      565.8
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 982,
+    "y1": 1027,
+    "quad": [
+     [
+      109.2,
+      565.8
+     ],
+     [
+      515.5,
+      552.3
+     ],
+     [
+      516.2,
+      574.8
+     ],
+     [
+      109.9,
+      588.2
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1028,
+    "y1": 1068,
+    "quad": [
+     [
+      110,
+      588.7
+     ],
+     [
+      516.2,
+      575.3
+     ],
+     [
+      516.9,
+      595.3
+     ],
+     [
+      110.6,
+      608.7
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1111,
+    "y1": 1160,
+    "quad": [
+     [
+      111.3,
+      630.2
+     ],
+     [
+      517.6,
+      616.7
+     ],
+     [
+      518.4,
+      641.2
+     ],
+     [
+      112.2,
+      654.7
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1160,
+    "y1": 1208,
+    "quad": [
+     [
+      112.2,
+      654.7
+     ],
+     [
+      518.4,
+      641.2
+     ],
+     [
+      519.2,
+      665.2
+     ],
+     [
+      112.9,
+      678.7
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1209,
+    "y1": 1257,
+    "quad": [
+     [
+      113,
+      679.2
+     ],
+     [
+      519.2,
+      665.7
+     ],
+     [
+      520,
+      689.7
+     ],
+     [
+      113.8,
+      703.2
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1257,
+    "y1": 1308,
+    "quad": [
+     [
+      113.8,
+      703.2
+     ],
+     [
+      520,
+      689.7
+     ],
+     [
+      520.9,
+      715.2
+     ],
+     [
+      114.6,
+      728.7
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1313,
+    "y1": 1372,
+    "quad": [
+     [
+      114.7,
+      731.2
+     ],
+     [
+      521,
+      717.7
+     ],
+     [
+      521.9,
+      747.2
+     ],
+     [
+      115.7,
+      760.7
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1373,
+    "y1": 1423,
+    "quad": [
+     [
+      115.7,
+      761.2
+     ],
+     [
+      522,
+      747.7
+     ],
+     [
+      522.8,
+      772.7
+     ],
+     [
+      116.5,
+      786.1
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1424,
+    "y1": 1471,
+    "quad": [
+     [
+      116.5,
+      786.6
+     ],
+     [
+      522.8,
+      773.2
+     ],
+     [
+      523.6,
+      796.7
+     ],
+     [
+      117.3,
+      810.1
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1480,
+    "y1": 1508,
+    "quad": [
+     [
+      117.5,
+      814.6
+     ],
+     [
+      523.7,
+      801.1
+     ],
+     [
+      524.2,
+      815.1
+     ],
+     [
+      117.9,
+      828.6
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1510,
+    "y1": 1550,
+    "quad": [
+     [
+      118,
+      829.6
+     ],
+     [
+      524.2,
+      816.1
+     ],
+     [
+      524.9,
+      836.1
+     ],
+     [
+      118.6,
+      849.6
+     ]
+    ]
+   },
+   {
+    "index": 30,
+    "y0": 1551,
+    "y1": 1591,
+    "quad": [
+     [
+      118.6,
+      850.1
+     ],
+     [
+      524.9,
+      836.6
+     ],
+     [
+      525.6,
+      856.6
+     ],
+     [
+      119.3,
+      870.1
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 617,
+   "height": 979
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrushes are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Single-three alkaline batteries are AA batteries, with two 8-piece packs giving 16 pieces.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drinks are not one of the listed needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 6,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blankets count toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A pack with six 2 L water bottles brings 6 bottles toward the water need.",
+    "confidence": 0.9
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrushes are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "batteries",
+    "needQty": 16,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Single-three alkaline batteries are AA batteries, with two 8-piece packs giving 16 pieces.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "A prepaid card is a gift card, which this drive never funds.",
+    "confidence": 0.98
+   },
+   {
+    "lineNo": 4,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Spring water in 2 L bottles counts toward the 2 L drinking water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Jelly drinks are not one of the listed needs.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 6,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Fleece blankets count toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "A pack with six 2 L water bottles brings 6 bottles toward the water need.",
+    "confidence": 0.9
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1744,
+   "tokensOut": 1618,
+   "usdCeiling": 0.043549,
+   "usdActual": 0.009057
+  }
+ },
+ "latencyMs": {
+  "read": 24646,
+  "classify": 18394
+ },
+ "errors": [],
+ "trace": null
+}

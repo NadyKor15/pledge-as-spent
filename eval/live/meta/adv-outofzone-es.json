@@ -1,0 +1,665 @@
+{
+ "receiptId": "adv-outofzone-es",
+ "set": "adversarial",
+ "imageSha256": "21cb6ff64b6415a47d96dd3a787583b9ff5c52e69abbc83f4017917023458a6f",
+ "reading": {
+  "merchantName": "COMESTIBLES MARINA",
+  "merchantAddress": "Paseo Marítimo 9 00000 Puerto Brisa",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T12:03:00",
+  "receiptNumber": "8076",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA 1,5L PACK 6",
+    "translationEn": "Water 1.5L 6-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 329,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑALES T3 PANTS 36U",
+    "translationEn": "Diapers T3 pants 36u",
+    "qty": 2,
+    "unitPriceMinor": 749,
+    "amountMinor": 1498,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "PAPEL HIGIÉNICO 12R",
+    "translationEn": "Toilet paper 12 rolls",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 449,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": 2032,
+  "taxMinor": 244,
+  "taxIncluded": true,
+  "totalMinor": 2276,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Water in 1.5 L bottles counts toward the water need, with 6 bottles in this pack.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pants-type diapers in size 3 count toward the diapers need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toilet paper is not one of the listed needs.",
+   "confidence": 0.98
+  }
+ ],
+ "classifiedFor": "7ea0f77ae85c1d12782e6b66133aed0138c48e32507b106f482a11b140e81524",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 3196,
+   "tokensOut": 3261,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.017855000000000003
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1499,
+   "tokensOut": 1280,
+   "usdCeiling": 0.042353,
+   "usdActual": 0.007314
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "COMESTIBLES MARINA",
+   "merchantAddress": "Paseo Marítimo 9 00000 Puerto Brisa",
+   "country": null,
+   "currency": "EUR",
+   "purchasedAt": "2026-11-06T12:03:00",
+   "receiptNumber": "8076",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "AGUA 1,5L PACK 6",
+     "translationEn": "water 1.5L 6-pack",
+     "qty": 1,
+     "unitPriceMinor": 329,
+     "amountMinor": 329,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 2,
+     "rawText": "PAÑALES T3 PANTS 36U",
+     "translationEn": "diapers T3 pants 36u",
+     "qty": 2,
+     "unitPriceMinor": 749,
+     "amountMinor": 1498,
+     "taxRateBp": 1000
+    },
+    {
+     "lineNo": 3,
+     "rawText": "PAPEL HIGIÉNICO 12R",
+     "translationEn": "toilet paper 12 rolls",
+     "qty": 1,
+     "unitPriceMinor": 449,
+     "amountMinor": 449,
+     "taxRateBp": 2100
+    }
+   ],
+   "subtotalMinor": 2032,
+   "taxMinor": 244,
+   "taxIncluded": true,
+   "totalMinor": 2276,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    9
+   ],
+   [
+    10,
+    11
+   ],
+   [
+    12
+   ]
+  ],
+  "bandTexts": {
+   "1": "COMESTIBLES MARINA",
+   "2": "Paseo Marítimo 9",
+   "3": "00000 Puerto Brisa",
+   "4": "TEL 900 000 088",
+   "5": "CIF B00000088",
+   "6": "FACTURA SIMPLIFICADA              Nº 8076",
+   "7": "06/11/2026 12:03              CAJA 04",
+   "8": "DESCRIPCIÓN                          IMPORTE",
+   "9": "AGUA 1,5L PACK 6                  3,29 A",
+   "10": "PAÑALES T3 PANTS 36U             14,98 A",
+   "11": "2 x 7,49",
+   "12": "PAPEL HIGIÉNICO 12R               4,49 B",
+   "13": "TOTAL (IVA INCLUIDO)         22,76 EUR",
+   "14": "A  IVA 10%  BASE 16,61              CUOTA 1,66",
+   "15": "B  IVA 21%  BASE 3,71               CUOTA 0,78",
+   "16": "EFECTIVO                         30,00",
+   "17": "CAMBIO                              7,24",
+   "18": "GRACIAS POR SU VISITA"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 97,
+    "y1": 147,
+    "quad": [
+     [
+      120.2,
+      104.4
+     ],
+     [
+      520.2,
+      124
+     ],
+     [
+      519,
+      149
+     ],
+     [
+      119,
+      129.4
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 162,
+    "y1": 203,
+    "quad": [
+     [
+      118.6,
+      136.9
+     ],
+     [
+      518.6,
+      156.5
+     ],
+     [
+      517.6,
+      176.9
+     ],
+     [
+      117.6,
+      157.4
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 211,
+    "y1": 252,
+    "quad": [
+     [
+      117.4,
+      161.4
+     ],
+     [
+      517.4,
+      180.9
+     ],
+     [
+      516.4,
+      201.4
+     ],
+     [
+      116.4,
+      181.8
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 260,
+    "y1": 300,
+    "quad": [
+     [
+      116.2,
+      185.8
+     ],
+     [
+      516.2,
+      205.4
+     ],
+     [
+      515.3,
+      225.4
+     ],
+     [
+      115.3,
+      205.8
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 309,
+    "y1": 349,
+    "quad": [
+     [
+      115,
+      210.3
+     ],
+     [
+      515.1,
+      229.9
+     ],
+     [
+      514.1,
+      249.8
+     ],
+     [
+      114.1,
+      230.3
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 397,
+    "y1": 438,
+    "quad": [
+     [
+      112.9,
+      254.2
+     ],
+     [
+      512.9,
+      273.8
+     ],
+     [
+      511.9,
+      294.3
+     ],
+     [
+      111.9,
+      274.7
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 445,
+    "y1": 488,
+    "quad": [
+     [
+      111.7,
+      278.2
+     ],
+     [
+      511.7,
+      297.8
+     ],
+     [
+      510.7,
+      319.3
+     ],
+     [
+      110.7,
+      299.7
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 529,
+    "y1": 568,
+    "quad": [
+     [
+      109.7,
+      320.2
+     ],
+     [
+      509.7,
+      339.7
+     ],
+     [
+      508.7,
+      359.2
+     ],
+     [
+      108.7,
+      339.6
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 575,
+    "y1": 619,
+    "quad": [
+     [
+      108.5,
+      343.1
+     ],
+     [
+      508.6,
+      362.7
+     ],
+     [
+      507.5,
+      384.7
+     ],
+     [
+      107.5,
+      365.1
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 620,
+    "y1": 667,
+    "quad": [
+     [
+      107.4,
+      365.6
+     ],
+     [
+      507.5,
+      385.2
+     ],
+     [
+      506.3,
+      408.6
+     ],
+     [
+      106.3,
+      389.1
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 669,
+    "y1": 708,
+    "quad": [
+     [
+      106.2,
+      390.1
+     ],
+     [
+      506.3,
+      409.6
+     ],
+     [
+      505.3,
+      429.1
+     ],
+     [
+      105.3,
+      409.6
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 708,
+    "y1": 757,
+    "quad": [
+     [
+      105.3,
+      409.6
+     ],
+     [
+      505.3,
+      429.1
+     ],
+     [
+      504.1,
+      453.6
+     ],
+     [
+      104.1,
+      434
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 801,
+    "y1": 850,
+    "quad": [
+     [
+      103,
+      456
+     ],
+     [
+      503,
+      475.6
+     ],
+     [
+      501.8,
+      500
+     ],
+     [
+      101.8,
+      480.5
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 853,
+    "y1": 892,
+    "quad": [
+     [
+      101.7,
+      482
+     ],
+     [
+      501.8,
+      501.5
+     ],
+     [
+      500.8,
+      521
+     ],
+     [
+      100.8,
+      501.5
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 894,
+    "y1": 934,
+    "quad": [
+     [
+      100.7,
+      502.4
+     ],
+     [
+      500.8,
+      522
+     ],
+     [
+      499.8,
+      542
+     ],
+     [
+      99.8,
+      522.4
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 937,
+    "y1": 982,
+    "quad": [
+     [
+      99.7,
+      523.9
+     ],
+     [
+      499.7,
+      543.5
+     ],
+     [
+      498.6,
+      566
+     ],
+     [
+      98.6,
+      546.4
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 984,
+    "y1": 1028,
+    "quad": [
+     [
+      98.5,
+      547.4
+     ],
+     [
+      498.6,
+      567
+     ],
+     [
+      497.5,
+      588.9
+     ],
+     [
+      97.5,
+      569.4
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1029,
+    "y1": 1064,
+    "quad": [
+     [
+      97.4,
+      569.9
+     ],
+     [
+      497.5,
+      589.4
+     ],
+     [
+      496.6,
+      606.9
+     ],
+     [
+      96.6,
+      587.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 616,
+   "height": 725
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Water in 1.5 L bottles counts toward the water need, with 6 bottles in this pack.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Pants-type diapers in size 3 count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toilet paper is not one of the listed needs.",
+    "confidence": 0.98
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": "water",
+    "needQty": 6,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Water in 1.5 L bottles counts toward the water need, with 6 bottles in this pack.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Pants-type diapers in size 3 count toward the diapers need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toilet paper is not one of the listed needs.",
+    "confidence": 0.98
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1499,
+   "tokensOut": 1280,
+   "usdCeiling": 0.042353,
+   "usdActual": 0.007314
+  }
+ },
+ "latencyMs": {
+  "read": 15374,
+  "classify": 7270
+ },
+ "errors": [],
+ "trace": null
+}

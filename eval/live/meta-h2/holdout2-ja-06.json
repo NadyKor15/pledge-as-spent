@@ -1,0 +1,1120 @@
+{
+ "receiptId": "holdout2-ja-06",
+ "set": "holdout2",
+ "imageSha256": "fb3dcdbb2e392b167e9567f7c35138b127272733ce1e9e1de2b015401136e9c7",
+ "reading": {
+  "merchantName": "ファミリーストア あおば",
+  "merchantAddress": "空川県北空市西町4-11",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-04T11:46:00",
+  "receiptNumber": "5232",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ウェットティッシュ 80枚",
+    "translationEn": "Wet tissues 80 sheets",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 298,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Canned mackerel in water",
+    "qty": 2,
+    "unitPriceMinor": 198,
+    "amountMinor": 396,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単4 アルカリ 4本",
+    "translationEn": "AAA alkaline batteries 4-pack",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 398,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfiber blanket single",
+    "qty": 2,
+    "unitPriceMinor": 1980,
+    "amountMinor": 3960,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 5,
+    "rawText": "QUOカード 3,000円",
+    "translationEn": "QUO gift card",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "アルカリ電池 単3形 4本入",
+    "translationEn": "AA alkaline batteries 4-pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 7,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Natural water 2L bottle",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 9718,
+  "taxMinor": 654,
+  "taxIncluded": false,
+  "totalMinor": 10372,
+  "pii": [],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wet tissues are not one of the listed needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Canned mackerel counts toward the canned food need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries are not the AA type this drive needs.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Microfiber blankets count toward the blankets need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "QUO card is a gift card, which this drive never funds.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+   "confidence": 0.95
+  },
+  {
+   "lineNo": 7,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural water in 2L bottles counts toward the drinking water need.",
+   "confidence": 0.95
+  }
+ ],
+ "classifiedFor": "bec6354753789a6a023d3ae46e5b65d3b95a52cf1c52cc9e16bad2db20c8d5a3",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4392,
+   "tokensOut": 4120,
+   "usdCeiling": 0.09667300000000001,
+   "usdActual": 0.023
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1761,
+   "tokensOut": 996,
+   "usdCeiling": 0.043701,
+   "usdActual": 0.006434
+  }
+ ],
+ "second": {
+  "receipt": {
+   "merchantName": "ファミリーストア あおば 北空西店",
+   "merchantAddress": "空川県北空市西町4-11",
+   "country": "JP",
+   "currency": "JPY",
+   "purchasedAt": "2026-11-04T11:46:00",
+   "receiptNumber": "5232",
+   "lines": [
+    {
+     "lineNo": 1,
+     "rawText": "ウェットティッシュ 80枚",
+     "translationEn": "wet tissues",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 298,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 2,
+     "rawText": "さば水煮 缶詰",
+     "translationEn": "canned mackerel;10",
+     "qty": 2,
+     "unitPriceMinor": 198,
+     "amountMinor": 396,
+     "taxRateBp": 800
+    },
+    {
+     "lineNo": 3,
+     "rawText": "単4 アルカリ 4本",
+     "translationEn": "AAA batteries",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 398,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 4,
+     "rawText": "マイクロ毛布 シングル",
+     "translationEn": "micro blanket;13",
+     "qty": 2,
+     "unitPriceMinor": 1980,
+     "amountMinor": 3960,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 5,
+     "rawText": "QUOカード 3,000円",
+     "translationEn": "QUO gift card",
+     "qty": null,
+     "unitPriceMinor": null,
+     "amountMinor": 3000,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 6,
+     "rawText": "アルカリ電池 単3形 4本入",
+     "translationEn": "AA batteries;16",
+     "qty": 3,
+     "unitPriceMinor": 398,
+     "amountMinor": 1194,
+     "taxRateBp": null
+    },
+    {
+     "lineNo": 7,
+     "rawText": "森の天然水 2Lペット",
+     "translationEn": "natural water;18",
+     "qty": 4,
+     "unitPriceMinor": 118,
+     "amountMinor": 472,
+     "taxRateBp": 800
+    }
+   ],
+   "subtotalMinor": 9718,
+   "taxMinor": 654,
+   "taxIncluded": false,
+   "totalMinor": 10372,
+   "pii": [],
+   "readability": "good"
+  },
+  "lineBands": [
+   [
+    8
+   ],
+   [
+    9
+   ],
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    14
+   ],
+   [
+    15
+   ],
+   [
+    17
+   ]
+  ],
+  "bandTexts": {
+   "1": "ファミリーストア あおば",
+   "2": "北空西店",
+   "3": "空川県北空市西町4-11",
+   "4": "TEL 0123-61-2040",
+   "5": "登録番号 T0000100000918",
+   "6": "2026年11月04日(水) 11:46",
+   "7": "レジ05 No.5232",
+   "8": "ウェットティッシュ 80枚 ¥298",
+   "9": "さば水煮 缶詰 ¥396※",
+   "10": "2点 x 単198",
+   "11": "単4 アルカリ 4本 ¥398",
+   "12": "マイクロ毛布 シングル ¥3,960",
+   "13": "2点 x 単1,980",
+   "14": "QUOカード 3,000円 ¥3,000",
+   "15": "アルカリ電池 単3形 4本入 ¥1,194",
+   "16": "3点 x 単398",
+   "17": "森の天然水 2Lペット ¥472※",
+   "18": "4点 x 単118",
+   "19": "--------------------------------------------------",
+   "20": "小計 (7点) ¥9,718",
+   "21": "外税8% 対象 ¥868 消費税 ¥69",
+   "22": "外税10% 対象 ¥5,850 消費税 ¥585",
+   "23": "非課税対象 ¥3,000",
+   "24": "合計 ¥10,372",
+   "25": "お預り ¥11,000",
+   "26": "お釣り ¥628",
+   "27": "......................................................................",
+   "28": "※は軽減税率(8%)対象商品です",
+   "29": "ご来店ありがとうございました"
+  },
+  "bands": [
+   {
+    "index": 1,
+    "y0": 107,
+    "y1": 167,
+    "quad": [
+     [
+      124.1,
+      98.5
+     ],
+     [
+      526.7,
+      116.1
+     ],
+     [
+      525.4,
+      146.1
+     ],
+     [
+      122.8,
+      128.5
+     ]
+    ]
+   },
+   {
+    "index": 2,
+    "y0": 174,
+    "y1": 228,
+    "quad": [
+     [
+      122.6,
+      132
+     ],
+     [
+      525.2,
+      149.6
+     ],
+     [
+      524,
+      176.6
+     ],
+     [
+      121.4,
+      159
+     ]
+    ]
+   },
+   {
+    "index": 3,
+    "y0": 228,
+    "y1": 278,
+    "quad": [
+     [
+      121.4,
+      159
+     ],
+     [
+      524,
+      176.6
+     ],
+     [
+      523,
+      201.5
+     ],
+     [
+      120.3,
+      184
+     ]
+    ]
+   },
+   {
+    "index": 4,
+    "y0": 280,
+    "y1": 326,
+    "quad": [
+     [
+      120.3,
+      185
+     ],
+     [
+      522.9,
+      202.5
+     ],
+     [
+      521.9,
+      225.5
+     ],
+     [
+      119.3,
+      207.9
+     ]
+    ]
+   },
+   {
+    "index": 5,
+    "y0": 326,
+    "y1": 376,
+    "quad": [
+     [
+      119.3,
+      207.9
+     ],
+     [
+      521.9,
+      225.5
+     ],
+     [
+      520.8,
+      250.5
+     ],
+     [
+      118.2,
+      232.9
+     ]
+    ]
+   },
+   {
+    "index": 6,
+    "y0": 416,
+    "y1": 465,
+    "quad": [
+     [
+      117.3,
+      252.9
+     ],
+     [
+      519.9,
+      270.5
+     ],
+     [
+      518.9,
+      294.9
+     ],
+     [
+      116.3,
+      277.4
+     ]
+    ]
+   },
+   {
+    "index": 7,
+    "y0": 466,
+    "y1": 514,
+    "quad": [
+     [
+      116.2,
+      277.9
+     ],
+     [
+      518.9,
+      295.4
+     ],
+     [
+      517.8,
+      319.4
+     ],
+     [
+      115.2,
+      301.8
+     ]
+    ]
+   },
+   {
+    "index": 8,
+    "y0": 555,
+    "y1": 603,
+    "quad": [
+     [
+      114.3,
+      322.3
+     ],
+     [
+      516.9,
+      339.9
+     ],
+     [
+      515.9,
+      363.9
+     ],
+     [
+      113.3,
+      346.3
+     ]
+    ]
+   },
+   {
+    "index": 9,
+    "y0": 603,
+    "y1": 651,
+    "quad": [
+     [
+      113.3,
+      346.3
+     ],
+     [
+      515.9,
+      363.9
+     ],
+     [
+      514.8,
+      387.9
+     ],
+     [
+      112.2,
+      370.3
+     ]
+    ]
+   },
+   {
+    "index": 10,
+    "y0": 652,
+    "y1": 694,
+    "quad": [
+     [
+      112.2,
+      370.8
+     ],
+     [
+      514.8,
+      388.4
+     ],
+     [
+      513.9,
+      409.3
+     ],
+     [
+      111.3,
+      391.8
+     ]
+    ]
+   },
+   {
+    "index": 11,
+    "y0": 695,
+    "y1": 742,
+    "quad": [
+     [
+      111.2,
+      392.3
+     ],
+     [
+      513.9,
+      409.8
+     ],
+     [
+      512.8,
+      433.3
+     ],
+     [
+      110.2,
+      415.7
+     ]
+    ]
+   },
+   {
+    "index": 12,
+    "y0": 743,
+    "y1": 791,
+    "quad": [
+     [
+      110.2,
+      416.2
+     ],
+     [
+      512.8,
+      433.8
+     ],
+     [
+      511.8,
+      457.8
+     ],
+     [
+      109.2,
+      440.2
+     ]
+    ]
+   },
+   {
+    "index": 13,
+    "y0": 792,
+    "y1": 834,
+    "quad": [
+     [
+      109.1,
+      440.7
+     ],
+     [
+      511.7,
+      458.3
+     ],
+     [
+      510.8,
+      479.3
+     ],
+     [
+      108.2,
+      461.7
+     ]
+    ]
+   },
+   {
+    "index": 14,
+    "y0": 834,
+    "y1": 883,
+    "quad": [
+     [
+      108.2,
+      461.7
+     ],
+     [
+      510.8,
+      479.3
+     ],
+     [
+      509.8,
+      503.7
+     ],
+     [
+      107.1,
+      486.2
+     ]
+    ]
+   },
+   {
+    "index": 15,
+    "y0": 883,
+    "y1": 929,
+    "quad": [
+     [
+      107.1,
+      486.2
+     ],
+     [
+      509.8,
+      503.7
+     ],
+     [
+      508.8,
+      526.7
+     ],
+     [
+      106.1,
+      509.1
+     ]
+    ]
+   },
+   {
+    "index": 16,
+    "y0": 930,
+    "y1": 970,
+    "quad": [
+     [
+      106.1,
+      509.6
+     ],
+     [
+      508.7,
+      527.2
+     ],
+     [
+      507.9,
+      547.2
+     ],
+     [
+      105.2,
+      529.6
+     ]
+    ]
+   },
+   {
+    "index": 17,
+    "y0": 971,
+    "y1": 1020,
+    "quad": [
+     [
+      105.2,
+      530.1
+     ],
+     [
+      507.8,
+      547.7
+     ],
+     [
+      506.8,
+      572.2
+     ],
+     [
+      104.2,
+      554.6
+     ]
+    ]
+   },
+   {
+    "index": 18,
+    "y0": 1021,
+    "y1": 1062,
+    "quad": [
+     [
+      104.1,
+      555.1
+     ],
+     [
+      506.8,
+      572.7
+     ],
+     [
+      505.9,
+      593.2
+     ],
+     [
+      103.2,
+      575.6
+     ]
+    ]
+   },
+   {
+    "index": 19,
+    "y0": 1063,
+    "y1": 1095,
+    "quad": [
+     [
+      103.2,
+      576.1
+     ],
+     [
+      505.8,
+      593.7
+     ],
+     [
+      505.1,
+      609.6
+     ],
+     [
+      102.5,
+      592.1
+     ]
+    ]
+   },
+   {
+    "index": 20,
+    "y0": 1095,
+    "y1": 1145,
+    "quad": [
+     [
+      102.5,
+      592.1
+     ],
+     [
+      505.1,
+      609.6
+     ],
+     [
+      504,
+      634.6
+     ],
+     [
+      101.4,
+      617
+     ]
+    ]
+   },
+   {
+    "index": 21,
+    "y0": 1145,
+    "y1": 1192,
+    "quad": [
+     [
+      101.4,
+      617
+     ],
+     [
+      504,
+      634.6
+     ],
+     [
+      503,
+      658.1
+     ],
+     [
+      100.4,
+      640.5
+     ]
+    ]
+   },
+   {
+    "index": 22,
+    "y0": 1192,
+    "y1": 1239,
+    "quad": [
+     [
+      100.4,
+      640.5
+     ],
+     [
+      503,
+      658.1
+     ],
+     [
+      502,
+      681.6
+     ],
+     [
+      99.4,
+      664
+     ]
+    ]
+   },
+   {
+    "index": 23,
+    "y0": 1240,
+    "y1": 1291,
+    "quad": [
+     [
+      99.4,
+      664.5
+     ],
+     [
+      502,
+      682.1
+     ],
+     [
+      500.9,
+      707.6
+     ],
+     [
+      98.2,
+      690
+     ]
+    ]
+   },
+   {
+    "index": 24,
+    "y0": 1292,
+    "y1": 1349,
+    "quad": [
+     [
+      98.2,
+      690.5
+     ],
+     [
+      500.8,
+      708.1
+     ],
+     [
+      499.6,
+      736.5
+     ],
+     [
+      97,
+      718.9
+     ]
+    ]
+   },
+   {
+    "index": 25,
+    "y0": 1349,
+    "y1": 1397,
+    "quad": [
+     [
+      97,
+      718.9
+     ],
+     [
+      499.6,
+      736.5
+     ],
+     [
+      498.6,
+      760.5
+     ],
+     [
+      95.9,
+      742.9
+     ]
+    ]
+   },
+   {
+    "index": 26,
+    "y0": 1398,
+    "y1": 1447,
+    "quad": [
+     [
+      95.9,
+      743.4
+     ],
+     [
+      498.5,
+      761
+     ],
+     [
+      497.5,
+      785.5
+     ],
+     [
+      94.8,
+      767.9
+     ]
+    ]
+   },
+   {
+    "index": 27,
+    "y0": 1447,
+    "y1": 1480,
+    "quad": [
+     [
+      94.8,
+      767.9
+     ],
+     [
+      497.5,
+      785.5
+     ],
+     [
+      496.7,
+      802
+     ],
+     [
+      94.1,
+      784.4
+     ]
+    ]
+   },
+   {
+    "index": 28,
+    "y0": 1481,
+    "y1": 1518,
+    "quad": [
+     [
+      94.1,
+      784.9
+     ],
+     [
+      496.7,
+      802.5
+     ],
+     [
+      495.9,
+      820.9
+     ],
+     [
+      93.3,
+      803.4
+     ]
+    ]
+   },
+   {
+    "index": 29,
+    "y0": 1518,
+    "y1": 1560,
+    "quad": [
+     [
+      93.3,
+      803.4
+     ],
+     [
+      495.9,
+      820.9
+     ],
+     [
+      495,
+      841.9
+     ],
+     [
+      92.4,
+      824.3
+     ]
+    ]
+   }
+  ],
+  "size": {
+   "width": 623,
+   "height": 962
+  },
+  "error": null
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Wet tissues are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Microfiber blankets count toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "QUO card is a gift card, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2L bottles counts toward the drinking water need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Wet tissues are not one of the listed needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 2,
+    "needId": "canned",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Canned mackerel counts toward the canned food need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "AAA batteries are not the AA type this drive needs.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 4,
+    "needId": "blankets",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Microfiber blankets count toward the blankets need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "gift_card",
+    "reasonEn": "QUO card is a gift card, which this drive never funds.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Three 4-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 7,
+    "needId": "water",
+    "needQty": 4,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural water in 2L bottles counts toward the drinking water need.",
+    "confidence": 0.95
+   }
+  ],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1761,
+   "tokensOut": 996,
+   "usdCeiling": 0.043701,
+   "usdActual": 0.006434
+  }
+ },
+ "latencyMs": {
+  "read": 15652,
+  "classify": 4738
+ },
+ "errors": [],
+ "trace": null
+}

@@ -1,0 +1,239 @@
+{
+ "receiptId": "holdout-tr-04",
+ "set": "holdout",
+ "imageSha256": "90c97064025463788cecb3ad863d3e9d5f511d5e6cc1487ecf3e1daf542127fb",
+ "reading": {
+  "merchantName": "SÜPER YILDIZ MARKET",
+  "merchantAddress": "Çarşı Cd. No:12 Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-05T12:48:00",
+  "receiptNumber": "4657",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "DIŞ FIRÇASI",
+    "translationEn": "Toothbrush",
+    "qty": 2,
+    "unitPriceMinor": 3990,
+    "amountMinor": 7980,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DOĞAL KAYNAK 5 LİTRE",
+    "translationEn": "Natural spring water 5 liter",
+    "qty": 3,
+    "unitPriceMinor": 2690,
+    "amountMinor": 8070,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "POLAR BATTANİYE 150X200",
+    "translationEn": "Polar blanket",
+    "qty": null,
+    "unitPriceMinor": 52900,
+    "amountMinor": 52900,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PAMUKLU BEZ 4 NUMARA 40 ADET",
+    "translationEn": "Cotton diapers size 4",
+    "qty": 2,
+    "unitPriceMinor": 31900,
+    "amountMinor": 63800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEYAZ PEYNİR 500 GR",
+    "translationEn": "White cheese 500g",
+    "qty": 2,
+    "unitPriceMinor": 14900,
+    "amountMinor": 29800,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "ALKALİN AA 6 ADET",
+    "translationEn": "Alkaline AA batteries 6-pack",
+    "qty": 2,
+    "unitPriceMinor": 11490,
+    "amountMinor": 22980,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": 157477,
+  "taxMinor": 28053,
+  "taxIncluded": true,
+  "totalMinor": 185530,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AYŞE DEMİRKAN",
+    "bbox": null
+   },
+   {
+    "kind": "member_id",
+    "text": "7221824956",
+    "bbox": null
+   }
+  ],
+  "readability": "good"
+ },
+ "classifications": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Toothbrush is not one of the listed needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line.",
+   "confidence": 0.5
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "White cheese is food and is not one of the needs.",
+   "confidence": 0.99
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "review",
+   "ruleCode": "unclear",
+   "reasonEn": "The second reading of this receipt failed (read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency), so a person should confirm this line.",
+   "confidence": 0.5
+  }
+ ],
+ "classifiedFor": "76b497e0712c81a2b5a429592733b27e872fd63ba2d0c321293c8a7bf0288292",
+ "usage": [
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 4298,
+   "tokensOut": 4879,
+   "usdCeiling": 0.095987,
+   "usdActual": 0.026108
+  },
+  {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1477,
+   "tokensOut": 720,
+   "usdCeiling": 0.042353,
+   "usdActual": 0.004906
+  }
+ ],
+ "second": {
+  "receipt": null,
+  "lineBands": [],
+  "bandTexts": {},
+  "bands": [],
+  "size": null,
+  "error": "read B (numbered rows): output does not match the schema: ✖ Invalid input: expected string, received null\n  → at currency"
+ },
+ "rawClassifications": {
+  "first": [
+   {
+    "lineNo": 1,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "Toothbrush is not one of the listed needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 2,
+    "needId": "water",
+    "needQty": 3,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Natural spring water in 5 L bottles counts toward the water need.",
+    "confidence": 0.95
+   },
+   {
+    "lineNo": 3,
+    "needId": "blankets",
+    "needQty": 1,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Polar blanket counts toward the blankets need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 4,
+    "needId": "diapers",
+    "needQty": 2,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Size 4 diapers count toward the diapers need.",
+    "confidence": 0.9
+   },
+   {
+    "lineNo": 5,
+    "needId": null,
+    "needQty": null,
+    "verdict": "rejected",
+    "ruleCode": "not_in_needs",
+    "reasonEn": "White cheese is food and is not one of the needs.",
+    "confidence": 0.99
+   },
+   {
+    "lineNo": 6,
+    "needId": "batteries",
+    "needQty": 12,
+    "verdict": "eligible",
+    "ruleCode": null,
+    "reasonEn": "Two 6-packs of AA batteries bring 12 pieces toward the batteries need.",
+    "confidence": 0.95
+   }
+  ],
+  "second": [],
+  "usage": {
+   "model": "muse-spark-1.3",
+   "tokensIn": 1477,
+   "tokensOut": 720,
+   "usdCeiling": 0.042353,
+   "usdActual": 0.004906
+  }
+ },
+ "latencyMs": {
+  "read": 18422,
+  "classify": 4724
+ },
+ "errors": [],
+ "trace": null
+}
