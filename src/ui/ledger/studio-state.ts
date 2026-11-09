@@ -15,6 +15,8 @@ export const NOTE_WIDGET = "ledger-note";
 export const BOOK_HEAD_WIDGET = "ledger-book-head";
 /** The assistant's chat, right over the book, the whole width; only when the assistant gave a component. */
 export const ASK_WIDGET = "ledger-ask";
+/** The receipt's published photo beside the book, a button over each of its lines (T4). */
+export const RECEIPT_WIDGET = "ledger-receipt";
 
 const BOOK_WIDGET_ID = "book";
 export const NOTE_WAITING = "note-waiting";
@@ -134,8 +136,22 @@ export interface Metrics {
   stacked: boolean;
   /** Screen scale, 1 at the 1440 × 900 reference. */
   scale: number;
-  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; ask: number; head: number; book: number };
+  /** The receipt stands beside the book (12 of 48 tracks, the book 36); else it is over the book, the whole width. */
+  beside: boolean;
+  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; ask: number; receipt: number; head: number; book: number };
 }
+
+/**
+ * The receipt's height in tracks. Never from the drive's data: the report's layout key holds every height, and a
+ * height that followed the number of lines would rebuild Studio (and start the count over) on every read.
+ */
+export const RECEIPT_ROWS = { beside: 78, over: 44, phone: 54 } as const;
+
+/** The book's width on a desktop when the receipt is beside it: 36 of 48 tracks of the frame, less its two 24 px insets. */
+export const bookBesidePx = (scale: number) => Math.floor((1440 * (36 / 48) - 48) * scale);
+
+/** Beside only while the book keeps the least width of its columns (cells.tsx); a narrower window puts it over the book. */
+export const receiptBeside = (scale: number, bookLeastPx: number) => bookBesidePx(scale) >= bookLeastPx;
 
 const at = (xTrack: number, yTrack: number, xSpan: number, ySpan: number): AgWidgetLayoutState => ({ xTrack, yTrack, xSpan, ySpan });
 
@@ -220,6 +236,8 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;
     }
+    place("receipt", custom(RECEIPT_WIDGET), at(0, y, 48, r.receipt));
+    y += r.receipt;
     place("book-head", custom(BOOK_HEAD_WIDGET), at(0, y, 48, r.head));
     y += r.head;
     place(BOOK_WIDGET_ID, book(true), at(0, y, 48, r.book));
@@ -241,8 +259,12 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;
     }
-    place("book-head", custom(BOOK_HEAD_WIDGET), at(0, y, 48, r.head));
-    place(BOOK_WIDGET_ID, book(false), at(0, y + r.head, 48, r.book));
+    // As S5: the receipt at the left of the open book; over it, the whole width, when the book needs every track.
+    const left = x.beside ? 12 : 0;
+    place("receipt", custom(RECEIPT_WIDGET), at(0, y, x.beside ? 12 : 48, r.receipt));
+    if (!x.beside) y += r.receipt;
+    place("book-head", custom(BOOK_HEAD_WIDGET), at(left, y, 48 - left, r.head));
+    place(BOOK_WIDGET_ID, book(false), at(left, y + r.head, 48 - left, r.book));
   }
 
   return {

@@ -392,3 +392,70 @@ for (const { width, height } of [
     }
   }
 }
+
+// T4: the receipt beside the book. A press on a printed line of the photo narrows the book to that line and lights
+// up who paid for it, as a press on a donor does; the same line again puts every row back.
+for (const { width, height, mark } of [
+  { width: 1440, height: 900, mark: "button[data-donor=Mark]" },
+  { width: 390, height: 844, mark: "[data-donor-row=Mark]" },
+]) {
+  test.describe(`the receipt beside the book, ${width} px`, () => {
+    test.use({ viewport: { width, height } });
+
+    test("a press on line 4 of the photo: two rows of line 4 in the book, Mark lit, the sentence over the book; again: every row", async ({ page }) => {
+      await openBook(page, fixture("closed"));
+      await expect(rows(page)).toHaveCount(20);
+      const widget = page.getByTestId("receipt-widget");
+      await expect(widget.locator(".lg-rc-line")).toHaveCount(11);
+      await expect(widget.locator(".lg-rc-line.is-refused")).toHaveCount(2);
+      const line4 = widget.getByRole("button", { name: "Line 4 · ¥2,596" });
+      await expect(line4).toHaveAttribute("aria-pressed", "false");
+      // Beside the book on the reference desktop, over it on a phone.
+      const w = (await widget.boundingBox())!;
+      const grid = (await page.locator(".ag-root-wrapper").boundingBox())!;
+      if (width === 1440) expect(w.x + w.width).toBeLessThanOrEqual(grid.x + 1);
+      else expect(w.y + w.height).toBeLessThanOrEqual(grid.y);
+      await line4.click();
+      await expect(line4).toHaveAttribute("aria-pressed", "true");
+      await expect(rows(page)).toHaveCount(2);
+      await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"])`)).toHaveCount(1);
+      await expect(page.locator('.ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.match"])')).toHaveCount(1);
+      await expect(page.locator(mark)).toHaveClass(/is-on/);
+      await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
+      const sentence = "Line 4 · Soft kids diapers M · ¥2,596 = Mark · Columbus $8.58 (¥1,298) + Kitasora Logistics match ¥1,298";
+      await expect(page.getByTestId("line-sentence")).toHaveAttribute("title", sentence);
+      if (width === 1440) await expect(page.getByTestId("line-sentence")).toContainText(sentence);
+      else await expect(widget.locator(".lg-rc-sentence")).toHaveText(sentence);
+      // The receipt is not cut by the frame's edge with only two rows of the book under it.
+      const frame = (await page.locator(".lg-frame").boundingBox())!;
+      const after = (await widget.boundingBox())!;
+      expect(after.y + after.height).toBeLessThanOrEqual(frame.y + frame.height + 1);
+      expect(await wider(page)).toBeLessThanOrEqual(0);
+      await line4.click();
+      await expect(line4).toHaveAttribute("aria-pressed", "false");
+      await expect(rows(page)).toHaveCount(20);
+    });
+  });
+}
+
+test("the receipt is part of the book: out of sight and out of Tab's reach while the book is closed", async ({ page }) => {
+  await openBook(page, fixture("closed"));
+  const widget = page.getByTestId("receipt-widget");
+  await expect(widget).toBeVisible();
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(widget).toBeHidden();
+  await expect(widget.locator(".lg-rc-line").first()).toBeHidden();
+});
+
+test("a line without a box is listed under the photo and still narrows the book", async ({ page }) => {
+  const v = fixture("closed");
+  v.receipts[0].lines.find((l) => l.lineNo === 7)!.box = null;
+  await openBook(page, v);
+  const widget = page.getByTestId("receipt-widget");
+  await expect(widget.locator(".lg-rc-photo .lg-rc-line")).toHaveCount(10);
+  await expect(widget.locator(".lg-rc-unplaced")).toContainText("1 line not placed on the photo");
+  await widget.locator(".lg-rc-unplaced button").click();
+  await expect(rows(page).first()).toBeVisible();
+  const keys = await page.locator(".ag-row [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]);
+  expect(keys).toEqual(["demo-f372326129.r1:7"]);
+});

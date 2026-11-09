@@ -28,6 +28,9 @@ const COLUMNS: [id: string, share: number, least: number][] = [
   [BOOK.status, 0.16, 150],
 ];
 
+/** The least width of the desktop book: every column at its least. The receipt stands beside the book only if this fits. */
+export const BOOK_LEAST_PX = COLUMNS.reduce((sum, [, , least]) => sum + least, 0);
+
 const PHONE_COLUMNS: typeof COLUMNS = [
   [BOOK.what, 0.37, 130],
   [BOOK.who, 0.19, 66],
