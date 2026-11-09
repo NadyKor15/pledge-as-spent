@@ -14,7 +14,7 @@ import { StatementActions } from "./statement/Actions";
 import { HoldMeter } from "./HoldMeter";
 import { meterParts } from "./hold-meter";
 import { StatementCheck } from "./paypal-check/StatementCheck";
-import { vanishLine } from "./statement/vanish";
+import { vanishLine, withdrawnNote } from "./statement/vanish";
 import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
@@ -180,8 +180,8 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
     { key: "held", stat: s.sHeld, value: m.held, word: "held", always: live },
     { key: "returning", stat: s.sBack, value: m.returning, word: "Returning at PayPal…", always: false },
     // Known once the hold is over: on a live hold "€0.00 never charged" would say nothing true yet.
-    { key: "never", stat: s.sRel, value: m.never, word: "never charged", always: !live && !returning },
-    { key: "refunded", stat: s.sRel, value: m.back, word: "refunded after capture", always: false },
+    { key: "never", stat: s.sNever, value: m.never, word: "never charged", always: !live && !returning },
+    { key: "refunded", stat: s.sRefund, value: m.back, word: "refunded after capture", always: false },
   ].filter((p) => p.always || p.value > 0);
   return (
     <div className={s.page}>
@@ -281,7 +281,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
 
         <div className={s.hr} />
         {vanish && (
-          <p className={s.vanish} data-testid="statement-vanish">
+          <p className={s.vanish} data-testid="statement-vanish" aria-live="polite">
             {vanish.text}
             {vanish.confirm && (
               <>
@@ -390,7 +390,7 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   if (b.revoked) {
     return (
       <p className={s.withdrawn} role="status">
-        {returningAtPayPal(b) ? "You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal." : "You withdrew this pledge. What was already bought stays paid; the rest was never charged: PayPal released the hold."}
+        {withdrawnNote(b)}
       </p>
     );
   }

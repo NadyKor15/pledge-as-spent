@@ -71,7 +71,7 @@ describe("the day PayPal ends a hold, in the check's table", () => {
 
   it("must differ: a book date that is not PayPal's is printed beside it, marked", () => {
     const line = endLine(hold("CREATED", "2026-12-09T04:45:39Z", "2026-12-08T04:45:39.000Z", "differs"), "en")!;
-    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-09 04:45:39 UTC", date: "2026-12-09 04:45:39 UTC", book: "our book: 2026-12-08 04:45:39 UTC", verdict: "differs" });
+    expect(line).toEqual({ says: "PayPal ends this hold by 2026-12-09 04:45:39 UTC", date: "2026-12-09 04:45:39 UTC", book: "our book differs: 2026-12-08 04:45:39 UTC", verdict: "differs" });
   });
 
   it("no line without PayPal's date, and none for captures or payouts", () => {
@@ -87,6 +87,14 @@ describe("the day PayPal ends a hold, in the check's table", () => {
     expect(endLine(live, "ja")).toEqual({ says: "PayPal はこの保留を 2026-12-08 04:45:39 UTC までに終了します", date: "2026-12-08 04:45:39 UTC", book: "帳簿も同じ日付", verdict: "agrees" });
     expect(endLine(hold("VOIDED", "2026-12-08T04:45:39Z", null, null), "de")!.says).toBe("Von PayPal gesetztes Enddatum dieser Reservierung: 2026-12-08 04:45:39 UTC");
     expect(endLine(hold("VOIDED", "2026-12-08T04:45:39Z", null, null), "ja")!.says).toBe("PayPal が定めたこの保留の終了日: 2026-12-08 04:45:39 UTC");
+  });
+});
+
+describe("a book date that differs is said, not only coloured", () => {
+  it("the words name the difference in three languages", () => {
+    expect(CHECK_WORDS.en.bookOther("X")).toBe("our book differs: X");
+    expect(CHECK_WORDS.de.bookOther("X")).toBe("unser Buch weicht ab: X");
+    expect(CHECK_WORDS.ja.bookOther("X")).toBe("帳簿は異なる日付: X");
   });
 });
 

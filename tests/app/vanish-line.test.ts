@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CheckResult, CheckRow } from "../../src/server/paypal-check";
-import { vanishLine, type VanishHold } from "../../src/ui/statement/vanish";
+import { vanishLine, withdrawnNote, type VanishHold } from "../../src/ui/statement/vanish";
 import type { JournalCall } from "../../src/ui/types";
 
 // "What if we vanish?" on a donor's statement: the day PayPal ends the hold by itself, from the book; PayPal's own word
@@ -26,6 +26,19 @@ describe("the statement's line for 'what if we vanish?'", () => {
     // Another donor's hold, or no answer for this one: nothing is claimed.
     expect(vanishLine(live, [], answer({ id: "OTHER", paypal: { status: "CREATED", expires: "2026-12-08T04:45:39Z" } }))!.confirm).toBeNull();
     expect(vanishLine(live, [], answer({ expiry: null, paypal: { http: 0, status: null, expires: null } }))!.confirm).toBeNull();
+  });
+
+  it("PayPal says the hold is already over while the book still holds it: no 'confirms', PayPal's word instead (must differ)", () => {
+    const over = answer({ paypal: { status: "VOIDED", expires: "2026-12-08T04:45:39Z" } });
+    expect(vanishLine(live, [], over)!.confirm).toBe("PayPal now reports this hold VOIDED: nothing more can be charged from it.");
+    expect(vanishLine(live, [], answer({ paypal: { status: "PARTIALLY_CAPTURED", expires: "2026-12-08T04:45:39Z" } }))!.confirm).toBe("PayPal confirms this date.");
+    expect(vanishLine(live, [], answer({ paypal: { status: "PENDING", expires: "2026-12-08T04:45:39Z" } }))!.confirm).toBe("PayPal confirms this date.");
+  });
+
+  it("after a withdrawal: never charged once PayPal released it, unless part of it was refunded after capture", () => {
+    expect(withdrawnNote({ ...live, revoked: true, status: "authorized", reversed: 0 })).toBe("You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal.");
+    expect(withdrawnNote({ ...live, revoked: true, status: "voided", reversed: 0 })).toBe("You withdrew this pledge. What was already bought stays paid; the rest was never charged: PayPal released the hold.");
+    expect(withdrawnNote({ ...live, revoked: true, status: "voided", reversed: 300 })).toBe("You withdrew this pledge. What was already bought stays paid; the rest went back at PayPal.");
   });
 
   it("no promise it cannot keep: no 'guaranteed', no 'safe'", () => {

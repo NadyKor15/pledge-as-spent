@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { heroText } from "@/ui/DonorView";
 import { holdTag, paypalActivity } from "@/ui/derive";
 import { money } from "@/ui/format";
 import { countLine } from "@/ui/landing-count";
@@ -117,3 +118,13 @@ describe("the landing page's count, from the same derive as the Ledger", () => {
     expect(countLine(deriveLedger(v, "en"))).toBeNull();
   });
 });
+
+describe("the donor screen's opening line on a closed drive", () => {
+  it("never charged when no hold was refunded after capture; returned wording when one was (must differ)", () => {
+    const v = fixture("closed");
+    expect(heroText("donor", "closed", v.holds)).toBe("This drive is closed. Donors paid only for verified purchases; the rest of every hold was never charged.");
+    refund(v, rowsOf(v, "Mark")[0], 100);
+    expect(heroText("donor", "closed", v.holds)).toBe("This drive is closed. Donors paid only for verified purchases, and everything else went back to them.");
+  });
+});
+
