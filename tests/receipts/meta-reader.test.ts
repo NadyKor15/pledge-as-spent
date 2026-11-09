@@ -2,7 +2,7 @@ import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { AgreeingClassifier, compareReadings, MetaRawClassifier, MetaTwoReadings, parseSecond, READ_B_SYSTEM, RecordedRawClassifier, SECOND_OFFSET, trustedBands } from "../../src/receipts/meta-reader";
+import { addsUp, AgreeingClassifier, compareReadings, MetaRawClassifier, MetaTwoReadings, parseSecond, parseThird, READ_A_SYSTEM, READ_B_SYSTEM, RecordedRawClassifier, SECOND_OFFSET, trustedBands } from "../../src/receipts/meta-reader";
 import { metaRespond, META_READ_MODEL } from "../../src/receipts/meta";
 import { JsonlSpendLedger, modelUsd, PrefixJsonlSpendLedger, SpendCap, SpendCapExceeded } from "../../src/receipts/spend";
 import type { LineClassification, ParsedReceipt, SecondReading } from "../../src/receipts/types";
@@ -175,9 +175,10 @@ describe("compareReadings", () => {
   });
 
   it("asks a person when the quantity code derives differs between the readings", () => {
-    // Reading B lost the printed quantity: code derives 6 from it, 12 from reading A.
+    // Reading B lost the printed quantity and unit price: code derives 6 from it, 12 from reading A. Both add up
+    // (B as one case at its amount), so arithmetic cannot decide, and without a third reading a person is asked.
     const { lines, agreement } = run({ first: agreeing.first, second: agreeing.first.map((c) => (c.lineNo === 1 ? { ...c, needQty: 6 } : c)) }, (r) => {
-      r.second.receipt!.lines[0] = { ...r.second.receipt!.lines[0], qty: null };
+      r.second.receipt!.lines[0] = { ...r.second.receipt!.lines[0], qty: null, unitPriceMinor: null };
     });
     expect(lines[0]).toMatchObject({ verdict: "review", ruleCode: "unclear" });
     expect(lines[0].reasonEn).toMatch(/12 for water.*6 for water/);
@@ -273,5 +274,107 @@ describe("MetaTwoReadings and the agreeing classifier", () => {
     const classifier = new AgreeingClassifier(new RecordedRawClassifier(() => ({ first: agreeing.first, second: [] })));
     const out = await classifier.classify({ receipt: r.a, needs, rules: "" });
     expect(out.lines.map((l) => l.verdict)).toEqual(["review", "rejected", "review"]);
+  });
+});
+
+describe("arithmetic and the third reading (a disputed quantity)", () => {
+  // Reading A prints qty 2 x 858 = 1716 (12 bottles); reading B lost the qty row and says 1716 for one case (6).
+  const disputed = () => {
+    const r = readings();
+    r.second.receipt!.lines[0] = { ...r.second.receipt!.lines[0], qty: 1, unitPriceMinor: 858 };
+    return r;
+  };
+  const raw = { first: agreeing.first, second: agreeing.first.map((c) => (c.lineNo === 1 ? { ...c, needQty: 6 } : c)) };
+
+  it("knows when a line adds up: quantity times unit price is the amount, exactly", () => {
+    expect(addsUp({ qty: 2, unitPriceMinor: 858, amountMinor: 1716 })).toBe(true);
+    expect(addsUp({ qty: 1, unitPriceMinor: 858, amountMinor: 1716 })).toBe(false);
+    expect(addsUp({ qty: null, unitPriceMinor: null, amountMinor: 138 })).toBe(true);
+    expect(addsUp({ qty: null, unitPriceMinor: 138, amountMinor: 138 })).toBe(true);
+    expect(addsUp({ qty: 3, unitPriceMinor: null, amountMinor: 414 })).toBe(false);
+    expect(addsUp({ qty: 1.5, unitPriceMinor: 100, amountMinor: 150 })).toBe(false);
+  });
+
+  it("takes the reading that adds up when the other does not, with no question", () => {
+    const r = disputed();
+    const out = compareReadings({ receipt: r.a, second: r.second, needs, raw });
+    expect(out.lines[0]).toMatchObject({ verdict: "eligible", needId: "water", needQty: 12 });
+    expect(out.asks).toEqual([]);
+    expect(out.agreement.held).toEqual([]);
+  });
+
+  it("asks the third reading when both add up, and passes the line only when it agrees with one and adds up", () => {
+    const r = disputed();
+    // Both add up: B read 1 x 1716 (a case of 6 at 1716).
+    r.second.receipt!.lines[0] = { ...r.second.receipt!.lines[0], qty: 1, unitPriceMinor: 1716 };
+    const first = compareReadings({ receipt: r.a, second: r.second, needs, raw });
+    expect(first.lines[0].verdict).toBe("review");
+    expect(first.asks).toEqual([{ lineNo: 1, bandIndexes: [3, 4, 5], kind: "quantity" }]);
+    const line = (qty: number | null, unit: number | null, amount: number, text = "おいしい水 2L 6本入") => ({ lineNo: 1, rawText: text, translationEn: "", qty, unitPriceMinor: unit, amountMinor: amount, taxRateBp: null });
+    const agrees = compareReadings({ receipt: r.a, second: r.second, needs, raw: { ...raw, third: { "1": line(2, 858, 1716) } } });
+    expect(agrees.lines[0]).toMatchObject({ verdict: "eligible", needQty: 12 });
+    expect(agrees.agreement.held).toEqual([]);
+    // A third answer that does not add up, has another amount, gives a third quantity, or failed: still a person.
+    for (const t of [line(3, 858, 1716), line(2, 858, 1717), line(3, 572, 1716), null]) {
+      expect(compareReadings({ receipt: r.a, second: r.second, needs, raw: { ...raw, third: { "1": t } } }).lines[0].verdict).toBe("review");
+    }
+  });
+
+  it("reads a line again when the second reading has it at another amount, and passes it only on the same amount and quantity", () => {
+    const r = readings();
+    r.second.receipt!.lines[2] = { ...r.second.receipt!.lines[2], amountMinor: 183 };
+    const both = { first: agreeing.first, second: agreeing.first };
+    const first = compareReadings({ receipt: r.a, second: r.second, needs, raw: both });
+    expect(first.asks).toEqual([{ lineNo: 3, bandIndexes: [7], kind: "missing" }]);
+    const ok = compareReadings({ receipt: r.a, second: r.second, needs, raw: { ...both, third: { "3": { lineNo: 1, rawText: "山里の湧水 2L", translationEn: "", qty: null, unitPriceMinor: null, amountMinor: 138, taxRateBp: null } } } });
+    expect(ok.lines[2]).toMatchObject({ verdict: "eligible", needQty: 1 });
+    const no = compareReadings({ receipt: r.a, second: r.second, needs, raw: { ...both, third: { "3": { lineNo: 1, rawText: "山里の湧水 2L", translationEn: "", qty: null, unitPriceMinor: null, amountMinor: 183, taxRateBp: null } } } });
+    expect(no.lines[2].verdict).toBe("review");
+  });
+
+  it("the agreeing classifier asks the third reader only for disputed lines, at most four, and records the answers", async () => {
+    const r = disputed();
+    r.second.receipt!.lines[0] = { ...r.second.receipt!.lines[0], qty: 1, unitPriceMinor: 1716 };
+    const asked: number[][] = [];
+    const third = {
+      async readLine(_image: unknown, bands: { index: number }[]) {
+        asked.push(bands.map((b) => b.index));
+        return { line: { lineNo: 1, rawText: "おいしい水 2L 6本入", translationEn: "", qty: 2, unitPriceMinor: 858, amountMinor: 1716, taxRateBp: null }, usage: { model: "m", tokensIn: 1, tokensOut: 1, usdCeiling: 0.001, usdActual: 0.001 } };
+      },
+    };
+    const classifier = new AgreeingClassifier(new RecordedRawClassifier(() => raw), third);
+    const out = await classifier.classify({ receipt: r.a, needs, rules: "", second: r.second, image: { bytes: new Uint8Array([1]), mediaType: "image/png" } });
+    expect(asked).toEqual([[3, 4, 5]]);
+    expect(out.lines[0]).toMatchObject({ verdict: "eligible", needQty: 12 });
+    expect(out.agreement!.raw.third).toEqual({ "1": expect.objectContaining({ qty: 2, amountMinor: 1716 }) });
+  });
+
+  it("parses the third reading's one line, and gives nothing for an answer without an amount", () => {
+    expect(parseThird("LINE: qty=2; unit=858; amount=1716; text=おいしい水 2L; en=Water", "JPY")).toMatchObject({ qty: 2, unitPriceMinor: 858, amountMinor: 1716 });
+    expect(parseThird("LINE: qty=2; unit=9,45; amount=18,90; text=PAÑAL", "EUR")).toMatchObject({ qty: 2, unitPriceMinor: 945, amountMinor: 1890 });
+    expect(parseThird("LINE: text=PAÑAL", "EUR")).toBeNull();
+    expect(parseThird("nothing here", "EUR")).toBeNull();
+  });
+});
+
+describe("reading fixes from the first held-out run", () => {
+  it("tells both readings a tax base is never the subtotal", () => {
+    expect(READ_A_SYSTEM).toMatch(/MATRAH, 対象\) is never the subtotal/);
+    expect(READ_B_SYSTEM).toMatch(/MATRAH, 対象\) is never the subtotal/);
+  });
+
+  it("keeps an unreadable photo as an unreadable answer, and a second reading without a currency", async () => {
+    const unreadable = "RECEIPT: readability=unreadable";
+    const b = B_ANSWER.replace("currency=JPY; ", "");
+    // The two readings run at the same time: answer each by its prompt, not by the order the calls arrive in.
+    const f = (async (_u: string, init: RequestInit) => {
+      const text = String(JSON.parse(String(init.body)).instructions).includes("BAND: n=<number>") ? b : unreadable;
+      return new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text }] }], usage: { input_tokens: 10, output_tokens: 10 } }), { status: 200 });
+    }) as unknown as typeof fetch;
+    const reader = new MetaTwoReadings({ ...opts(f), slice: () => ({ bands, tiltDeg: 0, width: 633, height: 899, sheets: [{ bytes: new Uint8Array([1]), mediaType: "image/jpeg", first: 1, last: 9 }] }) });
+    const r = await reader.read({ bytes: new Uint8Array([1]), mediaType: "image/png" }, { currency: "JPY", languages: ["ja"] });
+    expect(r.receipt).toMatchObject({ readability: "unreadable", currency: "JPY", lines: [], totalMinor: 0 });
+    expect(r.second!.receipt).toMatchObject({ currency: "JPY" });
+    expect(r.second!.receipt!.lines).toHaveLength(3);
   });
 });

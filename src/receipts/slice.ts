@@ -346,6 +346,25 @@ export function sliceReceipt(image: ReceiptImage, opts: SliceOptions = {}): Slic
   return { bands, tiltDeg: prep.tiltDeg, width: ow, height: oh, sheets: sheetsOf(img, bands, rows, opts) };
 }
 
+/**
+ * The rows of some bands cut out of the straightened paper, enlarged so a row of type is about 60 pixels high: what the
+ * third reading of one disputed line looks at. The preparation is deterministic, so the bands' y fall on the same rows.
+ */
+export function cutRows(image: ReceiptImage, bands: Band[], rowHeight = 60): { bytes: Uint8Array; mediaType: "image/jpeg" } {
+  if (!bands.length) throw new Error("no rows to cut");
+  const prep = prepImage(image, { scale: 2 });
+  const img = prep.image;
+  const y0 = Math.max(0, Math.min(...bands.map((b) => b.y0)) - 4);
+  const y1 = Math.min(img.height, Math.max(...bands.map((b) => b.y1)) + 4);
+  const typical = median(bands.map((b) => b.y1 - b.y0));
+  const scale = Math.max(1, Math.min(3, rowHeight / Math.max(1, typical)));
+  const w = Math.round(img.width * scale);
+  const h = Math.round((y1 - y0) * scale);
+  const out: Rgba = { width: w, height: h, data: new Uint8Array(w * h * 4).fill(255) };
+  paste(img, 0, y0, img.width, y1 - y0, out, 0, 0, w, h);
+  return { bytes: jpeg.encode({ data: out.data, width: w, height: h }, 92).data, mediaType: "image/jpeg" };
+}
+
 /** The original photo's size, read back from the preparation (its full box maps to the whole photo). */
 function originalSize(prep: Prepared): [number, number] {
   return [prep.originalWidth, prep.originalHeight];

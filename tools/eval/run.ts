@@ -15,7 +15,7 @@ import { RefiningClassifier } from "../../src/receipts/quantity";
 import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { RecordedClassifier, RecordedReader, Recordings, classificationKey, receiptKey } from "../../src/receipts/recorded";
-import { AgreeingClassifier, MetaRawClassifier, MetaTwoReadings, RecordedRawClassifier } from "../../src/receipts/meta-reader";
+import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings, RecordedRawClassifier } from "../../src/receipts/meta-reader";
 import { JsonlSpendLedger, PrefixJsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
 import { sha256Hex } from "../../src/receipts/hash";
 import { LineClassification as LineClassificationSchema, ParsedReceipt as ParsedReceiptSchema, SecondReading as SecondReadingSchema, type Agreement, type LineClassification, type LineClassifier, type ModelUsage, type ParsedReceipt, type ReceiptReader, type SecondReading } from "../../src/receipts/types";
@@ -123,7 +123,7 @@ export async function runEval(input: EvalInput) {
     clock.read = Math.round(performance.now() - t0);
     if (pred && pred.readability !== "unreadable") {
       try {
-        const c = await input.classifier.classify({ receipt: pred, needs: sc.needs, rules: sc.drive.rules, ...(second ? { second } : {}) });
+        const c = await input.classifier.classify({ receipt: pred, needs: sc.needs, rules: sc.drive.rules, image, ...(second ? { second } : {}) });
         labels = c.lines;
         agreement = c.agreement;
         usage.push(c.usage);
@@ -320,12 +320,12 @@ const META_CHOICES: Choice[] = ["meta", "meta-replay"];
 /** The Meta measure's ledger entries; the measure's ceiling counts only these. */
 export const META_EVAL_PREFIX = "read-meta-eval:";
 
-const SavedMeta = z.object({ imageSha256: z.string(), reading: ParsedReceiptSchema.nullable(), second: SecondReadingSchema.optional(), rawClassifications: z.object({ first: z.array(LineClassificationSchema), second: z.array(LineClassificationSchema) }).optional() });
+const SavedMeta = z.object({ imageSha256: z.string(), reading: ParsedReceiptSchema.nullable(), second: SecondReadingSchema.optional(), rawClassifications: z.object({ first: z.array(LineClassificationSchema), second: z.array(LineClassificationSchema), third: z.record(z.string(), ParsedReceiptSchema.shape.lines.element.nullable()).optional() }).optional() });
 
 /** Saved answers of a Meta run, replayed: the readings by photo, the raw classifications by reading. */
 export async function loadMetaRecordings(dir: string) {
   const byImage = new Map<string, { reading: ParsedReceipt; second?: SecondReading }>();
-  const byReading = new Map<string, { first: LineClassification[]; second: LineClassification[] }>();
+  const byReading = new Map<string, { first: LineClassification[]; second: LineClassification[]; third?: Record<string, ParsedReceipt["lines"][number] | null> }>();
   for (const f of (await readdir(dir)).filter((n) => n.endsWith(".json")).sort()) {
     const x = SavedMeta.parse(JSON.parse(await readFile(path.join(dir, f), "utf8")));
     if (!x.reading) continue;
@@ -355,7 +355,7 @@ async function build(choice: Choice, ledger: SpendCap | null, recordings: Record
     if (!apiKey) throw new Error("META_MODEL_API_KEY is not set: run through tools/p3/with-meta-nadya.sh");
     const metaCap = new SpendCap(new PrefixJsonlSpendLedger(path.join(ROOT, "eval/meta-spend-ledger.jsonl"), META_EVAL_PREFIX), Number(process.env.META_SPEND_MAX_USD ?? "5"));
     const o = { apiKey, cap: metaCap, prefix: META_EVAL_PREFIX, ...(process.env.META_MODEL_API_BASE_URL ? { baseUrl: process.env.META_MODEL_API_BASE_URL } : {}) };
-    return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o)), cap: metaCap };
+    return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), cap: metaCap };
   }
   const cap = ledger!;
   const client = createBedrockClient();

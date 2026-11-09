@@ -119,6 +119,8 @@ export interface LineClassifier {
     needs: Need[];
     rules: string;
     second?: SecondReading;
+    /** The photo, for a reader that looks again at a disputed line. */
+    image?: ReceiptImage;
   }): Promise<{ lines: LineClassification[]; usage: ModelUsage; agreement?: Agreement }>;
 }
 
@@ -127,7 +129,7 @@ export interface Agreement {
   purchaseLines: PurchaseLine[];
   lineBoxes: LineBox[];
   /** The classifier's own answers for both readings, before the comparison: kept so the rule can be re-run offline. */
-  raw: { first: LineClassification[]; second: LineClassification[] };
+  raw: { first: LineClassification[]; second: LineClassification[]; third?: Record<string, ParsedReceipt["lines"][number] | null> };
   held: { lineNo: number; why: string }[];
 }
 

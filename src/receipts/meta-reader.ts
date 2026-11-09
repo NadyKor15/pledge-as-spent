@@ -6,10 +6,10 @@
 
 import { z } from "zod";
 import type { CurrencyCode, Need } from "../core/types";
-import { classificationsFromWire, CLASSIFIER_SYSTEM, kv, ModelOutputError, READER_SYSTEM, receiptFromText } from "./bedrock";
+import { classificationsFromWire, CLASSIFIER_SYSTEM, kv, minorUnits, ModelOutputError, READER_SYSTEM, receiptFromText } from "./bedrock";
 import { imagePart, metaRespond, type MetaOptions } from "./meta";
-import { forbiddenCategory, refineClassifications } from "./quantity";
-import { sliceReceipt, type Slicing } from "./slice";
+import { deriveNeedQty, forbiddenCategory, refineClassifications } from "./quantity";
+import { cutRows, sliceReceipt, type Slicing } from "./slice";
 import { sumUsage, validateReceipt } from "./structure";
 import {
   LineClassification,
@@ -28,7 +28,10 @@ import {
 // ------------------------------------------------------------------------------------------------ reading A
 
 /** The whole photo, the same plain-text form as the other readers. */
-export const READ_A_SYSTEM = READER_SYSTEM;
+/** What a subtotal is, for both readings: a tax base (BASE, MATRAH, 対象) is never one. */
+const SUBTOTAL_RULE = "- subtotal is only a row printed as a subtotal (小計, SUBTOTAL, ARA TOPLAM, SUBTOTAL); a tax base (BASE, BASE IMPONIBLE, MATRAH, 対象) is never the subtotal, and when no subtotal row is printed, leave subtotal out.";
+
+export const READ_A_SYSTEM = READER_SYSTEM.replace("\n- PII rows", `\n${SUBTOTAL_RULE}\n- PII rows`);
 
 // ------------------------------------------------------------------------------------------------ reading B
 
@@ -46,8 +49,16 @@ ${FORM_ROWS.replace(/en=<short English name>/, "en=<short English name>; bands=<
 ${RULES}
 - A row that only gives a quantity and a unit price ("2点 x 単858", "2 x 9,45", "3 @ $1.39") belongs to the product line above it: it supplies qty and unit; amount is the line total printed for that product, and you never multiply or add anything yourself.
 - readability is unreadable when you cannot read the lines, poor when parts are doubtful, otherwise good.
+${SUBTOTAL_RULE}
 - bands lists every cut that prints this line: its name (and the rest of a name that wraps), its pack size, its quantity and unit-price row, and its amount; no other cut. A discount line lists its own cut.
 - Do not make rows for personal data.`;
+
+/** The third reading: one disputed line, its printed rows cut out large. */
+export const READ_C_SYSTEM = `You read one line of a store receipt for a disaster-relief fundraiser, cut out of the photo: one to four printed rows that belong to one product. Report exactly what is printed, nothing else, in one row of plain text:
+LINE: qty=<quantity>; unit=<unit price>; amount=<line total>; text=<the product name as printed>; en=<short English name>
+- Leave a key out when it is not printed; never guess, never multiply or add.
+- A row that only gives a quantity and a unit price ("2点 x 単858", "2 x 9,45", "3 @ $1.39") gives qty and unit; amount is the line total printed for the product.
+- Amounts are integers in minor units: whole yen for JPY; hundredths for USD, EUR and TRY (12.50 is 1250).`;
 
 const EMPTY = new Set(["", "null", "none", "n/a", "-"]);
 const LINE_KEYS = ["no", "qty", "unit", "amount", "rate", "text", "en"];
@@ -100,6 +111,7 @@ export class MetaTwoReadings implements ReceiptReader {
   constructor(private readonly o: MetaReaderOptions) {}
 
   async read(image: ReceiptImage, hint: { currency: CurrencyCode; languages: string[] }) {
+    this.currency = hint.currency;
     const intro = `Expected currency: ${hint.currency} (report the currency actually printed). Likely languages: ${hint.languages.join(", ")}.`;
     const [a, b] = await Promise.allSettled([this.readA(image, intro), this.readB(image, intro)]);
     const bUsage = b.status === "fulfilled" ? b.value.usage : ((b.reason as { usage?: ModelUsage })?.usage ?? null);
@@ -120,14 +132,18 @@ export class MetaTwoReadings implements ReceiptReader {
   private async readA(image: ReceiptImage, intro: string) {
     const what = "read A (whole photo)";
     const { text, usage } = await metaRespond(this.o, { what, instructions: READ_A_SYSTEM, parts: [{ type: "input_text", text: intro }, imagePart(image)] });
-    let obj: unknown;
+    let obj: Record<string, unknown>;
     try {
-      obj = receiptFromText(text);
+      obj = receiptFromText(text) as Record<string, unknown>;
     } catch (e) {
       throw Object.assign(new ModelOutputError(`${what}: ${e instanceof Error ? e.message : String(e)}`), { usage, raw: text });
     }
+    // A photo the model calls unreadable comes back as such (no lines, nothing to fund), so the checks flag it.
+    if (obj.readability === "unreadable") obj = { ...obj, currency: obj.currency ?? this.currency, totalMinor: typeof obj.totalMinor === "number" ? obj.totalMinor : 0, lines: [] };
     return { receipt: validateReceipt(obj, what, usage, text), usage };
   }
+
+  private currency: string = "";
 
   private async readB(image: ReceiptImage, intro: string): Promise<{ second: SecondReading; usage: ModelUsage }> {
     const what = "read B (numbered rows)";
@@ -144,7 +160,9 @@ export class MetaTwoReadings implements ReceiptReader {
     } catch (e) {
       throw Object.assign(new ModelOutputError(`${what}: ${e instanceof Error ? e.message : String(e)}`), { usage, raw: text });
     }
-    const receipt = validateReceipt({ ...(parsed.receipt as object), pii: [] }, what, usage, text);
+    // Reading B's currency is never used for money (amounts are compared with reading A's): a missing one is the drive's.
+    const rb = parsed.receipt as Record<string, unknown>;
+    const receipt = validateReceipt({ ...rb, currency: rb.currency ?? this.currency, pii: [] }, what, usage, text);
     return { second: { receipt, lineBands: parsed.lineBands, bandTexts: parsed.bandTexts, bands: slicing.bands, size: { width: slicing.width, height: slicing.height }, error: null }, usage };
   }
 }
@@ -161,6 +179,8 @@ const ANSWER_FORM =
 export interface RawClassification {
   first: LineClassification[];
   second: LineClassification[];
+  /** Third readings of disputed lines, by line number of reading A (null: it gave no usable line). */
+  third?: Record<string, Line | null>;
   usage: ModelUsage;
 }
 
@@ -330,8 +350,10 @@ export function compareReadings(input: {
   receipt: ParsedReceipt;
   second: SecondReading;
   needs: Need[];
-  raw: { first: LineClassification[]; second: LineClassification[] };
-}): { lines: LineClassification[]; agreement: Agreement } {
+  raw: { first: LineClassification[]; second: LineClassification[]; third?: Record<string, Line | null> };
+}): { lines: LineClassification[]; agreement: Agreement; asks: ThirdAsk[] } {
+  const asks: ThirdAsk[] = [];
+  const third = input.raw.third ?? {};
   const a = input.receipt;
   const b = input.second.receipt;
   const first = refineClassifications(a, input.needs, input.raw.first);
@@ -349,8 +371,11 @@ export function compareReadings(input: {
       if (l.amountMinor < 0 || !c || c.verdict !== "eligible") return c ?? hold(undefined, l.lineNo, why);
       return hold(c, l.lineNo, why);
     });
-    return { lines, agreement: { purchaseLines: [], lineBoxes: [], raw: input.raw, held } };
+    return { lines, agreement: { purchaseLines: [], lineBoxes: [], raw: input.raw, held }, asks };
   }
+  const personal = a.pii.map((p) => p.text);
+  const bandsOfB = (bNo: number) => trustedBands(input.second.lineBands[b.lines.findIndex((x) => x.lineNo === bNo)] ?? [], input.second, personal);
+  const needOf = (id: string | null) => input.needs.find((n) => n.id === id);
   const clsB = byNo(refineClassifications(b, input.needs, input.raw.second));
   const pairs = pairLines(a.lines, b.lines);
   const out = new Map<number, LineClassification>();
@@ -382,13 +407,53 @@ export function compareReadings(input: {
       continue;
     }
     if (bNo === undefined) {
-      if (c.verdict === "eligible") out.set(l.lineNo, hold(c, l.lineNo, `The second reading found no line at this amount (${l.amountMinor}), so a person should confirm it.`));
-      else out.set(l.lineNo, c);
+      if (c.verdict !== "eligible") {
+        out.set(l.lineNo, c);
+        continue;
+      }
+      // The second reading may have misread the amount: the line of B with the same name and need, if any, is read a
+      // third time, and the line passes only when that reading prints this amount, adds up, and gives the same quantity.
+      const used = new Set(pairs.values());
+      const near = b.lines
+        .filter((y) => !used.has(y.lineNo) && y.amountMinor >= 0 && similarity(l.rawText, y.rawText) >= 0.6)
+        .map((y) => ({ y, d: clsB.get(y.lineNo) }))
+        .find((x) => x.d?.verdict === "eligible" && x.d.needId === c.needId);
+      const ids = near ? bandsOfB(near.y.lineNo) : [];
+      const t = third[String(l.lineNo)];
+      if (near && ids.length && t !== undefined) {
+        const q = t && t.amountMinor === l.amountMinor && addsUp(t) ? quantityOf(t, needOf(c.needId)) : null;
+        if (q !== null && q === c.needQty) {
+          out.set(l.lineNo, { ...c, confidence: Math.min(c.confidence, near.d!.confidence) });
+          continue;
+        }
+      } else if (near && ids.length) asks.push({ lineNo: l.lineNo, bandIndexes: ids, kind: "missing" });
+      out.set(l.lineNo, hold(c, l.lineNo, `The second reading found no line at this amount (${l.amountMinor}), so a person should confirm it.`));
       continue;
     }
     if (c.verdict === "eligible" && d?.verdict === "eligible" && c.needId === d.needId && c.needQty === d.needQty) {
       out.set(l.lineNo, { ...c, confidence: Math.min(c.confidence, d.confidence) });
       continue;
+    }
+    if (c.verdict === "eligible" && d?.verdict === "eligible" && c.needId === d.needId) {
+      // Same product, same need, same amount, another quantity. Arithmetic first: the reading whose quantity times
+      // unit price makes the printed amount wins, when the other's does not. Then a third reading of the line's rows:
+      // it decides only by agreeing with one of the two and adding up itself. Otherwise a person is asked.
+      const lb = b.lines.find((y) => y.lineNo === bNo)!;
+      const okA = addsUp(l);
+      const okB = addsUp(lb);
+      if (okA !== okB) {
+        out.set(l.lineNo, { ...(okA ? c : { ...c, needQty: d.needQty }), confidence: Math.min(c.confidence, d.confidence) });
+        continue;
+      }
+      const t = third[String(l.lineNo)];
+      const ids = bandsOfB(bNo);
+      if (t !== undefined) {
+        const q = t && t.amountMinor === l.amountMinor && addsUp(t) ? quantityOf(t, needOf(c.needId)) : null;
+        if (q !== null && (q === c.needQty || q === d.needQty)) {
+          out.set(l.lineNo, { ...c, needQty: q, confidence: Math.min(c.confidence, d.confidence) });
+          continue;
+        }
+      } else if (ids.length) asks.push({ lineNo: l.lineNo, bandIndexes: ids, kind: "quantity" });
     }
     if (c.verdict === "rejected" && d?.verdict === "rejected") {
       out.set(l.lineNo, c);
@@ -410,15 +475,29 @@ export function compareReadings(input: {
   if (whole) for (const [no, c] of out) if (c.verdict === "eligible") out.set(no, hold(c, no, `${whole} A person should confirm this line.`));
 
   // Purchase lines and their rows: only lines both readings found, on cuts reading B named and nothing personal.
-  const personal = a.pii.map((p) => p.text);
   const bandByIndex = new Map(input.second.bands.map((x) => [x.index, x]));
   const purchaseLines: PurchaseLine[] = [];
   const lineBoxes: LineBox[] = [];
+  // First the cuts reading B named; then every physical row of the line: a cut between two of its cuts, and the
+  // quantity row right under it ("2点 x 単858", "2 x 9,45", "3 @ $1.39") when no other line names it. The check for
+  // personal data runs again on the widened set: a row with any of it closes the whole line.
+  const named = new Map<number, number[]>();
   for (const l of a.lines) {
     const bNo = pairs.get(l.lineNo);
     if (bNo === undefined) continue;
-    const bi = b.lines.findIndex((x) => x.lineNo === bNo);
-    const ids = trustedBands(input.second.lineBands[bi] ?? [], input.second, personal);
+    const ids = trustedBands(input.second.lineBands[b.lines.findIndex((x) => x.lineNo === bNo)] ?? [], input.second, personal);
+    if (ids.length) named.set(l.lineNo, ids);
+  }
+  const claimed = new Set([...named.values()].flat());
+  const QTY_ROW = /^\s*[\d.,]+\s*(?:点|個|本)?\s*[x×@*]\s*(?:単|@)?\s*[¥$€₺]?\s*[\d.,]+/i;
+  for (const l of a.lines) {
+    const base = named.get(l.lineNo);
+    if (!base) continue;
+    const wide = new Set(base);
+    for (let n = base[0]; n <= base[base.length - 1]; n++) if (!claimed.has(n) || base.includes(n)) wide.add(n);
+    const next = base[base.length - 1] + 1;
+    if (!claimed.has(next) && QTY_ROW.test(input.second.bandTexts[String(next)] ?? "")) wide.add(next);
+    const ids = trustedBands([...wide], input.second, personal);
     if (!ids.length) continue;
     purchaseLines.push({ lineNo: l.lineNo, bandIndexes: ids });
     const size = input.second.size;
@@ -426,7 +505,37 @@ export function compareReadings(input: {
     if (box) lineBoxes.push({ lineNo: l.lineNo, box });
   }
   const lines = a.lines.map((l) => out.get(l.lineNo)).filter((c): c is LineClassification => !!c);
-  return { lines, agreement: { purchaseLines, lineBoxes, raw: input.raw, held } };
+  // A held line that a later step passed is not held any more.
+  const stillHeld = held.filter((h) => out.get(h.lineNo)?.verdict === "review");
+  return { lines, agreement: { purchaseLines, lineBoxes, raw: input.raw, held: stillHeld }, asks: asks.filter((x) => out.get(x.lineNo)?.verdict === "review") };
+}
+
+/** A disputed line the third reading should read: its rows on the photo. */
+export interface ThirdAsk {
+  lineNo: number;
+  bandIndexes: number[];
+  kind: "quantity" | "missing";
+}
+
+/**
+ * Whether a line adds up: printed quantity times printed unit price is the printed amount, exactly in minor units.
+ * A line that prints neither is one item at its amount; a unit price alone must be the amount; a quantity alone
+ * adds up only when it is one. (A discount is its own line and does not change the amount of the line above.)
+ */
+export function addsUp(l: Pick<Line, "qty" | "unitPriceMinor" | "amountMinor">): boolean {
+  const q = l.qty;
+  const u = l.unitPriceMinor;
+  if (q !== null && !(Number.isInteger(q) && q > 0)) return false;
+  if (q === null && u === null) return true;
+  if (q === null) return u === l.amountMinor;
+  if (u === null) return q === 1;
+  return q * u === l.amountMinor;
+}
+
+/** The quantity in the need's unit that code derives from a line (src/receipts/quantity.ts), one item when it says nothing. */
+function quantityOf(l: Line, need: Need | undefined): number | null {
+  if (!need) return null;
+  return deriveNeedQty(l, need) ?? 1;
 }
 
 /**
@@ -434,22 +543,79 @@ export function compareReadings(input: {
  * reading (a stored first reading, an old cache) every eligible line is held: one reading alone does not move money.
  */
 export class AgreeingClassifier implements LineClassifier {
-  constructor(private readonly inner: RawClassifier) {}
+  constructor(
+    private readonly inner: RawClassifier,
+    /** Reads a disputed line's rows a third time; without it, a disputed line is asked of a person. */
+    private readonly third?: ThirdReader,
+  ) {}
 
-  async classify(input: { receipt: ParsedReceipt; needs: Need[]; rules: string; second?: SecondReading }) {
+  async classify(input: { receipt: ParsedReceipt; needs: Need[]; rules: string; second?: SecondReading; image?: ReceiptImage }) {
     const second: SecondReading = input.second ?? { receipt: null, lineBands: [], bandTexts: {}, bands: [], size: null, error: "no second reading was made" };
     const raw = await this.inner.classifyBoth({ receipt: input.receipt, second: second.receipt, needs: input.needs, rules: input.rules });
-    const { lines, agreement } = compareReadings({ receipt: input.receipt, second, needs: input.needs, raw });
-    return { lines, usage: raw.usage, agreement };
+    let result = compareReadings({ receipt: input.receipt, second, needs: input.needs, raw });
+    const usages = [raw.usage];
+    // Recorded answers already carry the third readings (raw.third); a live run asks for the lines still disputed.
+    if (!raw.third && result.asks.length && this.third && input.image) {
+      const answers: Record<string, Line | null> = {};
+      for (const ask of result.asks.slice(0, MAX_THIRD)) {
+        try {
+          const r = await this.third.readLine(input.image, second.bands.filter((b) => ask.bandIndexes.includes(b.index)), input.receipt.currency);
+          answers[String(ask.lineNo)] = r.line;
+          usages.push(r.usage);
+        } catch (e) {
+          answers[String(ask.lineNo)] = null; // a failed third reading decides nothing: the line stays with a person
+          const u = (e as { usage?: ModelUsage }).usage;
+          if (u) usages.push(u);
+        }
+      }
+      result = compareReadings({ receipt: input.receipt, second, needs: input.needs, raw: { ...raw, third: answers } });
+    }
+    return { lines: result.lines, usage: sumUsage(usages), agreement: result.agreement };
   }
+}
+
+/** At most this many disputed lines of one receipt are read a third time. */
+export const MAX_THIRD = 4;
+
+export interface ThirdReader {
+  readLine(image: ReceiptImage, bands: Band[], currency: string): Promise<{ line: Line | null; usage: ModelUsage }>;
+}
+
+/** Muse Spark reads the cut-out rows of one line, enlarged: one LINE row back. */
+export class MetaThirdReader implements ThirdReader {
+  constructor(private readonly o: MetaOptions) {}
+
+  async readLine(image: ReceiptImage, bands: Band[], currency: string) {
+    const what = "read C (one disputed line)";
+    const cut = cutRows(image, bands);
+    const { text, usage } = await metaRespond(this.o, { what, instructions: READ_C_SYSTEM, parts: [{ type: "input_text", text: `Currency: ${currency}.` }, imagePart(cut)] });
+    return { line: parseThird(text, currency), usage };
+  }
+}
+
+/** The third reading's one LINE row as a receipt line (lineNo 1), or null when it gives no amount. */
+export function parseThird(answer: string, currency: string): Line | null {
+  const row = answer
+    .split(/\r?\n/)
+    .map((r) => r.replace(/^[\s*•-]+/, "").trim())
+    .map((r) => r.match(/^LINE\s*:\s*(.*)$/i)?.[1])
+    .find((r) => r !== undefined);
+  if (!row) return null;
+  const f = kv(row, ["qty", "unit", "amount", "text", "en"]) ?? {};
+  const exp = currency === "JPY" ? 0 : 2;
+  const amount = minorUnits(f.amount, exp);
+  const unit = minorUnits(f.unit, exp);
+  const qty = EMPTY.has((f.qty ?? "").trim().toLowerCase()) ? null : Number(f.qty);
+  if (typeof amount !== "number" || (unit !== null && typeof unit !== "number") || (qty !== null && !Number.isFinite(qty))) return null;
+  return { lineNo: 1, rawText: (f.text ?? "").trim(), translationEn: (f.en ?? "").trim(), qty, unitPriceMinor: unit, amountMinor: amount, taxRateBp: null };
 }
 
 /** Replays stored raw classifications (keyed like RecordedClassifier) so the comparison can be re-run without a model. */
 export class RecordedRawClassifier implements RawClassifier {
-  constructor(private readonly byKey: (receipt: ParsedReceipt) => { first: LineClassification[]; second: LineClassification[] } | undefined) {}
+  constructor(private readonly byKey: (receipt: ParsedReceipt) => { first: LineClassification[]; second: LineClassification[]; third?: Record<string, Line | null> } | undefined) {}
   async classifyBoth(input: { receipt: ParsedReceipt }): Promise<RawClassification> {
     const r = this.byKey(input.receipt);
     if (!r) throw new Error("no recorded raw classification for this reading");
-    return { first: structuredClone(r.first), second: structuredClone(r.second), usage: { model: "recorded", tokensIn: 0, tokensOut: 0, usdCeiling: 0, usdActual: 0 } };
+    return { first: structuredClone(r.first), second: structuredClone(r.second), ...(r.third ? { third: structuredClone(r.third) } : {}), usage: { model: "recorded", tokensIn: 0, tokensOut: 0, usdCeiling: 0, usdActual: 0 } };
   }
 }

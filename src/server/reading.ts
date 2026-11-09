@@ -5,11 +5,12 @@ import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { hammingHex } from "../receipts/hash";
+import { uprightImage } from "../receipts/orient";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
 import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
-import { AgreeingClassifier, MetaRawClassifier, MetaTwoReadings } from "../receipts/meta-reader";
+import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings } from "../receipts/meta-reader";
 import { Band, LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type PurchaseLine, type ReceiptImage, type ReceiptReader, type SecondReading } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.meta.json";
 import { ServiceError } from "./errors";
@@ -186,6 +187,8 @@ export class ReceiptReading {
   private readonly recordings: Recordings;
 
   async read(input: ReadInput): Promise<Reading> {
+    // A phone photo turned by its EXIF tag is made upright once: the readers, the rows and the closed copy all use it.
+    input = { ...input, image: uprightImage(input.image) };
     const sameSha = await this.db
       .select({ driveId: receipts.driveId, parsed: receipts.parsed, classified: receipts.classified, reader: receipts.reader, checks: receipts.checks })
       .from(receipts)
@@ -259,7 +262,7 @@ export class ReceiptReading {
   /** Any model call makes the reading "live:<pipeline>", so it counts against the per-IP live limit. */
   private async classifyLive(input: ReadInput, parsed: ParsedReceipt, usage: ModelUsage[], models?: { classifier: LineClassifier; pipeline: Pipeline }, second?: SecondReading): Promise<Reading> {
     const m = models ?? (await this.liveModels(input));
-    const { lines, usage: u, agreement } = await this.guard(() => m.classifier.classify({ receipt: parsed, needs: input.needs, rules: input.rules, ...(second ? { second } : {}) }));
+    const { lines, usage: u, agreement } = await this.guard(() => m.classifier.classify({ receipt: parsed, needs: input.needs, rules: input.rules, image: input.image, ...(second ? { second } : {}) }));
     const rows = second && agreement ? { ...this.rowsOf(input.image, second.bands, second.bandTexts, agreement.purchaseLines), ...(agreement.lineBoxes.length ? { lineBoxes: agreement.lineBoxes } : {}) } : {};
     return { parsed, classified: { key: classificationKey(parsed, input.needs, input.rules), lines }, reader: `live:${m.pipeline}`, usage: [...usage, u], ...rows };
   }
@@ -288,7 +291,7 @@ export class ReceiptReading {
       if (!meta || !(meta.capUsd > 0)) throw new ServiceError(503, "live_reading_off", "Live receipt reading by Meta is not switched on for this server. Use the sample receipt.", SAMPLE_HINT);
       const ledger = new PgMetaReadLedger(this.db, meta.capUsd);
       const o = { apiKey: meta.apiKey, cap: new SpendCap(ledger, ledger.capUsd), prefix: META_READ_PREFIX, ...(meta.baseUrl ? { baseUrl: meta.baseUrl } : {}), ...(meta.fetch ? { fetch: meta.fetch } : {}), timeoutMs: Math.max(10_000, this.limits.liveReadMs - 5_000) };
-      return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o)), pipeline };
+      return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), pipeline };
     }
     if (!this.live.bedrock) throw new ServiceError(503, "live_reading_off", "Live receipt reading is not switched on for this server. Use the sample receipt.", SAMPLE_HINT);
     const client = this.live.bedrock();
