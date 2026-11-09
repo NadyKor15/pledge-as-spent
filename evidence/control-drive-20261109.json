@@ -1,0 +1,2251 @@
+{
+ "note": "Control drive opened on the hosted demo with the sample receipt, then closed. Raw answers of GET /api/drives/demo-41e3886eeb and GET /api/drives/demo-41e3886eeb/paypal-check.",
+ "readAt": "2026-11-09T02:17:54Z",
+ "drive": {
+  "drive": {
+   "id": "demo-41e3886eeb",
+   "zone": [
+    "北空",
+    "Kitasora"
+   ],
+   "batch": {
+    "maxAgeHours": 24,
+    "thresholdMinor": {}
+   },
+   "rules": "Funds go only to the listed needs, bought inside the drive zone on or after the disaster date. Alcohol, tobacco and gift cards are never funded. Only the exact items listed count: a different size or battery type is not a need. Size M diapers only; AA batteries (単3) only.",
+   "title": "Earthquake relief (demo)",
+   "status": "closed",
+   "createdAt": "2026-11-09T02:16:07.735Z",
+   "baseCurrency": "JPY",
+   "disasterDate": "2026-11-02",
+   "demo": true,
+   "displayTitle": "Kitasora Community Shelter — Earthquake relief",
+   "volunteerName": "Haruto",
+   "scenario": "kitasora",
+   "sample": "hero",
+   "shelterPhoto": "kitasora"
+  },
+  "needs": [
+   {
+    "needId": "water",
+    "label": "Drinking water 2 L",
+    "unit": "bottle 2 L",
+    "qtyNeeded": 40,
+    "qtyCovered": 12,
+    "remainingQty": 28,
+    "covered": false,
+    "fundedBase": 1486,
+    "donorBase": 743,
+    "matchBase": 743,
+    "unfundedBase": 0,
+    "rejectedBase": 0,
+    "donorCapacityBase": 0,
+    "displayLabel": "Water 2 L"
+   },
+   {
+    "needId": "diapers",
+    "label": "Baby diapers size M",
+    "unit": "pack",
+    "qtyNeeded": 6,
+    "qtyCovered": 6,
+    "remainingQty": 0,
+    "covered": true,
+    "fundedBase": 6488,
+    "donorBase": 3244,
+    "matchBase": 3244,
+    "unfundedBase": 0,
+    "rejectedBase": 0,
+    "donorCapacityBase": 0,
+    "displayLabel": "Diapers size M"
+   },
+   {
+    "needId": "batteries",
+    "label": "AA batteries",
+    "unit": "piece",
+    "qtyNeeded": 50,
+    "qtyCovered": 50,
+    "remainingQty": 0,
+    "covered": true,
+    "fundedBase": 2474,
+    "donorBase": 1237,
+    "matchBase": 1237,
+    "unfundedBase": 0,
+    "rejectedBase": 0,
+    "donorCapacityBase": 0,
+    "displayLabel": "AA batteries"
+   }
+  ],
+  "holds": [
+   {
+    "pledgeId": "demo-41e3886eeb.water",
+    "kind": "donor",
+    "donorName": "Lena (Berlin)",
+    "needId": "water",
+    "status": "voided",
+    "revoked": false,
+    "currency": "EUR",
+    "pledged": 2000,
+    "authorized": 2000,
+    "captured": 458,
+    "capturePending": 0,
+    "accrued": 0,
+    "released": 1542,
+    "uncollected": 0,
+    "reversed": 0,
+    "available": 0,
+    "capacityBase": 0,
+    "blocked": false,
+    "blockedReason": null,
+    "authorizationId": "2E958442NA768360H",
+    "expiresAt": "2026-12-08T02:16:09.000Z",
+    "rebound": null,
+    "donorCountry": "DE",
+    "fx": {
+     "asOf": "2026-10-23",
+     "base": "JPY",
+     "rate": "162.35",
+     "quote": "EUR",
+     "source": "demo snapshot (fixed for a reproducible demo)"
+    },
+    "orderId": "1M5116223L541471S",
+    "paymentSource": "card"
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "kind": "donor",
+    "donorName": "Mark (Columbus)",
+    "needId": "diapers",
+    "status": "voided",
+    "revoked": false,
+    "currency": "USD",
+    "pledged": 3000,
+    "authorized": 3000,
+    "captured": 2145,
+    "capturePending": 0,
+    "accrued": 0,
+    "released": 855,
+    "uncollected": 0,
+    "reversed": 0,
+    "available": 0,
+    "capacityBase": 0,
+    "blocked": false,
+    "blockedReason": null,
+    "authorizationId": "2EE03347X60970605",
+    "expiresAt": "2026-12-08T02:16:12.000Z",
+    "rebound": null,
+    "donorCountry": "US",
+    "fx": {
+     "asOf": "2026-10-23",
+     "base": "JPY",
+     "rate": "151.20",
+     "quote": "USD",
+     "source": "demo snapshot (fixed for a reproducible demo)"
+    },
+    "orderId": "9X088479WY0609728",
+    "paymentSource": "card"
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "kind": "donor",
+    "donorName": "Yuki (Osaka)",
+    "needId": "batteries",
+    "status": "voided",
+    "revoked": false,
+    "currency": "JPY",
+    "pledged": 3000,
+    "authorized": 3000,
+    "captured": 1237,
+    "capturePending": 0,
+    "accrued": 0,
+    "released": 1763,
+    "uncollected": 0,
+    "reversed": 0,
+    "available": 0,
+    "capacityBase": 0,
+    "blocked": false,
+    "blockedReason": null,
+    "authorizationId": "9EP86710L6028340H",
+    "expiresAt": "2026-12-08T02:16:15.000Z",
+    "rebound": null,
+    "donorCountry": "JP",
+    "fx": {
+     "asOf": "2026-10-23",
+     "base": "JPY",
+     "rate": "1",
+     "quote": "JPY",
+     "source": "demo snapshot (fixed for a reproducible demo)"
+    },
+    "orderId": "0XU44458G0017822F",
+    "paymentSource": "card"
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.match",
+    "kind": "match",
+    "donorName": "Kitasora Logistics",
+    "needId": null,
+    "status": "voided",
+    "revoked": false,
+    "currency": "JPY",
+    "pledged": 500000,
+    "authorized": 500000,
+    "captured": 5224,
+    "capturePending": 0,
+    "accrued": 0,
+    "released": 494776,
+    "uncollected": 0,
+    "reversed": 0,
+    "available": 0,
+    "capacityBase": 0,
+    "blocked": false,
+    "blockedReason": null,
+    "authorizationId": "219075073A134870K",
+    "expiresAt": "2026-12-08T02:16:17.000Z",
+    "rebound": null,
+    "donorCountry": "JP",
+    "fx": {
+     "asOf": "2026-10-23",
+     "base": "JPY",
+     "rate": "1",
+     "quote": "JPY",
+     "source": "demo snapshot (fixed for a reproducible demo)"
+    },
+    "orderId": "3BG70185TS916225H",
+    "paymentSource": "card"
+   }
+  ],
+  "match": {
+   "ratio": {
+    "num": 1,
+    "den": 1
+   },
+   "pledgedBase": 500000,
+   "usedBase": 5224,
+   "capacityBase": 0,
+   "holds": [
+    {
+     "pledgeId": "demo-41e3886eeb.match",
+     "kind": "match",
+     "donorName": "Kitasora Logistics",
+     "needId": null,
+     "status": "voided",
+     "revoked": false,
+     "currency": "JPY",
+     "pledged": 500000,
+     "authorized": 500000,
+     "captured": 5224,
+     "capturePending": 0,
+     "accrued": 0,
+     "released": 494776,
+     "uncollected": 0,
+     "reversed": 0,
+     "available": 0,
+     "capacityBase": 0,
+     "blocked": false,
+     "blockedReason": null,
+     "authorizationId": "219075073A134870K",
+     "expiresAt": "2026-12-08T02:16:17.000Z",
+     "rebound": null
+    }
+   ]
+  },
+  "ledger": [
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 1,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:1/demo-41e3886eeb.water",
+    "qty": 6,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.water",
+    "donorName": "Lena (Berlin)",
+    "base": 399,
+    "currency": "EUR",
+    "amount": 246,
+    "matchBase": 399,
+    "status": "captured",
+    "captureId": "6R971261656918244",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 1,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:1/demo-41e3886eeb.match",
+    "qty": 6,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 399,
+    "currency": "JPY",
+    "amount": 399,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 2,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:2/demo-41e3886eeb.water",
+    "qty": 4,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.water",
+    "donorName": "Lena (Berlin)",
+    "base": 236,
+    "currency": "EUR",
+    "amount": 145,
+    "matchBase": 236,
+    "status": "captured",
+    "captureId": "6R971261656918244",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 2,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:2/demo-41e3886eeb.match",
+    "qty": 4,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 236,
+    "currency": "JPY",
+    "amount": 236,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 3,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:3/demo-41e3886eeb.water",
+    "qty": 2,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.water",
+    "donorName": "Lena (Berlin)",
+    "base": 108,
+    "currency": "EUR",
+    "amount": 67,
+    "matchBase": 108,
+    "status": "captured",
+    "captureId": "6R971261656918244",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 3,
+    "needId": "water",
+    "item": "Drinking water 2 L",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:3/demo-41e3886eeb.match",
+    "qty": 2,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 108,
+    "currency": "JPY",
+    "amount": 108,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 4,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:4/demo-41e3886eeb.diapers",
+    "qty": 2,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "donorName": "Mark (Columbus)",
+    "base": 1298,
+    "currency": "USD",
+    "amount": 858,
+    "matchBase": 1298,
+    "status": "captured",
+    "captureId": "624222286A975533Y",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 4,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:4/demo-41e3886eeb.match",
+    "qty": 2,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 1298,
+    "currency": "JPY",
+    "amount": 1298,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 5,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:5/demo-41e3886eeb.diapers",
+    "qty": 3,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "donorName": "Mark (Columbus)",
+    "base": 1647,
+    "currency": "USD",
+    "amount": 1089,
+    "matchBase": 1647,
+    "status": "captured",
+    "captureId": "624222286A975533Y",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 5,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:5/demo-41e3886eeb.match",
+    "qty": 3,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 1647,
+    "currency": "JPY",
+    "amount": 1647,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 6,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:6/demo-41e3886eeb.diapers",
+    "qty": 1,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "donorName": "Mark (Columbus)",
+    "base": 299,
+    "currency": "USD",
+    "amount": 198,
+    "matchBase": 299,
+    "status": "captured",
+    "captureId": "624222286A975533Y",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 6,
+    "needId": "diapers",
+    "item": "Baby diapers size M",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:6/demo-41e3886eeb.match",
+    "qty": 1,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 299,
+    "currency": "JPY",
+    "amount": 299,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 7,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:7/demo-41e3886eeb.batteries",
+    "qty": 20,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "donorName": "Yuki (Osaka)",
+    "base": 349,
+    "currency": "JPY",
+    "amount": 349,
+    "matchBase": 349,
+    "status": "captured",
+    "captureId": "4SD28419XR815771T",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 7,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:7/demo-41e3886eeb.match",
+    "qty": 20,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 349,
+    "currency": "JPY",
+    "amount": 349,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 8,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:8/demo-41e3886eeb.batteries",
+    "qty": 20,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "donorName": "Yuki (Osaka)",
+    "base": 398,
+    "currency": "JPY",
+    "amount": 398,
+    "matchBase": 398,
+    "status": "captured",
+    "captureId": "4SD28419XR815771T",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 8,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:8/demo-41e3886eeb.match",
+    "qty": 20,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 398,
+    "currency": "JPY",
+    "amount": 398,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 9,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:9/demo-41e3886eeb.batteries",
+    "qty": 10,
+    "kind": "donor_share",
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "donorName": "Yuki (Osaka)",
+    "base": 490,
+    "currency": "JPY",
+    "amount": 490,
+    "matchBase": 490,
+    "status": "captured",
+    "captureId": "4SD28419XR815771T",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 9,
+    "needId": "batteries",
+    "item": "AA batteries",
+    "baseCurrency": "JPY",
+    "rowId": "demo-41e3886eeb.r1:9/demo-41e3886eeb.match",
+    "qty": 10,
+    "kind": "match_share",
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "base": 490,
+    "currency": "JPY",
+    "amount": 490,
+    "matchBase": 0,
+    "status": "captured",
+    "captureId": "60M990276G1827829",
+    "reversed": 0,
+    "honored": true,
+    "code": null,
+    "reasonEn": null
+   },
+   {
+    "rowId": "demo-41e3886eeb.r1:10/rejected",
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 10,
+    "needId": null,
+    "item": null,
+    "qty": null,
+    "kind": "rejected",
+    "pledgeId": null,
+    "donorName": null,
+    "baseCurrency": "JPY",
+    "base": 1198,
+    "currency": null,
+    "amount": null,
+    "matchBase": 0,
+    "status": "rejected",
+    "captureId": null,
+    "reversed": null,
+    "honored": null,
+    "code": "alcohol",
+    "reasonEn": "Canned beer is alcohol, which this drive never funds."
+   },
+   {
+    "rowId": "demo-41e3886eeb.r1:11/rejected",
+    "at": "2026-11-09T02:16:21.990Z",
+    "receiptId": "demo-41e3886eeb.r1",
+    "lineNo": 11,
+    "needId": null,
+    "item": null,
+    "qty": null,
+    "kind": "rejected",
+    "pledgeId": null,
+    "donorName": null,
+    "baseCurrency": "JPY",
+    "base": 3000,
+    "currency": null,
+    "amount": null,
+    "matchBase": 0,
+    "status": "rejected",
+    "captureId": null,
+    "reversed": null,
+    "honored": null,
+    "code": "gift_card",
+    "reasonEn": "A gift card is never funded by this drive."
+   }
+  ],
+  "payouts": [
+   {
+    "receiptId": "demo-41e3886eeb.r1",
+    "attempts": [
+     {
+      "senderBatchId": "pay:demo-41e3886eeb:demo-41e3886eeb.r1",
+      "amount": 10448,
+      "status": "confirmed",
+      "submittedAt": "2026-11-09T02:16:22.043Z",
+      "payoutBatchId": "SRB3MPNH3YJM8",
+      "fee": {
+       "minor": 209,
+       "currency": "JPY"
+      }
+     }
+    ]
+   }
+  ],
+  "closeReport": [
+   {
+    "pledgeId": "demo-41e3886eeb.water",
+    "donorName": "Lena (Berlin)",
+    "kind": "donor",
+    "currency": "EUR",
+    "pledged": 2000,
+    "spent": 458,
+    "released": 1542,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "donorName": "Mark (Columbus)",
+    "kind": "donor",
+    "currency": "USD",
+    "pledged": 3000,
+    "spent": 2145,
+    "released": 855,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "donorName": "Yuki (Osaka)",
+    "kind": "donor",
+    "currency": "JPY",
+    "pledged": 3000,
+    "spent": 1237,
+    "released": 1763,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   },
+   {
+    "pledgeId": "demo-41e3886eeb.match",
+    "donorName": "Kitasora Logistics",
+    "kind": "match",
+    "currency": "JPY",
+    "pledged": 500000,
+    "spent": 5224,
+    "released": 494776,
+    "uncollected": 0,
+    "reversed": 0,
+    "settled": true
+   }
+  ],
+  "feeSavings": [
+   {
+    "currency": "EUR",
+    "batches": 1,
+    "shares": 3,
+    "savedMinor": 78,
+    "estimate": false,
+    "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): EUR 7.40 -> 0.58, 5.00 -> 0.52 = 2.59% + EUR 0.39",
+    "paypalFeeMinor": 51,
+    "batchesWithReportedFee": 1
+   },
+   {
+    "currency": "JPY",
+    "batches": 2,
+    "shares": 12,
+    "savedMinor": 490,
+    "estimate": false,
+    "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): JPY 1110 -> 78, 500 -> 62, 12000 -> 360, 8000 -> 256 = 2.59% + JPY 49",
+    "paypalFeeMinor": 265,
+    "batchesWithReportedFee": 2
+   },
+   {
+    "currency": "USD",
+    "batches": 1,
+    "shares": 3,
+    "savedMinor": 98,
+    "estimate": false,
+    "source": "Sandbox captures 2026-10-23 (docs/platform-findings.md #4): USD 11.10 -> 0.78, 6.00 -> 0.65, 12.90 -> 0.82 = 2.59% + USD 0.49",
+    "paypalFeeMinor": 105,
+    "batchesWithReportedFee": 1
+   }
+  ],
+  "receipts": [
+   {
+    "id": "demo-41e3886eeb.r1",
+    "driveId": "demo-41e3886eeb",
+    "status": "funded",
+    "channel": "web",
+    "reader": "cached:meta",
+    "uploadedAt": "2026-11-09T02:16:21.066Z",
+    "merchant": "ミナト生活館 北空店",
+    "purchasedAt": "2026-11-05T14:32:00",
+    "currency": "JPY",
+    "total": 14646,
+    "flags": [],
+    "lines": [
+     {
+      "lineNo": 1,
+      "text": "北空の天然水 2L 6本ケース",
+      "translationEn": "Natural water 2L case",
+      "amount": 798,
+      "verdict": "eligible",
+      "needId": "water",
+      "needQty": 6,
+      "ruleCode": null,
+      "reasonEn": "A case of six 2 L natural waters counts as six bottles toward the water need.",
+      "confidence": 0.99,
+      "box": {
+       "x": 0.1676190476190476,
+       "y": 0.2527863777089783,
+       "w": 0.6479365079365078,
+       "h": 0.04411764705882354
+      }
+     },
+     {
+      "lineNo": 2,
+      "text": "雪解けの水 2L",
+      "translationEn": "Melted snow water 2L",
+      "amount": 472,
+      "verdict": "eligible",
+      "needId": "water",
+      "needQty": 4,
+      "ruleCode": null,
+      "reasonEn": "Four 2 L drinking waters count toward the water need.",
+      "confidence": 0.98,
+      "box": {
+       "x": 0.16968253968253968,
+       "y": 0.28761609907120744,
+       "w": 0.647936507936508,
+       "h": 0.04373065015479877
+      }
+     },
+     {
+      "lineNo": 3,
+      "text": "ミネラルウォーター 2Lペット",
+      "translationEn": "Mineral water 2L bottle",
+      "amount": 216,
+      "verdict": "eligible",
+      "needId": "water",
+      "needQty": 2,
+      "ruleCode": null,
+      "reasonEn": "Two 2 L mineral waters count toward the water need.",
+      "confidence": 0.98,
+      "box": {
+       "x": 0.1719047619047619,
+       "y": 0.3223684210526316,
+       "w": 0.6487301587301587,
+       "h": 0.059674922600619185
+      }
+     },
+     {
+      "lineNo": 4,
+      "text": "ソフトキッズ おむつ M 44枚",
+      "translationEn": "Soft kids diapers M 44pcs",
+      "amount": 2596,
+      "verdict": "eligible",
+      "needId": "diapers",
+      "needQty": 2,
+      "ruleCode": null,
+      "reasonEn": "Two packs of size M baby diapers count toward the diapers need.",
+      "confidence": 0.98,
+      "box": {
+       "x": 0.17492063492063492,
+       "y": 0.37267801857585137,
+       "w": 0.6477777777777777,
+       "h": 0.04342105263157897
+      }
+     },
+     {
+      "lineNo": 5,
+      "text": "ベビーラブ パンツ M",
+      "translationEn": "Baby pants diapers M",
+      "amount": 3294,
+      "verdict": "eligible",
+      "needId": "diapers",
+      "needQty": 3,
+      "ruleCode": null,
+      "reasonEn": "Three packs of baby pants in size M are size M diapers for this drive.",
+      "confidence": 0.95,
+      "box": {
+       "x": 0.176984126984127,
+       "y": 0.4071207430340557,
+       "w": 0.6479365079365079,
+       "h": 0.043808049535603744
+      }
+     },
+     {
+      "lineNo": 6,
+      "text": "紙おむつ M 18枚 お試しパック",
+      "translationEn": "Paper diapers M trial pack",
+      "amount": 598,
+      "verdict": "eligible",
+      "needId": "diapers",
+      "needQty": 1,
+      "ruleCode": null,
+      "reasonEn": "A trial pack of size M paper diapers counts as one pack toward the diapers need.",
+      "confidence": 0.95,
+      "box": {
+       "x": 0.17904761904761904,
+       "y": 0.44156346749226005,
+       "w": 0.6479365079365079,
+       "h": 0.04373065015479877
+      }
+     },
+     {
+      "lineNo": 7,
+      "text": "アルカリ乾電池 単3 20本入",
+      "translationEn": "Alkaline AAA batteries 20pk",
+      "amount": 698,
+      "verdict": "eligible",
+      "needId": "batteries",
+      "needQty": 20,
+      "ruleCode": null,
+      "reasonEn": "A 20-pack labeled 単3 is twenty AA batteries toward the batteries need.",
+      "confidence": 0.97,
+      "box": {
+       "x": 0.18126984126984128,
+       "y": 0.4760061919504644,
+       "w": 0.646825396825397,
+       "h": 0.02786377708978333
+      }
+     },
+     {
+      "lineNo": 8,
+      "text": "単3電池 10本入",
+      "translationEn": "AAA batteries 10pk",
+      "amount": 796,
+      "verdict": "eligible",
+      "needId": "batteries",
+      "needQty": 20,
+      "ruleCode": null,
+      "reasonEn": "Two 10-packs labeled 単3 are twenty AA batteries toward the batteries need.",
+      "confidence": 0.97,
+      "box": {
+       "x": 0.1823809523809524,
+       "y": 0.4945820433436533,
+       "w": 0.6477777777777778,
+       "h": 0.04411764705882354
+      }
+     },
+     {
+      "lineNo": 9,
+      "text": "単3 ばら",
+      "translationEn": "AAA battery loose",
+      "amount": 980,
+      "verdict": "eligible",
+      "needId": "batteries",
+      "needQty": 10,
+      "ruleCode": null,
+      "reasonEn": "Ten loose 単3 cells are ten AA batteries toward the batteries need.",
+      "confidence": 0.96,
+      "box": {
+       "x": 0.18444444444444444,
+       "y": 0.5297213622291022,
+       "w": 0.6477777777777778,
+       "h": 0.04342105263157891
+      }
+     },
+     {
+      "lineNo": 10,
+      "text": "缶ビール 350ml 6缶",
+      "translationEn": "Canned beer 350ml 6pk",
+      "amount": 1198,
+      "verdict": "rejected",
+      "needId": null,
+      "needQty": null,
+      "ruleCode": "alcohol",
+      "reasonEn": "Canned beer is alcohol, which this drive never funds.",
+      "confidence": 0.99,
+      "box": {
+       "x": 0.1865079365079365,
+       "y": 0.5637770897832817,
+       "w": 0.646984126984127,
+       "h": 0.027941176470588247
+      }
+     },
+     {
+      "lineNo": 11,
+      "text": "ギフトカード 3,000円",
+      "translationEn": "Gift card 3000 yen",
+      "amount": 3000,
+      "verdict": "rejected",
+      "needId": null,
+      "needQty": null,
+      "ruleCode": "gift_card",
+      "reasonEn": "A gift card is never funded by this drive.",
+      "confidence": 0.99,
+      "box": {
+       "x": 0.18761904761904763,
+       "y": 0.5827399380804953,
+       "w": 0.646984126984127,
+       "h": 0.02832817337461302
+      }
+     }
+    ],
+    "decision": null,
+    "image": {
+     "published": true,
+     "url": "/api/receipts/demo-41e3886eeb.r1/image",
+     "openLines": 11
+    }
+   }
+  ],
+  "paypal": [
+   {
+    "id": 521,
+    "ts": "2026-11-09T02:16:08.106Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/checkout/orders",
+    "requestId": "hold:demo-41e3886eeb.water",
+    "httpStatus": 201,
+    "debugId": "f816564d25027",
+    "ids": {
+     "id": "1M5116223L541471S",
+     "status": "COMPLETED",
+     "authorizationId": "2E958442NA768360H",
+     "authorizationStatus": "CREATED"
+    }
+   },
+   {
+    "id": 522,
+    "ts": "2026-11-09T02:16:10.841Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/checkout/orders",
+    "requestId": "hold:demo-41e3886eeb.diapers",
+    "httpStatus": 201,
+    "debugId": "f706873523c25",
+    "ids": {
+     "id": "9X088479WY0609728",
+     "status": "COMPLETED",
+     "authorizationId": "2EE03347X60970605",
+     "authorizationStatus": "CREATED"
+    }
+   },
+   {
+    "id": 523,
+    "ts": "2026-11-09T02:16:13.378Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/checkout/orders",
+    "requestId": "hold:demo-41e3886eeb.batteries",
+    "httpStatus": 201,
+    "debugId": "f349750927008",
+    "ids": {
+     "id": "0XU44458G0017822F",
+     "status": "COMPLETED",
+     "authorizationId": "9EP86710L6028340H",
+     "authorizationStatus": "CREATED"
+    }
+   },
+   {
+    "id": 524,
+    "ts": "2026-11-09T02:16:15.893Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/checkout/orders",
+    "requestId": "hold:demo-41e3886eeb.match",
+    "httpStatus": 201,
+    "debugId": "f935988ab8b49",
+    "ids": {
+     "id": "3BG70185TS916225H",
+     "status": "COMPLETED",
+     "authorizationId": "219075073A134870K",
+     "authorizationStatus": "CREATED"
+    }
+   },
+   {
+    "id": 525,
+    "ts": "2026-11-09T02:16:22.064Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v1/payments/payouts",
+    "requestId": "pay:demo-41e3886eeb:demo-41e3886eeb.r1",
+    "httpStatus": 201,
+    "debugId": "f3099983f3088",
+    "ids": {
+     "batchStatus": "PENDING",
+     "payoutBatchId": "SRB3MPNH3YJM8"
+    }
+   },
+   {
+    "id": 527,
+    "ts": "2026-11-09T02:17:21.624Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2E958442NA768360H/capture",
+    "requestId": "cap:demo-41e3886eeb:demo-41e3886eeb.water:1",
+    "httpStatus": 201,
+    "debugId": "f1690611a1a2c",
+    "ids": {
+     "id": "6R971261656918244",
+     "status": "COMPLETED",
+     "customId": "demo-41e3886eeb.water",
+     "invoiceId": "cap:demo-41e3886eeb:demo-41e3886eeb.water:1"
+    }
+   },
+   {
+    "id": 528,
+    "ts": "2026-11-09T02:17:23.316Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2EE03347X60970605/capture",
+    "requestId": "cap:demo-41e3886eeb:demo-41e3886eeb.diapers:1",
+    "httpStatus": 201,
+    "debugId": "f15357906e473",
+    "ids": {
+     "id": "624222286A975533Y",
+     "status": "COMPLETED",
+     "customId": "demo-41e3886eeb.diapers",
+     "invoiceId": "cap:demo-41e3886eeb:demo-41e3886eeb.diapers:1"
+    }
+   },
+   {
+    "id": 529,
+    "ts": "2026-11-09T02:17:24.875Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/9EP86710L6028340H/capture",
+    "requestId": "cap:demo-41e3886eeb:demo-41e3886eeb.batteries:1",
+    "httpStatus": 201,
+    "debugId": "f267433cf8603",
+    "ids": {
+     "id": "4SD28419XR815771T",
+     "status": "COMPLETED",
+     "customId": "demo-41e3886eeb.batteries",
+     "invoiceId": "cap:demo-41e3886eeb:demo-41e3886eeb.batteries:1"
+    }
+   },
+   {
+    "id": 530,
+    "ts": "2026-11-09T02:17:26.385Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/219075073A134870K/capture",
+    "requestId": "cap:demo-41e3886eeb:demo-41e3886eeb.match:1",
+    "httpStatus": 201,
+    "debugId": "f5851474faa6b",
+    "ids": {
+     "id": "60M990276G1827829",
+     "status": "COMPLETED",
+     "customId": "demo-41e3886eeb.match",
+     "invoiceId": "cap:demo-41e3886eeb:demo-41e3886eeb.match:1"
+    }
+   },
+   {
+    "id": 533,
+    "ts": "2026-11-09T02:17:35.814Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2EE03347X60970605/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.diapers",
+    "httpStatus": 200,
+    "debugId": "f118820dceeb1",
+    "ids": {
+     "id": "2EE03347X60970605",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 534,
+    "ts": "2026-11-09T02:17:36.527Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2EE03347X60970605/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.diapers",
+    "httpStatus": 200,
+    "debugId": "f92156456c823",
+    "ids": {
+     "id": "2EE03347X60970605",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 536,
+    "ts": "2026-11-09T02:17:36.882Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/9EP86710L6028340H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.batteries",
+    "httpStatus": 200,
+    "debugId": "f9215642fbb06",
+    "ids": {
+     "id": "9EP86710L6028340H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 537,
+    "ts": "2026-11-09T02:17:37.299Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/9EP86710L6028340H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.batteries",
+    "httpStatus": 200,
+    "debugId": "f921564b47750",
+    "ids": {
+     "id": "9EP86710L6028340H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 538,
+    "ts": "2026-11-09T02:17:37.742Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2E958442NA768360H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.water",
+    "httpStatus": 200,
+    "debugId": "f5740719bff2e",
+    "ids": {
+     "id": "2E958442NA768360H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 539,
+    "ts": "2026-11-09T02:17:37.975Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2E958442NA768360H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.water",
+    "httpStatus": 200,
+    "debugId": "f574071bb8829",
+    "ids": {
+     "id": "2E958442NA768360H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 540,
+    "ts": "2026-11-09T02:17:38.086Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/2E958442NA768360H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.water",
+    "httpStatus": 200,
+    "debugId": "f574071280f55",
+    "ids": {
+     "id": "2E958442NA768360H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 541,
+    "ts": "2026-11-09T02:17:38.790Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/9EP86710L6028340H/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.batteries",
+    "httpStatus": 200,
+    "debugId": "f8338592dce90",
+    "ids": {
+     "id": "9EP86710L6028340H",
+     "status": "VOIDED"
+    }
+   },
+   {
+    "id": 546,
+    "ts": "2026-11-09T02:17:47.670Z",
+    "driveId": "demo-41e3886eeb",
+    "method": "POST",
+    "path": "/v2/payments/authorizations/219075073A134870K/void",
+    "requestId": "void:demo-41e3886eeb:demo-41e3886eeb.match",
+    "httpStatus": 200,
+    "debugId": "f339554d4716b",
+    "ids": {
+     "id": "219075073A134870K",
+     "status": "VOIDED"
+    }
+   }
+  ],
+  "eventCount": 36
+ },
+ "paypalCheck": {
+  "driveId": "demo-41e3886eeb",
+  "paypal": "https://api-m.sandbox.paypal.com",
+  "method": "GET only; the one POST is PayPal's token exchange",
+  "askedAt": "2026-11-09T02:19:12.455Z",
+  "answeredAt": "2026-11-09T02:19:13.165Z",
+  "cached": true,
+  "keptForS": 55,
+  "total": 9,
+  "answered": 9,
+  "agrees": 9,
+  "rows": [
+   {
+    "kind": "authorization",
+    "id": "2E958442NA768360H",
+    "who": "Lena (Berlin)",
+    "pledgeId": "demo-41e3886eeb.water",
+    "receiptId": null,
+    "book": {
+     "state": "voided",
+     "amount": {
+      "minor": 2000,
+      "currency": "EUR"
+     },
+     "agrees": [
+      "VOIDED"
+     ],
+     "ahead": []
+    },
+    "request": "GET /v2/payments/authorizations/2E958442NA768360H",
+    "paypal": {
+     "http": 200,
+     "status": "VOIDED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "EUR",
+      "minor": 2000
+     },
+     "created": "2026-11-09T02:16:09Z",
+     "updated": "2026-11-09T02:17:38Z",
+     "debugId": "f806206e3ecae",
+     "askedAt": "2026-11-09T02:19:12.455Z",
+     "ms": 605,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "2E958442NA768360H",
+     "status": "VOIDED",
+     "amount": {
+      "currency_code": "EUR",
+      "value": "20.00"
+     },
+     "custom_id": "demo-41e3886eeb.water",
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "1M5116223L541471S"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "expiration_time": "2026-12-08T02:16:09Z",
+     "create_time": "2026-11-09T02:16:09Z",
+     "update_time": "2026-11-09T02:17:38Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2E958442NA768360H",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2E958442NA768360H/capture",
+       "rel": "capture",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2E958442NA768360H/void",
+       "rel": "void",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2E958442NA768360H/reauthorize",
+       "rel": "reauthorize",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/checkout/orders/1M5116223L541471S",
+       "rel": "up",
+       "method": "GET"
+      }
+     ]
+    }
+   },
+   {
+    "kind": "capture",
+    "id": "6R971261656918244",
+    "who": "Lena (Berlin)",
+    "pledgeId": "demo-41e3886eeb.water",
+    "receiptId": null,
+    "book": {
+     "state": "confirmed",
+     "amount": {
+      "currency": "EUR",
+      "minor": 458
+     },
+     "agrees": [
+      "COMPLETED"
+     ],
+     "ahead": [
+      "PARTIALLY_REFUNDED",
+      "REFUNDED"
+     ]
+    },
+    "request": "GET /v2/payments/captures/6R971261656918244",
+    "paypal": {
+     "http": 200,
+     "status": "COMPLETED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "EUR",
+      "minor": 458
+     },
+     "created": "2026-11-09T02:17:22Z",
+     "updated": "2026-11-09T02:17:22Z",
+     "debugId": "f8062063e5df3",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 601,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "6R971261656918244",
+     "amount": {
+      "currency_code": "EUR",
+      "value": "4.58"
+     },
+     "final_capture": false,
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "disbursement_mode": "INSTANT",
+     "seller_receivable_breakdown": {
+      "gross_amount": {
+       "currency_code": "EUR",
+       "value": "4.58"
+      },
+      "paypal_fee": {
+       "currency_code": "EUR",
+       "value": "0.51"
+      },
+      "net_amount": {
+       "currency_code": "EUR",
+       "value": "4.07"
+      },
+      "receivable_amount": {
+       "currency_code": "USD",
+       "value": "4.43"
+      },
+      "exchange_rate": {
+       "source_currency": "EUR",
+       "target_currency": "USD",
+       "value": "1.089477173902071"
+      }
+     },
+     "invoice_id": "cap:demo-41e3886eeb:demo-41e3886eeb.water:1",
+     "custom_id": "demo-41e3886eeb.water",
+     "status": "COMPLETED",
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "1M5116223L541471S",
+       "authorization_id": "2E958442NA768360H"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "create_time": "2026-11-09T02:17:22Z",
+     "update_time": "2026-11-09T02:17:22Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/6R971261656918244",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/6R971261656918244/refund",
+       "rel": "refund",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2E958442NA768360H",
+       "rel": "up",
+       "method": "GET"
+      }
+     ],
+     "network_transaction_reference": {
+      "id": "868995706189639",
+      "network": "VISA"
+     }
+    }
+   },
+   {
+    "kind": "authorization",
+    "id": "2EE03347X60970605",
+    "who": "Mark (Columbus)",
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "receiptId": null,
+    "book": {
+     "state": "voided",
+     "amount": {
+      "minor": 3000,
+      "currency": "USD"
+     },
+     "agrees": [
+      "VOIDED"
+     ],
+     "ahead": []
+    },
+    "request": "GET /v2/payments/authorizations/2EE03347X60970605",
+    "paypal": {
+     "http": 200,
+     "status": "VOIDED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "USD",
+      "minor": 3000
+     },
+     "created": "2026-11-09T02:16:12Z",
+     "updated": "2026-11-09T02:17:36Z",
+     "debugId": "f8062064f8893",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 586,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "2EE03347X60970605",
+     "status": "VOIDED",
+     "amount": {
+      "currency_code": "USD",
+      "value": "30.00"
+     },
+     "custom_id": "demo-41e3886eeb.diapers",
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "9X088479WY0609728"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "expiration_time": "2026-12-08T02:16:12Z",
+     "create_time": "2026-11-09T02:16:12Z",
+     "update_time": "2026-11-09T02:17:36Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2EE03347X60970605",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2EE03347X60970605/capture",
+       "rel": "capture",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2EE03347X60970605/void",
+       "rel": "void",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2EE03347X60970605/reauthorize",
+       "rel": "reauthorize",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/checkout/orders/9X088479WY0609728",
+       "rel": "up",
+       "method": "GET"
+      }
+     ]
+    }
+   },
+   {
+    "kind": "capture",
+    "id": "624222286A975533Y",
+    "who": "Mark (Columbus)",
+    "pledgeId": "demo-41e3886eeb.diapers",
+    "receiptId": null,
+    "book": {
+     "state": "confirmed",
+     "amount": {
+      "currency": "USD",
+      "minor": 2145
+     },
+     "agrees": [
+      "COMPLETED"
+     ],
+     "ahead": [
+      "PARTIALLY_REFUNDED",
+      "REFUNDED"
+     ]
+    },
+    "request": "GET /v2/payments/captures/624222286A975533Y",
+    "paypal": {
+     "http": 200,
+     "status": "COMPLETED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "USD",
+      "minor": 2145
+     },
+     "created": "2026-11-09T02:17:24Z",
+     "updated": "2026-11-09T02:17:24Z",
+     "debugId": "f806206ec6495",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 707,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "624222286A975533Y",
+     "amount": {
+      "currency_code": "USD",
+      "value": "21.45"
+     },
+     "final_capture": false,
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "disbursement_mode": "INSTANT",
+     "seller_receivable_breakdown": {
+      "gross_amount": {
+       "currency_code": "USD",
+       "value": "21.45"
+      },
+      "paypal_fee": {
+       "currency_code": "USD",
+       "value": "1.05"
+      },
+      "net_amount": {
+       "currency_code": "USD",
+       "value": "20.40"
+      }
+     },
+     "invoice_id": "cap:demo-41e3886eeb:demo-41e3886eeb.diapers:1",
+     "custom_id": "demo-41e3886eeb.diapers",
+     "status": "COMPLETED",
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "9X088479WY0609728",
+       "authorization_id": "2EE03347X60970605"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "create_time": "2026-11-09T02:17:24Z",
+     "update_time": "2026-11-09T02:17:24Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/624222286A975533Y",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/624222286A975533Y/refund",
+       "rel": "refund",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/2EE03347X60970605",
+       "rel": "up",
+       "method": "GET"
+      }
+     ],
+     "network_transaction_reference": {
+      "id": "659648143301627",
+      "network": "VISA"
+     }
+    }
+   },
+   {
+    "kind": "authorization",
+    "id": "9EP86710L6028340H",
+    "who": "Yuki (Osaka)",
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "receiptId": null,
+    "book": {
+     "state": "voided",
+     "amount": {
+      "minor": 3000,
+      "currency": "JPY"
+     },
+     "agrees": [
+      "VOIDED"
+     ],
+     "ahead": []
+    },
+    "request": "GET /v2/payments/authorizations/9EP86710L6028340H",
+    "paypal": {
+     "http": 200,
+     "status": "VOIDED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "JPY",
+      "minor": 3000
+     },
+     "created": "2026-11-09T02:16:15Z",
+     "updated": "2026-11-09T02:17:37Z",
+     "debugId": "f806206c32c5c",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 709,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "9EP86710L6028340H",
+     "status": "VOIDED",
+     "amount": {
+      "currency_code": "JPY",
+      "value": "3000"
+     },
+     "custom_id": "demo-41e3886eeb.batteries",
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "0XU44458G0017822F"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "expiration_time": "2026-12-08T02:16:15Z",
+     "create_time": "2026-11-09T02:16:15Z",
+     "update_time": "2026-11-09T02:17:37Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9EP86710L6028340H",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9EP86710L6028340H/capture",
+       "rel": "capture",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9EP86710L6028340H/void",
+       "rel": "void",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9EP86710L6028340H/reauthorize",
+       "rel": "reauthorize",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/checkout/orders/0XU44458G0017822F",
+       "rel": "up",
+       "method": "GET"
+      }
+     ]
+    }
+   },
+   {
+    "kind": "capture",
+    "id": "4SD28419XR815771T",
+    "who": "Yuki (Osaka)",
+    "pledgeId": "demo-41e3886eeb.batteries",
+    "receiptId": null,
+    "book": {
+     "state": "confirmed",
+     "amount": {
+      "currency": "JPY",
+      "minor": 1237
+     },
+     "agrees": [
+      "COMPLETED"
+     ],
+     "ahead": [
+      "PARTIALLY_REFUNDED",
+      "REFUNDED"
+     ]
+    },
+    "request": "GET /v2/payments/captures/4SD28419XR815771T",
+    "paypal": {
+     "http": 200,
+     "status": "COMPLETED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "JPY",
+      "minor": 1237
+     },
+     "created": "2026-11-09T02:17:25Z",
+     "updated": "2026-11-09T02:17:25Z",
+     "debugId": "f806206dffc1a",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 594,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "4SD28419XR815771T",
+     "amount": {
+      "currency_code": "JPY",
+      "value": "1237"
+     },
+     "final_capture": false,
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "disbursement_mode": "INSTANT",
+     "seller_receivable_breakdown": {
+      "gross_amount": {
+       "currency_code": "JPY",
+       "value": "1237"
+      },
+      "paypal_fee": {
+       "currency_code": "JPY",
+       "value": "81"
+      },
+      "net_amount": {
+       "currency_code": "JPY",
+       "value": "1156"
+      },
+      "receivable_amount": {
+       "currency_code": "USD",
+       "value": "7.10"
+      },
+      "exchange_rate": {
+       "source_currency": "JPY",
+       "target_currency": "USD",
+       "value": "0.00614022381903"
+      }
+     },
+     "invoice_id": "cap:demo-41e3886eeb:demo-41e3886eeb.batteries:1",
+     "custom_id": "demo-41e3886eeb.batteries",
+     "status": "COMPLETED",
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "0XU44458G0017822F",
+       "authorization_id": "9EP86710L6028340H"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "create_time": "2026-11-09T02:17:25Z",
+     "update_time": "2026-11-09T02:17:25Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/4SD28419XR815771T",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/4SD28419XR815771T/refund",
+       "rel": "refund",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/9EP86710L6028340H",
+       "rel": "up",
+       "method": "GET"
+      }
+     ],
+     "network_transaction_reference": {
+      "id": "350337827575127",
+      "network": "VISA"
+     }
+    }
+   },
+   {
+    "kind": "authorization",
+    "id": "219075073A134870K",
+    "who": "Kitasora Logistics",
+    "pledgeId": "demo-41e3886eeb.match",
+    "receiptId": null,
+    "book": {
+     "state": "voided",
+     "amount": {
+      "minor": 500000,
+      "currency": "JPY"
+     },
+     "agrees": [
+      "VOIDED"
+     ],
+     "ahead": []
+    },
+    "request": "GET /v2/payments/authorizations/219075073A134870K",
+    "paypal": {
+     "http": 200,
+     "status": "VOIDED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "JPY",
+      "minor": 500000
+     },
+     "created": "2026-11-09T02:16:17Z",
+     "updated": "2026-11-09T02:17:48Z",
+     "debugId": "f8062061e8e66",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 609,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "219075073A134870K",
+     "status": "VOIDED",
+     "amount": {
+      "currency_code": "JPY",
+      "value": "500000"
+     },
+     "custom_id": "demo-41e3886eeb.match",
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "3BG70185TS916225H"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "expiration_time": "2026-12-08T02:16:17Z",
+     "create_time": "2026-11-09T02:16:17Z",
+     "update_time": "2026-11-09T02:17:48Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/219075073A134870K",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/219075073A134870K/capture",
+       "rel": "capture",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/219075073A134870K/void",
+       "rel": "void",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/219075073A134870K/reauthorize",
+       "rel": "reauthorize",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/checkout/orders/3BG70185TS916225H",
+       "rel": "up",
+       "method": "GET"
+      }
+     ]
+    }
+   },
+   {
+    "kind": "capture",
+    "id": "60M990276G1827829",
+    "who": "Kitasora Logistics",
+    "pledgeId": "demo-41e3886eeb.match",
+    "receiptId": null,
+    "book": {
+     "state": "confirmed",
+     "amount": {
+      "currency": "JPY",
+      "minor": 5224
+     },
+     "agrees": [
+      "COMPLETED"
+     ],
+     "ahead": [
+      "PARTIALLY_REFUNDED",
+      "REFUNDED"
+     ]
+    },
+    "request": "GET /v2/payments/captures/60M990276G1827829",
+    "paypal": {
+     "http": 200,
+     "status": "COMPLETED",
+     "itemStatus": null,
+     "amount": {
+      "currency": "JPY",
+      "minor": 5224
+     },
+     "created": "2026-11-09T02:17:27Z",
+     "updated": "2026-11-09T02:17:27Z",
+     "debugId": "f80620695b38b",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 680,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "id": "60M990276G1827829",
+     "amount": {
+      "currency_code": "JPY",
+      "value": "5224"
+     },
+     "final_capture": false,
+     "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+     },
+     "disbursement_mode": "INSTANT",
+     "seller_receivable_breakdown": {
+      "gross_amount": {
+       "currency_code": "JPY",
+       "value": "5224"
+      },
+      "paypal_fee": {
+       "currency_code": "JPY",
+       "value": "184"
+      },
+      "net_amount": {
+       "currency_code": "JPY",
+       "value": "5040"
+      },
+      "receivable_amount": {
+       "currency_code": "USD",
+       "value": "30.95"
+      },
+      "exchange_rate": {
+       "source_currency": "JPY",
+       "target_currency": "USD",
+       "value": "0.00614022381903"
+      }
+     },
+     "invoice_id": "cap:demo-41e3886eeb:demo-41e3886eeb.match:1",
+     "custom_id": "demo-41e3886eeb.match",
+     "status": "COMPLETED",
+     "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+     },
+     "supplementary_data": {
+      "related_ids": {
+       "order_id": "3BG70185TS916225H",
+       "authorization_id": "219075073A134870K"
+      }
+     },
+     "payee": {
+      "email_address": "(sandbox account, hidden)",
+      "merchant_id": "(sandbox account, hidden)"
+     },
+     "create_time": "2026-11-09T02:17:27Z",
+     "update_time": "2026-11-09T02:17:27Z",
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/60M990276G1827829",
+       "rel": "self",
+       "method": "GET"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/captures/60M990276G1827829/refund",
+       "rel": "refund",
+       "method": "POST"
+      },
+      {
+       "href": "https://api.sandbox.paypal.com/v2/payments/authorizations/219075073A134870K",
+       "rel": "up",
+       "method": "GET"
+      }
+     ],
+     "network_transaction_reference": {
+      "id": "206060422525214",
+      "network": "VISA"
+     }
+    }
+   },
+   {
+    "kind": "payout",
+    "id": "SRB3MPNH3YJM8",
+    "who": "receipt 1",
+    "pledgeId": null,
+    "receiptId": "demo-41e3886eeb.r1",
+    "book": {
+     "state": "confirmed",
+     "amount": {
+      "currency": "JPY",
+      "minor": 10448
+     },
+     "agrees": [
+      "SUCCESS"
+     ],
+     "ahead": []
+    },
+    "request": "GET /v1/payments/payouts/SRB3MPNH3YJM8",
+    "paypal": {
+     "http": 200,
+     "status": "SUCCESS",
+     "itemStatus": "SUCCESS",
+     "amount": {
+      "currency": "JPY",
+      "minor": 10448
+     },
+     "created": "2026-11-09T02:16:22Z",
+     "updated": "2026-11-09T02:16:46Z",
+     "debugId": "f806206ee35ee",
+     "askedAt": "2026-11-09T02:19:12.456Z",
+     "ms": 380,
+     "error": null
+    },
+    "verdict": "agrees",
+    "raw": {
+     "batch_header": {
+      "payout_batch_id": "SRB3MPNH3YJM8",
+      "batch_status": "SUCCESS",
+      "time_created": "2026-11-09T02:16:22Z",
+      "time_completed": "2026-11-09T02:16:46Z",
+      "time_closed": "2026-11-09T02:16:46Z",
+      "sender_batch_header": {
+       "sender_batch_id": "pay:demo-41e3886eeb:demo-41e3886eeb.r1",
+       "email_subject": "Reimbursement for your receipt: Earthquake relief (demo)"
+      },
+      "funding_source": "BALANCE",
+      "amount": {
+       "currency": "JPY",
+       "value": "10448"
+      },
+      "fees": {
+       "currency": "JPY",
+       "value": "209"
+      },
+      "currency_conversion": {
+       "from_amount": {
+        "currency": "USD",
+        "value": "69.30"
+       },
+       "to_amount": {
+        "currency": "JPY",
+        "value": "10657"
+       }
+      }
+     },
+     "items": [
+      {
+       "payout_item_id": "NGSB4WPNV2BL2",
+       "transaction_id": "4JE683278D221262D",
+       "activity_id": "3AM215503E614501X",
+       "transaction_status": "SUCCESS",
+       "payout_item_fee": {
+        "currency": "JPY",
+        "value": "209"
+       },
+       "payout_batch_id": "SRB3MPNH3YJM8",
+       "payout_item": {
+        "recipient_type": "EMAIL",
+        "amount": {
+         "currency": "JPY",
+         "value": "10448"
+        },
+        "note": "Receipt demo-41e3886eeb.r1: the approved lines, paid from donors' holds.",
+        "receiver": "(sandbox account, hidden)",
+        "sender_item_id": "pay:demo-41e3886eeb:demo-41e3886eeb.r1",
+        "recipient_wallet": "PAYPAL",
+        "purpose": "GOODS"
+       },
+       "currency_conversion": {
+        "from_amount": {
+         "currency": "USD",
+         "value": "69.30"
+        },
+        "to_amount": {
+         "currency": "JPY",
+         "value": "10657"
+        },
+        "exchange_rate": "153.787725"
+       },
+       "time_processed": "2026-11-09T02:16:38Z",
+       "links": [
+        {
+         "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/NGSB4WPNV2BL2",
+         "rel": "item",
+         "method": "GET",
+         "encType": "application/json"
+        }
+       ]
+      }
+     ],
+     "links": [
+      {
+       "href": "https://api.sandbox.paypal.com/v1/payments/payouts/SRB3MPNH3YJM8?page_size=1000&page=1",
+       "rel": "self",
+       "method": "GET",
+       "encType": "application/json"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}
