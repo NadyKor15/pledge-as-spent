@@ -4,6 +4,7 @@ import type { Db } from "../db/client";
 import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
 import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
+import { closeReceipt, type Band, type PurchaseLine } from "../receipts/close";
 import { hammingHex } from "../receipts/hash";
 import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
 import { RefiningClassifier } from "../receipts/quantity";
@@ -11,6 +12,7 @@ import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type ReceiptImage, type ReceiptReader } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.json";
+import heroBands from "../../eval/live/shipped/hero-ja-01.bands.json";
 import heroBoxes from "../../eval/live/shipped/hero-ja-01.lines.json";
 import { ServiceError } from "./errors";
 import { PgSpendLedger } from "./spend";
@@ -47,6 +49,10 @@ export interface Reading {
   usage: ModelUsage[];
   /** Where each line is printed on the photo, when the reader saw it (OCR) or a saved answer carries it. */
   lineBoxes?: LineBox[];
+  /** The photo's printed rows, the purchase lines' rows among them, and the photo closed by them (src/receipts/close.ts). */
+  bands?: Band[];
+  purchaseLines?: PurchaseLine[];
+  closed?: Uint8Array | null;
 }
 
 export interface LiveLimits {
@@ -77,22 +83,42 @@ export interface SavedAnswer {
   classifiedFor: string;
   /** Where its lines are printed, measured with Tesseract on the same photo (tools/receipts/line-boxes.ts). */
   lineBoxes?: LineBox[];
+  /** Its printed rows and the rows of each purchase line, measured on the same photo (tools/receipts/sample-bands.ts). */
+  closing?: { bands: Band[]; purchaseLines: PurchaseLine[] };
 }
 
 const SavedFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), imageDHash: z.string().optional(), reading: ParsedReceipt, classifications: z.array(LineClassification), classifiedFor: z.string() });
 
 const BoxesFile = z.object({ imageSha256: z.string().regex(/^[0-9a-f]{64}$/), lineBoxes: z.array(LineBox) });
 
-/** `boxes`: the line boxes measured on the same photo; boxes of another photo are refused. */
-export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): SavedAnswer {
+const Point = z.tuple([z.number(), z.number()]);
+const BandsFile = z.object({
+  imageSha256: z.string().regex(/^[0-9a-f]{64}$/),
+  bands: z.array(z.object({ index: z.number().int(), y0: z.number(), y1: z.number(), quad: z.array(Point).length(4) })),
+  purchaseLines: z.array(z.object({ lineNo: z.number().int().positive(), bandIndexes: z.array(z.number().int()) })),
+});
+
+/** `boxes`: the line boxes measured on the same photo; `bands`: its printed rows. Either of another photo is refused. */
+export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown, bands?: unknown): SavedAnswer {
   const f = SavedFile.parse(json);
   const b = boxes === undefined ? null : BoxesFile.parse(boxes);
   if (b && b.imageSha256 !== f.imageSha256) throw new Error("The line boxes were measured on another photo.");
-  return { pipeline, imageSha256: f.imageSha256, imageDHash: f.imageDHash, reading: f.reading, classifications: f.classifications, classifiedFor: f.classifiedFor, ...(b ? { lineBoxes: b.lineBoxes } : {}) };
+  const c = bands === undefined ? null : BandsFile.parse(bands);
+  if (c && c.imageSha256 !== f.imageSha256) throw new Error("The rows were measured on another photo.");
+  return {
+    pipeline,
+    imageSha256: f.imageSha256,
+    imageDHash: f.imageDHash,
+    reading: f.reading,
+    classifications: f.classifications,
+    classifiedFor: f.classifiedFor,
+    ...(b ? { lineBoxes: b.lineBoxes } : {}),
+    ...(c ? { closing: { bands: c.bands, purchaseLines: c.purchaseLines } } : {}),
+  };
 }
 
 /** The sample receipt's reading: what the benchmark's pipeline really answered on that photo, not its truth file. */
-export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro", heroBoxes)];
+export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "ocr-pro", heroBoxes, heroBands)];
 
 export interface ReadInput {
   driveId: string;
@@ -155,8 +181,12 @@ export class ReceiptReading {
     const saved = exact ?? (look ? [...this.answers.values()].find((a) => a.imageDHash && hammingHex(a.imageDHash, look) <= SAMPLE_MAX_DISTANCE) : undefined);
     if (saved) {
       const parsed = structuredClone(saved.reading);
-      // Boxes were measured on the saved photo's own pixels: only the same bytes get them, not a look-alike.
-      const boxes = exact && saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {};
+      // Boxes and rows were measured on the saved photo's own pixels: only the same bytes get them, not a look-alike,
+      // so only the same bytes are published closed; a look-alike publishes no photo.
+      const boxes = {
+        ...(exact && saved.lineBoxes ? { lineBoxes: structuredClone(saved.lineBoxes) } : {}),
+        ...(exact && saved.closing ? { ...structuredClone(saved.closing), closed: closeReceipt(input.image, saved.closing.bands, saved.closing.purchaseLines) } : {}),
+      };
       if (key(parsed) !== saved.classifiedFor) return { ...(await this.classifyLive(input, parsed, [])), ...boxes };
       return { parsed, classified: { key: saved.classifiedFor, lines: structuredClone(saved.classifications) }, reader: `${exact ? "cached" : "recognized"}:${saved.pipeline}`, usage: [], ...boxes };
     }

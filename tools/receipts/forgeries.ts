@@ -16,10 +16,10 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { dHash, sha256Hex } from "../../src/receipts/hash";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
-import { closeReceipt, decodeRaster, encodeRaster, isClosedCopy, openMask, openPlan } from "../../src/receipts/close";
+import { closeReceipt, decodeRaster, encodeRaster, isClosedCopy, openPlan } from "../../src/receipts/close";
 import { CATALOG, STORES } from "./catalog";
 import { render } from "./generate";
-import { rendered, rerenderProblem } from "./rows";
+import { closedLeak, rendered, rerenderProblem } from "./rows";
 import { SCENARIOS } from "./scenario";
 import { photoParams } from "./sets";
 import { buildSpec, specToClassifications, specToReceipt, type Entry, type ReceiptSpec } from "./spec";
@@ -98,14 +98,6 @@ export interface ForgeryFile {
  */
 const CORNER_TOLERANCE_PX = 2;
 
-/** Pixels of a personal-data box (fractions of the photo). */
-function boxPixels(w: number, h: number, b: { x: number; y: number; w: number; h: number }): number[] {
-  const out: number[] = [];
-  for (let y = Math.max(0, Math.floor(b.y * h)); y < Math.min(h, Math.ceil((b.y + b.h) * h)); y++)
-    for (let x = Math.max(0, Math.floor(b.x * w)); x < Math.min(w, Math.ceil((b.x + b.w) * w)); x++) out.push(y * w + x);
-  return out;
-}
-
 /**
  * The published copy: the photo closed to its purchase lines (every line, funded or refused), then a JPEG small enough
  * for a page of five, still carrying the closing mark. Throws rather than publish a copy that is not closed, that
@@ -121,14 +113,9 @@ async function publishable(page: Page, png: Uint8Array, t: Truth): Promise<{ jpg
   if (plan.lines.length !== t.receipt.lines.length) throw new Error(`${t.id}: ${plan.lines.length} lines placed, the reading has ${t.receipt.lines.length}`);
   const closed = closeReceipt({ bytes: png, mediaType: "image/png" }, r.geo.bands, r.geo.purchase);
   if (!closed || !isClosedCopy(closed)) throw new Error(`${t.id}: no closed copy: not publishing this photo`);
+  const leak = closedLeak(t, closed, r.geo.bands, r.geo.purchase);
+  if (leak) throw new Error(`${t.id}: ${leak}: not publishing this photo`);
   const raster = decodeRaster(closed);
-  const mask = openMask(raster.width, raster.height, r.geo.bands, r.geo.purchase);
-  for (const [i, p] of t.receipt.pii.entries()) {
-    const px = boxPixels(raster.width, raster.height, p.bbox!);
-    if (px.some((q) => mask[q])) throw new Error(`${t.id}: personal data #${i} (${p.kind}) lies in the open area: not publishing this photo`);
-    const d = raster.data;
-    if (px.some((q) => 0.299 * d[q * 4] + 0.587 * d[q * 4 + 1] + 0.114 * d[q * 4 + 2] < 120)) throw new Error(`${t.id}: print left in personal data #${i}: not publishing this photo`);
-  }
   const jpg = encodeRaster(raster, "image/jpeg", { jpegQuality: 82 });
   if (!isClosedCopy(jpg)) throw new Error(`${t.id}: the JPEG lost the closing mark`);
   return { jpg, open: plan.open.length, lines: plan.lines.length, cornerPx: Math.round(r.geo.cornerCheckPx * 100) / 100 };

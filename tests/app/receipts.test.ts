@@ -8,7 +8,7 @@ import type { LineClassification, ParsedReceipt } from "../../src/receipts/types
 import { sha256Hex } from "../../src/receipts/hash";
 import { demoDrive } from "../../src/server/demo";
 import { ReceiptReading, SHIPPED_ANSWERS, type SavedAnswer } from "../../src/server/reading";
-import { closeReceipt, isClosedCopy } from "../../src/receipts/close";
+import { closeReceipt, isClosedCopy, openMask } from "../../src/receipts/close";
 import { LEGACY_NOTE, NOT_CLOSED_NOTE, publication, publishedCopy } from "../../src/server/redact";
 import { ServiceError } from "../../src/server/errors";
 import { fakeSandbox } from "./support/fake-sandbox";
@@ -329,6 +329,31 @@ describe("publishing a receipt photo", () => {
     expect(pii).toHaveLength(3);
     expect(dark(heroBytes(), pii)).toBeGreaterThan(100);
     expect(dark(img.bytes, pii)).toBe(0);
+  });
+
+  it("the shipped sample is published closed by its own measured rows, with no reader: every line whole, quantity rows included", async () => {
+    const closing = SHIPPED_ANSWERS[0].closing!;
+    expect(closing.purchaseLines).toHaveLength(11);
+    expect(closing.purchaseLines.some((l) => l.bandIndexes.length > 1)).toBe(true); // a name row and its quantity row
+    const { h, driveId } = await setup({ savedAnswers: SHIPPED_ANSWERS });
+    const { receipt: r } = await h.svc.submitReceipt({ driveId, bytes: heroBytes() });
+    expect(r.image).toMatchObject({ published: true, url: `/api/receipts/${r.id}/image`, openLines: 11 });
+    const img = (await h.svc.getReceiptImage(r.id))!;
+    expect(isClosedCopy(img.bytes)).toBe(true);
+    const pii = loadRecordings().readings[sha256Hex(heroBytes())].pii.map((p) => p.bbox!);
+    expect(dark(heroBytes(), pii)).toBeGreaterThan(100);
+    expect(dark(img.bytes, pii)).toBe(0);
+    // Every pixel of every purchase line's rows is the photo's own.
+    const a = PNG.sync.read(Buffer.from(heroBytes()));
+    const b = PNG.sync.read(Buffer.from(img.bytes));
+    const mask = openMask(a.width, a.height, closing.bands, closing.purchaseLines);
+    let changedOpen = 0;
+    for (let p = 0; p < mask.length; p++) {
+      const i = p * 4;
+      const same = a.data[i] === b.data[i] && a.data[i + 1] === b.data[i + 1] && a.data[i + 2] === b.data[i + 2];
+      if (mask[p] && !same) changedOpen++;
+    }
+    expect(changedOpen).toBe(0);
   });
 
   it("a reading without a closed copy publishes nothing: no original, no blurred copy", async () => {

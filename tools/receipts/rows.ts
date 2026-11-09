@@ -6,7 +6,7 @@
 
 import type { Page } from "@playwright/test";
 import { createHash } from "node:crypto";
-import type { Band, PurchaseLine } from "../../src/receipts/close";
+import { decodeRaster, openMask, type Band, type PurchaseLine } from "../../src/receipts/close";
 import { renderHtml } from "./render";
 import type { Truth } from "./truth";
 
@@ -106,4 +106,29 @@ export function rerenderProblem(t: Truth, r: Awaited<ReturnType<typeof rendered>
   if (geo.cornerCheckPx > cornerTolerancePx) return { problem: `corners off the browser's own boxes by ${geo.cornerCheckPx}px`, piiBoxGapMax: gap };
   if (geo.missing.length) return { problem: `purchase lines ${geo.missing.join(", ")} not found among the rows`, piiBoxGapMax: gap };
   return { problem: null, piiBoxGapMax: gap };
+}
+
+/** Pixels of a personal-data box (fractions of the photo). */
+function boxPixels(w: number, h: number, b: { x: number; y: number; w: number; h: number }): number[] {
+  const out: number[] = [];
+  for (let y = Math.max(0, Math.floor(b.y * h)); y < Math.min(h, Math.ceil((b.y + b.h) * h)); y++)
+    for (let x = Math.max(0, Math.floor(b.x * w)); x < Math.min(w, Math.ceil((b.x + b.w) * w)); x++) out.push(y * w + x);
+  return out;
+}
+
+/**
+ * Why a closed copy must not be published, or null: a pixel of a personal-data box inside the open area, or a dark
+ * pixel (print) left in one on the closed image itself.
+ */
+export function closedLeak(t: Truth, closed: Uint8Array, bands: readonly Band[], purchaseLines: readonly PurchaseLine[]): string | null {
+  const img = decodeRaster(closed);
+  const mask = openMask(img.width, img.height, bands, purchaseLines);
+  const d = img.data;
+  for (const [i, p] of t.receipt.pii.entries()) {
+    if (!p.bbox) return `personal data #${i} (${p.kind}) has no box`;
+    const px = boxPixels(img.width, img.height, p.bbox);
+    if (px.some((q) => mask[q])) return `personal data #${i} (${p.kind}) lies in the open area`;
+    if (px.some((q) => 0.299 * d[q * 4] + 0.587 * d[q * 4 + 1] + 0.114 * d[q * 4 + 2] < 120)) return `print left in personal data #${i} (${p.kind})`;
+  }
+  return null;
 }
