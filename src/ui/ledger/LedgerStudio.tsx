@@ -15,7 +15,8 @@ import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
 import { LangSwitch, writeLangToUrl } from "./LangSwitch";
 import "./ledger.css";
-import { LedgerStore, linesOf } from "./store";
+import { LineArrows } from "./LineArrows";
+import { LedgerStore, narrowedTo } from "./store";
 import {
   ASK_WIDGET,
   BOOK_HEAD_WIDGET,
@@ -299,7 +300,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
   const proof = useSyncExternalStore(store.subscribe, () => store.get().proof);
   const ask = useSyncExternalStore(store.subscribe, () => store.get().askComponent !== null);
   const bandPx = useSyncExternalStore(store.subscribe, () => store.get().bandPx) ?? bandHeight(stacked);
-  const picked = focus ? focus.lineKeys : selected ? linesOf(model, selected) : null;
+  const linesNarrow = useSyncExternalStore(store.subscribe, () => store.get().linesNarrow);
+  const picked = narrowedTo({ focus, selected, model, linesNarrow });
   const metrics = useMetrics(stacked, model, ask);
   const root = useRef<HTMLDivElement>(null);
 
@@ -321,6 +323,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
     store.setRefresh(() => void refresh());
     store.setStale(stale);
   }, [store, stale, refresh]);
+  // Beside the open book a pressed receipt line lights its rows; over the book (phone, narrow window) it narrows it.
+  useEffect(() => store.setLinesNarrow(!metrics.beside), [store, metrics.beside]);
 
   const setLang = (next: Lang) => {
     writeLangToUrl(next);
@@ -398,6 +402,7 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
             />
           </div>
         </AgStudioProvider>
+        <LineArrows store={store} />
         {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
       </div>

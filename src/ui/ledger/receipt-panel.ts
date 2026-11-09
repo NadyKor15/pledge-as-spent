@@ -2,6 +2,7 @@ import { lineGross } from "../derive";
 import { moneyIn, type Lang } from "../format";
 import type { DriveView } from "../types";
 import type { LedgerModel } from "./derive";
+import { WORDS } from "./i18n";
 import { lineProof, type Box } from "./proof";
 import { PANEL_WORDS } from "./words-panels";
 
@@ -19,6 +20,8 @@ export interface ReceiptMark {
   text: string;
   /** "Line 4 · ¥2,596", for a screen reader. */
   label: string;
+  /** "¥2,596": the printed line with its share of tax. */
+  amount: string;
   /** Every row of the book for this line is a refusal: nobody pays it. */
   refused: boolean;
 }
@@ -71,7 +74,7 @@ export function receiptPanel(v: DriveView | null, m: LedgerModel, lang: Lang = m
     if (!rows.length) return [];
     const amount = moneyIn(lang, currency, lineGross(l));
     const refused = rows.every((r) => r.kind === "rejected");
-    return [{ lineKey, lineNo: l.lineNo, box: l.box ?? null, text: l.text, label: refused ? w.refusedLine(l.lineNo, amount) : w.pressLine(l.lineNo, amount), refused }];
+    return [{ lineKey, lineNo: l.lineNo, box: l.box ?? null, text: l.text, label: refused ? w.refusedLine(l.lineNo, amount) : w.pressLine(l.lineNo, amount), amount, refused }];
   });
   const placed = marks.filter((x) => x.box);
   return {
@@ -82,6 +85,39 @@ export function receiptPanel(v: DriveView | null, m: LedgerModel, lang: Lang = m
     unplaced: marks.filter((x) => !x.box),
     region: linesRegion(placed.map((x) => x.box!)),
   };
+}
+
+export interface LinePayer {
+  /** "Mark · Columbus", "Kitasora Logistics": the chip. */
+  label: string;
+  /** "$8.58 (¥1,298)", "match ¥1,298": what follows it. */
+  amount: string;
+  /** The donor's pledge; null for the company match. */
+  pledgeId: string | null;
+}
+
+/**
+ * The plaque over the book for a pressed line (S5), in parts: "Line 4 · ¥2,596 =", then each payer as a chip and
+ * what they paid, as the proof band says it (proof.ts lineProof), or the reason a refused line has no payer.
+ */
+export function lineParts(v: DriveView | null, m: LedgerModel, lineKey: string, lang: Lang = m.lang ?? "en"): { head: string; payers: LinePayer[]; reason: string | null } | null {
+  if (!v) return null;
+  const rows = m.book.filter((r) => r.lineKey === lineKey);
+  if (!rows.length) return null;
+  const base = v.drive.baseCurrency;
+  const mark = receiptPanel(v, m, lang);
+  const printed = [...(mark?.placed ?? []), ...(mark?.unplaced ?? [])].find((x) => x.lineKey === lineKey);
+  const head = printed ? PANEL_WORDS[lang].pressLine(printed.lineNo, printed.amount) : `${WORDS[lang].lineWord} ${rows[0].line}`;
+  const currencyOf = (rowKey: string) => v.ledger.find((r) => r.rowId === rowKey)?.currency ?? base;
+  const payers = rows
+    .filter((r) => r.kind === "donor_share" || r.kind === "match_share")
+    .map((r): LinePayer =>
+      r.kind === "match_share"
+        ? { label: r.payer, amount: `${WORDS[lang].matchWord} ${moneyIn(lang, base, r.share)}`, pledgeId: null }
+        : { label: r.payerLabel, amount: `${r.paid}${currencyOf(r.rowKey) === base ? "" : ` (${moneyIn(lang, base, r.share)})`}`, pledgeId: r.pledgeId },
+    );
+  const reason = payers.length ? null : (rows.find((r) => r.reason)?.reason?.replace(/\.$/, "") ?? null);
+  return { head, payers, reason };
 }
 
 /** The one sentence over the book for a picked line: who paid what of it (the proof band's own words). */

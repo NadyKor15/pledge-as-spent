@@ -67,6 +67,10 @@ export function ReceiptWidget(params: AgWidgetParams) {
   const press = (lineKey: string) => {
     const pick: Pick = { kind: "line", lineKey };
     store.toggle(pick);
+    // Beside the open book every row stays: bring the line's lit rows into view (cells.tsx marks them on the next frame).
+    if (store.get().linesNarrow || store.get().selected === null) return;
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    requestAnimationFrame(() => requestAnimationFrame(() => document.querySelector(".ag-row.lg-line-picked")?.scrollIntoView({ block: "nearest", behavior })));
   };
   const isOn = (lineKey: string) => same(snap.selected, { kind: "line", lineKey });
 

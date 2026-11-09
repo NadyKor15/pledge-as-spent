@@ -50,10 +50,19 @@
 .lg-payer { display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; width: 100%; }
 .lg-payer-name { min-width: 0; }
 .lg-payer-meter { flex: none; max-width: 132px; }
-/* The sentence over the book for a pressed line (BookHeadWidget): the whole sentence on a desktop, its short form on a phone. */
-.lg-chip-short { display: none; }
-[data-stacked="true"] .lg-chip-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-[data-stacked="true"] .lg-chip-short { display: inline; }
+/* Beside the open book (S5): the pressed line's rows lit in teal, and arrows to them from its frame on the photo. */
+.lg-frame .ag-row.lg-line-picked:not(.lg-proof-row) { background: #DDEFEC !important; }
+.lg-arrows { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; overflow: visible; }
+.lg-arrows path { fill: none; stroke: var(--teal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lg-line-plaque { display: flex; flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: nowrap; gap: 8px; height: 40px; padding: 0 6px 0 16px; border-radius: 12px; background: #E3F0EE; box-shadow: inset 0 0 0 1px #CFE3DF; font-size: 15px; white-space: nowrap; overflow: hidden; }
+.lg-line-plaque b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.lg-payer-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 8px; background: #C9E4DF; color: var(--ink); font-weight: 500; }
+.lg-plaque-amount { color: var(--ink); font-variant-numeric: tabular-nums; }
+.lg-plaque-reason { color: var(--refused); overflow: hidden; text-overflow: ellipsis; }
+.lg-line-plaque button { flex: none; margin-left: auto; width: 26px; height: 26px; border-radius: 999px; color: #2C5F5B; font-size: 18px; line-height: 1; }
+.lg-line-plaque button:hover { background: #CFE5E1; }
+
+/* The chip over a book narrowed to a pressed line (phone, narrow window). */
 .lg-chip-line { background: #DDEFEC; font-weight: 500; }
 
 /* The PayPal journal (T3). Its height is fixed by the layout; the groups and the phone's list scroll inside. PayPal's

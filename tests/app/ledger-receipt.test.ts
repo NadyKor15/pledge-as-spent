@@ -3,8 +3,8 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { deriveLedger } from "@/ui/ledger/derive";
 import { lineProof } from "@/ui/ledger/proof";
-import { lineSentence, linesRegion, markStyle, photoStyle, receiptPanel } from "@/ui/ledger/receipt-panel";
-import { focusOf, linesOf, LedgerStore, same } from "@/ui/ledger/store";
+import { lineParts, lineSentence, linesRegion, markStyle, photoStyle, receiptPanel } from "@/ui/ledger/receipt-panel";
+import { focusOf, linesOf, litLine, LedgerStore, narrowedTo, same } from "@/ui/ledger/store";
 import { ledgerState, RECEIPT_ROWS, receiptBeside, type Metrics } from "@/ui/ledger/studio-state";
 import { PANEL_WORDS } from "@/ui/ledger/words-panels";
 import type { DriveView } from "@/ui/types";
@@ -168,6 +168,50 @@ describe("where the receipt sits", () => {
     expect(receiptBeside(1, 1012)).toBe(true);
     expect(receiptBeside(0.95, 1012)).toBe(false);
     expect(receiptBeside(1.2, 1012)).toBe(true);
+  });
+});
+
+describe("beside the open book a pressed line lights its rows instead of narrowing the book (S5)", () => {
+  const model = deriveLedger(closed);
+  const mark = model.donors.find((d) => d.name === "Mark")!;
+
+  it("no filter beside the book, the line is lit; over the book (phone) the filter as before", () => {
+    const store = new LedgerStore(model);
+    const seen: string[][] = [];
+    store.connectFilter((keys) => seen.push(keys));
+    store.setLinesNarrow(false);
+    store.toggle({ kind: "line", lineKey: LINE4 });
+    expect(litLine(store.get())).toBe(LINE4);
+    expect(narrowedTo(store.get())).toBeNull();
+    expect(seen.at(-1)).toEqual([]);
+    // The window narrows: the photo goes over the book, and the same press narrows it.
+    store.setLinesNarrow(true);
+    expect(litLine(store.get())).toBeNull();
+    expect(narrowedTo(store.get())).toEqual([LINE4]);
+    expect(seen.at(-1)).toEqual([LINE4]);
+  });
+
+  it("a donor or a need still narrows the book beside it; the assistant's narrowing wins over all", () => {
+    const store = new LedgerStore(model);
+    store.setLinesNarrow(false);
+    store.toggle({ kind: "donor", pledgeId: mark.pledgeId });
+    expect(narrowedTo(store.get())).toEqual(mark.lineKeys);
+    expect(litLine(store.get())).toBeNull();
+    store.focusLines(["demo-f372326129.r1:1"], "water");
+    expect(narrowedTo(store.get())).toEqual(["demo-f372326129.r1:1"]);
+  });
+
+  it("the plaque: the line and its amount, then each payer as its own part with what they paid", () => {
+    expect(lineParts(closed, model, LINE4)).toEqual({
+      head: "Line 4 · ¥2,596",
+      payers: [
+        { label: "Mark · Columbus", amount: "$8.58 (¥1,298)", pledgeId: mark.pledgeId },
+        { label: "Kitasora Logistics", amount: "match ¥1,298", pledgeId: null },
+      ],
+      reason: null,
+    });
+    expect(lineParts(closed, model, "demo-f372326129.r1:10")).toEqual({ head: "Line 10 · ¥1,198", payers: [], reason: "Alcohol is not funded" });
+    expect(lineParts(closed, model, "nope:1")).toBeNull();
   });
 });
 

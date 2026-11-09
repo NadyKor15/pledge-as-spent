@@ -9,7 +9,7 @@ import type { LedgerBookRow } from "./derive";
 import { WORDS } from "./i18n";
 import { lineProof } from "./proof";
 import { ProofBand } from "./ProofBand";
-import type { LedgerStore } from "./store";
+import { litLine, type LedgerStore } from "./store";
 import { Strip } from "./Strip";
 import { BOOK, HIDDEN_FIELDS, NEED_FIELD, ROWKEY_FIELD } from "./studio-state";
 
@@ -141,6 +141,8 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
   const open = Boolean(row && snap.proof === row.rowKey && at >= 0);
   const below = at >= 0 && index > at;
   const focused = Boolean(row && snap.focus?.lineKeys.includes(row.lineKey));
+  // A receipt line pressed beside the open book: its rows are lit, the book is not narrowed (S5).
+  const picked = Boolean(row && litLine(snap) === row.lineKey);
   const last = useRef<number | null>(null);
   useLayoutEffect(() => {
     const el = eGridCell.closest(".ag-row");
@@ -148,6 +150,7 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
     el.classList.toggle("lg-proof-row", open);
     el.classList.toggle("lg-below", below);
     el.classList.toggle("lg-focused", focused);
+    el.classList.toggle("lg-line-picked", picked);
     el.classList.toggle("lg-flash-spent", flash?.kind === "spent");
     el.classList.toggle("lg-flash-back", flash?.kind === "back");
     if (flash && last.current !== flash.id) {
@@ -157,9 +160,9 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
     }
     if (!flash) last.current = null;
     return () => {
-      el.classList.remove("lg-proof-row", "lg-below", "lg-focused", "lg-flash-spent", "lg-flash-back");
+      el.classList.remove("lg-proof-row", "lg-below", "lg-focused", "lg-line-picked", "lg-flash-spent", "lg-flash-back");
     };
-  }, [eGridCell, open, below, focused, flash]);
+  }, [eGridCell, open, below, focused, picked, flash]);
   return open;
 }
 

@@ -45,7 +45,22 @@ export interface LedgerSnapshot {
   askComponent: AskComponent | null;
   /** What "Ask about this line" does; no callback, no button. */
   askAbout: ((lineKey: string) => void) | null;
+  /**
+   * A pressed receipt line narrows the book (phone, narrow window: the photo is over the book). Beside the open book
+   * (S5) it does not: every row stays, the line's rows are lit and brought into view.
+   */
+  linesNarrow: boolean;
 }
+
+/** The lines the book is narrowed to, or null for every line: the assistant's, else what was pressed. */
+export function narrowedTo(s: { focus: LedgerSnapshot["focus"]; selected: LedgerSnapshot["selected"]; model: LedgerModel; linesNarrow: boolean }): string[] | null {
+  if (s.focus) return s.focus.lineKeys;
+  if (!s.selected || (s.selected.kind === "line" && !s.linesNarrow)) return null;
+  return linesOf(s.model, s.selected);
+}
+
+/** The receipt line lit in the book without narrowing it (beside the open book), or null. */
+export const litLine = (s: { selected: LedgerSnapshot["selected"]; linesNarrow: boolean }): string | null => (s.selected?.kind === "line" && !s.linesNarrow ? s.selected.lineKey : null);
 
 export interface Focus {
   donors: Set<string>;
@@ -106,6 +121,7 @@ export class LedgerStore {
       bandPx: null,
       askComponent: null,
       askAbout: null,
+      linesNarrow: true,
     };
   }
 
@@ -125,9 +141,15 @@ export class LedgerStore {
 
   /** The lines the book shows: the assistant's narrowing, else what was pressed, else all of them ([]). */
   private shown(): string[] {
-    const { focus, selected, model } = this.snapshot;
-    return focus ? focus.lineKeys : selected ? linesOf(model, selected) : [];
+    return narrowedTo(this.snapshot) ?? [];
   }
+
+  /** Whether a pressed receipt line narrows the book (the report's layout decides: LedgerStudio). */
+  setLinesNarrow = (linesNarrow: boolean) => {
+    if (linesNarrow === this.snapshot.linesNarrow) return;
+    this.set({ linesNarrow });
+    this.filter?.(this.shown());
+  };
 
   /** The map widget owns the cross filter, because a widget can only filter through its own API. */
   connectFilter(filter: Filter) {
@@ -215,7 +237,7 @@ export class LedgerStore {
     }
     this.set({ model, flashes });
     if (ids.length) setTimeout(() => this.endFlashes(ids), FLASH_MS);
-    if (!selected || focus) return;
+    if (!selected || focus || litLine(this.snapshot)) return;
     const lines = linesOf(model, selected);
     if (lines.join() !== linesOf(before, selected).join()) this.filter?.(lines);
   }

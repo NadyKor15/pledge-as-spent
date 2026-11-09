@@ -442,15 +442,32 @@ for (const { width, height, mark } of [
       await expect.poll(overflow).toBeLessThan(4);
       await line4.click();
       await expect(line4).toHaveAttribute("aria-pressed", "true");
-      await expect(rows(page)).toHaveCount(2);
-      await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"])`)).toHaveCount(1);
-      await expect(page.locator('.ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.match"])')).toHaveCount(1);
       await expect(page.locator(mark)).toHaveClass(/is-on/);
       await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
       const sentence = "Line 4 · Soft kids diapers M · ¥2,596 = Mark · Columbus $8.58 (¥1,298) + Kitasora Logistics match ¥1,298";
-      await expect(page.getByTestId("line-sentence")).toHaveAttribute("title", sentence);
-      if (width === 1440) await expect(page.getByTestId("line-sentence")).toContainText(sentence);
-      else await expect(widget.locator(".lg-rc-sentence")).toHaveText(sentence);
+      const line4Rows = page.locator(`.ag-row:has([data-row-key="${MARK4}"]), .ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.match"])`);
+      if (width === 1440) {
+        // S5: beside the open book every row stays; the two rows of line 4 are lit and in view, with arrows to them.
+        await expect(rows(page)).toHaveCount(20);
+        await expect(page.locator(".ag-row.lg-line-picked")).toHaveCount(2);
+        await expect(line4Rows).toHaveCount(2);
+        await expect(line4Rows.first()).toHaveClass(/lg-line-picked/);
+        await expect(line4Rows.first()).toBeInViewport();
+        await expect(line4Rows.last()).toBeInViewport();
+        const plaque = page.getByTestId("line-sentence");
+        await expect(plaque).toHaveAttribute("title", sentence);
+        await expect(plaque.locator("b")).toHaveText("Line 4 · ¥2,596 =");
+        await expect(plaque.locator(".lg-payer-chip")).toHaveText(["Mark · Columbus", "Kitasora Logistics"]);
+        await expect(plaque.locator(".lg-plaque-amount")).toHaveText(["$8.58 (¥1,298)", "match ¥1,298"]);
+        await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(2);
+      } else {
+        // The photo over the book (phone): the book narrows to line 4 and a chip names it.
+        await expect(rows(page)).toHaveCount(2);
+        await expect(line4Rows).toHaveCount(2);
+        await expect(page.getByTestId("line-chip")).toContainText("Line 4 · ¥2,596");
+        await expect(widget.locator(".lg-rc-sentence")).toHaveText(sentence);
+        await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(0);
+      }
       // The receipt is not cut by the frame's edge with only two rows of the book under it.
       const frame = (await page.locator(".lg-frame").boundingBox())!;
       const after = (await widget.boundingBox())!;
@@ -472,7 +489,7 @@ test("the receipt is part of the book: out of sight and out of Tab's reach while
   await expect(widget.locator(".lg-rc-line").first()).toBeHidden();
 });
 
-test("a line without a box is listed under the photo and still narrows the book", async ({ page }) => {
+test("a line without a box is listed under the photo and still lights its rows (no arrow: it has no place on the photo)", async ({ page }) => {
   const v = fixture("closed");
   v.receipts[0].lines.find((l) => l.lineNo === 7)!.box = null;
   await openBook(page, v);
@@ -481,10 +498,12 @@ test("a line without a box is listed under the photo and still narrows the book"
   await expect(widget.locator(".lg-rc-unplaced")).toContainText("1 line not placed on the photo");
   await widget.locator(".lg-rc-unplaced button").click();
   await expect(widget.locator(".lg-rc-unplaced button")).toHaveAttribute("aria-pressed", "true");
-  // The grid filters after the press: wait for it, then every row left is line 7's.
+  // Beside the open book: every row stays, the lit ones are line 7's.
+  await expect(rows(page)).toHaveCount(20);
   await expect
-    .poll(() => page.locator(".ag-row [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]))
+    .poll(() => page.locator(".ag-row.lg-line-picked [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]))
     .toEqual(["demo-f372326129.r1:7"]);
+  await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(0);
 });
 
 // T3: the PayPal journal. Its rows are PayPal's own calls; a donor's row presses that donor, as their label on the
