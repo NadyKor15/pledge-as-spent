@@ -31,6 +31,11 @@
 .pc-amt { font-variant-numeric: tabular-nums; font-weight: 600; }
 .pc-status { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; font-weight: 600; }
 .pc-times { color: #55595F; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.pc-ends { display: flex; flex-direction: column; gap: 1px; font-size: 12.5px; font-variant-numeric: tabular-nums; color: #2B2F36; }
+.pc-ends-book { color: #55595F; }
+.pc-ends-mark { margin-right: 4px; font-weight: 700; color: #2F855A; }
+.pc-ends-differs .pc-ends-mark { color: #D0294A; }
+.pc-ends-differs .pc-ends-book { color: #D0294A; }
 .pc-mark { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 22px; font-weight: 700; line-height: 1; }
 .pc-mark .pc-sr { font-size: 11px; font-weight: 500; line-height: 1.2; text-align: center; color: #55595F; }
 .pc-agrees .pc-mark { color: #2F855A; }

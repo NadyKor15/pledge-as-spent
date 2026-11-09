@@ -31,6 +31,8 @@ export interface BookSide {
   agrees: string[];
   /** PayPal's statuses that are only ahead of the book: a webhook or lookup has not arrived yet. */
   ahead: string[];
+  /** Holds: the day the book says PayPal ends the hold by itself (29 days from the first approval). */
+  expires?: string | null;
 }
 
 export interface CheckObject {
@@ -53,6 +55,8 @@ export interface PayPalSide {
   /** PayPal's own times: create_time / update_time, or a payout batch's time_created / time_completed. */
   created: string | null;
   updated: string | null;
+  /** Holds: PayPal's expiration_time, the day PayPal ends the hold by itself; null for captures and payouts. */
+  expires: string | null;
   debugId: string | null;
   /** When our server sent the GET, ISO UTC. */
   askedAt: string;
@@ -62,11 +66,16 @@ export interface PayPalSide {
 
 export type Verdict = "agrees" | "differs" | "ahead" | "no_answer";
 
+/** Does PayPal's end date for a hold say what the book says? Its own check: it does not change the status verdict. */
+export type ExpiryVerdict = "agrees" | "differs";
+
 export interface CheckRow extends CheckObject {
   /** The request, e.g. "GET /v2/payments/captures/3WP65983GD053501C". */
   request: string;
   paypal: PayPalSide;
   verdict: Verdict;
+  /** Holds answered by PayPal with an end date the book also has; null otherwise. */
+  expiry: ExpiryVerdict | null;
   /** PayPal's JSON as it came, with the sandbox accounts' e-mail addresses and ids hidden. */
   raw: unknown;
 }
@@ -184,6 +193,8 @@ export function bookObjects(s: LedgerState, journal: JournalCall[] = []): CheckO
           // A reauthorization's parent and child move together at PayPal (live probe 2026-10-31).
           agrees: child || h.authorizationIds.length > 1 ? [...new Set([...agrees, ...(live ? ["CREATED", "PARTIALLY_CAPTURED"] : [])])] : agrees,
           ahead,
+          // A reauthorization keeps its parent's end date at PayPal (sandbox 24.10), as the book does.
+          expires: p.expiresAt ?? null,
         },
       });
     });
@@ -252,10 +263,10 @@ const moneyOf = (raw: unknown): Money | null => {
 };
 
 /** The fields the table shows, from PayPal's JSON of one object. */
-export function readAnswer(kind: CheckKind, body: unknown): Pick<PayPalSide, "status" | "itemStatus" | "amount" | "created" | "updated"> {
+export function readAnswer(kind: CheckKind, body: unknown): Pick<PayPalSide, "status" | "itemStatus" | "amount" | "created" | "updated" | "expires"> {
   const o = obj(body);
   if (kind !== "payout") {
-    return { status: str(o.status), itemStatus: null, amount: moneyOf(o.amount), created: str(o.create_time), updated: str(o.update_time) };
+    return { status: str(o.status), itemStatus: null, amount: moneyOf(o.amount), created: str(o.create_time), updated: str(o.update_time), expires: kind === "authorization" ? str(o.expiration_time) : null };
   }
   const h = obj(o.batch_header);
   const item = obj(Array.isArray(o.items) ? o.items[0] : undefined);
@@ -265,6 +276,7 @@ export function readAnswer(kind: CheckKind, body: unknown): Pick<PayPalSide, "st
     amount: moneyOf(obj(item.payout_item).amount) ?? moneyOf(h.amount),
     created: str(h.time_created),
     updated: str(h.time_completed) ?? str(item.time_processed),
+    expires: null,
   };
 }
 
@@ -280,6 +292,18 @@ export function verdictOf(o: CheckObject, p: Pick<PayPalSide, "http" | "status" 
   if (o.book.agrees.includes(status)) return "agrees";
   if (o.book.ahead.includes(status)) return "ahead";
   return "differs";
+}
+
+/** The book's end date and PayPal's are the same moment, give or take this (both count 29 days from PayPal's create_time). */
+const EXPIRY_SLACK_MS = 5 * 60_000;
+
+/** Does PayPal's end date for a hold say what the book says? Null when either side has no date, or PayPal did not answer. */
+export function expiryOf(o: CheckObject, p: Pick<PayPalSide, "http" | "expires">): ExpiryVerdict | null {
+  if (o.kind !== "authorization" || p.http !== 200 || !o.book.expires || !p.expires) return null;
+  const book = Date.parse(o.book.expires);
+  const paypal = Date.parse(p.expires);
+  if (Number.isNaN(book) || Number.isNaN(paypal)) return "differs";
+  return Math.abs(book - paypal) <= EXPIRY_SLACK_MS ? "agrees" : "differs";
 }
 
 // ---- the check ----------------------------------------------------------------------
@@ -425,9 +449,9 @@ export class PayPalCheck {
       }
       const got = late ? undefined : store.get(path);
       const body = got ? parseJson(got.text) : null;
-      const read = got ? readAnswer(o.kind, body) : { status: null, itemStatus: null, amount: null, created: null, updated: null };
+      const read = got ? readAnswer(o.kind, body) : { status: null, itemStatus: null, amount: null, created: null, updated: null, expires: null };
       const paypal: PayPalSide = { http: got?.status ?? 0, ...read, debugId: got?.debugId ?? str(obj(body).debug_id), askedAt, ms: Math.max(0, this.now() - t0), error: got ? null : (error ?? "PayPal didn't answer.") };
-      return { ...o, request: `GET ${path}`, paypal, verdict: verdictOf(o, paypal), raw: got ? hideAccounts(body) : null };
+      return { ...o, request: `GET ${path}`, paypal, verdict: verdictOf(o, paypal), expiry: expiryOf(o, paypal), raw: got ? hideAccounts(body) : null };
     };
     const rows = await Promise.all(objects.map(one));
     const answered = rows.filter((r) => r.paypal.http === 200).length;

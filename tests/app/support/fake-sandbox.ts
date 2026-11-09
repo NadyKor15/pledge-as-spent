@@ -25,6 +25,10 @@ interface Auth {
   customId: string;
   /** Set on a reauthorization: the authorization it came from. */
   parentId?: string;
+  /** PayPal's create_time and expiration_time, fixed when the authorization is made. */
+  createdAt?: string;
+  /** 29 days from the first approval; a reauthorization keeps its parent's (sandbox 24.10). */
+  expiresAt?: string;
 }
 
 export interface FakeSandbox {
@@ -85,8 +89,8 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
     status: a.status,
     amount: { currency_code: a.currency, value: fmt(a.currency, a.amount) },
     custom_id: a.customId,
-    create_time: now(),
-    expiration_time: new Date(Date.parse(now()) + 29 * 86_400_000).toISOString().replace(/\.\d+Z$/, "Z"),
+    create_time: a.createdAt ?? now(),
+    expiration_time: a.expiresAt ?? new Date(Date.parse(a.createdAt ?? now()) + 29 * 86_400_000).toISOString().replace(/\.\d+Z$/, "Z"),
   });
 
   function handle(method: string, path: string, body: any): Response {
@@ -96,7 +100,7 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
       const order: any = { id: orderId, intent: "AUTHORIZE", purchase_units: [{ reference_id: unit.reference_id, custom_id: unit.custom_id, amount: unit.amount }] };
       orders.set(orderId, order);
       if (body.payment_source?.card) {
-        const a: Auth = { id: id("AUTH"), orderId, currency: unit.amount.currency_code, amount: toMinor(unit.amount), captured: 0, status: "CREATED", customId: unit.custom_id };
+        const a: Auth = { id: id("AUTH"), orderId, currency: unit.amount.currency_code, amount: toMinor(unit.amount), captured: 0, status: "CREATED", customId: unit.custom_id, createdAt: now() };
         auths.set(a.id, a);
         order.status = "COMPLETED";
         order.purchase_units[0].payments = { authorizations: [authJson(a)] };
@@ -112,7 +116,7 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
       if (!order) return error(404, "RESOURCE_NOT_FOUND", "INVALID_RESOURCE_ID");
       if (!approved.has(m[1])) return error(422, "UNPROCESSABLE_ENTITY", "ORDER_NOT_APPROVED");
       const unit = order.purchase_units[0];
-      const a: Auth = { id: id("AUTH"), orderId: m[1], currency: unit.amount.currency_code, amount: toMinor(unit.amount), captured: 0, status: "CREATED", customId: unit.custom_id };
+      const a: Auth = { id: id("AUTH"), orderId: m[1], currency: unit.amount.currency_code, amount: toMinor(unit.amount), captured: 0, status: "CREATED", customId: unit.custom_id, createdAt: now() };
       auths.set(a.id, a);
       order.status = "COMPLETED";
       unit.payments = { authorizations: [authJson(a)] };
@@ -137,7 +141,7 @@ export function fakeSandbox(opts: { now?: () => string } = {}): FakeSandbox {
         if (state.reauthorize === "too_soon") return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_TOO_SOON");
         if (a.parentId) return error(422, "UNPROCESSABLE_ENTITY", "REAUTHORIZATION_NOT_SUPPORTED");
         const minor = body.amount ? toMinor(body.amount) : a.amount - a.captured;
-        const b: Auth = { ...a, id: id("AUTH"), parentId: a.id, amount: minor, captured: 0, status: "CREATED" };
+        const b: Auth = { ...a, id: id("AUTH"), parentId: a.id, amount: minor, captured: 0, status: "CREATED", createdAt: now(), expiresAt: authJson(a).expiration_time };
         auths.set(b.id, b);
         state.reauthorizations.push({ from: a.id, to: b.id, minor });
         return json(201, authJson(b));

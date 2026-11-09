@@ -37,6 +37,9 @@ export default function Home() {
             <li>
               <Link href="/cheat">Try to cheat the receipt</Link>: five forged receipts against the same checks, and what their forged lines would cost donors.
             </li>
+            <li>
+              <b>What if we vanish?</b> A pledge is a PayPal hold with an end date PayPal sets. <Link href={finished.statement}>A donor’s statement</Link> shows that date, and “Ask PayPal yourself” checks it with PayPal: after it nothing more can be charged. A live pledge also has Withdraw; this finished one shows the day PayPal voided the hold.
+            </li>
           </ol>
           {(VIDEO_URL || CODE_URL) && (
             <p className="ld-links">

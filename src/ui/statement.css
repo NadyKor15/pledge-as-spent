@@ -77,6 +77,8 @@
 .st-win img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: auto; }
 .st-caption { margin-top: 5.2px; text-align: center; font-size: 9.5px; line-height: 14px; letter-spacing: -.19px; color: var(--slate-2); }
 .st-hr { margin: 7.8px .5px 0; height: 1px; background: var(--line); }
+.st-vanish { margin: 9px 0 0; padding: 8px 10px; border-radius: 8px; background: var(--cap-bg); font-size: 12px; line-height: 16px; color: var(--ink); }
+.st-vanishOk { font-weight: 600; color: var(--cap-ink); }
 .st-hold { margin-top: 8.1px; display: flex; align-items: flex-start; }
 .st-hold svg { flex: none; margin: -1.8px 0 0 2.8px; }
 .st-hold p { margin-left: 9.6px; font-size: 11.2px; line-height: 12.9px; letter-spacing: -.45px; color: var(--slate-3); }

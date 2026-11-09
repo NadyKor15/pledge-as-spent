@@ -12,6 +12,8 @@ import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
 import { StatementCheck } from "./paypal-check/StatementCheck";
+import { vanishLine } from "./statement/vanish";
+import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
@@ -150,6 +152,9 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
   const a = holdAmounts(b);
   const returning = returningAtPayPal(b);
   const watched = useRef(false);
+  // PayPal's answer once the donor asks it at the bottom of the page: the end date line above takes PayPal's word from it.
+  const [check, setCheck] = useState<CheckResult | null>(null);
+  const vanish = vanishLine(b, view.paypal, check);
   // A void waits for the hold's capture and for PayPal's word on it: this page re-reads by itself meanwhile, reloaded or not.
   useEffect(() => {
     if (!returning || watched.current) return;
@@ -272,6 +277,17 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
         ))}
 
         <div className={s.hr} />
+        {vanish && (
+          <p className={s.vanish} data-testid="statement-vanish">
+            {vanish.text}
+            {vanish.confirm && (
+              <>
+                {" "}
+                <span className={s.vanishOk}>{vanish.confirm}</span>
+              </>
+            )}
+          </p>
+        )}
         <div className={s.hold}>
           <Info size={16.4} />
           <p>
@@ -330,7 +346,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
       )}
 
       <StatementActions data={data} view={view} />
-      <StatementCheck view={view} st={st} />
+      <StatementCheck view={view} st={st} onResult={setCheck} />
 
       <Link className={s.back} href={roleHref(view.drive.id, "donor")}>
         Back to the drive
