@@ -89,7 +89,7 @@ test("a question gets an answer with checked chips, and the book narrows to the 
   await openLedger(page);
   await expect(page.getByTestId("ask-model")).toBeVisible();
   await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
-  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
+  await expect(page.getByTestId("ask-model")).toHaveText(/^Meta Muse Spark · read-only/);
   await ask(page, Q1.question);
   const answer = page.getByTestId("ask-answer");
   await expect(answer).toContainText("Your ✓$30.00 hold paid ✓$21.45 for Diapers size M");
@@ -240,7 +240,7 @@ test("in German the chat speaks German: quick question answered by the book's co
   await page.getByTestId("ask-widget").getByRole("button", { name: "Lena · Berlin" }).click();
   await expect(page.getByTestId("ask-answer")).toContainText("✓15,42 €");
   await expect(page.getByTestId("ask-checked")).toContainText("Mit dem Buch abgeglichen");
-  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · nur lesend");
+  await expect(page.getByTestId("ask-model")).toHaveText(/^Meta Muse Spark · nur lesend/);
   await expect(page.getByTestId("webmcp-badge")).toHaveCount(0);
 });
 
@@ -248,10 +248,10 @@ test("one model, named alone: Meta Muse Spark before and after it answered, no o
   await questions(page, "ok", "Meta Muse Spark");
   model(page, turnsOf(Q1), "Meta Muse Spark");
   await openLedger(page);
-  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only · it cannot move money");
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-answer")).toContainText("✓$21.45");
-  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
+  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only · it cannot move money");
   await expect(page.getByTestId("ask-widget")).not.toContainText(/Nova|Amazon|falls back/);
 });
 
@@ -262,8 +262,9 @@ test("Muse Spark failed twice on the server: the chat says the assistant is busy
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-note")).toHaveText("The assistant is busy, please try again in a minute.");
   expect(await phase(page)).toBe("limit");
-  await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only");
-  expect(errors).toEqual([]);
+  await expect(page.getByTestId("ask-model")).toHaveText(/^Meta Muse Spark · read-only/);
+  // The browser reports the 503 itself; no script error comes with it.
+  expect(errors.filter((e) => !/Failed to load resource: .*503/.test(e))).toEqual([]);
 });
 
 test.describe("on a phone", () => {
