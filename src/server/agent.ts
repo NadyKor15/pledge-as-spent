@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { appendFileSync, readFileSync } from "node:fs";
 import { ConverseCommand, type ContentBlock, type ConverseCommandOutput, type Message, type SystemContentBlock, type Tool, type ToolConfiguration } from "@aws-sdk/client-bedrock-runtime";
-import { and, eq, gt, gte, like, lt, notLike, sql } from "drizzle-orm";
+import { and, eq, gt, gte, like, lt, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { agentQuestions, spendLedger } from "../db/schema";
 import { novaToolSpec } from "../agent/flatten";
@@ -13,7 +13,7 @@ import { NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { JsonlSpendLedger, SpendCap, SpendCapExceeded, worstCaseTokensIn, type LedgerEntry, type SpendLedger } from "../receipts/spend";
 import { agentMetaFrom, META_AGENT_CAP_MAX_USD, META_AGENT_DAILY_CAP_DEFAULT_USD, type MetaProvider } from "./agent-env";
 import { ServiceError } from "./errors";
-import { META_SPEND_PREFIX } from "./spend";
+import { META_SPEND_PREFIX, notMeta } from "./spend";
 
 // The live agent's server half. The browser runs AG Studio's agent loop (our `ledger` agent and
 // Studio's built-in `data` agent); every model turn comes here, one at a time, under a question id:
@@ -134,12 +134,12 @@ async function sumWhere(q: Pick<Db, "select">, prefix: string, since?: string): 
   return Number(r.total);
 }
 
-/** The $5 shared with receipt reading: every row but Meta's. */
+/** The $5 shared with receipt reading: every row but Meta's (the agent's and the Meta reading's). */
 async function bedrockTotal(q: Pick<Db, "select">): Promise<number> {
   const [r] = await q
     .select({ total: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
     .from(spendLedger)
-    .where(notLike(spendLedger.what, `${META_SPEND_PREFIX}%`));
+    .where(notMeta());
   return Number(r.total);
 }
 

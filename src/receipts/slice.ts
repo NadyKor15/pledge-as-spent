@@ -6,18 +6,14 @@
 
 import jpeg from "jpeg-js";
 import { prepImage, type Prepared, type Rgba } from "./prep";
-import type { ReceiptImage } from "./types";
+import type { Band, ReceiptImage } from "./types";
 
 /**
- * One printed row. `y0`/`y1` are pixel rows of the straightened, enlarged paper (reading order); `quad` is the same
- * row on the ORIGINAL photo, in its pixels, corners clockwise from top left. A tilted photo makes it a slanted strip.
+ * One printed row (the Band type, src/receipts/types.ts): `y0`/`y1` are pixel rows of the straightened, enlarged paper
+ * (reading order); `quad` is the same row on the ORIGINAL photo, in its pixels, corners clockwise from top left.
+ * A tilted photo makes it a slanted strip.
  */
-export interface Band {
-  index: number;
-  y0: number;
-  y1: number;
-  quad: [number, number][];
-}
+export type { Band };
 
 export interface Sheet {
   bytes: Uint8Array;

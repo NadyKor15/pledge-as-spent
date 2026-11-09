@@ -5,6 +5,7 @@
 import { randomUUID } from "node:crypto";
 import { appendFile, mkdir, readFile, rm } from "node:fs/promises";
 import path from "node:path";
+import { META_PRICES } from "../agent/meta-wire";
 import type { ModelUsage } from "./types";
 
 export const MAX_USD = 5;
@@ -22,11 +23,17 @@ export const TOOL_PREAMBLE_TOKENS = 600;
 
 export class SpendCapExceeded extends Error {}
 
-export function novaUsd(model: string, tokensIn: number, tokensOut: number): number {
-  const p = NOVA_PRICES[model];
+/** Every model a receipt call may use: Nova on Bedrock, and Meta's Muse Spark (Standard) for the Meta reading. */
+export const MODEL_PRICES: Record<string, { inPerMTok: number; outPerMTok: number }> = { ...NOVA_PRICES, ...META_PRICES };
+
+export function modelUsd(model: string, tokensIn: number, tokensOut: number): number {
+  const p = MODEL_PRICES[model];
   if (!p) throw new Error(`no price configured for model ${model}`);
   return (tokensIn * p.inPerMTok + tokensOut * p.outPerMTok) / 1e6;
 }
+
+/** The old name, kept for the callers that price Nova. */
+export const novaUsd = modelUsd;
 
 export interface CallEstimate {
   /** Characters of system prompt and user text. */
@@ -36,17 +43,19 @@ export interface CallEstimate {
   images: number;
   /** The whole output allowance is charged. */
   maxTokens: number;
+  /** Worst-case tokens per image when the model counts more than IMAGE_TOKENS (a tall sheet of cuts). */
+  imageTokens?: number;
 }
 
 export function worstCaseTokensIn(e: CallEstimate): number {
   let t = (e.textChars / CHARS_PER_TOKEN) * 1.3 + 100;
   if (e.toolSpecChars > 0) t += (e.toolSpecChars / CHARS_PER_TOKEN) * 1.3 + TOOL_PREAMBLE_TOKENS;
-  t += e.images * IMAGE_TOKENS;
+  t += e.images * (e.imageTokens ?? IMAGE_TOKENS);
   return Math.ceil(t);
 }
 
 export function worstCaseUsd(model: string, e: CallEstimate): number {
-  return novaUsd(model, worstCaseTokensIn(e), e.maxTokens);
+  return modelUsd(model, worstCaseTokensIn(e), e.maxTokens);
 }
 
 export interface LedgerEntry {
@@ -124,6 +133,66 @@ export class JsonlSpendLedger implements SpendLedger {
   settle(entry: LedgerEntry) {
     return this.locked(() => appendFile(this.file, JSON.stringify(entry) + "\n"));
   }
+
+  /** Under the lock: `decide` reads what it needs and returns the row to append (or throws to append nothing). */
+  lockedAppend<T>(decide: () => Promise<{ row: object; total: T }>): Promise<T> {
+    return this.locked(async () => {
+      const { row, total } = await decide();
+      await appendFile(this.file, JSON.stringify(row) + "\n");
+      return total;
+    });
+  }
+}
+
+/**
+ * A file ledger whose ceiling counts only the entries whose `what` starts with `prefix`: the Meta reading's measure
+ * shares eval/meta-spend-ledger.jsonl with the agent's earlier runs, but has its own ceiling. Each written row also
+ * carries the running total of this prefix (`runningUsd`), so the file reads as a statement.
+ */
+export class PrefixJsonlSpendLedger implements SpendLedger {
+  private readonly inner: JsonlSpendLedger;
+  constructor(
+    readonly file: string,
+    readonly prefix: string,
+  ) {
+    this.inner = new JsonlSpendLedger(file);
+  }
+
+  private async mine(): Promise<number> {
+    let text = "";
+    try {
+      text = await readFile(this.file, "utf8");
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code !== "ENOENT") throw e;
+    }
+    return text
+      .split("\n")
+      .filter(Boolean)
+      .map((l) => JSON.parse(l) as LedgerEntry)
+      .filter((x) => x.what.startsWith(this.prefix))
+      .reduce((s, x) => s + x.usd, 0);
+  }
+
+  total(): Promise<number> {
+    return this.mine();
+  }
+
+  async reserve(entry: LedgerEntry, maxUsd: number): Promise<number> {
+    if (!entry.what.startsWith(this.prefix)) throw new Error(`ledger entry "${entry.what}" does not start with ${this.prefix}`);
+    // The inner ledger's lock makes "read, check, append" one step; the check is on this prefix alone.
+    return this.inner.lockedAppend(async () => {
+      const total = (await this.mine()) + entry.usd;
+      if (total > maxUsd) throw new SpendCapExceeded(`${entry.what}: $${entry.usd.toFixed(4)} would bring ${this.prefix} spend to $${total.toFixed(4)}, ceiling $${maxUsd.toFixed(2)}`);
+      return { row: { ...entry, runningUsd: round6(total) }, total };
+    });
+  }
+
+  async settle(entry: LedgerEntry): Promise<void> {
+    await this.inner.lockedAppend(async () => {
+      const total = (await this.mine()) + entry.usd;
+      return { row: { ...entry, runningUsd: round6(total) }, total };
+    });
+  }
 }
 
 export class SpendCap {
@@ -150,7 +219,7 @@ export class SpendCap {
     if (tokensIn === null || tokensOut === null) {
       return { value, usage: { model: args.model, tokensIn: 0, tokensOut: 0, usdCeiling: round6(ceiling), usdActual: null } };
     }
-    const actual = novaUsd(args.model, tokensIn, tokensOut);
+    const actual = modelUsd(args.model, tokensIn, tokensOut);
     await this.ledger.settle({ ts: this.now().toISOString(), id: randomUUID(), kind: "settle", ref: id, what: args.what, usd: round6(actual - round6(ceiling)) });
     return { value, usage: { model: args.model, tokensIn, tokensOut, usdCeiling: round6(ceiling), usdActual: round6(actual) } };
   }

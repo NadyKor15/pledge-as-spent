@@ -80,9 +80,37 @@ export interface ReceiptImage {
   mediaType: "image/jpeg" | "image/png" | "image/webp";
 }
 
+/** One printed row found by pixels (src/receipts/slice.ts): y in the straightened paper, `quad` on the original photo. */
+export const Band = z.object({ index: z.number().int().positive(), y0: z.number(), y1: z.number(), quad: z.array(z.tuple([z.number(), z.number()])).length(4) });
+export type Band = z.infer<typeof Band>;
+
+/**
+ * The second, independent reading: the same model on the numbered cuts of the printed rows. `lineBands[i]` are the
+ * cut numbers its i-th line says it is printed on; `bandTexts` what it read on each cut. Null receipt: it failed.
+ */
+export const SecondReading = z.object({
+  receipt: ParsedReceipt.nullable(),
+  lineBands: z.array(z.array(z.number().int().positive())),
+  bandTexts: z.record(z.string(), z.string()),
+  bands: z.array(Band),
+  /** The original photo's size in pixels: the quads of `bands` are in it. */
+  size: z.object({ width: z.number().int().positive(), height: z.number().int().positive() }).nullable(),
+  error: z.string().nullable(),
+});
+export type SecondReading = z.infer<typeof SecondReading>;
+
+/** A purchase line and the printed rows it stands on: the only rows a closed copy of the photo may show. */
+export interface PurchaseLine {
+  lineNo: number;
+  bandIndexes: number[];
+}
+
 export interface ReceiptReader {
-  /** `lineBoxes`: readers that see where rows are printed (OCR) say so; the others leave it out. */
-  read(image: ReceiptImage, hint: { currency: CurrencyCode; languages: string[] }): Promise<{ receipt: ParsedReceipt; usage: ModelUsage; lineBoxes?: LineBox[] }>;
+  /**
+   * `lineBoxes`: readers that see where rows are printed (OCR, pixel bands) say so; the others leave it out.
+   * `second`: readers that read twice return the second reading for the classifier to check the first against.
+   */
+  read(image: ReceiptImage, hint: { currency: CurrencyCode; languages: string[] }): Promise<{ receipt: ParsedReceipt; usage: ModelUsage; lineBoxes?: LineBox[]; second?: SecondReading }>;
 }
 
 export interface LineClassifier {
@@ -90,7 +118,17 @@ export interface LineClassifier {
     receipt: ParsedReceipt;
     needs: Need[];
     rules: string;
-  }): Promise<{ lines: LineClassification[]; usage: ModelUsage }>;
+    second?: SecondReading;
+  }): Promise<{ lines: LineClassification[]; usage: ModelUsage; agreement?: Agreement }>;
+}
+
+/** What comparing two readings found: the purchase lines with their rows, their boxes, and why lines were held. */
+export interface Agreement {
+  purchaseLines: PurchaseLine[];
+  lineBoxes: LineBox[];
+  /** The classifier's own answers for both readings, before the comparison: kept so the rule can be re-run offline. */
+  raw: { first: LineClassification[]; second: LineClassification[] };
+  held: { lineNo: number; why: string }[];
 }
 
 /** An approved receipt line turned into money for one need. */
