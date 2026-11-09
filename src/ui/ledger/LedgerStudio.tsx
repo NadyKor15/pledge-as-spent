@@ -128,7 +128,8 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       match: 4,
       note: counts.waiting || counts.rest ? 4 : 0,
       map: Math.ceil((Math.min(width, 640) * 0.56) / rowHeight),
-      shelter: Math.ceil((112 + counts.needs * 104) / rowHeight),
+      // +52: the legend of the bars' tones, kept two lines tall whatever it lists (need-meter.css).
+      shelter: Math.ceil((112 + 52 + counts.needs * 104) / rowHeight),
       donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
       // Room for three links under the refusals: the book, its CSV and "Ask PayPal yourself".
       footer: 15,
