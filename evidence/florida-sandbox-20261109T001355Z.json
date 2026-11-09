@@ -1,0 +1,271 @@
+{
+  "runId": "20261109T001355Z",
+  "startedAt": "2026-11-09T00:13:55.601Z",
+  "finishedAt": "2026-11-09T00:14:45.702Z",
+  "sandbox": "Nadezhda Korchagina's PayPal sandbox (Default Application APP-6EH18596R9530124Y), test card holds",
+  "driveId": "demo-fl-214a9e96",
+  "paypalCalls": 29,
+  "rebindMadePayPalCalls": 0,
+  "authorizationUnchangedByRebind": true,
+  "steps": [
+    {
+      "step": "holds",
+      "at": "2026-11-09T00:14:10.862Z",
+      "calls": 5,
+      "holds": [
+        {
+          "pledgeId": "demo-fl-214a9e96.water",
+          "donor": "Sofia (Madrid)",
+          "currency": "EUR",
+          "authorized": 2500,
+          "status": "authorized",
+          "authorizationId": "0CG78272TX5727015",
+          "expiresAt": "2026-12-08T00:13:59.000Z"
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.diapers",
+          "donor": "Kenji (Osaka)",
+          "currency": "JPY",
+          "authorized": 4000,
+          "status": "authorized",
+          "authorizationId": "83D156836Y704260T",
+          "expiresAt": "2026-12-08T00:14:02.000Z"
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.batteries",
+          "donor": "Dana (Atlanta)",
+          "currency": "USD",
+          "authorized": 3000,
+          "status": "authorized",
+          "authorizationId": "47G34809A6225283B",
+          "expiresAt": "2026-12-08T00:14:05.000Z"
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.blankets",
+          "donor": "Omar (Chicago)",
+          "currency": "USD",
+          "authorized": 2000,
+          "status": "authorized",
+          "authorizationId": "9Y233443NJ055964J",
+          "expiresAt": "2026-12-08T00:14:07.000Z"
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.match",
+          "donor": "Gulf Coast Grocers",
+          "currency": "USD",
+          "authorized": 50000,
+          "status": "authorized",
+          "authorizationId": "8G636868FH465934T",
+          "expiresAt": "2026-12-08T00:14:09.000Z"
+        }
+      ]
+    },
+    {
+      "step": "auth before",
+      "at": "2026-11-09T00:14:11.905Z",
+      "calls": 6,
+      "id": "0CG78272TX5727015",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2500
+      },
+      "expirationTime": "2026-12-08T00:13:59Z"
+    },
+    {
+      "step": "rebind",
+      "at": "2026-11-09T00:14:11.909Z",
+      "calls": 6,
+      "rebound": {
+        "at": "2026-11-09T00:14:11.908Z",
+        "fromNeedId": "water",
+        "toNeedId": "blankets",
+        "by": "Sofia (Madrid)",
+        "via": "statement"
+      },
+      "paypalCallsByMove": 0
+    },
+    {
+      "step": "auth after",
+      "at": "2026-11-09T00:14:12.302Z",
+      "calls": 7,
+      "id": "0CG78272TX5727015",
+      "status": "CREATED",
+      "amount": {
+        "currency": "EUR",
+        "minor": 2500
+      },
+      "expirationTime": "2026-12-08T00:13:59Z"
+    },
+    {
+      "step": "receipt",
+      "at": "2026-11-09T00:14:13.149Z",
+      "calls": 8,
+      "receiptId": "demo-fl-214a9e96.r1",
+      "status": "funded",
+      "reader": "recorded",
+      "ms": 847,
+      "commands": [
+        {
+          "kind": "payout",
+          "outcome": "sent",
+          "ids": {
+            "payoutBatchId": "4BPAJTT9N8BXJ",
+            "batchStatus": "PENDING"
+          }
+        }
+      ]
+    },
+    {
+      "step": "payout",
+      "at": "2026-11-09T00:14:30.201Z",
+      "calls": 12,
+      "payout": {
+        "senderBatchId": "pay:demo-fl-214a9e96:demo-fl-214a9e96.r1",
+        "payoutBatchId": "4BPAJTT9N8BXJ",
+        "status": "confirmed",
+        "amount": 4876
+      }
+    },
+    {
+      "step": "payout at PayPal",
+      "at": "2026-11-09T00:14:30.584Z",
+      "calls": 13,
+      "batch": {
+        "payoutBatchId": "4BPAJTT9N8BXJ",
+        "batchStatus": "PROCESSING",
+        "amount": {
+          "currency": "USD",
+          "minor": 4876
+        },
+        "fees": {
+          "currency": "USD",
+          "minor": 98
+        },
+        "items": [
+          {
+            "payoutItemId": "S88PB42324GCA",
+            "senderItemId": "pay:demo-fl-214a9e96:demo-fl-214a9e96.r1",
+            "transactionStatus": "SUCCESS",
+            "transactionId": "91780250XJ446644W"
+          }
+        ]
+      }
+    },
+    {
+      "step": "closed",
+      "at": "2026-11-09T00:14:43.201Z",
+      "calls": 24,
+      "status": "closed",
+      "report": [
+        {
+          "pledgeId": "demo-fl-214a9e96.water",
+          "donorName": "Sofia (Madrid)",
+          "kind": "donor",
+          "currency": "EUR",
+          "pledged": 2500,
+          "spent": 0,
+          "released": 2500,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.diapers",
+          "donorName": "Kenji (Osaka)",
+          "kind": "donor",
+          "currency": "JPY",
+          "pledged": 4000,
+          "spent": 3039,
+          "released": 961,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.batteries",
+          "donorName": "Dana (Atlanta)",
+          "kind": "donor",
+          "currency": "USD",
+          "pledged": 3000,
+          "spent": 429,
+          "released": 2571,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.blankets",
+          "donorName": "Omar (Chicago)",
+          "kind": "donor",
+          "currency": "USD",
+          "pledged": 2000,
+          "spent": 0,
+          "released": 2000,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.match",
+          "donorName": "Gulf Coast Grocers",
+          "kind": "match",
+          "currency": "USD",
+          "pledged": 50000,
+          "spent": 2437,
+          "released": 47563,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        }
+      ]
+    },
+    {
+      "step": "holds at PayPal after close",
+      "at": "2026-11-09T00:14:45.702Z",
+      "calls": 29,
+      "finals": [
+        {
+          "pledgeId": "demo-fl-214a9e96.water",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "EUR",
+            "minor": 2500
+          }
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.diapers",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "JPY",
+            "minor": 4000
+          }
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.batteries",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "USD",
+            "minor": 3000
+          }
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.blankets",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "USD",
+            "minor": 2000
+          }
+        },
+        {
+          "pledgeId": "demo-fl-214a9e96.match",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "USD",
+            "minor": 50000
+          }
+        }
+      ]
+    }
+  ]
+}

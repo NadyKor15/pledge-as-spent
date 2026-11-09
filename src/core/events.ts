@@ -134,6 +134,23 @@ export interface CaptureReversed extends EventBase {
   reversalId?: string;
 }
 
+/**
+ * The donor moved what is left of a hold from one need to another, before the
+ * close (one press on the statement). PayPal is not called: the same
+ * authorization, for the same amount and the same 29 days, now backs the new
+ * need. Shares already funded stay on the old need's lines; from this event on
+ * the hold funds only the new need. One per hold.
+ */
+export interface PledgeRebound extends EventBase {
+  type: "PledgeRebound";
+  pledgeId: string;
+  /** The need the donor saw the hold on; a stale press is refused. */
+  fromNeedId: string;
+  toNeedId: string;
+  /** The donor's consent, recorded with the event's time. */
+  consent: { by: string; via: string };
+}
+
 export interface Reauthorized extends EventBase {
   type: "Reauthorized";
   pledgeId: string;
@@ -194,6 +211,7 @@ export type LedgerEvent =
   | PledgeAuthorized
   | PledgeDenied
   | PledgeRevoked
+  | PledgeRebound
   | LineFunded
   | LineRejected
   | CaptureSubmitted

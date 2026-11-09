@@ -14,6 +14,7 @@ export type CoreErrorCode =
   | "unknown_need"
   | "unknown_pledge"
   | "unknown_receipt"
+  | "rebind_refused"
   | "invariant_violation";
 
 const CORE_ERROR: unique symbol = Symbol.for("pledge-as-spent.CoreError");

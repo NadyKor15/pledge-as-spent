@@ -136,6 +136,7 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 - The money stays on the donor's own PayPal hold until a verified purchase. Nothing is collected first and explained later.
 - One receipt line is shared across donors and a company match, each charged in their own currency.
 - The Ledger splits every pledge into spent, waiting for capture, still held and returned, and the four add up to the pledge.
+- A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). It is behind the `REBIND_ENABLED` switch.
 
 ## Platform findings
 
@@ -185,7 +186,8 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - Receipt reading was measured on synthetic receipts only (two held-out sets of 20). A line both readings misread the same way would pass; none did in these runs. A refusal never overcharges a donor, but it can underpay a volunteer.
 - Receipt photos are published closed: only purchase lines are visible, everything else is a plain background; a photo that cannot be closed is not published. A purchase line's own text is shown as printed, so a name printed inside an item line would be shown too.
 - Muse Spark sees the whole original photo, card and name included. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
-- Rates are a fixed demo snapshot.
+- Rates are a fixed demo snapshot, for the dollar drive too (EUR and JPY to USD are the yen rates divided out).
+- A hold moves to another need once, only while the drive is open, and not in its last 3 days. Lines it already paid for stay with the first need. The company match follows donor money, so a need left without donors gets no match either.
 
 ## How this was built
 

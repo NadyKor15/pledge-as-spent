@@ -39,6 +39,7 @@ describe("pledgeBalance", () => {
       blockedReason: null,
       authorizationId: "AUTH-anna",
       expiresAt: daysAfter(29),
+      rebound: null,
     });
     expect(() => pledgeBalance(b.state, "nobody")).toThrow(/unknown_pledge/);
   });

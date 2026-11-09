@@ -40,6 +40,8 @@ export interface PledgeBalance {
   blockedReason: string | null;
   authorizationId: string | null;
   expiresAt: string | null;
+  /** The donor moved the rest of this hold from one need to another (once), or null. */
+  rebound?: { at: string; fromNeedId: string; toNeedId: string; by: string; via: string } | null;
 }
 
 export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
@@ -66,6 +68,7 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     blockedReason: hold.blockedReason ?? null,
     authorizationId: hold.authorizationIds[hold.authorizationIds.length - 1] ?? null,
     expiresAt: pledge.expiresAt ?? null,
+    rebound: hold.rebound ? { ...hold.rebound } : null,
   };
 }
 

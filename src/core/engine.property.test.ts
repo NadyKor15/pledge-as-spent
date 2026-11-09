@@ -30,10 +30,11 @@ import {
   planPayout,
   renewalRequestedEvent,
 } from "./plan";
+import { rebindEvent } from "./rebind";
 import { arbRate, CURRENCIES, RUNS } from "./testing/arbitraries";
 import { makeDrive, makePledge } from "./testing/builders";
 import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
-import { addMs, CAPTURE_RETRY_BASE_MS, HOUR_MS } from "./time";
+import { addMs, CAPTURE_RETRY_BASE_MS, HOUR_MS, REBIND_BEFORE_EXPIRY_MS } from "./time";
 import type { CurrencyCode, FundableLineInput, Need, PaymentSource, Pledge } from "./types";
 import { closeReport, donorStatement } from "./views";
 
@@ -53,7 +54,8 @@ type Op =
   | { k: "revoke"; pick: number }
   | { k: "authorize"; pick: number; source: PaymentSource }
   | { k: "newPledge"; needIdx: number; curIdx: number; minor: number; match: boolean }
-  | { k: "payout"; pick: number; ok: boolean };
+  | { k: "payout"; pick: number; ok: boolean }
+  | { k: "rebind"; pick: number; needIdx: number; repeat: boolean };
 
 interface LineSpec {
   needIdx: number;
@@ -91,6 +93,7 @@ const arbOp: fc.Arbitrary<Op> = fc.oneof(
   },
   { weight: 3, arbitrary: fc.record({ k: fc.constant("payout" as const), pick: fc.nat(), ok: fc.boolean() }) },
   { weight: 1, arbitrary: fc.record({ k: fc.constant("outage" as const), pick: fc.nat() }) },
+  { weight: 2, arbitrary: fc.record({ k: fc.constant("rebind" as const), pick: fc.nat(), needIdx: fc.nat(), repeat: fc.boolean() }) },
 );
 
 const arbScenario = fc.record({
@@ -303,6 +306,8 @@ class Sim {
   now = T0;
   lines: { line: FundableLineInput; ev: LedgerEvent }[] = [];
   requestIds = new Set<string>();
+  /** Holds the donor moved: the need they left, and when. */
+  rebinds = new Map<string, { from: string; to: string; at: string }>();
   private n = 0;
 
   constructor(readonly sc: Scenario) {}
@@ -366,6 +371,13 @@ class Sim {
     expect(ev).not.toBeNull();
     expect(allocateLine(pre, line, this.now)).toEqual(ev); // deterministic
     checkLine(pre, line, ev, this.now);
+    if (ev.type === "LineFunded") {
+      for (const sh of ev.shares) {
+        const moved = this.rebinds.get(sh.pledgeId);
+        // after a rebind the old need gets not a cent from that hold
+        if (moved) must(line.needId !== moved.from && line.needId === moved.to, "a moved hold funds only its new need", { pledge: sh.pledgeId, moved, need: line.needId });
+      }
+    }
     this.apply(ev);
     this.lines.push({ line, ev });
   }
@@ -535,7 +547,52 @@ class Sim {
       }
       case "payout":
         return this.payout(op.pick, op.ok);
+      case "rebind":
+        return this.rebind(op.pick, op.needIdx, op.repeat);
     }
+  }
+
+  /** The donor moves the rest of a hold to another need; an independent reading of the rules decides if it may. */
+  rebind(pick: number, needIdx: number, repeat: boolean) {
+    const s = this.state;
+    // mostly donor holds; sometimes any hold (the match too); with `repeat`, a hold already moved once
+    const moved = [...this.rebinds.keys()];
+    const pool = repeat && moved.length > 0 ? moved : pick % 5 === 0 ? s.pledgeIds : s.pledgeIds.filter((x) => s.pledges[x].kind === "donor");
+    if (pool.length === 0) return;
+    const id = pool[pick % pool.length];
+    const p = s.pledges[id];
+    const h = s.holds[id];
+    const to = `n${needIdx % this.sc.needs.length}`;
+    const from = p.needId ?? "n0";
+    const now = Date.parse(this.now);
+    const may =
+      s.drive!.status === "open" &&
+      p.kind === "donor" &&
+      !h.rebound &&
+      p.needId !== to &&
+      isLiveStatus(p.status) &&
+      !h.revokedAt &&
+      !h.blockedAt &&
+      Boolean(p.expiresAt) &&
+      now < Date.parse(p.expiresAt!) - REBIND_BEFORE_EXPIRY_MS &&
+      availableMinor(p, h) > 0 &&
+      s.qtyCovered[to] < s.needs[to].qtyNeeded;
+    const input = { pledgeId: id, fromNeedId: from, toNeedId: to, at: this.now, consent: { by: p.donorName, via: "statement" } };
+    if (!may) {
+      expect(() => rebindEvent(s, input)).toThrow(/rebind_refused/);
+      return;
+    }
+    const ev = rebindEvent(s, input);
+    const before = s;
+    this.apply(ev);
+    const after = this.state.holds[id];
+    // nothing moves at PayPal: the same hold, the same buckets, nothing new to ask PayPal for
+    for (const k of ["authorized", "captured", "capturePending", "accrued", "released", "uncollected", "reversed"] as const) must(after[k] === h[k], "a rebind leaves the hold's money as it was", { id, k });
+    must(JSON.stringify(after.authorizationIds) === JSON.stringify(h.authorizationIds) && this.state.pledges[id].expiresAt === p.expiresAt, "same authorization, same expiry", { id });
+    expect(planHoldMaintenance(this.state, this.now)).toEqual(planHoldMaintenance(before, this.now));
+    expect(planCaptures(this.state, this.now, { force: true })).toEqual(planCaptures(before, this.now, { force: true }));
+    expect(applyEvent(this.state, ev)).toBe(this.state);
+    this.rebinds.set(id, { from, to, at: this.now });
   }
 
   /** SPEC §6 end to end: confirm what is in flight, capture, void, close. */
@@ -599,9 +656,11 @@ function runScenario(sc: Scenario): Sim {
 
 describe("engine properties (SPEC §3-§6)", () => {
   it("random drives keep every money invariant from first pledge to close", () => {
+    let movedRuns = 0;
     fc.assert(
       fc.property(arbScenario, (sc) => {
         const sim = runScenario(sc);
+        if (sim.rebinds.size > 0) movedRuns += 1;
         sim.close();
         const s = sim.state;
         expect(s.drive!.status).toBe("closed");
@@ -624,6 +683,8 @@ describe("engine properties (SPEC §3-§6)", () => {
       }),
       { numRuns: RUNS },
     );
+    // the rebind rule was really exercised, not refused in every run
+    expect(movedRuns).toBeGreaterThan(0);
   }, 600_000);
 
   it("the split does not depend on the order pledges were made in", () => {

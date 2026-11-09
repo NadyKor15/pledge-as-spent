@@ -14,6 +14,8 @@ export const HOLD_LIFE_DAYS = 29;
 export const REAUTH_FROM_DAY = 4;
 /** From this day a donor with money left gets a "renew for another month" link. */
 export const RENEWAL_FROM_DAY = 26;
+/** A donor cannot move a hold to another need this close to its expiry: it would fund nothing in time. */
+export const REBIND_BEFORE_EXPIRY_MS = 3 * DAY_MS;
 /** Accrued shares are captured once expiry is this close. */
 export const CAPTURE_BEFORE_EXPIRY_MS = 2 * DAY_MS;
 /** Wait after the n-th refused capture of a hold: 15 min, then doubling. */

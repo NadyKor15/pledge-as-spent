@@ -4,7 +4,7 @@ import { captureRequestId, lineKeyOf, payoutSenderBatchId, reauthRequestId, shar
 import { assertMinor, currencyExponent, toBase, validateFx } from "./money";
 import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
 import { largestRemainder } from "./split";
-import { addMs, DAY_MS, HOLD_LIFE_DAYS, HONOR_DAYS, parseTime } from "./time";
+import { addMs, DAY_MS, HOLD_LIFE_DAYS, HONOR_DAYS, parseTime, REBIND_BEFORE_EXPIRY_MS } from "./time";
 import type { Drive, HoldStatus, Need, Pledge } from "./types";
 
 // The book of one drive: state + event -> state. Deterministic, never mutates
@@ -63,6 +63,16 @@ export interface HoldBook {
   blockedAt?: string;
   blockedReason?: string;
   endedAt?: string;
+  /** The donor moved the rest of this hold to another need (once). */
+  rebound?: HoldRebind;
+}
+
+export interface HoldRebind {
+  at: string;
+  fromNeedId: string;
+  toNeedId: string;
+  by: string;
+  via: string;
 }
 
 export interface LineRecord {
@@ -194,6 +204,60 @@ export function matchRatio(s: LedgerState): { num: number; den: number } | null 
   return null;
 }
 
+// ---- rebind -----------------------------------------------------------------
+
+export type RebindRefusalCode =
+  | "drive_not_open"
+  | "unknown_pledge"
+  | "not_donor"
+  | "already_rebound"
+  | "stale_need"
+  | "unknown_need"
+  | "same_need"
+  | "hold_not_live"
+  | "revoked"
+  | "blocked"
+  | "expired"
+  | "too_close_to_expiry"
+  | "nothing_left"
+  | "need_covered";
+
+export interface RebindRefusal {
+  code: RebindRefusalCode;
+  reasonEn: string;
+}
+
+/**
+ * Why the rest of hold `pledgeId` may not move to need `toNeedId` at `at`, or
+ * null when it may. The reducer and the statement's offer both ask this one
+ * function, so the button never offers what the book would refuse.
+ * `fromNeedId`: the need the donor saw the hold on (a stale screen is refused).
+ */
+export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string, at: string, fromNeedId?: string): RebindRefusal | null {
+  const no = (code: RebindRefusalCode, reasonEn: string): RebindRefusal => ({ code, reasonEn });
+  const drive = requireDrive(s);
+  if (drive.status !== "open") return no("drive_not_open", `The drive is ${drive.status}; a pledge can no longer move to another need.`);
+  const pledge = lookup(s.pledges, pledgeId);
+  const hold = lookup(s.holds, pledgeId);
+  if (!pledge || !hold) return no("unknown_pledge", `There is no pledge ${pledgeId} in this drive.`);
+  if (pledge.kind !== "donor") return no("not_donor", "The company match backs the whole drive; it follows the donors and does not move.");
+  if (hold.rebound) return no("already_rebound", `This pledge already moved once, to ${hold.rebound.toNeedId}.`);
+  if (fromNeedId !== undefined && pledge.needId !== fromNeedId) return no("stale_need", `This pledge backs ${pledge.needId}, not ${fromNeedId}.`);
+  const target = lookup(s.needs, toNeedId);
+  if (!target) return no("unknown_need", `This drive has no need ${toNeedId}.`);
+  if (pledge.needId === toNeedId) return no("same_need", `This pledge already backs ${target.label}.`);
+  if (!isLiveStatus(pledge.status)) return no("hold_not_live", `The hold is ${pledge.status}; nothing is held for a new need.`);
+  if (hold.revokedAt) return no("revoked", "The pledge was withdrawn.");
+  if (hold.blockedAt) return no("blocked", "PayPal refused a charge on this hold for good.");
+  if (!pledge.expiresAt || parseTime(at) >= parseTime(pledge.expiresAt)) return no("expired", "The hold has expired.");
+  if (parseTime(at) >= parseTime(pledge.expiresAt) - REBIND_BEFORE_EXPIRY_MS) {
+    return no("too_close_to_expiry", "The hold expires within 3 days; there is no time left to fund another need from it.");
+  }
+  if (availableMinor(pledge, hold) <= 0) return no("nothing_left", "Nothing is left on this hold.");
+  if (s.qtyCovered[target.id] >= target.qtyNeeded) return no("need_covered", `${target.label} is already covered.`);
+  return null;
+}
+
 // ---- reducer ----------------------------------------------------------------
 
 export function replay(events: readonly E.LedgerEvent[], from: LedgerState = emptyLedger()): LedgerState {
@@ -232,6 +296,8 @@ function reduce(s: LedgerState, e: E.LedgerEvent): LedgerState {
       return onPledgeDenied(s, e);
     case "PledgeRevoked":
       return onPledgeRevoked(s, e);
+    case "PledgeRebound":
+      return onPledgeRebound(s, e);
     case "LineFunded":
       return onLineFunded(s, e);
     case "LineRejected":
@@ -397,6 +463,19 @@ function onPledgeRevoked(s: LedgerState, e: E.PledgeRevoked): LedgerState {
     fail(e, `pledge ${pledge.id} is ${pledge.status}`);
   }
   return putHold(s, { ...hold, revokedAt: e.at });
+}
+
+function onPledgeRebound(s: LedgerState, e: E.PledgeRebound): LedgerState {
+  if (!nonEmpty(e.pledgeId) || !nonEmpty(e.fromNeedId) || !nonEmpty(e.toNeedId)) fail(e, "pledgeId, fromNeedId and toNeedId are required");
+  if (!e.consent || !nonEmpty(e.consent.by) || !nonEmpty(e.consent.via)) fail(e, "the donor's consent (by, via) is required");
+  const hold = lookup(s.holds, e.pledgeId);
+  const done = hold?.rebound;
+  if (done && done.fromNeedId === e.fromNeedId && done.toNeedId === e.toNeedId) return s; // the same press again
+  const refusal = rebindRefusal(s, e.pledgeId, e.toNeedId, e.at, e.fromNeedId);
+  if (refusal) fail(e, `${refusal.code}: ${refusal.reasonEn}`);
+  const { pledge } = requirePledge(s, e.pledgeId);
+  const rebound: HoldRebind = { at: e.at, fromNeedId: e.fromNeedId, toNeedId: e.toNeedId, by: e.consent.by, via: e.consent.via };
+  return putHold(putPledge(s, { ...pledge, needId: e.toNeedId }), { ...hold!, rebound });
 }
 
 function onLineFunded(s: LedgerState, e: E.LineFunded): LedgerState {

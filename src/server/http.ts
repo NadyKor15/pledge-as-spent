@@ -70,8 +70,13 @@ export function bearerMatches(req: Request, secret: string | undefined): boolean
   return got.length === want.length && timingSafeEqual(got, want);
 }
 
-/** The cached sample receipt (its reading ships with the app: no model call). Static path, so file tracing ships it. */
+/**
+ * The sample receipts (their readings ship with the app: no model call). Static paths, so file tracing ships them.
+ * hero: the Kitasora drive's receipt. florida: the Florida drive's receipt (until the closed copy of a real
+ * receipt is in, a copy of the synthetic English receipt v1-en-06 with its recorded reading).
+ */
 export async function sampleBytes(name: string): Promise<Uint8Array> {
-  if (name !== "hero") throw new ServiceError(400, "unknown_sample", `No sample receipt "${name}"; the sample is "hero".`);
-  return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "hero", "hero-ja-01.png")));
+  if (name === "hero") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "hero", "hero-ja-01.png")));
+  if (name === "florida") return new Uint8Array(await readFile(path.join(process.cwd(), "eval", "receipts", "florida", "florida-sample.png")));
+  throw new ServiceError(400, "unknown_sample", `No sample receipt "${name}"; the samples are "hero" and "florida".`);
 }
