@@ -1,0 +1,272 @@
+{
+ "id": "cheat-total-ja",
+ "set": "adversarial",
+ "locale": "ja",
+ "seed": 9101,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "cheat-total-ja.png",
+  "sha256": "8e110a6649be5f9653ccfa9d5f8bf2b3d48e0a1bf7838281d558b483a24c6fa4",
+  "mediaType": "image/png",
+  "width": 607,
+  "height": 814
+ },
+ "receipt": {
+  "merchantName": "スマイルマート 北空駅前店",
+  "merchantAddress": "空川県北空市駅前通1-4",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T10:14:00",
+  "receiptNumber": "7099",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "雪解けの水 2L",
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 6,
+    "unitPriceMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ベビーラブ パンツM 38枚",
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitPriceMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "単3電池 10本入",
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 11204,
+  "taxMinor": 188,
+  "taxIncluded": true,
+  "totalMinor": 11204,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "batteries",
+   "needQty": 10,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, pack of 10 counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "cheat-total-ja",
+  "set": "adversarial",
+  "locale": "ja",
+  "seed": 9101,
+  "store": {
+   "name": "スマイルマート",
+   "branch": "北空駅前店",
+   "address": [
+    "空川県北空市駅前通1-4"
+   ],
+   "city": "北空",
+   "phone": "0123-22-0042",
+   "taxId": "T0000100000551"
+  },
+  "purchasedAt": "2026-11-06T10:14:00",
+  "receiptNumber": "7099",
+  "register": "02",
+  "lines": [
+   {
+    "name": [
+     "雪解けの水 2L"
+    ],
+    "translationEn": "Snowmelt water 2 L",
+    "qty": 6,
+    "unitMinor": 118,
+    "amountMinor": 708,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Snowmelt water 2 L counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ベビーラブ パンツM 38枚"
+    ],
+    "translationEn": "Baby Love pants M, 38 count",
+    "qty": 1,
+    "unitMinor": 1098,
+    "amountMinor": 1098,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby Love pants M, 38 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単3電池 10本入"
+    ],
+    "translationEn": "AA batteries, pack of 10",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 10,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, pack of 10 counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 708,
+    "taxMinor": 52
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1496,
+    "taxMinor": 136
+   }
+  ],
+  "taxMinor": 188,
+  "subtotalMinor": 11204,
+  "totalMinor": 11204,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 12000,
+   "changeMinor": 796,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -1.423,
+   "rotX": -4.299,
+   "rotY": -4.892,
+   "perspective": 1456,
+   "blurPx": 0.355,
+   "noise": 0.041,
+   "lightAngle": 282,
+   "lightStrength": 0.255,
+   "glare": {
+    "x": 0.33,
+    "y": 0.289,
+    "strength": 0.118
+   },
+   "creases": [
+    {
+     "x": 0.782,
+     "y": 0.525,
+     "angle": -43,
+     "width": 35,
+     "length": 401,
+     "strength": 0.066
+    },
+    {
+     "x": 0.551,
+     "y": 0.377,
+     "angle": -38,
+     "width": 67,
+     "length": 408,
+     "strength": 0.059
+    },
+    {
+     "x": 0.163,
+     "y": 0.286,
+     "angle": 37,
+     "width": 26,
+     "length": 584,
+     "strength": 0.057
+    },
+    {
+     "x": 0.412,
+     "y": 0.252,
+     "angle": -60,
+     "width": 33,
+     "length": 332,
+     "strength": 0.102
+    },
+    {
+     "x": 0.132,
+     "y": 0.492,
+     "angle": -15,
+     "width": 39,
+     "length": 396,
+     "strength": 0.089
+    },
+    {
+     "x": 0.895,
+     "y": 0.9,
+     "angle": -45,
+     "width": 34,
+     "length": 424,
+     "strength": 0.061
+    },
+    {
+     "x": 0.71,
+     "y": 0.211,
+     "angle": -54,
+     "width": 50,
+     "length": 468,
+     "strength": 0.061
+    }
+   ],
+   "desk": "wood",
+   "seed": 9108
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}
