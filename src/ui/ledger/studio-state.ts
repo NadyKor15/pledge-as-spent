@@ -147,7 +147,7 @@ export interface Metrics {
  * The receipt's height in tracks. Never from the drive's data: the report's layout key holds every height, and a
  * height that followed the number of lines would rebuild Studio (and start the count over) on every read.
  */
-export const RECEIPT_ROWS = { beside: 78, over: 44, phone: 54 } as const;
+export const RECEIPT_ROWS = { beside: 62, over: 44, phone: 54 } as const;
 
 /** The journal's height in tracks, as fixed as the receipt's: it scrolls inside, however many calls the drive made. */
 export const JOURNAL_ROWS = { desktop: 36, phone: 36 } as const;

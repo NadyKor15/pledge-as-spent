@@ -348,6 +348,8 @@ const cutShort = (page: Page) =>
       for (const leaf of leaves.length ? leaves : [cell]) {
         const own = getComputedStyle(leaf);
         if (leaf !== cell && own.whiteSpace !== "nowrap") continue;
+        // A cell that wraps its text (the payer beside the receipt) is cut only if the lines do not fit its height.
+        if (leaf === cell && own.whiteSpace !== "nowrap" && cell.scrollHeight <= cell.clientHeight + 1) continue;
         probe.style.font = own.font;
         probe.style.letterSpacing = own.letterSpacing;
         probe.textContent = leaf.textContent;

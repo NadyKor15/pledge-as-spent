@@ -3,7 +3,7 @@
 import type { AgWidgetParams } from "ag-studio";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import "../panels.css";
-import { lineSentence, markStyle, photoStyle, receiptPanel, type ReceiptMark } from "../receipt-panel";
+import { lineSentence, linesRegion, markStyle, photoStyle, receiptPanel, type ReceiptMark } from "../receipt-panel";
 import { linesOf, same, type Pick } from "../store";
 import { usePhotoSize } from "../Strip";
 import { PANEL_WORDS } from "../words-panels";
@@ -70,7 +70,9 @@ export function ReceiptWidget(params: AgWidgetParams) {
   };
   const isOn = (lineKey: string) => same(snap.selected, { kind: "line", lineKey });
 
-  const region = panel && size && !tall ? panel.region : { x: 0, y: 0, w: 1, h: 1 };
+  // The published copy shows only its purchase lines; the rest is blurred. A tall column shows the lines with some of
+  // the receipt around them, a wide or short box only the lines: either way the lines are as large as they can be.
+  const region = !panel ? { x: 0, y: 0, w: 1, h: 1 } : tall ? linesRegion(panel.placed.map((x) => x.box!), 0.1, 0.1) : panel.region;
   const aspect = size ? (region.w * size.width) / (region.h * size.height) : null;
 
   return (

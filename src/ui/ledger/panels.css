@@ -5,7 +5,7 @@
 .lg-frame[data-book="closed"] .ag-studio-layout-widget:has(.lg-rc) { visibility: hidden; }
 
 .lg-rc { display: flex; flex-direction: column; gap: 8px; padding: calc(16px * var(--s)) calc(16px * var(--s)) calc(12px * var(--s)); inset: 4px calc(8px * var(--s)) 4px calc(24px * var(--s)); }
-.lg-rc-head { flex: none; font-size: calc(17px * var(--s)); font-weight: 700; letter-spacing: -.01em; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lg-rc-head { flex: none; font-size: calc(17px * var(--s)); font-weight: 700; letter-spacing: -.01em; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .lg-rc-none { margin: auto; color: var(--muted); font-size: 14px; text-align: center; }
 /* The photo is as large as fits the stage, never stretched: its width follows the stage's height and its own shape. */
 .lg-rc-stage { flex: 1 1 0; min-height: 0; container-type: size; display: grid; place-items: center; }
@@ -62,7 +62,7 @@
 .lg-jr-empty { margin: auto; color: var(--muted); }
 .lg-jr-groups { flex: 1; min-height: 0; margin-top: calc(14px * var(--s)); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(14px * var(--s)); list-style: none; }
 .lg-jr-group { display: flex; flex-direction: column; min-height: 0; }
-.lg-jr-group h3 { position: relative; flex: none; padding-top: 22px; margin-bottom: 8px; font-size: calc(18px * var(--s)); font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lg-jr-group h3 { position: relative; flex: none; padding: 22px 0 3px; margin-bottom: 6px; font-size: calc(18px * var(--s)); line-height: 1.3; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* The timeline over the groups: a dot per group on one thin line. */
 .lg-jr-group h3::before { content: ""; position: absolute; left: 6px; right: -14px; top: 6px; height: 1.5px; background: var(--line); }
 .lg-jr-group h3 i { position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 999px; background: var(--teal); }

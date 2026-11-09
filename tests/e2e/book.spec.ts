@@ -417,9 +417,12 @@ for (const { width, height, mark } of [
       else expect(w.y + w.height).toBeLessThanOrEqual(grid.y);
       // The narrower book still fits its columns (it overflowed by 24 px before they gave up their slack); the grid's
       // own border is the 4 px the band's width check allows too.
-      await expect
-        .poll(() => page.locator(".ag-center-cols-viewport").evaluate((e) => e.scrollWidth - e.clientWidth))
-        .toBeLessThan(4);
+      const overflow = () =>
+        page.evaluate(() => {
+          const cols = [...document.querySelectorAll(".ag-header-cell")].reduce((sum, e) => sum + e.getBoundingClientRect().width, 0);
+          return cols - document.querySelector(".ag-root-wrapper")!.clientWidth;
+        });
+      await expect.poll(overflow).toBeLessThan(4);
       await line4.click();
       await expect(line4).toHaveAttribute("aria-pressed", "true");
       await expect(rows(page)).toHaveCount(2);
