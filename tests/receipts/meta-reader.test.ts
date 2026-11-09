@@ -378,3 +378,22 @@ describe("reading fixes from the first held-out run", () => {
     expect(r.second!.receipt!.lines).toHaveLength(3);
   });
 });
+
+describe("code and model disagree on a quantity the name does not explain", () => {
+  it("asks a person instead of letting both readings agree on code's number (an unknown pack word)", () => {
+    const r = readings();
+    // "単3 アルカリ 6ADET": code sees no pack size and keeps the printed 1; the model counts 6 for both readings.
+    const text = "単3 アルカリ 6ADET";
+    r.a.lines[2] = { ...r.a.lines[2], rawText: text, qty: 1, unitPriceMinor: 138 };
+    r.second.receipt!.lines[2] = { ...r.second.receipt!.lines[2], rawText: text, qty: 1, unitPriceMinor: 138 };
+    const model = [agreeing.first[0], agreeing.first[1], cls(3, { needId: "batteries", needQty: 6 })];
+    const out = compareReadings({ receipt: r.a, second: r.second, needs, raw: { first: model, second: model } });
+    expect(out.lines[2]).toMatchObject({ verdict: "review" });
+    expect(out.lines[2].reasonEn).toMatch(/code reads 1.*model counts 6/);
+    // With a pack size code knows, the two agree on code's number and the line passes.
+    const known = "単3 アルカリ 6本入";
+    r.a.lines[2] = { ...r.a.lines[2], rawText: known };
+    r.second.receipt!.lines[2] = { ...r.second.receipt!.lines[2], rawText: known };
+    expect(compareReadings({ receipt: r.a, second: r.second, needs, raw: { first: model, second: model } }).lines[2]).toMatchObject({ verdict: "eligible", needQty: 6 });
+  });
+});

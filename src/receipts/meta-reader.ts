@@ -8,7 +8,7 @@ import { z } from "zod";
 import type { CurrencyCode, Need } from "../core/types";
 import { classificationsFromWire, CLASSIFIER_SYSTEM, kv, minorUnits, ModelOutputError, READER_SYSTEM, receiptFromText } from "./bedrock";
 import { imagePart, metaRespond, type MetaOptions } from "./meta";
-import { deriveNeedQty, forbiddenCategory, refineClassifications } from "./quantity";
+import { deriveNeedQty, forbiddenCategory, packCount, refineClassifications } from "./quantity";
 import { cutRows, sliceReceipt, type Slicing } from "./slice";
 import { sumUsage, validateReceipt } from "./structure";
 import {
@@ -428,6 +428,21 @@ export function compareReadings(input: {
         }
       } else if (near && ids.length) asks.push({ lineNo: l.lineNo, bandIndexes: ids, kind: "missing" });
       out.set(l.lineNo, hold(c, l.lineNo, `The second reading found no line at this amount (${l.amountMinor}), so a person should confirm it.`));
+      continue;
+    }
+    // Code derives the quantity from the printed row and the pack size in the name; when it finds no pack size and
+    // the model counted otherwise, code may simply not know the pack word ("6 ADET"): both readings would then agree
+    // on the same wrong number. That is not two sources agreeing, so a person is asked.
+    const lb0 = bNo === undefined ? undefined : b.lines.find((y) => y.lineNo === bNo);
+    const unsure = (line: Line | undefined, refined: LineClassification | undefined, rawOf: LineClassification[]) => {
+      if (!line || refined?.verdict !== "eligible") return false;
+      const model = rawOf.find((x) => x.lineNo === line.lineNo);
+      const need = needOf(refined.needId);
+      return !!need && !/\bpack\b/i.test(need.unit) && packCount(line.rawText) === null && model?.needQty != null && model.needQty !== refined.needQty;
+    };
+    if (unsure(l, c, input.raw.first) || unsure(lb0, d, input.raw.second)) {
+      const model = input.raw.first.find((x) => x.lineNo === l.lineNo)?.needQty;
+      out.set(l.lineNo, hold(c, l.lineNo, `The quantity is not clear from the printed text: code reads ${c.needQty ?? "?"} from the row, the model counts ${model ?? "?"}, so a person should confirm it.`));
       continue;
     }
     if (c.verdict === "eligible" && d?.verdict === "eligible" && c.needId === d.needId && c.needQty === d.needQty) {
