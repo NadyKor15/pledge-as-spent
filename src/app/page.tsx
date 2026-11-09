@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { DemoStart } from "@/ui/DemoStart";
+import { FLORIDA_SCENARIO, floridaDemoOn } from "@/ui/demo-flags";
 import { readmeJudgeUrl, showcaseLinks } from "@/ui/showcase";
 import "@/ui/landing.css";
 
 // Links appear only when the deployment sets them: no empty placeholders.
 const CODE_URL = process.env.NEXT_PUBLIC_CODE_URL?.trim();
 const VIDEO_URL = process.env.NEXT_PUBLIC_VIDEO_URL?.trim();
+// The second demo drive waits for its scenario on the server: off unless NEXT_PUBLIC_FLORIDA_DEMO=on.
+const FLORIDA = floridaDemoOn(process.env.NEXT_PUBLIC_FLORIDA_DEMO);
 
 export default function Home() {
   const finished = showcaseLinks();
@@ -22,13 +25,16 @@ export default function Home() {
           <h2 id="ld-judge-title">Judging Pledge-as-Spent? See the whole thing in 90 seconds.</h2>
           <ol>
             <li>
-              <Link href={finished.ledger}>See a finished drive</Link>: the Ledger, where every pledge was spent on receipt lines or went back.
+              <Link href={finished.ledger}>See a finished drive</Link>: the Ledger, where every pledge was spent on receipt lines or went back. Its “Ask PayPal yourself” reads every hold, capture and payout back from PayPal.
             </li>
             <li>
               <Link href={finished.statement}>Read a donor’s statement</Link>: what one donor’s hold bought, line by line.
             </li>
             <li>
               {readme ? <a href={readme}>Judge it in 90 seconds</a> : <b>Judge it in 90 seconds</b>} in the README: the PayPal ids behind each claim.
+            </li>
+            <li>
+              <Link href="/cheat">Try to cheat the receipt</Link>: five forged receipts against the same checks, and what their forged lines would cost donors.
             </li>
           </ol>
           {(VIDEO_URL || CODE_URL) && (
@@ -40,8 +46,12 @@ export default function Home() {
           <p className="ld-badge">Fictional drive · PayPal Sandbox · no real money moves</p>
         </section>
 
-        <DemoStart />
+        <div className="ld-opens">
+          <DemoStart />
+          {FLORIDA && <DemoStart scenario={FLORIDA_SCENARIO} label="Open the Florida drive" busyLabel="Placing holds at PayPal for the Florida drive…" secondary />}
+        </div>
         <p className="ld-hint">Places 4 new sandbox holds: three donors and the company match.</p>
+        {FLORIDA && <p className="ld-hint">The Florida drive: hurricane relief in US dollars, through the same checks.</p>}
         <ol className="ld-steps">
           <li>
             <b>Send a receipt.</b> Press “Use the sample receipt”. AI reads every line, approves what the shelter needs and refuses the rest.

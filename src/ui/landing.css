@@ -26,3 +26,6 @@
 @media (max-width: 480px) {
   .ld-page h1 { font-size: 24px; line-height: 31px; }
 }
+/* The demo drives side by side: Kitasora first, the Florida drive beside it when the deployment offers it. */
+.ld-opens { display: flex; flex-wrap: wrap; align-items: flex-start; column-gap: 12px; }
+.ld-open-2 { background: var(--surface); color: var(--primary); border: 1.5px solid var(--primary); }
