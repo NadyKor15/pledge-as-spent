@@ -1,0 +1,440 @@
+{
+ "id": "holdout2-ja-04",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10051,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-04.png",
+  "sha256": "6cb6503abb6bc41c6770fc53e01d2e15c5328e4fcadb1935a478354357daba1c",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 1028
+ },
+ "receipt": {
+  "merchantName": "くらしの店 マルミ 北空本町店",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T13:31:00",
+  "receiptNumber": "4054",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 3,
+    "unitPriceMinor": 118,
+    "amountMinor": 354,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "QUOカード 3,000円",
+    "translationEn": "QUO card 3,000 yen",
+    "qty": 1,
+    "unitPriceMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ウェットティッシュ 80枚",
+    "translationEn": "Wet wipes, 80 sheets",
+    "qty": 2,
+    "unitPriceMinor": 298,
+    "amountMinor": 596,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfibre blanket, single",
+    "qty": 2,
+    "unitPriceMinor": 1980,
+    "amountMinor": 3960,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "アルカリ電池 単3形 4本入",
+    "translationEn": "Alkaline AA batteries, 4 pack",
+    "qty": 3,
+    "unitPriceMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 10484,
+  "taxMinor": 741,
+  "taxIncluded": false,
+  "totalMinor": 11225,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9899",
+    "bbox": {
+     "x": 0.5932,
+     "y": 0.681,
+     "w": 0.2285,
+     "h": 0.0235
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ",
+    "bbox": {
+     "x": 0.2041,
+     "y": 0.7841,
+     "w": 0.0758,
+     "h": 0.0193
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "4807 3651 9960",
+    "bbox": {
+     "x": 0.6278,
+     "y": 0.7903,
+     "w": 0.1989,
+     "h": 0.0229
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wet wipes, 80 sheets is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Microfibre blanket, single counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, 4 pack counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-04",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10051,
+  "store": {
+   "name": "くらしの店 マルミ",
+   "branch": "北空本町店",
+   "address": [
+    "空川県北空市本町1-9-3"
+   ],
+   "city": "北空",
+   "phone": "0123-70-3355",
+   "taxId": "T0000100000926"
+  },
+  "purchasedAt": "2026-11-05T13:31:00",
+  "receiptNumber": "4054",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "森の天然水 2Lペット"
+    ],
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 3,
+    "unitMinor": 118,
+    "amountMinor": 354,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "パンツ L 44枚"
+    ],
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "QUOカード 3,000円"
+    ],
+    "translationEn": "QUO card 3,000 yen",
+    "qty": 1,
+    "unitMinor": 3000,
+    "amountMinor": 3000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ウェットティッシュ 80枚"
+    ],
+    "translationEn": "Wet wipes, 80 sheets",
+    "qty": 2,
+    "unitMinor": 298,
+    "amountMinor": 596,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Wet wipes, 80 sheets is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "マイクロ毛布 シングル"
+    ],
+    "translationEn": "Microfibre blanket, single",
+    "qty": 2,
+    "unitMinor": 1980,
+    "amountMinor": 3960,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Microfibre blanket, single counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "アルカリ電池 単3形 4本入"
+    ],
+    "translationEn": "Alkaline AA batteries, 4 pack",
+    "qty": 3,
+    "unitMinor": 398,
+    "amountMinor": 1194,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, 4 pack counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 354,
+    "taxMinor": 28
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 7130,
+    "taxMinor": 713
+   }
+  ],
+  "taxMinor": 741,
+  "subtotalMinor": 10484,
+  "totalMinor": 11225,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "9899"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************9899"
+   },
+   {
+    "kind": "name",
+    "text": "ﾐｼﾏ ﾚﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "4807 3651 9960"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.086,
+   "rotX": -3.124,
+   "rotY": 2.692,
+   "perspective": 1237,
+   "blurPx": 0.561,
+   "noise": 0.059,
+   "lightAngle": 217,
+   "lightStrength": 0.205,
+   "glare": {
+    "x": 0.852,
+    "y": 0.109,
+    "strength": 0.132
+   },
+   "creases": [
+    {
+     "x": 0.222,
+     "y": 0.197,
+     "angle": 34,
+     "width": 31,
+     "length": 303,
+     "strength": 0.056
+    },
+    {
+     "x": 0.128,
+     "y": 0.669,
+     "angle": -37,
+     "width": 58,
+     "length": 278,
+     "strength": 0.087
+    },
+    {
+     "x": 0.212,
+     "y": 0.855,
+     "angle": -34,
+     "width": 41,
+     "length": 456,
+     "strength": 0.12
+    },
+    {
+     "x": 0.626,
+     "y": 0.59,
+     "angle": -69,
+     "width": 59,
+     "length": 464,
+     "strength": 0.079
+    },
+    {
+     "x": 0.414,
+     "y": 0.138,
+     "angle": -28,
+     "width": 68,
+     "length": 444,
+     "strength": 0.074
+    },
+    {
+     "x": 0.811,
+     "y": 0.939,
+     "angle": 58,
+     "width": 44,
+     "length": 303,
+     "strength": 0.067
+    },
+    {
+     "x": 0.845,
+     "y": 0.502,
+     "angle": -30,
+     "width": 54,
+     "length": 220,
+     "strength": 0.063
+    },
+    {
+     "x": 0.169,
+     "y": 0.089,
+     "angle": 29,
+     "width": 64,
+     "length": 600,
+     "strength": 0.098
+    },
+    {
+     "x": 0.519,
+     "y": 0.351,
+     "angle": 31,
+     "width": 50,
+     "length": 593,
+     "strength": 0.105
+    }
+   ],
+   "desk": "cloth",
+   "seed": 10058
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

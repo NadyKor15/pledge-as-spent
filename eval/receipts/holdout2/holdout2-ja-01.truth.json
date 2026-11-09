@@ -1,0 +1,355 @@
+{
+ "id": "holdout2-ja-01",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10000,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-01.png",
+  "sha256": "51affc969fb39ed5737599614eee04160b0c1f895dbfde87c73e7414cf9fffe7",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 977
+ },
+ "receipt": {
+  "merchantName": "ファミリーストア あおば 北空西店",
+  "merchantAddress": "空川県北空市西町4-11",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-05T13:21:00",
+  "receiptNumber": "7513",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "すくすくパンツ Mサイズ 52枚",
+    "translationEn": "Sukusuku pants diapers M, 52 count",
+    "qty": 2,
+    "unitPriceMinor": 1380,
+    "amountMinor": 2760,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "アルプス水 2L ケース6本",
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ウェットティッシュ 80枚",
+    "translationEn": "Wet wipes, 80 sheets",
+    "qty": 1,
+    "unitPriceMinor": 298,
+    "amountMinor": 298,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 6034,
+  "taxMinor": 521,
+  "taxIncluded": true,
+  "totalMinor": 6034,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ",
+    "bbox": {
+     "x": 0.1674,
+     "y": 0.7625,
+     "w": 0.0874,
+     "h": 0.0213
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8558 0598 5938",
+    "bbox": {
+     "x": 0.5936,
+     "y": 0.801,
+     "w": 0.2086,
+     "h": 0.0257
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sukusuku pants diapers M, 52 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wet wipes, 80 sheets is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-01",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10000,
+  "store": {
+   "name": "ファミリーストア あおば",
+   "branch": "北空西店",
+   "address": [
+    "空川県北空市西町4-11"
+   ],
+   "city": "北空",
+   "phone": "0123-61-2040",
+   "taxId": "T0000100000918"
+  },
+  "purchasedAt": "2026-11-05T13:21:00",
+  "receiptNumber": "7513",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "すくすくパンツ Mサイズ 52枚"
+    ],
+    "translationEn": "Sukusuku pants diapers M, 52 count",
+    "qty": 2,
+    "unitMinor": 1380,
+    "amountMinor": 2760,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sukusuku pants diapers M, 52 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "パンツ L 44枚"
+    ],
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "アルプス水 2L",
+     "ケース6本"
+    ],
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 2,
+    "unitMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ウェットティッシュ 80枚"
+    ],
+    "translationEn": "Wet wipes, 80 sheets",
+    "qty": 1,
+    "unitMinor": 298,
+    "amountMinor": 298,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Wet wipes, 80 sheets is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1596,
+    "taxMinor": 118
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 4438,
+    "taxMinor": 403
+   }
+  ],
+  "taxMinor": 521,
+  "subtotalMinor": 6034,
+  "totalMinor": 6034,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 7000,
+   "changeMinor": 966,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "8558 0598 5938"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.263,
+   "rotX": 2.891,
+   "rotY": -3.36,
+   "perspective": 1274,
+   "blurPx": 0.8,
+   "noise": 0.061,
+   "lightAngle": 109,
+   "lightStrength": 0.327,
+   "glare": {
+    "x": 0.466,
+    "y": 0.372,
+    "strength": 0.11
+   },
+   "creases": [
+    {
+     "x": 0.266,
+     "y": 0.19,
+     "angle": 5,
+     "width": 27,
+     "length": 436,
+     "strength": 0.052
+    },
+    {
+     "x": 0.689,
+     "y": 0.492,
+     "angle": -38,
+     "width": 68,
+     "length": 490,
+     "strength": 0.058
+    },
+    {
+     "x": 0.693,
+     "y": 0.707,
+     "angle": 18,
+     "width": 57,
+     "length": 578,
+     "strength": 0.053
+    },
+    {
+     "x": 0.67,
+     "y": 0.217,
+     "angle": 56,
+     "width": 67,
+     "length": 516,
+     "strength": 0.103
+    },
+    {
+     "x": 0.327,
+     "y": 0.349,
+     "angle": 32,
+     "width": 31,
+     "length": 451,
+     "strength": 0.061
+    },
+    {
+     "x": 0.89,
+     "y": 0.838,
+     "angle": 59,
+     "width": 56,
+     "length": 354,
+     "strength": 0.109
+    },
+    {
+     "x": 0.106,
+     "y": 0.052,
+     "angle": 61,
+     "width": 40,
+     "length": 413,
+     "strength": 0.061
+    },
+    {
+     "x": 0.125,
+     "y": 0.883,
+     "angle": -68,
+     "width": 28,
+     "length": 231,
+     "strength": 0.062
+    },
+    {
+     "x": 0.387,
+     "y": 0.613,
+     "angle": 57,
+     "width": 34,
+     "length": 290,
+     "strength": 0.054
+    }
+   ],
+   "desk": "wood",
+   "seed": 10007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

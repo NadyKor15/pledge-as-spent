@@ -1,0 +1,396 @@
+{
+ "id": "holdout2-ja-02",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10017,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-02.png",
+  "sha256": "164c68a6803a4b7ab3bebf8f58d2349834be5bcb6a59c0c97ac9d32cc94118bf",
+  "mediaType": "image/png",
+  "width": 617,
+  "height": 871
+ },
+ "receipt": {
+  "merchantName": "くらしの店 マルミ 北空本町店",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T12:24:00",
+  "receiptNumber": "5736",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 4,
+    "unitPriceMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "カップ麺 しょうゆ",
+    "translationEn": "Cup noodles, soy",
+    "qty": 1,
+    "unitPriceMinor": 168,
+    "amountMinor": 168,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "純米酒 720ml",
+    "translationEn": "Junmai sake 720 ml",
+    "qty": 1,
+    "unitPriceMinor": 1280,
+    "amountMinor": 1280,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Boiled mackerel, can",
+    "qty": 2,
+    "unitPriceMinor": 198,
+    "amountMinor": 396,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "値引",
+    "translationEn": "Discount on Boiled mackerel, can",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 6,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 3656,
+  "taxMinor": 345,
+  "taxIncluded": false,
+  "totalMinor": 4001,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2651",
+    "bbox": {
+     "x": 0.5688,
+     "y": 0.7413,
+     "w": 0.2319,
+     "h": 0.0251
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cup noodles, soy is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "canned",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "canned",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-02",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10017,
+  "store": {
+   "name": "くらしの店 マルミ",
+   "branch": "北空本町店",
+   "address": [
+    "空川県北空市本町1-9-3"
+   ],
+   "city": "北空",
+   "phone": "0123-70-3355",
+   "taxId": "T0000100000926"
+  },
+  "purchasedAt": "2026-11-03T12:24:00",
+  "receiptNumber": "5736",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "森の天然水 2Lペット"
+    ],
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 4,
+    "unitMinor": 118,
+    "amountMinor": 472,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "カップ麺 しょうゆ"
+    ],
+    "translationEn": "Cup noodles, soy",
+    "qty": 1,
+    "unitMinor": 168,
+    "amountMinor": 168,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Cup noodles, soy is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "純米酒 720ml"
+    ],
+    "translationEn": "Junmai sake 720 ml",
+    "qty": 1,
+    "unitMinor": 1280,
+    "amountMinor": 1280,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば水煮 缶詰"
+    ],
+    "translationEn": "Boiled mackerel, can",
+    "qty": 2,
+    "unitMinor": 198,
+    "amountMinor": 396,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Boiled mackerel, can",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -40,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "パンツ L 44枚"
+    ],
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 996,
+    "taxMinor": 79
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 2660,
+    "taxMinor": 266
+   }
+  ],
+  "taxMinor": 345,
+  "subtotalMinor": 3656,
+  "totalMinor": 4001,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "2651"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************2651"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.159,
+   "rotX": -3.124,
+   "rotY": 2.342,
+   "perspective": 1602,
+   "blurPx": 0.361,
+   "noise": 0.059,
+   "lightAngle": 272,
+   "lightStrength": 0.162,
+   "glare": {
+    "x": 0.591,
+    "y": 0.266,
+    "strength": 0.15
+   },
+   "creases": [
+    {
+     "x": 0.553,
+     "y": 0.912,
+     "angle": -12,
+     "width": 45,
+     "length": 622,
+     "strength": 0.064
+    },
+    {
+     "x": 0.676,
+     "y": 0.611,
+     "angle": -14,
+     "width": 65,
+     "length": 426,
+     "strength": 0.077
+    },
+    {
+     "x": 0.829,
+     "y": 0.588,
+     "angle": -37,
+     "width": 38,
+     "length": 453,
+     "strength": 0.055
+    },
+    {
+     "x": 0.732,
+     "y": 0.168,
+     "angle": -3,
+     "width": 45,
+     "length": 649,
+     "strength": 0.099
+    },
+    {
+     "x": 0.501,
+     "y": 0.551,
+     "angle": -62,
+     "width": 36,
+     "length": 273,
+     "strength": 0.079
+    },
+    {
+     "x": 0.802,
+     "y": 0.061,
+     "angle": -68,
+     "width": 57,
+     "length": 582,
+     "strength": 0.056
+    },
+    {
+     "x": 0.835,
+     "y": 0.296,
+     "angle": -12,
+     "width": 56,
+     "length": 431,
+     "strength": 0.053
+    }
+   ],
+   "desk": "wood",
+   "seed": 10024
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

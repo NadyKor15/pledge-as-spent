@@ -1,0 +1,376 @@
+{
+ "id": "holdout2-es-02",
+ "set": "holdout2",
+ "locale": "es",
+ "seed": 12017,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout2-es-02.png",
+  "sha256": "bc922b0f34939dfef5df2a6b9c4409a316fe8a18a58781d93b90d1e2f99bce35",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 796
+ },
+ "receipt": {
+  "merchantName": "DROGUERÍA SANTA ANA",
+  "merchantAddress": "Av. Constitución 18, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-04T13:05:00",
+  "receiptNumber": "0260",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "ARROZ REDONDO 1KG",
+    "translationEn": "Round rice 1 kg",
+    "qty": 1,
+    "unitPriceMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "DTO. PROMOCIÓN",
+    "translationEn": "Discount on Round rice 1 kg",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -22,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "AGUA MINERAL NATURAL 1,5L",
+    "translationEn": "Natural mineral water 1.5 l",
+    "qty": 6,
+    "unitPriceMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "TABACO DE LIAR 30G",
+    "translationEn": "Rolling tobacco 30 g",
+    "qty": 1,
+    "unitPriceMinor": 590,
+    "amountMinor": 590,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece throw 130x170",
+    "qty": 2,
+    "unitPriceMinor": 1295,
+    "amountMinor": 2590,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 596,
+  "taxIncluded": true,
+  "totalMinor": 3661,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1933",
+    "bbox": {
+     "x": 0.2099,
+     "y": 0.7908,
+     "w": 0.2718,
+     "h": 0.0303
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Round rice 1 kg is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Round rice 1 kg is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural mineral water 1.5 l counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw 130x170 counts toward Blankets.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-es-02",
+  "set": "holdout2",
+  "locale": "es",
+  "seed": 12017,
+  "store": {
+   "name": "DROGUERÍA SANTA ANA",
+   "address": [
+    "Av. Constitución 18",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 079",
+   "taxId": "CIF B00000079"
+  },
+  "purchasedAt": "2026-11-04T13:05:00",
+  "receiptNumber": "0260",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "ARROZ REDONDO 1KG"
+    ],
+    "translationEn": "Round rice 1 kg",
+    "qty": 1,
+    "unitMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Round rice 1 kg is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "DTO. PROMOCIÓN"
+    ],
+    "translationEn": "Discount on Round rice 1 kg",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -22,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Round rice 1 kg is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "AGUA MINERAL NATURAL 1,5L"
+    ],
+    "translationEn": "Natural mineral water 1.5 l",
+    "qty": 6,
+    "unitMinor": 59,
+    "amountMinor": 354,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Natural mineral water 1.5 l counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TABACO DE LIAR 30G"
+    ],
+    "translationEn": "Rolling tobacco 30 g",
+    "qty": 1,
+    "unitMinor": 590,
+    "amountMinor": 590,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MANTA POLAR 130X170"
+    ],
+    "translationEn": "Fleece throw 130x170",
+    "qty": 2,
+    "unitMinor": 1295,
+    "amountMinor": 2590,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw 130x170 counts toward Blankets."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 481,
+    "taxMinor": 44
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 3180,
+    "taxMinor": 552
+   }
+  ],
+  "taxMinor": 596,
+  "subtotalMinor": null,
+  "totalMinor": 3661,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1933"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1933"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.92,
+   "rotX": -3.712,
+   "rotY": -2.472,
+   "perspective": 1327,
+   "blurPx": 0.676,
+   "noise": 0.04,
+   "lightAngle": 199,
+   "lightStrength": 0.218,
+   "glare": {
+    "x": 0.351,
+    "y": 0.213,
+    "strength": 0.219
+   },
+   "creases": [
+    {
+     "x": 0.157,
+     "y": 0.742,
+     "angle": 51,
+     "width": 52,
+     "length": 533,
+     "strength": 0.116
+    },
+    {
+     "x": 0.444,
+     "y": 0.839,
+     "angle": 54,
+     "width": 56,
+     "length": 528,
+     "strength": 0.103
+    },
+    {
+     "x": 0.772,
+     "y": 0.273,
+     "angle": 48,
+     "width": 41,
+     "length": 405,
+     "strength": 0.117
+    },
+    {
+     "x": 0.299,
+     "y": 0.748,
+     "angle": -10,
+     "width": 70,
+     "length": 252,
+     "strength": 0.08
+    },
+    {
+     "x": 0.625,
+     "y": 0.472,
+     "angle": 27,
+     "width": 32,
+     "length": 228,
+     "strength": 0.109
+    },
+    {
+     "x": 0.222,
+     "y": 0.664,
+     "angle": 44,
+     "width": 48,
+     "length": 591,
+     "strength": 0.059
+    },
+    {
+     "x": 0.827,
+     "y": 0.935,
+     "angle": -18,
+     "width": 40,
+     "length": 470,
+     "strength": 0.072
+    },
+    {
+     "x": 0.232,
+     "y": 0.942,
+     "angle": 32,
+     "width": 66,
+     "length": 454,
+     "strength": 0.052
+    },
+    {
+     "x": 0.259,
+     "y": 0.517,
+     "angle": -29,
+     "width": 50,
+     "length": 238,
+     "strength": 0.082
+    }
+   ],
+   "desk": "cloth",
+   "seed": 12024
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

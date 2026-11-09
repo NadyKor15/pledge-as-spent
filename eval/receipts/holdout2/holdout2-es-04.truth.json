@@ -1,0 +1,388 @@
+{
+ "id": "holdout2-es-04",
+ "set": "holdout2",
+ "locale": "es",
+ "seed": 12051,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout2-es-04.png",
+  "sha256": "1bb773c1784fc492f1a68dea63c0a14787eaaba461d01a9d5a5e3a5926846272",
+  "mediaType": "image/png",
+  "width": 618,
+  "height": 838
+ },
+ "receipt": {
+  "merchantName": "DROGUERÍA SANTA ANA",
+  "merchantAddress": "Av. Constitución 18, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-08T19:46:00",
+  "receiptNumber": "9404",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "TARJETA REGALO 20 EUR",
+    "translationEn": "Gift card 20 EUR",
+    "qty": 1,
+    "unitPriceMinor": 2000,
+    "amountMinor": 2000,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece throw 130x170",
+    "qty": 2,
+    "unitPriceMinor": 1295,
+    "amountMinor": 2590,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 3,
+    "rawText": "TOALLITAS BEBÉ 80U",
+    "translationEn": "Baby wipes, 80",
+    "qty": 1,
+    "unitPriceMinor": 189,
+    "amountMinor": 189,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA LR03 4U",
+    "translationEn": "AAA batteries LR03, 4 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "PILAS ALCALINAS AA PACK 4",
+    "translationEn": "Alkaline AA batteries, pack of 4",
+    "qty": 3,
+    "unitPriceMinor": 399,
+    "amountMinor": 1197,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PAÑALES PEQUEÑÍN T3 44U",
+    "translationEn": "Pequeñin diapers size 3, 44",
+    "qty": 2,
+    "unitPriceMinor": 1199,
+    "amountMinor": 2398,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 977,
+  "taxIncluded": true,
+  "totalMinor": 8773,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1653",
+    "bbox": {
+     "x": 0.1634,
+     "y": 0.7963,
+     "w": 0.2792,
+     "h": 0.0314
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw 130x170 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes, 80 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries LR03, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pequeñin diapers size 3, 44 counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-es-04",
+  "set": "holdout2",
+  "locale": "es",
+  "seed": 12051,
+  "store": {
+   "name": "DROGUERÍA SANTA ANA",
+   "address": [
+    "Av. Constitución 18",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 079",
+   "taxId": "CIF B00000079"
+  },
+  "purchasedAt": "2026-11-08T19:46:00",
+  "receiptNumber": "9404",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "TARJETA REGALO 20 EUR"
+    ],
+    "translationEn": "Gift card 20 EUR",
+    "qty": 1,
+    "unitMinor": 2000,
+    "amountMinor": 2000,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MANTA POLAR 130X170"
+    ],
+    "translationEn": "Fleece throw 130x170",
+    "qty": 2,
+    "unitMinor": 1295,
+    "amountMinor": 2590,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw 130x170 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "TOALLITAS BEBÉ 80U"
+    ],
+    "translationEn": "Baby wipes, 80",
+    "qty": 1,
+    "unitMinor": 189,
+    "amountMinor": 189,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Baby wipes, 80 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS AAA LR03 4U"
+    ],
+    "translationEn": "AAA batteries LR03, 4 (wrong size)",
+    "qty": 1,
+    "unitMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries LR03, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS ALCALINAS AA PACK 4"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 4",
+    "qty": 3,
+    "unitMinor": 399,
+    "amountMinor": 1197,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑALES PEQUEÑÍN T3 44U"
+    ],
+    "translationEn": "Pequeñin diapers size 3, 44",
+    "qty": 2,
+    "unitMinor": 1199,
+    "amountMinor": 2398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Pequeñin diapers size 3, 44 counts toward Baby diapers size 3."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 2398,
+    "taxMinor": 218
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 4375,
+    "taxMinor": 759
+   }
+  ],
+  "taxMinor": 977,
+  "subtotalMinor": null,
+  "totalMinor": 8773,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1653"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 1653"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.431,
+   "rotX": 2.318,
+   "rotY": -1.735,
+   "perspective": 1386,
+   "blurPx": 0.529,
+   "noise": 0.066,
+   "lightAngle": 98,
+   "lightStrength": 0.389,
+   "glare": {
+    "x": 0.724,
+    "y": 0.365,
+    "strength": 0.146
+   },
+   "creases": [
+    {
+     "x": 0.175,
+     "y": 0.74,
+     "angle": 50,
+     "width": 61,
+     "length": 288,
+     "strength": 0.066
+    },
+    {
+     "x": 0.23,
+     "y": 0.481,
+     "angle": 2,
+     "width": 52,
+     "length": 391,
+     "strength": 0.119
+    },
+    {
+     "x": 0.233,
+     "y": 0.409,
+     "angle": -52,
+     "width": 62,
+     "length": 396,
+     "strength": 0.085
+    },
+    {
+     "x": 0.663,
+     "y": 0.832,
+     "angle": -58,
+     "width": 33,
+     "length": 634,
+     "strength": 0.099
+    },
+    {
+     "x": 0.358,
+     "y": 0.089,
+     "angle": -29,
+     "width": 58,
+     "length": 506,
+     "strength": 0.096
+    },
+    {
+     "x": 0.657,
+     "y": 0.534,
+     "angle": 36,
+     "width": 38,
+     "length": 492,
+     "strength": 0.096
+    }
+   ],
+   "desk": "slate",
+   "seed": 12058
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

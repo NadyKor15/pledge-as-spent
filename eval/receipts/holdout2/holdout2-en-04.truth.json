@@ -1,0 +1,424 @@
+{
+ "id": "holdout2-en-04",
+ "set": "holdout2",
+ "locale": "en",
+ "seed": 13051,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout2-en-04.png",
+  "sha256": "ad29c6ad585879c8372facb72faf7b4796a0a2b1d66dbe6886e3524b410650ad",
+  "mediaType": "image/png",
+  "width": 615,
+  "height": 934
+ },
+ "receipt": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-05T18:26:00",
+  "receiptNumber": "1963",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitPriceMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "GRANOLA BARS 6CT",
+    "translationEn": "Granola bars, 6",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 3,
+    "rawText": "IPA 6PK 12OZ",
+    "translationEn": "IPA beer, 6 pack",
+    "qty": 1,
+    "unitPriceMinor": 1099,
+    "amountMinor": 1099,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "FLEECE THROW 50X60",
+    "translationEn": "Fleece throw 50x60",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "ENERGIZER AA 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 7,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitPriceMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 9187,
+  "taxMinor": 551,
+  "taxIncluded": false,
+  "totalMinor": 9738,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT",
+    "bbox": {
+     "x": 0.1915,
+     "y": 0.7873,
+     "w": 0.1796,
+     "h": 0.024
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "1523497249",
+    "bbox": {
+     "x": 0.6884,
+     "y": 0.8021,
+     "w": 0.1483,
+     "h": 0.0232
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Granola bars, 6 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "alcohol",
+   "reasonEn": "Alcohol is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw 50x60 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-en-04",
+  "set": "holdout2",
+  "locale": "en",
+  "seed": 13051,
+  "store": {
+   "name": "MAPLE STREET MARKET",
+   "address": [
+    "41 Maple Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0071"
+  },
+  "purchasedAt": "2026-11-05T18:26:00",
+  "receiptNumber": "1963",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER GALLON"
+    ],
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 5,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GRANOLA BARS 6CT"
+    ],
+    "translationEn": "Granola bars, 6",
+    "qty": 2,
+    "unitMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Granola bars, 6 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "IPA 6PK 12OZ"
+    ],
+    "translationEn": "IPA beer, 6 pack",
+    "qty": 1,
+    "unitMinor": 1099,
+    "amountMinor": 1099,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "alcohol",
+     "reasonEn": "Alcohol is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW 50X60"
+    ],
+    "translationEn": "Fleece throw 50x60",
+    "qty": 1,
+    "unitMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw 50x60 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ENERGIZER AA 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AAA BATTERY 8PK"
+    ],
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 1,
+    "unitMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COMFY BABY DPR S3 48CT"
+    ],
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 7594,
+    "taxMinor": 551
+   }
+  ],
+  "taxMinor": 551,
+  "subtotalMinor": 9187,
+  "totalMinor": 9738,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 10000,
+   "changeMinor": 262,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "AVA PRESCOTT"
+   },
+   {
+    "kind": "member_id",
+    "text": "1523497249"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.874,
+   "rotX": 3.283,
+   "rotY": 1.935,
+   "perspective": 1606,
+   "blurPx": 0.731,
+   "noise": 0.052,
+   "lightAngle": 25,
+   "lightStrength": 0.382,
+   "glare": {
+    "x": 0.757,
+    "y": 0.412,
+    "strength": 0.214
+   },
+   "creases": [
+    {
+     "x": 0.509,
+     "y": 0.913,
+     "angle": 69,
+     "width": 26,
+     "length": 502,
+     "strength": 0.085
+    },
+    {
+     "x": 0.805,
+     "y": 0.602,
+     "angle": 28,
+     "width": 45,
+     "length": 281,
+     "strength": 0.092
+    },
+    {
+     "x": 0.949,
+     "y": 0.101,
+     "angle": -58,
+     "width": 39,
+     "length": 413,
+     "strength": 0.077
+    },
+    {
+     "x": 0.612,
+     "y": 0.65,
+     "angle": 51,
+     "width": 62,
+     "length": 333,
+     "strength": 0.097
+    },
+    {
+     "x": 0.345,
+     "y": 0.449,
+     "angle": -56,
+     "width": 36,
+     "length": 576,
+     "strength": 0.116
+    }
+   ],
+   "desk": "wood",
+   "seed": 13058
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

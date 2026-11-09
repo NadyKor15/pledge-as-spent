@@ -1,5 +1,5 @@
 // Renders the receipt sets to PNG with ground truth.
-//   npx tsx tools/receipts/generate.ts [--set v1|adversarial|hero|holdout|all] [--only <id>] [--out <dir>]
+//   npx tsx tools/receipts/generate.ts [--set v1|adversarial|hero|holdout|holdout2|all] [--only <id>] [--out <dir>]
 // Without --out the files go to eval/receipts/ and recorded.json is rebuilt from every truth file there.
 
 import { chromium } from "@playwright/test";
@@ -10,7 +10,7 @@ import { pathToFileURL } from "node:url";
 import { receiptKey, type Recordings } from "../../src/receipts/recorded";
 import { renderHtml } from "./render";
 import { HERO_PLEDGES_JPY, SCENARIOS } from "./scenario";
-import { buildAdversarial, buildHero, buildHoldout, buildV1 } from "./sets";
+import { buildAdversarial, buildHero, buildHoldout, buildHoldout2, buildV1 } from "./sets";
 import { specToClassifications, specToReceipt, type Bbox, type ReceiptSpec } from "./spec";
 import { Truth } from "./truth";
 
@@ -87,7 +87,7 @@ async function main() {
   const outRoot = arg("out") ? path.resolve(arg("out")!) : path.join(ROOT, "eval/receipts");
   const wanted = arg("set") ?? "all";
   const only = arg("only");
-  const pool = wanted === "holdout" ? buildHoldout() : allSpecs();
+  const pool = wanted === "holdout" ? buildHoldout() : wanted === "holdout2" ? buildHoldout2() : allSpecs();
   const specs = pool.filter((s) => (wanted === "all" || s.set === wanted) && (!only || s.id === only));
   if (!specs.length) throw new Error("no receipts match");
 
@@ -128,7 +128,7 @@ async function main() {
 async function writeRecordings(root: string) {
   const rec: Recordings = { readings: {}, classifications: {} };
   for (const set of await readdir(root, { withFileTypes: true })) {
-    if (!set.isDirectory() || set.name === "holdout") continue;
+    if (!set.isDirectory() || set.name === "holdout" || set.name === "holdout2") continue;
     for (const f of (await readdir(path.join(root, set.name))).filter((n) => n.endsWith(".truth.json")).sort()) {
       const t = Truth.parse(JSON.parse(await readFile(path.join(root, set.name, f), "utf8")));
       rec.readings[t.image.sha256] = t.receipt;

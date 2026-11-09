@@ -1,0 +1,337 @@
+{
+ "id": "holdout2-ja-08",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10119,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-08.png",
+  "sha256": "bdf8998289444e14ee84c63badef06acc842bc3e2dad3c3160e0b7ee6aab8786",
+  "mediaType": "image/png",
+  "width": 607,
+  "height": 841
+ },
+ "receipt": {
+  "merchantName": "くらしの店 マルミ 北空本町店",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-06T20:52:00",
+  "receiptNumber": "2727",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "単4 アルカリ 4本",
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "値引",
+    "translationEn": "Discount on AAA batteries, 4 (wrong size)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -60,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "アルプス水 2L ケース6本",
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 1,
+    "unitPriceMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "セブンスター 1個",
+    "translationEn": "Seven Stars cigarettes, 1 pack",
+    "qty": 1,
+    "unitPriceMinor": 600,
+    "amountMinor": 600,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 2528,
+  "taxMinor": 220,
+  "taxIncluded": false,
+  "totalMinor": 2748,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 6,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-08",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10119,
+  "store": {
+   "name": "くらしの店 マルミ",
+   "branch": "北空本町店",
+   "address": [
+    "空川県北空市本町1-9-3"
+   ],
+   "city": "北空",
+   "phone": "0123-70-3355",
+   "taxId": "T0000100000926"
+  },
+  "purchasedAt": "2026-11-06T20:52:00",
+  "receiptNumber": "2727",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "さば水煮 缶詰"
+    ],
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "単4 アルカリ 4本"
+    ],
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on AAA batteries, 4 (wrong size)",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -60,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "アルプス水 2L",
+     "ケース6本"
+    ],
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 1,
+    "unitMinor": 798,
+    "amountMinor": 798,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 6,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "セブンスター 1個"
+    ],
+    "translationEn": "Seven Stars cigarettes, 1 pack",
+    "qty": 1,
+    "unitMinor": 600,
+    "amountMinor": 600,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1590,
+    "taxMinor": 127
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 938,
+    "taxMinor": 93
+   }
+  ],
+  "taxMinor": 220,
+  "subtotalMinor": 2528,
+  "totalMinor": 2748,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 3000,
+   "changeMinor": 252,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -1.372,
+   "rotX": 1.91,
+   "rotY": -3.328,
+   "perspective": 1134,
+   "blurPx": 0.744,
+   "noise": 0.038,
+   "lightAngle": 133,
+   "lightStrength": 0.243,
+   "glare": {
+    "x": 0.295,
+    "y": 0.56,
+    "strength": 0.175
+   },
+   "creases": [
+    {
+     "x": 0.272,
+     "y": 0.157,
+     "angle": 30,
+     "width": 48,
+     "length": 294,
+     "strength": 0.119
+    },
+    {
+     "x": 0.778,
+     "y": 0.659,
+     "angle": 11,
+     "width": 37,
+     "length": 509,
+     "strength": 0.072
+    },
+    {
+     "x": 0.855,
+     "y": 0.851,
+     "angle": 49,
+     "width": 63,
+     "length": 595,
+     "strength": 0.078
+    },
+    {
+     "x": 0.304,
+     "y": 0.911,
+     "angle": -15,
+     "width": 31,
+     "length": 466,
+     "strength": 0.085
+    },
+    {
+     "x": 0.8,
+     "y": 0.637,
+     "angle": -7,
+     "width": 64,
+     "length": 483,
+     "strength": 0.072
+    },
+    {
+     "x": 0.864,
+     "y": 0.731,
+     "angle": 62,
+     "width": 29,
+     "length": 614,
+     "strength": 0.077
+    }
+   ],
+   "desk": "cloth",
+   "seed": 10126
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

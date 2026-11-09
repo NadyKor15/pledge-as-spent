@@ -1,0 +1,380 @@
+{
+ "id": "holdout2-ja-07",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10102,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-07.png",
+  "sha256": "c4e4328271ac24fef93330c6fcc09991c95c891d8bb999ce6487d5bf56820ef4",
+  "mediaType": "image/png",
+  "width": 618,
+  "height": 932
+ },
+ "receipt": {
+  "merchantName": "ファミリーストア あおば 北空西店",
+  "merchantAddress": "空川県北空市西町4-11",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-07T13:11:00",
+  "receiptNumber": "2138",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "単4 アルカリ 4本",
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "すくすくパンツ Mサイズ 52枚",
+    "translationEn": "Sukusuku pants diapers M, 52 count",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 3,
+    "unitPriceMinor": 118,
+    "amountMinor": 354,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 6,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfibre blanket, single",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": 6682,
+  "taxMinor": 587,
+  "taxIncluded": true,
+  "totalMinor": 6682,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Sukusuku pants diapers M, 52 count counts toward Baby diapers size M.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Microfibre blanket, single counts toward Blankets.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-07",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10102,
+  "store": {
+   "name": "ファミリーストア あおば",
+   "branch": "北空西店",
+   "address": [
+    "空川県北空市西町4-11"
+   ],
+   "city": "北空",
+   "phone": "0123-61-2040",
+   "taxId": "T0000100000918"
+  },
+  "purchasedAt": "2026-11-07T13:11:00",
+  "receiptNumber": "2138",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "単4 アルカリ 4本"
+    ],
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 2,
+    "unitMinor": 398,
+    "amountMinor": 796,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば水煮 缶詰"
+    ],
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "すくすくパンツ Mサイズ 52枚"
+    ],
+    "translationEn": "Sukusuku pants diapers M, 52 count",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Sukusuku pants diapers M, 52 count counts toward Baby diapers size M."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "森の天然水 2Lペット"
+    ],
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 3,
+    "unitMinor": 118,
+    "amountMinor": 354,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "パンツ L 44枚"
+    ],
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "マイクロ毛布 シングル"
+    ],
+    "translationEn": "Microfibre blanket, single",
+    "qty": 1,
+    "unitMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Microfibre blanket, single counts toward Blankets."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1146,
+    "taxMinor": 84
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 5536,
+    "taxMinor": 503
+   }
+  ],
+  "taxMinor": 587,
+  "subtotalMinor": 6682,
+  "totalMinor": 6682,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 7000,
+   "changeMinor": 318,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -2.075,
+   "rotX": 2.231,
+   "rotY": -1.804,
+   "perspective": 1616,
+   "blurPx": 0.393,
+   "noise": 0.05,
+   "lightAngle": 167,
+   "lightStrength": 0.315,
+   "glare": {
+    "x": 0.745,
+    "y": 0.215,
+    "strength": 0.111
+   },
+   "creases": [
+    {
+     "x": 0.874,
+     "y": 0.106,
+     "angle": 56,
+     "width": 38,
+     "length": 465,
+     "strength": 0.059
+    },
+    {
+     "x": 0.06,
+     "y": 0.936,
+     "angle": 36,
+     "width": 68,
+     "length": 334,
+     "strength": 0.101
+    },
+    {
+     "x": 0.593,
+     "y": 0.327,
+     "angle": -15,
+     "width": 68,
+     "length": 286,
+     "strength": 0.118
+    },
+    {
+     "x": 0.509,
+     "y": 0.543,
+     "angle": -59,
+     "width": 65,
+     "length": 223,
+     "strength": 0.113
+    },
+    {
+     "x": 0.308,
+     "y": 0.778,
+     "angle": -49,
+     "width": 27,
+     "length": 592,
+     "strength": 0.095
+    },
+    {
+     "x": 0.758,
+     "y": 0.607,
+     "angle": -50,
+     "width": 53,
+     "length": 427,
+     "strength": 0.061
+    },
+    {
+     "x": 0.091,
+     "y": 0.677,
+     "angle": 7,
+     "width": 39,
+     "length": 344,
+     "strength": 0.057
+    }
+   ],
+   "desk": "slate",
+   "seed": 10109
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

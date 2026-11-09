@@ -1,0 +1,426 @@
+{
+ "id": "holdout2-es-01",
+ "set": "holdout2",
+ "locale": "es",
+ "seed": 12000,
+ "driveId": "drive-alborada",
+ "image": {
+  "file": "holdout2-es-01.png",
+  "sha256": "7d7799af5d580999ba9397dee92b1aba916d4db518187203807a8ca2d06062e8",
+  "mediaType": "image/png",
+  "width": 612,
+  "height": 900
+ },
+ "receipt": {
+  "merchantName": "AUTOSERVICIO LOS PINOS",
+  "merchantAddress": "C/ Olivo 7, 00000 Villa Alborada",
+  "country": "ES",
+  "currency": "EUR",
+  "purchasedAt": "2026-11-06T18:31:00",
+  "receiptNumber": "9514",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "AGUA MINERAL NATURAL 1,5L",
+    "translationEn": "Natural mineral water 1.5 l",
+    "qty": 3,
+    "unitPriceMinor": 59,
+    "amountMinor": 177,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "PAÑALES PEQUEÑÍN T3 44U",
+    "translationEn": "Pequeñin diapers size 3, 44",
+    "qty": 2,
+    "unitPriceMinor": 1199,
+    "amountMinor": 2398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "ARROZ REDONDO 1KG",
+    "translationEn": "Round rice 1 kg",
+    "qty": 1,
+    "unitPriceMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "PILAS AAA LR03 4U",
+    "translationEn": "AAA batteries LR03, 4 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 5,
+    "rawText": "MANTA POLAR 130X170",
+    "translationEn": "Fleece throw 130x170",
+    "qty": 1,
+    "unitPriceMinor": 1295,
+    "amountMinor": 1295,
+    "taxRateBp": 2100
+   },
+   {
+    "lineNo": 6,
+    "rawText": "PILAS ALCALINAS AA PACK 4",
+    "translationEn": "Alkaline AA batteries, pack of 4",
+    "qty": 2,
+    "unitPriceMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 2100
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 680,
+  "taxIncluded": true,
+  "totalMinor": 5216,
+  "pii": [
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO",
+    "bbox": {
+     "x": 0.1907,
+     "y": 0.8287,
+     "w": 0.2091,
+     "h": 0.0239
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "6340880288",
+    "bbox": {
+     "x": 0.6889,
+     "y": 0.794,
+     "w": 0.1525,
+     "h": 0.0232
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Natural mineral water 1.5 l counts toward Drinking water 1.5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Pequeñin diapers size 3, 44 counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Round rice 1 kg is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries LR03, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw 130x170 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": "batteries",
+   "needQty": 8,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, pack of 4 counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-es-01",
+  "set": "holdout2",
+  "locale": "es",
+  "seed": 12000,
+  "store": {
+   "name": "AUTOSERVICIO LOS PINOS",
+   "address": [
+    "C/ Olivo 7",
+    "00000 Villa Alborada"
+   ],
+   "city": "Villa Alborada",
+   "phone": "900 000 071",
+   "taxId": "CIF B00000071"
+  },
+  "purchasedAt": "2026-11-06T18:31:00",
+  "receiptNumber": "9514",
+  "register": "03",
+  "lines": [
+   {
+    "name": [
+     "AGUA MINERAL NATURAL 1,5L"
+    ],
+    "translationEn": "Natural mineral water 1.5 l",
+    "qty": 3,
+    "unitMinor": 59,
+    "amountMinor": 177,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Natural mineral water 1.5 l counts toward Drinking water 1.5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PAÑALES PEQUEÑÍN T3 44U"
+    ],
+    "translationEn": "Pequeñin diapers size 3, 44",
+    "qty": 2,
+    "unitMinor": 1199,
+    "amountMinor": 2398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Pequeñin diapers size 3, 44 counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ARROZ REDONDO 1KG"
+    ],
+    "translationEn": "Round rice 1 kg",
+    "qty": 1,
+    "unitMinor": 149,
+    "amountMinor": 149,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Round rice 1 kg is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS AAA LR03 4U"
+    ],
+    "translationEn": "AAA batteries LR03, 4 (wrong size)",
+    "qty": 1,
+    "unitMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries LR03, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MANTA POLAR 130X170"
+    ],
+    "translationEn": "Fleece throw 130x170",
+    "qty": 1,
+    "unitMinor": 1295,
+    "amountMinor": 1295,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw 130x170 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "PILAS ALCALINAS AA PACK 4"
+    ],
+    "translationEn": "Alkaline AA batteries, pack of 4",
+    "qty": 2,
+    "unitMinor": 399,
+    "amountMinor": 798,
+    "taxRateBp": 2100,
+    "label": {
+     "needId": "batteries",
+     "needQty": 8,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, pack of 4 counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 2724,
+    "taxMinor": 248
+   },
+   {
+    "rateBp": 2100,
+    "baseMinor": 2492,
+    "taxMinor": 432
+   }
+  ],
+  "taxMinor": 680,
+  "subtotalMinor": null,
+  "totalMinor": 5216,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 6000,
+   "changeMinor": 784,
+   "cardLast4": null
+  },
+  "pii": [
+   {
+    "kind": "name",
+    "text": "LUCÍA FERRANDO"
+   },
+   {
+    "kind": "member_id",
+    "text": "6340880288"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.694,
+   "rotX": 4.353,
+   "rotY": -2.416,
+   "perspective": 1288,
+   "blurPx": 0.636,
+   "noise": 0.05,
+   "lightAngle": 66,
+   "lightStrength": 0.182,
+   "glare": {
+    "x": 0.465,
+    "y": 0.402,
+    "strength": 0.111
+   },
+   "creases": [
+    {
+     "x": 0.443,
+     "y": 0.074,
+     "angle": 69,
+     "width": 36,
+     "length": 489,
+     "strength": 0.113
+    },
+    {
+     "x": 0.18,
+     "y": 0.421,
+     "angle": 63,
+     "width": 69,
+     "length": 570,
+     "strength": 0.057
+    },
+    {
+     "x": 0.943,
+     "y": 0.652,
+     "angle": -3,
+     "width": 54,
+     "length": 503,
+     "strength": 0.07
+    },
+    {
+     "x": 0.498,
+     "y": 0.181,
+     "angle": 68,
+     "width": 59,
+     "length": 604,
+     "strength": 0.081
+    },
+    {
+     "x": 0.184,
+     "y": 0.431,
+     "angle": 49,
+     "width": 38,
+     "length": 310,
+     "strength": 0.111
+    },
+    {
+     "x": 0.374,
+     "y": 0.768,
+     "angle": 40,
+     "width": 41,
+     "length": 271,
+     "strength": 0.102
+    },
+    {
+     "x": 0.743,
+     "y": 0.353,
+     "angle": 24,
+     "width": 36,
+     "length": 248,
+     "strength": 0.109
+    },
+    {
+     "x": 0.739,
+     "y": 0.428,
+     "angle": 32,
+     "width": 64,
+     "length": 569,
+     "strength": 0.088
+    },
+    {
+     "x": 0.74,
+     "y": 0.176,
+     "angle": 23,
+     "width": 38,
+     "length": 579,
+     "strength": 0.051
+    }
+   ],
+   "desk": "slate",
+   "seed": 12007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

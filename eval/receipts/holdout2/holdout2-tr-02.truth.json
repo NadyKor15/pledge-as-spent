@@ -1,0 +1,352 @@
+{
+ "id": "holdout2-tr-02",
+ "set": "holdout2",
+ "locale": "tr",
+ "seed": 11017,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout2-tr-02.png",
+  "sha256": "32378695284d05d87c925e99bbfd5362baef4dfbd9bf882cef18648cf8c0ee55",
+  "mediaType": "image/png",
+  "width": 624,
+  "height": 801
+ },
+ "receipt": {
+  "merchantName": "KARDEŞLER BAKKAL",
+  "merchantAddress": "Gül Sk. No:3, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-03T20:00:00",
+  "receiptNumber": "6231",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SİGARA MAVİ 20'Lİ",
+    "translationEn": "Blue cigarettes, 20",
+    "qty": 1,
+    "unitPriceMinor": 10500,
+    "amountMinor": 10500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "İNDİRİM",
+    "translationEn": "Discount on Drinking water PET 5 l",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -735,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KALEM PİL AA 4'LÜ",
+    "translationEn": "AA pen batteries, 4 pack",
+    "qty": 3,
+    "unitPriceMinor": 8990,
+    "amountMinor": 26970,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 18257,
+  "taxIncluded": true,
+  "totalMinor": 111435,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA pen batteries, 4 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-tr-02",
+  "set": "holdout2",
+  "locale": "tr",
+  "seed": 11017,
+  "store": {
+   "name": "KARDEŞLER BAKKAL",
+   "address": [
+    "Gül Sk. No:3",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 71",
+   "taxId": "VKN: 0000000071"
+  },
+  "purchasedAt": "2026-11-03T20:00:00",
+  "receiptNumber": "6231",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "SİGARA MAVİ 20'Lİ"
+    ],
+    "translationEn": "Blue cigarettes, 20",
+    "qty": 1,
+    "unitMinor": 10500,
+    "amountMinor": 10500,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İÇME SUYU PET 5 LT"
+    ],
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 2,
+    "unitMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNDİRİM"
+    ],
+    "translationEn": "Discount on Drinking water PET 5 l",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -735,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "KALEM PİL AA 4'LÜ"
+    ],
+    "translationEn": "AA pen batteries, 4 pack",
+    "qty": 3,
+    "unitMinor": 8990,
+    "amountMinor": 26970,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA pen batteries, 4 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BEBEK BEZİ MAXİ 4 NO 48'Lİ"
+    ],
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 4165,
+    "taxMinor": 379
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 107270,
+    "taxMinor": 17878
+   }
+  ],
+  "taxMinor": 18257,
+  "subtotalMinor": null,
+  "totalMinor": 111435,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 112000,
+   "changeMinor": 565,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -3.098,
+   "rotX": -3.981,
+   "rotY": 4.007,
+   "perspective": 1263,
+   "blurPx": 0.791,
+   "noise": 0.046,
+   "lightAngle": 97,
+   "lightStrength": 0.217,
+   "glare": {
+    "x": 0.381,
+    "y": 0.266,
+    "strength": 0.094
+   },
+   "creases": [
+    {
+     "x": 0.127,
+     "y": 0.522,
+     "angle": 5,
+     "width": 58,
+     "length": 495,
+     "strength": 0.084
+    },
+    {
+     "x": 0.407,
+     "y": 0.869,
+     "angle": -19,
+     "width": 27,
+     "length": 346,
+     "strength": 0.117
+    },
+    {
+     "x": 0.478,
+     "y": 0.767,
+     "angle": 14,
+     "width": 58,
+     "length": 614,
+     "strength": 0.111
+    },
+    {
+     "x": 0.786,
+     "y": 0.378,
+     "angle": 15,
+     "width": 48,
+     "length": 406,
+     "strength": 0.081
+    },
+    {
+     "x": 0.7,
+     "y": 0.755,
+     "angle": 68,
+     "width": 54,
+     "length": 259,
+     "strength": 0.115
+    },
+    {
+     "x": 0.501,
+     "y": 0.658,
+     "angle": 2,
+     "width": 34,
+     "length": 262,
+     "strength": 0.062
+    },
+    {
+     "x": 0.477,
+     "y": 0.34,
+     "angle": -12,
+     "width": 28,
+     "length": 565,
+     "strength": 0.059
+    },
+    {
+     "x": 0.455,
+     "y": 0.573,
+     "angle": 19,
+     "width": 33,
+     "length": 646,
+     "strength": 0.084
+    }
+   ],
+   "desk": "slate",
+   "seed": 11024
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

@@ -1,0 +1,368 @@
+{
+ "id": "holdout2-tr-03",
+ "set": "holdout2",
+ "locale": "tr",
+ "seed": 11034,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout2-tr-03.png",
+  "sha256": "b2ba5c02e194f119b4850fb865209f4138d8c22b00e61758d018f5d926f6841e",
+  "mediaType": "image/png",
+  "width": 610,
+  "height": 771
+ },
+ "receipt": {
+  "merchantName": "ÇINAR SÜPERMARKET",
+  "merchantAddress": "İstasyon Cd. No:28, Merkez / Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-06T11:09:00",
+  "receiptNumber": "3433",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 3,
+    "unitPriceMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İNCE PİL AAA 4'LÜ",
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 8990,
+    "amountMinor": 8990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MAKARNA 500 GR",
+    "translationEn": "Pasta 500 g",
+    "qty": 1,
+    "unitPriceMinor": 2490,
+    "amountMinor": 2490,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ISLAK MENDİL 100'LÜ",
+    "translationEn": "Wet wipes, 100",
+    "qty": 1,
+    "unitPriceMinor": 4990,
+    "amountMinor": 4990,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 5,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 14858,
+  "taxIncluded": true,
+  "totalMinor": 93620,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5130",
+    "bbox": {
+     "x": 0.1857,
+     "y": 0.7956,
+     "w": 0.2871,
+     "h": 0.0336
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pasta 500 g is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Wet wipes, 100 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-tr-03",
+  "set": "holdout2",
+  "locale": "tr",
+  "seed": 11034,
+  "store": {
+   "name": "ÇINAR SÜPERMARKET",
+   "address": [
+    "İstasyon Cd. No:28",
+    "Merkez / Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 79",
+   "taxId": "VKN: 0000000079"
+  },
+  "purchasedAt": "2026-11-06T11:09:00",
+  "receiptNumber": "3433",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "İÇME SUYU PET 5 LT"
+    ],
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 3,
+    "unitMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İNCE PİL AAA 4'LÜ"
+    ],
+    "translationEn": "AAA batteries, 4 (wrong size)",
+    "qty": 1,
+    "unitMinor": 8990,
+    "amountMinor": 8990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 4 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MAKARNA 500 GR"
+    ],
+    "translationEn": "Pasta 500 g",
+    "qty": 1,
+    "unitMinor": 2490,
+    "amountMinor": 2490,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pasta 500 g is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ISLAK MENDİL 100'LÜ"
+    ],
+    "translationEn": "Wet wipes, 100",
+    "qty": 1,
+    "unitMinor": 4990,
+    "amountMinor": 4990,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Wet wipes, 100 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "BEBEK BEZİ MAXİ 4 NO 48'Lİ"
+    ],
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 9840,
+    "taxMinor": 895
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 83780,
+    "taxMinor": 13963
+   }
+  ],
+  "taxMinor": 14858,
+  "subtotalMinor": null,
+  "totalMinor": 93620,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "5130"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "**** **** **** 5130"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.854,
+   "rotX": 2.512,
+   "rotY": 4.163,
+   "perspective": 1256,
+   "blurPx": 0.696,
+   "noise": 0.069,
+   "lightAngle": 84,
+   "lightStrength": 0.272,
+   "glare": {
+    "x": 0.146,
+    "y": 0.064,
+    "strength": 0.207
+   },
+   "creases": [
+    {
+     "x": 0.902,
+     "y": 0.161,
+     "angle": 24,
+     "width": 68,
+     "length": 326,
+     "strength": 0.11
+    },
+    {
+     "x": 0.239,
+     "y": 0.593,
+     "angle": 38,
+     "width": 53,
+     "length": 229,
+     "strength": 0.119
+    },
+    {
+     "x": 0.875,
+     "y": 0.802,
+     "angle": -15,
+     "width": 48,
+     "length": 271,
+     "strength": 0.072
+    },
+    {
+     "x": 0.654,
+     "y": 0.647,
+     "angle": -57,
+     "width": 40,
+     "length": 245,
+     "strength": 0.071
+    },
+    {
+     "x": 0.923,
+     "y": 0.349,
+     "angle": -59,
+     "width": 31,
+     "length": 429,
+     "strength": 0.105
+    },
+    {
+     "x": 0.35,
+     "y": 0.844,
+     "angle": 8,
+     "width": 62,
+     "length": 355,
+     "strength": 0.092
+    },
+    {
+     "x": 0.83,
+     "y": 0.865,
+     "angle": -66,
+     "width": 64,
+     "length": 358,
+     "strength": 0.097
+    },
+    {
+     "x": 0.469,
+     "y": 0.28,
+     "angle": -53,
+     "width": 55,
+     "length": 436,
+     "strength": 0.107
+    }
+   ],
+   "desk": "slate",
+   "seed": 11041
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

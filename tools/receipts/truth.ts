@@ -5,7 +5,7 @@ import { ReceiptSpec } from "./spec";
 /** Ground truth stored beside each image (`<id>.truth.json`). */
 export const Truth = z.object({
   id: z.string(),
-  set: z.enum(["v1", "adversarial", "hero", "holdout"]),
+  set: z.enum(["v1", "adversarial", "hero", "holdout", "holdout2"]),
   locale: z.enum(["ja", "tr", "es", "en"]),
   seed: z.number().int(),
   driveId: z.string(),

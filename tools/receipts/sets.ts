@@ -1,7 +1,8 @@
 // The three receipt sets, built deterministically from fixed seeds.
 
-import { CATALOG, OUTSIDE_STORES, STORES, type Catalog, type Item } from "./catalog";
+import { CATALOG, OUTSIDE_STORES, STORES, type Catalog, type Item, type Store } from "./catalog";
 import { HOLDOUT_CATALOG } from "./catalog-holdout";
+import { HOLDOUT2_CATALOG, HOLDOUT2_STORES } from "./catalog-holdout2";
 import { Rng } from "./rng";
 import { LOCALES, type Locale } from "./scenario";
 import { buildSpec, type Entry, type PhotoParams, type ReceiptSpec } from "./spec";
@@ -42,6 +43,8 @@ interface Mix {
   rules?: ("alcohol" | "tobacco" | "gift_card")[];
   /** Another shelf instead of the tuned catalog. */
   catalog?: Catalog;
+  /** Other stores instead of the usual ones. */
+  stores?: Store[];
 }
 
 function pickEntries(rng: Rng, locale: Locale, mix: Mix): Entry[] {
@@ -80,7 +83,7 @@ function when(rng: Rng): string {
 
 function receipt(id: string, set: ReceiptSpec["set"], locale: Locale, seed: number, taxIncluded: boolean, mix: Mix, over: { purchasedAt?: string; outside?: boolean; unreadable?: boolean; expect?: Partial<ReceiptSpec["expect"]> } = {}): ReceiptSpec {
   const rng = new Rng(seed);
-  const store = over.outside ? OUTSIDE_STORES[locale] : rng.pick(STORES[locale]);
+  const store = over.outside ? OUTSIDE_STORES[locale] : rng.pick(mix.stores ?? STORES[locale]);
   const purchasedAt = over.purchasedAt ?? when(rng);
   const entries = pickEntries(rng, locale, mix);
   return buildSpec({
@@ -128,6 +131,25 @@ export function buildHoldout(): ReceiptSpec[] {
       const included = locale === "ja" ? i % 2 === 1 : locale !== "en";
       const mix: Mix = { catalog: HOLDOUT_CATALOG[locale], rejected: i % 2 === 0 ? 1 : 0, discount: i % 3 === 2 };
       out.push(receipt(id, "holdout", locale, SEED_BASE[locale] + 7000 + i * 13, included, mix));
+    }
+  }
+  return out;
+}
+
+/**
+ * A second held-out set: its own shelf and stores (tools/receipts/catalog-holdout2.ts), fresh seeds, the same mix of
+ * needs, filler and forbidden items as the first. Made after the first held-out run of the Meta reading and committed
+ * before any change that run suggested, to measure those changes on receipts they never saw.
+ */
+export function buildHoldout2(): ReceiptSpec[] {
+  const counts: Record<Locale, number> = { ja: 8, tr: 4, es: 4, en: 4 };
+  const out: ReceiptSpec[] = [];
+  for (const locale of LOCALES) {
+    for (let i = 0; i < counts[locale]; i++) {
+      const id = `holdout2-${locale}-${String(i + 1).padStart(2, "0")}`;
+      const included = locale === "ja" ? i % 2 === 0 : locale !== "en";
+      const mix: Mix = { catalog: HOLDOUT2_CATALOG[locale], stores: HOLDOUT2_STORES[locale], rejected: i % 2 === 1 ? 1 : 0, discount: i % 3 === 1 };
+      out.push(receipt(id, "holdout2", locale, SEED_BASE[locale] + 9000 + i * 17, included, mix));
     }
   }
   return out;

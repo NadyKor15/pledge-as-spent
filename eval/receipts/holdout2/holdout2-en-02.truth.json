@@ -1,0 +1,474 @@
+{
+ "id": "holdout2-en-02",
+ "set": "holdout2",
+ "locale": "en",
+ "seed": 13017,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout2-en-02.png",
+  "sha256": "aa703ae3497c1a4e364fe584e7e633eae58f18c6cfb78502a8f528ff161e8e08",
+  "mediaType": "image/png",
+  "width": 628,
+  "height": 965
+ },
+ "receipt": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-05T16:23:00",
+  "receiptNumber": "5606",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitPriceMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitPriceMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "APP STORE CARD $25",
+    "translationEn": "App store gift card $25",
+    "qty": 1,
+    "unitPriceMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 4,
+    "rawText": "ENERGIZER AA 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 5,
+    "rawText": "GRANOLA BARS 6CT",
+    "translationEn": "Granola bars, 6",
+    "qty": 1,
+    "unitPriceMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 6,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 7,
+    "rawText": "COUPON",
+    "translationEn": "Discount on AAA batteries, 8 (wrong size)",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -300,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 8,
+    "rawText": "BABY WIPES 72CT",
+    "translationEn": "Baby wipes, 72",
+    "qty": 1,
+    "unitPriceMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 9938,
+  "taxMinor": 453,
+  "taxIncluded": false,
+  "totalMinor": 10391,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3413",
+    "bbox": {
+     "x": 0.5949,
+     "y": 0.6769,
+     "w": 0.2272,
+     "h": 0.0266
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.2102,
+     "y": 0.7873,
+     "w": 0.1736,
+     "h": 0.0251
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "8206961404",
+    "bbox": {
+     "x": 0.6879,
+     "y": 0.7942,
+     "w": 0.1416,
+     "h": 0.0237
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "gift_card",
+   "reasonEn": "Gift cards are never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Granola bars, 6 is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 6,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 7,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 8,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Baby wipes, 72 is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-en-02",
+  "set": "holdout2",
+  "locale": "en",
+  "seed": 13017,
+  "store": {
+   "name": "MAPLE STREET MARKET",
+   "address": [
+    "41 Maple Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0071"
+  },
+  "purchasedAt": "2026-11-05T16:23:00",
+  "receiptNumber": "5606",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER GALLON"
+    ],
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 5,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COMFY BABY DPR S3 48CT"
+    ],
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "APP STORE CARD $25"
+    ],
+    "translationEn": "App store gift card $25",
+    "qty": 1,
+    "unitMinor": 2500,
+    "amountMinor": 2500,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "gift_card",
+     "reasonEn": "Gift cards are never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ENERGIZER AA 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "GRANOLA BARS 6CT"
+    ],
+    "translationEn": "Granola bars, 6",
+    "qty": 1,
+    "unitMinor": 399,
+    "amountMinor": 399,
+    "taxRateBp": null,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Granola bars, 6 is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AAA BATTERY 8PK"
+    ],
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 2,
+    "unitMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COUPON"
+    ],
+    "translationEn": "Discount on AAA batteries, 8 (wrong size)",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -300,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs."
+    },
+    "discount": true
+   },
+   {
+    "name": [
+     "BABY WIPES 72CT"
+    ],
+    "translationEn": "Baby wipes, 72",
+    "qty": 1,
+    "unitMinor": 349,
+    "amountMinor": 349,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Baby wipes, 72 is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 6244,
+    "taxMinor": 453
+   }
+  ],
+  "taxMinor": 453,
+  "subtotalMinor": 9938,
+  "totalMinor": 10391,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "3413"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3413"
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "8206961404"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.731,
+   "rotX": -2.536,
+   "rotY": 2.912,
+   "perspective": 1363,
+   "blurPx": 0.618,
+   "noise": 0.065,
+   "lightAngle": 160,
+   "lightStrength": 0.254,
+   "glare": {
+    "x": 0.334,
+    "y": 0.405,
+    "strength": 0.084
+   },
+   "creases": [
+    {
+     "x": 0.461,
+     "y": 0.421,
+     "angle": 60,
+     "width": 49,
+     "length": 348,
+     "strength": 0.101
+    },
+    {
+     "x": 0.593,
+     "y": 0.305,
+     "angle": -3,
+     "width": 33,
+     "length": 507,
+     "strength": 0.115
+    },
+    {
+     "x": 0.207,
+     "y": 0.628,
+     "angle": -52,
+     "width": 28,
+     "length": 527,
+     "strength": 0.109
+    },
+    {
+     "x": 0.638,
+     "y": 0.36,
+     "angle": 55,
+     "width": 52,
+     "length": 309,
+     "strength": 0.078
+    },
+    {
+     "x": 0.396,
+     "y": 0.504,
+     "angle": -23,
+     "width": 56,
+     "length": 243,
+     "strength": 0.095
+    }
+   ],
+   "desk": "cloth",
+   "seed": 13024
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

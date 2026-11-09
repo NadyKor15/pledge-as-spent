@@ -1,0 +1,264 @@
+{
+ "id": "holdout2-tr-01",
+ "set": "holdout2",
+ "locale": "tr",
+ "seed": 11000,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout2-tr-01.png",
+  "sha256": "2fed79e7b215f8bffa4ef51a8ca81163760c3b74415d440dad35ce4391ae3173",
+  "mediaType": "image/png",
+  "width": 622,
+  "height": 734
+ },
+ "receipt": {
+  "merchantName": "KARDEŞLER BAKKAL",
+  "merchantAddress": "Gül Sk. No:3, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 3,
+    "unitPriceMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "MAKARNA 500 GR",
+    "translationEn": "Pasta 500 g",
+    "qty": 1,
+    "unitPriceMinor": 2490,
+    "amountMinor": 2490,
+    "taxRateBp": 1000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 12528,
+  "taxIncluded": true,
+  "totalMinor": 79640,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 3,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pasta 500 g is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-tr-01",
+  "set": "holdout2",
+  "locale": "tr",
+  "seed": 11000,
+  "store": {
+   "name": "KARDEŞLER BAKKAL",
+   "address": [
+    "Gül Sk. No:3",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 71",
+   "taxId": "VKN: 0000000071"
+  },
+  "purchasedAt": "2026-11-03T12:22:00",
+  "receiptNumber": "2965",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "BEBEK BEZİ MAXİ 4 NO 48'Lİ"
+    ],
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İÇME SUYU PET 5 LT"
+    ],
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 3,
+    "unitMinor": 2450,
+    "amountMinor": 7350,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 3,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "MAKARNA 500 GR"
+    ],
+    "translationEn": "Pasta 500 g",
+    "qty": 1,
+    "unitMinor": 2490,
+    "amountMinor": 2490,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pasta 500 g is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 9840,
+    "taxMinor": 895
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 69800,
+    "taxMinor": 11633
+   }
+  ],
+  "taxMinor": 12528,
+  "subtotalMinor": null,
+  "totalMinor": 79640,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 80000,
+   "changeMinor": 360,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": 3.335,
+   "rotX": -3.936,
+   "rotY": -4.878,
+   "perspective": 1289,
+   "blurPx": 0.689,
+   "noise": 0.045,
+   "lightAngle": 189,
+   "lightStrength": 0.202,
+   "glare": {
+    "x": 0.65,
+    "y": 0.185,
+    "strength": 0.111
+   },
+   "creases": [
+    {
+     "x": 0.776,
+     "y": 0.651,
+     "angle": 45,
+     "width": 59,
+     "length": 630,
+     "strength": 0.076
+    },
+    {
+     "x": 0.074,
+     "y": 0.801,
+     "angle": 38,
+     "width": 50,
+     "length": 326,
+     "strength": 0.08
+    },
+    {
+     "x": 0.352,
+     "y": 0.429,
+     "angle": 41,
+     "width": 29,
+     "length": 434,
+     "strength": 0.115
+    },
+    {
+     "x": 0.835,
+     "y": 0.623,
+     "angle": 28,
+     "width": 58,
+     "length": 260,
+     "strength": 0.083
+    },
+    {
+     "x": 0.261,
+     "y": 0.478,
+     "angle": -22,
+     "width": 47,
+     "length": 266,
+     "strength": 0.098
+    },
+    {
+     "x": 0.46,
+     "y": 0.053,
+     "angle": -59,
+     "width": 39,
+     "length": 489,
+     "strength": 0.082
+    }
+   ],
+   "desk": "slate",
+   "seed": 11007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

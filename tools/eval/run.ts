@@ -29,7 +29,7 @@ const RECEIPTS = path.join(ROOT, "eval/receipts");
 // The same sets after another route, such as tools/receipts/telegram-set.sh; the recordings stay in RECEIPTS.
 const SETS = process.env.EVAL_RECEIPTS_ROOT ? path.resolve(process.env.EVAL_RECEIPTS_ROOT) : RECEIPTS;
 
-export type SetName = "v1" | "adversarial" | "hero" | "holdout";
+export type SetName = "v1" | "adversarial" | "hero" | "holdout" | "holdout2";
 
 export async function loadTruths(set: SetName, root = SETS): Promise<Truth[]> {
   const dir = path.join(root, set);
@@ -374,7 +374,7 @@ async function main() {
   const arg = (n: string) => (args.includes(`--${n}`) ? args[args.indexOf(`--${n}`) + 1] : undefined);
   const readerChoice = arg("reader") as Choice | undefined;
   const set = arg("set") as SetName | undefined;
-  if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero", "holdout"].includes(set)) {
+  if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero", "holdout", "holdout2"].includes(set)) {
     throw new Error(`usage: npm run eval -- --reader ${CHOICES.join("|")} --set v1|adversarial|hero [--classifier ${CHOICES.join("|")}]`);
   }
   const classifierChoice = (arg("classifier") as Choice | undefined) ?? classifierFor(readerChoice);

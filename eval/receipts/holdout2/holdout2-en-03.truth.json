@@ -1,0 +1,354 @@
+{
+ "id": "holdout2-en-03",
+ "set": "holdout2",
+ "locale": "en",
+ "seed": 13034,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout2-en-03.png",
+  "sha256": "62e859919d8012a86bcd6d0da45d7bc5a289ab5e62015554c8800a0c92686e23",
+  "mediaType": "image/png",
+  "width": 606,
+  "height": 817
+ },
+ "receipt": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-08T11:00:00",
+  "receiptNumber": "8393",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitPriceMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "FLEECE THROW 50X60",
+    "translationEn": "Fleece throw 50x60",
+    "qty": 1,
+    "unitPriceMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitPriceMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 4,
+    "rawText": "AAA BATTERY 8PK",
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 5292,
+  "taxMinor": 326,
+  "taxIncluded": false,
+  "totalMinor": 5618,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3510",
+    "bbox": {
+     "x": 0.5893,
+     "y": 0.635,
+     "w": 0.2397,
+     "h": 0.0253
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1892,
+     "y": 0.7527,
+     "w": 0.1768,
+     "h": 0.0237
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3841188035",
+    "bbox": {
+     "x": 0.6828,
+     "y": 0.7761,
+     "w": 0.1497,
+     "h": 0.0235
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 5,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Fleece throw 50x60 counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-en-03",
+  "set": "holdout2",
+  "locale": "en",
+  "seed": 13034,
+  "store": {
+   "name": "MAPLE STREET MARKET",
+   "address": [
+    "41 Maple Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0071"
+  },
+  "purchasedAt": "2026-11-08T11:00:00",
+  "receiptNumber": "8393",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER GALLON"
+    ],
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 5,
+    "unitMinor": 159,
+    "amountMinor": 795,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 5,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "FLEECE THROW 50X60"
+    ],
+    "translationEn": "Fleece throw 50x60",
+    "qty": 1,
+    "unitMinor": 1299,
+    "amountMinor": 1299,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Fleece throw 50x60 counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COMFY BABY DPR S3 48CT"
+    ],
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "AAA BATTERY 8PK"
+    ],
+    "translationEn": "AAA batteries, 8 (wrong size)",
+    "qty": 1,
+    "unitMinor": 999,
+    "amountMinor": 999,
+    "taxRateBp": 725,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "AAA batteries, 8 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 4497,
+    "taxMinor": 326
+   }
+  ],
+  "taxMinor": 326,
+  "subtotalMinor": 5292,
+  "totalMinor": 5618,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "3510"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************3510"
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "3841188035"
+   }
+  ],
+  "photo": {
+   "rotZ": -1.403,
+   "rotX": -2.42,
+   "rotY": -2.27,
+   "perspective": 1307,
+   "blurPx": 0.723,
+   "noise": 0.042,
+   "lightAngle": 63,
+   "lightStrength": 0.271,
+   "glare": {
+    "x": 0.31,
+    "y": 0.197,
+    "strength": 0.197
+   },
+   "creases": [
+    {
+     "x": 0.139,
+     "y": 0.818,
+     "angle": -26,
+     "width": 58,
+     "length": 517,
+     "strength": 0.069
+    },
+    {
+     "x": 0.296,
+     "y": 0.63,
+     "angle": 2,
+     "width": 42,
+     "length": 332,
+     "strength": 0.091
+    },
+    {
+     "x": 0.517,
+     "y": 0.695,
+     "angle": -2,
+     "width": 47,
+     "length": 643,
+     "strength": 0.065
+    },
+    {
+     "x": 0.186,
+     "y": 0.839,
+     "angle": 60,
+     "width": 37,
+     "length": 576,
+     "strength": 0.071
+    },
+    {
+     "x": 0.512,
+     "y": 0.625,
+     "angle": -46,
+     "width": 29,
+     "length": 347,
+     "strength": 0.118
+    },
+    {
+     "x": 0.374,
+     "y": 0.374,
+     "angle": -42,
+     "width": 43,
+     "length": 569,
+     "strength": 0.101
+    },
+    {
+     "x": 0.917,
+     "y": 0.357,
+     "angle": 21,
+     "width": 41,
+     "length": 577,
+     "strength": 0.056
+    },
+    {
+     "x": 0.623,
+     "y": 0.495,
+     "angle": 30,
+     "width": 36,
+     "length": 237,
+     "strength": 0.071
+    }
+   ],
+   "desk": "slate",
+   "seed": 13041
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

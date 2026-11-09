@@ -1,0 +1,404 @@
+{
+ "id": "holdout2-ja-05",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10068,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-05.png",
+  "sha256": "9c65c0fd4fa1243af5406ecd2e80806b203ae31cec34883b902ace82c984d0f3",
+  "mediaType": "image/png",
+  "width": 610,
+  "height": 995
+ },
+ "receipt": {
+  "merchantName": "くらしの店 マルミ 北空本町店",
+  "merchantAddress": "空川県北空市本町1-9-3",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-03T08:40:00",
+  "receiptNumber": "1048",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "カップ麺 しょうゆ",
+    "translationEn": "Cup noodles, soy",
+    "qty": 2,
+    "unitPriceMinor": 168,
+    "amountMinor": 336,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "マイクロ毛布 シングル",
+    "translationEn": "Microfibre blanket, single",
+    "qty": 1,
+    "unitPriceMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "森の天然水 2Lペット",
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 2,
+    "unitPriceMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 5,
+    "rawText": "値引",
+    "translationEn": "Discount on Forest natural water 2 L bottle",
+    "qty": null,
+    "unitPriceMinor": null,
+    "amountMinor": -10,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 3334,
+  "taxMinor": 280,
+  "taxIncluded": true,
+  "totalMinor": 3334,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4505",
+    "bbox": {
+     "x": 0.5769,
+     "y": 0.6871,
+     "w": 0.2408,
+     "h": 0.023
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ",
+    "bbox": {
+     "x": 0.1693,
+     "y": 0.7718,
+     "w": 0.0881,
+     "h": 0.0201
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5943 9399 4738",
+    "bbox": {
+     "x": 0.6024,
+     "y": 0.8059,
+     "w": 0.2115,
+     "h": 0.0233
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Cup noodles, soy is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "blankets",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Microfibre blanket, single counts toward Blankets.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 5,
+   "needId": "water",
+   "needQty": null,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-05",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10068,
+  "store": {
+   "name": "くらしの店 マルミ",
+   "branch": "北空本町店",
+   "address": [
+    "空川県北空市本町1-9-3"
+   ],
+   "city": "北空",
+   "phone": "0123-70-3355",
+   "taxId": "T0000100000926"
+  },
+  "purchasedAt": "2026-11-03T08:40:00",
+  "receiptNumber": "1048",
+  "register": "06",
+  "lines": [
+   {
+    "name": [
+     "カップ麺 しょうゆ"
+    ],
+    "translationEn": "Cup noodles, soy",
+    "qty": 2,
+    "unitMinor": 168,
+    "amountMinor": 336,
+    "taxRateBp": 800,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Cup noodles, soy is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば水煮 缶詰"
+    ],
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "マイクロ毛布 シングル"
+    ],
+    "translationEn": "Microfibre blanket, single",
+    "qty": 1,
+    "unitMinor": 1980,
+    "amountMinor": 1980,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "blankets",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Microfibre blanket, single counts toward Blankets."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "森の天然水 2Lペット"
+    ],
+    "translationEn": "Forest natural water 2 L bottle",
+    "qty": 2,
+    "unitMinor": 118,
+    "amountMinor": 236,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "値引"
+    ],
+    "translationEn": "Discount on Forest natural water 2 L bottle",
+    "qty": null,
+    "unitMinor": null,
+    "amountMinor": -10,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": null,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Forest natural water 2 L bottle counts toward Drinking water 2 L."
+    },
+    "discount": true
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 1354,
+    "taxMinor": 100
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1980,
+    "taxMinor": 180
+   }
+  ],
+  "taxMinor": 280,
+  "subtotalMinor": 3334,
+  "totalMinor": 3334,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "4505"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************4505"
+   },
+   {
+    "kind": "name",
+    "text": "ｼﾗｲｼ ﾘﾝ"
+   },
+   {
+    "kind": "member_id",
+    "text": "5943 9399 4738"
+   }
+  ],
+  "photo": {
+   "rotZ": 1.368,
+   "rotX": 1.89,
+   "rotY": -4.127,
+   "perspective": 1419,
+   "blurPx": 0.301,
+   "noise": 0.068,
+   "lightAngle": 107,
+   "lightStrength": 0.191,
+   "glare": {
+    "x": 0.841,
+    "y": 0.557,
+    "strength": 0.159
+   },
+   "creases": [
+    {
+     "x": 0.374,
+     "y": 0.338,
+     "angle": 70,
+     "width": 38,
+     "length": 509,
+     "strength": 0.104
+    },
+    {
+     "x": 0.656,
+     "y": 0.132,
+     "angle": -3,
+     "width": 44,
+     "length": 421,
+     "strength": 0.072
+    },
+    {
+     "x": 0.852,
+     "y": 0.299,
+     "angle": -54,
+     "width": 43,
+     "length": 604,
+     "strength": 0.115
+    },
+    {
+     "x": 0.383,
+     "y": 0.343,
+     "angle": 48,
+     "width": 50,
+     "length": 577,
+     "strength": 0.108
+    },
+    {
+     "x": 0.505,
+     "y": 0.324,
+     "angle": 30,
+     "width": 51,
+     "length": 371,
+     "strength": 0.102
+    },
+    {
+     "x": 0.265,
+     "y": 0.705,
+     "angle": -28,
+     "width": 68,
+     "length": 408,
+     "strength": 0.1
+    },
+    {
+     "x": 0.902,
+     "y": 0.933,
+     "angle": 63,
+     "width": 33,
+     "length": 633,
+     "strength": 0.073
+    },
+    {
+     "x": 0.197,
+     "y": 0.854,
+     "angle": -16,
+     "width": 40,
+     "length": 409,
+     "strength": 0.071
+    },
+    {
+     "x": 0.074,
+     "y": 0.686,
+     "angle": -47,
+     "width": 29,
+     "length": 519,
+     "strength": 0.072
+    }
+   ],
+   "desk": "wood",
+   "seed": 10075
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

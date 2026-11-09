@@ -1,0 +1,318 @@
+{
+ "id": "holdout2-en-01",
+ "set": "holdout2",
+ "locale": "en",
+ "seed": 13000,
+ "driveId": "drive-brindlewood",
+ "image": {
+  "file": "holdout2-en-01.png",
+  "sha256": "6cd307e2354a31a6ac94991d3059928b01349a58fe8e8a9e52296420f735063f",
+  "mediaType": "image/png",
+  "width": 617,
+  "height": 821
+ },
+ "receipt": {
+  "merchantName": "MAPLE STREET MARKET",
+  "merchantAddress": "41 Maple Street, Brindlewood, Marlow Co.",
+  "country": "US",
+  "currency": "USD",
+  "purchasedAt": "2026-11-09T16:22:00",
+  "receiptNumber": "5540",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "SPRING WATER GALLON",
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 2,
+    "unitPriceMinor": 159,
+    "amountMinor": 318,
+    "taxRateBp": null
+   },
+   {
+    "lineNo": 2,
+    "rawText": "ENERGIZER AA 8PK",
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitPriceMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725
+   },
+   {
+    "lineNo": 3,
+    "rawText": "COMFY BABY DPR S3 48CT",
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitPriceMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725
+   }
+  ],
+  "subtotalMinor": 4515,
+  "taxMinor": 304,
+  "taxIncluded": false,
+  "totalMinor": 4819,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1308",
+    "bbox": {
+     "x": 0.5742,
+     "y": 0.6393,
+     "w": 0.2356,
+     "h": 0.0309
+    }
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS",
+    "bbox": {
+     "x": 0.1754,
+     "y": 0.7327,
+     "w": 0.1718,
+     "h": 0.0285
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "5624069266",
+    "bbox": {
+     "x": 0.6531,
+     "y": 0.7814,
+     "w": 0.1472,
+     "h": 0.0277
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "batteries",
+   "needQty": 16,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA batteries, 8 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": "diapers",
+   "needQty": 1,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-en-01",
+  "set": "holdout2",
+  "locale": "en",
+  "seed": 13000,
+  "store": {
+   "name": "MAPLE STREET MARKET",
+   "address": [
+    "41 Maple Street",
+    "Brindlewood, Marlow Co."
+   ],
+   "city": "Brindlewood",
+   "phone": "(555) 010-0071"
+  },
+  "purchasedAt": "2026-11-09T16:22:00",
+  "receiptNumber": "5540",
+  "register": "04",
+  "lines": [
+   {
+    "name": [
+     "SPRING WATER GALLON"
+    ],
+    "translationEn": "Spring water, 1 gallon",
+    "qty": 2,
+    "unitMinor": 159,
+    "amountMinor": 318,
+    "taxRateBp": null,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Spring water, 1 gallon counts toward Drinking water 1 gallon."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "ENERGIZER AA 8PK"
+    ],
+    "translationEn": "AA batteries, 8 pack",
+    "qty": 2,
+    "unitMinor": 999,
+    "amountMinor": 1998,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "batteries",
+     "needQty": 16,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA batteries, 8 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "COMFY BABY DPR S3 48CT"
+    ],
+    "translationEn": "Comfy Baby diapers size 3, 48 count",
+    "qty": 1,
+    "unitMinor": 2199,
+    "amountMinor": 2199,
+    "taxRateBp": 725,
+    "label": {
+     "needId": "diapers",
+     "needQty": 1,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Comfy Baby diapers size 3, 48 count counts toward Baby diapers size 3."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": false,
+  "taxByRate": [
+   {
+    "rateBp": 725,
+    "baseMinor": 4197,
+    "taxMinor": 304
+   }
+  ],
+  "taxMinor": 304,
+  "subtotalMinor": 4515,
+  "totalMinor": 4819,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "1308"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************1308"
+   },
+   {
+    "kind": "name",
+    "text": "JORDAN WELLS"
+   },
+   {
+    "kind": "member_id",
+    "text": "5624069266"
+   }
+  ],
+  "photo": {
+   "rotZ": 2.333,
+   "rotX": -4.871,
+   "rotY": -4.358,
+   "perspective": 1666,
+   "blurPx": 0.659,
+   "noise": 0.042,
+   "lightAngle": 323,
+   "lightStrength": 0.28,
+   "glare": {
+    "x": 0.323,
+    "y": 0.584,
+    "strength": 0.166
+   },
+   "creases": [
+    {
+     "x": 0.891,
+     "y": 0.707,
+     "angle": 11,
+     "width": 48,
+     "length": 319,
+     "strength": 0.11
+    },
+    {
+     "x": 0.755,
+     "y": 0.446,
+     "angle": 53,
+     "width": 50,
+     "length": 591,
+     "strength": 0.081
+    },
+    {
+     "x": 0.577,
+     "y": 0.41,
+     "angle": -61,
+     "width": 62,
+     "length": 516,
+     "strength": 0.113
+    },
+    {
+     "x": 0.814,
+     "y": 0.228,
+     "angle": -34,
+     "width": 53,
+     "length": 497,
+     "strength": 0.106
+    },
+    {
+     "x": 0.347,
+     "y": 0.329,
+     "angle": 20,
+     "width": 52,
+     "length": 533,
+     "strength": 0.051
+    },
+    {
+     "x": 0.098,
+     "y": 0.612,
+     "angle": 40,
+     "width": 69,
+     "length": 420,
+     "strength": 0.097
+    },
+    {
+     "x": 0.81,
+     "y": 0.76,
+     "angle": -68,
+     "width": 38,
+     "length": 380,
+     "strength": 0.056
+    },
+    {
+     "x": 0.712,
+     "y": 0.872,
+     "angle": -28,
+     "width": 60,
+     "length": 488,
+     "strength": 0.055
+    }
+   ],
+   "desk": "cloth",
+   "seed": 13007
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

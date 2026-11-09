@@ -1,0 +1,316 @@
+{
+ "id": "holdout2-tr-04",
+ "set": "holdout2",
+ "locale": "tr",
+ "seed": 11051,
+ "driveId": "drive-yildizova",
+ "image": {
+  "file": "holdout2-tr-04.png",
+  "sha256": "ba497b437fad9f9da0718128fa3894fd5ef9c4ff34d0fa065f8ca8f7aaeaf917",
+  "mediaType": "image/png",
+  "width": 607,
+  "height": 766
+ },
+ "receipt": {
+  "merchantName": "KARDEŞLER BAKKAL",
+  "merchantAddress": "Gül Sk. No:3, Yıldızova",
+  "country": "TR",
+  "currency": "TRY",
+  "purchasedAt": "2026-11-08T18:05:00",
+  "receiptNumber": "0885",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "BEBEK BEZİ MAXİ 4 NO 48'Lİ",
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitPriceMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "İÇME SUYU PET 5 LT",
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 2,
+    "unitPriceMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 3,
+    "rawText": "SİGARA MAVİ 20'Lİ",
+    "translationEn": "Blue cigarettes, 20",
+    "qty": 1,
+    "unitPriceMinor": 10500,
+    "amountMinor": 10500,
+    "taxRateBp": 2000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "KALEM PİL AA 4'LÜ",
+    "translationEn": "AA pen batteries, 4 pack",
+    "qty": 3,
+    "unitPriceMinor": 8990,
+    "amountMinor": 26970,
+    "taxRateBp": 2000
+   }
+  ],
+  "subtotalMinor": null,
+  "taxMinor": 18323,
+  "taxIncluded": true,
+  "totalMinor": 112170,
+  "pii": [],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "diapers",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "water",
+   "needQty": 2,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "tobacco",
+   "reasonEn": "Tobacco is never funded.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "batteries",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "AA pen batteries, 4 pack counts toward AA batteries.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-tr-04",
+  "set": "holdout2",
+  "locale": "tr",
+  "seed": 11051,
+  "store": {
+   "name": "KARDEŞLER BAKKAL",
+   "address": [
+    "Gül Sk. No:3",
+    "Yıldızova"
+   ],
+   "city": "Yıldızova",
+   "phone": "0 555 000 00 71",
+   "taxId": "VKN: 0000000071"
+  },
+  "purchasedAt": "2026-11-08T18:05:00",
+  "receiptNumber": "0885",
+  "register": "05",
+  "lines": [
+   {
+    "name": [
+     "BEBEK BEZİ MAXİ 4 NO 48'Lİ"
+    ],
+    "translationEn": "Baby diapers maxi no 4, 48",
+    "qty": 2,
+    "unitMinor": 34900,
+    "amountMinor": 69800,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "diapers",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Baby diapers maxi no 4, 48 counts toward Baby diapers size 4."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "İÇME SUYU PET 5 LT"
+    ],
+    "translationEn": "Drinking water PET 5 l",
+    "qty": 2,
+    "unitMinor": 2450,
+    "amountMinor": 4900,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "water",
+     "needQty": 2,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Drinking water PET 5 l counts toward Drinking water 5 L."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "SİGARA MAVİ 20'Lİ"
+    ],
+    "translationEn": "Blue cigarettes, 20",
+    "qty": 1,
+    "unitMinor": 10500,
+    "amountMinor": 10500,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "tobacco",
+     "reasonEn": "Tobacco is never funded."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "KALEM PİL AA 4'LÜ"
+    ],
+    "translationEn": "AA pen batteries, 4 pack",
+    "qty": 3,
+    "unitMinor": 8990,
+    "amountMinor": 26970,
+    "taxRateBp": 2000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "AA pen batteries, 4 pack counts toward AA batteries."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 1000,
+    "baseMinor": 4900,
+    "taxMinor": 445
+   },
+   {
+    "rateBp": 2000,
+    "baseMinor": 107270,
+    "taxMinor": 17878
+   }
+  ],
+  "taxMinor": 18323,
+  "subtotalMinor": null,
+  "totalMinor": 112170,
+  "payment": {
+   "method": "cash",
+   "tenderedMinor": 113000,
+   "changeMinor": 830,
+   "cardLast4": null
+  },
+  "pii": [],
+  "photo": {
+   "rotZ": -1.584,
+   "rotX": -4.871,
+   "rotY": 1.928,
+   "perspective": 1660,
+   "blurPx": 0.404,
+   "noise": 0.066,
+   "lightAngle": 130,
+   "lightStrength": 0.242,
+   "glare": {
+    "x": 0.146,
+    "y": 0.446,
+    "strength": 0.211
+   },
+   "creases": [
+    {
+     "x": 0.759,
+     "y": 0.237,
+     "angle": -65,
+     "width": 26,
+     "length": 645,
+     "strength": 0.07
+    },
+    {
+     "x": 0.896,
+     "y": 0.721,
+     "angle": -57,
+     "width": 62,
+     "length": 331,
+     "strength": 0.119
+    },
+    {
+     "x": 0.785,
+     "y": 0.789,
+     "angle": -56,
+     "width": 67,
+     "length": 571,
+     "strength": 0.108
+    },
+    {
+     "x": 0.949,
+     "y": 0.135,
+     "angle": 4,
+     "width": 65,
+     "length": 265,
+     "strength": 0.078
+    },
+    {
+     "x": 0.811,
+     "y": 0.93,
+     "angle": -1,
+     "width": 54,
+     "length": 495,
+     "strength": 0.112
+    },
+    {
+     "x": 0.692,
+     "y": 0.76,
+     "angle": 59,
+     "width": 33,
+     "length": 283,
+     "strength": 0.116
+    },
+    {
+     "x": 0.053,
+     "y": 0.12,
+     "angle": 57,
+     "width": 66,
+     "length": 443,
+     "strength": 0.059
+    },
+    {
+     "x": 0.232,
+     "y": 0.366,
+     "angle": 47,
+     "width": 40,
+     "length": 342,
+     "strength": 0.058
+    }
+   ],
+   "desk": "slate",
+   "seed": 11058
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}

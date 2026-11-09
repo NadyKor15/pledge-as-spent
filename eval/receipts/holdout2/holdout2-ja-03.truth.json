@@ -1,0 +1,361 @@
+{
+ "id": "holdout2-ja-03",
+ "set": "holdout2",
+ "locale": "ja",
+ "seed": 10034,
+ "driveId": "drive-kitasora",
+ "image": {
+  "file": "holdout2-ja-03.png",
+  "sha256": "9b9bd3048e2a893f5595c72e736de547a31e82882e2c5c25ae4062412eebdb70",
+  "mediaType": "image/png",
+  "width": 628,
+  "height": 980
+ },
+ "receipt": {
+  "merchantName": "ファミリーストア あおば 北空西店",
+  "merchantAddress": "空川県北空市西町4-11",
+  "country": "JP",
+  "currency": "JPY",
+  "purchasedAt": "2026-11-08T10:02:00",
+  "receiptNumber": "4248",
+  "lines": [
+   {
+    "lineNo": 1,
+    "rawText": "アルカリ電池 単3形 4本入",
+    "translationEn": "Alkaline AA batteries, 4 pack",
+    "qty": 1,
+    "unitPriceMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 2,
+    "rawText": "さば水煮 缶詰",
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitPriceMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800
+   },
+   {
+    "lineNo": 3,
+    "rawText": "パンツ L 44枚",
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitPriceMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000
+   },
+   {
+    "lineNo": 4,
+    "rawText": "アルプス水 2L ケース6本",
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 2,
+    "unitPriceMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800
+   }
+  ],
+  "subtotalMinor": 4166,
+  "taxMinor": 337,
+  "taxIncluded": true,
+  "totalMinor": 4166,
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0707",
+    "bbox": {
+     "x": 0.5946,
+     "y": 0.667,
+     "w": 0.2323,
+     "h": 0.0239
+    }
+   },
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ",
+    "bbox": {
+     "x": 0.2127,
+     "y": 0.7724,
+     "w": 0.0856,
+     "h": 0.0198
+    }
+   },
+   {
+    "kind": "member_id",
+    "text": "3551 4172 0563",
+    "bbox": {
+     "x": 0.6317,
+     "y": 0.7852,
+     "w": 0.2032,
+     "h": 0.0225
+    }
+   }
+  ],
+  "readability": "good"
+ },
+ "labels": [
+  {
+   "lineNo": 1,
+   "needId": "batteries",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alkaline AA batteries, 4 pack counts toward AA batteries.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 2,
+   "needId": "canned",
+   "needQty": 4,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Boiled mackerel, can counts toward Canned food.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 3,
+   "needId": null,
+   "needQty": null,
+   "verdict": "rejected",
+   "ruleCode": "not_in_needs",
+   "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs.",
+   "confidence": 1
+  },
+  {
+   "lineNo": 4,
+   "needId": "water",
+   "needQty": 12,
+   "verdict": "eligible",
+   "ruleCode": null,
+   "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L.",
+   "confidence": 1
+  }
+ ],
+ "expect": {
+  "duplicateOf": null,
+  "preDisaster": false,
+  "outOfZone": false,
+  "unreadable": false
+ },
+ "spec": {
+  "id": "holdout2-ja-03",
+  "set": "holdout2",
+  "locale": "ja",
+  "seed": 10034,
+  "store": {
+   "name": "ファミリーストア あおば",
+   "branch": "北空西店",
+   "address": [
+    "空川県北空市西町4-11"
+   ],
+   "city": "北空",
+   "phone": "0123-61-2040",
+   "taxId": "T0000100000918"
+  },
+  "purchasedAt": "2026-11-08T10:02:00",
+  "receiptNumber": "4248",
+  "register": "01",
+  "lines": [
+   {
+    "name": [
+     "アルカリ電池 単3形 4本入"
+    ],
+    "translationEn": "Alkaline AA batteries, 4 pack",
+    "qty": 1,
+    "unitMinor": 398,
+    "amountMinor": 398,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": "batteries",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alkaline AA batteries, 4 pack counts toward AA batteries."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "さば水煮 缶詰"
+    ],
+    "translationEn": "Boiled mackerel, can",
+    "qty": 4,
+    "unitMinor": 198,
+    "amountMinor": 792,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "canned",
+     "needQty": 4,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Boiled mackerel, can counts toward Canned food."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "パンツ L 44枚"
+    ],
+    "translationEn": "Pants diapers L, 44 (wrong size)",
+    "qty": 1,
+    "unitMinor": 1380,
+    "amountMinor": 1380,
+    "taxRateBp": 1000,
+    "label": {
+     "needId": null,
+     "needQty": null,
+     "verdict": "rejected",
+     "ruleCode": "not_in_needs",
+     "reasonEn": "Pants diapers L, 44 (wrong size) is not one of the drive's needs."
+    },
+    "discount": false
+   },
+   {
+    "name": [
+     "アルプス水 2L",
+     "ケース6本"
+    ],
+    "translationEn": "Alps water 2 L, case of 6",
+    "qty": 2,
+    "unitMinor": 798,
+    "amountMinor": 1596,
+    "taxRateBp": 800,
+    "label": {
+     "needId": "water",
+     "needQty": 12,
+     "verdict": "eligible",
+     "ruleCode": null,
+     "reasonEn": "Alps water 2 L, case of 6 counts toward Drinking water 2 L."
+    },
+    "discount": false
+   }
+  ],
+  "taxIncluded": true,
+  "taxByRate": [
+   {
+    "rateBp": 800,
+    "baseMinor": 2388,
+    "taxMinor": 176
+   },
+   {
+    "rateBp": 1000,
+    "baseMinor": 1778,
+    "taxMinor": 161
+   }
+  ],
+  "taxMinor": 337,
+  "subtotalMinor": 4166,
+  "totalMinor": 4166,
+  "payment": {
+   "method": "card",
+   "tenderedMinor": null,
+   "changeMinor": null,
+   "cardLast4": "0707"
+  },
+  "pii": [
+   {
+    "kind": "card_number",
+    "text": "************0707"
+   },
+   {
+    "kind": "name",
+    "text": "ｺｳﾉ ﾊﾙｶ"
+   },
+   {
+    "kind": "member_id",
+    "text": "3551 4172 0563"
+   }
+  ],
+  "photo": {
+   "rotZ": -2.721,
+   "rotX": -2.012,
+   "rotY": -4.016,
+   "perspective": 1688,
+   "blurPx": 0.385,
+   "noise": 0.05,
+   "lightAngle": 88,
+   "lightStrength": 0.38,
+   "glare": {
+    "x": 0.152,
+    "y": 0.142,
+    "strength": 0.187
+   },
+   "creases": [
+    {
+     "x": 0.284,
+     "y": 0.565,
+     "angle": 55,
+     "width": 45,
+     "length": 317,
+     "strength": 0.06
+    },
+    {
+     "x": 0.538,
+     "y": 0.869,
+     "angle": 6,
+     "width": 53,
+     "length": 496,
+     "strength": 0.111
+    },
+    {
+     "x": 0.061,
+     "y": 0.74,
+     "angle": -42,
+     "width": 38,
+     "length": 542,
+     "strength": 0.062
+    },
+    {
+     "x": 0.35,
+     "y": 0.704,
+     "angle": 66,
+     "width": 47,
+     "length": 544,
+     "strength": 0.107
+    },
+    {
+     "x": 0.195,
+     "y": 0.5,
+     "angle": 32,
+     "width": 60,
+     "length": 388,
+     "strength": 0.062
+    },
+    {
+     "x": 0.174,
+     "y": 0.875,
+     "angle": -46,
+     "width": 52,
+     "length": 399,
+     "strength": 0.095
+    },
+    {
+     "x": 0.367,
+     "y": 0.937,
+     "angle": 28,
+     "width": 36,
+     "length": 420,
+     "strength": 0.088
+    },
+    {
+     "x": 0.486,
+     "y": 0.635,
+     "angle": 3,
+     "width": 64,
+     "length": 532,
+     "strength": 0.119
+    }
+   ],
+   "desk": "slate",
+   "seed": 10041
+  },
+  "readability": "good",
+  "expect": {
+   "duplicateOf": null,
+   "preDisaster": false,
+   "outOfZone": false,
+   "unreadable": false
+  }
+ }
+}
