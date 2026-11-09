@@ -46,7 +46,7 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
   };
   const sample = () => {
     const body = new FormData();
-    body.set("sample", "hero");
+    body.set("sample", view.drive.sample ?? "hero");
     return act("sample", `/api/drives/${encodeURIComponent(driveId)}/receipts`, { body }).then(() => setPicked(null));
   };
   const errorFor = (name: string) => (error?.name === name ? error.error : null);

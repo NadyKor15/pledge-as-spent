@@ -7,7 +7,7 @@ import "@/ui/landing.css";
 // Links appear only when the deployment sets them: no empty placeholders.
 const CODE_URL = process.env.NEXT_PUBLIC_CODE_URL?.trim();
 const VIDEO_URL = process.env.NEXT_PUBLIC_VIDEO_URL?.trim();
-// The second demo drive waits for its scenario on the server: off unless NEXT_PUBLIC_FLORIDA_DEMO=on.
+// The second demo drive (scenario florida in src/server/demo.ts): offered only when NEXT_PUBLIC_FLORIDA_DEMO=on.
 const FLORIDA = floridaDemoOn(process.env.NEXT_PUBLIC_FLORIDA_DEMO);
 
 export default function Home() {

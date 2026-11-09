@@ -12,6 +12,7 @@ import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
 import { StatementCheck } from "./paypal-check/StatementCheck";
+import { RebindOffer } from "./RebindOffer";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
 
@@ -219,6 +220,8 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
           </p>
         </section>
       )}
+
+      <RebindOffer pledgeId={b.pledgeId} offer={data.rebind} labelOf={(id) => view.needs.find((n) => n.needId === id)?.displayLabel} onMoved={() => void refresh()} />
 
       <section className={`${s.card} ${s.bought}`}>
         <h2 className={s.h2}>{pending ? "What your money is buying" : "What your money bought"}</h2>

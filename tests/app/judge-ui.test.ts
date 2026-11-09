@@ -16,9 +16,11 @@ describe("the Florida drive on the landing page", () => {
 });
 
 describe("the shelter's photo", () => {
-  it("absent: the bundled Kitasora photo; null: a plain plate; a path of this app: that picture; anything else: the plate", () => {
+  it("absent or named kitasora: the bundled Kitasora photo; null: a plain plate; a path of this app: that picture; anything else: the plate", () => {
     expect(shelterPhotoOf({ id: "d" })).toEqual({ kind: "default" });
     expect(shelterPhotoOf({ shelterPhoto: undefined })).toEqual({ kind: "default" });
+    expect(shelterPhotoOf({ shelterPhoto: "kitasora" })).toEqual({ kind: "default" });
+    expect(shelterPhotoOf({ shelterPhoto: "florida" })).toEqual({ kind: "none" });
     expect(shelterPhotoOf({ shelterPhoto: null })).toEqual({ kind: "none" });
     expect(shelterPhotoOf({ shelterPhoto: "/scenarios/florida-shelter.jpg" })).toEqual({ kind: "url", src: "/scenarios/florida-shelter.jpg" });
     for (const bad of ["https://example.com/x.png", "//example.com/x.png", "/../secret.png", "/x.svg", "", 42, {}]) expect(shelterPhotoOf({ shelterPhoto: bad })).toEqual({ kind: "none" });

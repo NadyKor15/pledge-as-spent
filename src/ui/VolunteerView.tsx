@@ -41,7 +41,7 @@ export function VolunteerView({ view, following, refresh, follow }: { view: Driv
   const sample = () =>
     send("sample", async () => {
       const form = new FormData();
-      form.set("sample", "hero");
+      form.set("sample", view.drive.sample ?? "hero");
       return form;
     });
   const upload = (file: File) =>
