@@ -1,7 +1,12 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { eq } from "drizzle-orm";
+import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 import { closeReport, replay, type LedgerEvent } from "../../src/core";
 import { events } from "../../src/db/schema";
+import { isClosedCopy } from "../../src/receipts/close";
+import { sha256Hex } from "../../src/receipts/hash";
 import { DEMO_SCENARIOS, demoDisplayFor, demoDrive, demoScenarioOf, fxFor } from "../../src/server/demo";
 import { ServiceError } from "../../src/server/errors";
 import { sampleBytes } from "../../src/server/http";
@@ -90,6 +95,32 @@ describe("the Florida demo drive", () => {
     }
     const blankets = closeReport(state).find((r) => r.pledgeId === `${s.driveId}.blankets`)!;
     expect([blankets.spent, blankets.released]).toEqual([0, 2000]);
+  });
+
+  it("publishes the sample only closed to its seven purchase lines: the member's name and number are plain paper", async () => {
+    const s = await florida();
+    const original = await sampleBytes("florida");
+    const { receipt: r } = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: original });
+    expect(r.image).toMatchObject({ published: true, url: `/api/receipts/${r.id}/image`, openLines: 7 });
+    const img = (await s.h.svc.getReceiptImage(r.id))!;
+    expect(isClosedCopy(img.bytes)).toBe(true);
+    expect(sha256Hex(img.bytes)).not.toBe(sha256Hex(original));
+    // the truth of the receipt the sample is a copy of holds where its personal data is printed
+    const truth = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../eval/receipts/v1/v1-en-06.truth.json"), "utf8")) as { receipt: { pii: { bbox: { x: number; y: number; w: number; h: number } }[] } };
+    const dark = (bytes: Uint8Array) => {
+      const p = PNG.sync.read(Buffer.from(bytes));
+      let n = 0;
+      for (const { bbox: b } of truth.receipt.pii)
+        for (let y = Math.floor(b.y * p.height); y < Math.ceil((b.y + b.h) * p.height); y++)
+          for (let x = Math.floor(b.x * p.width); x < Math.ceil((b.x + b.w) * p.width); x++) {
+            const i = (y * p.width + x) * 4;
+            if (0.299 * p.data[i] + 0.587 * p.data[i + 1] + 0.114 * p.data[i + 2] < 120) n++;
+          }
+      return n;
+    };
+    expect(truth.receipt.pii).toHaveLength(2);
+    expect(dark(original)).toBeGreaterThan(50); // the counter sees the print on the photo
+    expect(dark(img.bytes)).toBe(0);
   });
 
   it("red team on the new drive: a receipt in yen is refused whole, the sample twice is a duplicate", async () => {

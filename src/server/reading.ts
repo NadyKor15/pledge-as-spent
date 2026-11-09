@@ -14,6 +14,7 @@ import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings } from "../receipts/meta-reader";
 import { Band, LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type PurchaseLine, type ReceiptImage, type ReceiptReader, type SecondReading } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.meta.json";
+import floridaRows from "../../eval/live/shipped/florida-sample.bands.json";
 import { ServiceError } from "./errors";
 import { META_READ_PREFIX, PgMetaReadLedger, PgSpendLedger } from "./spend";
 
@@ -143,6 +144,20 @@ export function savedAnswer(json: unknown, pipeline: string, boxes?: unknown): S
  */
 export const SHIPPED_ANSWERS: SavedAnswer[] = [savedAnswer(heroAnswer, "meta")];
 
+const RowsFile = z.object({
+  imageSha256: z.string().regex(/^[0-9a-f]{64}$/),
+  bands: z.array(Band),
+  purchaseLines: z.array(z.object({ lineNo: z.number().int().positive(), bandIndexes: z.array(z.number().int().positive()) })),
+});
+export type ShippedRows = z.infer<typeof RowsFile>;
+
+/**
+ * Rows of a sample whose reading is the recorded one (the Florida drive's sample, a copy of a synthetic receipt):
+ * measured on the photo from its generator's truth (tools/receipts/sample-bands.ts), so its published copy is closed
+ * by them like any reading's. Only the same bytes get them.
+ */
+export const SHIPPED_ROWS: ShippedRows[] = [RowsFile.parse(floridaRows)];
+
 export interface ReadInput {
   driveId: string;
   image: ReceiptImage;
@@ -173,7 +188,7 @@ export class ReceiptReading {
 
   constructor(
     private readonly db: Db,
-    sources: { answers?: SavedAnswer[]; recordings?: Recordings },
+    sources: { answers?: SavedAnswer[]; recordings?: Recordings; rows?: ShippedRows[] },
     private readonly limits: LiveLimits,
     private readonly live?: LiveReading,
     /** Closes the published copy by rows (src/receipts/close.ts); a test may hand in its own. */
@@ -181,8 +196,10 @@ export class ReceiptReading {
   ) {
     this.answers = new Map((sources.answers ?? SHIPPED_ANSWERS).map((a) => [a.imageSha256, a]));
     this.recordings = sources.recordings ?? { readings: {}, classifications: {} };
+    this.rows = new Map((sources.rows ?? SHIPPED_ROWS).map((r) => [r.imageSha256, r]));
   }
   private readonly recordings: Recordings;
+  private readonly rows: Map<string, ShippedRows>;
 
   async read(input: ReadInput): Promise<Reading> {
     // A phone photo turned by its EXIF tag is made upright once: the readers, the rows and the closed copy all use it.
@@ -224,11 +241,13 @@ export class ReceiptReading {
 
     if (Object.hasOwn(this.recordings.readings, input.sha256)) {
       const { receipt: parsed } = await new RecordedReader(this.recordings).read(input.image);
+      const shipped = this.rows.get(input.sha256);
+      const rows = shipped ? this.rowsOf(input.image, shipped.bands, {}, shipped.purchaseLines) : {};
       if (Object.hasOwn(this.recordings.classifications, receiptKey(parsed))) {
         const { lines } = await new RecordedClassifier(this.recordings).classify({ receipt: parsed, needs: input.needs, rules: input.rules });
-        return { parsed, classified: { key: key(parsed), lines }, reader: "recorded", usage: [] };
+        return { parsed, classified: { key: key(parsed), lines }, reader: "recorded", usage: [], ...rows };
       }
-      return this.classifyLive(input, parsed, []);
+      return { ...(await this.classifyLive(input, parsed, [])), ...rows };
     }
 
     const stored = sameSha.find((r) => r.reader.startsWith("live:") || r.reader === "copy");
