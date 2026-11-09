@@ -44,9 +44,11 @@ test("Ask PayPal yourself on the Ledger: 9 of 9 answered by PayPal, each next to
   await expect(dialog.locator('.pc-row[data-kind="payout"]')).toContainText("SUCCESS");
   await expect(dialog.locator('.pc-row[data-kind="payout"]')).toContainText("¥10,448");
   // PayPal's own answer, as it came, with the sandbox accounts hidden.
-  await dialog.locator('.pc-row[data-kind="capture"] .pc-json summary').first().click();
-  await expect(dialog.locator(".pc-json pre").first()).toContainText('"status": "COMPLETED"');
-  await expect(dialog.locator(".pc-json pre").first()).not.toContainText("@business.example.com");
+  const capture = dialog.locator('.pc-row[data-kind="capture"] .pc-json').first();
+  await capture.locator("summary").click();
+  await expect(capture.locator("pre")).toBeVisible();
+  await expect(capture.locator("pre")).toContainText('"status": "COMPLETED"');
+  for (const pre of await dialog.locator(".pc-json pre").all()) await expect(pre).not.toContainText(/@(business|personal)\.example\.com/);
   await expect(dialog.getByRole("link", { name: "All answers as JSON" })).toHaveAttribute("href", `/api/drives/${driveId}/paypal-check`);
   expect(asked).toEqual([`GET /api/drives/${driveId}/paypal-check`]);
   await dialog.locator(".pc-close").click();

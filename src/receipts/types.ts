@@ -57,7 +57,7 @@ export type LineClassification = z.infer<typeof LineClassification>;
 
 /**
  * Where one parsed line is printed: the box of its OCR row, in fractions 0..1 of the photo (and of its published,
- * blurred copy, which keeps the photo's size). Kept beside the reading, not in it: a model never writes these.
+ * closed copy, which keeps the photo's size). Kept beside the reading, not in it: a model never writes these.
  */
 export const LineBox = z.object({
   lineNo: z.number().int().positive(),

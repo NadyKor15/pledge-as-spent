@@ -53,7 +53,7 @@ The server uses the official [`@paypal/paypal-server-sdk`](https://www.npmjs.com
 
 ## How AI is used
 
-Tesseract OCR reads the rows, and Amazon Nova Pro on Bedrock structures them and checks the digits against the photo. A second Nova Pro pass matches each line to a listed need and applies the drive's rules in plain words. Then deterministic code decides: duplicates, purchases before the disaster, stores outside the zone, totals that do not add up. Card digits and names are blurred before a receipt is published, and the table below says how often the blur finds them. A doubtful receipt waits for a person: the coordinator sees its lines and approves or rejects.
+Tesseract OCR reads the rows, and Amazon Nova Pro on Bedrock structures them and checks the digits against the photo. A second Nova Pro pass matches each line to a listed need and applies the drive's rules in plain words. Then deterministic code decides: duplicates, purchases before the disaster, stores outside the zone, totals that do not add up. A published receipt photo is closed: only purchase lines are visible, everything else is a plain background; a photo that cannot be closed is not published. Personal data is not searched for, so card digits and names are covered because they are not purchase lines ([`docs/closing-benchmark.md`](docs/closing-benchmark.md)). A doubtful receipt waits for a person: the coordinator sees its lines and approves or rejects.
 
 The prompts were tuned on three sets of synthetic receipts, so the number to quote comes from a set they never saw: 20 receipts in Japanese, Turkish, Spanish and English, with fresh seeds and a different shelf of products.
 
@@ -66,7 +66,6 @@ The prompts were tuned on three sets of synthetic receipts, so the number to quo
 | Need quantity exact | 38/60, 63.3% |
 | Forbidden lines refused with the right code | 9/10 |
 | Forbidden lines funded by mistake | 0 |
-| Personal data covered by a blur box | 35/42, 83.3% |
 
 The same set after a Telegram-like compression scored the same on line F1, totals, dates and line class. All of this is synthetic: real crumpled receipts will read worse. Details and scripts: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval`.
 
@@ -149,7 +148,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 986 unit and integration tests, 90 browser tests.
+30 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 30 hold; four did not when first tried and were fixed. 1033 unit and integration tests, 96 browser tests.
 
 ## Run it
 
@@ -181,7 +180,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
 - Synthetic receipts and a fictional drive only. No real donations.
 - Need quantities are read correctly only 63.3% of the time on the held-out set, and a garbled item name can be refused as not needed. A refusal never overcharges a donor, but it can underpay a volunteer.
-- The blur missed 7 of 42 personal data items on the held-out set. A real drive needs a person to check a receipt before it is published.
+- Receipt photos are published closed: only purchase lines are visible, everything else is a plain background; a photo that cannot be closed is not published. A purchase line's own text is shown as printed, so a name printed inside an item line would be shown too.
 - Rates are a fixed demo snapshot.
 
 ## How this was built
