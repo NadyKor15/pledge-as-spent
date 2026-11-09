@@ -398,10 +398,12 @@ for (const { width, height } of [
     expect(await wider(page)).toBeLessThanOrEqual(0);
     const labels = await crowded(page);
     expect(labels.count).toBeGreaterThan(8);
-    expect(labels.marks).toBe(6);
+    // S1 (TG 6710): only what PayPal took travels; what was never charged has no arc back, and no arrowhead.
+    expect(labels.marks).toBe(3);
     expect(labels.out).toEqual([]);
-    await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
-    await expect(page.locator(".lg-head")).toHaveCount(3);
+    await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+    await expect(page.locator(".lg-head")).toHaveCount(0);
+    await expect(page.locator(".lg-label .pas-meter")).toHaveCount(width < 600 ? 0 : 3);
     const body = page.locator("body");
     await expect(body).toContainText("$8.55");
     await expect(body).toContainText("Refused: Alcohol ¥1,198 · Gift card ¥3,000");
@@ -751,8 +753,9 @@ test("ledger of a drive taken through the app: held before the close, returned a
 
   await page.goto(`/drive/${driveId}?as=ledger`);
   await expectTotals(page, "Never charged");
-  await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
-  await expect(page.locator("body")).toContainText("$8.55 never charged");
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+  // The amount stays with the donor: in the bar of the hold, inside the label.
+  await expect(page.locator(".lg-label[data-donor=Mark] .pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
 });
 
 // Drives the two snapshots never show.
@@ -851,8 +854,8 @@ test("ledger: Yuki withdrew from an open drive: the header, the note and the row
   await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796"], { timeout: 15_000 });
   await expect(page.getByText("¥1,763 already released, never charged")).toBeVisible();
   await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
-  await expect(page.locator(".lg-map")).toContainText("¥1,763 never charged");
-  await expect(page.locator(".lg-back .lg-line")).toHaveCount(1);
+  await expect(page.locator(".lg-label[data-donor=Yuki] .pas-meter")).toHaveAttribute("aria-label", /¥1,763 never charged/);
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
   expect((await crowded(page)).out).toEqual([]);
 });
 
