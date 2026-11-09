@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, type LineView, type NextStep } from "./derive";
+import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
@@ -354,7 +354,7 @@ function ReceiptBody({
                 <span>
                   <b>
                     {lineName(l).title}
-                    {l.qty ? ` (${l.qty})` : ""} · {money(r.currency, l.line.amount)}
+                    {l.qty ? ` (${l.qty})` : ""} · {lineMoney(r.currency, l.line)}
                   </b>
                   {l.state === "pending" ? " · waiting" : l.state === "review" ? " · needs a decision" : ""}
                   <LineOriginal line={l} />
@@ -366,7 +366,7 @@ function ReceiptBody({
                 <Cross size={25} color="var(--no)" />
                 <div className={s.t}>
                   <span className={s.t1}>
-                    {lineName(l).title} · {money(r.currency, l.line.amount)}
+                    {lineName(l).title} · {lineMoney(r.currency, l.line)}
                   </span>
                   <span className={s.t2}>{l.reason}</span>
                   <LineOriginal line={l} />

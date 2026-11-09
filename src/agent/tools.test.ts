@@ -87,6 +87,18 @@ describe("the book's tools on the closed demo drive", () => {
     expect(ledgerLine(closed, "99").data.error).toBe(true);
   });
 
+  it("ledger_line: a line with tax printed on top gives its price with that tax too; an unknown share says before tax", () => {
+    expect(ledgerLine(closed, "4").text).toContain(", ¥2,596. Verdict");
+    const onTop = structuredClone(closed);
+    onTop.receipts[0].lines[3] = { ...onTop.receipts[0].lines[3], tax: 208 };
+    const r = ledgerLine(onTop, "4");
+    expect(r.text).toContain(", ¥2,596, ¥2,804 with its share of the tax printed on top. Verdict");
+    expect(r.data.facts.some((f) => f.label === "line 4 price with tax" && f.value === 2804)).toBe(true);
+    const unknown = structuredClone(closed);
+    unknown.receipts[0].lines[3] = { ...unknown.receipts[0].lines[3], tax: null };
+    expect(ledgerLine(unknown, "4").text).toContain(", ¥2,596 before tax (its share of the tax cannot be worked out). Verdict");
+  });
+
   it("ledger_paypal_ids: Yuki's order, authorization and capture; the shelter's payout", () => {
     const y = ledgerPaypalIds(closed, "Yuki");
     expect(y.data.facts.filter((f) => f.id).map((f) => f.id)).toEqual(["10L99507KP256054Y", "4V841583EA244972U", "3HK86339B7905131L"]);

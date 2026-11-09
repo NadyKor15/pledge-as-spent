@@ -1,5 +1,5 @@
 import type { AgAiTool, AgAiToolResult } from "ag-studio";
-import { lineName, needById, shareStage } from "@/ui/derive";
+import { lineGross, lineName, needById, shareStage, taxUnknown } from "@/ui/derive";
 import { decimals, donorParts, money } from "@/ui/format";
 import { deriveLedger } from "@/ui/ledger/derive";
 import type { DriveView, Hold, LedgerRow, Receipt } from "@/ui/types";
@@ -318,7 +318,7 @@ export function ledgerLine(v: View, line: unknown): LedgerToolResult {
     const cur = receipt.currency ?? v.drive.baseCurrency;
     const verdict = shares.length ? "approved and paid from the pledges" : refused ? "refused" : receipt.status === "review" ? "waiting for the coordinator" : "not funded";
     out.push(
-      `Line ${l.lineNo} of the receipt from ${receipt.merchant ?? "the shop"}: printed "${l.text}"${l.translationEn ? ` (English: ${l.translationEn})` : ""}, ${f.amount(cur, l.amount, `line ${l.lineNo} price`, { lineKey: key })}. ` +
+      `Line ${l.lineNo} of the receipt from ${receipt.merchant ?? "the shop"}: printed "${l.text}"${l.translationEn ? ` (English: ${l.translationEn})` : ""}, ${f.amount(cur, l.amount, `line ${l.lineNo} price`, { lineKey: key })}${taxUnknown(l) ? " before tax (its share of the tax cannot be worked out)" : l.tax ? `, ${f.amount(cur, lineGross(l), `line ${l.lineNo} price with tax`, { lineKey: key })} with its share of the tax printed on top` : ""}. ` +
         `Verdict: ${verdict}${need ? `, need ${need.displayLabel}` : ""}${name.title && !need ? ` (${name.title})` : ""}. Reason: ${(refused?.reasonEn ?? l.reasonEn ?? "—").replace(/\.$/, "")}.`,
     );
     for (const s of shares) {

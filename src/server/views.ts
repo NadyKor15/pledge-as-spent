@@ -2,7 +2,7 @@ import { asc, eq, getTableColumns, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { drives, events, paypalCalls, receipts } from "../db/schema";
 import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledgeBalance } from "../core";
-import type { ReceiptFlag } from "../receipts/checks";
+import { splitTax, type ReceiptFlag } from "../receipts/checks";
 import { LineBox, type ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
 import { demoDisplayFor, demoScenarioOf } from "./demo";
@@ -32,6 +32,8 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
   // Only a copy closed to its purchase lines is shown; a stored copy from before closing is not.
   const { published, note } = publication(row.published ?? Boolean(row.imageRedacted), checks.redaction);
   const boxes = boxesOf(checks.lineBoxes);
+  // Each line's share of tax printed on top, split as the book funds it (0 when the tax is inside the prices).
+  const tax = parsed ? splitTax(parsed, classified?.lines) : null;
   return {
     id: row.id,
     driveId: row.driveId,
@@ -44,13 +46,15 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
     currency: parsed?.currency ?? null,
     total: parsed?.totalMinor ?? null,
     flags: checks.flags ?? [],
-    lines: (parsed?.lines ?? []).map((l) => {
+    lines: (parsed?.lines ?? []).map((l, i) => {
       const c = classified?.lines.find((x) => x.lineNo === l.lineNo);
       return {
         lineNo: l.lineNo,
         text: l.rawText,
         translationEn: l.translationEn,
         amount: l.amountMinor,
+        /** The line's share of tax added on top of the printed prices: 0 when the tax is inside them, null when it cannot be known. */
+        tax: tax ? (tax.shares[i] ?? null) : null,
         verdict: c?.verdict ?? null,
         needId: c?.needId ?? null,
         needQty: c?.needQty ?? null,

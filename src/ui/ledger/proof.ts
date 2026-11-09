@@ -1,3 +1,4 @@
+import { lineGross, taxUnknown } from "../derive";
 import { moneyIn, whenUtc, type Lang } from "../format";
 import type { DriveView } from "../types";
 import type { LedgerModel } from "./derive";
@@ -49,7 +50,10 @@ export function lineProof(v: DriveView, m: LedgerModel, rowKey: string, lang: La
   const currencyOf = (key: string) => v.ledger.find((r) => r.rowId === key)?.currency ?? base;
   const part = (s: (typeof shares)[number]) =>
     s.kind === "match_share" ? `${s.payer} ${w.matchWord} ${moneyIn(lang, base, s.share)}` : `${s.payerLabel} ${s.paid}${currencyOf(s.rowKey) === base ? "" : ` (${moneyIn(lang, base, s.share)})`}`;
-  const amount = line ? moneyIn(lang, receipt?.currency ?? base, line.amount) : moneyIn(lang, base, row.share);
+  // The line with its share of tax, and the discounts printed right under it: the book funds them as one amount.
+  const counted = receipt && line ? withDiscounts(receipt.lines, line) : [];
+  const gross = counted.reduce((s, l) => s + lineGross(l), 0);
+  const amount = line ? `${moneyIn(lang, receipt?.currency ?? base, gross)}${counted.some(taxUnknown) ? ` ${w.beforeTax}` : ""}` : moneyIn(lang, base, row.share);
   const head = `${w.lineWord} ${row.line} · ${row.item} · ${amount}`;
   const sentence = shares.length ? `${head} = ${shares.map(part).join(" + ")}` : `${head}${row.reason ? ` — ${row.reason}` : ""}`;
 
@@ -82,6 +86,16 @@ export function lineProof(v: DriveView, m: LedgerModel, rowKey: string, lang: La
     matchCapture: match?.capture ?? null,
     reason: row.reason,
   };
+}
+
+type PrintedLine = DriveView["receipts"][number]["lines"][number];
+
+/** The line and, when it is not a discount itself, the discount lines printed directly below it. */
+function withDiscounts(lines: readonly PrintedLine[], line: PrintedLine): PrintedLine[] {
+  const out = [line];
+  if (line.amount < 0) return out;
+  for (let i = lines.indexOf(line) + 1; i < lines.length && lines[i].amount < 0; i++) out.push(lines[i]);
+  return out;
 }
 
 /**

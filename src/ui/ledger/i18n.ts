@@ -67,6 +67,8 @@ export interface Words {
   receiptOf: (merchant: string, total: string) => string;
   lineWord: string;
   matchWord: string;
+  /** After a line's printed price when its share of the tax added on top cannot be known. */
+  beforeTax: string;
   captureState: Record<"done" | "pending" | "none" | "back", string>;
   matchCapture: string;
   /** A refused line is named by the rule that refused it (src/ui/derive.ts lineName). */
@@ -133,6 +135,7 @@ const EN: Words = {
   receiptOf: (m, t) => `${m} · receipt ${t}`,
   lineWord: "Line",
   matchWord: "match",
+  beforeTax: "before tax",
   captureState: { done: "Completed", pending: "Waiting for capture", none: "No capture", back: "Returned" },
   matchCapture: "Match capture",
   rule: { alcohol: "Alcohol", tobacco: "Tobacco", gift_card: "Gift card" },
@@ -189,6 +192,7 @@ const DE: Words = {
   receiptOf: (m, t) => `${m} · Beleg ${t}`,
   lineWord: "Zeile",
   matchWord: "Zuschuss",
+  beforeTax: "vor Steuer",
   captureState: { done: "Abgeschlossen", pending: "Wartet auf Abbuchung", none: "Keine Abbuchung", back: "Zurück" },
   matchCapture: "Zuschuss-Abbuchung",
   rule: { alcohol: "Alkohol", tobacco: "Tabak", gift_card: "Gutschein" },
@@ -245,6 +249,7 @@ const JA: Words = {
   receiptOf: (m, t) => `${m} · レシート ${t}`,
   lineWord: "行",
   matchWord: "マッチング",
+  beforeTax: "税抜",
   captureState: { done: "完了", pending: "引き落とし待ち", none: "引き落としなし", back: "返金済み" },
   matchCapture: "マッチングの引き落とし",
   rule: { alcohol: "酒類", tobacco: "たばこ", gift_card: "ギフトカード" },

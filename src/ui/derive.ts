@@ -112,8 +112,36 @@ export function lineName(l: Pick<LineView, "line" | "need">): { title: string; d
   return { title, detail, original: l.line.text === title ? "" : l.line.text };
 }
 
-/** Each printed line with its fate: the book first (funded / refused), else the classifier while the receipt waits. */
+type LineMoney = { amount: number; tax?: number | null };
+
+/** What a line costs with its share of tax printed on top, as the book funds it (the printed price when the tax is inside). */
+export const lineGross = (line: LineMoney): number => line.amount + (line.tax ?? 0);
+
+/** The line's share of tax on top cannot be worked out: only its printed price is known. */
+export const taxUnknown = (line: LineMoney): boolean => line.tax === null;
+
+/** A line's amount as the screens print it: with its tax, or its printed price marked "before tax". */
+export const lineMoney = (currency: string | null, line: LineMoney): string => `${money(currency, lineGross(line))}${taxUnknown(line) ? " before tax" : ""}`;
+
+/**
+ * Each printed line with its fate: the book first (funded / refused), else the classifier while the receipt waits.
+ * A discount (negative amount) is netted into the line above it in the book and has no rows of its own: it shares that
+ * line's fate, so it is shown on the same side.
+ */
 export function lineViews(v: DriveView, r: Receipt): LineView[] {
+  const out = ownLineViews(v, r);
+  let head: LineView | null = null;
+  return out.map((l) => {
+    if (l.line.amount >= 0) {
+      head = l;
+      return l;
+    }
+    if (!head || l.shares.length || v.ledger.some((x) => x.receiptId === r.id && x.lineNo === l.line.lineNo)) return l;
+    return { line: l.line, state: head.state, need: undefined, qty: null, reason: `Counted with line ${head.line.lineNo}.`, shares: [] };
+  });
+}
+
+function ownLineViews(v: DriveView, r: Receipt): LineView[] {
   return r.lines.map((line) => {
     const rows = v.ledger.filter((x) => x.receiptId === r.id && x.lineNo === line.lineNo);
     const shares = rows.filter((x) => x.kind === "donor_share" || x.kind === "match_share");
@@ -380,9 +408,9 @@ export function readLabel(r: Receipt): string {
   return `${readMark(r)} · ${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
 }
 
-/** What the refused lines of a receipt add up to: money no donor is ever charged. */
-export function refusedTotal(lines: readonly { state: string; line: { amount: number } }[]): number {
-  return lines.filter((l) => l.state === "rejected").reduce((s, l) => s + l.line.amount, 0);
+/** What the refused lines of a receipt add up to, each with its share of tax: money no donor is ever charged. */
+export function refusedTotal(lines: readonly { state: string; line: LineMoney }[]): number {
+  return lines.filter((l) => l.state === "rejected").reduce((s, l) => s + lineGross(l.line), 0);
 }
 
 /**

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { captureState, holdAmounts, holdTag, holdTone, latestFunded, lineName, lineViews, needById, shareGroups, shareStage, type ShareGroup } from "./derive";
+import { captureState, holdAmounts, holdTag, holdTone, latestFunded, lineMoney, lineName, lineViews, needById, shareGroups, shareStage, type ShareGroup } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
 import { donorParts, itemPhrase, lineRange, money, ofCount, pct, qtyText } from "./format";
@@ -358,7 +358,7 @@ function ReceiptColumn({ view, receipt: r, role }: { view: DriveView; receipt: R
               <Cross size={21.19} color="var(--no)" />
               <div className={s.liTxt}>
                 <b>
-                  Line {l.line.lineNo} · {lineName(l).title} · {money(r.currency, l.line.amount)}
+                  Line {l.line.lineNo} · {lineName(l).title} · {lineMoney(r.currency, l.line)}
                 </b>
                 <span>{l.reason}</span>
                 <LineOriginal line={l} />

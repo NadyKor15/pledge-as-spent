@@ -1,4 +1,4 @@
-import { lineName, lineViews } from "@/ui/derive";
+import { lineMoney, lineName, lineViews } from "@/ui/derive";
 import { money } from "@/ui/format";
 import { ServiceError } from "./errors";
 import type { PledgeService } from "./service";
@@ -102,7 +102,7 @@ async function report(svc: PledgeService, tools: ReturnType<typeof chatTools>, d
     const payout = paid ? `${money(receipt.currency, paid)} goes to the volunteer through PayPal Payouts. ` : "";
     await tools.say(`${head}\n${approved} approved, ${refused.length} refused.${why}\n${payout}Donors are charged only for the approved lines.${tools.sandboxNote(driveId, "Follow it here")}`);
   } else if (receipt.status === "review") {
-    const rows = fates.map((l) => `${l.line.lineNo}. ${lineName(l).title} · ${money(receipt.currency, l.line.amount)}${l.state === "rejected" ? " · not funded" : ""}`);
+    const rows = fates.map((l) => `${l.line.lineNo}. ${lineName(l).title} · ${lineMoney(receipt.currency, l.line)}${l.state === "rejected" ? " · not funded" : ""}`);
     // A total that does not add up or a second copy is not a yes-or-no for a chat: approving would accept it as it stands.
     const onlyReject = receipt.flags.some((f) => f.severity === "block" || f.code === "total_mismatch");
     const ask = onlyReject ? `A coordinator will check it on the drive, and no money moves until then.${tools.driveUrl(driveId) ? " In this demo you are the coordinator." : ""}` : "In this demo you are the coordinator: approve or reject it here. No money moves until you do.";

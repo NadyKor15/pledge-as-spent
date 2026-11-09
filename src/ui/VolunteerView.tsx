@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
-import { lineName, lineViews, payoutNote, readLabel, receiptChecks, shareGroups } from "./derive";
+import { lineMoney, lineName, lineViews, payoutNote, readLabel, receiptChecks, shareGroups } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { money, ofCount, titleParts, whenUtc } from "./format";
 import { driveBadge, roleHref } from "./Header";
@@ -287,7 +287,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
               <div className={s.t}>
                 {lineName(l).title}
                 <span className={s.dot}>·</span>
-                <span className={s.pr}>{money(r.currency, l.line.amount)}</span>
+                <span className={s.pr}>{lineMoney(r.currency, l.line)}</span>
               </div>
               <div className={s.why}>{l.reason}</div>
               <LineOriginal line={l} />
