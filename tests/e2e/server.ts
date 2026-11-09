@@ -8,6 +8,7 @@ import { loadForCheck, PayPalCheck, setPayPalCheckForTests } from "../../src/ser
 import { setServiceForTests } from "../../src/server/runtime";
 import { PledgeService } from "../../src/server/service";
 import { recordedSandbox } from "./support/recorded-sandbox";
+import { registerNoNeedReceipt } from "./support/no-need-receipt";
 
 // The real Next app with the service swapped for one on in-memory PGlite and
 // recorded PayPal sandbox answers (no network, no credentials, no model).
@@ -25,10 +26,13 @@ const dev = process.env.NODE_ENV !== "production";
 async function main() {
   const db = await openPglite();
   await db.migrate(path.join(ROOT, "drizzle"));
+  const recordings = Recordings.parse(JSON.parse(readFileSync(path.join(ROOT, "eval/receipts/recorded.json"), "utf8")));
+  // One synthetic receipt the eval set does not have: lines that name no need of the drive (demo.spec.ts).
+  registerNoNeedReceipt(recordings);
   setServiceForTests(
     new PledgeService({
       db: db.db,
-      recordings: Recordings.parse(JSON.parse(readFileSync(path.join(ROOT, "eval/receipts/recorded.json"), "utf8"))),
+      recordings,
       paypal: { clientId: "recorded", clientSecret: "recorded", fetch: recordedSandbox(), retryDelayMs: 0 },
       webhookId: null,
       demoPayoutEmail: "sb-pywsi53523660@personal.example.com",

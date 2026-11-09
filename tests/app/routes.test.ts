@@ -116,6 +116,11 @@ describe("API routes", () => {
     const id = (await r.json()).receipt.id as string;
     const badLines = await decisionPOST(req(`/api/receipts/${id}/decision`, { method: "POST", body: new URLSearchParams({ decision: "approve", reason: "x", lineNos: "2, 99" }), headers: { "content-type": "application/x-www-form-urlencoded" } }), ctx(id));
     expect(await badLines.json()).toMatchObject({ error: "invalid_line_nos", message: expect.stringContaining("99") });
+    // The coordinator's need for a line reaches the service, as JSON from the screen and as "line:need" from a form.
+    const asJson = await decisionPOST(req(`/api/receipts/${id}/decision`, json({ decision: "approve", reason: "x", lineNeeds: [{ lineNo: 1, needId: "rice" }] })), ctx(id));
+    expect([asJson.status, (await asJson.json()).error]).toEqual([400, "invalid_need"]);
+    const asForm = await decisionPOST(req(`/api/receipts/${id}/decision`, { method: "POST", body: new URLSearchParams({ decision: "approve", reason: "x", lineNeeds: "1:rice" }), headers: { "content-type": "application/x-www-form-urlencoded" } }), ctx(id));
+    expect([asForm.status, (await asForm.json()).error]).toEqual([400, "invalid_need"]);
     const form = new URLSearchParams({ decision: "reject", reason: "Bought before the flood", back: `/debug/drive/${driveId}` });
     const res = await decisionPOST(req(`/api/receipts/${id}/decision`, { method: "POST", body: form, headers: { "content-type": "application/x-www-form-urlencoded" } }), ctx(id));
     expect(res.status).toBe(303);

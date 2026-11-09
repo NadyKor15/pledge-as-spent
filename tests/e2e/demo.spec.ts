@@ -3,6 +3,7 @@ import path from "node:path";
 import { chromium, expect, test, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 import type { DriveView } from "../../src/ui/types";
+import { noNeedReceiptBytes } from "./support/no-need-receipt";
 
 // SPEC-ui §3: open /, create the demo, take the sample receipt as coordinator,
 // see 9 approved / 2 rejected and ¥10,448, close the drive, see "released" on
@@ -176,6 +177,42 @@ test("a file that is not a photo gets a plain refusal, nothing is sent", async (
   await page.getByLabel("Receipt photo").setInputFiles({ name: "receipt.webp", mimeType: "image/webp", buffer: Buffer.from("not a photo") });
   await expect(page.locator(".vo-cErr")).toContainText("could not be opened as a photo");
   expect(posted).toBe(false);
+});
+
+test("a line that names no need of the drive: approval waits for the need the coordinator picks, then the line is paid", async ({ page }) => {
+  const driveId = await openDemo(page);
+  const up = await page.request.post(`/api/drives/${driveId}/receipts`, { multipart: { image: { name: "receipt.png", mimeType: "image/png", buffer: noNeedReceiptBytes() } } });
+  expect(up.status()).toBe(201);
+  await page.reload();
+
+  const decide = page.locator(".co-decide");
+  await expect(decide).toBeVisible();
+  await decide.getByLabel(/Also approve line 1/).check();
+  await decide.getByLabel(/Also approve line 3/).check();
+  await decide.getByLabel("Reason").fill("Two boxes and one bottle of water, checked against the photo");
+  const approve = decide.getByRole("button", { name: "Approve" });
+  await expect(approve).toBeDisabled();
+  await expect(decide.getByText("pick the need this line bought")).toBeVisible();
+  // Only the drive's open needs are offered.
+  await expect(decide.getByLabel("Need line 1 bought").locator("option")).toHaveText(["pick a need…", "Water 2 L", "Diapers size M", "AA batteries"]);
+  await decide.getByLabel("Need line 1 bought").selectOption("water");
+  await expect(approve).toBeDisabled();
+  await decide.getByLabel("Need line 3 bought").selectOption("water");
+  await expect(decide.getByText("pick the need this line bought")).toHaveCount(0);
+  await expect(approve).toBeEnabled();
+  await approve.click();
+
+  await expect(page.locator(".co-decide")).toHaveCount(0);
+  const kept = page.locator(".co-pill");
+  await expect(kept).toHaveCount(2);
+  await expect(page.locator(".co-pillWait")).toHaveCount(0);
+  for (const pill of await kept.all()) await expect(pill).toContainText("Water 2 L");
+  await expect(page.locator(".co-rej")).toHaveCount(1);
+  await expect(page.locator(".co-rej")).toContainText("Gift card");
+  await expect(page.locator("body")).not.toContainText("a need this drive does not have");
+  // The money goes: the water line is split across the holds and captured.
+  await expect(page.locator(".co-wrow", { hasText: "Water 2 L" })).toBeVisible();
+  await captureUntilCompleted(page);
 });
 
 test("receipt lines read in English first, the printed text stays small beside them", async ({ page }) => {

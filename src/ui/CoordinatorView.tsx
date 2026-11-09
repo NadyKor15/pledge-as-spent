@@ -376,6 +376,7 @@ function ReceiptBody({
 }
 
 function Decision({
+  view,
   receipt: r,
   lines,
   busy,
@@ -391,10 +392,18 @@ function Decision({
 }) {
   const [reason, setReason] = useState("");
   const [named, setNamed] = useState<number[]>([]);
+  const [picked, setPicked] = useState<Record<number, string>>({});
   const blocked = r.flags.some((f) => f.severity === "block");
   const askable = lines.filter((l) => l.line.verdict === "review" || (l.line.verdict === "eligible" && l.line.ruleCode));
+  // A line approval would fund that points to none of this drive's needs: the coordinator says which need it bought.
+  const open = view.needs.filter((n) => !n.covered);
+  const needless = lines.filter((l) => !l.need && l.line.verdict !== "rejected" && (named.includes(l.line.lineNo) || l.state === "pending"));
+  const unpicked = needless.filter((l) => !picked[l.line.lineNo]);
+  const lineNeeds = needless.filter((l) => picked[l.line.lineNo]).map((l) => ({ lineNo: l.line.lineNo, needId: picked[l.line.lineNo] }));
   const decide = (decision: "approve" | "reject") =>
-    act("decide", `/api/receipts/${encodeURIComponent(r.id)}/decision`, { json: { decision, reason: reason.trim(), by: "coordinator", ...(decision === "approve" && named.length ? { lineNos: named } : {}) } });
+    act("decide", `/api/receipts/${encodeURIComponent(r.id)}/decision`, {
+      json: { decision, reason: reason.trim(), by: "coordinator", ...(decision === "approve" && named.length ? { lineNos: named } : {}), ...(decision === "approve" && lineNeeds.length ? { lineNeeds } : {}) },
+    });
   return (
     <form className={s.decide} onSubmit={(e) => e.preventDefault()}>
       <b>{blocked ? "This receipt cannot be approved" : "Your decision"}</b>
@@ -411,9 +420,38 @@ function Decision({
             <LineOriginal line={l} />
           </label>
         ))}
+      {!blocked &&
+        needless.map((l) => (
+          <label key={`need-${l.line.lineNo}`} className={s.pick}>
+            Line {l.line.lineNo} bought
+            <select
+              value={picked[l.line.lineNo] ?? ""}
+              onChange={(e) => setPicked((p) => ({ ...p, [l.line.lineNo]: e.target.value }))}
+              aria-label={`Need line ${l.line.lineNo} bought`}
+            >
+              <option value="">pick a need…</option>
+              {open.map((n) => (
+                <option key={n.needId} value={n.needId}>
+                  {n.displayLabel}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
+      {!blocked && unpicked.length > 0 && (
+        <span className={s.hint} role="note">
+          Line {unpicked.map((l) => l.line.lineNo).join(", ")} names no need of this drive: pick the need this line bought.
+        </span>
+      )}
       <input type="text" value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Reason (required)" aria-label="Reason" maxLength={500} />
       <div className={s.acts}>
-        <button type="button" className={s.approve} disabled={blocked || !reason.trim() || busy !== null} onClick={() => decide("approve")}>
+        <button
+          type="button"
+          className={s.approve}
+          disabled={blocked || !reason.trim() || busy !== null || unpicked.length > 0}
+          title={unpicked.length > 0 ? "pick the need this line bought" : undefined}
+          onClick={() => decide("approve")}
+        >
           {busy === "decide" ? "Saving…" : "Approve"}
         </button>
         <button type="button" className={s.reject} disabled={!reason.trim() || busy !== null} onClick={() => decide("reject")}>

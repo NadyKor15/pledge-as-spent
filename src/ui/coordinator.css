@@ -116,6 +116,9 @@
 .co-decide b { font-size: 16px; }
 .co-decide label { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
 .co-decide input[type="text"] { height: 36px; padding: 0 10px; border: 1px solid var(--card-line); border-radius: 7px; background: var(--surface); }
+.co-decide .co-pick { flex-wrap: wrap; }
+.co-decide select { height: 34px; min-width: 0; max-width: 100%; padding: 0 8px; border: 1px solid var(--card-line); border-radius: 7px; background: var(--surface); color: var(--ink); font: inherit; }
+.co-decide .co-hint { color: var(--no); font-size: 13.5px; line-height: 18px; }
 .co-decide .co-acts { display: flex; gap: 8px; }
 .co-decide button { height: 38px; padding: 0 16px; border-radius: 7px; font-weight: 600; font-size: 14.5px; }
 .co-approve { background: var(--btn-2); color: var(--on-btn); }

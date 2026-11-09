@@ -660,14 +660,27 @@ export class PledgeService {
    * The coordinator approves what they were shown as flagged: lines held only for low confidence or a
    * quantity that does not fit (eligible, no rule code), and a total mismatch when that held the receipt.
    * Lines the classifier itself marked "review" (or eligible with a rule code) stay refused unless named in `lineNos`.
+   * A line that points to none of the drive's needs is approved only with the need the coordinator picks for it
+   * (`lineNeeds`: one of this drive's needs, not yet covered); picking a need approves the line. Its quantity is the
+   * one read for the need, else the printed one.
    */
-  async coordinatorDecision(receiptId: string, decision: "approve" | "reject", reason: string, opts: { lineNos?: number[]; by?: string } = {}): Promise<SubmitResult> {
+  async coordinatorDecision(
+    receiptId: string,
+    decision: "approve" | "reject",
+    reason: string,
+    opts: { lineNos?: number[]; by?: string; lineNeeds?: { lineNo: number; needId: string }[] } = {},
+  ): Promise<SubmitResult> {
     if (decision !== "approve" && decision !== "reject") throw new ServiceError(400, "invalid_decision", "decision must be approve or reject.");
     const text = String(reason ?? "").trim().slice(0, 500);
     if (!text) throw new ServiceError(400, "reason_required", "A reason is required.");
     const by = String(opts.by ?? "coordinator").trim().slice(0, 80) || "coordinator";
     const named = opts.lineNos ?? [];
     if (!Array.isArray(named) || named.some((n) => !Number.isSafeInteger(n) || n <= 0)) throw new ServiceError(400, "invalid_line_nos", "lineNos must be positive whole line numbers.");
+    const picks = opts.lineNeeds ?? [];
+    if (!Array.isArray(picks) || picks.some((p) => !p || !Number.isSafeInteger(p.lineNo) || p.lineNo <= 0 || typeof p.needId !== "string" || !p.needId)) {
+      throw new ServiceError(400, "invalid_line_needs", "lineNeeds must be a list of { lineNo, needId }.");
+    }
+    if (new Set(picks.map((p) => p.lineNo)).size !== picks.length) throw new ServiceError(400, "invalid_line_needs", "lineNeeds names a line twice.");
     const [head] = await this.db.select({ driveId: receipts.driveId }).from(receipts).where(eq(receipts.id, receiptId));
     if (!head) throw new ServiceError(404, "unknown_receipt", `No receipt ${receiptId}.`);
     const row = await this.driveRow(head.driveId);
@@ -679,18 +692,40 @@ export class PledgeService {
       if (decision === "approve" && blocking.length) {
         throw new ServiceError(409, "blocked", `This receipt cannot be approved: ${blocking.map((f) => f.messageEn).join(" ")}`);
       }
-      const reading = { parsed: r.parsed as ParsedReceipt, classified: r.classified as StoredClassification };
-      const printed = new Set(reading.parsed.lines.map((l) => l.lineNo));
-      const unknown = named.filter((n) => !printed.has(n));
-      if (unknown.length) throw new ServiceError(400, "invalid_line_nos", `Receipt ${receiptId} has no line ${unknown.join(", ")}.`);
+      const stored = { parsed: r.parsed as ParsedReceipt, classified: r.classified as StoredClassification };
+      const printed = new Set(stored.parsed.lines.map((l) => l.lineNo));
+      const unknown = [...named, ...picks.map((p) => p.lineNo)].filter((n) => !printed.has(n));
+      if (unknown.length) throw new ServiceError(400, "invalid_line_nos", `Receipt ${receiptId} has no line ${[...new Set(unknown)].join(", ")}.`);
       if (decision === "reject") {
         await b.tx.update(receipts).set({ status: "rejected", decision: { decision, reason: text, by, at: this.now() } }).where(eq(receipts.id, receiptId));
         return [] as PayPalCommand[];
       }
       const s = b.state;
       const needs = s.needIds.map((id) => s.needs[id]);
+      const cls = new Map(stored.classified.lines.map((c) => [c.lineNo, c]));
+      const ownNeed = (lineNo: number) => {
+        const id = cls.get(lineNo)?.needId;
+        return id && s.needIds.includes(id) ? id : null;
+      };
+      // The coordinator's needs for lines the reading gave none of this drive's: each one this drive's, still open.
+      const chosen = picks.map(({ lineNo, needId }) => {
+        if (!s.needIds.includes(needId)) throw new ServiceError(400, "invalid_need", `This drive has no need ${needId}.`);
+        const need = s.needs[needId];
+        if ((s.qtyCovered[needId] ?? 0) >= need.qtyNeeded) throw new ServiceError(400, "need_covered", `${need.label} is already fully covered.`);
+        if (ownNeed(lineNo)) throw new ServiceError(400, "need_already_set", `Line ${lineNo} already points to the need ${ownNeed(lineNo)}.`);
+        const read = cls.get(lineNo)?.needQty;
+        const printedQty = stored.parsed.lines.find((l) => l.lineNo === lineNo)?.qty;
+        const needQty = read && Number.isSafeInteger(read) && read > 0 ? read : printedQty && Number.isSafeInteger(printedQty) && printedQty > 0 ? printedQty : 1;
+        return { lineNo, needId, needQty };
+      });
+      const missing = named.filter((n) => !ownNeed(n) && !chosen.some((c) => c.lineNo === n) && cls.get(n)?.verdict !== "rejected");
+      if (missing.length) {
+        throw new ServiceError(400, "need_required", `Line ${missing.join(", ")} points to none of this drive's needs: pick the need this line bought.`);
+      }
+      const reading = chosen.length
+        ? { ...stored, classified: { ...stored.classified, lines: stored.classified.lines.map((c) => ({ ...c, ...chosen.find((x) => x.lineNo === c.lineNo) })) } }
+        : stored;
       const held = toFundableLines(reading.parsed, reading.classified.lines, needs, s.drive!, s.qtyCovered, { receiptId }).rejected;
-      const cls = new Map(reading.classified.lines.map((c) => [c.lineNo, c]));
       const shown = held
         .filter((x) => (x.code === "low_confidence" || x.code === "review") && cls.get(x.lineNo)?.verdict === "eligible" && !cls.get(x.lineNo)?.ruleCode)
         .map((x) => x.lineNo);
@@ -698,11 +733,11 @@ export class PledgeService {
         by,
         reason: text,
         acceptTotalMismatch: flags.some((f) => f.code === "total_mismatch"),
-        lineNos: [...new Set([...shown, ...named])].sort((x, y) => x - y),
+        lineNos: [...new Set([...shown, ...named, ...chosen.map((c) => c.lineNo)])].sort((x, y) => x - y),
       };
       await b.tx
         .update(receipts)
-        .set({ status: "funded", decision: { decision, reason: text, by, at: this.now(), approved: approval } })
+        .set({ status: "funded", decision: { decision, reason: text, by, at: this.now(), approved: approval, ...(chosen.length ? { lineNeeds: chosen } : {}) } })
         .where(eq(receipts.id, receiptId));
       return this.fundInBook(b, receiptId, reading, row.payoutEmail, approval);
     });

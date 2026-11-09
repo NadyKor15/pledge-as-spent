@@ -6,6 +6,7 @@ import { events, receipts, spendLedger } from "../../src/db/schema";
 import type { ConverseClient } from "../../src/receipts/bedrock";
 import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { sha256Hex } from "../../src/receipts/hash";
+import { receiptKey } from "../../src/receipts/recorded";
 import { demoDrive } from "../../src/server/demo";
 import { ReceiptReading, SHIPPED_ANSWERS, type SavedAnswer } from "../../src/server/reading";
 import { closeReceipt, isClosedCopy, openMask } from "../../src/receipts/close";
@@ -314,6 +315,84 @@ describe("receipt checks", () => {
     expect(v.needs.find((n) => n.needId === "batteries")!.qtyCovered).toBe(10);
     expect(v.ledger.filter((l) => l.receiptId === r.receipt.id && l.kind === "rejected")).toEqual([]);
     expect((await svc.getReceipt(r.receipt.id)).decision).toMatchObject({ by: "Nadya", approved: { lineNos: [1, 2] } });
+  });
+});
+
+// The server's case of 9 November: a reading held two water lines for a person with no need named (and no quantity),
+// and refused a gift card. Approving them used to refuse them as "a need this drive does not have".
+describe("a line that points to none of the drive's needs", () => {
+  async function heldWithoutNeed(seed: number) {
+    const rec = loadRecordings();
+    const x = syntheticReceipt(rec, seed, [
+      { needId: null, qty: 2, amount: 1716, verdict: "review", ruleCode: "unclear", confidence: 0.5 },
+      { needId: null, qty: 1, amount: 5000, verdict: "rejected", ruleCode: "gift_card", confidence: 0.95 },
+      { needId: null, qty: 1, amount: 138, verdict: "review", ruleCode: "unclear", confidence: 0.5 },
+    ]);
+    for (const c of rec.classifications[receiptKey(x.parsed)]) c.needQty = null;
+    const h = await harness({ fetch: fakeSandbox().fetch, recordings: rec });
+    const driveId = (await h.svc.createDemoDrive({ driveId: `demo-noneed-${seed}` })).drive.id;
+    const r = await h.svc.submitReceipt({ driveId, bytes: x.bytes });
+    expect(r.receipt.status).toBe("review");
+    expect(r.receipt.lines.map((l) => l.needId)).toEqual([null, null, null]);
+    return { h, rec, driveId, receiptId: r.receipt.id };
+  }
+
+  it("is approved with the need the coordinator picks: it is funded, and the money goes out", async () => {
+    const { h, driveId, receiptId } = await heldWithoutNeed(91);
+    expect(await reject(h.svc.coordinatorDecision(receiptId, "approve", "water, checked", { lineNos: [1, 3] }))).toMatchObject({ status: 400, code: "need_required", message: expect.stringContaining("pick the need this line bought") });
+    expect((await h.svc.getReceipt(receiptId)).status).toBe("review");
+
+    const d = await h.svc.coordinatorDecision(receiptId, "approve", "Two boxes and one bottle of water, checked against the photo", {
+      lineNeeds: [
+        { lineNo: 1, needId: "water" },
+        { lineNo: 3, needId: "water" },
+      ],
+    });
+    expect(d.receipt.status).toBe("funded");
+    const v = await h.svc.getDriveView(driveId);
+    // No quantity was read: the printed one counts.
+    expect(v.needs.find((n) => n.needId === "water")!.qtyCovered).toBe(3);
+    const mine = v.ledger.filter((l) => l.receiptId === receiptId);
+    expect([...new Set(mine.filter((l) => l.kind === "donor_share" || l.kind === "match_share").map((l) => [l.lineNo, l.needId].join(":")))]).toEqual(["1:water", "3:water"]);
+    expect(mine.filter((l) => l.kind === "rejected").map((l) => [l.lineNo, l.code])).toEqual([[2, "gift_card"]]);
+    expect(d.commands.some((c) => c.kind === "payout")).toBe(true);
+    expect(d.receipt.decision).toMatchObject({
+      approved: { lineNos: [1, 3] },
+      lineNeeds: [
+        { lineNo: 1, needId: "water", needQty: 2 },
+        { lineNo: 3, needId: "water", needQty: 1 },
+      ],
+    });
+  });
+
+  it("a need this drive does not have, one already covered, or a line that has its need is refused with 400; nothing is decided", async () => {
+    const { h, rec, driveId, receiptId } = await heldWithoutNeed(92);
+    const pick = (needId: string, lineNo = 1) => h.svc.coordinatorDecision(receiptId, "approve", "checked", { lineNeeds: [{ lineNo, needId }] });
+    expect(await reject(pick("rice"))).toMatchObject({ status: 400, code: "invalid_need" });
+    expect(await reject(pick("water", 9))).toMatchObject({ status: 400, code: "invalid_line_nos" });
+    // Diapers (6 packs) covered by another receipt first.
+    const full = syntheticReceipt(rec, 93, [{ needId: "diapers", qty: 6, amount: 4536 }]);
+    expect((await h.svc.submitReceipt({ driveId, bytes: full.bytes })).receipt.status).toBe("funded");
+    expect(await reject(pick("diapers"))).toMatchObject({ status: 400, code: "need_covered" });
+    expect((await h.svc.getReceipt(receiptId)).status).toBe("review");
+  });
+
+  it("a line the reading already gave a need of this drive keeps it", async () => {
+    const rec = loadRecordings();
+    const x = syntheticReceipt(rec, 94, [{ needId: "batteries", qty: 10, amount: 980, verdict: "review", ruleCode: "unclear" }]);
+    const h = await harness({ fetch: fakeSandbox().fetch, recordings: rec });
+    const driveId = (await h.svc.createDemoDrive({ driveId: "demo-hasneed" })).drive.id;
+    const r = await h.svc.submitReceipt({ driveId, bytes: x.bytes });
+    expect(await reject(h.svc.coordinatorDecision(r.receipt.id, "approve", "checked", { lineNeeds: [{ lineNo: 1, needId: "water" }] }))).toMatchObject({ status: 400, code: "need_already_set" });
+  });
+
+  it("refusing it works as before: no need asked, no money moves", async () => {
+    const { h, driveId, receiptId } = await heldWithoutNeed(95);
+    const before = (await h.db.db.select().from(events).where(eq(events.driveId, driveId))).filter((e) => ["LineFunded", "CaptureSubmitted", "PayoutSubmitted"].includes(e.type));
+    const d = await h.svc.coordinatorDecision(receiptId, "reject", "Not for the shelter");
+    expect(d.receipt.status).toBe("rejected");
+    const after = (await h.db.db.select().from(events).where(eq(events.driveId, driveId))).filter((e) => ["LineFunded", "CaptureSubmitted", "PayoutSubmitted"].includes(e.type));
+    expect(after).toHaveLength(before.length);
   });
 });
 
