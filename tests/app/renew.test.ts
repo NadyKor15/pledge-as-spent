@@ -166,24 +166,27 @@ describe("renew switched on", () => {
     expect(await s.h.svc.renewPledge(p.pledgeId)).toMatchObject({ approval: "paypal_window", status: "PAYER_ACTION_REQUIRED", created: true });
   });
 
-  it("a crash between the approval and the link is finished by the next return from PayPal (or a press)", async () => {
-    const s = await setup("real-renew-crash", { real: true });
-    const r = await s.h.svc.renewPledge(s.lena);
-    s.pp.approve(r.orderId);
-    const svc = s.h.svc as unknown as { afterAuthorization: (id: string) => Promise<unknown> };
-    const real = svc.afterAuthorization.bind(s.h.svc);
-    const spy = vi.spyOn(svc, "afterAuthorization").mockRejectedValueOnce(new Error("crash"));
-    await expect(s.h.svc.approvePledge(r.pledgeId, r.orderId)).rejects.toThrow(/crash/);
-    spy.mockImplementation(real);
-    expect(await s.links()).toEqual([]);
-    // meanwhile the statement shows it approved, and a second press refuses a second renewal
-    expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ pending: { pledgeId: r.pledgeId, approved: true } });
-    expect(await s.h.svc.renewPledge(s.lena)).toMatchObject({ pledgeId: r.pledgeId, created: false });
-    expect(await s.links()).toHaveLength(1); // the press finished the link
-    await s.h.svc.approvePledge(r.pledgeId, r.orderId);
-    expect(await s.links()).toHaveLength(1);
-    vi.restoreAllMocks();
-  });
+  for (const finish of ["the next return from PayPal", "a press on Renew"] as const) {
+    it(`a crash between the approval and the link is finished by ${finish}`, async () => {
+      const s = await setup(`real-renew-crash-${finish.length}`, { real: true });
+      const r = await s.h.svc.renewPledge(s.lena);
+      s.pp.approve(r.orderId);
+      const svc = s.h.svc as unknown as { afterAuthorization: (id: string) => Promise<unknown> };
+      const real = svc.afterAuthorization.bind(s.h.svc);
+      const spy = vi.spyOn(svc, "afterAuthorization").mockRejectedValueOnce(new Error("crash"));
+      await expect(s.h.svc.approvePledge(r.pledgeId, r.orderId)).rejects.toThrow(/crash/);
+      spy.mockImplementation(real);
+      expect(await s.links()).toEqual([]);
+      // meanwhile the statement shows it approved, and no second renewal can start
+      expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ pending: { pledgeId: r.pledgeId, approved: true } });
+      if (finish === "a press on Renew") expect(await s.h.svc.renewPledge(s.lena)).toMatchObject({ pledgeId: r.pledgeId, created: false });
+      else expect(await s.h.svc.approvePledge(r.pledgeId, r.orderId)).toMatchObject({ status: "authorized" });
+      expect(await s.links()).toHaveLength(1);
+      await s.h.svc.approvePledge(r.pledgeId, r.orderId);
+      expect(await s.links()).toHaveLength(1);
+      vi.restoreAllMocks();
+    });
+  }
 
   it("a line funded while the donor is in the PayPal window trims the renewal: never charged more than pledged", async () => {
     const s = await setup("real-renew-race", { real: true });
