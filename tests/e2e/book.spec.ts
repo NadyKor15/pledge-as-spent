@@ -138,6 +138,22 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await expect.poll(() => rowTop(page, next)).toBe(before);
   });
 
+  test("a press on a band's button counts while its row sits partly above the window", async ({ page }) => {
+    await openBook(page, fixture("closed"));
+    await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
+    await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
+    await expect(page.locator(".lg-band")).toBeVisible();
+    // The open row 20 px above the window's top edge, its band below it in view.
+    await page.locator(".ag-row.lg-proof-row").evaluate((e) => window.scrollBy(0, e.getBoundingClientRect().top + 20));
+    await scrolled(page);
+    expect(await page.locator(".ag-row.lg-proof-row").evaluate((e) => e.getBoundingClientRect().top)).toBeLessThan(-10);
+    const before = await page.evaluate(() => window.scrollY);
+    await page.getByRole("button", { name: "Ask about this line" }).click();
+    expect(await page.evaluate(() => (window as unknown as { asked: string[] }).asked)).toEqual(["demo-f372326129.r1:4"]);
+    // The page did not jump under the press.
+    expect(await page.evaluate(() => window.scrollY)).toBe(before);
+  });
+
   test("Enter on a row opens its proof from the keyboard", async ({ page }) => {
     await openBook(page, fixture("closed"));
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .ag-cell`).first().click();
@@ -177,12 +193,6 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     const without = await height();
     await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
-    // Without the chat's room the page ends right under the book and the open row sits partly above the window (27 px).
-    // A press in the band then focuses the row's cell (the grid does that on mousedown) and the browser scrolls the
-    // cell into view between mousedown and mouseup, so the press lands beside the button. A person sees the row first:
-    // bring it into view, as a person would scroll to it, and press once the page stands still.
-    await page.locator(".ag-row.lg-proof-row").evaluate((e) => e.scrollIntoView({ block: "center" }));
-    await scrolled(page);
     await page.getByRole("button", { name: "Ask about this line" }).click();
     expect(await page.evaluate(() => (window as unknown as { asked: string[] }).asked)).toEqual(["demo-f372326129.r1:4"]);
     // A component for the slot: the report makes room for it right over the book.

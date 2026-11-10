@@ -1,7 +1,7 @@
 "use client";
 
 import type { AgWidgetField } from "ag-studio";
-import type { GridApi, IRowNode } from "ag-grid-community";
+import { _stopPropagationForAgGrid, type GridApi, type IRowNode } from "ag-grid-community";
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ComponentType } from "react";
 import { HoldMeter } from "../HoldMeter";
@@ -212,6 +212,24 @@ function Band({ store, row, stacked, width }: { store: LedgerStore; row: LedgerB
     ro.observe(el);
     return () => ro.disconnect();
   }, [store, shown]);
+  // A press in the band is the band's, not the grid's. On pointerdown, mousedown and click the grid focuses the row's
+  // cell; when the row sits partly above the window the browser then scrolls the cell into view, between the press going
+  // down and coming up, and the press lands beside the button it went down on: nothing is clicked. So the band's presses
+  // carry the grid's own "not for the grid" mark (AG Grid ignores marked events; they still bubble, so React's handlers
+  // run), and a pointer press on a band button does not move the focus either. Tab and Enter reach the buttons as before.
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const mine = (e: Event) => {
+      _stopPropagationForAgGrid(e);
+      if ((e.type === "mousedown" || e.type === "pointerdown") && (e.target as Element | null)?.closest?.("button")) e.preventDefault();
+    };
+    const types = ["pointerdown", "mousedown", "touchstart", "click", "dblclick"] as const;
+    for (const t of types) el.addEventListener(t, mine);
+    return () => {
+      for (const t of types) el.removeEventListener(t, mine);
+    };
+  }, [shown]);
   if (!proof || !width) return null;
   return (
     <div className="lg-band-wrap" ref={wrap} style={{ width }}>
