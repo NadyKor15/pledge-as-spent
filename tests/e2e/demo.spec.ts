@@ -958,8 +958,12 @@ test("recheck: the need pictures are painted on the Ledger right after Close", a
   await closeDrive(page);
   await page.getByRole("link", { name: "See where the money went" }).click();
   await page.waitForURL(/as=ledger/);
+  // The pointer stays where the link was; over a donor or a need of the Ledger it lights that one and dims the rest
+  // (opacity .16), which is hovering, not painting. Park it on the header first.
+  await page.mouse.move(2, 2);
   const pics = page.locator(".lg-pic img");
   await expect(pics).toHaveCount(3, { timeout: 15_000 });
+  await expect(page.locator(".lg-need.is-dim")).toHaveCount(0);
   for (const wait of [1_500, 6_000]) {
     await page.waitForTimeout(wait);
     for (let i = 0; i < 3; i++) {
