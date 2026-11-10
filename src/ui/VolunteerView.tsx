@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
-import { lineMoney, lineName, lineViews, payoutNote, readLabel, receiptChecks, shareGroups } from "./derive";
+import { lineMoney, lineName, lineViews, payoutNote, readLabel, receiptChecks, refusedCount, shareGroups } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { money, ofCount, titleParts, whenUtc } from "./format";
 import { driveBadge, roleHref } from "./Header";
@@ -277,7 +277,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
           {refused.length > 0 && (
             <>
               <span className={s.dot}>·</span>
-              <span className={s.no}>{refused.length} refused</span>
+              <span className={s.no}>{refusedCount(lines)} refused</span>
             </>
           )}
         </div>
