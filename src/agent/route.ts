@@ -1,3 +1,4 @@
+import { shownHolds } from "@/ui/derive";
 import { donorParts } from "@/ui/format";
 import type { DriveView, Hold } from "@/ui/types";
 import { norm, withAliases } from "./tools";
@@ -64,7 +65,8 @@ function donorIn(v: DriveView, text: string): Hold | null {
       .split(/[^\p{L}\p{N}]+/u)
       .filter((w) => w.length >= 2),
   );
-  const hits = v.holds.filter((h) => {
+  // A renewed donor is one donor: their two holds would make two hits (renewal-chain.ts).
+  const hits = shownHolds(v).filter((h) => {
     if (h.kind !== "donor") return false;
     const { name, place } = donorParts(h.donorName, h.donorCountry);
     const city = (place ?? "").split(",")[0];

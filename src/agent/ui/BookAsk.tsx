@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
+import { shownHolds } from "@/ui/derive";
 import { donorParts } from "@/ui/format";
 import type { AskComponent, LedgerStore } from "@/ui/ledger/store";
 import { studioReadOnlyTools, type WebMcpTool } from "@/ui/ledger/webmcp";
@@ -33,7 +34,7 @@ export function askComponentFor(agent: LedgerAgent): AskComponent {
     const view = snap.view;
     const donors = useMemo(
       () =>
-        (view?.holds ?? [])
+        (view ? shownHolds(view) : [])
           .filter((h) => h.kind === "donor")
           .map((h) => {
             const { name, place } = donorParts(h.donorName);

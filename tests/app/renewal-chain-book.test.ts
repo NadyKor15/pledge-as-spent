@@ -3,6 +3,8 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { chainIds, holdById, shareGroups, shownHolds, shownId } from "@/ui/derive";
 import { chainFee } from "@/ui/fee-line";
+import { routeQuestion } from "@/agent/route";
+import { donorFigures, findHolds } from "@/agent/tools";
 import { meterParts, METER_KEYS } from "@/ui/hold-meter";
 import { deriveLedger } from "@/ui/ledger/derive";
 import { needMeter } from "@/ui/ledger/need-meter";
@@ -144,5 +146,31 @@ describe("the coordinator's and the donors' screens: Lena is one card", () => {
     expect(chainFee(fees, [OLD, NEW])).toEqual({ currency: "EUR", minor: 86, captures: 2, reported: 1 });
     expect(chainFee(fees, [OLD])).toBe(fees[OLD]);
     expect(chainFee(null, [OLD])).toBeUndefined();
+  });
+});
+
+describe("the agent ('Ask the book') reads Lena once", () => {
+  for (const stage of ["renewed", "captured", "closed", "race"] as Stage[]) {
+    it(`${stage}: one hit for her name, her figures over the chain at €20.00, the question routed to her`, () => {
+      const v = renewed(stage);
+      const hits = findHolds(v, "Lena");
+      expect(hits).toHaveLength(1);
+      expect(hits[0].pledgeId).toBe(OLD);
+      const f = donorFigures(v, hits[0]);
+      expect(f.pledged).toBe(2000);
+      expect(f.spent + f.back + f.held).toBe(2000);
+      const book = deriveLedger(v).donors.find((d) => d.pledgeId === OLD)!;
+      expect({ spent: f.spent, held: f.held, back: f.back }).toEqual({ spent: book.spent, held: book.held, back: book.back });
+      // every donor share of hers, from either hold, is in her figures
+      expect(f.rows.filter((r) => r.kind === "donor_share")).toHaveLength(v.ledger.filter((r) => r.pledgeId === OLD || r.pledgeId === NEW).length);
+      expect(routeQuestion(v, "How much of Lena's money was spent?")?.donor).toBe(holdById(v, OLD)!.donorName);
+    });
+  }
+  it("no renewal: the same hit and the same route as on the plain drive", () => {
+    const v = fixture("closed");
+    const lena = v.holds.filter((h) => h.donorName.startsWith("Lena"));
+    expect(lena).toHaveLength(1);
+    expect(findHolds(v, "Lena")[0]).toBe(lena[0]);
+    expect(routeQuestion(v, "How much of Lena's money was spent?")?.donor).toBe(lena[0].donorName);
   });
 });
