@@ -50,8 +50,6 @@ import { PayPalError } from "../paypal/errors";
 import { isCurrencyCode } from "../paypal/money";
 import type { FetchLike } from "../paypal/recording";
 import type { PayPalGateway } from "../paypal/types";
-import type { ConverseClient } from "../receipts/bedrock";
-import type { OcrEngine } from "../receipts/ocr";
 import { checkReceipt, reconcile as reconcileTotals, splitTax, toFundableLines, type CoordinatorApproval, type ReceiptFlag } from "../receipts/checks";
 import { dHash, semanticKey, sha256Hex } from "../receipts/hash";
 import type { Recordings } from "../receipts/recorded";
@@ -71,7 +69,6 @@ export type Channel = "web" | "whatsapp" | "telegram";
 export interface Limits {
   demoDrivesPerHour: number;
   liveReadsPerDay: number;
-  spendCapUsd: number;
   maxImageBytes: number;
   /** A capture or payout without a webhook this long is looked up at PayPal. */
   lookupGraceMinutes: number;
@@ -82,7 +79,6 @@ export interface Limits {
 export const DEFAULT_LIMITS: Limits = {
   demoDrivesPerHour: 5,
   liveReadsPerDay: 30,
-  spendCapUsd: 5,
   // Vercel caps a request body at 4.5 MB; the client compresses photos below this.
   maxImageBytes: 4 * 1024 * 1024,
   lookupGraceMinutes: 10,
@@ -102,15 +98,12 @@ export interface ServiceDeps {
   demoPayoutEmail?: string | null;
   /** HMAC key for IP hashes; IPs themselves are never stored. */
   ipHashKey: string;
-  /** Bedrock client for live reading; absent: only cached readings. */
-  bedrock?: () => ConverseClient;
   /** Live reading by Meta (READING_PIPELINE=meta): Nadya's key and the reading's own ceiling. */
   metaReading?: { apiKey: string; baseUrl?: string; capUsd: number; fetch?: typeof fetch };
   /** Closes the published copy of a photo by its rows (src/receipts/close.ts). */
   closeReceipt?: CloseReceipt;
-  /** Live pipeline (default ocr-lite) and the OCR engine it needs. */
+  /** Live pipeline; absent: no live reading, only saved, recorded and stored answers. */
   pipeline?: Pipeline;
-  ocr?: () => OcrEngine;
   now?: () => string;
   limits?: Partial<Limits>;
   log?: (message: string, extra?: unknown) => void;
@@ -183,7 +176,7 @@ export class PledgeService {
       d.db,
       { answers: d.savedAnswers, recordings: d.recordings },
       this.limits,
-      d.pipeline === "meta" ? (d.metaReading ? { pipeline: "meta", meta: d.metaReading } : undefined) : d.bedrock ? { pipeline: d.pipeline ?? "ocr-lite", bedrock: d.bedrock, ocr: d.ocr } : undefined,
+      d.pipeline === "meta" && d.metaReading ? { pipeline: "meta", meta: d.metaReading } : undefined,
       d.closeReceipt,
     );
   }

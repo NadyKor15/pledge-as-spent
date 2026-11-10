@@ -4,8 +4,9 @@
 //   D  Meta Muse Spark 1.3 (Responses API) for both agents; the model picks every tool unless --route code.
 //      The key comes only through the campaign's Meta wrapper script (tools/p3), money goes to
 //      eval/meta-spend-ledger.jsonl and never over $1 in all.
-// Variants A, B and C were tried on 06.11 (another provider's models); their recorded runs stay in
-// eval/agent/recorded/{A,B,C} and can be replayed, not run live: the server has no model but Muse Spark.
+// Variants A, B and C were tried on 06.11 (another provider's models); their recorded runs are kept as evidence in
+// eval/baseline-legacy/agent/recorded/ and replay on the debug page (?mode=recorded&set=A), not here and never
+// live: the server has no model but Muse Spark. This script replays the sets in eval/agent/recorded (D, D2, sim-*).
 //
 // Each run starts its own `next dev` (and stops it), so the limits are the server's, not a promise:
 //   --live       real Muse Spark (mode D only); needs --max-calls and --max-usd. The server refuses any call
@@ -19,7 +20,7 @@
 //
 //   npx tsx scripts/agent-measure.ts --mode D --live --max-calls 30 --max-usd 1
 //   npx tsx scripts/agent-measure.ts --mode D --sim
-//   npx tsx scripts/agent-measure.ts --mode A --set r1-lite
+//   npx tsx scripts/agent-measure.ts --mode D --set D2
 
 import { chromium } from "@playwright/test";
 import { spawn, type ChildProcess } from "node:child_process";
@@ -27,9 +28,7 @@ import { closeSync, existsSync, mkdirSync, openSync, readFileSync, writeFileSync
 import path from "node:path";
 import closed from "../tests/fixtures/drives/closed.json";
 import { evalQuestions, scoreAnswer } from "../eval/agent/questions";
-import { META_PRICES, metaUsd } from "../src/agent/meta-wire";
-// Prices of the models of the variants tried on 06.11, for replays of their recorded runs only.
-import { modelUsd as recordedUsd } from "../src/receipts/spend";
+import { metaUsd } from "../src/agent/meta-wire";
 import type { DriveView } from "../src/ui/types";
 import { runPage, type PageRun } from "./agent-browser";
 
@@ -113,9 +112,8 @@ function stopServer(child: ChildProcess | null) {
   }
 }
 
-const priced = (model: string, i: number, o: number) => (META_PRICES[model] ? metaUsd(model, i, o) : recordedUsd(model, i, o));
 const usdOf = (turns: { response: { model?: string; usage?: { inputTokens: number; outputTokens: number } } }[]) =>
-  turns.reduce((s, t) => (t.response.model && t.response.model !== "simulated" && t.response.usage ? s + priced(t.response.model, t.response.usage.inputTokens, t.response.usage.outputTokens) : s), 0);
+  turns.reduce((s, t) => (t.response.model && t.response.model !== "simulated" && t.response.usage ? s + metaUsd(t.response.model, t.response.usage.inputTokens, t.response.usage.outputTokens) : s), 0);
 
 async function main() {
   const questions = evalQuestions(closed as unknown as DriveView).filter((q) => !only || only.includes(q.id));

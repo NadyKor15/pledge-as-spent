@@ -8,11 +8,12 @@ import { factsFromLedgerResult, factsFromQueryResult, type ToolRun } from "./fac
 import { checkAnswer } from "./guard";
 import type { Fact } from "./types";
 
-// The measure (rule 84) on the recorded live runs of 06.11 (Nova Lite, eval/agent/recorded/Q*.json):
+// The measure (rule 84) on the recorded live runs of 06.11 on an earlier model (eval/baseline-legacy/agent/recorded/):
 // the numbers below are what the agent actually answered; re-recording changes them on purpose.
 
 const closed = closedJson as unknown as DriveView;
-const DIR = path.resolve(__dirname, "../../eval/agent/recorded/r1-lite");
+const LEGACY = path.resolve(__dirname, "../../eval/baseline-legacy/agent/recorded");
+const DIR = path.join(LEGACY, "r1-lite");
 interface Recording {
   id: string;
   phase: string;
@@ -25,7 +26,7 @@ const recordings = readdirSync(DIR)
 const factsOf = (r: Recording): Fact[] =>
   r.toolRuns.flatMap((t) => (!t.ok ? [] : t.name.startsWith("ledger_") ? factsFromLedgerResult(t.result) : t.name === "execute_query" ? factsFromQueryResult(t.result, "JPY") : []));
 
-describe("the measure on recorded Nova Lite answers", () => {
+describe("the measure on the recorded answers of an earlier model", () => {
   it("all seven questions were recorded", () => {
     expect(recordings.map((r) => r.id).sort()).toEqual(["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"]);
   });
@@ -58,7 +59,7 @@ describe("the measure on recorded Nova Lite answers", () => {
   });
 
   it("scoring by meaning: variant A's Q6 of 06.11 (\"zu 100% … ausgegeben\" for €4.58 of €20) was counted right then, is wrong now", () => {
-    const a6 = JSON.parse(readFileSync(path.resolve(__dirname, "../../eval/agent/recorded/A/Q6.json"), "utf8")) as Recording;
+    const a6 = JSON.parse(readFileSync(path.join(LEGACY, "A", "Q6.json"), "utf8")) as Recording;
     const q6 = evalQuestions(closed).find((x) => x.id === "Q6")!;
     expect(scoreAnswer(q6, { text: a6.answer!.text, retried: false, replaced: false })).toMatchObject({ correct: false, extra: ["100%"] });
     expect(scoreAnswer(q6, { text: "Ausgegeben wurden 4,58 € (23 %), zurück kamen 15,42 €.", retried: false, replaced: false }).correct).toBe(true);
@@ -73,7 +74,7 @@ describe("the measure on recorded Nova Lite answers", () => {
   });
 });
 
-describe("the guard on real Nova Lite output from the live runs (06.11)", () => {
+describe("the guard on an earlier model's real output from the live runs (06.11)", () => {
   it('"$1486.00" for a yen sum: blocked (Q5, first run)', () => {
     const facts = factsFromQueryResult(JSON.stringify({ success: true, response: "", data: { result: [{ "Sum of Share": 1486, Need: "Water 2 L" }] } }), "JPY");
     expect(checkAnswer("The sum of the book's Share field for the water need is $1486.00.", facts).ok).toBe(false);

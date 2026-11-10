@@ -6,3 +6,10 @@ eval/receipts/adversarial
 tsconfig.tsbuildinfo
 .data
 eval/receipts/holdout
+# The earlier readers' saved answers: every folder of live/ but shipped/, whose lines file the type check reads.
+eval/baseline-legacy/live/n*
+eval/baseline-legacy/live/o*
+eval/baseline-legacy/live/shipped/hero-ja-01.json
+eval/baseline-legacy/results
+eval/baseline-legacy/evidence
+eval/baseline-legacy/spend-ledger.jsonl

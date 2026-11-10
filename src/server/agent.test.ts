@@ -108,10 +108,18 @@ afterAll(() => {
 });
 
 describe("one model: Meta Muse Spark", () => {
-  it("the agent's code names no other model or provider", () => {
+  it("the agent's code reaches no other model or provider: only its own modules, Node, the database layer and AG Studio, and Meta's address", () => {
+    /** Imports that are not the app's own code, Node, drizzle-orm or AG Studio (another provider's SDK would be one). */
+    const foreignImports = (code: string) => [...code.matchAll(/\bfrom\s+"([^"]+)"/g)].map((m) => m[1]).filter((s) => !/^(\.{1,2}\/|@\/|node:)/.test(s) && s !== "drizzle-orm" && s !== "ag-studio");
+    /** Web addresses other than Meta's Model API. */
+    const foreignUrls = (code: string) => [...code.matchAll(/https?:\/\/[^\s"'`)]+/g)].map((m) => m[0]).filter((u) => !u.startsWith("https://api.meta.ai/"));
+    // Both checks light up on a file that reaches another provider.
+    expect(foreignImports('import { Client } from "@vendor/model-sdk";\nimport { x } from "./own";')).toEqual(["@vendor/model-sdk"]);
+    expect(foreignUrls('const base = "https://models.example.com/v1";')).toEqual(["https://models.example.com/v1"]);
     for (const f of ["src/server/agent.ts", "src/server/agent-env.ts", "src/agent/model-plan.ts", "src/agent/adapter.ts", "src/agent/harness.ts", "src/agent/meta-wire.ts", "src/agent/flatten.ts"]) {
       const code = readFileSync(path.join(ROOT, f), "utf8");
-      expect(code, f).not.toMatch(/nova|bedrock|converse|aws-sdk/i);
+      expect(foreignImports(code), f).toEqual([]);
+      expect(foreignUrls(code), f).toEqual([]);
     }
   });
 

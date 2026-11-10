@@ -57,7 +57,7 @@ export function agentLimitsFrom(env: NodeJS.ProcessEnv): Partial<AgentLimits> {
 export class AgentCapExceeded extends Error {}
 export class MetaCapExceeded extends Error {}
 
-const SPEND_LOCK = 2; // the same lock as PgSpendLedger: one reservation at a time across both
+const SPEND_LOCK = 2; // the same lock as PgMetaReadLedger (src/server/spend.ts): one reservation at a time across both
 const QUESTION_LOCK = 3;
 
 const round6 = (n: number) => Math.round(n * 1e6) / 1e6;

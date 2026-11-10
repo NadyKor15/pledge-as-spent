@@ -71,7 +71,7 @@ function readings() {
   return { a, second };
 }
 const parseA = (t: string) => ParsedReceiptOf(t);
-import { receiptFromText } from "../../src/receipts/bedrock";
+import { receiptFromText } from "../../src/receipts/wire";
 import { ParsedReceipt as PR } from "../../src/receipts/types";
 const ParsedReceiptOf = (t: string) => PR.parse(receiptFromText(t));
 

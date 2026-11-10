@@ -1,13 +1,14 @@
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
-import { like } from "drizzle-orm";
+import { like, notLike, sql } from "drizzle-orm";
+import type { Db } from "../../src/db/client";
 import { receipts, spendLedger } from "../../src/db/schema";
 import { sha256Hex } from "../../src/receipts/hash";
 import { receiptKey } from "../../src/receipts/recorded";
 import type { Band, PurchaseLine } from "../../src/receipts/types";
 import { ReceiptReading, type CloseReceipt } from "../../src/server/reading";
 import { closeReceipt, isClosedCopy } from "../../src/receipts/close";
-import { PgSpendLedger, META_READ_CAP_MAX_USD, PgMetaReadLedger } from "../../src/server/spend";
+import { META_READ_CAP_MAX_USD, PgMetaReadLedger } from "../../src/server/spend";
 import { demoDrive } from "../../src/server/demo";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, loadRecordings } from "./support/harness";
@@ -39,6 +40,15 @@ function fakeMeta(answers: string[]) {
   return { fetch, sent };
 }
 
+/** The spend rows that are not Meta reading's, counted and summed in SQL: a live Meta reading leaves them as they were. */
+async function otherSpend(db: Db) {
+  const [row] = await db
+    .select({ n: sql<number>`count(*)::int`, usd: sql<string>`coalesce(sum(${spendLedger.usd}), 0)::text` })
+    .from(spendLedger)
+    .where(notLike(spendLedger.what, "read-meta:%"));
+  return row;
+}
+
 /** The sample photo with one pixel changed: no saved answer, no recording, so the live reader is asked. */
 function freshPhoto(): Uint8Array {
   const png = PNG.sync.read(Buffer.from(heroBytes()));
@@ -56,7 +66,10 @@ describe("live reading by Meta", () => {
     const meta = fakeMeta([A, B, CLS]);
     const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch }, closeReceipt: close });
     const driveId = (await h.svc.createDemoDrive({ driveId: "demo-meta" })).drive.id;
-    const bedrockBefore = await new PgSpendLedger(h.db.db).total();
+    // A row of other spend in the same table (an older model's, as Neon keeps them): Meta's reading must not touch it.
+    await h.db.db.insert(spendLedger).values({ id: "older", ts: h.clock.now(), kind: "reserve", what: "an older model's spend", usd: "2.500000", ref: null });
+    const otherBefore = await otherSpend(h.db.db);
+    expect(otherBefore.n).toBe(1);
     const out = await h.svc.submitReceipt({ driveId, bytes: freshPhoto() });
     expect(out.receipt.reader).toBe("live:meta");
     expect(meta.sent).toHaveLength(3);
@@ -72,8 +85,8 @@ describe("live reading by Meta", () => {
     expect(closes).toHaveLength(1);
     expect(closes[0].lines).toEqual([{ lineNo: 1, bandIndexes: [12, 13] }]);
 
-    // Meta's reading spend is in its own rows: not in Bedrock's $5, and under its own ceiling.
-    expect(await new PgSpendLedger(h.db.db).total()).toBeCloseTo(bedrockBefore, 9);
+    // Meta's reading spend is in its own rows, under its own ceiling; no other row changed.
+    expect(await otherSpend(h.db.db)).toEqual(otherBefore);
     const metaRows = await h.db.db.select().from(spendLedger).where(like(spendLedger.what, "read-meta:%"));
     expect(metaRows.length).toBe(6);
     expect(await new PgMetaReadLedger(h.db.db, 3).total()).toBeGreaterThan(0);
@@ -100,7 +113,7 @@ describe("live reading by Meta", () => {
     const h = await harness({ fetch: fakeSandbox().fetch });
     const bytes = freshPhoto();
     const { drive, needs } = demoDrive("demo-meta-cap", h.clock.now());
-    const reading = new ReceiptReading(h.db.db, { answers: [], recordings: { readings: {}, classifications: {} } }, { liveReadsPerDay: 5, spendCapUsd: 5, liveReadMs: 30_000 }, { pipeline: "meta", meta: { apiKey: "k", capUsd: 0.001, fetch: meta.fetch } });
+    const reading = new ReceiptReading(h.db.db, { answers: [], recordings: { readings: {}, classifications: {} } }, { liveReadsPerDay: 5, liveReadMs: 30_000 }, { pipeline: "meta", meta: { apiKey: "k", capUsd: 0.001, fetch: meta.fetch } });
     await expect(reading.read({ driveId: "demo-meta-cap", image: { bytes, mediaType: "image/png" }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() })).rejects.toMatchObject({ code: "spend_cap" });
     expect(meta.sent).toHaveLength(0);
   });
@@ -137,7 +150,7 @@ describe("live reading by Meta", () => {
       const h = await harness({ fetch: fakeSandbox().fetch, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
       const first = (await h.svc.createDemoDrive({ driveId: "demo-meta-old" })).drive.id;
       await h.svc.submitReceipt({ driveId: first, bytes: freshPhoto() });
-      // As on the server: the photo was read on 1 November by OCR + Nova, for a drive whose needs have changed since.
+      // As on the server: the photo was read on 1 November by the earlier reading path, for a drive whose needs have changed since.
       const [old] = await h.db.db.select().from(receipts).where(like(receipts.id, `${first}.%`));
       await h.db.db
         .update(receipts)

@@ -2,7 +2,6 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { openPglite, type DatabaseHandle } from "../../../src/db/client";
 import type { FetchLike } from "../../../src/paypal/recording";
-import type { ConverseClient } from "../../../src/receipts/bedrock";
 import { Recordings } from "../../../src/receipts/recorded";
 import type { Pipeline, SavedAnswer } from "../../../src/server/reading";
 import { PledgeService, type Limits, type ServiceDeps } from "../../../src/server/service";
@@ -49,7 +48,6 @@ export async function harness(o: {
   start?: string;
   recordings?: Recordings;
   savedAnswers?: SavedAnswer[];
-  bedrock?: () => ConverseClient;
   pipeline?: Pipeline;
   metaReading?: ServiceDeps["metaReading"];
   closeReceipt?: ServiceDeps["closeReceipt"];
@@ -70,7 +68,6 @@ export async function harness(o: {
       webhookId: o.webhookId === undefined ? "WH-TEST" : o.webhookId,
       demoPayoutEmail: o.demoPayoutEmail === undefined ? "sb-pywsi53523660@personal.example.com" : o.demoPayoutEmail,
       ipHashKey: "test-key",
-      bedrock: o.bedrock,
       pipeline: o.pipeline,
       metaReading: o.metaReading,
       closeReceipt: o.closeReceipt,

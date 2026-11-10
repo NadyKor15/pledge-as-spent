@@ -2,7 +2,7 @@
 // no model, no browser. The run's own score stays as `rightAtRun`; `right` and each row become the current
 // scorer's, with `rescoredAt` and `rescoredBy` saying when and with which commit's scorer.
 //
-//   npx tsx scripts/agent-rescore.ts eval/agent/results-A.json
+//   npx tsx scripts/agent-rescore.ts eval/agent/results-D.json
 
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";

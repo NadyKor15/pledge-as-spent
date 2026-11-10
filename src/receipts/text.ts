@@ -1,4 +1,4 @@
-// Small text helpers shared by the multi-step readers.
+// Small text helpers: printed text folded and compared fuzzily (the duplicate check's store names), and tile rows merged.
 
 export const foldText = (s: string) => s.normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 

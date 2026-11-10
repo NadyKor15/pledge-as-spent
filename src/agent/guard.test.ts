@@ -121,7 +121,7 @@ describe("percentages and words for a share: only what a tool returned (must-lig
     { value: 100, unit: "%", topic: "captured", label: "share of the spend PayPal took" },
   ];
 
-  it("Nova Lite's own answer to Q6 of the live measure (06.11, variant A) is stopped: \"zu 100% … ausgegeben\" for €4.58 of €20", () => {
+  it("an earlier model's own answer to Q6 of the live measure (06.11, variant A) is stopped: \"zu 100% … ausgegeben\" for €4.58 of €20", () => {
     const q6 = "Lena, dein €20.00 Hold wurde zu 100% für die Bedürfnisse ausgegeben. €4.58 wurden für Wasser 2 L ausgegeben. Der Rest von €15.42 wurde nicht ausgegeben und wurde dir zurückgegeben, als die Aktion geschlossen wurde.";
     const v = checkAnswer(q6, LENA, "de");
     expect(v.ok).toBe(false);

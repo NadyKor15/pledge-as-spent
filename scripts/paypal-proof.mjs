@@ -10,7 +10,7 @@
 // written; neither is the token. Sandbox only: the address of PayPal's live API is not in this file.
 //
 //   PAYPAL_CLIENT_ID=... PAYPAL_CLIENT_SECRET=... node scripts/paypal-proof.mjs demo-f372326129
-//   node scripts/paypal-proof.mjs demo-f372326129 --from evidence/live-vercel-20261101.json --key controlDrive
+//   node scripts/paypal-proof.mjs demo-f372326129 --from eval/baseline-legacy/evidence/live-vercel-20261101.json --key controlDrive
 //   options: --site <app origin> (default the hosted demo), --out <dir> (default this repository's evidence/)
 //
 // The ids are visible only to the sandbox app that made them: run it with that app's keys, or open a drive

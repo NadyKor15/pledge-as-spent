@@ -3,7 +3,7 @@
 // (store: false). The fetch is injected so tests never reach Meta; nothing here runs a live call by itself.
 
 import { META_MODEL, metaBody, type MetaResponse } from "../agent/meta-wire";
-import { ModelOutputError } from "./bedrock";
+import { ModelOutputError } from "./wire";
 import type { SpendCap } from "./spend";
 import type { ModelUsage, ReceiptImage } from "./types";
 

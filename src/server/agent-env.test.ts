@@ -13,8 +13,8 @@ describe("the model the chat names before its first answer", () => {
   it("Meta allowed, with a ceiling and a key: Meta Muse Spark, and no other model named", () => {
     expect(agentModelPlan(META_ON)).toBe("meta");
     for (const locale of ["en", "de", "ja"] as const) {
+      // The exact label, in every language: no other model and no fallback wording around it.
       expect(planLabel(agentModelPlan(META_ON), locale)).toBe("Meta Muse Spark");
-      expect(planLabel(agentModelPlan(META_ON), locale)).not.toMatch(/Nova|Amazon|falls back|ersatzweise|予備/);
     }
   });
 

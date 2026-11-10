@@ -10,30 +10,20 @@ import type { ModelUsage } from "./types";
 
 export const MAX_USD = 5;
 
-/** USD per 1M tokens, Bedrock on-demand, us-east-1. Verify against the AWS Price List before the first live call. */
-export const NOVA_PRICES: Record<string, { inPerMTok: number; outPerMTok: number }> = {
-  "amazon.nova-lite-v1:0": { inPerMTok: 0.06, outPerMTok: 0.24 },
-  "amazon.nova-pro-v1:0": { inPerMTok: 0.8, outPerMTok: 3.2 },
-};
-export const PRICE_SOURCE = "AWS Price List API, us-east-1, on-demand USE1-NovaLite/NovaPro input/output tokens, re-read 2026-10-23";
-
 export const CHARS_PER_TOKEN = 1.0; // Japanese: one character can be one token
 export const IMAGE_TOKENS = 3000;
 export const TOOL_PREAMBLE_TOKENS = 600;
 
 export class SpendCapExceeded extends Error {}
 
-/** Every model a receipt call may use: Nova on Bedrock, and Meta's Muse Spark (Standard) for the Meta reading. */
-export const MODEL_PRICES: Record<string, { inPerMTok: number; outPerMTok: number }> = { ...NOVA_PRICES, ...META_PRICES };
+/** Every model a receipt call may use: Meta's Muse Spark (Standard). */
+export const MODEL_PRICES: Record<string, { inPerMTok: number; outPerMTok: number }> = { ...META_PRICES };
 
 export function modelUsd(model: string, tokensIn: number, tokensOut: number): number {
   const p = MODEL_PRICES[model];
   if (!p) throw new Error(`no price configured for model ${model}`);
   return (tokensIn * p.inPerMTok + tokensOut * p.outPerMTok) / 1e6;
 }
-
-/** The old name, kept for the callers that price Nova. */
-export const novaUsd = modelUsd;
 
 export interface CallEstimate {
   /** Characters of system prompt and user text. */

@@ -2,11 +2,12 @@ import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { RecordedClassifier, RecordedReader, Recordings } from "../../src/receipts/recorded";
+import { sha256Hex } from "../../src/receipts/hash";
+import { RecordedClassifier, RecordedReader, Recordings, receiptKey } from "../../src/receipts/recorded";
 import type { LineClassifier, ParsedReceipt, ReceiptReader } from "../../src/receipts/types";
 import { iou, levenshtein, matchLines, similarity } from "../../tools/eval/metrics";
 import { loadLiveRecordings, loadTruths, runEval, toMarkdown, type EvalResult, type SetName } from "../../tools/eval/run";
-import { line } from "./fixtures";
+import { cls, line, needs, receipt } from "./fixtures";
 
 const rec = Recordings.parse(JSON.parse(readFileSync(path.resolve(__dirname, "../../eval/receipts/recorded.json"), "utf8")));
 const recordedReader = new RecordedReader(rec);
@@ -167,5 +168,34 @@ describe("live answers", () => {
     const again = await new RecordedReader(rec2).read({ bytes, mediaType: "image/png" });
     expect(again.receipt).toEqual(t.receipt);
     expect((await new RecordedClassifier(rec2).classify({ receipt: again.receipt, needs: [], rules: "" })).lines).toEqual(t.labels);
+  });
+});
+
+describe("recorded reader and classifier", () => {
+  const IMG = { bytes: new Uint8Array([1, 2, 3, 4]), mediaType: "image/png" as const };
+  const hint = { currency: "JPY" as const, languages: ["ja"] };
+
+  it("replays by image hash and receipt key at no cost", async () => {
+    const r = receipt();
+    const lines = [cls(1)];
+    const reader = new RecordedReader({ readings: { [sha256Hex(IMG.bytes)]: r } });
+    const got = await reader.read(IMG, hint);
+    expect(got.receipt).toEqual(r);
+    expect(got.receipt).not.toBe(r);
+    expect(got.usage).toMatchObject({ model: "recorded", usdCeiling: 0, usdActual: 0 });
+    const classifier = new RecordedClassifier({ classifications: { [receiptKey(r)]: lines } });
+    expect((await classifier.classify({ receipt: got.receipt, needs, rules: "" })).lines).toEqual(lines);
+  });
+
+  it("fails loudly when nothing was recorded", async () => {
+    await expect(new RecordedReader({ readings: {} }).read(IMG, hint)).rejects.toThrow(/no recorded reading/);
+    await expect(new RecordedClassifier({ classifications: {} }).classify({ receipt: receipt(), needs, rules: "" })).rejects.toThrow(/no recorded classification/);
+  });
+
+  it("receiptKey ignores key order but not content", () => {
+    const a = receipt();
+    const b = Object.fromEntries(Object.entries(a).reverse()) as typeof a;
+    expect(receiptKey(b)).toBe(receiptKey(a));
+    expect(receiptKey({ ...a, totalMinor: a.totalMinor + 1 })).not.toBe(receiptKey(a));
   });
 });

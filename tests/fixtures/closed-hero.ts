@@ -1,11 +1,11 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import shippedLines from "../../eval/live/shipped/hero-ja-01.lines.json";
+import shippedLines from "../../eval/baseline-legacy/live/shipped/hero-ja-01.lines.json";
 import { closeReceipt, type Band, type PurchaseLine } from "../../src/receipts/close";
 import type { PledgeService } from "../../src/server/service";
 
 // The sample receipt closed to its purchase lines, for tests that need the published copy without a reader: each
-// line's printed box (eval/live/shipped/hero-ja-01.lines.json, measured on the photo) taken as its band, reaching a
+// line's printed box (eval/baseline-legacy/live/shipped/hero-ja-01.lines.json, measured on the photo) taken as its band, reaching a
 // fifth of its height into the gaps above and below. These boxes cover a line's main row only, so its quantity row
 // shows cut; the reader's own bands are whole rows and a line names all of its rows.
 

@@ -3,7 +3,7 @@
 // passes the options (the key, the cap, the fetch), and the tests a fake fetch.
 
 import { metaRespond, type MetaOptions } from "./meta";
-import { ModelOutputError } from "./bedrock";
+import { ModelOutputError } from "./wire";
 
 export type DonorLang = "en" | "de" | "ja";
 export const TRANSLATED: readonly DonorLang[] = ["de", "ja"];
