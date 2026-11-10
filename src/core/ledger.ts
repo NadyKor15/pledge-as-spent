@@ -108,6 +108,15 @@ export interface PayoutAttempt {
   payoutBatchId?: string;
   fee?: { currency: string; minor: number };
   failReason?: string;
+  /** The invited volunteer it went to (drives that invite volunteers). */
+  volunteerId?: string;
+}
+
+export interface VolunteerBook extends E.VolunteerSpec {
+  invitedAt: string;
+  invitedBy: string;
+  removedAt?: string;
+  removedBy?: string;
 }
 
 export interface LedgerState {
@@ -121,6 +130,9 @@ export interface LedgerState {
   lines: Record<string, LineRecord>;
   lineKeys: string[];
   payouts: Record<string, PayoutAttempt[]>;
+  /** Invited volunteers; a drive with none pays its own payout address as before. */
+  volunteers: Record<string, VolunteerBook>;
+  volunteerIds: string[];
   seen: Record<string, true>;
 }
 
@@ -135,6 +147,8 @@ export const emptyLedger = (): LedgerState => ({
   lines: {},
   lineKeys: [],
   payouts: {},
+  volunteers: {},
+  volunteerIds: [],
   seen: {},
 });
 
@@ -494,6 +508,12 @@ function reduce(s: LedgerState, e: E.LedgerEvent): LedgerState {
       return onPayoutResolved(s, e, "confirmed");
     case "PayoutFailed":
       return onPayoutResolved(s, e, "failed");
+    case "VolunteerInvited":
+      return onVolunteerInvited(s, e);
+    case "VolunteerRemoved":
+      return onVolunteerRemoved(s, e);
+    case "VolunteerLimitSet":
+      return onVolunteerLimitSet(s, e);
     case "DriveClosing":
       return onDriveClosing(s);
     case "DriveClosed":
@@ -1004,8 +1024,88 @@ function onPayoutSubmitted(s: LedgerState, e: E.PayoutSubmitted): LedgerState {
   if (e.amount.currency !== drive.baseCurrency || e.amount.minor !== owed) {
     fail(e, `payout must be ${owed} ${drive.baseCurrency}`);
   }
-  const attempt: PayoutAttempt = { senderBatchId: e.senderBatchId, amount: owed, status: "pending", submittedAt: e.at };
+  const refusal = payoutRefusal(s, e.receiptId, e.volunteerId, owed);
+  if (refusal) fail(e, refusal);
+  const attempt: PayoutAttempt = { senderBatchId: e.senderBatchId, amount: owed, status: "pending", submittedAt: e.at, ...(e.volunteerId !== undefined ? { volunteerId: e.volunteerId } : {}) };
   return { ...s, payouts: { ...s.payouts, [e.receiptId]: [...attempts, attempt] } };
+}
+
+// ---- volunteers -------------------------------------------------------------
+
+/** Pending and confirmed payouts to a volunteer, in the drive's currency: what counts against their limit. */
+export function volunteerCommitted(s: LedgerState, volunteerId: string): { pending: number; paid: number } {
+  let pending = 0;
+  let paid = 0;
+  for (const attempts of Object.values(s.payouts)) {
+    for (const a of attempts) {
+      if (a.volunteerId !== volunteerId) continue;
+      if (a.status === "pending") pending += a.amount;
+      else if (a.status === "confirmed") paid += a.amount;
+    }
+  }
+  return { pending, paid };
+}
+
+/** The volunteer a receipt's earlier payouts went to, if any: every later payout of it goes to the same one. */
+export function receiptVolunteer(s: LedgerState, receiptId: string): string | undefined {
+  return (lookup(s.payouts, receiptId) ?? []).find((a) => a.volunteerId !== undefined)?.volunteerId;
+}
+
+/**
+ * Why a NEW payout of `amount` for `receiptId` to `volunteerId` may not be sent,
+ * or null. A drive that invited volunteers pays only an invited, not removed
+ * volunteer, the same one for every payout of a receipt, within their limit.
+ * A drive that invited none pays its own address, naming no volunteer.
+ */
+export function payoutRefusal(s: LedgerState, receiptId: string, volunteerId: string | undefined, amount: number): string | null {
+  if (s.volunteerIds.length === 0) return volunteerId === undefined ? null : `${volunteerId} is not an invited volunteer of this drive (it invites none)`;
+  if (volunteerId === undefined) return "this drive pays only an invited volunteer: the payout must name one";
+  const v = lookup(s.volunteers, volunteerId);
+  if (!v) return `${volunteerId} is not an invited volunteer of this drive`;
+  if (v.removedAt) return `volunteer ${volunteerId} was removed on ${v.removedAt}`;
+  const earlier = receiptVolunteer(s, receiptId);
+  if (earlier !== undefined && earlier !== volunteerId) return `receipt ${receiptId} is paid to ${earlier}, not ${volunteerId}`;
+  if (v.limitBase !== null) {
+    const c = volunteerCommitted(s, volunteerId);
+    if (c.pending + c.paid + amount > v.limitBase) return `over the volunteer's limit: ${c.pending + c.paid} paid or in flight + ${amount} > ${v.limitBase}`;
+  }
+  return null;
+}
+
+const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+function onVolunteerInvited(s: LedgerState, e: E.VolunteerInvited): LedgerState {
+  requireOpen(s, e);
+  const v = e.volunteer;
+  if (!v || !nonEmpty(v.id)) fail(e, "a volunteer needs an id");
+  if (lookup(s.volunteers, v.id)) fail(e, `volunteer ${v.id} is already invited`);
+  if (typeof v.name !== "string" || v.name.trim() === "" || v.name.length > 80) fail(e, "a volunteer needs a name (at most 80 characters)");
+  if (typeof v.payoutEmail !== "string" || !EMAIL.test(v.payoutEmail) || v.payoutEmail.length > 254) fail(e, "a volunteer needs a PayPal address");
+  const email = v.payoutEmail.toLowerCase();
+  if (s.volunteerIds.some((id) => s.volunteers[id].payoutEmail.toLowerCase() === email)) fail(e, "this PayPal address is already invited to this drive");
+  if (!nonEmpty(v.tokenHash) || s.volunteerIds.some((id) => s.volunteers[id].tokenHash === v.tokenHash)) fail(e, "a volunteer needs their own upload link token");
+  if (v.limitBase !== null && !isPositiveInt(v.limitBase)) fail(e, "a volunteer's limit is a positive whole amount, or none");
+  if (typeof v.firstReceiptCheck !== "boolean") fail(e, "firstReceiptCheck must be true or false");
+  if (!nonEmpty(e.by)) fail(e, "who invited the volunteer is required");
+  const book: VolunteerBook = { ...v, name: v.name.trim(), invitedAt: e.at, invitedBy: e.by };
+  return { ...s, volunteers: { ...s.volunteers, [v.id]: book }, volunteerIds: [...s.volunteerIds, v.id] };
+}
+
+function onVolunteerRemoved(s: LedgerState, e: E.VolunteerRemoved): LedgerState {
+  const v = lookup(s.volunteers, e.volunteerId);
+  if (!v) fail(e, `no volunteer ${e.volunteerId}`);
+  if (v!.removedAt) return s;
+  if (!nonEmpty(e.by)) fail(e, "who removed the volunteer is required");
+  return { ...s, volunteers: { ...s.volunteers, [v!.id]: { ...v!, removedAt: e.at, removedBy: e.by } } };
+}
+
+function onVolunteerLimitSet(s: LedgerState, e: E.VolunteerLimitSet): LedgerState {
+  const v = lookup(s.volunteers, e.volunteerId);
+  if (!v) fail(e, `no volunteer ${e.volunteerId}`);
+  if (v!.removedAt) fail(e, `volunteer ${e.volunteerId} was removed`);
+  if (e.limitBase !== null && !isPositiveInt(e.limitBase)) fail(e, "a volunteer's limit is a positive whole amount, or none");
+  if (!nonEmpty(e.by)) fail(e, "who set the limit is required");
+  return { ...s, volunteers: { ...s.volunteers, [v!.id]: { ...v!, limitBase: e.limitBase } } };
 }
 
 function onPayoutResolved(s: LedgerState, e: E.PayoutConfirmed | E.PayoutFailed, status: "confirmed" | "failed"): LedgerState {

@@ -209,6 +209,44 @@ export interface PayoutSubmitted extends EventBase {
   receiptId: string;
   senderBatchId: string;
   amount: Money;
+  /** The invited volunteer this payout goes to; required once the drive invites volunteers, absent on drives that do not. */
+  volunteerId?: string;
+}
+
+/** A volunteer the coordinator invites; only invited, active volunteers are paid. */
+export interface VolunteerSpec {
+  id: string;
+  name: string;
+  /** Their PayPal address: the payout's receiver. Screens only ever see it masked. */
+  payoutEmail: string;
+  /** sha256 of the volunteer's upload link token; the token itself is never stored. */
+  tokenHash: string;
+  /** The most the drive pays this volunteer in all, in the drive's currency; null: no limit. */
+  limitBase: number | null;
+  /** true: a person checks this volunteer's first receipt before any money moves. */
+  firstReceiptCheck: boolean;
+}
+
+export interface VolunteerInvited extends EventBase {
+  type: "VolunteerInvited";
+  volunteer: VolunteerSpec;
+  /** Who invited them. */
+  by: string;
+}
+
+/** The coordinator removes a volunteer: nothing new is paid to them (a payout already in flight completes). */
+export interface VolunteerRemoved extends EventBase {
+  type: "VolunteerRemoved";
+  volunteerId: string;
+  by: string;
+}
+
+/** The coordinator changes a volunteer's limit (null: none). */
+export interface VolunteerLimitSet extends EventBase {
+  type: "VolunteerLimitSet";
+  volunteerId: string;
+  limitBase: number | null;
+  by: string;
 }
 
 /** Only from a verified webhook. */
@@ -257,6 +295,9 @@ export type LedgerEvent =
   | PayoutSubmitted
   | PayoutConfirmed
   | PayoutFailed
+  | VolunteerInvited
+  | VolunteerRemoved
+  | VolunteerLimitSet
   | DriveClosing
   | DriveClosed;
 
@@ -328,6 +369,8 @@ export interface PayoutCommand {
   amount: Money;
   attempt: number;
   retry: boolean;
+  /** The invited volunteer it goes to (drives that invite volunteers); absent: the drive's own payout address. */
+  volunteerId?: string;
 }
 
 export interface CloseDriveCommand {
