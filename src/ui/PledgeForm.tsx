@@ -2,7 +2,7 @@
 
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HOLD_LIFE_DAYS } from "@/core/time";
 import { api, errorText } from "./api";
 import { classes } from "./cls";
@@ -30,7 +30,30 @@ export function toMinor(text: string, currency: Currency): number | null {
   return minor > 0 && minor <= max ? minor : null;
 }
 
-export function PledgeForm({ driveId, needId, needLabel, restChoice = false }: { driveId: string; needId: string; needLabel: string; restChoice?: boolean }) {
+export function PledgeForm({
+  driveId,
+  needId,
+  needLabel,
+  restChoice = false,
+  rulesOn = false,
+  needs = [],
+  unit = "unit",
+}: {
+  driveId: string;
+  needId: string;
+  needLabel: string;
+  restChoice?: boolean;
+  /** DONOR_RULES: the donor may limit the lines the hold pays. */
+  rulesOn?: boolean;
+  /** The drive's needs, for "only these needs". */
+  needs?: { id: string; label: string }[];
+  /** The need's unit, for "at most X per unit". */
+  unit?: string;
+}) {
+  const [rulesOpen, setRulesOpen] = useState(false);
+  const [excluded, setExcluded] = useState<string[]>([]);
+  const [cap, setCap] = useState("");
+  const rulesRef = useRef<{ needs?: string[]; maxUnitMinor?: number } | null>(null);
   const router = useRouter();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("20.00");
@@ -43,14 +66,28 @@ export function PledgeForm({ driveId, needId, needLabel, restChoice = false }: {
   const [rest, setRest] = useState<"release" | "carry">("release");
   const restRef = useRef<"release" | "carry">("release");
   const minor = toMinor(amount, currency);
-  const invalid = minor === null;
+  // The donor's rules, as the server takes them: the needs still allowed (only when some are left out) and a cap per unit.
+  const capMinor = cap.trim() ? toMinor(cap, currency) : undefined;
+  const badCap = capMinor === null;
+  // Read when PayPal's button asks for the order (its callback is not re-made on every keystroke), so kept in a ref.
+  useEffect(() => {
+    const r = !rulesOn || !rulesOpen ? null : { ...(excluded.length ? { needs: needs.map((n) => n.id).filter((id) => id === needId || !excluded.includes(id)) } : {}), ...(capMinor ? { maxUnitMinor: capMinor } : {}) };
+    rulesRef.current = r && (r.needs || r.maxUnitMinor) ? r : null;
+  }, [rulesOn, rulesOpen, excluded, capMinor, needs, needId]);
+  const invalid = minor === null || badCap;
   const id = `pledge-${needId}`;
 
   const createOrder = async () => {
     setMessage(null);
     if (minor === null) throw new Error("Enter an amount first.");
     const res = await api<{ pledgeId: string; orderId: string }>(`/api/drives/${encodeURIComponent(driveId)}/pledges`, {
-      json: { needId, donorName: donorName.current.trim() || "Anonymous donor", amount: { currency, minor }, ...(restChoice ? { rest: restRef.current } : {}) },
+      json: {
+        needId,
+        donorName: donorName.current.trim() || "Anonymous donor",
+        amount: { currency, minor },
+        ...(restChoice ? { rest: restRef.current } : {}),
+        ...(rulesOn && rulesRef.current ? { rules: rulesRef.current } : {}),
+      },
     });
     pledgeId.current = res.pledgeId;
     return res.orderId;
@@ -116,6 +153,43 @@ export function PledgeForm({ driveId, needId, needLabel, restChoice = false }: {
               </span>
             </label>
           ))}
+        </fieldset>
+      )}
+      {rulesOn && (
+        <fieldset className={s.restChoice} data-testid="donor-rules">
+          <legend>
+            <label className={s.restOpt}>
+              <input type="checkbox" checked={rulesOpen} onChange={(e) => setRulesOpen(e.target.checked)} />
+              <span>
+                <b>Set rules for the lines your hold pays</b> (optional)
+              </span>
+            </label>
+          </legend>
+          {rulesOpen && (
+            <>
+              <div className={s.restOpt} role="group" aria-label="Needs your hold may pay">
+                <span>Only these needs:</span>
+                {needs.map((n) => (
+                  <label key={n.id} style={{ marginLeft: 10, whiteSpace: "nowrap" }}>
+                    <input
+                      type="checkbox"
+                      checked={n.id === needId || !excluded.includes(n.id)}
+                      disabled={n.id === needId}
+                      onChange={(e) => setExcluded((x) => (e.target.checked ? x.filter((id) => id !== n.id) : [...x, n.id]))}
+                    />{" "}
+                    {n.label}
+                  </label>
+                ))}
+              </div>
+              <label className={s.restOpt}>
+                <span>
+                  At most{" "}
+                  <input className={s.inp} style={{ width: 90, height: 28, fontSize: 14 }} value={cap} onChange={(e) => setCap(e.target.value)} inputMode="decimal" placeholder="any" aria-invalid={badCap} aria-label={`Most per ${unit}, in ${currency}`} />{" "}
+                  {currency} per {unit}, its share of tax included. A dearer line is paid by the other donors.
+                </span>
+              </label>
+            </>
+          )}
         </fieldset>
       )}
       <p className={s.payNote}>PayPal will say “Pay” — your money is only held until a verified purchase</p>

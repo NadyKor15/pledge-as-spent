@@ -128,7 +128,15 @@ function NeedCard({ view, need: n, pledging }: { view: DriveView; need: Need; pl
           </div>
         </div>
       ) : open && pledging ? (
-        <PledgeForm driveId={view.drive.id} needId={n.needId} needLabel={n.displayLabel} restChoice={view.features?.carry === true} />
+        <PledgeForm
+          driveId={view.drive.id}
+          needId={n.needId}
+          needLabel={n.displayLabel}
+          restChoice={view.features?.carry === true}
+          rulesOn={view.features?.rules === true}
+          needs={view.needs.map((x) => ({ id: x.needId, label: x.displayLabel }))}
+          unit={n.unit}
+        />
       ) : (
         <div className={`${s.closed} ${s.open}`}>
           <div className={s.halo}>
