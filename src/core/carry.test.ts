@@ -79,6 +79,14 @@ describe("carry: the rest of a covered need's hold moves by itself", () => {
     }
   });
 
+  it("picks the need that lacks the most by share, not by count", () => {
+    const b = story();
+    b.fund(line("r1", 1, "diapers", 1, 200), hoursAfter(1)); // diapers lacks 4 of 5 (80 %), blankets 2 of 2 (100 %)
+    b.fund(line("r1", 2, "water", 10, 2000), hoursAfter(1));
+    expect(carryTarget(b.state, "a")).toBe("blankets"); // by count it would be diapers (4 > 2)
+    expect(carried(b, hoursAfter(1)).map((e) => e.toNeedId)).toEqual(["blankets"]);
+  });
+
   it("breaks a tie by the drive's order of needs", () => {
     const b = story();
     b.fund(line("r1", 1, "water", 10, 2000), hoursAfter(1));
