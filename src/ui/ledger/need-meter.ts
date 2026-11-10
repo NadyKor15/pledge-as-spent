@@ -92,11 +92,11 @@ export function needMeter(view: DriveView, needId: string, model: LedgerModel = 
     else m.waiting += amount;
   }
 
-  for (const h of view.holds) {
-    if (h.kind !== "donor" || h.needId !== needId) continue;
-    const d = model.donors.find((x) => x.pledgeId === h.pledgeId);
-    if (!d) continue;
-    const p = meterParts(h);
+  // One bar per donor: the book's donor rows are already one per renewal chain, their meter the chain's (mergeChain).
+  for (const d of model.donors) {
+    const h = holdById(view, d.pledgeId);
+    if (!h || h.kind !== "donor" || h.needId !== needId) continue;
+    const p = d.meter ?? meterParts(h);
     // A closed drive keeps no promise: a hold still live there is waiting for PayPal to answer its void.
     const promised = closed ? 0 : p.held;
     const returning = p.returning + (closed ? p.held : 0);

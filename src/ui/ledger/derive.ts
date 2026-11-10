@@ -1,6 +1,7 @@
 import { toBase } from "@/core/money";
 import { holdById, latestFunded, lineName, needById, shareStage } from "../derive";
 import { meterParts, type MeterParts } from "../hold-meter";
+import { chainRootId, groupByChain, mergeChain } from "../renewal-chain";
 import { decimals, donorParts, moneyIn, ofCount, pct, rateTextIn, shelterShort, shortName, type Lang } from "../format";
 import type { DriveView, Hold, LedgerRow, Need } from "../types";
 import { locate, type LonLat } from "./geo";
@@ -184,14 +185,29 @@ export function keptBase(r: LedgerRow, h: Hold | undefined, base: string): numbe
   return back > 0 && h ? Math.max(0, r.base - inBase(h, back, base)) : r.base;
 }
 
-function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDonor {
+/** One donor as the book shows them: a renewed pledge (RENEW) is one chain read as one hold (renewal-chain.ts). */
+interface DonorChain {
+  /** The chain as one hold: the first hold's pledge, the linked holds' money (mergeChain). */
+  hold: Hold;
+  /** The first hold: the pledge as made, at its own rate. */
+  root: Hold;
+  /** Every hold of the chain: their shares are this donor's. */
+  ids: string[];
+}
+
+function donorChains(v: DriveView): DonorChain[] {
+  return groupByChain(v.holds.filter((h) => h.kind === "donor")).map((c) => ({ hold: mergeChain(c), root: c.root, ids: c.members.map((m) => m.pledgeId) }));
+}
+
+function donorRow(v: DriveView, c: DonorChain, closed: boolean, lang: Lang): LedgerDonor {
   const w = WORDS[lang];
   const base = v.drive.baseCurrency;
-  const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.pledgeId === h.pledgeId);
-  const pledgedBase = inBase(h, h.authorized, base);
+  const h = c.hold;
+  const shares = v.ledger.filter((r) => r.kind === "donor_share" && !!r.pledgeId && c.ids.includes(r.pledgeId));
+  const pledgedBase = inBase(c.root, h.authorized, base);
   const spentBase = Math.min(
     pledgedBase,
-    shares.reduce((sum, r) => sum + keptBase(r, h, base), 0),
+    shares.reduce((sum, r) => sum + keptBase(r, holdById(v, r.pledgeId) ?? h, base), 0),
   );
   const spent = Math.min(
     h.authorized,
@@ -205,7 +221,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   );
   const waitingBase = Math.min(
     spentBase,
-    waitingRows.reduce((sum, r) => sum + keptBase(r, h, base), 0),
+    waitingRows.reduce((sum, r) => sum + keptBase(r, holdById(v, r.pledgeId) ?? h, base), 0),
   );
   const over = closed || OVER.includes(h.status);
   // A refund or a release has left PayPal's hold: on a live hold that part is back with the donor. An uncollected
@@ -213,7 +229,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   const back = over ? rest : Math.min(rest, h.reversed + h.released);
   const held = rest - back;
   const restAll = pledgedBase - spentBase;
-  const backBase = over ? restAll : Math.min(restAll, inBase(h, back, base));
+  const backBase = over ? restAll : Math.min(restAll, inBase(c.root, back, base));
   const heldBase = restAll - backBase;
 
   const city = donorParts(h.donorName).place;
@@ -258,7 +274,8 @@ function needRow(v: DriveView, n: Need, lang: Lang): LedgerNeed {
     label: needLabel(lang, n.needId, n.displayLabel),
     count: lang === "en" ? ofCount(n.qtyCovered, n.qtyNeeded, n.unit) : WORDS[lang].count(n.qtyCovered, n.qtyNeeded, n.unit),
     percent: Math.min(100, pct(n.qtyCovered, n.qtyNeeded)),
-    pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [r.pledgeId] : [])))],
+    // A renewal's shares point at its chain's first hold: the donor's one row in the book.
+    pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [chainRootId(v.holds, r.pledgeId)] : [])))],
     // Every line of the need: its refused and unfunded ones are part of its story.
     lineKeys: [...new Set(lines.map((r) => lineKey(r.receiptId, r.lineNo)))],
   };
@@ -310,7 +327,7 @@ function bookRows(v: DriveView, lang: Lang): LedgerBookRow[] {
         rowKey: r.rowId,
         kind: r.kind,
         code: r.status,
-        pledgeId: r.pledgeId,
+        pledgeId: r.kind === "donor_share" && r.pledgeId ? chainRootId(v.holds, r.pledgeId) : r.pledgeId,
         payerLabel,
         paid: r.amount !== null && r.currency ? moneyIn(lang, r.currency, r.amount) : "—",
         needShown: label ?? "—",
@@ -375,7 +392,10 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const base = v.drive.baseCurrency;
   const w = WORDS[lang];
   const closed = v.drive.status === "closed";
-  const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed, lang));
+  // One row per donor: a renewed pledge is one chain (renewal-chain.ts), counted once at the first hold's amount.
+  const donors = donorChains(v)
+    .filter((c) => c.hold.authorized > 0)
+    .map((c) => donorRow(v, c, closed, lang));
   const sum = (pick: (d: LedgerDonor) => number) => donors.reduce((total, d) => total + pick(d), 0);
   const held = sum((d) => d.heldBase);
   const returned = sum((d) => d.backBase);
