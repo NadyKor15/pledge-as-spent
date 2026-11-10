@@ -7,6 +7,7 @@ import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
 import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, shownHolds, shownId, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
+import { VolunteersCard } from "./VolunteersCard";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
 import { Check, Clock, Cross, NeedIcon } from "./icons";
@@ -137,6 +138,8 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
         <Activity view={view} busy={busy} next={next} capture={capture} line={captureLine(view, pressed)} error={errorFor("capture")} />
         <ClosePanel view={view} busy={busy} next={next} close={() => void act("close", `/api/drives/${encodeURIComponent(driveId)}/close`)} error={errorFor("close")} />
       </section>
+
+      <VolunteersCard view={view} refresh={refresh} />
 
       <footer className={s.foot}>
         <div className={s.fLive}>Live PayPal activity</div>
