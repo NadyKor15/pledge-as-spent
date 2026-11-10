@@ -92,7 +92,10 @@ function GroupList({ count, more, children }: { count: number; more: (n: number)
     const ul = list.current;
     const group = ul?.parentElement;
     if (!ul || !group) return;
-    const rowsBelow = () => [...ul.children].filter((r) => (r as HTMLElement).offsetTop + (r as HTMLElement).offsetHeight > ul.scrollTop + ul.clientHeight + 1).length;
+    const rowsBelow = () => {
+      const bottom = ul.getBoundingClientRect().top + ul.clientTop + ul.clientHeight;
+      return [...ul.children].filter((r) => r.getBoundingClientRect().bottom > bottom + 1).length;
+    };
     const fit = () => {
       // Measured as the layout gives it: the list fills its column.
       ul.style.height = "";
@@ -104,10 +107,12 @@ function GroupList({ count, more, children }: { count: number; more: (n: number)
       // The room is the column's: the list's own, plus the "+N more" line's when it is already there.
       const chip = ul.nextElementSibling as HTMLElement | null;
       const chipPx = chip?.classList.contains("lg-jr-more") ? chip.offsetHeight + (parseFloat(getComputedStyle(chip).marginTop) || 0) : 0;
-      const { height } = fitRows(rows.map((r) => r.offsetTop + r.offsetHeight), ul.clientHeight + chipPx, pad, MORE_PX);
+      // Fractional bottoms (offsetTop/offsetHeight are rounded, which left a row cut by a fraction of a pixel).
+      const top = ul.getBoundingClientRect().top + ul.clientTop - ul.scrollTop;
+      const { height } = fitRows(rows.map((r) => r.getBoundingClientRect().bottom - top), ul.clientHeight + chipPx, pad, MORE_PX);
       if (height !== null) {
         ul.style.flex = "none";
-        ul.style.height = `${height + borders}px`;
+        ul.style.height = `${Math.round(height) + borders}px`;
       }
       setBelow(height === null ? 0 : rowsBelow());
     };
