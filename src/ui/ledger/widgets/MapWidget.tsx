@@ -16,12 +16,13 @@ import { useWidget } from "./useWidget";
 const COMPACT_BELOW = 620;
 const LISTED_LEFT = 130;
 
+/** The map's box, and whether the book is one column (LedgerStudio's data-stacked): the shelter's card is then below it. */
 function useSize(ref: React.RefObject<HTMLElement | null>) {
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [size, setSize] = useState({ width: 0, height: 0, stacked: false });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const read = () => setSize({ width: Math.round(el.clientWidth), height: Math.round(el.clientHeight) });
+    const read = () => setSize({ width: Math.round(el.clientWidth), height: Math.round(el.clientHeight), stacked: el.closest('[data-stacked="true"]') !== null });
     read();
     const ro = new ResizeObserver(read);
     ro.observe(el);
@@ -113,7 +114,7 @@ function describe(p: PlacedDonor) {
 
 export function MapWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLDivElement>(params);
-  const { width, height } = useSize(root);
+  const { width, height, stacked } = useSize(root);
   const compact = width > 0 && width < COMPACT_BELOW;
   const field = (params.dataMapping as { lineKey?: AgWidgetField[] }).lineKey?.[0];
 
@@ -128,7 +129,8 @@ export function MapWidget(params: AgWidgetParams) {
     return () => store.disconnectFilter(filter);
   }, [store, field, params.widgetApi]);
 
-  const plan = useMemo(() => (width && height ? planMap(snap.model.donors, { width, height, compact }) : null), [snap.model.donors, width, height, compact]);
+  const below = compact || stacked;
+  const plan = useMemo(() => (width && height ? planMap(snap.model.donors, { width, height, compact, below }) : null), [snap.model.donors, width, height, compact, below]);
   const focus = focusOf(snap.model, snap.selected ?? snap.hovered);
   const w = WORDS[snap.lang];
 

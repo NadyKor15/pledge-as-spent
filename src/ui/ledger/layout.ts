@@ -52,6 +52,12 @@ export interface MapOptions {
   height: number;
   /** Phones show labels only; the amounts are in the card below. */
   compact: boolean;
+  /**
+   * The shelter's card is below the map, not beside it (the one-column book: phones, and laptops at 1024 px or zoomed
+   * in). On a full map the shelter's dot then sits on the map's right edge, inside it, and no arc bows past that edge:
+   * there is no card to the right to meet it. A phone's compact map keeps its dot under the map.
+   */
+  below?: boolean;
 }
 
 /** More arcs than this stops reading as a map: the smallest donors go to the list. */
@@ -104,6 +110,11 @@ const LABEL_METER_GAP_SMALL = 6;
 /** The gap between the map and the shelter's card, and how far from the phone's edge the shelter sits. */
 const HUB_GAP = 5;
 const HUB_INSET = 34;
+/** A full map with the shelter's card below it: the dot's halo (r 17) stays on the map. */
+const HUB_EDGE = 18;
+/** Its height there, a little lower than beside a card (0.6): the arc from a donor near the shelter (Osaka) keeps room
+ * for its label and amount. At the one-column map's 640 px and heights 310–400 every label of both demo drives fits. */
+const HUB_BELOW_Y = 0.66;
 const LISTED_H = 34;
 
 const SAMPLES = 120;
@@ -111,7 +122,7 @@ const sample = (a: Point, c: Point, b: Point): Point[] => Array.from({ length: S
 const crossings = (box: Box, line: Point[]) => line.filter((p) => p.x >= box.x - 6 && p.x <= box.x + box.w + 6 && p.y >= box.y - 6 && p.y <= box.y + box.h + 6).length;
 
 /** Arc shape: green bows over the top and comes down steeply, the return bows under, so near donors keep a corridor. */
-function bows(at: Point, hub: Point, width: number, compact: boolean) {
+function bows(at: Point, hub: Point, width: number, compact: boolean, maxX = Infinity) {
   const dx = hub.x - at.x;
   const dy = hub.y - at.y;
   const span = Math.hypot(dx, dy) || 1;
@@ -124,12 +135,16 @@ function bows(at: Point, hub: Point, width: number, compact: boolean) {
   // The far donors bow highest; the bow stops at the top edge of the map.
   let lift = Math.max(span * 0.5, (span * span) / (width * (compact ? 1.2 : 1.35)));
   while (lift > span * 0.2 && Math.min(...sample(at, over(lift), hub).map((p) => p.y)) < EDGE) lift *= 0.94;
-  return { out: over(lift), back: { x: mid.x - up.x * dip - along.x * span * 0.04, y: mid.y - up.y * dip - along.y * span * 0.04 } };
+  // A curve stays inside its three points: with the control point inside the edge, so is the whole arc.
+  const out = over(lift);
+  return { out: { x: Math.min(out.x, maxX), y: out.y }, back: { x: mid.x - up.x * dip - along.x * span * 0.04, y: mid.y - up.y * dip - along.y * span * 0.04 } };
 }
 
-export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOptions): MapPlan {
+export function planMap(donors: LedgerDonor[], { width, height, compact, below = compact }: MapOptions): MapPlan {
   // The shelter sits on the edge of its card: right of the map on a desktop, under it on a phone.
-  const hub = compact ? { x: width - HUB_INSET, y: height + HUB_GAP } : { x: width + HUB_GAP - 1, y: height * 0.6 };
+  // One column (below): on the map's right edge, inside it, at the same height.
+  const hub = compact ? { x: width - HUB_INSET, y: height + HUB_GAP } : below ? { x: width - HUB_EDGE, y: height * HUB_BELOW_Y } : { x: width + HUB_GAP - 1, y: height * 0.6 };
+  const maxX = below && !compact ? width - 1 : Infinity;
   const labelPx = compact ? 11.5 : 14;
   const pillPx = 14.5;
   const labelH = compact ? 21 : 28;
@@ -155,7 +170,7 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
   const lines = shown
     .map((donor, i) => {
       const at = points[i];
-      const bow = bows(at, hub, width, compact);
+      const bow = bows(at, hub, width, compact, maxX);
       const spends = donor.spentBase > 0;
       // Only what PayPal took travels: what a drive did not spend never left the donor, so no arc comes back (S1,
       // TG 6710). Those amounts are under the shelter's needs and in the label's bar.

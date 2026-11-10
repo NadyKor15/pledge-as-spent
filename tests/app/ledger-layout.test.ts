@@ -15,6 +15,9 @@ const SIZES = [
   { width: 960, height: 540, compact: false },
   { width: 700, height: 460, compact: false },
   { width: 390, height: 220, compact: true },
+  // The one-column book on a laptop (1024 px, 1366 px at 125 %): a full map, the shelter's card below it. Last, as
+  // tests below take the phone as SIZES[2].
+  { width: 640, height: 360, compact: false, below: true },
 ];
 
 const hit = (a: Box, b: Box) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
@@ -147,6 +150,19 @@ describe.each(SIZES)("the money map at $width px", (size) => {
     const [a, b] = plan.placed;
     expect(Math.hypot(a.x - b.x, a.y - b.y)).toBeGreaterThan(8);
     expectNoOverlap(plan);
+  });
+
+  it("with the shelter's card below the map, no arc and no dot leaves its right edge (1024 px, 1366 px at 125 %)", () => {
+    if (!size.compact && !("below" in size)) return; // beside: the last step crosses into the card on the right
+    for (const d of [deriveLedger(fixture("closed")).donors, deriveLedger(fixture("open")).donors, EIGHT]) {
+      const { placed, hub } = planMap(d, size);
+      expect(hub.x + HUB_RING * 1.8).toBeLessThanOrEqual(size.width); // the dot's halo (r 17) stays on the map
+      for (const p of placed)
+        for (const a of p.arcs) {
+          const [ax, , cx, , bx] = a.d.match(/-?[\d.]+/g)!.map(Number);
+          for (let t = 0; t <= 1; t += 0.02) expect((1 - t) ** 2 * ax + 2 * (1 - t) * t * cx + t ** 2 * bx).toBeLessThanOrEqual(size.width);
+        }
+    }
   });
 
   it("a donor with no coordinates has no arc and stays in the list", () => {

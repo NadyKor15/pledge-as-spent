@@ -107,6 +107,11 @@
 .co-pill span b { font-weight: 500; color: var(--ink); }
 .co-pill span em { font-style: normal; margin: 0 4px; }
 .co-pill.co-pillWait { background: var(--wait-bg); border-color: var(--wait-line); }
+/* The model's translation and the printed text under a receipt line wrap onto more lines instead of ending in "…",
+   the same words (everything must fit on every screen). The line's own title stays on one line, as before. */
+.co-pill span { white-space: normal; }
+.co-pill span b { white-space: nowrap; }
+.co-page small.line-original { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
 .co-rej { flex: none; min-height: 58px; margin-bottom: 6px; border-radius: 8px; background: var(--rej-bg); border: 1px solid var(--rej-line); display: flex; align-items: flex-start; padding: 0 12px 6px 14px; }
 .co-rej svg { flex: none; margin-top: 4.5px; }
 .co-rej .co-t { margin-left: 27px; display: flex; flex-direction: column; min-width: 0; }
@@ -131,6 +136,9 @@
 /* The next step of the screen. 60 px here is 45 px on a 1440 window. */
 .co-mainBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 60px; padding: 0 34px; border-radius: 10px; background: var(--btn-2); color: var(--on-btn); font-size: 21px; font-weight: 600; text-decoration: none; }
 .co-mainBtn:disabled { opacity: .6; }
+.co-subBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 26px; border-radius: 10px; background: transparent; border: 1.5px solid var(--btn-2); color: var(--btn-2); font-size: 18px; font-weight: 600; }
+.co-subBtn:disabled { opacity: .6; }
+.co-realNote { margin-top: -8px; font-size: 14px; line-height: 20px; color: var(--ink-2); }
 
 /* right: needs */
 .co-pRight { margin-left: 16px; width: 474px; }
@@ -248,6 +256,8 @@
 .sc-stack .co-decide { margin: 8px 0 0; width: auto; }
 .sc-stack .co-emptyReceipt { margin: 12px; font-size: 15px; line-height: 21px; }
 .sc-stack .co-mainBtn { width: 100%; min-height: 48px; padding: 0 14px; font-size: 16px; }
+.sc-stack .co-subBtn { width: 100%; min-height: 42px; padding: 0 14px; font-size: 15px; }
+.sc-stack .co-realNote { margin-top: -6px; font-size: 13px; line-height: 18px; }
 .sc-stack .co-needs { margin-top: 10px !important; gap: 8px !important; }
 .sc-stack .co-need { margin: 0 10px; width: auto; height: auto; padding: 10px; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; }
 .sc-stack .co-need .co-ico { position: static; width: 44px; height: 44px; grid-row: 1 / span 3; }
