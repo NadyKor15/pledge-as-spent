@@ -51,7 +51,7 @@ describe("carry switched off", () => {
 
   it("ignores the choice exactly as before the feature existed, and the drive says the feature is off", async () => {
     const s = await setup();
-    expect((await s.h.svc.getDriveView(s.driveId)).features).toEqual({ carry: false, renew: false });
+    expect((await s.h.svc.getDriveView(s.driveId)).features).toMatchObject({ carry: false, renew: false });
     // any value is ignored, nothing is stored: the pledge is the one every donor made so far
     const ids = [await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "carry"), await s.pledge("Ines (Porto)", "water", "EUR", 500, "maybe")];
     for (const id of ids) {
@@ -82,7 +82,7 @@ describe("carry switched on", () => {
 
   it("moves the rest between two lines of one receipt, so the next line already counts on it, without a PayPal call of its own", async () => {
     const s = await setup();
-    expect((await s.h.svc.getDriveView(s.driveId)).features).toEqual({ carry: true, renew: false });
+    expect((await s.h.svc.getDriveView(s.driveId)).features).toMatchObject({ carry: true, renew: false });
     const claire = await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "carry");
     expect(await reject(s.h.svc.createPledge({ driveId: s.driveId, needId: null, match: { ratioNum: 1, ratioDen: 1 }, donorName: "Co", amount: { currency: "JPY", minor: 1000 }, rest: "carry" }))).toMatchObject({ code: "invalid_rest" });
     expect(await reject(s.h.svc.createPledge({ driveId: s.driveId, needId: "water", donorName: "X", amount: { currency: "EUR", minor: 1000 }, rest: "maybe" }))).toMatchObject({ status: 400, code: "invalid_rest" });

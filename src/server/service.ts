@@ -120,6 +120,20 @@ export interface ServiceDeps {
   renewEnabled?: boolean;
   /** The coordinator invites volunteers; payouts only to them. Absent: env VOLUNTEER_INVITES === "1"; off by default. */
   invitesEnabled?: boolean;
+  /** A donor may set rules for the lines a hold pays. Absent: env DONOR_RULES === "1"; off by default. */
+  rulesEnabled?: boolean;
+}
+
+/** The donor's rules as the form sends them, shaped for the book (which checks them against the drive), or a 400. */
+function donorRules(raw: { needs?: unknown; maxUnitMinor?: unknown } | null | undefined): Pledge["rules"] {
+  if (raw === null || raw === undefined) return undefined;
+  if (typeof raw !== "object") throw new ServiceError(400, "invalid_rules", "rules must be { needs?, maxUnitMinor? }.");
+  const needs = raw.needs === undefined || raw.needs === null ? undefined : raw.needs;
+  if (needs !== undefined && (!Array.isArray(needs) || needs.some((n) => typeof n !== "string"))) throw new ServiceError(400, "invalid_rules", "rules.needs must be a list of need ids.");
+  const cap = raw.maxUnitMinor === undefined || raw.maxUnitMinor === null || raw.maxUnitMinor === "" ? undefined : Number(raw.maxUnitMinor);
+  if (cap !== undefined && (!Number.isSafeInteger(cap) || cap <= 0)) throw new ServiceError(400, "invalid_rules", "rules.maxUnitMinor must be a whole number of minor units above 0.");
+  if (needs === undefined && cap === undefined) return undefined; // an empty rule is no rule
+  return { ...(needs !== undefined ? { needs: [...(needs as string[])] } : {}), ...(cap !== undefined ? { maxUnitMinor: cap } : {}) };
 }
 
 /** A receipt's payout: whether there is anyone to pay, and the invited volunteer it goes to (null: the drive's own address). */
@@ -421,6 +435,8 @@ export class PledgeService {
     pledgeId?: string;
     /** What happens to the rest once the need is covered; absent: release. "carry" only while REBIND_ENABLED is on. */
     rest?: string | null;
+    /** The donor's rules for the lines the hold may pay (DONOR_RULES); ignored while it is off. */
+    rules?: { needs?: unknown; maxUnitMinor?: unknown } | null;
   }): Promise<{ pledgeId: string; orderId: string; approveUrl: string | null; status: string }> {
     const state = await this.openBook(input.driveId);
     const drive = state.drive!;
@@ -429,6 +445,8 @@ export class PledgeService {
     const rest = this.rebindEnabled ? (input.rest ?? undefined) : undefined;
     if (rest !== undefined && rest !== "release" && rest !== "carry") throw new ServiceError(400, "invalid_rest", "rest must be release or carry.");
     if (rest === "carry" && input.match) throw new ServiceError(400, "invalid_rest", "A company match backs the whole drive; it has no rest to keep.");
+    // While DONOR_RULES is off the field is ignored, exactly as before it existed.
+    const rules = this.rulesEnabled ? donorRules(input.rules) : undefined;
     const donorName = (input.donorName ?? "").trim();
     if (!donorName || donorName.length > 80) throw new ServiceError(400, "invalid_donor", "donorName is required (at most 80 characters).");
     const { currency, minor } = input.amount ?? ({} as Money);
@@ -448,6 +466,7 @@ export class PledgeService {
       donorName,
       ...(input.donorCountry ? { donorCountry: String(input.donorCountry).slice(0, 2).toUpperCase() } : {}),
       ...(rest !== undefined ? { rest } : {}),
+      ...(rules !== undefined ? { rules } : {}),
       amount: { currency: currency as CurrencyCode, minor },
       fx,
       ...(isMatch ? { match: { ratioNum: input.match!.ratioNum, ratioDen: input.match!.ratioDen } } : {}),
@@ -587,6 +606,11 @@ export class PledgeService {
       return b.state.holds[pledgeId].rebound!;
     });
     return { pledgeId, needId: rebound.toNeedId, rebound };
+  }
+
+  /** Off unless switched on: the deps say so, or env DONOR_RULES is "1". */
+  get rulesEnabled(): boolean {
+    return this.d.rulesEnabled ?? process.env.DONOR_RULES === "1";
   }
 
   /** Off unless switched on: the deps say so, or env VOLUNTEER_INVITES is "1". */
@@ -1414,7 +1438,7 @@ export class PledgeService {
 
   /** Which money features this server has switched on; all off by default. */
   get features(): Features {
-    return { carry: this.rebindEnabled, renew: this.renewEnabled, invites: this.invitesEnabled };
+    return { carry: this.rebindEnabled, renew: this.renewEnabled, invites: this.invitesEnabled, rules: this.rulesEnabled };
   }
 
   async getReceipt(receiptId: string): Promise<ReceiptView> {

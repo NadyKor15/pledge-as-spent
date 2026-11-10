@@ -82,9 +82,11 @@ export interface Features {
   renew: boolean;
   /** VOLUNTEER_INVITES: the coordinator invites volunteers by PayPal address; only they upload and are paid. */
   invites: boolean;
+  /** DONOR_RULES: a donor may limit the lines their hold pays (needs, a price cap per unit). */
+  rules: boolean;
 }
 
-export const NO_FEATURES: Features = { carry: false, renew: false, invites: false };
+export const NO_FEATURES: Features = { carry: false, renew: false, invites: false, rules: false };
 
 export async function driveView(db: Db, driveId: string, features: Features = NO_FEATURES) {
   const state = await readBook(db, driveId);
