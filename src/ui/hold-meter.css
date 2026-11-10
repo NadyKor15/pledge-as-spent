@@ -1,0 +1,25 @@
+/* HoldMeter: the hold's parts as a strict bar (form A, Nadya TG 6708; colours of sheet A, NM11 17:37:28Z). The --pas-*
+   colours are shared by every place that shows a hold's parts (statement, money map, donors card, book, needs). */
+:root {
+  --pas-charged: #2F855A;
+  --pas-held: #B7791F;
+  --pas-refused: #D0294A;
+  --pas-never: #B8C0CA;
+  --pas-never-text: #586478;
+  --pas-track: #E5E9EC;
+  --pas-back: #8A94A3;
+}
+.pas-meter { display: flex; overflow: hidden; width: 100%; background: var(--pas-track); }
+.pas-meter-card { height: 11.8px; border-radius: 5.9px; }
+.pas-meter-label { height: 4px; border-radius: 2px; }
+.pas-meter-cell { height: 6px; border-radius: 3px; }
+.pas-seg { display: block; height: 100%; transition: width .6s ease-out; }
+.pas-seg-charged { background: var(--pas-charged); }
+.pas-seg-waiting { background: repeating-linear-gradient(135deg, var(--pas-charged) 0 4px, #8FCFB5 4px 8px); }
+.pas-seg-held { background: var(--pas-held); }
+.pas-seg-returning { background: repeating-linear-gradient(135deg, var(--pas-never) 0 4px, #DDE2E8 4px 8px); }
+.pas-seg-never { background: var(--pas-never); }
+.pas-seg-back { background: var(--pas-back); }
+@media (prefers-reduced-motion: reduce) {
+  .pas-seg { transition: none; }
+}

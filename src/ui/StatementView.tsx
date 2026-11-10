@@ -2,16 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { api, asApiError, useAction, useDrive, type ApiError } from "./api";
 import { classes } from "./cls";
 import { captureState, holdAmounts, holdTag, reauthorized, returningAtPayPal } from "./derive";
-import { day, itemPhrase, lineRange, money, pct, rateText, titleParts } from "./format";
+import { day, itemPhrase, lineRange, money, rateText, titleParts } from "./format";
 import { driveBadge, MobileHeader, roleHref } from "./Header";
 import { Check, Clock, Gift, Info, NeedIcon } from "./icons";
 import { Failure, Loading, StaleData } from "./states";
 import { StatementActions } from "./statement/Actions";
+import { HoldMeter } from "./HoldMeter";
+import { meterParts } from "./hold-meter";
 import { StatementCheck } from "./paypal-check/StatementCheck";
+import { vanishLine, withdrawnNote } from "./statement/vanish";
+import { statementLines } from "./statement/lines";
+import { LineProofs } from "./statement/LineProofs";
+import { translationNote } from "./statement/lines";
+import { chainFee, feeLine, useReportedFees } from "./fee-line";
+import { chainMeter, chainOf, chainRows, latestMember, statementHref, statementTarget } from "./statement/chain";
+import { ChainStory } from "./statement/ChainStory";
+import type { StatementTranslation } from "@/server/translations";
+import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
 import "./statement.css";
@@ -52,10 +64,19 @@ export function StatementScreen({ params }: { params: Promise<{ pledgeId: string
     };
   }, [load]);
 
+  // A renewed pledge opened by an older hold's id (the donor's first link): the statement of its latest hold instead.
+  const router = useRouter();
+  const target = data ? statementTarget(data.statement.balance.pledgeId, chainOf(data)) : null;
+  useEffect(() => {
+    if (target) router.replace(statementHref(target, window.location.search, window.location.hash));
+  }, [target, router]);
+
   if (!data) {
     if (!error) return <Loading what="your statement" />;
     return <Failure title={error.status === 404 ? "No such pledge" : "The statement could not be loaded"} message={error.message} />;
   }
+  // Never the older hold's own page meanwhile: its fate is not the pledge's.
+  if (target) return error ? <Failure title="The statement could not be loaded" message={error.message} /> : <Loading what="your statement" />;
   return <WithDrive data={data} reload={reload} />;
 }
 
@@ -136,7 +157,8 @@ function holdFate(view: DriveView, st: Statement): string {
   const b = st.balance;
   const expires = b.expiresAt ? day(b.expiresAt, false) : null;
   if (returningAtPayPal(b)) return "returning at PayPal";
-  if (b.status === "voided") return "returned";
+  // A refund was charged first: only a rest PayPal released untouched is never charged.
+  if (b.status === "voided") return b.reversed > 0 ? "returned" : b.captured + b.capturePending + b.accrued > 0 ? "rest never charged" : "never charged";
   if (b.status === "captured") return "fully spent";
   if (b.status === "expired") return "expired";
   if (b.status === "denied") return "declined by PayPal";
@@ -150,26 +172,42 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
   const a = holdAmounts(b);
   const returning = returningAtPayPal(b);
   const watched = useRef(false);
+  // PayPal's answer once the donor asks it at the bottom of the page: the end date line above takes PayPal's word from it.
+  const [check, setCheck] = useState<CheckResult | null>(null);
+  const vanish = vanishLine(b, view.paypal, check);
   // A void waits for the hold's capture and for PayPal's word on it: this page re-reads by itself meanwhile, reloaded or not.
   useEffect(() => {
     if (!returning || watched.current) return;
     watched.current = true;
     follow(RETURN_WATCH_MS);
   }, [returning, follow]);
-  const items = boughtItems(view, st);
+  // A renewed pledge is one story and one bar over its chain (statement/chain.ts); without a renewal, chain is null.
+  const chain = chainOf(data);
+  // Lines, shares and translations over the chain's rows: a line the first hold paid keeps its share on the page.
+  const rowsSt = chainRows(st, chain);
+  const items = boughtItems(view, rowsSt);
+  const translation = useLineTranslation(b.pledgeId, rowsSt.rows.length);
+  // What the app takes (nothing) and what PayPal reported taking on this hold's captures (on every hold of a renewed pledge).
+  const fees = useReportedFees(view.drive.id, String(view.eventCount));
+  const fee = feeLine(chain ? chainFee(fees, chain.members.map((x) => x.pledgeId)) : fees?.[b.pledgeId]);
   const receipts = [...new Map(items.flatMap((i) => (i.receipt ? [[i.receipt.id, i.receipt] as const] : []))).values()];
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
   const fate = holdFate(view, st);
-  const live = (b.status === "authorized" || b.status === "partially_captured") && !returning;
+  const status = chain ? latestMember(chain).status : b.status;
+  const live = (status === "authorized" || status === "partially_captured") && !returning;
   const pending = items.some((i) => !captureState(i.statuses).done);
   const rate = rateText(view.holds.find((h) => h.pledgeId === b.pledgeId)?.fx);
+  // The figures under the bar are its parts (src/ui/hold-meter.ts): the same numbers, in the same order.
+  const m = chain ? chainMeter(chain) : meterParts(b);
   const parts = [
-    { key: "spent", bar: s.bSpent, stat: s.sSpent, value: a.spent, word: "spent", always: true },
-    { key: "waiting", bar: s.bWait, stat: s.sWait, value: a.waiting, word: "waiting", always: false },
-    { key: "held", bar: s.bHeld, stat: s.sHeld, value: a.held, word: "held", always: live },
-    { key: "returning", bar: s.bBack, stat: s.sBack, value: a.returning, word: "Returning at PayPal…", always: false },
-    { key: "returned", bar: s.bRel, stat: s.sRel, value: a.released, word: "returned", always: !returning },
+    { key: "spent", stat: s.sSpent, value: m.charged, word: "spent", always: true },
+    { key: "waiting", stat: s.sWait, value: m.waiting, word: "waiting", always: false },
+    { key: "held", stat: s.sHeld, value: m.held, word: "held", always: live },
+    { key: "returning", stat: s.sBack, value: m.returning, word: "Returning at PayPal…", always: false },
+    // Known once the hold is over: on a live hold "€0.00 never charged" would say nothing true yet.
+    { key: "never", stat: s.sRel, value: m.never, word: "never charged", always: !live && !returning },
+    { key: "refunded", stat: s.sRefund, value: m.back, word: "refunded after capture", always: false },
   ].filter((p) => p.always || p.value > 0);
   return (
     <div className={s.page}>
@@ -183,15 +221,11 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
 
       <section className={`${s.card} ${s.sum}`} aria-label="Pledge summary">
         <div className={s.sumRow}>
-          <span className={s.sumAmt}>{money(st.currency, a.total)}</span>
+          <span className={s.sumAmt}>{money(st.currency, chain ? chain.totals.pledged : a.total)}</span>
           <span className={s.sumLbl}>pledged</span>
           {b.revoked && <span className={s.tag}>{holdTag(b)}</span>}
         </div>
-        <div className={s.bar} role="img" aria-label={parts.map((p) => `${money(st.currency, p.value)} ${p.word}`).join(", ")}>
-          {parts.map((p) => (
-            <i key={p.key} className={p.bar} data-part={p.key} style={{ width: `${pct(p.value, a.total)}%` }} />
-          ))}
-        </div>
+        <HoldMeter parts={m} size="card" lang="en" className={s.meter} />
         <div className={s.stats}>
           {parts.map((p) => (
             <div key={p.key} className={`${s.stat} ${p.stat}`}>
@@ -200,6 +234,11 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             </div>
           ))}
         </div>
+        {fee && (
+          <p className={s.fee} data-testid="statement-fee">
+            {fee}
+          </p>
+        )}
       </section>
 
       {st.totals.uncollected + st.totals.reversed > 0 && (
@@ -221,6 +260,8 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
         </section>
       )}
 
+      {chain && <ChainStory chain={chain} />}
+
       <RebindOffer pledgeId={b.pledgeId} offer={data.rebind} labelOf={(id) => view.needs.find((n) => n.needId === id)?.displayLabel} onMoved={() => void refresh()} />
 
       <section className={`${s.card} ${s.bought}`}>
@@ -230,7 +271,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             {returning
               ? `Nothing was bought with this pledge. Your ${money(st.currency, a.returning)} is on its way back at PayPal and was never charged.`
               : a.total > 0 && b.authorized > 0 && a.held === 0
-                ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} went back at PayPal and was never charged.`
+                ? `Nothing was bought with this pledge. Your ${money(st.currency, a.released)} was never charged: PayPal released the hold.`
                 : `Nothing yet. ${a.total > 0 && b.authorized > 0 ? `Your ${money(st.currency, a.total)} is held at PayPal` : "Your pledge is waiting for approval in PayPal"}: it is charged only when a volunteer’s receipt for this need passes the checks.`}
           </p>
         )}
@@ -262,16 +303,30 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
                   {cap.done ? <Check size={15.1} color="var(--check)" /> : <Clock size={15.1} />}
                   <span>{cap.label}</span>
                 </div>
+                {i.receipt && <LineProofs lines={statementLines(view, rowsSt, i.receipt.id, i.lineNos)} translations={translation.of(i.receipt.id)} />}
               </div>
             </div>
           );
         })}
+
+        {translation.note && <p className={s.lineNote}>{translation.note}</p>}
 
         {receipts.map((r) => (
           <ReceiptFrame key={r.id} receipt={r} firstLine={Math.min(...items.filter((i) => i.receipt?.id === r.id).flatMap((i) => i.lineNos))} />
         ))}
 
         <div className={s.hr} />
+        {vanish && (
+          <p className={s.vanish} data-testid="statement-vanish" aria-live="polite">
+            {vanish.text}
+            {vanish.confirm && (
+              <>
+                {" "}
+                <span className={s.vanishOk}>{vanish.confirm}</span>
+              </>
+            )}
+          </p>
+        )}
         <div className={s.hold}>
           <Info size={16.4} />
           <p>
@@ -291,7 +346,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             {live && (
               <>
                 <br />
-                Whatever is not spent goes back when the drive closes.
+                Whatever is not spent is never charged: PayPal releases it when the drive closes.
               </>
             )}
             {rate && (
@@ -330,13 +385,33 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
       )}
 
       <StatementActions data={data} view={view} />
-      <StatementCheck view={view} st={st} />
+      <StatementCheck view={view} st={st} onResult={setCheck} />
 
       <Link className={s.back} href={roleHref(view.drive.id, "donor")}>
         Back to the drive
       </Link>
     </div>
   );
+}
+
+/** The donor's receipt lines in their language, asked once when the statement opens (and again if its lines change). */
+function useLineTranslation(pledgeId: string, rowCount: number) {
+  const [t, setT] = useState<StatementTranslation | null>(null);
+  useEffect(() => {
+    if (!rowCount) return;
+    let live = true;
+    api<StatementTranslation>(`/api/pledges/${encodeURIComponent(pledgeId)}/statement/translate`, { method: "POST" }).then(
+      (r) => live && setT(r),
+      () => live && setT(null),
+    );
+    return () => {
+      live = false;
+    };
+  }, [pledgeId, rowCount]);
+  return {
+    of: (receiptId: string) => (t && t.lang !== "en" ? new Map(t.lines.filter((l) => l.receiptId === receiptId && l.source !== "english").map((l) => [l.lineNo, { lang: t.lang, text: l.text }])) : undefined),
+    note: translationNote(t),
+  };
 }
 
 /**
@@ -371,7 +446,7 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   if (b.revoked) {
     return (
       <p className={s.withdrawn} role="status">
-        {returningAtPayPal(b) ? "You withdrew this pledge. What was already bought stays paid; the rest is on its way back at PayPal." : "You withdrew this pledge. What was already bought stays paid; the rest went back at PayPal."}
+        {withdrawnNote(b)}
       </p>
     );
   }
@@ -390,7 +465,7 @@ function Withdraw({ view, st, follow, refresh }: { view: DriveView; st: Statemen
   };
   return (
     <div className={s.confirm}>
-      <p>Withdraw this pledge? What was already bought stays paid. The rest of the hold goes back to you.</p>
+      <p>Withdraw this pledge? What was already bought stays paid. PayPal releases the rest of the hold: it is never charged.</p>
       <div className={s.confirmActs}>
         <button type="button" className={s.yes} disabled={busy !== null} onClick={withdraw}>
           {busy ? "Withdrawing…" : "Yes, withdraw"}

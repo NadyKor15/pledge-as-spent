@@ -142,7 +142,7 @@ function Sheet({ data }: { data: StatementView }) {
         </table>
 
         <p className={s.foot}>
-          A share is charged only when PayPal confirms the capture; whatever is not spent goes back to you when the drive closes. Match is the company match your share unlocked, in the drive’s currency ({m.baseCurrency}). The capture ids are PayPal’s own: you can look each one up in your PayPal activity.
+          A share is charged only when PayPal confirms the capture; whatever is not spent is never charged: PayPal releases it when the drive closes. Match is the company match your share unlocked, in the drive’s currency ({m.baseCurrency}). The capture ids are PayPal’s own: you can look each one up in your PayPal activity.
         </p>
       </article>
     </div>

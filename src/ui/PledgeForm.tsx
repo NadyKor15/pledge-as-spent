@@ -227,7 +227,7 @@ export function PledgeForm({
         {message ??
           (invalid
             ? `Enter an amount above 0, up to ${MAX_MAJOR.toLocaleString("en-US")} ${currency}${currency === "JPY" ? " in whole yen" : ", with at most two decimals"}.`
-            : `Held on your PayPal account for up to ${HOLD_LIFE_DAYS} days, then returned.`)}
+            : `Held on your PayPal account for up to ${HOLD_LIFE_DAYS} days. What is not spent is never charged: PayPal releases it.`)}
       </p>
     </form>
   );

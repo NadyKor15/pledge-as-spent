@@ -8,6 +8,8 @@ import { ServiceError } from "./errors";
 import type { Pipeline } from "./reading";
 import { PledgeService, type Limits } from "./service";
 import { fileLedgerTotal, META_READ_CAP_MAX_USD, seedCarryOver } from "./spend";
+import translationsJson from "../../eval/receipts/translations.json";
+import { LineTranslator, type RecordedTranslations } from "./translations";
 
 // One service per server process, built on first use from the environment, so
 // `next build` needs no configuration at all.
@@ -98,4 +100,26 @@ export async function getService(): Promise<PledgeService> {
 export function setServiceForTests(s: PledgeService | undefined): void {
   state.service = s;
   state.starting = undefined;
+}
+
+const translatorSlot = globalThis as typeof globalThis & { __pledgeAsSpentTranslator?: { translator?: LineTranslator; db?: unknown } };
+
+/**
+ * The statement's line translator, on the service's database, with the Meta reading's key and ceiling (the same
+ * READ_META_ALLOWED, META_READ_CAP_USD and META_MODEL_API_KEY; one ceiling for reading and translating). Without them it
+ * only gives the recorded translations and those made before.
+ */
+export async function getTranslator(): Promise<LineTranslator> {
+  const svc = await getService();
+  const t = (translatorSlot.__pledgeAsSpentTranslator ??= {});
+  if (t.translator && t.db === svc.db) return t.translator;
+  const meta = metaReadingFrom(process.env).metaReading;
+  t.translator = new LineTranslator({ db: svc.db, recorded: translationsJson as RecordedTranslations, ...(meta ? { meta } : {}), log: (m) => console.warn(m) });
+  t.db = svc.db;
+  return t.translator;
+}
+
+/** Tests put their own translator behind the route (undefined: build one from the service again). */
+export function setTranslatorForTests(t: LineTranslator | undefined): void {
+  translatorSlot.__pledgeAsSpentTranslator = t ? { translator: t, db: state.service?.db } : {};
 }

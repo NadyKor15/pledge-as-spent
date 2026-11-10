@@ -1,5 +1,5 @@
 import type { AgAiTool, AgAiToolResult } from "ag-studio";
-import { lineGross, lineName, needById, shareStage, taxUnknown } from "@/ui/derive";
+import { lineGross, lineName, needById, shareStage, shownHolds, shownId, taxUnknown } from "@/ui/derive";
 import { decimals, donorParts, money } from "@/ui/format";
 import { deriveLedger } from "@/ui/ledger/derive";
 import type { DriveView, Hold, LedgerRow, Receipt } from "@/ui/types";
@@ -91,7 +91,8 @@ export function findHolds(v: View, query: string): Hold[] {
   const words = norm(withAliases(query))
     .split(/[^\p{L}\p{N}]+/u)
     .filter((w) => w.length >= 2);
-  const scored = v.holds
+  // A renewed donor is one donor (renewal-chain.ts): the agent reads their chain as one hold, like the book.
+  const scored = shownHolds(v)
     .map((h) => {
       const { name, place } = donorParts(h.donorName, h.donorCountry);
       const n = norm(name);
@@ -113,10 +114,10 @@ export function findHolds(v: View, query: string): Hold[] {
 }
 
 function everyone(v: View): string {
-  return v.holds.map(donorLabel).join("; ");
+  return shownHolds(v).map(donorLabel).join("; ");
 }
 
-const names = (v: View) => v.holds.map((h) => donorParts(h.donorName).name).join(", ");
+const names = (v: View) => shownHolds(v).map((h) => donorParts(h.donorName).name).join(", ");
 
 type Resolved = { hold: Hold } | { error: string };
 
@@ -187,7 +188,7 @@ export interface DonorFigures {
 export function donorFigures(v: View, h: Hold): DonorFigures {
   const closed = v.drive.status === "closed";
   const model = deriveLedger(v).donors.find((d) => d.pledgeId === h.pledgeId);
-  const rows = v.ledger.filter((x) => (x.kind === "donor_share" || x.kind === "match_share") && x.pledgeId === h.pledgeId);
+  const rows = v.ledger.filter((x) => (x.kind === "donor_share" || x.kind === "match_share") && shownId(v, x.pledgeId) === h.pledgeId);
   const pledged = h.authorized > 0 ? h.authorized : h.pledged;
   const spent = model?.spent ?? rows.reduce((s, x) => s + keptMinor(x), 0);
   const waiting = model?.waiting ?? rows.filter((x) => shareStage(x.status) === "waiting").reduce((s, x) => s + keptMinor(x), 0);
@@ -322,7 +323,7 @@ export function ledgerLine(v: View, line: unknown): LedgerToolResult {
         `Verdict: ${verdict}${need ? `, need ${need.displayLabel}` : ""}${name.title && !need ? ` (${name.title})` : ""}. Reason: ${(refused?.reasonEn ?? l.reasonEn ?? "—").replace(/\.$/, "")}.`,
     );
     for (const s of shares) {
-      const h = v.holds.find((x) => x.pledgeId === s.pledgeId);
+      const h = shownHolds(v).find((x) => x.pledgeId === shownId(v, s.pledgeId));
       const who = h ? donorLabel(h) : (s.donorName ?? "—");
       const own = s.currency ? f.amount(s.currency, keptMinor(s), `${who}'s share of line ${l.lineNo}`, { lineKey: key }) : "—";
       const inBase = s.currency && s.currency !== v.drive.baseCurrency ? ` (= ${f.amount(v.drive.baseCurrency, s.base, `line ${l.lineNo} share in ${v.drive.baseCurrency}`, { lineKey: key })})` : "";

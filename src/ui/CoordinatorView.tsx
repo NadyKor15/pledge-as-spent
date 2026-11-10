@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, type LineView, type NextStep } from "./derive";
+import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, shownHolds, shownId, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
@@ -54,7 +54,8 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
   const lines = receipt ? lineViews(view, receipt) : [];
   useFlows(page, layer, (box) => flows(view, receipt, lines, box));
 
-  const donors = view.holds.filter((h) => h.kind === "donor");
+  // A renewed donor is one card: shownHolds reads their renewal chain as one hold.
+  const donors = shownHolds(view).filter((h) => h.kind === "donor");
   const matches = view.holds.filter((h) => h.kind === "match");
 
   return (
@@ -198,7 +199,8 @@ function holdParts(a: ReturnType<typeof holdAmounts>) {
     { key: "waiting", cls: s.wait, label: s.lw, value: a.waiting, word: "waiting" },
     { key: "held", cls: s.h, label: s.lh, value: a.held, word: "held" },
     { key: "returning", cls: s.back, label: s.lx, value: a.returning, word: "returning" },
-    { key: "back", cls: s.x, label: s.lx, value: a.released, word: "back" },
+    // Released by PayPal (void, expiry): never charged. A refund after capture is not in it (holdAmounts).
+    { key: "back", cls: s.x, label: s.lx, value: a.released, word: "never charged" },
   ].filter((p) => p.value > 0);
 }
 
@@ -283,7 +285,7 @@ function MatchCard({ hold: h, ratio }: { hold: Hold; ratio: DriveView["match"]["
         {a.released > 0 && (
           <>
             {" · "}
-            <b>{money(h.currency, a.released)}</b> <span className={s.w}>back</span>
+            <b>{money(h.currency, a.released)}</b> <span className={s.w}>never charged</span>
           </>
         )}
       </div>
@@ -567,10 +569,10 @@ function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy:
   const status = view.drive.status;
   const sub =
     status === "open"
-      ? "Closing captures what is waiting and sends what is left of every hold back to its donor."
+      ? "Closing captures what is waiting, then PayPal releases what is left of every hold: it is never charged."
       : status === "closing"
-        ? "Closing: waiting shares are captured first, then what is left of each hold goes back once PayPal confirms."
-        : "Every hold is settled: pledged = spent + returned.";
+        ? "Closing: waiting shares are captured first, then PayPal releases what is left of each hold."
+        : view.holds.some((h) => h.reversed > 0) ? "Every hold is settled: pledged = spent + returned." : "Every hold is settled: pledged = spent + never charged.";
   const main = next === "close" || next === "closing";
   return (
     <div className={`${s.panel} ${s.bClose}`}>
@@ -583,7 +585,7 @@ function ClosePanel({ view, busy, next, close, error }: { view: DriveView; busy:
         </Link>
       ) : asking && status === "open" && busy !== "close" ? (
         <div className={s.confirm} ref={confirm} role="group" aria-label="Confirm closing the drive">
-          <p>Close the drive? Shares still waiting are captured and unspent holds go back to donors.</p>
+          <p>Close the drive? Shares still waiting are captured, and PayPal releases what is left of every hold: it is never charged.</p>
           <div className={s.confirmActs}>
             <button
               type="button"
@@ -616,7 +618,7 @@ function flows(view: DriveView, r: Receipt | null, lines: LineView[], box: (k: s
   if (!r || !rb) return [];
   const out: Shape[] = [];
   const dots: Shape[] = [];
-  const funding = view.holds.filter((h) => lines.some((l) => l.shares.some((x) => x.pledgeId === h.pledgeId)));
+  const funding = shownHolds(view).filter((h) => lines.some((l) => l.shares.some((x) => shownId(view, x.pledgeId) === h.pledgeId)));
   const donors = funding.filter((h) => h.kind === "donor");
   donors.forEach((h, k) => {
     const c = box(`hold:${h.pledgeId}`);

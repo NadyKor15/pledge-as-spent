@@ -1,0 +1,33 @@
+{
+  "note": "Receipt lines translated into a donor's language once, by Meta Muse Spark 1.3 (scripts/record-translations.ts), keyed by the line as printed. The showcase and the sample receipt read these: no model call on the demo.",
+  "model": "muse-spark-1.3",
+  "recordedAt": "2026-11-10T03:10:12.450Z",
+  "lines": {
+    "de": {
+      "北空の天然水 2L 6本ケース": "Natürliches Wasser 2L 6er Kasten",
+      "雪解けの水 2L": "Schmelzwasser 2L",
+      "ミネラルウォーター 2Lペット": "Mineralwasser 2L Flasche",
+      "ソフトキッズ おむつ M 44枚": "Soft kids Windeln M 44 Stück",
+      "ベビーラブ パンツ M": "Baby Höschenwindeln M",
+      "紙おむつ M 18枚 お試しパック": "Papierwindeln M 18 Testpackung",
+      "アルカリ乾電池 単3 20本入": "Alkali AA Batterien 20er Pack",
+      "単3電池 10本入": "AA Batterien 10er Pack",
+      "単3 ばら": "AA Batterie lose",
+      "缶ビール 350ml 6缶": "Dosenbier 350ml 6er Pack",
+      "ギフトカード 3,000円": "Geschenkkarte 3000 Yen"
+    },
+    "ja": {
+      "北空の天然水 2L 6本ケース": "北空の天然水 2L 6本ケース",
+      "雪解けの水 2L": "雪解けの水 2L",
+      "ミネラルウォーター 2Lペット": "ミネラルウォーター 2Lペット",
+      "ソフトキッズ おむつ M 44枚": "ソフトキッズ おむつ M 44枚",
+      "ベビーラブ パンツ M": "ベビーラブ パンツ M",
+      "紙おむつ M 18枚 お試しパック": "紙おむつ M 18枚 お試しパック",
+      "アルカリ乾電池 単3 20本入": "アルカリ乾電池 単3 20本入",
+      "単3電池 10本入": "単3電池 10本入",
+      "単3 ばら": "単3 ばら",
+      "缶ビール 350ml 6缶": "缶ビール 350ml 6缶",
+      "ギフトカード 3,000円": "ギフトカード 3,000円"
+    }
+  }
+}

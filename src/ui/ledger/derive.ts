@@ -1,5 +1,7 @@
 import { toBase } from "@/core/money";
 import { holdById, latestFunded, lineName, needById, shareStage } from "../derive";
+import { meterParts, type MeterParts } from "../hold-meter";
+import { chainRootId, groupByChain, mergeChain } from "../renewal-chain";
 import { decimals, donorParts, moneyIn, ofCount, pct, rateTextIn, shelterShort, shortName, type Lang } from "../format";
 import type { DriveView, Hold, LedgerRow, Need } from "../types";
 import { locate, type LonLat } from "./geo";
@@ -32,7 +34,15 @@ export interface LedgerDonor {
   spentWord: "spent" | "waiting" | "approved";
   /** What did not go to the shelter, with the word for it. */
   restText: string;
+  /** "back" also for a rest PayPal released: the assistant's tools read this code (src/agent/tools.ts), unchanged. */
   restWord: "back" | "held";
+  /**
+   * The rest was released by PayPal (void or expiry) and nothing of this hold was refunded: it was never charged.
+   * False while a void is on its way, and after any refund (that money was charged, then given back).
+   */
+  neverCharged: boolean;
+  /** The hold's parts for its bar (HoldMeter), in the donor's currency; left out by hand-made donors in tests. */
+  meter?: MeterParts;
   /** The two words in the reader's language (left out by hand-made donors in tests: the codes stand in). */
   words?: { spent: string; rest: string };
   /** The same in the drive's currency: these add up to the totals, and weigh the arcs. */
@@ -121,6 +131,12 @@ export interface LedgerModel {
   /** The third total: what went back on a closed drive, what is still held on any other. */
   rest: number;
   restLabel: string;
+  /** The third total's title on screen: "Never charged" when every rest is, else restLabel (which stays the data's name). */
+  restTitle: string;
+  /** The donors' card heading. */
+  donorsTitle: string;
+  /** Every donor whose money went back had it released by PayPal, never charged (none was refunded); false if none went back. */
+  allNeverCharged: boolean;
   /** The line under Held when part of the money has already gone back. */
   restNote: string | null;
   /** The line under Spent while shares are recorded but PayPal has not captured them. */
@@ -161,7 +177,7 @@ const OVER: Hold["status"][] = ["voided", "expired", "captured", "denied"];
 const keptMinor = (r: LedgerRow) => (r.status === "uncollected" ? 0 : (r.amount ?? 0) - (r.reversed ?? 0));
 
 /** The same in the drive's currency. */
-function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
+export function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
   if (r.status === "uncollected") return 0;
   const back = r.reversed ?? 0;
   // All of it came back: nothing is left, whatever the rounding of each side says.
@@ -169,14 +185,29 @@ function keptBase(r: LedgerRow, h: Hold | undefined, base: string): number {
   return back > 0 && h ? Math.max(0, r.base - inBase(h, back, base)) : r.base;
 }
 
-function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDonor {
+/** One donor as the book shows them: a renewed pledge (RENEW) is one chain read as one hold (renewal-chain.ts). */
+interface DonorChain {
+  /** The chain as one hold: the first hold's pledge, the linked holds' money (mergeChain). */
+  hold: Hold;
+  /** The first hold: the pledge as made, at its own rate. */
+  root: Hold;
+  /** Every hold of the chain: their shares are this donor's. */
+  ids: string[];
+}
+
+function donorChains(v: DriveView): DonorChain[] {
+  return groupByChain(v.holds.filter((h) => h.kind === "donor")).map((c) => ({ hold: mergeChain(c), root: c.root, ids: c.members.map((m) => m.pledgeId) }));
+}
+
+function donorRow(v: DriveView, c: DonorChain, closed: boolean, lang: Lang): LedgerDonor {
   const w = WORDS[lang];
   const base = v.drive.baseCurrency;
-  const shares = v.ledger.filter((r) => r.kind === "donor_share" && r.pledgeId === h.pledgeId);
-  const pledgedBase = inBase(h, h.authorized, base);
+  const h = c.hold;
+  const shares = v.ledger.filter((r) => r.kind === "donor_share" && !!r.pledgeId && c.ids.includes(r.pledgeId));
+  const pledgedBase = inBase(c.root, h.authorized, base);
   const spentBase = Math.min(
     pledgedBase,
-    shares.reduce((sum, r) => sum + keptBase(r, h, base), 0),
+    shares.reduce((sum, r) => sum + keptBase(r, holdById(v, r.pledgeId) ?? h, base), 0),
   );
   const spent = Math.min(
     h.authorized,
@@ -190,7 +221,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   );
   const waitingBase = Math.min(
     spentBase,
-    waitingRows.reduce((sum, r) => sum + keptBase(r, h, base), 0),
+    waitingRows.reduce((sum, r) => sum + keptBase(r, holdById(v, r.pledgeId) ?? h, base), 0),
   );
   const over = closed || OVER.includes(h.status);
   // A refund or a release has left PayPal's hold: on a live hold that part is back with the donor. An uncollected
@@ -198,7 +229,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   const back = over ? rest : Math.min(rest, h.reversed + h.released);
   const held = rest - back;
   const restAll = pledgedBase - spentBase;
-  const backBase = over ? restAll : Math.min(restAll, inBase(h, back, base));
+  const backBase = over ? restAll : Math.min(restAll, inBase(c.root, back, base));
   const heldBase = restAll - backBase;
 
   const city = donorParts(h.donorName).place;
@@ -206,6 +237,7 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
   const label = city ? `${name} · ${city}` : name;
   const spentWord = waiting === 0 ? "spent" : waiting < spent ? "approved" : "waiting";
   const restWord = over ? "back" : "held";
+  const neverCharged = (h.status === "voided" || h.status === "expired") && h.reversed === 0;
   return {
     pledgeId: h.pledgeId,
     name,
@@ -221,7 +253,9 @@ function donorRow(v: DriveView, h: Hold, closed: boolean, lang: Lang): LedgerDon
     spentWord,
     restText: moneyIn(lang, h.currency, over ? back : held),
     restWord,
-    words: { spent: w.donorWord[spentWord], rest: w.donorWord[restWord] },
+    neverCharged,
+    meter: meterParts(h),
+    words: { spent: w.donorWord[spentWord], rest: w.donorWord[neverCharged ? "never" : restWord] },
     pledgedBase,
     spentBase,
     waitingBase,
@@ -240,7 +274,8 @@ function needRow(v: DriveView, n: Need, lang: Lang): LedgerNeed {
     label: needLabel(lang, n.needId, n.displayLabel),
     count: lang === "en" ? ofCount(n.qtyCovered, n.qtyNeeded, n.unit) : WORDS[lang].count(n.qtyCovered, n.qtyNeeded, n.unit),
     percent: Math.min(100, pct(n.qtyCovered, n.qtyNeeded)),
-    pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [r.pledgeId] : [])))],
+    // A renewal's shares point at its chain's first hold: the donor's one row in the book.
+    pledgeIds: [...new Set(lines.flatMap((r) => (r.kind === "donor_share" && r.pledgeId ? [chainRootId(v.holds, r.pledgeId)] : [])))],
     // Every line of the need: its refused and unfunded ones are part of its story.
     lineKeys: [...new Set(lines.map((r) => lineKey(r.receiptId, r.lineNo)))],
   };
@@ -292,7 +327,7 @@ function bookRows(v: DriveView, lang: Lang): LedgerBookRow[] {
         rowKey: r.rowId,
         kind: r.kind,
         code: r.status,
-        pledgeId: r.pledgeId,
+        pledgeId: r.kind === "donor_share" && r.pledgeId ? chainRootId(v.holds, r.pledgeId) : r.pledgeId,
         payerLabel,
         paid: r.amount !== null && r.currency ? moneyIn(lang, r.currency, r.amount) : "—",
         needShown: label ?? "—",
@@ -357,7 +392,10 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const base = v.drive.baseCurrency;
   const w = WORDS[lang];
   const closed = v.drive.status === "closed";
-  const donors = v.holds.filter((h) => h.kind === "donor" && h.authorized > 0).map((h) => donorRow(v, h, closed, lang));
+  // One row per donor: a renewed pledge is one chain (renewal-chain.ts), counted once at the first hold's amount.
+  const donors = donorChains(v)
+    .filter((c) => c.hold.authorized > 0)
+    .map((c) => donorRow(v, c, closed, lang));
   const sum = (pick: (d: LedgerDonor) => number) => donors.reduce((total, d) => total + pick(d), 0);
   const held = sum((d) => d.heldBase);
   const returned = sum((d) => d.backBase);
@@ -365,6 +403,9 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
   const waiting = sum((d) => d.waitingBase);
   const match = v.ledger.filter((r) => r.kind === "match_share").reduce((total, r) => total + keptBase(r, holdById(v, r.pledgeId), base), 0);
   const matchName = v.match.holds[0]?.donorName ?? null;
+  // "Never charged" only when it is true of every donor whose money went back: a refund was charged first.
+  const gone = donors.filter((d) => d.backBase > 0);
+  const allNever = gone.length > 0 && gone.every((d) => d.neverCharged);
   return {
     driveId: v.drive.id,
     lang,
@@ -382,7 +423,10 @@ export function deriveLedger(v: DriveView, lang: Lang = "en"): LedgerModel {
     returned,
     rest: closed ? returned : held,
     restLabel: closed ? w.returnedToDonors : w.held,
-    restNote: !closed && returned > 0 ? w.alreadyReturned(moneyIn(lang, base, returned)) : null,
+    restTitle: closed ? (allNever ? w.neverCharged : w.returnedToDonors) : w.held,
+    donorsTitle: closed ? (allNever ? w.neverToDonors : w.backToDonors) : w.heldForDonors,
+    allNeverCharged: allNever,
+    restNote: !closed && returned > 0 ? (allNever ? w.alreadyNever : w.alreadyReturned)(moneyIn(lang, base, returned)) : null,
     // The screens say shares are "captured once a day"; a drive may batch on another rhythm.
     waitingNote: waiting > 0 ? w.waitingFor(moneyIn(lang, base, waiting), v.drive.batch.maxAgeHours === 24) : null,
     match,

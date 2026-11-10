@@ -14,6 +14,7 @@
 .ld-links a { color: var(--primary); }
 .ld-for { margin-top: 12px; font-size: 16.5px; line-height: 24px; color: rgba(28, 27, 25, .78); }
 .ld-promise { margin-top: 10px; font-size: 18px; line-height: 25px; font-weight: 600; color: var(--primary); }
+.ld-count { margin-top: 6px; font-size: 14.5px; line-height: 21px; color: rgba(28, 27, 25, .78); font-variant-numeric: tabular-nums; }
 /* The judge's way through: read-only links in a panel above the button that writes. */
 .ld-judge { margin-top: 22px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .ld-judge h2 { font-size: 17px; line-height: 24px; font-weight: 700; letter-spacing: -.01em; }

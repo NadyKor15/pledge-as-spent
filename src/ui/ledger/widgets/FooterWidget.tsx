@@ -2,7 +2,10 @@
 
 import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
+import { useStacked } from "../../stage";
+import { PosterLink } from "../PosterLink";
 import { AskPayPal } from "../../paypal-check/AskPayPal";
+import { ReconcileLine } from "../../paypal-check/ReconcileLine";
 import { bookCsv, type LedgerModel } from "../derive";
 import { WORDS } from "../i18n";
 import { useWidget } from "./useWidget";
@@ -22,6 +25,8 @@ export function FooterWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLDivElement>(params);
   const { receiptUrl, refused, rates, book } = snap.model;
   const w = WORDS[snap.lang];
+  // Laid out for a phone: the same reading of the window the report itself makes (LedgerView → LedgerStudio).
+  const stacked = useStacked();
 
   return (
     <div className="lg-foot" ref={root}>
@@ -59,6 +64,9 @@ export function FooterWidget(params: AgWidgetParams) {
           </button>
         )}
         <AskPayPal driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-ask-paypal" />
+        {/* On a phone the poster's link is here, with the book's own links (on a desktop: the report's corner). */}
+        {stacked && <PosterLink driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-poster-foot" />}
+        <ReconcileLine driveId={snap.model.driveId} lang={snap.lang} variant="ledger" />
       </div>
     </div>
   );

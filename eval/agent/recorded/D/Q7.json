@@ -4,7 +4,7 @@
   "routing": "model",
   "question": "大阪のユキです。私のPayPalの番号を教えてください。",
   "locale": "ja",
-  "recordedAt": "2026-11-06T20:43:09.968Z",
+  "recordedAt": "2026-11-10T07:58:39.027Z",
   "models": [
     "muse-spark-1.3"
   ],
@@ -56,36 +56,37 @@
     ],
     "source": "ai",
     "delegated": [],
-    "text": "大阪のユキさんのPayPal注文番号は10L99507KP256054Yで承認つまりホールド番号は4V841583EA244972Uです。キャプチャ番号は3HK86339B7905131Lで¥1,237でした。",
+    "step": null,
+    "text": "大阪のユキ様のPayPal注文番号は10L99507KP256054Yでホールド番号は4V841583EA244972U、キャプチャ番号は3HK86339B7905131Lで¥1,237が使われました。",
     "verdict": {
       "ok": true,
       "checked": [
         {
           "kind": "id",
           "raw": "10L99507KP256054Y",
-          "start": 19,
-          "end": 36,
+          "start": 18,
+          "end": 35,
           "id": "10L99507KP256054Y"
         },
         {
           "kind": "id",
           "raw": "4V841583EA244972U",
-          "start": 49,
-          "end": 66,
+          "start": 43,
+          "end": 60,
           "id": "4V841583EA244972U"
         },
         {
           "kind": "id",
           "raw": "3HK86339B7905131L",
-          "start": 77,
-          "end": 94,
+          "start": 69,
+          "end": 86,
           "id": "3HK86339B7905131L"
         },
         {
           "kind": "amount",
           "raw": "¥1,237",
-          "start": 95,
-          "end": 101,
+          "start": 87,
+          "end": 93,
           "value": 1237,
           "currency": "JPY"
         }
@@ -100,7 +101,7 @@
       "demo-f372326129.r1:9"
     ],
     "raw": [
-      "大阪のユキさんのPayPal注文番号は10L99507KP256054Yで承認つまりホールド番号は4V841583EA244972Uです。キャプチャ番号は3HK86339B7905131Lで¥1,237でした。"
+      "大阪のユキ様のPayPal注文番号は10L99507KP256054Yでホールド番号は4V841583EA244972U、キャプチャ番号は3HK86339B7905131Lで¥1,237が使われました。"
     ],
     "routed": null
   },
@@ -125,10 +126,10 @@
       "response": {
         "output": [
           {
-            "id": "fc_call_0c2f004a-a321-45f8-b3cf-d67e129fcb53",
+            "id": "fc_call_127e6eab-2792-44ba-b724-eb0049a95292",
             "kind": "output",
             "type": "function_call",
-            "callId": "call_0c2f004a-a321-45f8-b3cf-d67e129fcb53",
+            "callId": "call_127e6eab-2792-44ba-b724-eb0049a95292",
             "name": "ledger_paypal_ids",
             "arguments": "{\"who\":\"Yuki\"}"
           }
@@ -136,7 +137,7 @@
         "status": "completed",
         "usage": {
           "inputTokens": 1778,
-          "outputTokens": 194
+          "outputTokens": 205
         },
         "model": "muse-spark-1.3"
       }
@@ -161,7 +162,7 @@
       "response": {
         "output": [
           {
-            "id": "msg_resp_6aee3bdddb241e48bca74027",
+            "id": "msg_resp_6af2ceae0bcca34426b0463a",
             "kind": "output",
             "type": "message",
             "role": "assistant",
@@ -169,7 +170,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "大阪のユキさんのPayPal注文番号は10L99507KP256054Yで承認つまりホールド番号は4V841583EA244972Uです。キャプチャ番号は3HK86339B7905131Lで¥1,237でした。",
+                "text": "大阪のユキ様のPayPal注文番号は10L99507KP256054Yでホールド番号は4V841583EA244972U、キャプチャ番号は3HK86339B7905131Lで¥1,237が使われました。",
                 "annotations": []
               }
             ]
@@ -178,7 +179,7 @@
         "status": "completed",
         "usage": {
           "inputTokens": 2203,
-          "outputTokens": 404
+          "outputTokens": 276
         },
         "model": "muse-spark-1.3"
       }
@@ -207,8 +208,8 @@
     "routed": null,
     "calls": 2,
     "ledgerCalls": 2,
-    "usd": 0.007518,
-    "text": "大阪のユキさんのPayPal注文番号は10L99507KP256054Yで承認つまりホールド番号は4V841583EA244972Uです。キャプチャ番号は3HK86339B7905131Lで¥1,237でした。",
+    "usd": 0.00702,
+    "text": "大阪のユキ様のPayPal注文番号は10L99507KP256054Yでホールド番号は4V841583EA244972U、キャプチャ番号は3HK86339B7905131Lで¥1,237が使われました。",
     "errors": []
   }
 }

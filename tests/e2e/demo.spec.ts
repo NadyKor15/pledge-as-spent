@@ -52,6 +52,12 @@ test("the way in: who it is for, a judge's read-only path, one action that write
   await expect(judge.getByRole("link", { name: "See a finished drive" })).toHaveAttribute("href", "/drive/demo-810b24be50?as=ledger");
   await expect(judge.getByRole("link", { name: "Read a donor’s statement" })).toHaveAttribute("href", "/pledge/demo-810b24be50.diapers");
   await expect(judge).toContainText("Judge it in 90 seconds in the README");
+  // What if we vanish: the hold's end date is PayPal's, on the statement, next to Withdraw.
+  await expect(judge.locator("li")).toHaveCount(5);
+  await expect(judge.locator("li").last()).toContainText("What if we vanish? A pledge is a PayPal hold with an end date PayPal sets.");
+  await expect(judge.getByRole("link", { name: "A donor’s statement", exact: true })).toHaveAttribute("href", "/pledge/demo-810b24be50.diapers");
+  // The count of the finished drive comes from that drive; the test server has none, so there is no line, and no failed request.
+  await expect(page.getByTestId("landing-count")).toHaveCount(0);
   await expect(judge).toContainText("Fictional drive · PayPal Sandbox · no real money moves");
   await expect(page.getByRole("button", { name: "Open the demo drive" })).toBeVisible();
   await expect(page.getByText("Places 4 new sandbox holds")).toBeVisible();
@@ -109,7 +115,7 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await closeDrive(page);
   const holds = page.locator(".co-card");
   await expect(holds).toHaveCount(4);
-  for (const hold of await holds.all()) await expect(hold).toContainText("back");
+  for (const hold of await holds.all()) await expect(hold).toContainText("never charged");
   // Four voids came after the payout: it still stands in PayPal's list.
   await expect(page.locator(".co-act", { hasText: "Payout to Haruto" })).toContainText("¥10,448");
 
@@ -326,8 +332,9 @@ const book = (page: Page) => page.locator(".ag-root-wrapper");
 /**
  * Book cells whose text does not fit. An ellipsis hides from scrollWidth and from ranges, so each text
  * is measured on its own in its own font. A cell of several lines (the receipt strip over the name, the
- * label over a PayPal number) is measured line by line; a line that is meant to wrap (a refusal's reason)
- * is left out. `.ag-cell[data-control]` is the synthetic proof it can fail.
+ * label over a PayPal number) is measured line by line; a line that is meant to wrap (a refusal's reason) is not
+ * measured as one line but as a box: all of it must lie inside its cell (it used to be left out, and a reason
+ * wrapped into seven lines past the row went unseen). `.ag-cell[data-control]` is the synthetic proof it can fail.
  */
 const cutShort = (page: Page) =>
   page.evaluate(() => {
@@ -341,8 +348,19 @@ const cutShort = (page: Page) =>
       const leaves = [...cell.querySelectorAll<HTMLElement>("*")].filter((e) => e.children.length === 0 && (e.textContent ?? "").trim() !== "" && !e.closest(".lg-band"));
       for (const leaf of leaves.length ? leaves : [cell]) {
         const own = getComputedStyle(leaf);
-        if (leaf !== cell && own.whiteSpace !== "nowrap") continue;
+        if (leaf !== cell && own.whiteSpace !== "nowrap") {
+          // Wrapped text: every line of it inside the cell's box, none past its edges.
+          const c = cell.getBoundingClientRect();
+          const r = leaf.getBoundingClientRect();
+          if (r.left < c.left - 1 || r.right > c.right + 1 || r.top < c.top - 1 || r.bottom > c.bottom + 1) out.push(leaf.textContent ?? "");
+          continue;
+        }
+        // A cell that wraps its text (the payer beside the receipt) is cut only if the lines do not fit its height.
+        if (leaf === cell && own.whiteSpace !== "nowrap" && cell.scrollHeight <= cell.clientHeight + 1) continue;
+        // The computed shorthand is "" when a part of it has no shorthand form (tabular figures in the PayPal
+        // numbers); then the probe measured in the page's default font. Take the parts one by one.
         probe.style.font = own.font;
+        if (!own.font) Object.assign(probe.style, { fontFamily: own.fontFamily, fontSize: own.fontSize, fontWeight: own.fontWeight, fontStyle: own.fontStyle, fontVariantNumeric: own.fontVariantNumeric });
         probe.style.letterSpacing = own.letterSpacing;
         probe.textContent = leaf.textContent;
         if (probe.getBoundingClientRect().width > room) out.push(leaf.textContent ?? "");
@@ -388,16 +406,21 @@ for (const { width, height } of [
   test(`ledger at ${width} px: closed drive, the money went back`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     await openLedger(page, "closed");
-    await expectTotals(page, "Returned to donors");
+    await expectTotals(page, "Never charged");
     expect(await wider(page)).toBeLessThanOrEqual(0);
     const labels = await crowded(page);
     expect(labels.count).toBeGreaterThan(8);
-    expect(labels.marks).toBe(6);
+    // S1 (TG 6710): only what PayPal took travels; what was never charged has no arc back, and no arrowhead.
+    expect(labels.marks).toBe(3);
     expect(labels.out).toEqual([]);
-    await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
-    await expect(page.locator(".lg-head")).toHaveCount(3);
+    await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+    await expect(page.locator(".lg-head")).toHaveCount(0);
+    // Every label carries its hold's bar: beside the name on a desktop, a short one beside the city on a phone (T1).
+    await expect(page.locator(".lg-label .pas-meter")).toHaveCount(3);
     const body = page.locator("body");
-    await expect(body).toContainText("$8.55");
+    // Mark's $8.55 never charged: the phone's donors card says it; on the desktop map it is in his label's bar.
+    if (width < 600) await expect(body).toContainText("$8.55");
+    else await expect(page.locator(".lg-label[data-donor=Mark] .pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
     await expect(body).toContainText("Refused: Alcohol ¥1,198 · Gift card ¥3,000");
     await expect(page.locator("[data-need=water]")).toContainText("12 of 40 bottles");
     await expect(page.locator("[data-need=diapers]")).toContainText("6 of 6");
@@ -420,7 +443,7 @@ for (const { width, height } of [
     await expect(page.locator(".lg-spent .lg-line")).toHaveCount(3);
     const body = page.locator("body");
     await expect(body).toContainText("$8.55 held");
-    // What the page says about the money; the chat's quick question "How much came back to me?" asks, it says nothing.
+    // What the page says about the money; the chat's quick question "How much was never charged?" asks, it says nothing.
     const said = await page.evaluate(() => {
       const chat = [...document.querySelectorAll<HTMLElement>("[data-testid=ask-widget]")];
       chat.forEach((e) => (e.style.display = "none"));
@@ -477,6 +500,10 @@ test("ledger: the book's text fits, the items get the room, and a selection made
   await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(6);
   await expect(page.locator(".ag-row", { hasText: "Paper diapers M 18 pieces" }).first()).toBeVisible();
+  // Opening the book scrolls down to it, smoothly (the page is taller with the journal): press once it stands still.
+  await expect
+    .poll(() => page.evaluate(() => new Promise<boolean>((done) => { const y = window.scrollY; setTimeout(() => done(window.scrollY === y), 250); })))
+    .toBe(true);
 
   // The measure itself: a cell that cannot fit is found.
   await page.evaluate(() => {
@@ -494,7 +521,14 @@ test("ledger: the book's text fits, the items get the room, and a selection made
 
   const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
   const itemWidth = await width("item");
-  expect(itemWidth).toBeGreaterThan(300);
+  // The receipt stands beside the open book (T4, S5): the book is 36 of 48 tracks, and the items keep their least
+  // (250 px, cells.tsx) and the largest share of it. "≥ 250" alone is fit()'s own floor and could never fail: the item
+  // column must be the widest column of the book.
+  const others = await page.locator('.ag-header-cell[col-id^="book."]').evaluateAll((cells) =>
+    cells.filter((c) => c.getAttribute("col-id") !== "book.item").map((c) => ({ id: c.getAttribute("col-id"), w: c.getBoundingClientRect().width })),
+  );
+  expect(others.length).toBeGreaterThanOrEqual(5);
+  for (const o of others) expect(itemWidth, `book.item vs ${o.id}`).toBeGreaterThan(o.w);
   expect(await width("line")).toBeLessThan(100);
   const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
   for (const pick of ["Lena", "Yuki", "Mark"] as const) {
@@ -744,9 +778,10 @@ test("ledger of a drive taken through the app: held before the close, returned a
   await closeDrive(page);
 
   await page.goto(`/drive/${driveId}?as=ledger`);
-  await expectTotals(page, "Returned to donors");
-  await expect(page.locator(".lg-back .lg-line")).toHaveCount(3);
-  await expect(page.locator("body")).toContainText("$8.55 back");
+  await expectTotals(page, "Never charged");
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
+  // The amount stays with the donor: in the bar of the hold, inside the label.
+  await expect(page.locator(".lg-label[data-donor=Mark] .pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
 });
 
 // Drives the two snapshots never show.
@@ -785,7 +820,7 @@ test("ledger, finding 6: a closing drive turns to Returned by itself", async ({ 
   });
   await page.goto(`/drive/${id}?as=ledger`);
   await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Held" })).toHaveCount(1, { timeout: 60_000 });
-  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Returned to donors" })).toHaveCount(1, { timeout: 15_000 });
+  await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Never charged" })).toHaveCount(1, { timeout: 15_000 });
   await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥5,559"], { timeout: 15_000 });
 });
 
@@ -843,10 +878,10 @@ test("ledger: Yuki withdrew from an open drive: the header, the note and the row
   });
   await openLedger(page, "open", body);
   await expect(totals(page)).toHaveText(["¥10,783", "¥5,224", "¥3,796"], { timeout: 15_000 });
-  await expect(page.getByText("¥1,763 already returned")).toBeVisible();
+  await expect(page.getByText("¥1,763 already released, never charged")).toBeVisible();
   await expect(page.getByText("¥5,224 waiting for the daily capture")).toBeVisible();
-  await expect(page.locator(".lg-map")).toContainText("¥1,763 back");
-  await expect(page.locator(".lg-back .lg-line")).toHaveCount(1);
+  await expect(page.locator(".lg-label[data-donor=Yuki] .pas-meter")).toHaveAttribute("aria-label", /¥1,763 never charged/);
+  await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);
   expect((await crowded(page)).out).toEqual([]);
 });
 
@@ -885,7 +920,7 @@ test("finding 1, 4: the screen leads step by step: sample, capture, close, ledge
     if (r.method() === "POST" && r.url().endsWith("/close")) posts += 1;
   });
   await close.click();
-  await expect(page.getByText("Close the drive? Shares still waiting are captured and unspent holds go back to donors.")).toBeVisible();
+  await expect(page.getByText("Close the drive? Shares still waiting are captured, and PayPal releases what is left of every hold: it is never charged.")).toBeVisible();
   expect(posts).toBe(0);
   await page.getByRole("button", { name: "Keep it open" }).click();
   await expect(page.getByText("Close the drive?")).toHaveCount(0);

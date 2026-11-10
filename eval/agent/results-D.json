@@ -2,17 +2,17 @@
   "mode": "D",
   "routing": "model",
   "source": "live",
-  "at": "2026-11-06T20:43:09.988Z",
+  "at": "2026-11-10T07:58:39.044Z",
   "right": 7,
   "of": 7,
   "calls": 16,
-  "usd": 0.110648,
+  "usd": 0.113589,
   "avgCalls": 2.29,
-  "avgUsd": 0.015807,
-  "lane": "measure-D-20261106T204205",
+  "avgUsd": 0.016227,
+  "lane": "measure-D-20261110T075748",
   "serverCalls": {
     "n": 16,
-    "usd": 0.110649
+    "usd": 0.11359199999999998
   },
   "rows": [
     {
@@ -27,7 +27,7 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.011003,
+      "usd": 0.011458,
       "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
       "errors": []
     },
@@ -43,8 +43,8 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.007129,
-      "text": "Line 10 for ¥1,198 was refused because alcohol is not funded and line 11 for ¥3,000 was refused because gift cards are not funded by this drive.",
+      "usd": 0.006904,
+      "text": "Two lines were refused for ¥4,198 in total with no donor money used for them. Line 10 Canned peel 350ml 6 cans for ¥1,198 was refused because Alcohol is not funded and line 11 Gift card 3000 for ¥3,000 was refused because Gift cards are not funded by this drive.",
       "errors": []
     },
     {
@@ -59,8 +59,8 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.010278,
-      "text": "Your €20.00 hold paid €4.58 for Water 2 L: lines 1, 2 and 3 cost you €2.46, €1.45 and €0.67, PayPal capture 3WP65983GD053501C. The other €15.42 was never charged: PayPal released it when the drive closed.",
+      "usd": 0.010462,
+      "text": "Your €20.00 hold paid €4.58 for Water 2 L: lines 1 and 2 and 3 cost you €2.46 and €1.45 and €0.67, PayPal capture 3WP65983GD053501C. The other €15.42 was never charged: PayPal released it when the drive closed.",
       "errors": []
     },
     {
@@ -75,8 +75,8 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.007151,
-      "text": "Your PayPal order is 10L99507KP256054Y with authorization hold 4V841583EA244972U and capture 3HK86339B7905131L for ¥1,237 for lines 7, 8, 9.",
+      "usd": 0.007352,
+      "text": "Your PayPal order is 10L99507KP256054Y, your authorization hold is 4V841583EA244972U and your capture 3HK86339B7905131L was ¥1,237 for lines 7, 8, 9.",
       "errors": []
     },
     {
@@ -91,8 +91,8 @@
       "routed": null,
       "calls": 4,
       "ledgerCalls": 2,
-      "usd": 0.059197,
-      "text": "Across all donors ¥1,486 went to Water 2 L.",
+      "usd": 0.061463,
+      "text": "Across all donors, water received ¥1,486.",
       "errors": []
     },
     {
@@ -107,8 +107,8 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.008372,
-      "text": "Von deinem €20.00 Hold wurden €4.58 für Water 2 L ausgegeben und €15.42 wurden nie belastet sondern von PayPal freigegeben als der Drive schloss. Deine Anteile waren €2.46 für Linie 1 und €1.45 für Linie 2 und €0.67 für Linie 3, alle genommen mit PayPal capture 3WP65983GD053501C.",
+      "usd": 0.00893,
+      "text": "Von deinem €20.00 Hold wurden €4.58 für Water 2 L ausgegeben: die Linien 1 bis 3 kosteten dich €2.46, €1.45 und €0.67, PayPal capture 3WP65983GD053501C. Zurückgekommen sind €15.42, die PayPal nie belastet sondern beim Schließen freigegeben hat, während €4.58 ausgegeben und von PayPal genommen wurden.",
       "errors": []
     },
     {
@@ -123,8 +123,8 @@
       "routed": null,
       "calls": 2,
       "ledgerCalls": 2,
-      "usd": 0.007518,
-      "text": "大阪のユキさんのPayPal注文番号は10L99507KP256054Yで承認つまりホールド番号は4V841583EA244972Uです。キャプチャ番号は3HK86339B7905131Lで¥1,237でした。",
+      "usd": 0.00702,
+      "text": "大阪のユキ様のPayPal注文番号は10L99507KP256054Yでホールド番号は4V841583EA244972U、キャプチャ番号は3HK86339B7905131Lで¥1,237が使われました。",
       "errors": []
     }
   ]

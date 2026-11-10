@@ -43,6 +43,11 @@ test("Ask PayPal yourself on the Ledger: 9 of 9 answered by PayPal, each next to
   await expect(dialog.locator('.pc-row[data-kind="authorization"]').first()).toContainText("VOIDED");
   await expect(dialog.locator('.pc-row[data-kind="payout"]')).toContainText("SUCCESS");
   await expect(dialog.locator('.pc-row[data-kind="payout"]')).toContainText("¥10,448");
+  // Each hold's end date, PayPal's expiration_time, beside the book's: four holds, four the same.
+  await expect(dialog.getByTestId("paypal-check-ends")).toHaveCount(4);
+  await expect(dialog.locator('[data-testid="paypal-check-ends"][data-expiry="agrees"]')).toHaveCount(4);
+  await expect(dialog.getByTestId("paypal-check-ends").first()).toContainText("End date PayPal set for this hold: 2026-11-21 15:49:13 UTC");
+  await expect(dialog.getByTestId("paypal-check-ends").first()).toContainText("our book: the same date");
   // PayPal's own answer, as it came, with the sandbox accounts hidden.
   const capture = dialog.locator('.pc-row[data-kind="capture"] .pc-json').first();
   await capture.locator("summary").click();
@@ -65,13 +70,29 @@ test("Ask PayPal yourself in German on the Ledger", async ({ page }) => {
 test("a donor's statement asks PayPal about their own hold first, then the whole drive", async ({ page }) => {
   const driveId = await finishedDrive(page);
   await page.goto(`/pledge/${driveId}.water`);
+  // The hold is over: the day PayPal answered its void, from the journal, before anyone asks PayPal.
+  await expect(page.getByTestId("statement-vanish")).toHaveText(/^PayPal voided this hold on \d{1,2} [A-Z][a-z]{2} \d{4}: nothing more can be charged from it\.$/);
   await page.getByTestId("statement-ask-paypal").click();
   const dialog = page.locator("dialog.pc-dialog[open]");
   await expect(dialog.getByTestId("paypal-check-sum")).toHaveText("3 of 3 objects answered by PayPal · 3 agree with our book", { timeout: 20_000 });
   await expect(dialog.locator(".pc-row[data-verdict]")).toHaveCount(3);
   await expect(dialog.locator(".pc-row[data-verdict]").first()).toContainText("Lena");
+  await expect(page.getByTestId("statement-vanish")).toContainText("PayPal confirms: VOIDED, 2026-10-23 15:49:46 UTC.");
   await dialog.getByRole("button", { name: "Show all 9 objects of this drive" }).click();
   await expect(dialog.getByTestId("paypal-check-sum")).toHaveText("9 of 9 objects answered by PayPal · 9 agree with our book");
+});
+
+test("what if we vanish: a live hold's statement names the day PayPal ends it, and PayPal confirms that day", async ({ page }) => {
+  const driveId = await openDemo(page);
+  await page.goto(`/pledge/${driveId}.water`);
+  const line = page.getByTestId("statement-vanish");
+  await expect(line).toHaveText("If Pledge-as-Spent disappears today, PayPal ends this hold by 21 Nov 2026, and nothing more can be charged after that.");
+  await expect(page.getByRole("button", { name: "Withdraw pledge" })).toBeVisible();
+  await page.getByTestId("statement-ask-paypal").click();
+  await expect(page.locator("dialog.pc-dialog[open]").getByTestId("paypal-check-ends").first()).toContainText("our book: the same date", { timeout: 20_000 });
+  await page.locator("dialog.pc-dialog[open] .pc-close").click();
+  // The recorded run's hold answers are its final ones (VOIDED): PayPal is ahead of this live book, and says so.
+  await expect(line).toContainText("PayPal now reports this hold VOIDED: nothing more can be charged from it.");
 });
 
 test("try to cheat the receipt: every forgery costs donors nothing, and the honest water on the same receipt is paid", async ({ page }) => {

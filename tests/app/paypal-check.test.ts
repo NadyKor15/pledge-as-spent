@@ -1,12 +1,17 @@
+import { eq } from "drizzle-orm";
 import { afterAll, describe, expect, it } from "vitest";
+import { DAY_MS, HOUR_MS } from "../../src/core";
+import { drives } from "../../src/db/schema";
 import { GET as checkGET } from "../../src/app/api/drives/[id]/paypal-check/route";
 import type { FetchLike } from "../../src/paypal/recording";
 import {
   bookObjects,
+  expiryOf,
   HIDDEN,
   hideAccounts,
   loadForCheck,
   PayPalCheck,
+  readAnswer,
   readOnlyFetch,
   setPayPalCheckForTests,
   verdictOf,
@@ -272,3 +277,75 @@ describe("Ask PayPal yourself on the browser tests' recorded answers", () => {
   });
 });
 
+describe("Ask PayPal yourself: the day PayPal ends each hold by itself", () => {
+  it("every hold carries the book's end date and PayPal's expiration_time, and they agree; captures and payouts carry none", async () => {
+    const { sb, h } = await closedDrive("demo-check-ends");
+    const r = await check(h, sb.fetch).run("demo-check-ends", "198.51.100.7");
+    const holds = r.rows.filter((x) => x.kind === "authorization");
+    expect(holds).toHaveLength(4);
+    for (const x of holds) {
+      expect(x.book.expires).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+      expect(x.paypal.expires).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+      expect(Date.parse(x.paypal.expires!)).toBe(Date.parse(x.book.expires!));
+      expect(x.expiry).toBe("agrees");
+    }
+    for (const x of r.rows.filter((y) => y.kind !== "authorization")) {
+      expect(x.paypal.expires).toBeNull();
+      expect(x.expiry).toBeNull();
+    }
+    // The end date is its own check: the nine statuses still agree, counted as before.
+    expect(r.agrees).toBe(9);
+  });
+
+  it("on the browser tests' recorded answers the end dates are PayPal's own, 29 days after each hold was approved", async () => {
+    const driveId = "demo-0a1b2c3d4f";
+    const h = await harness({ fetch: recordedSandbox(), limits: { lookupGraceMinutes: 0 }, savedAnswers: SHIPPED_ANSWERS });
+    await h.svc.createDemoDrive({ driveId });
+    const r = await check(h, recordedSandbox()).run(driveId, "127.0.0.1");
+    expect(r.rows.map((x) => x.paypal.expires)).toEqual(["2026-11-21T15:49:13Z", "2026-11-21T15:49:15Z", "2026-11-21T15:49:17Z", "2026-11-21T15:49:20Z"]);
+    expect(r.rows.map((x) => x.expiry)).toEqual(Array(4).fill("agrees"));
+  });
+
+  it("the dates agree within five minutes; a day apart they differ; without either date, or without an answer, there is no verdict", () => {
+    const hold: CheckObject = { kind: "authorization", id: "A", who: "Lena (Berlin)", pledgeId: "d.water", receiptId: null, book: { state: "held", amount: { currency: "EUR", minor: 2000 }, agrees: ["CREATED"], ahead: [], expires: "2026-12-08T04:45:39.000Z" } };
+    expect(expiryOf(hold, { http: 200, expires: "2026-12-08T04:45:39Z" })).toBe("agrees");
+    expect(expiryOf(hold, { http: 200, expires: "2026-12-08T04:49:39Z" })).toBe("agrees");
+    // Must differ: a date PayPal sets a day later is marked, whatever the status says.
+    expect(expiryOf(hold, { http: 200, expires: "2026-12-09T04:45:39Z" })).toBe("differs");
+    expect(expiryOf(hold, { http: 200, expires: "2026-12-08T04:51:40Z" })).toBe("differs");
+    expect(expiryOf(hold, { http: 200, expires: null })).toBeNull();
+    expect(expiryOf({ ...hold, book: { ...hold.book, expires: null } }, { http: 200, expires: "2026-12-08T04:45:39Z" })).toBeNull();
+    expect(expiryOf(hold, { http: 404, expires: null })).toBeNull();
+    expect(expiryOf(hold, { http: 0, expires: null })).toBeNull();
+    const capture: CheckObject = { ...hold, kind: "capture", book: { ...hold.book, state: "confirmed" } };
+    expect(expiryOf(capture, { http: 200, expires: "2026-12-08T04:45:39Z" })).toBeNull();
+  });
+
+  it("PayPal's expiration_time is read from a hold's answer as it came, and from nothing else", () => {
+    const auth = { id: "1RV76766T26737437", status: "VOIDED", amount: { currency_code: "EUR", value: "20.00" }, expiration_time: "2026-12-08T04:45:39Z", create_time: "2026-11-09T04:45:39Z", update_time: "2026-11-09T04:46:49Z" };
+    expect(readAnswer("authorization", auth)).toMatchObject({ status: "VOIDED", expires: "2026-12-08T04:45:39Z", created: "2026-11-09T04:45:39Z", updated: "2026-11-09T04:46:49Z" });
+    expect(readAnswer("authorization", { ...auth, expiration_time: undefined }).expires).toBeNull();
+    expect(readAnswer("capture", { ...auth, status: "COMPLETED" }).expires).toBeNull();
+    expect(readAnswer("payout", { batch_header: { batch_status: "SUCCESS" } }).expires).toBeNull();
+  });
+
+  it("a re-authorized hold: parent and child both end on the day of the first approval, in the book and at PayPal (sandbox 24.10)", async () => {
+    const sb = fakeSandbox();
+    const h = await harness({ fetch: sb.fetch });
+    await h.svc.createDemoDrive({ driveId: "drive-check-reauth" });
+    await h.db.db.update(drives).set({ demo: false }).where(eq(drives.id, "drive-check-reauth"));
+    const p = await h.svc.createPledge({ driveId: "drive-check-reauth", needId: "water", donorName: "Claire (Lyon)", donorCountry: "fr", amount: { currency: "EUR", minor: 1000 } });
+    sb.approve(p.orderId);
+    await h.svc.approvePledge(p.pledgeId, p.orderId);
+    h.clock.advance(4 * DAY_MS + HOUR_MS);
+    await h.svc.runDaily();
+    expect(sb.reauthorizations).toHaveLength(1);
+    const r = await check(h, sb.fetch).run("drive-check-reauth", "198.51.100.7");
+    const claire = r.rows.filter((x) => x.kind === "authorization" && x.pledgeId === p.pledgeId);
+    expect(claire.map((x) => x.book.state)).toEqual(["held", "reauthorized"]);
+    const hold = (await h.svc.getDriveView("drive-check-reauth")).holds.find((x) => x.pledgeId === p.pledgeId)!;
+    expect(claire.map((x) => x.book.expires)).toEqual([hold.expiresAt, hold.expiresAt]);
+    expect(claire.map((x) => Date.parse(x.paypal.expires!))).toEqual([Date.parse(hold.expiresAt!), Date.parse(hold.expiresAt!)]);
+    expect(claire.map((x) => x.expiry)).toEqual(["agrees", "agrees"]);
+  });
+});

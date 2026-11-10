@@ -21,7 +21,7 @@ export interface Starter {
 export const STARTERS: readonly Starter[] = [
   { id: "money", needsDonor: true, label: { en: "What did my money buy?", de: "Was hat mein Geld gekauft?", ja: "私のお金で何が買われましたか？" } },
   { id: "refused", needsDonor: false, label: { en: "Why was a line refused?", de: "Warum wurde eine Zeile abgelehnt?", ja: "なぜ却下された行がありますか？" } },
-  { id: "back", needsDonor: true, label: { en: "How much came back to me?", de: "Wie viel kam zu mir zurück?", ja: "いくら戻ってきましたか？" } },
+  { id: "back", needsDonor: true, label: { en: "How much was never charged?", de: "Wie viel wurde nie belastet?", ja: "いくらが請求されずに済みましたか？" } },
   { id: "paypal", needsDonor: true, label: { en: "My PayPal numbers", de: "Meine PayPal-Nummern", ja: "私のPayPal番号" } },
 ];
 
@@ -89,19 +89,50 @@ function moneyAnswer(d: DonorFigures, l: AgentLocale): string {
   }[l];
 }
 
+// "Never charged" only where it is true: the hold is over by a void or an expiry and nothing was refunded after a
+// capture (the same rule as LedgerDonor.neverCharged). A refund came back after a charge; a void PayPal has not
+// answered yet is on its way back. Every figure is one the guard already has (spent, held, back, pledged).
 function backAnswer(d: DonorFigures, l: AgentLocale): string {
   const m = (minor: number) => localMoney(d.currency, minor, l);
+  const refunded = d.hold.reversed > 0;
   if (!d.over) {
+    const extra =
+      d.back <= 0
+        ? { en: "", de: "", ja: "" }
+        : refunded
+          ? { en: ` ${m(d.back)} was charged, then refunded.`, de: ` ${m(d.back)} wurden belastet und dann erstattet.`, ja: `${m(d.back)}は請求後に返金されました。` }
+          : { en: ` ${m(d.back)} is on its way back at PayPal.`, de: ` ${m(d.back)} sind bei PayPal auf dem Rückweg.`, ja: `${m(d.back)}はPayPalで解放処理中です。` };
     return {
-      en: `${m(d.back)} has come back to you so far; ${m(d.held)} is still held for the drive and ${m(d.spent)} went to needs.`,
-      de: `Bisher sind ${m(d.back)} zu Ihnen zurückgekommen; ${m(d.held)} sind weiter reserviert und ${m(d.spent)} gingen an den Bedarf.`,
-      ja: `これまでに${m(d.back)}が戻りました。${m(d.held)}は引き続き確保され、${m(d.spent)}が必要な物資に使われました。`,
+      en: `So far ${m(d.spent)} went to needs; ${m(d.held)} is still held for the drive and has not been charged.${extra.en}`,
+      de: `Bisher gingen ${m(d.spent)} an den Bedarf; ${m(d.held)} sind weiter für die Sammlung reserviert und nicht belastet.${extra.de}`,
+      ja: `これまでに${m(d.spent)}が必要な物資に使われ、${m(d.held)}は引き続き募金のために確保されていて、請求されていません。${extra.ja}`,
+    }[l];
+  }
+  if (refunded) {
+    return {
+      en: `${m(d.back)} of your ${m(d.pledged)} came back to you, part of it as a refund after it was charged. ${m(d.spent)} was spent on needs.`,
+      de: `${m(d.back)} Ihrer ${m(d.pledged)} sind zu Ihnen zurückgekommen, teils als Erstattung nach der Abbuchung. ${m(d.spent)} wurden für den Bedarf ausgegeben.`,
+      ja: `${m(d.pledged)}のうち${m(d.back)}が戻りました（一部は請求後の返金です）。${m(d.spent)}は必要な物資に使われました。`,
+    }[l];
+  }
+  if (d.hold.status === "voided" || d.hold.status === "expired") {
+    return {
+      en: `${m(d.back)} of your ${m(d.pledged)} was never charged: PayPal released the hold${d.closed ? " when the drive closed" : ""}. ${m(d.spent)} was spent on needs.`,
+      de: `${m(d.back)} Ihrer ${m(d.pledged)} wurden nie belastet: PayPal hat die Reservierung${d.closed ? " beim Abschluss der Sammlung" : ""} freigegeben. ${m(d.spent)} wurden für den Bedarf ausgegeben.`,
+      ja: `${m(d.pledged)}のうち${m(d.back)}は請求されず、${d.closed ? "募金の終了時に" : ""}PayPalが仮押さえを解放しました。${m(d.spent)}は必要な物資に使われました。`,
+    }[l];
+  }
+  if (d.back > 0) {
+    return {
+      en: `${m(d.back)} of your ${m(d.pledged)} is on its way back at PayPal: the hold is being released. ${m(d.spent)} was spent on needs.`,
+      de: `${m(d.back)} Ihrer ${m(d.pledged)} sind bei PayPal auf dem Rückweg: die Reservierung wird freigegeben. ${m(d.spent)} wurden für den Bedarf ausgegeben.`,
+      ja: `${m(d.pledged)}のうち${m(d.back)}はPayPalで解放処理中です。${m(d.spent)}は必要な物資に使われました。`,
     }[l];
   }
   return {
-    en: `${m(d.back)} of your ${m(d.pledged)} came back to you — it was never charged: PayPal released it${d.closed ? " when the drive closed" : ""}. ${m(d.spent)} was spent on needs.`,
-    de: `${m(d.back)} Ihrer ${m(d.pledged)} sind zu Ihnen zurückgekommen — nie belastet: PayPal hat den Betrag${d.closed ? " beim Abschluss der Sammlung" : ""} freigegeben. ${m(d.spent)} wurden für den Bedarf ausgegeben.`,
-    ja: `${m(d.pledged)}のうち${m(d.back)}が戻りました。請求されず、${d.closed ? "募金の終了時に" : ""}PayPalが解放しました。${m(d.spent)}は必要な物資に使われました。`,
+    en: `${m(d.spent)} of your ${m(d.pledged)} was spent on needs; nothing is left on the hold.`,
+    de: `${m(d.spent)} Ihrer ${m(d.pledged)} wurden für den Bedarf ausgegeben; auf der Reservierung ist nichts mehr übrig.`,
+    ja: `${m(d.pledged)}のうち${m(d.spent)}が必要な物資に使われ、仮押さえに残りはありません。`,
   }[l];
 }
 

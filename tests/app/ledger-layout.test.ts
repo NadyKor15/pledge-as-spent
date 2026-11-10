@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { deriveLedger, type LedgerDonor } from "@/ui/ledger/derive";
 import { locate, project } from "@/ui/ledger/geo";
 import land from "@/ui/ledger/land.json";
-import { landPath, MAX_ARCS, planMap, type Box, type MapPlan } from "@/ui/ledger/layout";
+import { LABEL_METER_W, LABEL_METER_W_SMALL, landPath, MAX_ARCS, planMap, textWidth, type Box, type MapPlan } from "@/ui/ledger/layout";
 import { focusOf, linesOf, LedgerStore } from "@/ui/ledger/store";
 import { COLORS } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
@@ -56,6 +56,7 @@ function donor(i: number, city: string, country: string, spentBase: number, rest
     spentWord: "spent",
     restText: `$${restBase}.00`,
     restWord: "back",
+    neverCharged: false,
     spentBase,
     waitingBase: 0,
     restBase,
@@ -163,14 +164,52 @@ describe.each(SIZES)("the money map at $width px", (size) => {
 describe("what the arcs say", () => {
   const size = SIZES[0];
 
-  it("a closed drive sends money there and back, an arrowhead on the way back", () => {
+  it("a closed drive draws only what PayPal took: green arcs to the shelter, no way back, no 'never charged' pill (S1, TG 6710)", () => {
     const plan = planMap(deriveLedger(fixture("closed")).donors, size);
+    expect(plan.placed).toHaveLength(3);
     for (const p of plan.placed) {
-      expect(p.arcs.map((a) => a.flow)).toEqual(["spent", "back"]);
-      expect(p.arcs[1].head).not.toBeNull();
-      expect(p.pills.map((x) => x.flow)).toEqual(["spent", "back"]);
+      expect(p.arcs.map((a) => a.flow)).toEqual(["spent"]);
+      expect(p.arcs[0].head).toBeNull();
+      expect(p.pills.map((x) => x.flow)).toEqual(["spent"]);
     }
-    expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text))).toEqual(expect.arrayContaining(["$21.45", "$8.55 back", "€4.58", "€15.42 back", "¥1,237", "¥1,763 back"]));
+    expect(plan.placed.flatMap((p) => p.pills.map((x) => x.text)).sort()).toEqual(["$21.45", "¥1,237", "€4.58"].sort());
+  });
+
+  it("a kana or kanji takes a full em in the text estimate, not a Latin letter's share", () => {
+    expect(textWidth("請求されず", 14.5)).toBeCloseTo(5 * 14.5, 5);
+    expect(textWidth("never", 14.5)).toBeLessThan(5 * 14.5);
+  });
+
+  it("a donor's label carries the bar of its hold beside the name: wider by the bar, and every donor still fits (960 and 700 px, three languages)", () => {
+    for (const s of [SIZES[0], SIZES[1]]) {
+      for (const lang of ["en", "de", "ja"] as const) {
+        const plan = planMap(deriveLedger(fixture("closed"), lang).donors, s);
+        expect(plan.listed, `${lang} ${s.width}`).toEqual([]);
+        for (const p of plan.placed) expect(p.label.w).toBeGreaterThanOrEqual(textWidth(p.text, 14) + 20 + LABEL_METER_W);
+        expectNoOverlap(plan);
+        expectInside(plan, s.width, s.height);
+      }
+    }
+    // A hand-made donor without a hold's parts keeps the plain label; on a phone the bar is the short one.
+    const plain = planMap([donor(1, "Berlin", "DE", 500, 0)], SIZES[0]).placed[0];
+    expect(plain.label.w).toBeLessThan(textWidth(plain.text, 14) + 20 + LABEL_METER_W);
+    const phone = planMap(deriveLedger(fixture("closed")).donors, SIZES[2]).placed[0];
+    expect(phone.label.w).toBeLessThan(textWidth(phone.text, 11.5) + 14 + LABEL_METER_W);
+  });
+
+  it("a phone's compact label carries the short bar beside the city: wider by it, every donor still fits, nothing overlaps (three languages, both drives)", () => {
+    for (const name of ["closed", "open"]) {
+      for (const lang of ["en", "de", "ja"] as const) {
+        const plan = planMap(deriveLedger(fixture(name), lang).donors, SIZES[2]);
+        expect(plan.listed, `${name} ${lang}`).toEqual([]);
+        for (const p of plan.placed) expect(p.label.w).toBeCloseTo(textWidth(p.text, 11.5) + 14 + LABEL_METER_W_SMALL + 6, 6);
+        expectNoOverlap(plan);
+        expectInside(plan, SIZES[2].width, SIZES[2].height);
+      }
+    }
+    const EIGHT_PLAN = planMap(EIGHT, SIZES[2]);
+    expectNoOverlap(EIGHT_PLAN);
+    expectInside(EIGHT_PLAN, SIZES[2].width, SIZES[2].height);
   });
 
   it("the shelter sits on the edge of its card: past the map's right edge, under the phone's map", () => {
@@ -188,7 +227,7 @@ describe("what the arcs say", () => {
     const hub = `${plan.hub.x.toFixed(1)} ${plan.hub.y.toFixed(1)}`;
     for (const p of plan.placed) {
       expect(p.arcs[0].d.endsWith(hub)).toBe(true);
-      expect(p.arcs[1].d.startsWith(`M${hub}`)).toBe(true);
+      expect(p.arcs).toHaveLength(1);
     }
   });
 
@@ -286,8 +325,14 @@ describe("the colours of the screen", () => {
     expect(contrast(COLORS.refused, "#FAF8F4")).toBeGreaterThanOrEqual(4.5);
   });
 
+  it("the closed drive's third total is graphite, as on S1, and reads as text", () => {
+    expect(COLORS.never).toBe("#586478");
+    expect(contrast(COLORS.never, "#FAF8F4")).toBeGreaterThanOrEqual(4.5);
+  });
+
   it("the report and the stylesheet agree on them", () => {
     expect(css).toContain(`--back: ${COLORS.back}`);
+    expect(css).toContain(`--never-text: ${COLORS.never}`);
     expect(css).toContain(`--spent: ${COLORS.spent}`);
     expect(css).toContain(`--spent-text: ${COLORS.spentText}`);
     expect(css).toContain(`--held: ${COLORS.held}`);

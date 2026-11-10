@@ -28,7 +28,18 @@ async function openBook(page: Page, view: DriveView | ((count?: boolean) => Driv
   await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
   await page.getByRole("button", { name: /Every line of the book|Jede Zeile des Buchs|帳簿の全行/ }).click();
   await expect(page.locator(".ag-root-wrapper")).toBeVisible();
+  await scrolled(page);
   return id;
+}
+
+/**
+ * Opening the book scrolls the page down to it, smoothly. A press while the page still moves can go down on one
+ * element and up on another, and then nothing is clicked: wait until the page stands still.
+ */
+async function scrolled(page: Page) {
+  await expect
+    .poll(() => page.evaluate(() => new Promise<boolean>((done) => { const y = window.scrollY; setTimeout(() => done(window.scrollY === y), 250); })))
+    .toBe(true);
 }
 
 const rows = (page: Page) => page.locator(".ag-row");
@@ -125,6 +136,22 @@ test.describe("the book at 1440 × 900, as PROOF-B", () => {
     await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
     await expect(page.locator(".lg-band")).toHaveCount(0);
     await expect.poll(() => rowTop(page, next)).toBe(before);
+  });
+
+  test("a press on a band's button counts while its row sits partly above the window", async ({ page }) => {
+    await openBook(page, fixture("closed"));
+    await store(page, `(window.asked = [], s.setAskAbout((k) => window.asked.push(k)), true)`);
+    await page.locator(`.ag-row:has([data-row-key="${MARK4}"]) .lg-item-name`).click();
+    await expect(page.locator(".lg-band")).toBeVisible();
+    // The open row 20 px above the window's top edge, its band below it in view.
+    await page.locator(".ag-row.lg-proof-row").evaluate((e) => window.scrollBy(0, e.getBoundingClientRect().top + 20));
+    await scrolled(page);
+    expect(await page.locator(".ag-row.lg-proof-row").evaluate((e) => e.getBoundingClientRect().top)).toBeLessThan(-10);
+    const before = await page.evaluate(() => window.scrollY);
+    await page.getByRole("button", { name: "Ask about this line" }).click();
+    expect(await page.evaluate(() => (window as unknown as { asked: string[] }).asked)).toEqual(["demo-f372326129.r1:4"]);
+    // The page did not jump under the press.
+    expect(await page.evaluate(() => window.scrollY)).toBe(before);
   });
 
   test("Enter on a row opens its proof from the keyboard", async ({ page }) => {
@@ -255,7 +282,7 @@ test.describe("EN · DE · JA", () => {
     await page.getByRole("button", { name: "DE", exact: true }).click();
     await expect(page).toHaveURL(/[?&]lang=de/);
     await expect(page.locator(".ag-studio-value-widget-content").first()).toHaveText("10.783 ¥", { timeout: 15_000 });
-    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "An Spender zurück" })).toHaveCount(1);
+    await expect(page.locator(".ag-studio-layout-widget-title").filter({ hasText: "Nie belastet" })).toHaveCount(1);
     await openTheBook(page, /Jede Zeile des Buchs/);
     await expect(page.locator(".ag-header-cell-text")).toHaveText(["Zeile", "Belegzeile", "Bedarf", "Zahler", "Anteil", "PayPal-Abbuchung", "Status"]);
     await expect(page.locator(`.ag-row:has([data-row-key="${MARK4}"])`)).toContainText("8,58 $");
@@ -392,3 +419,220 @@ for (const { width, height } of [
     }
   }
 }
+
+// T4: the receipt beside the book. A press on a printed line of the photo narrows the book to that line and lights
+// up who paid for it, as a press on a donor does; the same line again puts every row back.
+for (const { width, height, mark } of [
+  { width: 1440, height: 900, mark: "button[data-donor=Mark]" },
+  { width: 390, height: 844, mark: "[data-donor-row=Mark]" },
+]) {
+  test.describe(`the receipt beside the book, ${width} px`, () => {
+    test.use({ viewport: { width, height } });
+
+    test("a press on line 4 of the photo: two rows of line 4 in the book, Mark lit, the sentence over the book; again: every row", async ({ page }) => {
+      await openBook(page, fixture("closed"));
+      await expect(rows(page)).toHaveCount(20);
+      const widget = page.getByTestId("receipt-widget");
+      await expect(widget.locator(".lg-rc-line")).toHaveCount(11);
+      await expect(widget.locator(".lg-rc-line.is-refused")).toHaveCount(2);
+      const line4 = widget.getByRole("button", { name: "Line 4 · ¥2,596" });
+      await expect(line4).toHaveAttribute("aria-pressed", "false");
+      // Beside the book on the reference desktop, over it on a phone.
+      const w = (await widget.boundingBox())!;
+      const grid = (await page.locator(".ag-root-wrapper").boundingBox())!;
+      if (width === 1440) expect(w.x + w.width).toBeLessThanOrEqual(grid.x + 1);
+      else expect(w.y + w.height).toBeLessThanOrEqual(grid.y);
+      // The narrower book still fits its columns (it overflowed by 24 px before they gave up their slack); the grid's
+      // own border is the 4 px the band's width check allows too.
+      const overflow = () =>
+        page.evaluate(() => {
+          const cols = [...document.querySelectorAll(".ag-header-cell")].reduce((sum, e) => sum + e.getBoundingClientRect().width, 0);
+          return cols - document.querySelector(".ag-root-wrapper")!.clientWidth;
+        });
+      await expect.poll(overflow).toBeLessThan(4);
+      await line4.click();
+      await expect(line4).toHaveAttribute("aria-pressed", "true");
+      await expect(page.locator(mark)).toHaveClass(/is-on/);
+      await expect(page.locator("[data-need=diapers]")).toHaveClass(/is-on/);
+      const sentence = "Line 4 · Soft kids diapers M · ¥2,596 = Mark · Columbus $8.58 (¥1,298) + Kitasora Logistics match ¥1,298";
+      const line4Rows = page.locator(`.ag-row:has([data-row-key="${MARK4}"]), .ag-row:has([data-row-key="demo-f372326129.r1:4/demo-f372326129.match"])`);
+      if (width === 1440) {
+        // S5: beside the open book every row stays; the two rows of line 4 are lit and in view, with arrows to them.
+        await expect(rows(page)).toHaveCount(20);
+        await expect(page.locator(".ag-row.lg-line-picked")).toHaveCount(2);
+        await expect(line4Rows).toHaveCount(2);
+        await expect(line4Rows.first()).toHaveClass(/lg-line-picked/);
+        await expect(line4Rows.first()).toBeInViewport();
+        await expect(line4Rows.last()).toBeInViewport();
+        const plaque = page.getByTestId("line-sentence");
+        await expect(plaque).toHaveAttribute("title", sentence);
+        await expect(plaque.locator("b")).toHaveText("Line 4 · ¥2,596 =");
+        await expect(plaque.locator(".lg-payer-chip")).toHaveText(["Mark · Columbus", "Kitasora Logistics"]);
+        await expect(plaque.locator(".lg-plaque-amount")).toHaveText(["$8.58 (¥1,298)", "match ¥1,298"]);
+        await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(2);
+      } else {
+        // The photo over the book (phone): the book narrows to line 4 and a chip names it.
+        await expect(rows(page)).toHaveCount(2);
+        await expect(line4Rows).toHaveCount(2);
+        await expect(page.getByTestId("line-chip")).toContainText("Line 4 · ¥2,596");
+        await expect(widget.locator(".lg-rc-sentence")).toHaveText(sentence);
+        await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(0);
+      }
+      // The receipt is not cut by the frame's edge with only two rows of the book under it.
+      const frame = (await page.locator(".lg-frame").boundingBox())!;
+      const after = (await widget.boundingBox())!;
+      expect(after.y + after.height).toBeLessThanOrEqual(frame.y + frame.height + 1);
+      expect(await wider(page)).toBeLessThanOrEqual(0);
+      await line4.click();
+      await expect(line4).toHaveAttribute("aria-pressed", "false");
+      await expect(rows(page)).toHaveCount(20);
+    });
+  });
+}
+
+test("the receipt is part of the book: out of sight and out of Tab's reach while the book is closed", async ({ page }) => {
+  await openBook(page, fixture("closed"));
+  const widget = page.getByTestId("receipt-widget");
+  await expect(widget).toBeVisible();
+  await page.getByRole("button", { name: /Every line of the book/ }).click();
+  await expect(widget).toBeHidden();
+  await expect(widget.locator(".lg-rc-line").first()).toBeHidden();
+});
+
+test("a line without a box is listed under the photo and still lights its rows (no arrow: it has no place on the photo)", async ({ page }) => {
+  const v = fixture("closed");
+  v.receipts[0].lines.find((l) => l.lineNo === 7)!.box = null;
+  await openBook(page, v);
+  const widget = page.getByTestId("receipt-widget");
+  await expect(widget.locator(".lg-rc-photo .lg-rc-line")).toHaveCount(10);
+  await expect(widget.locator(".lg-rc-unplaced")).toContainText("1 line not placed on the photo");
+  await widget.locator(".lg-rc-unplaced button").click();
+  await expect(widget.locator(".lg-rc-unplaced button")).toHaveAttribute("aria-pressed", "true");
+  // Beside the open book: every row stays, the lit ones are line 7's.
+  await expect(rows(page)).toHaveCount(20);
+  await expect
+    .poll(() => page.locator(".ag-row.lg-line-picked [data-row-key]").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("data-row-key")!.split("/")[0]))]))
+    .toEqual(["demo-f372326129.r1:7"]);
+  await expect(page.getByTestId("line-arrows").locator("g")).toHaveCount(0);
+});
+
+// T3: the PayPal journal. Its rows are PayPal's own calls; a donor's row presses that donor, as their label on the
+// map does; the match, the payout and the receipt are not buttons. Recorded, not live, on a finished drive.
+for (const { width, height, lena, buttons } of [
+  { width: 1440, height: 900, lena: "button[data-donor=Lena]", buttons: 9 },
+  { width: 390, height: 844, lena: "button[data-donor=Lena]", buttons: 3 },
+]) {
+  test(`the PayPal journal at ${width} px: a press on Lena's row selects Lena`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await openBook(page, fixture("closed"));
+    const journal = page.getByTestId("journal-widget");
+    await expect(journal).toContainText("PayPal journal");
+    await expect(journal).toContainText("Recorded from PayPal sandbox");
+    await expect(journal).not.toContainText("Live from PayPal sandbox");
+    await expect(journal).toContainText("Lena · rest never charged");
+    await expect(journal.locator("button[data-donor-event]")).toHaveCount(buttons);
+    await expect(journal.locator("button[data-donor-event='Kitasora Logistics']")).toHaveCount(0);
+    const row = journal.locator("button[data-donor-event=Lena]").last();
+    // S4: the hint over the row, on hover and on keyboard focus, not only a title.
+    await row.hover();
+    await expect(page.getByTestId("journal-tip")).toBeVisible();
+    await expect(page.getByTestId("journal-tip")).toHaveText("Show Lena on the map");
+    await row.click();
+    await expect(row).toHaveAttribute("aria-pressed", "true");
+    // The map is above the journal: it comes into view with Lena lit.
+    await expect(page.locator(".lg-map")).toBeInViewport({ ratio: 0.5 });
+    await expect(page.locator(lena)).toBeInViewport();
+    await expect(page.locator(lena)).toHaveClass(/is-on/);
+    await expect(page.locator("[data-need=water]")).toHaveClass(/is-on/);
+    await page.mouse.move(1, 1);
+    await row.blur();
+    await row.focus();
+    await expect(page.getByTestId("journal-tip")).toHaveText("Show Lena on the map");
+    const picked = await store(page, "s.get().selected");
+    expect(picked).toMatchObject({ kind: "donor" });
+    expect((picked as { pledgeId: string }).pledgeId).toMatch(/\.water$/);
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+    await row.click();
+    await expect(row).toHaveAttribute("aria-pressed", "false");
+  });
+}
+
+// T1 in the book: the Payer cell of a donor's row carries the donor's hold as a bar, under the name, inside the row.
+test("the Payer cell: a donor's row shows the donor's hold bar under the name; the match and refused lines show none", async ({ page }) => {
+  await openBook(page, fixture("closed"));
+  const payer = (key: string) => page.locator(`.ag-row:has([data-row-key="${key}"]) .ag-cell[col-id="book.payerLabel"]`);
+  const mark = payer(MARK4);
+  await expect(mark.locator(".pas-meter")).toHaveAttribute("aria-label", "$21.45 spent, $8.55 never charged");
+  await expect(mark.locator(".pas-seg")).toHaveCount(2);
+  await expect(payer("demo-f372326129.r1:4/demo-f372326129.match").locator(".pas-meter")).toHaveCount(0);
+  await expect(payer("demo-f372326129.r1:10/rejected").locator(".pas-meter")).toHaveCount(0);
+  // Every donor row has one, the same hold on each of a donor's rows.
+  await expect(page.locator('.ag-cell[col-id="book.payerLabel"] .pas-meter')).toHaveCount(9);
+  // The bar sits under the name, even a name on two lines, and inside its row.
+  for (const key of [MARK4, "demo-f372326129.r1:1/demo-f372326129.water"]) {
+    const box = await payer(key).evaluate((cell) => {
+      const r = (s: string) => cell.querySelector(s)!.getBoundingClientRect();
+      const row = cell.closest(".ag-row")!.getBoundingClientRect();
+      return { nameBottom: r(".lg-payer-name").bottom, barTop: r(".pas-meter").top, barBottom: r(".pas-meter").bottom, rowTop: row.top, rowBottom: row.bottom, rowHeight: row.height };
+    });
+    expect(box.barTop).toBeGreaterThanOrEqual(box.nameBottom);
+    expect(box.barBottom).toBeLessThanOrEqual(box.rowBottom);
+    expect(box.rowHeight).toBe(64);
+  }
+});
+
+// П4: the shelter's poster. The Ledger links to it; it says what was bought here and carries a QR code to this drive's
+// book; it prints on one A4 page with nothing cut, and reads on a phone.
+async function openPoster(page: Page, view: DriveView, lang = "") {
+  await page.route(`**/api/drives/${view.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(view) }));
+  await page.goto(`/drive/${view.drive.id}/poster${lang ? `?lang=${lang}` : ""}`);
+  await expect(page.getByTestId("poster-sheet")).toBeVisible({ timeout: 60_000 });
+}
+
+test("the Ledger links to the shelter's poster, in the book's language", async ({ page }) => {
+  await openBook(page, fixture("closed"), "&lang=de");
+  const link = page.getByTestId("poster-link");
+  await expect(link).toHaveText("Plakat für die Unterkunft");
+  await expect(link).toHaveAttribute("href", "/drive/demo-f372326129/poster?lang=de");
+});
+
+for (const name of ["closed", "open"] as const) {
+  test(`the poster of the ${name} drive: what was bought, the total, and a QR code to its own book`, async ({ page, baseURL }) => {
+    const v = fixture(name);
+    await openPoster(page, v);
+    const sheet = page.getByTestId("poster-sheet");
+    const url = `${baseURL}/drive/${v.drive.id}?as=ledger`;
+    await expect(sheet).toHaveAttribute("data-url", url);
+    await expect(page.getByTestId("poster-qr")).toHaveAttribute("aria-label", url);
+    await expect(sheet).toContainText("What was bought here");
+    await expect(sheet).toContainText("Every line is checked; donors are charged only for these lines.");
+    await expect(sheet.locator("[data-need]")).toHaveCount(v.needs.length);
+    if (name === "closed") {
+      await expect(sheet.locator("[data-need=water]")).toContainText("12 of 40 bottles");
+      await expect(sheet).toContainText("¥10,448 with the match");
+    }
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+  });
+}
+
+test("the poster prints on one A4 page: no menu, nothing cut, the QR code whole", async ({ page }) => {
+  await openPoster(page, fixture("closed"), "ja");
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByTestId("print-poster")).toBeHidden();
+  const fit = await page.getByTestId("poster-sheet").evaluate((sheet) => {
+    const s = sheet.getBoundingClientRect();
+    const qr = sheet.querySelector("svg")!.getBoundingClientRect();
+    const last = [...sheet.querySelectorAll("p, li, h1, h2")].map((e) => e.getBoundingClientRect().bottom);
+    const promise = sheet.querySelector(".pp-checked")!.getBoundingClientRect();
+    const foot = sheet.querySelector("footer")!.getBoundingClientRect();
+    return { spill: sheet.scrollHeight - sheet.clientHeight, qrInside: qr.bottom <= s.bottom + 0.5 && qr.top >= s.top, lowest: Math.max(...last), bottom: s.bottom, gap: foot.top - promise.bottom };
+  });
+  expect(fit.spill).toBeLessThanOrEqual(0);
+  // The QR code follows the promise it lets anyone check, an ordinary gap under it, not pushed to the foot of the page.
+  expect(fit.gap).toBeGreaterThan(0);
+  expect(fit.gap).toBeLessThan(60);
+  expect(fit.qrInside).toBe(true);
+  expect(fit.lowest).toBeLessThanOrEqual(fit.bottom + 0.5);
+  const pdf = await page.pdf({ format: "A4", preferCSSPageSize: true, printBackground: true });
+  expect(pdf.toString("latin1").match(/\/Type\s*\/Page(?!s)/g)).toHaveLength(1);
+});

@@ -15,6 +15,10 @@ export const NOTE_WIDGET = "ledger-note";
 export const BOOK_HEAD_WIDGET = "ledger-book-head";
 /** The assistant's chat, right over the book, the whole width; only when the assistant gave a component. */
 export const ASK_WIDGET = "ledger-ask";
+/** The receipt's published photo beside the book, a button over each of its lines (T4). */
+export const RECEIPT_WIDGET = "ledger-receipt";
+/** PayPal's journal of the drive: holds, captures, the payout and the releases, PayPal's word on each (T3). */
+export const JOURNAL_WIDGET = "ledger-journal";
 
 const BOOK_WIDGET_ID = "book";
 export const NOTE_WAITING = "note-waiting";
@@ -47,7 +51,7 @@ export const BOOK_ROW_PX = 64;
 /** A phone shows the receipt line in the band only: its rows stay short (cells.tsx WhatCell). */
 export const PHONE_BOOK_ROW_PX = 48;
 
-export const COLORS = { ink: "#1C1B19", muted: "#55595F", spent: "#2F855A", spentText: "#256F4B", back: "#0A74C9", held: "#B7791F", refused: "#D0294A" };
+export const COLORS = { ink: "#1C1B19", muted: "#55595F", spent: "#2F855A", spentText: "#256F4B", back: "#0A74C9", held: "#B7791F", refused: "#D0294A", never: "#586478" };
 
 const moneyField = (id: string, name: string, currency: string, lang: Lang): AgFieldDefinition => ({
   id,
@@ -134,8 +138,25 @@ export interface Metrics {
   stacked: boolean;
   /** Screen scale, 1 at the 1440 × 900 reference. */
   scale: number;
-  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; ask: number; head: number; book: number };
+  /** The receipt stands beside the book (12 of 48 tracks, the book 36); else it is over the book, the whole width. */
+  beside: boolean;
+  rows: { kpi: number; pair: number; match: number; note: number; map: number; shelter: number; donors: number; footer: number; journal: number; ask: number; receipt: number; head: number; book: number };
 }
+
+/**
+ * The receipt's height in tracks. Never from the drive's data: the report's layout key holds every height, and a
+ * height that followed the number of lines would rebuild Studio (and start the count over) on every read.
+ */
+export const RECEIPT_ROWS = { beside: 62, over: 44, phone: 54 } as const;
+
+/** The journal's height in tracks, as fixed as the receipt's: it scrolls inside, however many calls the drive made. */
+export const JOURNAL_ROWS = { desktop: 36, phone: 36 } as const;
+
+/** The book's width on a desktop when the receipt is beside it: 36 of 48 tracks of the frame, less its two 24 px insets. */
+export const bookBesidePx = (scale: number) => Math.floor((1440 * (36 / 48) - 48) * scale);
+
+/** Beside only while the book keeps the least width of its columns (cells.tsx); a narrower window puts it over the book. */
+export const receiptBeside = (scale: number, bookLeastPx: number) => bookBesidePx(scale) >= bookLeastPx;
 
 const at = (xTrack: number, yTrack: number, xSpan: number, ySpan: number): AgWidgetLayoutState => ({ xTrack, yTrack, xSpan, ySpan });
 
@@ -178,7 +199,8 @@ function book(stacked: boolean): AgGridWidget {
 /** The page: three totals, the map and the shelter card, the bottom line, the assistant's chat, and the book. */
 export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "en"): AgReportState {
   const w = WORDS[lang];
-  const rest = m.phase === "closed" ? COLORS.back : COLORS.held;
+  // A closed drive's third total is what was never charged: graphite, as on S1 (TG 6710), not a colour of money moving.
+  const rest = m.phase === "closed" ? COLORS.never : COLORS.held;
   const r = x.rows;
   const s = x.scale;
   const widgets: Record<string, unknown> = {};
@@ -197,7 +219,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
   if (x.stacked) {
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, 58, 21, "center"), at(0, 0, 48, r.kpi));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, 38, 16, "center"), at(0, r.kpi, 24, r.pair));
-    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, 38, 16, "center"), at(24, r.kpi, 24, r.pair));
+    place("kpi-rest", kpi(m.restTitle, "totals.rest", rest, 38, 16, "center"), at(24, r.kpi, 24, r.pair));
     let y = r.kpi + r.pair;
     if (r.note) {
       note(NOTE_WAITING, at(0, y, 24, r.note));
@@ -220,6 +242,10 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;
     }
+    place("journal", custom(JOURNAL_WIDGET), at(0, y, 48, r.journal));
+    y += r.journal;
+    place("receipt", custom(RECEIPT_WIDGET), at(0, y, 48, r.receipt));
+    y += r.receipt;
     place("book-head", custom(BOOK_HEAD_WIDGET), at(0, y, 48, r.head));
     y += r.head;
     place(BOOK_WIDGET_ID, book(true), at(0, y, 48, r.book));
@@ -229,7 +255,7 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
     const band = r.kpi - r.note;
     place("kpi-promised", kpi(w.pledged, "totals.promised", COLORS.ink, top, label, "center"), at(0, 0, 16, band));
     place("kpi-spent", kpi(m.spentLabel, "totals.spent", COLORS.spent, top, label, "center"), at(16, 0, 16, band - r.match));
-    place("kpi-rest", kpi(m.restLabel, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
+    place("kpi-rest", kpi(m.restTitle, "totals.rest", rest, top, label, "center"), at(32, 0, 16, m.restNote ? band - r.match : band));
     if (m.plusMatch) place("plus-match", plusMatch(Math.round(19 * s), m.plusMatch), at(16, band - r.match, 16, r.match));
     if (m.restNote) note(NOTE_REST, at(32, band - r.match, 16, r.match));
     if (r.note) note(NOTE_WAITING, at(16, band, 16, r.note));
@@ -237,12 +263,18 @@ export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "
     place("shelter", custom(SHELTER_WIDGET), at(32, r.kpi, 16, r.map));
     place("footer", custom(FOOTER_WIDGET), at(0, r.kpi + r.map, 48, r.footer));
     let y = r.kpi + r.map + r.footer;
+    place("journal", custom(JOURNAL_WIDGET), at(0, y, 48, r.journal));
+    y += r.journal;
     if (r.ask) {
       place("ask", custom(ASK_WIDGET), at(0, y, 48, r.ask));
       y += r.ask;
     }
-    place("book-head", custom(BOOK_HEAD_WIDGET), at(0, y, 48, r.head));
-    place(BOOK_WIDGET_ID, book(false), at(0, y + r.head, 48, r.book));
+    // As S5: the receipt at the left of the open book; over it, the whole width, when the book needs every track.
+    const left = x.beside ? 12 : 0;
+    place("receipt", custom(RECEIPT_WIDGET), at(0, y, x.beside ? 12 : 48, r.receipt));
+    if (!x.beside) y += r.receipt;
+    place("book-head", custom(BOOK_HEAD_WIDGET), at(left, y, 48 - left, r.head));
+    place(BOOK_WIDGET_ID, book(false), at(left, y + r.head, 48 - left, r.book));
   }
 
   return {

@@ -76,8 +76,8 @@ describe("#2, #14, #16 the tag on a hold", () => {
     expect(tag({ accrued: 0 })).toBe("On hold");
     expect(tag({ status: "captured", accrued: 0, captured: 2000 })).toBe("Fully spent");
     expect(tag({ status: "pending_approval", authorized: 0, accrued: 0 })).toBe("Waiting for approval");
-    expect(tag({ status: "voided", accrued: 0, captured: 458, released: 1542 })).toBe("Rest returned");
-    expect(tag({ status: "voided", accrued: 0, released: 2000 })).toBe("Returned");
+    expect(tag({ status: "voided", accrued: 0, captured: 458, released: 1542 })).toBe("Rest never charged");
+    expect(tag({ status: "voided", accrued: 0, released: 2000 })).toBe("Never charged");
     expect(tag({ status: "expired", accrued: 0 })).toBe("Expired");
     expect(tag({ status: "denied", accrued: 0 })).toBe("Declined by PayPal");
   });

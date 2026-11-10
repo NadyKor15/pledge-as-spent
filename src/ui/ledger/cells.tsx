@@ -1,14 +1,15 @@
 "use client";
 
 import type { AgWidgetField } from "ag-studio";
-import type { GridApi, IRowNode } from "ag-grid-community";
+import { _stopPropagationForAgGrid, type GridApi, type IRowNode } from "ag-grid-community";
 import type { CustomCellRendererProps } from "ag-grid-react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ComponentType } from "react";
+import { HoldMeter } from "../HoldMeter";
 import type { LedgerBookRow } from "./derive";
 import { WORDS } from "./i18n";
 import { lineProof } from "./proof";
 import { ProofBand } from "./ProofBand";
-import type { LedgerStore } from "./store";
+import { litLine, type LedgerStore } from "./store";
 import { Strip } from "./Strip";
 import { BOOK, HIDDEN_FIELDS, NEED_FIELD, ROWKEY_FIELD } from "./studio-state";
 
@@ -28,12 +29,36 @@ const COLUMNS: [id: string, share: number, least: number][] = [
   [BOOK.status, 0.16, 150],
 ];
 
+/** The least width of the desktop book: every column at its least. The receipt stands beside the book only if this fits. */
+export const BOOK_LEAST_PX = COLUMNS.reduce((sum, [, , least]) => sum + least, 0);
+
+// The status column holds its longest word whole in every language ("Abgelehnt", "Verloren", "Teils zurück" breaks
+// between its words): its least is 96 px with its own 6 px padding (ledger.css).
 const PHONE_COLUMNS: typeof COLUMNS = [
-  [BOOK.what, 0.37, 130],
+  [BOOK.what, 0.33, 130],
   [BOOK.who, 0.19, 66],
   [BOOK.much, 0.24, 84],
-  [BOOK.state, 0.2, 70],
+  [BOOK.state, 0.24, 96],
 ];
+
+/**
+ * Each column at its share, never under its least; when a column held at its least pushes the sum past the width
+ * (the book beside the receipt), the others give up the excess from what they have over their least.
+ */
+export function fit(columns: typeof COLUMNS, width: number): { key: string; newWidth: number }[] {
+  const out = columns.map(([key, share, least]) => ({ key, least, newWidth: Math.max(least, Math.floor(width * share)) }));
+  let excess = out.reduce((sum, c) => sum + c.newWidth, 0) - width;
+  const slack = out.reduce((sum, c) => sum + c.newWidth - c.least, 0);
+  if (excess > 0 && slack > 0) {
+    const take = Math.min(excess, slack);
+    for (const c of out) {
+      const cut = Math.min(c.newWidth - c.least, Math.ceil((take * (c.newWidth - c.least)) / slack), excess);
+      c.newWidth -= cut;
+      excess -= cut;
+    }
+  }
+  return out.map(({ key, newWidth }) => ({ key, newWidth }));
+}
 
 const listening = new WeakSet<GridApi>();
 const queued = new WeakSet<GridApi>();
@@ -46,7 +71,7 @@ function holdColumns(api: GridApi, grid: Element) {
     queued.delete(api);
     const width = grid.clientWidth;
     if (api.isDestroyed() || !width) return;
-    const target = (api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS).map(([key, share, least]) => ({ key, newWidth: Math.max(least, Math.floor(width * share)) }));
+    const target = fit(api.getColumn(NEED_FIELD) ? COLUMNS : PHONE_COLUMNS, width);
     const off = target.some(({ key, newWidth }) => Math.abs((api.getColumn(key)?.getActualWidth() ?? newWidth) - newWidth) > 1);
     if (off) api.setColumnWidths(target, true);
     const shown = HIDDEN_FIELDS.filter((f) => api.getColumn(f)?.isVisible());
@@ -118,6 +143,8 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
   const open = Boolean(row && snap.proof === row.rowKey && at >= 0);
   const below = at >= 0 && index > at;
   const focused = Boolean(row && snap.focus?.lineKeys.includes(row.lineKey));
+  // A receipt line pressed beside the open book: its rows are lit, the book is not narrowed (S5).
+  const picked = Boolean(row && litLine(snap) === row.lineKey);
   const last = useRef<number | null>(null);
   useLayoutEffect(() => {
     const el = eGridCell.closest(".ag-row");
@@ -125,6 +152,7 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
     el.classList.toggle("lg-proof-row", open);
     el.classList.toggle("lg-below", below);
     el.classList.toggle("lg-focused", focused);
+    el.classList.toggle("lg-line-picked", picked);
     el.classList.toggle("lg-flash-spent", flash?.kind === "spent");
     el.classList.toggle("lg-flash-back", flash?.kind === "back");
     if (flash && last.current !== flash.id) {
@@ -134,9 +162,9 @@ function useRowMarks(api: GridApi, node: IRowNode, eGridCell: HTMLElement, store
     }
     if (!flash) last.current = null;
     return () => {
-      el.classList.remove("lg-proof-row", "lg-below", "lg-focused", "lg-flash-spent", "lg-flash-back");
+      el.classList.remove("lg-proof-row", "lg-below", "lg-focused", "lg-line-picked", "lg-flash-spent", "lg-flash-back");
     };
-  }, [eGridCell, open, below, focused, flash]);
+  }, [eGridCell, open, below, focused, picked, flash]);
   return open;
 }
 
@@ -186,6 +214,24 @@ function Band({ store, row, stacked, width }: { store: LedgerStore; row: LedgerB
     ro.observe(el);
     return () => ro.disconnect();
   }, [store, shown]);
+  // A press in the band is the band's, not the grid's. On pointerdown, mousedown and click the grid focuses the row's
+  // cell; when the row sits partly above the window the browser then scrolls the cell into view, between the press going
+  // down and coming up, and the press lands beside the button it went down on: nothing is clicked. So the band's presses
+  // carry the grid's own "not for the grid" mark (AG Grid ignores marked events; they still bubble, so React's handlers
+  // run), and a pointer press on a band button does not move the focus either. Tab and Enter reach the buttons as before.
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const mine = (e: Event) => {
+      _stopPropagationForAgGrid(e);
+      if ((e.type === "mousedown" || e.type === "pointerdown") && (e.target as Element | null)?.closest?.("button")) e.preventDefault();
+    };
+    const types = ["pointerdown", "mousedown", "touchstart", "click", "dblclick"] as const;
+    for (const t of types) el.addEventListener(t, mine);
+    return () => {
+      for (const t of types) el.removeEventListener(t, mine);
+    };
+  }, [shown]);
   if (!proof || !width) return null;
   return (
     <div className="lg-band-wrap" ref={wrap} style={{ width }}>
@@ -261,12 +307,30 @@ export function bookCells(store: LedgerStore): (field: AgWidgetField) => Compone
   const tone = (code: string | undefined) =>
     code === "captured" ? "spent" : code === "rejected" || code === "unfunded" ? "refused" : code === "reversed" || code === "partly_reversed" || code === "uncollected" ? "back" : "waiting";
 
+  /**
+   * The payer, and on a donor's row the donor's whole hold as a bar (the same parts as their label on the map): what
+   * PayPal took, what waits, what the hold keeps, what was released and never charged. The bar is the donor's, not the
+   * row's: every row of one donor shows the same hold. The match and refused lines have no hold of a donor: no bar.
+   */
+  function PayerCell({ value, data }: CustomCellRendererProps) {
+    const row = useRow(store, data);
+    const snap = useSnap(store);
+    const donor = row?.kind === "donor_share" ? snap.model.donors.find((d) => d.pledgeId === row.pledgeId) : undefined;
+    return (
+      <span className="lg-payer">
+        <span className="lg-payer-name">{String(value ?? "")}</span>
+        {donor?.meter && <HoldMeter parts={donor.meter} size="cell" lang={snap.lang} className="lg-payer-meter" />}
+      </span>
+    );
+  }
+
   function StatusCell({ value, data }: CustomCellRendererProps) {
     const row = useRow(store, data);
+    const reason = row?.reason?.replace(/\.$/, "");
     return (
-      <span className="lg-status">
+      <span className="lg-status" title={reason || undefined}>
         <span className={`lg-pill-status lg-tone-${tone(row?.code)}`}>{String(value ?? "")}</span>
-        {row?.reason && <span className="lg-reason">{row.reason.replace(/\.$/, "")}</span>}
+        {reason && <span className="lg-reason">{reason}</span>}
       </span>
     );
   }
@@ -299,6 +363,7 @@ export function bookCells(store: LedgerStore): (field: AgWidgetField) => Compone
     [BOOK.line]: LineCell,
     [BOOK.item]: ItemCell,
     [BOOK.need]: NeedCell,
+    [BOOK.payer]: PayerCell,
     [BOOK.capture]: CaptureCell,
     [BOOK.status]: StatusCell,
     [BOOK.what]: WhatCell,

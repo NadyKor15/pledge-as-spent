@@ -60,7 +60,10 @@ export const MAX_ARCS = 6;
 const CHAR_EM = 0.6;
 const PAD = 4;
 
-const textWidth = (text: string, px: number) => text.length * px * CHAR_EM;
+/** Kana, kanji and full-width forms: each takes a whole em, not a Latin letter's share. */
+const WIDE = /[\u1100-\u115F\u2E80-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE30-\uFE4F\uFF00-\uFF60\uFFE0-\uFFE6]/;
+/** The width of a text in the map's sans-serif, estimated: the planner has no fonts to measure with. */
+export const textWidth = (text: string, px: number) => [...text].reduce((w, c) => w + px * (WIDE.test(c) ? 1 : CHAR_EM), 0);
 const overlaps = (a: Box, b: Box, m = PAD) => a.x < b.x + b.w + m && b.x < a.x + a.w + m && a.y < b.y + b.h + m && b.y < a.y + a.h + m;
 const inside = (b: Box, width: number, height: number) => b.x >= 2 && b.y >= 2 && b.x + b.w <= width - 2 && b.y + b.h <= height - 2;
 
@@ -77,12 +80,6 @@ const bezier = (a: Point, c: Point, b: Point, t: number): Point => ({
 const n1 = (v: number) => v.toFixed(1);
 const quad = (a: Point, c: Point, b: Point) => `M${n1(a.x)} ${n1(a.y)}Q${n1(c.x)} ${n1(c.y)} ${n1(b.x)} ${n1(b.y)}`;
 
-/** Pulls `from` towards `to` by `by` pixels: arcs stop short of a dot so the arrowhead shows. */
-function short(from: Point, to: Point, by: number): Point {
-  const d = Math.hypot(to.x - from.x, to.y - from.y) || 1;
-  return { x: from.x + ((to.x - from.x) / d) * by, y: from.y + ((to.y - from.y) / d) * by };
-}
-
 /** Two donors in one city must not share a dot: the later one steps aside. */
 function spread(points: Point[], gap: number): Point[] {
   const out: Point[] = [];
@@ -98,20 +95,17 @@ function spread(points: Point[], gap: number): Point[] {
 }
 
 const EDGE = 12;
+/** The hold's bar inside a desktop label (HoldMeter, size "label"), and its gap from the name. */
+export const LABEL_METER_W = 72;
+const LABEL_METER_GAP = 10;
+/** The same bar in a phone's compact label (21 px), beside the city (ledger.css .lg-small .lg-meter). */
+export const LABEL_METER_W_SMALL = 30;
+const LABEL_METER_GAP_SMALL = 6;
 /** The gap between the map and the shelter's card, and how far from the phone's edge the shelter sits. */
 const HUB_GAP = 5;
 const HUB_INSET = 34;
-const HEAD = 13;
 const LISTED_H = 34;
 
-/** The box around an arrowhead whose tip is at `tip`, arriving from `from`. */
-function headBox(tip: Point, from: Point): Box {
-  const back = short(tip, from, HEAD);
-  const half = HEAD * 0.6;
-  const x = Math.min(tip.x, back.x) - half;
-  const y = Math.min(tip.y, back.y) - half;
-  return { x, y, w: Math.abs(tip.x - back.x) + half * 2, h: Math.abs(tip.y - back.y) + half * 2 };
-}
 const SAMPLES = 120;
 const sample = (a: Point, c: Point, b: Point): Point[] => Array.from({ length: SAMPLES + 1 }, (_, i) => bezier(a, c, b, i / SAMPLES));
 const crossings = (box: Box, line: Point[]) => line.filter((p) => p.x >= box.x - 6 && p.x <= box.x + box.w + 6 && p.y >= box.y - 6 && p.y <= box.y + box.h + 6).length;
@@ -163,21 +157,20 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
       const at = points[i];
       const bow = bows(at, hub, width, compact);
       const spends = donor.spentBase > 0;
-      const returns = donor.restWord === "back" && donor.restBase > 0;
-      const tip = short(at, bow.back, 15);
-      return { donor, at, bow, spends, returns, tip, out: spends ? sample(at, bow.out, hub) : [], back: returns ? sample(tip, bow.back, hub) : [] };
+      // Only what PayPal took travels: what a drive did not spend never left the donor, so no arc comes back (S1,
+      // TG 6710). Those amounts are under the shelter's needs and in the label's bar.
+      return { donor, at, bow, spends, out: spends ? sample(at, bow.out, hub) : [] };
     })
     .sort((a, b) => a.at.x - b.at.x);
-  const everyLine = lines.flatMap((l) => [l.out, l.back]);
+  const everyLine = lines.map((l) => l.out);
   const hidden = (box: Box, own: Point[][] = []) => everyLine.reduce((n, line) => (own.includes(line) ? n : n + crossings(box, line)), 0);
 
-  // What no label may lie on: the shelter, every city's dot, every arrowhead, the line of
+  // What no label may lie on: the shelter, every city's dot, the line of
   // donors kept beside the map.
   const taken: Box[] = [
     { x: hub.x - 14, y: hub.y - 14, w: 28, h: 28 },
     ...(compact ? [] : [{ x: 0, y: height - LISTED_H, w: width, h: LISTED_H }]),
     ...lines.map(({ at }) => ({ x: at.x - 10, y: at.y - 10, w: 20, h: 20 })),
-    ...lines.filter((l) => l.returns).map(({ tip, bow }) => headBox(tip, bow.back)),
   ];
   const take = (box: Box) => {
     taken.push(box);
@@ -201,9 +194,11 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
 
   const placed: PlacedDonor[] = [];
   for (const line of lines) {
-    const { donor, at, bow, spends, returns, tip } = line;
+    const { donor, at, bow, spends } = line;
     const text = compact ? (donor.city ?? donor.name) : donor.label;
-    const lw = textWidth(text, labelPx) + (compact ? 14 : 20);
+    // The label carries the hold's bar beside the name (S1); a phone's compact label a shorter one beside the city.
+    const meter = donor.meter ? (compact ? LABEL_METER_W_SMALL + LABEL_METER_GAP_SMALL : LABEL_METER_W + LABEL_METER_GAP) : 0;
+    const lw = textWidth(text, labelPx) + (compact ? 14 : 20) + meter;
     // Near an edge the label slides along it rather than falling off the map.
     const slide = (x: number) => Math.max(3, Math.min(x, width - lw - 3));
     const around = (gap: number) =>
@@ -230,7 +225,8 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
     const pills: Pill[] = [];
     let room = true;
 
-    const pillOn = (text: string, flow: Pill["flow"], a: Point, c: Point, b: Point, own: Point[]) => {
+    /** Places a pill along an arc; false when no spot is free. */
+    const pillOn = (text: string, flow: Pill["flow"], a: Point, c: Point, b: Point, own: Point[]): boolean => {
       const w = textWidth(text, pillPx) + 20;
       const side = pillH / 2 + 9;
       const spots: Box[] = [];
@@ -242,16 +238,12 @@ export function planMap(donors: LedgerDonor[], { width, height, compact }: MapOp
       }
       const box = best(spots, [own]);
       if (box) pills.push({ flow, text, box: take(box) });
-      else room = false;
+      return box !== null;
     };
 
-    if (spends && !compact) pillOn(donor.spentText, "spent", at, bow.out, hub, line.out);
+    if (spends && !compact && !pillOn(donor.spentText, "spent", at, bow.out, hub, line.out)) room = false;
 
-    if (returns) {
-      const angle = (Math.atan2(tip.y - bow.back.y, tip.x - bow.back.x) * 180) / Math.PI;
-      arcs.push({ flow: "back", d: quad(hub, bow.back, tip), width: thick(donor.restBase), head: { x: tip.x, y: tip.y, angle } });
-      if (!compact) pillOn(`${donor.restText} ${donor.words?.rest ?? "back"}`, "back", tip, bow.back, hub, line.back);
-    } else if (donor.restBase > 0 && !compact) {
+    if (donor.restWord === "held" && donor.restBase > 0 && !compact) {
       // Nothing moved yet: the amount stays with the donor, beside their label.
       const text = `${donor.restText} ${donor.words?.rest ?? donor.restWord}`;
       const w = textWidth(text, pillPx) + 20;

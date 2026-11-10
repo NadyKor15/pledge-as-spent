@@ -27,6 +27,8 @@
 .st-sumAmt { font-size: 26px; font-weight: 700; letter-spacing: -1.2px; }
 .st-sumLbl { margin-left: 7.7px; font-size: 12.8px; letter-spacing: -.5px; color: var(--slate); }
 .st-tag { float: right; margin-top: 6px; height: 22px; padding: 0 9px; border-radius: 6px; background: #EAEDF0; color: #4B535D; font-size: 11.6px; font-weight: 600; line-height: 22px; }
+.st-meter { margin: 4.9px .5px 0 -.4px; }
+.st-sRefund b { color: #5B6472; }
 .st-bar { margin: 4.9px .5px 0 -.4px; height: 11.8px; border-radius: 5.9px; background: var(--track); display: flex; overflow: hidden; }
 .st-bar i { display: block; height: 100%; }
 .st-bSpent { background: var(--bar-green); }
@@ -45,7 +47,8 @@
 .st-sHeld b { color: var(--held-ink); }
 .st-sBack b { color: var(--rel-ink); }
 .st-sBack span { line-height: 14px; white-space: normal; }
-.st-sRel b { color: var(--rel-ink); letter-spacing: -1px; }
+.st-sRel b { color: var(--pas-never-text); letter-spacing: -1px; }
+.st-fee { margin-top: 9px; padding-top: 7px; border-top: 1px solid var(--divider); font-size: 11.2px; line-height: 15px; letter-spacing: -.2px; color: var(--slate-2); }
 .st-note { margin: 7px 14px 0; font-size: 11.6px; line-height: 16px; color: var(--no); }
 
 .st-match { margin-top: 7.4px; min-height: 59.4px; display: flex; align-items: center; padding: 6px 8px 6px 12.3px; background: var(--match-bg); border-color: var(--match-line); }
@@ -53,6 +56,11 @@
 .st-vline { flex: none; margin-left: 10px; width: 1px; height: 34.3px; background: var(--vline); }
 .st-match p { margin-left: 11.7px; max-width: 240px; font-size: 13px; line-height: 17.9px; letter-spacing: -.38px; }
 .st-match strong { color: var(--green); font-weight: 700; font-size: 13.6px; letter-spacing: -.1px; }
+
+/* A renewed pledge's one story (statement/ChainStory.tsx). */
+.st-chain { margin-top: 7.8px; padding: 7.8px 10px 8px; }
+.st-chainList { margin: 6px 0 0; padding-left: 18px; font-size: 12.4px; line-height: 17.5px; color: var(--slate-3); }
+.st-chainList li + li { margin-top: 4px; }
 
 .st-bought { margin-top: 7.8px; padding: 7.8px 10px 8px; }
 .st-h2 { margin-left: .6px; font-size: 14px; line-height: 20px; font-weight: 700; letter-spacing: -.55px; }
@@ -71,12 +79,28 @@
 .st-capWait { background: var(--wait-bg); }
 .st-capWait span { color: var(--wait); }
 
+/* "My euro in the receipt": each line the donor paid for, the share, the strip cut from the published photo, the words. */
+.st-itemTxt:has(.st-lines) { flex: 1; }
+.st-lines { margin-top: 7px; display: flex; flex-direction: column; gap: 6px; list-style: none; padding: 0; }
+.st-line { display: flex; flex-direction: column; gap: 3px; padding: 6px 8px 7px; border-radius: var(--r-frame); background: #F4F6F7; }
+.st-lineHead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; white-space: nowrap; }
+.st-lineNo { font-size: 10.6px; letter-spacing: -.2px; color: var(--slate-2); }
+.st-lineShare { font-size: 12.8px; font-weight: 700; letter-spacing: -.4px; color: var(--green); font-variant-numeric: tabular-nums; }
+.st-lineStrip { display: block; flex: none; max-width: 100%; border-radius: 3px; background-color: #EDEAE4; background-repeat: no-repeat; filter: grayscale(1) contrast(1.06); box-shadow: inset 0 0 0 1px rgba(40, 36, 28, .08); }
+.st-lineNoBox { display: flex; flex-wrap: wrap; gap: 0 8px; font-size: 10.6px; line-height: 15px; color: var(--slate-2); }
+.st-linePrinted { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink); }
+.st-lineWords { font-size: 11.6px; line-height: 15.5px; letter-spacing: -.25px; color: var(--slate-3); overflow-wrap: anywhere; }
+.st-page :lang(ja).st-lineWords { line-break: strict; word-break: normal; }
+.st-lineNote { margin-top: 6px; font-size: 10.6px; line-height: 15px; color: var(--slate-2); }
+
 .st-frame { margin: 8.5px 0 0 .5px; width: calc(100% - 1px); border-radius: var(--r-frame); overflow: hidden; background: var(--surface); display: flex; flex-direction: column; gap: 1.5px; }
 .st-win { position: relative; flex: none; overflow: hidden; }
 .st-winA { height: 86.4px; }
 .st-win img { position: absolute; left: 0; top: 0; display: block; width: 100%; height: auto; }
 .st-caption { margin-top: 5.2px; text-align: center; font-size: 9.5px; line-height: 14px; letter-spacing: -.19px; color: var(--slate-2); }
 .st-hr { margin: 7.8px .5px 0; height: 1px; background: var(--line); }
+.st-vanish { margin: 9px 0 0; padding: 8px 10px; border-radius: 8px; background: var(--cap-bg); font-size: 12px; line-height: 16px; color: var(--ink); }
+.st-vanishOk { font-weight: 600; color: var(--cap-ink); }
 .st-hold { margin-top: 8.1px; display: flex; align-items: flex-start; }
 .st-hold svg { flex: none; margin: -1.8px 0 0 2.8px; }
 .st-hold p { margin-left: 9.6px; font-size: 11.2px; line-height: 12.9px; letter-spacing: -.45px; color: var(--slate-3); }

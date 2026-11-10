@@ -1,0 +1,42 @@
+/* A need's bar in tones (need-meter.ts): bought, approved and waiting for PayPal, promised on holds, never charged,
+   and what left a hold otherwise. The colours are the holds' own (hold-meter.css: --pas-* and .pas-seg-*), nothing is
+   set here. The finished bar is the base rule: the grow animation starts from something else, so with reduced motion
+   the bar is simply there. */
+.nm-bar { display: flex; height: calc(18px * var(--s)); margin-top: calc(10px * var(--s)); border-radius: 999px; background: var(--pas-track); overflow: hidden; transform-origin: left; animation: nm-grow .9s cubic-bezier(.3, 0, .2, 1) backwards; }
+.nm-seg { flex: none; }
+/* A need's row is as tall as its words: the card keeps the map's height and its list scrolls (ledger.css
+   .lg-shelter ul), rather than rows shrinking under their text and running into the next one. */
+.lg-card.lg-shelter li { flex: 1 0 auto; }
+/* On the desktop a row's height was its picture's (118 px): a little smaller, the three needs, their money lines and
+   the legend fit the card on an open drive with nothing to scroll. */
+[data-stacked="false"] .lg-card.lg-shelter .lg-pic img { max-height: calc(104px * var(--s)); }
+/* Under the bar: what the holds still promise, or what PayPal released. One line at 1440 and at 390, in every
+   language (NM11; the words are short for it, tests/e2e/meter.spec.ts measures it): never wrapped. */
+.nm-money { margin-top: calc(5px * var(--s)); font-size: calc(13.5px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nm-never-text { color: var(--pas-never-text); }
+/* The tones on screen, under the needs. */
+.nm-legend { flex: none; display: flex; flex-wrap: wrap; gap: calc(4px * var(--s)) calc(16px * var(--s)); margin-top: calc(8px * var(--s)); padding-top: calc(8px * var(--s)); border-top: 1px solid var(--line); font-size: calc(13px * var(--s)); line-height: 1.3; color: var(--muted); }
+.nm-legend > span { display: flex; align-items: center; gap: 7px; }
+.nm-swatch { flex: none; width: 13px; height: 13px; border-radius: 3px; }
+
+/* Phone: the line one line tall whatever the amounts say, so a figure never moves the report. */
+[data-stacked="true"] .nm-bar { grid-column: 1 / -1; height: 13px; margin-top: 9px; }
+[data-stacked="true"] .nm-money { grid-column: 1 / -1; margin-top: 4px; font-size: 12.5px; }
+[data-stacked="true"] .nm-legend { gap: 2px 12px; margin-top: 2px; padding-top: 6px; font-size: 11.5px; min-height: calc(2 * 1.3em + 8px); align-content: flex-start; }
+[data-stacked="true"] .nm-swatch { width: 11px; height: 11px; }
+
+/* The phone's donors card (DonorsWidget): who and the pledge on one line, the hold's bar across, spent and the rest
+   under it at either end. A fixed height, whatever the amounts: the slot is 62 + 94 per donor (LedgerStudio.tsx). */
+.lg-donors .nm-donor { height: 92px; gap: 6px; }
+.nm-donor-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-width: 0; white-space: nowrap; }
+.nm-donor-top .lg-who { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.nm-pledged { flex: none; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nm-donor-meter { flex: none; }
+.lg-donors .nm-donor-sums { display: flex; justify-content: space-between; gap: 12px; white-space: nowrap; }
+.lg-donors .nm-donor-sums .lg-rest { padding-left: 0; border-left: 0; text-align: right; }
+.lg-donors .nm-donor-sums .nm-never-text { color: var(--pas-never-text); }
+
+@keyframes nm-grow { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .nm-bar { animation: none; }
+}

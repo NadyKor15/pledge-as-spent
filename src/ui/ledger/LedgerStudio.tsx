@@ -10,23 +10,30 @@ import { askComponentFor } from "@/agent/ui/BookAsk";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { moneyIn, type Lang } from "../format";
 import { subscribeViewport, viewportHeight, viewportWidth } from "../stage";
-import { bookCells } from "./cells";
+import { BOOK_LEAST_PX, bookCells } from "./cells";
 import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
 import { LangSwitch, writeLangToUrl } from "./LangSwitch";
 import "./ledger.css";
-import { LedgerStore, linesOf } from "./store";
+import { LineArrows } from "./LineArrows";
+import { PosterLink } from "./PosterLink";
+import { LedgerStore, narrowedTo } from "./store";
 import {
   ASK_WIDGET,
   BOOK_HEAD_WIDGET,
   BOOK_ROW_PX,
   DONORS_WIDGET,
   FOOTER_WIDGET,
+  JOURNAL_ROWS,
+  JOURNAL_WIDGET,
   ledgerData,
   ledgerState,
   MAP_WIDGET,
   NOTE_WIDGET,
   PHONE_BOOK_ROW_PX,
+  RECEIPT_ROWS,
+  RECEIPT_WIDGET,
+  receiptBeside,
   SHELTER_WIDGET,
   type Metrics,
 } from "./studio-state";
@@ -36,8 +43,10 @@ import { AskSlotWidget } from "./widgets/AskSlotWidget";
 import { BookHeadWidget } from "./widgets/BookHeadWidget";
 import { DonorsWidget } from "./widgets/DonorsWidget";
 import { FooterWidget } from "./widgets/FooterWidget";
+import { JournalWidget } from "./widgets/JournalWidget";
 import { MapWidget } from "./widgets/MapWidget";
 import { NoteWidget } from "./widgets/NoteWidget";
+import { ReceiptWidget } from "./widgets/ReceiptWidget";
 import { ShelterWidget } from "./widgets/ShelterWidget";
 
 const noForm = (params: { createDefaults: (p: { dataMappingItems: never[] }) => never }) => params.createDefaults({ dataMappingItems: [] });
@@ -46,6 +55,15 @@ const SIZE = { width: 4, height: 4 };
 /** Studio's own words and its grid's, in the book's language (only these three are imported). */
 const STUDIO_LOCALE: Record<Lang, Record<string, string>> = { en: AG_STUDIO_LOCALE_EN, de: AG_STUDIO_LOCALE_DE, ja: AG_STUDIO_LOCALE_JP };
 const GRID_LOCALE: Record<Lang, Record<string, string>> = { en: AG_GRID_LOCALE_EN, de: AG_GRID_LOCALE_DE, ja: AG_GRID_LOCALE_JP };
+
+/**
+ * Studio's own widget menu, as it is without ours. A `menu` given to createWidgets replaces it, and Studio then takes
+ * the first widget of the menu as its default type when "grid" is not in it (ag-studio 3.0.0 `_createWidgets`): our
+ * group goes after Studio's, so the default type and every built-in group stay what they were.
+ */
+const STUDIO_MENU = (createWidgets({} as never) as unknown as { menu: { label: string; widgetIds: string[] }[] }).menu;
+/** Our own widgets in Studio's widget menu. */
+const PAS_MENU = { label: "Pledge-as-Spent", widgetIds: [RECEIPT_WIDGET, JOURNAL_WIDGET] };
 
 /** One set of widgets per store and language: the book's cells read that store, its grid speaks that language. */
 function widgetsFor(store: LedgerStore, lang: Lang) {
@@ -60,7 +78,31 @@ function widgetsFor(store: LedgerStore, lang: Lang) {
       { id: NOTE_WIDGET, label: "Note", comp: NoteWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
       { id: BOOK_HEAD_WIDGET, label: "The book", comp: BookHeadWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
       { id: ASK_WIDGET, label: "Ask the book", comp: AskSlotWidget, form: noForm, defaultSize: SIZE, minSize: SIZE },
+      {
+        id: RECEIPT_WIDGET,
+        label: "Receipt and book",
+        comp: ReceiptWidget,
+        form: noForm,
+        defaultSize: SIZE,
+        minSize: SIZE,
+        // Read only by Studio's widget catalogue (lead, page, planning and widget agents, ag-studio 3.0.0 main.esm.mjs
+        // buildCatalogue :96261 and its callers :97434/:97571/:97699/:97805/:66927). Our harness runs none of them:
+        // its own agent and the built-in data agent, whose instructions read the schema only (:97353) and whose two tools
+        // (execute_query :66997, view_schema :67703) never read the catalogue. The 7-question measure is not moved.
+        ai: { label: "Receipt and book", description: "The drive's published receipt photo with a clear button over each printed line; a press narrows the book to that line and lights up the donors who paid for it." },
+      },
+      {
+        id: JOURNAL_WIDGET,
+        label: "PayPal journal",
+        comp: JournalWidget,
+        form: noForm,
+        defaultSize: SIZE,
+        minSize: SIZE,
+        // As the receipt's: only Studio's widget catalogue reads it, and none of its readers runs in our harness.
+        ai: { label: "PayPal journal", description: "Every PayPal sandbox call of the drive with PayPal's own status: holds placed, receipt and payout, partial captures, and the rest of each hold released, never charged. A donor's row selects that donor." },
+      },
     ],
+    menu: [...STUDIO_MENU, PAS_MENU],
   } as never);
 }
 
@@ -128,24 +170,45 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       match: 4,
       note: counts.waiting || counts.rest ? 4 : 0,
       map: Math.ceil((Math.min(width, 640) * 0.56) / rowHeight),
-      shelter: Math.ceil((112 + counts.needs * 104) / rowHeight),
-      donors: Math.ceil((62 + counts.donors * 78) / rowHeight),
-      // Room for three links under the refusals: the book, its CSV and "Ask PayPal yourself".
-      footer: 15,
+      // +52: the legend of the bars' tones, kept two lines tall whatever it lists (need-meter.css).
+      shelter: Math.ceil((112 + 52 + counts.needs * 104) / rowHeight),
+      // 94 per donor: the row with the hold's bar (need-meter.css .nm-donor, 92 px + its rule).
+      donors: Math.ceil((62 + counts.donors * 94) / rowHeight),
+      // Room for four links and the PayPal check line under the refusals: the book, its CSV, "Ask PayPal yourself",
+      // the shelter's poster, and the daily check, which takes up to three lines in German.
+      footer: 21,
+      journal: JOURNAL_ROWS.phone,
       ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
+      receipt: RECEIPT_ROWS.phone,
       head: Math.ceil(BOOK_HEAD_PX / rowHeight),
       book: bookRows(rowHeight),
     };
-    return { rowHeight, stacked, scale: 1, rows };
+    return { rowHeight, stacked, scale: 1, beside: false, rows };
   }
   const rowHeight = 10 * scale;
   // The line under Spent takes its height from the map, so the page stays one screen tall.
   const note = counts.waiting ? 3 : 0;
+  const beside = receiptBeside(scale, BOOK_LEAST_PX);
   return {
     rowHeight,
     stacked,
     scale,
-    rows: { kpi: 19 + note, pair: 0, match: 4, note, map: 56 - note, shelter: 56 - note, donors: 0, footer: 9, ask: counts.ask ? Math.ceil(ASK_PX / 10) : 0, head: Math.ceil(BOOK_HEAD_PX / 10), book: bookRows(rowHeight) },
+    beside,
+    rows: {
+      kpi: 19 + note,
+      pair: 0,
+      match: 4,
+      note,
+      map: 56 - note,
+      shelter: 56 - note,
+      donors: 0,
+      footer: 9,
+      journal: JOURNAL_ROWS.desktop,
+      ask: counts.ask ? Math.ceil(ASK_PX / 10) : 0,
+      receipt: beside ? RECEIPT_ROWS.beside : RECEIPT_ROWS.over,
+      head: Math.ceil(BOOK_HEAD_PX / 10),
+      book: bookRows(rowHeight),
+    },
   };
 }
 
@@ -167,7 +230,7 @@ function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean): Metrics
 /** Page height in tracks, without the book: the report never scrolls inside itself. The assistant's chat is part of it. */
 function bodyRows(m: Metrics, matched: boolean) {
   const r = m.rows;
-  return (m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer) + r.ask;
+  return (m.stacked ? r.kpi + r.pair + r.note + (matched ? r.match : 0) + r.map + r.shelter + r.donors + r.footer : r.kpi + r.map + r.footer) + r.journal + r.ask;
 }
 
 function useCountUp(root: React.RefObject<HTMLDivElement | null>, model: LedgerModel, run: number, layoutKey: string) {
@@ -241,7 +304,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
   const proof = useSyncExternalStore(store.subscribe, () => store.get().proof);
   const ask = useSyncExternalStore(store.subscribe, () => store.get().askComponent !== null);
   const bandPx = useSyncExternalStore(store.subscribe, () => store.get().bandPx) ?? bandHeight(stacked);
-  const picked = focus ? focus.lineKeys : selected ? linesOf(model, selected) : null;
+  const linesNarrow = useSyncExternalStore(store.subscribe, () => store.get().linesNarrow);
+  const picked = narrowedTo({ focus, selected, model, linesNarrow });
   const metrics = useMetrics(stacked, model, ask);
   const root = useRef<HTMLDivElement>(null);
 
@@ -263,6 +327,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
     store.setRefresh(() => void refresh());
     store.setStale(stale);
   }, [store, stale, refresh]);
+  // Beside the open book a pressed receipt line lights its rows; over the book (phone, narrow window) it narrows it.
+  useEffect(() => store.setLinesNarrow(!metrics.beside), [store, metrics.beside]);
 
   const setLang = (next: Lang) => {
     writeLangToUrl(next);
@@ -289,10 +355,14 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
   // A filtered book is shorter than its widget: the frame ends with its last row.
   const body = bodyRows(metrics, model.matchName !== null) * metrics.rowHeight + 4;
   const head = metrics.rows.head * metrics.rowHeight;
-  const whole = body + head + metrics.rows.book * metrics.rowHeight;
+  // The receipt is part of the open book: over it (adds its height), or beside it (the taller of the two counts).
+  const receipt = metrics.rows.receipt * metrics.rowHeight;
+  const over = metrics.beside ? 0 : receipt;
+  const whole = body + over + Math.max(head + metrics.rows.book * metrics.rowHeight, metrics.beside ? receipt : 0);
   const lines = picked ? model.book.filter((r) => picked.includes(r.lineKey)).length : model.book.length;
   const banded = proof !== null && model.book.some((r) => r.rowKey === proof && (!picked || picked.includes(r.lineKey)));
-  const height = body + (bookOpen ? head + bookHeight(lines, stacked) + (banded ? bandPx : 0) : 0);
+  const shown = head + bookHeight(lines, stacked) + (banded ? bandPx : 0);
+  const height = body + (bookOpen ? over + Math.max(shown, metrics.beside ? receipt : 0) : 0);
   const w = WORDS[lang];
 
   return (
@@ -306,7 +376,7 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
     >
       <div className="lg-frame" data-book={bookOpen && lines > 0 ? "open" : "closed"} style={{ height }}>
         {bookOpen && lines === 0 && (
-          <p className="lg-nolines" style={{ top: body + head }}>
+          <p className="lg-nolines" style={{ top: body + over + head }}>
             {w.noLines}
           </p>
         )}
@@ -336,8 +406,13 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
             />
           </div>
         </AgStudioProvider>
+        <LineArrows store={store} />
         {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
+        {/* The shelter's printable poster of this drive (П4), in the book's language: in the report's corner on a
+            desktop; on a phone that corner is the first total's title, so the link is in the bottom line there
+            (FooterWidget). One link at a time. */}
+        {!stacked && <PosterLink driveId={model.driveId} lang={lang} className="lg-poster-link" />}
       </div>
     </div>
   );

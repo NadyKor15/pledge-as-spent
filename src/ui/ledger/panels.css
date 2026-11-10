@@ -1,0 +1,115 @@
+/* The Ledger's own panels: the receipt beside the book (T4). Colours are the screen's own (.lg-screen in ledger.css). */
+
+/* The receipt belongs to the book: below the frame's edge while the book is closed, and out of reach for Tab and for
+   screen readers as well as for the eye (as the book's grid, ledger.css). */
+.lg-frame[data-book="closed"] .ag-studio-layout-widget:has(.lg-rc) { visibility: hidden; }
+
+.lg-rc { display: flex; flex-direction: column; gap: 8px; padding: calc(16px * var(--s)) calc(16px * var(--s)) calc(12px * var(--s)); inset: 4px calc(8px * var(--s)) 4px calc(24px * var(--s)); }
+.lg-rc-head { flex: none; font-size: calc(17px * var(--s)); font-weight: 700; letter-spacing: -.01em; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.lg-rc-none { margin: auto; color: var(--muted); font-size: 14px; text-align: center; }
+/* The photo is as large as fits the stage, never stretched: its width follows the stage's height and its own shape. */
+.lg-rc-stage { flex: 1 1 0; min-height: 0; container-type: size; display: grid; place-items: center; }
+.lg-rc-photo { position: relative; overflow: hidden; max-width: 100%; border-radius: 6px; background: #EDEAE4; box-shadow: 0 1px 6px rgba(40, 36, 28, .16); }
+.lg-rc-photo img { position: absolute; max-width: none; height: auto; user-select: none; pointer-events: none; }
+.lg-rc-line { position: absolute; display: block; border-radius: 6px; background: transparent; cursor: pointer; transition: background-color .15s, box-shadow .15s; }
+.lg-rc-line:hover { background: rgba(14, 110, 106, .10); }
+.lg-rc-line.is-lit { background: rgba(14, 110, 106, .12); }
+.lg-rc-line.is-refused { outline: 1.5px dashed var(--refused); outline-offset: 2px; }
+.lg-rc-line.is-on { background: rgba(14, 110, 106, .14); box-shadow: 0 0 0 2.5px var(--teal); outline: none; }
+.lg-frame .lg-rc-line:focus-visible { outline: 3px solid var(--spent-text); outline-offset: 2px; }
+.lg-rc-cap { flex: none; text-align: center; font-size: calc(14px * var(--s)); color: var(--muted); line-height: 1.35; }
+.lg-rc-sentence { display: none; }
+.lg-rc-unplaced { flex: none; max-height: 30%; overflow-y: auto; border-top: 1px solid var(--line); padding-top: 6px; font-size: 13px; }
+.lg-rc-unplaced > p { color: var(--muted); margin-bottom: 4px; }
+.lg-rc-unplaced ul { list-style: none; }
+.lg-rc-listed { position: static; width: 100%; padding: 4px 6px; text-align: left; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lg-rc-listed b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.lg-rc-listed span { color: var(--muted); }
+.lg-rc-listed.is-refused { outline-offset: -2px; }
+
+/* A wide box (the receipt over the book on a desktop narrower than the reference): photo left, the words beside it. */
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto 1fr auto; column-gap: calc(28px * var(--s)); inset: 4px calc(24px * var(--s)); }
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] .lg-rc-stage { grid-column: 1; grid-row: 1 / 4; }
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] .lg-rc-head,
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] .lg-rc-cap,
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] .lg-rc-unplaced { grid-column: 2; text-align: left; align-self: start; }
+.lg-screen[data-stacked="false"] .lg-rc[data-wide] .lg-rc-head { white-space: normal; }
+
+/* Phone: the photo over the book, cut to its lines; the sentence for a pressed line is here, under the photo. */
+[data-stacked="true"] .lg-rc { inset: 5px 12px; padding: 12px 14px 10px; gap: 6px; }
+[data-stacked="true"] .lg-rc-head { font-size: 15.5px; }
+[data-stacked="true"] .lg-rc-cap { font-size: 13px; }
+[data-stacked="true"] .lg-rc-cap[data-picked] .lg-rc-hint { display: none; }
+[data-stacked="true"] .lg-rc-sentence { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; color: var(--ink); font-weight: 600; text-align: left; }
+
+/* Beside the receipt the book is narrower: a long payer ("Kitasora Logistics (match)") takes a second line of its
+   64 px row, as on S5, instead of being cut. */
+.lg-frame .ag-cell[col-id="book.payerLabel"], .lg-frame .ag-cell[col-id="book.payerLabel"] * { white-space: normal; line-height: 1.25; }
+.lg-screen:lang(ja) .lg-frame .ag-cell[col-id="book.payerLabel"] { word-break: keep-all; overflow-wrap: anywhere; }
+/* The payer's name over the donor's hold bar (cells.tsx PayerCell): two lines of name and the bar fit the 64 px row. */
+.lg-payer { display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; width: 100%; }
+.lg-payer-name { min-width: 0; }
+.lg-payer-meter { flex: none; max-width: 132px; }
+/* Beside the open book (S5): the pressed line's rows lit in teal, and arrows to them from its frame on the photo. */
+.lg-frame .ag-row.lg-line-picked:not(.lg-proof-row) { background: #DDEFEC !important; }
+.lg-arrows { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; overflow: visible; }
+.lg-arrows path { fill: none; stroke: var(--teal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lg-line-plaque { display: flex; flex: 1 1 auto; min-width: 0; align-items: center; flex-wrap: nowrap; gap: 8px; height: 40px; padding: 0 6px 0 16px; border-radius: 12px; background: #E3F0EE; box-shadow: inset 0 0 0 1px #CFE3DF; font-size: 15px; white-space: nowrap; overflow: hidden; }
+.lg-line-plaque b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.lg-payer-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 8px; background: #C9E4DF; color: var(--ink); font-weight: 500; }
+.lg-plaque-amount { color: var(--ink); font-variant-numeric: tabular-nums; }
+.lg-plaque-reason { color: var(--refused); overflow: hidden; text-overflow: ellipsis; }
+.lg-line-plaque button { flex: none; margin-left: auto; width: 26px; height: 26px; border-radius: 999px; color: #2C5F5B; font-size: 18px; line-height: 1; }
+.lg-line-plaque button:hover { background: #CFE5E1; }
+
+/* The chip over a book narrowed to a pressed line (phone, narrow window). */
+.lg-chip-line { background: #DDEFEC; font-weight: 500; }
+
+/* The PayPal journal (T3). Its height is fixed by the layout; the groups and the phone's list scroll inside. PayPal's
+   statuses are data: the pill only tints them, with the hold's own colours (--pas-*, src/ui/hold-meter.css). */
+.lg-jr { display: flex; flex-direction: column; padding: calc(18px * var(--s)) calc(24px * var(--s)) calc(14px * var(--s)); inset: 6px calc(24px * var(--s)); }
+.lg-jr-head { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; }
+.lg-jr-head h2 { font-size: calc(26px * var(--s)); font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
+.lg-jr-tag { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: #EFECE6; color: #4A5160; font-size: 13.5px; white-space: nowrap; }
+.lg-jr-utc { color: var(--muted); font-size: 12.5px; }
+.lg-jr-empty { margin: auto; color: var(--muted); }
+.lg-jr-groups { flex: 1; min-height: 0; margin-top: calc(14px * var(--s)); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(14px * var(--s)); list-style: none; }
+.lg-jr-group { display: flex; flex-direction: column; min-height: 0; }
+.lg-jr-group h3 { position: relative; flex: none; padding: 22px 0 3px; margin-bottom: 6px; font-size: calc(18px * var(--s)); line-height: 1.3; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The timeline over the groups: a dot per group on one thin line. */
+.lg-jr-group h3::before { content: ""; position: absolute; left: 6px; right: -14px; top: 6px; height: 1.5px; background: var(--line); }
+.lg-jr-group h3 i { position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 999px; background: var(--teal); }
+.lg-jr-g-never h3 i { background: var(--pas-never); }
+.lg-jr-group:last-child h3::before { right: 0; }
+.lg-jr-group ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; border: 1px solid var(--line); border-radius: 12px; padding: 4px 6px; }
+.lg-jr-none { padding: 10px 8px; color: var(--muted); font-size: 13px; }
+.lg-jr-row { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 10px; text-align: left; font-size: 13.5px; line-height: 1.3; }
+.lg-jr-group li + li .lg-jr-row, .lg-jr-list li + li .lg-jr-row { border-top: 1px solid #F0EDE7; border-radius: 0; }
+.lg-jr-press { cursor: pointer; }
+.lg-jr-press:hover { background: #F2F8F7; }
+.lg-jr-press.is-on { background: #E8F2F0; box-shadow: inset 0 0 0 1.5px var(--teal); border-radius: 10px !important; }
+.lg-jr-time { padding: 2px 6px; border-radius: 6px; background: #F3F1EC; color: #4A5160; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lg-jr-text { min-width: 0; overflow-wrap: anywhere; }
+.lg-jr-status { padding: 3px 8px; border-radius: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+.lg-jr-done { background: color-mix(in srgb, var(--pas-charged) 16%, #FFFFFF); color: var(--spent-text); }
+.lg-jr-info { background: #E3F0EE; color: #1F5F5B; }
+.lg-jr-never { background: color-mix(in srgb, var(--pas-never) 35%, #FFFFFF); color: var(--pas-never-text); }
+.lg-jr-wait { background: #FBF0DA; color: var(--held-text); }
+.lg-jr-bad { background: color-mix(in srgb, var(--pas-refused) 14%, #FFFFFF); color: var(--refused); }
+.lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
+
+/* The way to the shelter's printable poster (П4): the report's top-left corner, across from the languages. */
+.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); font-size: 13px; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+[data-stacked="true"] .lg-poster-link { top: 6px; left: 12px; font-size: 12.5px; }
+
+/* "Show Lena on the map" (S4): over the right end of the row under the pointer or the keyboard's focus. */
+.lg-jr-tip { position: absolute; z-index: 6; transform: translate(-100%, calc(-100% - 6px)); padding: 6px 12px; border-radius: 10px; background: #FFFFFF; color: var(--ink); font-size: 13.5px; white-space: nowrap; box-shadow: 0 2px 10px rgba(40, 36, 28, .16), 0 0 0 1px rgba(40, 36, 28, .08); pointer-events: none; }
+
+/* Phone (and any narrow box): the newest five, the rest on demand, inside the same height. */
+.lg-jr-list { flex: 1; min-height: 0; display: flex; flex-direction: column; margin-top: 8px; }
+.lg-jr-list ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; }
+.lg-jr-list .lg-jr-row { grid-template-columns: auto minmax(0, 1fr) auto; padding: 8px 4px; font-size: 13.5px; }
+.lg-jr-all { flex: none; align-self: flex-start; margin-top: 6px; color: var(--teal); font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+[data-stacked="true"] .lg-jr { inset: 5px 12px; padding: 14px 14px 10px; }
+[data-stacked="true"] .lg-jr-head h2 { font-size: 21px; }
+[data-stacked="true"] .lg-jr-tag { height: 24px; font-size: 12px; padding: 0 9px; }

@@ -4,7 +4,7 @@
   "routing": "model",
   "question": "I'm Yuki from Osaka. What are my PayPal numbers?",
   "locale": "en",
-  "recordedAt": "2026-11-06T20:42:43.097Z",
+  "recordedAt": "2026-11-10T07:58:21.773Z",
   "models": [
     "muse-spark-1.3"
   ],
@@ -56,7 +56,8 @@
     ],
     "source": "ai",
     "delegated": [],
-    "text": "Your PayPal order is 10L99507KP256054Y with authorization hold 4V841583EA244972U and capture 3HK86339B7905131L for ¥1,237 for lines 7, 8, 9.",
+    "step": null,
+    "text": "Your PayPal order is 10L99507KP256054Y, your authorization hold is 4V841583EA244972U and your capture 3HK86339B7905131L was ¥1,237 for lines 7, 8, 9.",
     "verdict": {
       "ok": true,
       "checked": [
@@ -70,22 +71,22 @@
         {
           "kind": "id",
           "raw": "4V841583EA244972U",
-          "start": 63,
-          "end": 80,
+          "start": 67,
+          "end": 84,
           "id": "4V841583EA244972U"
         },
         {
           "kind": "id",
           "raw": "3HK86339B7905131L",
-          "start": 93,
-          "end": 110,
+          "start": 102,
+          "end": 119,
           "id": "3HK86339B7905131L"
         },
         {
           "kind": "amount",
           "raw": "¥1,237",
-          "start": 115,
-          "end": 121,
+          "start": 124,
+          "end": 130,
           "value": 1237,
           "currency": "JPY"
         }
@@ -100,7 +101,7 @@
       "demo-f372326129.r1:9"
     ],
     "raw": [
-      "Your PayPal order is 10L99507KP256054Y with authorization hold 4V841583EA244972U and capture 3HK86339B7905131L for ¥1,237 for lines 7, 8, 9."
+      "Your PayPal order is 10L99507KP256054Y, your authorization hold is 4V841583EA244972U and your capture 3HK86339B7905131L was ¥1,237 for lines 7, 8, 9."
     ],
     "routed": null
   },
@@ -125,18 +126,18 @@
       "response": {
         "output": [
           {
-            "id": "fc_call_6a8e6bb5-4b8a-494c-8960-b2141e21363c",
+            "id": "fc_call_612363ab-97f5-4127-8009-0b313c01bdd9",
             "kind": "output",
             "type": "function_call",
-            "callId": "call_6a8e6bb5-4b8a-494c-8960-b2141e21363c",
+            "callId": "call_612363ab-97f5-4127-8009-0b313c01bdd9",
             "name": "ledger_paypal_ids",
-            "arguments": "{\"who\":\"Yuki\"}"
+            "arguments": "{\"who\":\"Yuki Osaka\"}"
           }
         ],
         "status": "completed",
         "usage": {
           "inputTokens": 1776,
-          "outputTokens": 185
+          "outputTokens": 190
         },
         "model": "muse-spark-1.3"
       }
@@ -161,7 +162,7 @@
       "response": {
         "output": [
           {
-            "id": "msg_resp_6aee3bc2e6872430cfc84039",
+            "id": "msg_resp_6af2ce9df5dea112055b43ca",
             "kind": "output",
             "type": "message",
             "role": "assistant",
@@ -169,7 +170,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "Your PayPal order is 10L99507KP256054Y with authorization hold 4V841583EA244972U and capture 3HK86339B7905131L for ¥1,237 for lines 7, 8, 9.",
+                "text": "Your PayPal order is 10L99507KP256054Y, your authorization hold is 4V841583EA244972U and your capture 3HK86339B7905131L was ¥1,237 for lines 7, 8, 9.",
                 "annotations": []
               }
             ]
@@ -177,8 +178,8 @@
         ],
         "status": "completed",
         "usage": {
-          "inputTokens": 2201,
-          "outputTokens": 328
+          "inputTokens": 2202,
+          "outputTokens": 370
         },
         "model": "muse-spark-1.3"
       }
@@ -189,7 +190,7 @@
       "agentId": "ledger",
       "name": "ledger_paypal_ids",
       "args": {
-        "who": "Yuki"
+        "who": "Yuki Osaka"
       },
       "ok": true,
       "result": "{\"success\":true,\"response\":\"Yuki (Osaka, JP): PayPal order 10L99507KP256054Y, authorization (the hold) 4V841583EA244972U, hold closed (PayPal released what was not spent).\\n- capture 3HK86339B7905131L: ¥1,237 for lines 7, 8, 9\",\"data\":{\"facts\":[{\"value\":0,\"label\":\"order\",\"id\":\"10L99507KP256054Y\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"authorization\",\"id\":\"4V841583EA244972U\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":0,\"label\":\"capture\",\"id\":\"3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]},{\"value\":1237,\"currency\":\"JPY\",\"label\":\"Yuki (Osaka, JP) captured in 3HK86339B7905131L\",\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}],\"lineKeys\":[\"demo-f372326129.r1:7\",\"demo-f372326129.r1:8\",\"demo-f372326129.r1:9\"]}}"
@@ -207,8 +208,8 @@
     "routed": null,
     "calls": 2,
     "ledgerCalls": 2,
-    "usd": 0.007151,
-    "text": "Your PayPal order is 10L99507KP256054Y with authorization hold 4V841583EA244972U and capture 3HK86339B7905131L for ¥1,237 for lines 7, 8, 9.",
+    "usd": 0.007352,
+    "text": "Your PayPal order is 10L99507KP256054Y, your authorization hold is 4V841583EA244972U and your capture 3HK86339B7905131L was ¥1,237 for lines 7, 8, 9.",
     "errors": []
   }
 }

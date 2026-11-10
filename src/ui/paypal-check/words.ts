@@ -29,6 +29,13 @@ export interface CheckWords {
   again: string;
   close: string;
   noAnswer: string;
+  /** A live hold: the day PayPal ends it by itself, whatever this app does. */
+  endsBy: (date: string) => string;
+  /** A hold that is over: the end date PayPal had set for it. */
+  endDate: (date: string) => string;
+  /** Beside PayPal's end date: the book has the same one, or another. */
+  bookSame: string;
+  bookOther: (date: string) => string;
 }
 
 const EN: CheckWords = {
@@ -47,7 +54,7 @@ const EN: CheckWords = {
     held: "held",
     partly_captured: "partly captured",
     captured: "captured in full",
-    voided: "voided, the rest went back",
+    voided: "voided, the rest never charged",
     expired: "expired",
     denied: "denied",
     reauthorized: "re-authorized",
@@ -68,6 +75,10 @@ const EN: CheckWords = {
   again: "Ask again",
   close: "Close",
   noAnswer: "PayPal didn’t answer. Try again.",
+  endsBy: (d) => `PayPal ends this hold by ${d}`,
+  endDate: (d) => `End date PayPal set for this hold: ${d}`,
+  bookSame: "our book: the same date",
+  bookOther: (d) => `our book differs: ${d}`,
 };
 
 const DE: CheckWords = {
@@ -86,7 +97,7 @@ const DE: CheckWords = {
     held: "reserviert",
     partly_captured: "teilweise abgebucht",
     captured: "ganz abgebucht",
-    voided: "aufgehoben, der Rest ging zurück",
+    voided: "aufgehoben, der Rest nie belastet",
     expired: "abgelaufen",
     denied: "abgelehnt",
     reauthorized: "neu reserviert",
@@ -107,6 +118,10 @@ const DE: CheckWords = {
   again: "Nochmal fragen",
   close: "Schließen",
   noAnswer: "PayPal hat nicht geantwortet. Bitte nochmal versuchen.",
+  endsBy: (d) => `PayPal beendet diese Reservierung spätestens am ${d}`,
+  endDate: (d) => `Von PayPal gesetztes Enddatum dieser Reservierung: ${d}`,
+  bookSame: "unser Buch: dasselbe Datum",
+  bookOther: (d) => `unser Buch weicht ab: ${d}`,
 };
 
 const JA: CheckWords = {
@@ -125,7 +140,7 @@ const JA: CheckWords = {
     held: "保留中",
     partly_captured: "一部引き落とし",
     captured: "全額引き落とし",
-    voided: "取り消し、残りは返金",
+    voided: "取り消し、残りは請求されず",
     expired: "期限切れ",
     denied: "拒否",
     reauthorized: "再承認",
@@ -146,6 +161,10 @@ const JA: CheckWords = {
   again: "もう一度きく",
   close: "閉じる",
   noAnswer: "PayPal から回答がありませんでした。もう一度お試しください。",
+  endsBy: (d) => `PayPal はこの保留を ${d} までに終了します`,
+  endDate: (d) => `PayPal が定めたこの保留の終了日: ${d}`,
+  bookSame: "帳簿も同じ日付",
+  bookOther: (d) => `帳簿は異なる日付: ${d}`,
 };
 
 export const CHECK_WORDS: Record<Lang, CheckWords> = { en: EN, de: DE, ja: JA };

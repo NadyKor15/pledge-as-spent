@@ -1,4 +1,4 @@
-import { boolean, customType, index, integer, jsonb, numeric, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { boolean, customType, index, integer, jsonb, numeric, pgTable, primaryKey, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 // The events table is the drive's book: append only, state = replay(events).
 // Every other table is either a mirror for queries (drives) or data the book
@@ -111,6 +111,23 @@ export const spendLedger = pgTable("spend_ledger", {
   ref: text("ref"),
 });
 
+/**
+ * A receipt line in a donor's language, translated once by the model and kept (the donor's statement shows it beside the
+ * line's strip). Data the book does not hold: losing it costs a call, never a figure.
+ */
+export const lineTranslations = pgTable(
+  "line_translations",
+  {
+    receiptId: text("receipt_id").notNull(),
+    lineNo: integer("line_no").notNull(),
+    lang: text("lang").notNull(),
+    text: text("text").notNull(),
+    model: text("model").notNull(),
+    at: ts("at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.receiptId, t.lineNo, t.lang] })],
+);
+
 /** One question to the live agent: who asked (hashed address) and what it has cost so far. */
 export const agentQuestions = pgTable(
   "agent_questions",
@@ -128,4 +145,24 @@ export const agentQuestions = pgTable(
   (t) => [index("agent_questions_ip").on(t.ipHash, t.ts), index("agent_questions_ts").on(t.ts)],
 );
 
-export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger, agentQuestions };
+/**
+ * The daily check of a drive's book against PayPal (src/server/reconcile.ts): when PayPal was asked, how many objects,
+ * how many agreed, and each difference as the book and PayPal state it. No keys, no e-mail, no PayPal bodies.
+ */
+export const paypalReconciliations = pgTable(
+  "paypal_reconciliations",
+  {
+    id: serial("id").primaryKey(),
+    driveId: text("drive_id").notNull(),
+    askedAt: ts("asked_at").notNull(),
+    answeredAt: ts("answered_at").notNull(),
+    total: integer("total").notNull(),
+    answered: integer("answered").notNull(),
+    agrees: integer("agrees").notNull(),
+    /** ReconcileDifference[]: every object that did not agree, PayPal's silence included. */
+    differences: jsonb("differences").notNull(),
+  },
+  (t) => [index("paypal_reconciliations_drive").on(t.driveId, t.askedAt)],
+);
+
+export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger, agentQuestions, paypalReconciliations };

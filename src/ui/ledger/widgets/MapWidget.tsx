@@ -2,6 +2,7 @@
 
 import type { AgWidgetField, AgWidgetParams } from "ag-studio";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { HoldMeter } from "../../HoldMeter";
 import type { LedgerDonor } from "../derive";
 import land from "../land.json";
 import { landPath, planMap, type Arc, type PlacedDonor } from "../layout";
@@ -149,13 +150,15 @@ export function MapWidget(params: AgWidgetParams) {
             const id = p.donor.pledgeId;
             const on = focus?.donors.has(id) ?? false;
             const pick: Pick = { kind: "donor", pledgeId: id };
+            // The hold's bar inside the donor's label, a shorter one in a phone's compact label (layout.ts sizes both).
+            const meter = p.donor.meter;
             return (
               <div key={id} className={`lg-tags${focus && !on ? " is-dim" : ""}`}>
                 <button
                   type="button"
                   data-label
                   data-donor={p.donor.name}
-                  className={`lg-label${compact ? " lg-small" : ""}${on ? " is-on" : ""}`}
+                  className={`lg-label${compact ? " lg-small" : ""}${on ? " is-on" : ""}${meter ? " lg-has-meter" : ""}`}
                   style={{ left: p.label.x, top: p.label.y, width: p.label.w, height: p.label.h }}
                   aria-pressed={snap.selected?.kind === "donor" && snap.selected.pledgeId === id}
                   aria-label={describe(p)}
@@ -165,7 +168,8 @@ export function MapWidget(params: AgWidgetParams) {
                   onFocus={() => store.hover(pick)}
                   onBlur={() => store.hover(null)}
                 >
-                  {p.text}
+                  <span className="lg-label-text">{p.text}</span>
+                  {meter && <HoldMeter parts={meter} size="label" lang={snap.lang} className="lg-meter" />}
                 </button>
                 {p.pills.map((x) => (
                   <span key={x.flow} data-label className={`lg-pill lg-pill-${x.flow}`} style={{ left: x.box.x, top: x.box.y, width: x.box.w, height: x.box.h }}>

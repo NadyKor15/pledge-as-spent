@@ -1,3 +1,4 @@
+import { shownHolds } from "@/ui/derive";
 import { donorParts } from "@/ui/format";
 import type { DriveView, Hold } from "@/ui/types";
 import { norm, withAliases } from "./tools";
@@ -36,7 +37,7 @@ const NEED_SUM_INSTRUCTIONS = "The book's code has already run execute_query for
 const CUES: Record<Exclude<Intent, "needSum">, RegExp> = {
   refused: /refus|reject|declin|not funded|turned down|abgelehnt|abgewiesen|nicht finanziert|却下|拒否|断られ|対象外/i,
   paypal: /paypal[\s-]*(number|nummer|id|reference)|\b(order|authori[sz]ation|capture|transaction)s?\b|nummern|bestellnummer|autorisierung|番号|オーソリ|売上確定|注文/i,
-  back: /came back|come back|back to me|get back|got back|returned|refund|released|zurück|erstattet|freigegeben|戻|返/i,
+  back: /came back|come back|back to me|get back|got back|returned|refund|released|never charged|not charged|zurück|erstattet|freigegeben|nie belastet|nicht belastet|戻|返|請求されず|請求されなかった/i,
   money: /what did .*buy|money buy|bought|pay for|paid for|spent|spend|where did .*go|wofür|gekauft|bezahlt|ausgegeben|買|何に使|使われ|支払/i,
 };
 
@@ -64,7 +65,8 @@ function donorIn(v: DriveView, text: string): Hold | null {
       .split(/[^\p{L}\p{N}]+/u)
       .filter((w) => w.length >= 2),
   );
-  const hits = v.holds.filter((h) => {
+  // A renewed donor is one donor: their two holds would make two hits (renewal-chain.ts).
+  const hits = shownHolds(v).filter((h) => {
     if (h.kind !== "donor") return false;
     const { name, place } = donorParts(h.donorName, h.donorCountry);
     const city = (place ?? "").split(",")[0];

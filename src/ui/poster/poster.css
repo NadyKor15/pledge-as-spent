@@ -1,0 +1,62 @@
+/* The shelter's poster: A4 portrait. On screen it is a sheet on a grey desk with a Print button; in print, the sheet is
+   the page and nothing else is printed. */
+.pp-root { min-height: 100vh; padding: 18px 12px 40px; background: #E9E8E4; color: #0B1222; }
+.pp-bar { max-width: 210mm; margin: 0 auto 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.pp-print { min-height: 40px; padding: 0 22px; border-radius: 6px; background: #0E6E6A; color: #fff; font-weight: 600; font-size: 15px; }
+.pp-hint { font-size: 12.5px; color: #475164; }
+.pp-back { margin-left: auto; font-size: 13px; color: #0E6E6A; }
+
+.pp-sheet { box-sizing: border-box; width: 210mm; max-width: 100%; margin: 0 auto; padding: 16mm 16mm 14mm; min-height: 297mm; display: flex; flex-direction: column; background: #fff; box-shadow: 0 1px 6px rgba(11, 18, 34, .18); line-height: 1.3; }
+.pp-head { padding-bottom: 6mm; border-bottom: 2.5px solid #0E6E6A; }
+.pp-brand { font-size: 9pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #0E6E6A; }
+.pp-shelter { margin-top: 3mm; font-size: 30pt; line-height: 1.1; font-weight: 800; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.pp-disaster { margin-top: 2mm; font-size: 14pt; color: #3E4A5C; }
+
+.pp-title { margin-top: 9mm; font-size: 22pt; font-weight: 700; letter-spacing: -.01em; }
+.pp-needs { margin-top: 4mm; list-style: none; display: flex; flex-direction: column; gap: 4mm; }
+.pp-need { display: grid; grid-template-columns: 14mm 1fr auto; grid-template-rows: auto auto; align-items: center; column-gap: 5mm; row-gap: 2mm; padding: 3mm 0; border-bottom: .5px solid #D5D9DE; break-inside: avoid; }
+.pp-need > svg, .pp-need > .pp-pic { grid-row: 1 / 3; justify-self: center; }
+.pp-pic { width: auto; height: auto; max-width: 14mm; max-height: 18mm; mix-blend-mode: multiply; }
+.pp-label { font-size: 16pt; font-weight: 600; overflow-wrap: anywhere; }
+.pp-count { font-size: 15pt; font-variant-numeric: tabular-nums; white-space: nowrap; color: #1F2937; }
+.pp-bar2 { grid-column: 2 / 4; display: block; height: 4mm; border-radius: 999px; background: #E4E6E8; overflow: hidden; }
+.pp-bar2 i { display: block; height: 100%; border-radius: 999px; background: #2F855A; }
+.pp-total { margin-top: 6mm; font-size: 15pt; color: #3E4A5C; }
+.pp-total b { color: #0B1222; font-size: 20pt; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pp-none { margin-top: 5mm; font-size: 15pt; color: #3E4A5C; }
+.pp-checked { margin-top: 8mm; padding: 4mm 5mm; border-radius: 3mm; background: #E8F2F0; font-size: 14pt; font-weight: 600; line-height: 1.35; }
+
+/* The QR code right under the promise it lets anyone check, large enough to scan from a step away. */
+.pp-foot { margin-top: 9mm; display: grid; grid-template-columns: 55mm 1fr; align-items: center; gap: 7mm; break-inside: avoid; }
+.pp-qr { width: 55mm; height: 55mm; display: block; }
+.pp-scan p { font-size: 13pt; line-height: 1.35; }
+.pp-url { margin-top: 2mm; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9pt !important; color: #475164; overflow-wrap: anywhere; }
+.pp-root:lang(ja) .pp-checked, .pp-root:lang(ja) .pp-scan p:first-child { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+
+/* A phone shows the same sheet, scaled to its width. */
+@media (max-width: 600px) {
+  .pp-sheet { min-height: 0; padding: 18px 16px; }
+  .pp-shelter { font-size: 26px; }
+  .pp-disaster { font-size: 15px; }
+  .pp-title { margin-top: 20px; font-size: 21px; }
+  .pp-need { grid-template-columns: 40px 1fr auto; column-gap: 12px; }
+  .pp-pic { max-width: 36px; max-height: 48px; }
+  .pp-label { font-size: 16px; }
+  .pp-count { font-size: 14px; }
+  .pp-bar2 { height: 10px; }
+  .pp-total { font-size: 15px; }
+  .pp-total b { font-size: 19px; }
+  .pp-checked { font-size: 15px; padding: 12px 14px; }
+  .pp-foot { grid-template-columns: 132px 1fr; gap: 14px; margin-top: 24px; }
+  .pp-qr { width: 132px; height: 132px; }
+  .pp-scan p { font-size: 14px; }
+}
+
+@media print {
+  html, body { background: #fff; }
+  .pp-root { padding: 0; background: #fff; min-height: 0; }
+  .pp-bar { display: none; }
+  /* The page is A4 less its 12 mm margins: the sheet fills exactly that, never more, so nothing spills to a second page. */
+  .pp-sheet { width: auto; max-width: none; height: 273mm; min-height: 0; margin: 0; padding: 4mm 4mm 2mm; box-shadow: none; overflow: hidden; }
+  .pp-head, .pp-checked, .pp-bar2 i { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import type { CheckResult, CheckRow } from "@/server/paypal-check";
 import { api, asApiError, type ApiError } from "../api";
 import { moneyIn, type Lang } from "../format";
-import { rowsFor, utc } from "./rows";
+import { endLine, rowsFor, utc } from "./rows";
 import { CHECK_WORDS } from "./words";
 import "./paypal-check.css";
 
@@ -16,7 +16,22 @@ type State = { kind: "idle" } | { kind: "asking" } | { kind: "done"; result: Che
 
 const MARK: Record<CheckRow["verdict"], string> = { agrees: "✓", differs: "✗", ahead: "…", no_answer: "?" };
 
-export function AskPayPal({ driveId, lang = "en", focus, className, testId }: { driveId: string; lang?: Lang; focus?: { pledgeId: string; receiptIds: string[] }; className?: string; testId?: string }) {
+export function AskPayPal({
+  driveId,
+  lang = "en",
+  focus,
+  className,
+  testId,
+  onResult,
+}: {
+  driveId: string;
+  lang?: Lang;
+  focus?: { pledgeId: string; receiptIds: string[] };
+  className?: string;
+  testId?: string;
+  /** PayPal's answer, for a page that shows part of it elsewhere (the statement's end date): no second request. */
+  onResult?: (result: CheckResult) => void;
+}) {
   const w = CHECK_WORDS[lang];
   const dialog = useRef<HTMLDialogElement>(null);
   const [state, setState] = useState<State>({ kind: "idle" });
@@ -26,7 +41,9 @@ export function AskPayPal({ driveId, lang = "en", focus, className, testId }: { 
   const ask = async () => {
     setState({ kind: "asking" });
     try {
-      setState({ kind: "done", result: await api<CheckResult>(url) });
+      const result = await api<CheckResult>(url);
+      setState({ kind: "done", result });
+      onResult?.(result);
     } catch (e) {
       setState({ kind: "error", error: asApiError(e) });
     }
@@ -126,6 +143,7 @@ function Row({ row: r, lang }: { row: CheckRow; lang: Lang }) {
   const amount = (m: { currency: string; minor: number } | null) => (m ? moneyIn(lang, m.currency, m.minor) : null);
   const p = r.paypal;
   const said = r.kind === "payout" && p.itemStatus ? `${p.status ?? "–"} · ${w.item} ${p.itemStatus}` : (p.status ?? (p.http ? `HTTP ${p.http}` : w.verdict.no_answer));
+  const end = endLine(r, lang);
   return (
     <div className={`pc-row pc-${r.verdict}`} role="row" data-kind={r.kind} data-verdict={r.verdict}>
       <span role="cell" className="pc-obj">
@@ -152,6 +170,26 @@ function Row({ row: r, lang }: { row: CheckRow; lang: Lang }) {
             </>
           )}
         </span>
+        {end && (
+          <span className={`pc-ends${end.verdict === "differs" ? " pc-ends-differs" : ""}`} data-testid="paypal-check-ends" data-expiry={end.verdict ?? "none"}>
+            <span>
+              {/* The date stays on one line: "2026-11-21" must not break at its hyphens. */}
+              {end.says.slice(0, end.says.indexOf(end.date))}
+              <span className="pc-nw">{end.date}</span>
+              {end.says.slice(end.says.indexOf(end.date) + end.date.length)}
+            </span>
+            {end.book && (
+              <span className="pc-ends-book">
+                {end.verdict && (
+                  <span className="pc-ends-mark" aria-hidden="true">
+                    {MARK[end.verdict]}
+                  </span>
+                )}
+                {end.book}
+              </span>
+            )}
+          </span>
+        )}
         {r.raw !== null && (
           <details className="pc-json">
             <summary>{w.json}</summary>

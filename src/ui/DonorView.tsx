@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { captureState, holdAmounts, holdTag, holdTone, latestFunded, lineMoney, lineName, lineViews, needById, shareGroups, shareStage, type ShareGroup } from "./derive";
+import { captureState, chainIds, holdAmounts, holdTag, holdTone, latestFunded, lineMoney, lineName, lineViews, needById, shareGroups, shareStage, shownHolds, type ShareGroup } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
 import { donorParts, itemPhrase, lineRange, money, ofCount, pct, qtyText } from "./format";
 import { DesktopHeader, DriveTitle, driveBadge } from "./Header";
+import { chainFee, feeLine, useReportedFees } from "./fee-line";
 import { Check, Chevron, Cross, Handshake, NeedIcon, Person } from "./icons";
 import { PledgeForm } from "./PledgeForm";
 import { curve, useFlows, type Box, type Shape } from "./stage";
@@ -20,10 +21,14 @@ const s = classes("dn");
 
 const UNIT_WORD: Record<string, string> = { JPY: "yen", USD: "dollar", EUR: "euro", GBP: "pound" };
 
-function heroText(role: Role, status: DriveView["drive"]["status"]): string {
+/** The donor screen's opening line; a closed drive says "never charged" only if no hold had a refund after capture. */
+export function heroText(role: Role, status: DriveView["drive"]["status"], holds: readonly Pick<Hold, "reversed">[] = []): string {
   if (role === "shelter") return "What this drive has bought for your shelter, line by line. There is nothing to do here: volunteers send receipts and donors pledge.";
-  if (status === "closed") return "This drive is closed. Donors paid only for verified purchases, and everything else went back to them.";
-  return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent goes back when the drive closes.";
+  if (status === "closed")
+    return holds.some((h) => h.reversed > 0)
+      ? "This drive is closed. Donors paid only for verified purchases, and everything else went back to them."
+      : "This drive is closed. Donors paid only for verified purchases; the rest of every hold was never charged.";
+  return "Pay only for verified purchases: your pledge is a PayPal hold — nothing is charged until a volunteer’s receipt for your need is checked, and whatever is not spent is never charged: PayPal releases it when the drive closes.";
 }
 
 /** The public drive page: needs with the PayPal pledge form (donor) or read-only (shelter), and where the money went. */
@@ -43,7 +48,7 @@ export function DonorView({ view, role }: { view: DriveView; role: Exclude<Role,
               <DriveTitle title={view.drive.displayTitle} />
             </h1>
             <div className={s.chip}>{driveBadge(view.drive.demo)}</div>
-            <p>{heroText(role, view.drive.status)}</p>
+            <p>{heroText(role, view.drive.status, view.holds)}</p>
           </div>
         </section>
 
@@ -184,8 +189,11 @@ function badgeClass(h: Hold) {
 const fits = (label: string, percent: number, trackPx: number) => (percent / 100) * trackPx >= label.length * 7.4 + 10;
 
 function MoneyColumn({ view }: { view: DriveView }) {
-  const donors = view.holds.filter((h) => h.kind === "donor");
+  // A renewed donor is one bar: shownHolds reads their renewal chain as one hold.
+  const donors = shownHolds(view).filter((h) => h.kind === "donor");
   const matches = view.holds.filter((h) => h.kind === "match");
+  // PayPal's own fee on each donor's captures, as reported (read again whenever the book grows).
+  const fees = useReportedFees(view.drive.id, String(view.eventCount));
   return (
     <section className={`${s.card} ${s.col} ${s.money}`}>
       <h2>Where the money went</h2>
@@ -199,7 +207,7 @@ function MoneyColumn({ view }: { view: DriveView }) {
             { key: "waiting", cls: s.wait, v: a.waiting, word: "waiting" },
             { key: "held", cls: s.h, v: a.held, word: "held" },
             { key: "returning", cls: s.back, v: a.returning, word: "returning" },
-            { key: "back", cls: s.x, v: a.released, word: "back" },
+            { key: "back", cls: s.x, v: a.released, word: "never charged" },
           ].filter((p) => p.v > 0);
           return (
             <div className={s.pc} key={h.pledgeId} data-flow={`hold:${h.pledgeId}`}>
@@ -247,6 +255,11 @@ function MoneyColumn({ view }: { view: DriveView }) {
               <div className={s.pcHold}>
                 Hold ID<span className={`mono ${s.id}`}>{h.authorizationId ?? "—"}</span>
               </div>
+              {feeLine(chainFee(fees, chainIds(view, h.pledgeId))) && (
+                <div className={s.pcFee} data-testid="donor-fee">
+                  {feeLine(chainFee(fees, chainIds(view, h.pledgeId)))}
+                </div>
+              )}
             </div>
           );
         })}
@@ -276,7 +289,7 @@ function MoneyColumn({ view }: { view: DriveView }) {
                       <b>{money(h.currency, a.spent)}</b> used of {money(h.currency, a.total)}
                     </>
                   )}
-                  {a.released > 0 ? ` · ${money(h.currency, a.released)} back` : ""}
+                  {a.released > 0 ? ` · ${money(h.currency, a.released)} never charged` : ""}
                 </span>
                 <span className={s.klBar}>
                   <i data-part="spent" style={{ width: `${pct(a.spent, a.total)}%` }} />
@@ -483,7 +496,7 @@ function flows(view: DriveView, r: Receipt | null, box: (k: string) => Box | nul
   const out: Shape[] = [];
   const dots: Shape[] = [];
   const groups = shareGroups(view, r.id);
-  const funding = view.holds.filter((h) => groups.some((g) => g.donors.some((d) => d.pledgeId === h.pledgeId) || g.match.some((m) => m.pledgeId === h.pledgeId)));
+  const funding = shownHolds(view).filter((h) => groups.some((g) => g.donors.some((d) => d.pledgeId === h.pledgeId) || g.match.some((m) => m.pledgeId === h.pledgeId)));
   const donors = funding.filter((h) => h.kind === "donor");
   donors.forEach((h, k) => {
     const c = box(`hold:${h.pledgeId}`);
