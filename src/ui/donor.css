@@ -24,13 +24,15 @@
 .dn-nudge { position: relative; top: 1.21px; }
 
 /* hero */
-.dn-hero { height: 140.43px; display: flex; align-items: flex-start; }
+/* The sentence under the title wraps in its card: one line of it ran past the card and the window (39 px of
+   sideways scroll at 1366 × 768). Two lines make the hero grow; with one it keeps its height. */
+.dn-hero { min-height: 140.43px; padding-bottom: 9.93px; display: flex; align-items: flex-start; }
 .dn-heroPhoto { flex: none; width: 170.69px; height: 116.22px; margin: 9.93px 0 0 20.82px; border-radius: 7.26px; overflow: hidden; }
 .dn-heroPhoto img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .dn-heroTxt { margin-left: 20.82px; padding-top: 11.74px; min-width: 0; }
 .dn-hero h1 { font-size: 29.14px; line-height: 36.32px; font-weight: 700; height: 36.32px; white-space: nowrap; }
 .dn-hero .dn-chip { margin: 5.45px 0 0 0.97px; height: 35.11px; font-size: 17.49px; padding: 0 16.95px 0 16.59px; border-radius: 8.47px; color: var(--chip-ink-2); }
-.dn-hero p { margin: 7.87px 0 0 2.18px; font-size: 17.49px; line-height: 24.21px; min-height: 24.21px; color: var(--hero-ink); white-space: nowrap; }
+.dn-hero p { margin: 7.87px 0 0 2.18px; font-size: 17.49px; line-height: 24.21px; min-height: 24.21px; color: var(--hero-ink); }
 
 /* needs */
 .dn-needs { display: grid; grid-template-columns: repeat(3, 619.82px); column-gap: 10.29px; row-gap: 10.29px; margin-top: 13.32px; }
@@ -59,7 +61,8 @@ input.dn-inp { padding: 0 12.83px; font-size: 20.76px; color: var(--ink); letter
 input.dn-inp.dn-name { font-size: 17.37px; }
 select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; font-weight: 500; color: var(--ink); background-image: linear-gradient(45deg, transparent 50%, var(--select-chev) 50%), linear-gradient(135deg, var(--select-chev) 50%, transparent 50%); background-position: calc(100% - 19px) 19px, calc(100% - 13.5px) 19px; background-size: 5.5px 5.5px; background-repeat: no-repeat; }
 .dn-inp[aria-invalid="true"] { border-color: var(--no); }
-.dn-payNote { margin-top: 4px; font-size: 14.8px; line-height: 15px; color: var(--hint-ink); white-space: nowrap; }
+/* Wraps in the form: on one line "Held on your PayPal account…" was cut by the card's edge. */
+.dn-payNote { margin-top: 4px; font-size: 14.8px; line-height: 17px; color: var(--hint-ink); }
 .dn-btnPp { margin-top: 3.7px; height: 52.06px; flex: none; border-radius: 9.68px; background: linear-gradient(180deg, var(--btn-y), var(--btn-y-2)); display: flex; align-items: center; justify-content: center; white-space: nowrap; border: 0; color: var(--btn-ink); font-size: 18.16px; font-weight: 500; width: 100%; }
 .dn-btnPp:disabled { opacity: .6; }
 .dn-pp { font-style: italic; font-weight: 700; font-size: 23px; letter-spacing: -0.03em; margin-left: 6.66px; position: relative; top: -0.61px; }
@@ -203,7 +206,7 @@ select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; 
 .sc-stack .dn-page { width: auto; min-height: 0; padding-bottom: 10px; }
 .sc-stack .dn-links { display: none; }
 .sc-stack .dn-main { padding: 10px; }
-.sc-stack .dn-hero { height: auto; padding: 12px; gap: 12px; }
+.sc-stack .dn-hero { height: auto; min-height: 0; padding: 12px; gap: 12px; }
 .sc-stack .dn-heroPhoto { margin: 0; width: 84px; height: 58px; }
 .sc-stack .dn-heroTxt { margin: 0; padding: 0; }
 .sc-stack .dn-hero h1 { height: auto; font-size: 19px; line-height: 24px; white-space: normal; }
