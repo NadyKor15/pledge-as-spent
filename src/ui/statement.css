@@ -57,6 +57,11 @@
 .st-match p { margin-left: 11.7px; max-width: 240px; font-size: 13px; line-height: 17.9px; letter-spacing: -.38px; }
 .st-match strong { color: var(--green); font-weight: 700; font-size: 13.6px; letter-spacing: -.1px; }
 
+/* A renewed pledge's one story (statement/ChainStory.tsx). */
+.st-chain { margin-top: 7.8px; padding: 7.8px 10px 8px; }
+.st-chainList { margin: 6px 0 0; padding-left: 18px; font-size: 12.4px; line-height: 17.5px; color: var(--slate-3); }
+.st-chainList li + li { margin-top: 4px; }
+
 .st-bought { margin-top: 7.8px; padding: 7.8px 10px 8px; }
 .st-h2 { margin-left: .6px; font-size: 14px; line-height: 20px; font-weight: 700; letter-spacing: -.55px; }
 .st-empty { margin-top: 6px; font-size: 12.4px; line-height: 17.5px; color: var(--slate-3); }

@@ -18,7 +18,9 @@ import { vanishLine, withdrawnNote } from "./statement/vanish";
 import { statementLines } from "./statement/lines";
 import { LineProofs } from "./statement/LineProofs";
 import { translationNote } from "./statement/lines";
-import { feeLine, useReportedFees } from "./fee-line";
+import { chainFee, feeLine, useReportedFees } from "./fee-line";
+import { chainMeter, chainOf, latestMember } from "./statement/chain";
+import { ChainStory } from "./statement/ChainStory";
 import type { StatementTranslation } from "@/server/translations";
 import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
@@ -169,20 +171,23 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
     watched.current = true;
     follow(RETURN_WATCH_MS);
   }, [returning, follow]);
-  const items = boughtItems(view, st);
+  // A renewed pledge is one story and one bar over its chain (statement/chain.ts); without a renewal, chain is null.
+  const chain = chainOf(data);
+  const items = boughtItems(view, chain ? { ...st, rows: chain.rows as Statement["rows"] } : st);
   const translation = useLineTranslation(b.pledgeId, st.rows.length);
-  // What the app takes (nothing) and what PayPal reported taking on this hold's captures.
+  // What the app takes (nothing) and what PayPal reported taking on this hold's captures (on every hold of a renewed pledge).
   const fees = useReportedFees(view.drive.id, String(view.eventCount));
-  const fee = feeLine(fees?.[b.pledgeId]);
+  const fee = feeLine(chain ? chainFee(fees, chain.members.map((x) => x.pledgeId)) : fees?.[b.pledgeId]);
   const receipts = [...new Map(items.flatMap((i) => (i.receipt ? [[i.receipt.id, i.receipt] as const] : []))).values()];
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
   const fate = holdFate(view, st);
-  const live = (b.status === "authorized" || b.status === "partially_captured") && !returning;
+  const status = chain ? latestMember(chain).status : b.status;
+  const live = (status === "authorized" || status === "partially_captured") && !returning;
   const pending = items.some((i) => !captureState(i.statuses).done);
   const rate = rateText(view.holds.find((h) => h.pledgeId === b.pledgeId)?.fx);
   // The figures under the bar are its parts (src/ui/hold-meter.ts): the same numbers, in the same order.
-  const m = meterParts(b);
+  const m = chain ? chainMeter(chain) : meterParts(b);
   const parts = [
     { key: "spent", stat: s.sSpent, value: m.charged, word: "spent", always: true },
     { key: "waiting", stat: s.sWait, value: m.waiting, word: "waiting", always: false },
@@ -204,7 +209,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
 
       <section className={`${s.card} ${s.sum}`} aria-label="Pledge summary">
         <div className={s.sumRow}>
-          <span className={s.sumAmt}>{money(st.currency, a.total)}</span>
+          <span className={s.sumAmt}>{money(st.currency, chain ? chain.totals.pledged : a.total)}</span>
           <span className={s.sumLbl}>pledged</span>
           {b.revoked && <span className={s.tag}>{holdTag(b)}</span>}
         </div>
@@ -242,6 +247,8 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
           </p>
         </section>
       )}
+
+      {chain && <ChainStory chain={chain} />}
 
       <RebindOffer pledgeId={b.pledgeId} offer={data.rebind} labelOf={(id) => view.needs.find((n) => n.needId === id)?.displayLabel} onMoved={() => void refresh()} />
 
