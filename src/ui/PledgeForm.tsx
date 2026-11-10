@@ -70,7 +70,7 @@ export function PledgeForm({
   const invalid = minor === null;
   const blocked = invalid || badCap;
   const ruled = rulesShown && (excluded.length > 0 || !!capMinor);
-  const carryNote = `It moves to the open need furthest from covered${ruled ? `, among the needs your rules allow${capMinor ? ` counted per ${unit}` : ""}` : ""}. Still only approved receipt lines are charged.`;
+  const carryNote = `It moves to the open need furthest from covered${ruled ? `, among the needs your rules allow${capMinor ? ` that are counted per ${unit}` : ""}` : ""}. Still only approved receipt lines are charged.`;
   const id = `pledge-${needId}`;
 
   const createOrder = async () => {
@@ -164,10 +164,10 @@ export function PledgeForm({
           </legend>
           {rulesOpen && (
             <>
-              <div className={s.restOpt} role="group" aria-label="Needs your hold may pay">
+              <div className={`${s.restOpt} ${s.needsPick}`} role="group" aria-label="Needs your hold may pay">
                 <span>Only these needs:</span>
                 {needs.map((n) => (
-                  <label key={n.id} style={{ marginLeft: 10, whiteSpace: "nowrap" }}>
+                  <label key={n.id}>
                     <input
                       type="checkbox"
                       checked={n.id === needId || !excluded.includes(n.id)}

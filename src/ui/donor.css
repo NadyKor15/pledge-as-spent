@@ -289,3 +289,7 @@ select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; 
 .dn-restOpt input { margin-top: 2px; flex: none; }
 .dn-restOpt b { color: var(--label-ink); font-weight: 600; }
 .sc-stack .dn-restOpt { font-size: 13px; line-height: 18px; }
+/* donor rules: the needs wrap on a narrow screen; a cap that cannot be read is said in the error colour */
+.dn-needsPick { flex-wrap: wrap; column-gap: 12px; row-gap: 2px; }
+.dn-needsPick label { white-space: nowrap; }
+.dn-restOpt.dn-err { color: var(--no); }
