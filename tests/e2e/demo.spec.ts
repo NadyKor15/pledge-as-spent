@@ -522,8 +522,13 @@ test("ledger: the book's text fits, the items get the room, and a selection made
   const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
   const itemWidth = await width("item");
   // The receipt stands beside the open book (T4, S5): the book is 36 of 48 tracks, and the items keep their least
-  // (250 px, cells.tsx) and the largest share of it.
-  expect(itemWidth).toBeGreaterThanOrEqual(250);
+  // (250 px, cells.tsx) and the largest share of it. "≥ 250" alone is fit()'s own floor and could never fail: the item
+  // column must be the widest column of the book.
+  const others = await page.locator('.ag-header-cell[col-id^="book."]').evaluateAll((cells) =>
+    cells.filter((c) => c.getAttribute("col-id") !== "book.item").map((c) => ({ id: c.getAttribute("col-id"), w: c.getBoundingClientRect().width })),
+  );
+  expect(others.length).toBeGreaterThanOrEqual(5);
+  for (const o of others) expect(itemWidth, `book.item vs ${o.id}`).toBeGreaterThan(o.w);
   expect(await width("line")).toBeLessThan(100);
   const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
   for (const pick of ["Lena", "Yuki", "Mark"] as const) {
