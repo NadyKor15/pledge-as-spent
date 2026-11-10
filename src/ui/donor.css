@@ -61,15 +61,15 @@ input.dn-inp { padding: 0 12.83px; font-size: 20.76px; color: var(--ink); letter
 input.dn-inp.dn-name { font-size: 17.37px; }
 select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; font-weight: 500; color: var(--ink); background-image: linear-gradient(45deg, transparent 50%, var(--select-chev) 50%), linear-gradient(135deg, var(--select-chev) 50%, transparent 50%); background-position: calc(100% - 19px) 19px, calc(100% - 13.5px) 19px; background-size: 5.5px 5.5px; background-repeat: no-repeat; }
 .dn-inp[aria-invalid="true"] { border-color: var(--no); }
-/* Wraps in the form: on one line "Held on your PayPal account…" was cut by the card's edge. */
-.dn-payNote { margin-top: 4px; font-size: 14.8px; line-height: 17px; color: var(--hint-ink); }
+.dn-payNote { margin-top: 4px; font-size: 14.8px; line-height: 15px; color: var(--hint-ink); white-space: nowrap; }
 .dn-btnPp { margin-top: 3.7px; height: 52.06px; flex: none; border-radius: 9.68px; background: linear-gradient(180deg, var(--btn-y), var(--btn-y-2)); display: flex; align-items: center; justify-content: center; white-space: nowrap; border: 0; color: var(--btn-ink); font-size: 18.16px; font-weight: 500; width: 100%; }
 .dn-btnPp:disabled { opacity: .6; }
 .dn-pp { font-style: italic; font-weight: 700; font-size: 23px; letter-spacing: -0.03em; margin-left: 6.66px; position: relative; top: -0.61px; }
 .dn-pp b { color: var(--pp-navy); }
 .dn-pp em { color: var(--pp-blue); font-style: italic; }
 .dn-ppSlot { margin-top: 3.7px; min-height: 52.06px; flex: none; }
-.dn-pfHint { margin-top: 5px; font-size: 14.8px; line-height: 17px; min-height: 17px; color: var(--hint-ink); white-space: nowrap; }
+/* Wraps in the form: on one line "Held on your PayPal account… PayPal releases it." was cut by the card's edge. */
+.dn-pfHint { margin-top: 5px; font-size: 14.8px; line-height: 17px; min-height: 17px; color: var(--hint-ink); }
 .dn-pfHint.dn-err { color: var(--no); white-space: normal; letter-spacing: -0.01em; }
 
 .dn-closed { margin: 26.03px 0 0 21.43px; height: 116.82px; width: 577.45px; border: 1px solid var(--closed-line); background: var(--closed-bg); border-radius: 9.68px; display: flex; align-items: flex-start; }
