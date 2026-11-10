@@ -1,0 +1,314 @@
+{
+  "runId": "20261110T033537Z",
+  "startedAt": "2026-11-10T03:35:37.405Z",
+  "finishedAt": "2026-11-10T03:36:20.220Z",
+  "sandbox": "Nadezhda Korchagina's PayPal sandbox (Default Application APP-6EH18596R9530124Y), test card holds",
+  "driveId": "demo-rn-21b615e0",
+  "paypalCalls": 29,
+  "renewal": {
+    "from": "demo-rn-21b615e0.water",
+    "to": "demo-rn-21b615e0.water.r1",
+    "orderId": "7NL212587T504734R"
+  },
+  "chainChargedAtMostPledged": true,
+  "allSettled": true,
+  "closed": true,
+  "steps": [
+    {
+      "step": "holds",
+      "at": "2026-11-10T03:35:51.958Z",
+      "calls": 4,
+      "holds": [
+        {
+          "pledgeId": "demo-rn-21b615e0.water",
+          "donor": "Lena (Berlin)",
+          "currency": "EUR",
+          "authorized": 2000,
+          "status": "authorized",
+          "authorizationId": "50T37384957358005",
+          "expiresAt": "2026-12-09T03:35:42.000Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.diapers",
+          "donor": "Mark (Columbus)",
+          "currency": "USD",
+          "authorized": 3000,
+          "status": "authorized",
+          "authorizationId": "3XP54740X79949225",
+          "expiresAt": "2026-12-09T03:35:45.000Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.batteries",
+          "donor": "Yuki (Osaka)",
+          "currency": "JPY",
+          "authorized": 3000,
+          "status": "authorized",
+          "authorizationId": "2UA19593S3146394V",
+          "expiresAt": "2026-12-09T03:35:48.000Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.match",
+          "donor": "Kitasora Logistics",
+          "currency": "JPY",
+          "authorized": 500000,
+          "status": "authorized",
+          "authorizationId": "50G476523G3620340",
+          "expiresAt": "2026-12-09T03:35:51.000Z"
+        }
+      ]
+    },
+    {
+      "step": "receipt",
+      "at": "2026-11-10T03:35:53.287Z",
+      "calls": 5,
+      "receiptId": "demo-rn-21b615e0.r1",
+      "status": "funded",
+      "commands": [
+        {
+          "kind": "payout",
+          "outcome": "sent",
+          "ids": {
+            "payoutBatchId": "WVNVBWM9D69ZL",
+            "batchStatus": "PENDING"
+          }
+        }
+      ]
+    },
+    {
+      "step": "lena before",
+      "at": "2026-11-10T03:35:54.337Z",
+      "calls": 6,
+      "authorized": 2000,
+      "accrued": 458,
+      "captured": 0,
+      "rest": 1542,
+      "atPayPal": {
+        "id": "50T37384957358005",
+        "status": "CREATED",
+        "amount": {
+          "currency": "EUR",
+          "minor": 2000
+        },
+        "expirationTime": "2026-12-09T03:35:42Z"
+      }
+    },
+    {
+      "step": "renew",
+      "at": "2026-11-10T03:35:58.645Z",
+      "calls": 8,
+      "result": {
+        "pledgeId": "demo-rn-21b615e0.water.r1",
+        "renews": "demo-rn-21b615e0.water",
+        "orderId": "7NL212587T504734R",
+        "approveUrl": null,
+        "status": "authorized",
+        "approval": "sandbox_test_card"
+      },
+      "paypalCallsByRenew": 2
+    },
+    {
+      "step": "linked",
+      "at": "2026-11-10T03:36:01.614Z",
+      "calls": 13,
+      "old": {
+        "status": "voided",
+        "renewedTo": "demo-rn-21b615e0.water.r1",
+        "captured": 458,
+        "released": 1542,
+        "expiresAt": "2026-12-09T03:35:42.000Z"
+      },
+      "renewal": {
+        "status": "authorized",
+        "renews": "demo-rn-21b615e0.water",
+        "authorized": 1542,
+        "usable": 1542,
+        "surplus": 0,
+        "expiresAt": "2026-12-09T03:35:55.000Z",
+        "authorizationId": "3MY87644TC311543T"
+      },
+      "oldAtPayPal": {
+        "id": "50T37384957358005",
+        "status": "VOIDED",
+        "amount": {
+          "currency": "EUR",
+          "minor": 2000
+        },
+        "expirationTime": "2026-12-09T03:35:42Z"
+      },
+      "renewalAtPayPal": {
+        "id": "3MY87644TC311543T",
+        "status": "CREATED",
+        "amount": {
+          "currency": "EUR",
+          "minor": 1542
+        },
+        "expirationTime": "2026-12-09T03:35:55Z"
+      }
+    },
+    {
+      "step": "second press",
+      "at": "2026-11-10T03:36:01.622Z",
+      "calls": 13,
+      "second": {
+        "ok": false,
+        "status": 409,
+        "code": "renewal_refused",
+        "message": "renewed: This hold was renewed: demo-rn-21b615e0.water.r1 carries it on."
+      },
+      "paypalCalls": 0
+    },
+    {
+      "step": "closed",
+      "at": "2026-11-10T03:36:17.502Z",
+      "calls": 24,
+      "status": "closed",
+      "report": [
+        {
+          "pledgeId": "demo-rn-21b615e0.water",
+          "donorName": "Lena (Berlin)",
+          "kind": "donor",
+          "currency": "EUR",
+          "pledged": 2000,
+          "spent": 458,
+          "released": 1542,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.diapers",
+          "donorName": "Mark (Columbus)",
+          "kind": "donor",
+          "currency": "USD",
+          "pledged": 3000,
+          "spent": 2145,
+          "released": 855,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.batteries",
+          "donorName": "Yuki (Osaka)",
+          "kind": "donor",
+          "currency": "JPY",
+          "pledged": 3000,
+          "spent": 1237,
+          "released": 1763,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.match",
+          "donorName": "Kitasora Logistics",
+          "kind": "match",
+          "currency": "JPY",
+          "pledged": 500000,
+          "spent": 5224,
+          "released": 494776,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.water.r1",
+          "donorName": "Lena (Berlin)",
+          "kind": "donor",
+          "currency": "EUR",
+          "pledged": 1542,
+          "spent": 0,
+          "released": 1542,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        }
+      ],
+      "chain": [
+        {
+          "pledgeId": "demo-rn-21b615e0.water",
+          "donorName": "Lena (Berlin)",
+          "kind": "donor",
+          "currency": "EUR",
+          "pledged": 2000,
+          "spent": 458,
+          "released": 1542,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.water.r1",
+          "donorName": "Lena (Berlin)",
+          "kind": "donor",
+          "currency": "EUR",
+          "pledged": 1542,
+          "spent": 0,
+          "released": 1542,
+          "uncollected": 0,
+          "reversed": 0,
+          "settled": true
+        }
+      ],
+      "lenaPledged": 2000,
+      "chainSpent": 458
+    },
+    {
+      "step": "holds at PayPal after close",
+      "at": "2026-11-10T03:36:20.220Z",
+      "calls": 29,
+      "finals": [
+        {
+          "pledgeId": "demo-rn-21b615e0.water",
+          "id": "50T37384957358005",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "EUR",
+            "minor": 2000
+          },
+          "expirationTime": "2026-12-09T03:35:42Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.diapers",
+          "id": "3XP54740X79949225",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "USD",
+            "minor": 3000
+          },
+          "expirationTime": "2026-12-09T03:35:45Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.batteries",
+          "id": "2UA19593S3146394V",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "JPY",
+            "minor": 3000
+          },
+          "expirationTime": "2026-12-09T03:35:48Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.match",
+          "id": "50G476523G3620340",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "JPY",
+            "minor": 500000
+          },
+          "expirationTime": "2026-12-09T03:35:51Z"
+        },
+        {
+          "pledgeId": "demo-rn-21b615e0.water.r1",
+          "id": "3MY87644TC311543T",
+          "status": "VOIDED",
+          "amount": {
+            "currency": "EUR",
+            "minor": 1542
+          },
+          "expirationTime": "2026-12-09T03:35:55Z"
+        }
+      ]
+    }
+  ]
+}
