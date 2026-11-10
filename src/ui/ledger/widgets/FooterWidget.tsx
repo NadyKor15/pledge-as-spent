@@ -2,7 +2,7 @@
 
 import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useStacked } from "../../stage";
 import { PosterLink } from "../PosterLink";
 import { AskPayPal } from "../../paypal-check/AskPayPal";
 import { ReconcileLine } from "../../paypal-check/ReconcileLine";
@@ -25,12 +25,8 @@ export function FooterWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLDivElement>(params);
   const { receiptUrl, refused, rates, book } = snap.model;
   const w = WORDS[snap.lang];
-  // The report says whether it is laid out for a phone (LedgerStudio's data-stacked); Studio rebuilds the widgets
-  // when that changes, so reading it once the widget is in the page is enough.
-  const [stacked, setStacked] = useState(false);
-  useEffect(() => {
-    setStacked(root.current?.closest("[data-stacked]")?.getAttribute("data-stacked") === "true");
-  }, [root]);
+  // Laid out for a phone: the same reading of the window the report itself makes (LedgerView → LedgerStudio).
+  const stacked = useStacked();
 
   return (
     <div className="lg-foot" ref={root}>

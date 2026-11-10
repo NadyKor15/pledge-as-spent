@@ -171,7 +171,9 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 /* The pill, and under it a refusal's reason on a line of its own: the status column can be at its least (150 px)
    beside the receipt, where a reason beside the pill wrapped into a column of words past the row. */
 .lg-status { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; min-width: 0; max-width: 100%; }
-.lg-pill-status { display: inline-flex; align-items: center; height: 26px; padding: 0 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+/* Never wider than its column: a long status ("Wartet auf Abbuchung") breaks between its words onto a second line,
+   which the 64 px row holds. */
+.lg-pill-status { display: inline-flex; align-items: center; min-height: 26px; max-width: 100%; padding: 3px 12px; border-radius: 13px; font-size: 13.5px; font-weight: 600; line-height: 1.15; white-space: normal; text-align: center; }
 .lg-tone-spent { background: #1F7A4D; color: #FFFFFF; }
 .lg-tone-refused { background: var(--refused); color: #FFFFFF; }
 .lg-tone-back { background: var(--back); color: #FFFFFF; }
