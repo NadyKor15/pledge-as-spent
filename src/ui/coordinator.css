@@ -194,8 +194,10 @@
 .co-foot > * { flex: none; }
 .co-fLive { margin-left: 26.6px; width: 163.9px; margin-top: 11.3px; height: 20px; line-height: 20px; font-size: 14.6px; font-weight: 600; color: var(--foot-live); }
 .co-fSep { width: 1.5px; height: 18px; margin-top: 15px; background: var(--sep); }
-.co-fItem { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: flex-start; margin-top: 11.9px; height: 20px; line-height: 20px; font-size: 14.8px; color: var(--ink-4); padding: 0 12px 0 24px; }
-.co-fItem i { flex: none; display: block; width: 9px; height: 9px; border-radius: 50%; background: var(--foot-dot); margin-top: 7.5px; margin-right: 14.5px; }
+/* A block, not a flex box: the text then ends in an ellipsis inside its own room, clear of the Refresh button (as a
+   flex item it was cut mid-word and its last item ran up against the button). */
+.co-fItem { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 11.9px; height: 20px; line-height: 20px; font-size: 14.8px; color: var(--ink-4); padding: 0 12px 0 24px; }
+.co-fItem i { display: inline-block; vertical-align: 1px; width: 9px; height: 9px; border-radius: 50%; background: var(--foot-dot); margin-right: 14.5px; }
 .co-fItem i.co-pending { background: var(--wait); }
 .co-fItem i.co-bad { background: var(--no); }
 .co-refresh { margin: 9px 18px 0 8px; height: 30px; padding: 0 12px; border-radius: 7px; border: 1px solid var(--card-line); background: var(--panel); color: var(--ink-2); font-size: 14.8px; font-weight: 600; }
@@ -275,6 +277,6 @@
 .sc-stack .co-foot { margin: 10px -10px 0; height: auto; padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 6px; white-space: normal; }
 .sc-stack .co-fLive { margin: 0; width: auto; height: auto; }
 .sc-stack .co-fSep { display: none; }
-.sc-stack .co-fItem { flex: none; margin: 0; height: auto; padding: 0; white-space: normal; overflow: visible; }
-.sc-stack .co-fItem i { margin-top: 5.5px; margin-right: 8px; }
+.sc-stack .co-fItem { flex: none; display: flex; align-items: flex-start; margin: 0; height: auto; padding: 0; white-space: normal; overflow: visible; }
+.sc-stack .co-fItem i { flex: none; display: block; vertical-align: baseline; margin-top: 5.5px; margin-right: 8px; }
 .sc-stack .co-refresh, .sc-stack .co-updating { align-self: flex-start; margin: 2px 0 0; font-size: 13px; }
