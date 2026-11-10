@@ -153,7 +153,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-37 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 37 hold; four did not when first tried and were fixed. 1148 unit and integration tests, 103 browser tests.
+37 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 37 hold; four did not when first tried and were fixed. 1537 unit and integration tests, 136 browser tests.
 
 ## Run it
 
