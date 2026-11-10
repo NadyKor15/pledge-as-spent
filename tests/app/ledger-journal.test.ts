@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -14,6 +15,8 @@ import type { DriveView } from "@/ui/types";
 const fixture = (name: string) => JSON.parse(readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8")) as DriveView;
 const closed = fixture("closed");
 const open = fixture("open");
+/** The closed drive's journal (en, de, ja) as the code before renewals were read wrote it (207c7f1). */
+const CLOSED_JOURNAL_SHA256 = "fffa877cef82f8101b4013f14b2e75eb82ed40ca3a0c25c7babd92790b936d7f";
 
 describe("the pledge a PayPal call acted on", () => {
   it("is read from the call's key, whatever the kind", () => {
@@ -108,6 +111,62 @@ describe("a release PayPal has not confirmed, and one after a refund", () => {
     const j = journalOf(v, deriveLedger(v));
     expect(j.events.find((e) => e.kind === "void" && e.who === "Lena")!.text).toBe("Lena · rest released");
     expect(j.groups[3].title).toBe("Released");
+  });
+});
+
+// RENEW (P3FL): Lena's hold was renewed. The old hold is voided with `renewedTo`; its rest carries on to the new hold, so
+// nothing of it is "never charged"; the new hold's rows press Lena like her first hold's. A hand-made fixture on the closed
+// drive (the renewal fields read structurally: the Hold type of this branch does not carry them).
+describe("the journal of a renewed pledge", () => {
+  const OLD = "demo-f372326129.water";
+  const NEW = `${OLD}.r1`;
+  function renewed(): DriveView {
+    const v = structuredClone(closed);
+    const old = v.holds.find((h) => h.pledgeId === OLD)!;
+    Object.assign(old, { renewedTo: NEW, released: 1542 });
+    v.holds.push({ ...structuredClone(old), pledgeId: NEW, status: "authorized", authorized: 1542, captured: 0, released: 0, authorizationId: "9RENEW00000000001", renewedTo: undefined, renews: OLD, usable: 1542 } as DriveView["holds"][number]);
+    const cap = v.paypal.find((c) => c.requestId === `cap:demo-f372326129:${OLD}:1`)!;
+    v.paypal.push({ ...structuredClone(cap), id: 9001, ts: "2026-11-02T02:06:03.232Z", path: "/v2/payments/authorizations/9RENEW00000000001/capture", requestId: `cap:demo-f372326129:${NEW}:1`, ids: { ...cap.ids, id: "9RENEWCAP0000001", invoiceId: `cap:demo-f372326129:${NEW}:1` } });
+    return v;
+  }
+  const v = renewed();
+  const j = journalOf(v, deriveLedger(v));
+  const byGroup = Object.fromEntries(j.groups.map((g) => [g.id, g]));
+  const lenaVoid = j.events.find((e) => e.key === `void:demo-f372326129:${OLD}`)!;
+
+  it("the old hold's void: the rest carried on to a new hold, never 'never charged', with the holds", () => {
+    expect(lenaVoid).toMatchObject({ text: "Lena · rest carried on to a new hold", status: "VOIDED", never: false, group: "holds" });
+    expect(byGroup.holds.events).toContain(lenaVoid);
+    expect(byGroup.never.events.map((e) => e.text)).toEqual(["Mark · rest never charged", "Yuki · rest never charged", "Kitasora Logistics · rest never charged"]);
+    expect(byGroup.never.title).toBe("Never charged");
+  });
+
+  it("the new hold's rows press Lena: their pledge is her first hold's", () => {
+    const lena = deriveLedger(v).donors.find((d) => d.name === "Lena")!;
+    expect(lena.pledgeId).toBe(OLD);
+    const capNew = j.events.find((e) => e.key === `cap:demo-f372326129:${NEW}:1`)!;
+    expect(capNew).toMatchObject({ pledgeId: OLD, donor: true, who: "Lena", group: "charged" });
+    expect(lenaVoid).toMatchObject({ pledgeId: OLD, donor: true });
+  });
+
+  it("in German and Japanese", () => {
+    const de = journalOf(v, deriveLedger(v, "de"), "de");
+    const ja = journalOf(v, deriveLedger(v, "ja"), "ja");
+    expect(de.events.find((e) => e.key === lenaVoid.key)!.text).toBe("Lena · Rest auf neue Reservierung übertragen");
+    expect(ja.events.find((e) => e.key === lenaVoid.key)!.text).toBe("Lena · 残りを新しい保留へ引き継ぎ");
+    expect(de.groups[3].title).toBe("Nie belastet");
+  });
+
+  it("without a renewal, the journal is as it was: each row names its own hold, the same words and groups", () => {
+    for (const drive of [closed, open])
+      for (const lang of ["en", "de", "ja"] as const) {
+        const plain = journalOf(drive, deriveLedger(drive, lang), lang);
+        for (const e of plain.events) expect(e.pledgeId).toBe(pledgeOfKey(e.key));
+        expect(plain.events.filter((e) => e.kind === "void").every((e) => e.group === "never")).toBe(true);
+      }
+    // Byte for byte: the closed drive's whole journal in three languages hashes as it did before renewals were read (207c7f1).
+    const bytes = (["en", "de", "ja"] as const).map((lang) => JSON.stringify(journalOf(closed, deriveLedger(closed, lang), lang))).join("\n");
+    expect(createHash("sha256").update(bytes).digest("hex")).toBe(CLOSED_JOURNAL_SHA256);
   });
 });
 

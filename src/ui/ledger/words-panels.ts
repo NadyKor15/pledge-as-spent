@@ -40,6 +40,8 @@ export interface JournalWords {
   released: (who: string) => string;
   /** The release was asked; PayPal has not answered VOIDED. */
   releaseAsked: (who: string) => string;
+  /** PayPal answered VOIDED on a hold that was renewed: its rest carries on to the new hold, nothing of it is "never charged". */
+  carried: (who: string) => string;
   receiptPublished: string;
   receiptReview: string;
   receiptPrivate: string;
@@ -78,6 +80,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       never: (who) => `${who} · rest never charged`,
       released: (who) => `${who} · rest released`,
       releaseAsked: (who) => `${who} · release of the rest asked`,
+      carried: (who) => `${who} · rest carried on to a new hold`,
       receiptPublished: "Receipt published: only its purchase lines show",
       receiptReview: "Receipt sent to the coordinator",
       receiptPrivate: "Receipt kept private: its lines could not be placed",
@@ -113,6 +116,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       never: (who) => `${who} · Rest nie belastet`,
       released: (who) => `${who} · Rest freigegeben`,
       releaseAsked: (who) => `${who} · Freigabe des Rests angefragt`,
+      carried: (who) => `${who} · Rest auf neue Reservierung übertragen`,
       receiptPublished: "Beleg veröffentlicht: nur die Kaufzeilen sind zu sehen",
       receiptReview: "Beleg an die Koordination geschickt",
       receiptPrivate: "Beleg privat: Zeilen nicht verortet",
@@ -148,6 +152,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       never: (who) => `${who} · 残りは請求されず`,
       released: (who) => `${who} · 残りを解放`,
       releaseAsked: (who) => `${who} · 残りの解放を依頼`,
+      carried: (who) => `${who} · 残りを新しい保留へ引き継ぎ`,
       receiptPublished: "レシート公開：購入行のみ表示",
       receiptReview: "レシートを調整役へ送付",
       receiptPrivate: "レシート非公開：行の位置を特定できず",

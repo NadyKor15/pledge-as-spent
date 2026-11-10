@@ -1,5 +1,6 @@
 import { holdById, paypalActivity } from "../derive";
 import { moneyIn, shortName, type Lang } from "../format";
+import { chainRootId } from "../renewal-chain";
 import { SHOWCASE_DRIVE_ID } from "../showcase";
 import type { DriveView } from "../types";
 import type { LedgerModel } from "./derive";
@@ -20,7 +21,7 @@ export interface JournalEvent {
   at: string;
   /** "04:45:36", UTC. */
   time: string;
-  /** The pledge it acted on; null for a payout or a receipt. */
+  /** The pledge it acted on (a renewed pledge's first hold, for any hold of its chain); null for a payout or a receipt. */
   pledgeId: string | null;
   /** A donor's pledge (not the company match): its row presses that donor. */
   donor: boolean;
@@ -30,7 +31,7 @@ export interface JournalEvent {
   /** PayPal's status as PayPal said it ("COMPLETED", "VOIDED"...); null for a receipt. */
   status: string | null;
   ok: boolean | null;
-  /** A release PayPal answered VOIDED on a hold nothing was refunded from: the rest was never charged. */
+  /** A release PayPal answered VOIDED on a hold nothing was refunded from and not renewed: the rest was never charged. */
   never: boolean;
 }
 
@@ -77,13 +78,20 @@ export function journalOf(v: DriveView, m: LedgerModel, lang: Lang = m.lang ?? "
   for (const a of paypalActivity(v)) {
     const kind = a.key.split(":")[0] as JournalKind;
     if (!KINDS.includes(kind)) continue;
-    const pledgeId = pledgeOfKey(a.key);
-    const hold = holdById(v, pledgeId);
-    const who = hold ? shortName(hold.donorName) : (pledgeId ?? "");
+    const holdId = pledgeOfKey(a.key);
+    const hold = holdById(v, holdId);
+    // A renewed pledge is one donor (src/ui/renewal-chain.ts): the row names the chain's first hold, so a row of the new
+    // hold presses the same donor. Without a renewal this is the hold itself.
+    const pledgeId = holdId === null ? null : chainRootId(v.holds, holdId);
+    const who = hold ? shortName(hold.donorName) : (holdId ?? "");
     // PayPal's word is the last part of the activity (src/ui/derive.ts builds every one that way).
     const raw = a.parts[a.parts.length - 1] ?? "";
     const status = raw === "NO ANSWER" ? w.noAnswer : raw;
-    const never = kind === "void" && raw === "VOIDED" && (hold?.reversed ?? 0) === 0;
+    // A hold voided because it was renewed (RENEW: `renewedTo`, read structurally): its rest carries on to the new hold,
+    // nothing of it is "never charged" yet. Its row stands with the holds.
+    const renewed = kind === "void" && Boolean((hold as { renewedTo?: string | null } | undefined)?.renewedTo);
+    const carried = renewed && raw === "VOIDED";
+    const never = kind === "void" && raw === "VOIDED" && (hold?.reversed ?? 0) === 0 && !renewed;
     let text: string;
     // An amount never breaks between its figure and its sign ("20,00 €").
     const money = (currency: string, minor: number) => moneyIn(lang, currency, minor).replace(/\s/g, " ");
@@ -91,9 +99,9 @@ export function journalOf(v: DriveView, m: LedgerModel, lang: Lang = m.lang ?? "
     else if (kind === "pay") {
       const attempt = v.payouts.flatMap((p) => p.attempts).find((x) => x.senderBatchId === a.key);
       text = w.pay(v.drive.volunteerName ?? w.volunteer, attempt ? money(base, attempt.amount) : "");
-    } else if (kind === "void") text = raw === "VOIDED" ? (never ? w.never(who) : w.released(who)) : w.releaseAsked(who);
+    } else if (kind === "void") text = raw === "VOIDED" ? (carried ? w.carried(who) : never ? w.never(who) : w.released(who)) : w.releaseAsked(who);
     else text = w[kind as "authorize" | "reauth" | "cap"](who);
-    events.push({ key: a.key, kind, group: GROUP_OF[kind], at: a.last, time: clock(a.last), pledgeId, donor: Boolean(pledgeId && donors.has(pledgeId)), who: pledgeId ? who : null, text, status, ok: a.ok, never });
+    events.push({ key: a.key, kind, group: renewed ? "holds" : GROUP_OF[kind], at: a.last, time: clock(a.last), pledgeId, donor: Boolean(pledgeId && donors.has(pledgeId)), who: pledgeId ? who : null, text, status, ok: a.ok, never });
   }
   for (const r of v.receipts) {
     const text = r.status === "review" ? w.receiptReview : r.image.published ? w.receiptPublished : w.receiptPrivate;
