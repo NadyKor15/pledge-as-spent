@@ -1,5 +1,59 @@
-import { describe, expect, it } from "vitest";
-import { chainRootId, groupByChain } from "../../src/ui/renewal-chain";
+import { describe, expect, it, vi } from "vitest";
+import { chainRootId, groupByChain, mergeChain } from "../../src/ui/renewal-chain";
+import { renewedDrive } from "./support/renewal-fixture";
+
+vi.setConfig({ testTimeout: 60_000 });
+
+describe("one renewed donor as one hold on screens (mergeChain), at every stage", () => {
+  // Lena pledged €20.00. Expected parts of her chain, in euro cents, as a hold reader sees them:
+  // charged = captured; waiting = accrued + capturePending; can still pay = authorized - charged - waiting - released - uncollected - reversed;
+  // never charged = released (+ uncollected once the hold is over).
+  const cases = [
+    ["renewed", { status: "authorized", authorized: 2000, captured: 333, waiting: 0, rest: 1667, released: 0 }],
+    ["captured", { status: "partially_captured", authorized: 2000, captured: 666, waiting: 0, rest: 1334, released: 0 }],
+    ["closed", { status: "voided", authorized: 2000, captured: 666, waiting: 0, rest: 0, released: 1334 }],
+    // the renewal's €3.33 surplus is held at PayPal but never promised: it is neither "can still pay" nor "never charged"
+    ["race", { status: "authorized", authorized: 2000, captured: 333, waiting: 0, rest: 1667, released: 0 }],
+  ] as const;
+  for (const [stage, want] of cases) {
+    it(`${stage}: Lena counted once, ${JSON.stringify(want)}`, async () => {
+      const f = await renewedDrive(stage);
+      const chains = groupByChain(f.view.holds);
+      expect(chains).toHaveLength(f.view.holds.length - 1);
+      const m = mergeChain(chains.find((c) => c.root.pledgeId === f.lena)!);
+      const waiting = m.accrued + m.capturePending;
+      expect({
+        status: m.status,
+        authorized: m.authorized,
+        captured: m.captured,
+        waiting,
+        rest: m.authorized - m.captured - waiting - m.released - m.uncollected - m.reversed,
+        released: m.released,
+      }).toEqual(want);
+      expect(m.pledgeId).toBe(f.lena);
+      // the others are untouched: mergeChain of a one-hold chain is that hold
+      for (const c of chains.filter((x) => x.root.pledgeId !== f.lena)) expect(mergeChain(c)).toBe(c.root);
+      if (stage === "race") expect(f.view.holds.find((h) => h.pledgeId === f.renewal)).toMatchObject({ authorized: 2000, usable: 1667, surplus: 333 });
+    });
+  }
+});
+
+describe("the fixture for screens: a drive with one renewed donor (made by the real service)", () => {
+  it("has two holds for Lena, linked both ways, and groups them into one donor whose pledge is the first hold", async () => {
+    const f = await renewedDrive();
+    const old = f.view.holds.find((h) => h.pledgeId === f.lena)!;
+    const nw = f.view.holds.find((h) => h.pledgeId === f.renewal)!;
+    expect(old).toMatchObject({ status: "voided", renewedTo: f.renewal, authorized: 2000 });
+    expect(nw).toMatchObject({ status: "authorized", renews: f.lena, currency: "EUR" });
+    expect(old.captured + nw.authorized).toBe(2000); // what Lena pledged, counted once
+    const chains = groupByChain(f.view.holds);
+    expect(chains).toHaveLength(f.view.holds.length - 1); // Lena once; every other hold alone
+    const lena = chains.find((c) => c.root.pledgeId === f.lena)!;
+    expect(lena.members.map((m) => m.pledgeId)).toEqual([f.lena, f.renewal]);
+    expect(lena.latest.pledgeId).toBe(f.renewal);
+    expect(lena.root.authorized).toBe(2000);
+  });
+});
 
 describe("renewal chains on screens", () => {
   const holds = [

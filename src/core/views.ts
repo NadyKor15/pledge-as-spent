@@ -51,8 +51,10 @@ export interface PledgeBalance {
   renews?: string;
   /** The approved renewal that carries this hold on (absent until then). */
   renewedTo?: string;
-  /** A renewal: held at PayPal above what it may promise, never charged (absent on other holds). */
+  /** A renewal: held at PayPal above what it may promise, never charged (absent on other holds; 0 once the hold ended). */
   surplus?: number;
+  /** A linked renewal: the most it may ever promise, i.e. what it carried on from the old hold (stays after its end). */
+  usable?: number;
 }
 
 export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
@@ -86,6 +88,7 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     ...(pledge.renews !== undefined ? { renews: pledge.renews } : {}),
     ...(hold.renewedTo ? { renewedTo: hold.renewedTo } : {}),
     ...(hold.surplus ? { surplus: hold.surplus } : {}),
+    ...(hold.usable !== undefined ? { usable: hold.usable } : {}),
   };
 }
 
