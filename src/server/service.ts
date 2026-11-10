@@ -25,6 +25,8 @@ import {
   rebindOffer,
   renewalOffer,
   renewalPledge,
+  chainStatement,
+  type ChainStatement,
   type RenewalOffer,
   type DonorStatement,
   type HoldRebind,
@@ -1270,6 +1272,8 @@ export class PledgeService {
     statement: DonorStatement;
     rebind?: RebindOffer | null;
     renewal?: (RenewalOffer & { approval: RenewalApproval }) | null;
+    /** RENEW_ENABLED: the whole renewed pledge as one history (the same for every hold of the chain); null when never renewed. */
+    chain?: ChainStatement | null;
   }> {
     const { driveId, state } = await this.pledgeDrive(pledgeId);
     const out = {
@@ -1280,7 +1284,11 @@ export class PledgeService {
     // While RENEW_ENABLED is off the answer is exactly as before: no `renewal` key at all.
     if (!this.renewEnabled) return out;
     const demo = (await this.driveRow(driveId)).demo;
-    return { ...out, renewal: { ...renewalOffer(state, pledgeId, this.now()), approval: this.renewalApproval(demo, state.pledges[pledgeId]) } };
+    return {
+      ...out,
+      renewal: { ...renewalOffer(state, pledgeId, this.now()), approval: this.renewalApproval(demo, state.pledges[pledgeId]) },
+      chain: chainStatement(state, pledgeId),
+    };
   }
 }
 

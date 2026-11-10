@@ -12,6 +12,6 @@ export * from "./allocate";
 export * from "./plan";
 export * from "./rebind";
 export { planCarries } from "./carry";
-export { planRenewals, renewalChain, renewalOffer, renewalPledge, RENEWAL_REMIND_DAYS, type RenewalOffer } from "./renew";
+export { chainStatement, planRenewals, renewalChain, renewalOffer, renewalPledge, RENEWAL_REMIND_DAYS, type ChainEvent, type ChainMember, type ChainStatement, type RenewalOffer } from "./renew";
 export * from "./fees";
 export * from "./views";

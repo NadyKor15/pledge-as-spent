@@ -111,9 +111,16 @@ describe("renew switched on", () => {
     // the chain never promised more than Lena's €20.00
     const after = await Promise.all([s.hold(s.lena), s.hold(out.pledgeId)]);
     expect(after.reduce((a, h) => a + h.captured + h.capturePending + h.accrued + h.uncollected + h.reversed, 0)).toBeLessThanOrEqual(2000);
-    // the old statement points to the new one, the new one back
-    expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ renewedTo: out.pledgeId, refusal: { code: "renewed" } });
-    expect((await s.h.svc.getStatement(out.pledgeId)).renewal).toMatchObject({ renews: s.lena, refusal: null });
+    // the old statement points to the new one, the new one back; both tell the same one history
+    const oldSt = await s.h.svc.getStatement(s.lena);
+    const newSt = await s.h.svc.getStatement(out.pledgeId);
+    expect(oldSt.renewal).toMatchObject({ renewedTo: out.pledgeId, refusal: { code: "renewed" }, status: "voided" });
+    expect(newSt.renewal).toMatchObject({ renews: s.lena, refusal: null });
+    expect(oldSt.chain).toEqual(newSt.chain);
+    expect(oldSt.chain).toMatchObject({ first: s.lena, latest: out.pledgeId, totals: { pledged: 2000 } });
+    const t = oldSt.chain!.totals;
+    expect(t.charged + t.waiting + t.held + t.returning + t.never + t.back).toBe(2000);
+    expect((await s.h.svc.getStatement(s.mark)).chain).toBeNull(); // never renewed
   });
 
   it("real drive: a new PAY_NOW order the donor approves again; a double click waits for the same order", async () => {

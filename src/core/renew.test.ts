@@ -3,7 +3,7 @@ import type { LineFunded, PledgeRenewed } from "./events";
 import { applyEvent, availableMinor, uncommitted } from "./ledger";
 import { planCaptures, planClose, planHoldMaintenance } from "./plan";
 import { rebindEvent } from "./rebind";
-import { planRenewals, renewalOffer, renewalPledge } from "./renew";
+import { chainStatement, planRenewals, renewalOffer, renewalPledge } from "./renew";
 import { Book, daysAfter, hoursAfter, line, makeDrive, makeNeed, T0 } from "./testing/builders";
 import { closeReport, donorStatement, pledgeBalance } from "./views";
 
@@ -220,6 +220,34 @@ describe("renew: findings of the money review, 10.11", () => {
     for (let i = 0; i < 6; i++) id = renew(b, id, hoursAfter(1 + i), hoursAfter(1 + i));
     expect(id.split(".r")).toHaveLength(7);
     expect(() => renewalPledge(b.state, id, hoursAfter(8))).toThrow(/too_many_renewals/);
+  });
+
+  it("tells one history for the whole chain, the same from either hold", () => {
+    const b = story();
+    b.fund(line("r1", 1, "water", 10, 1080), hoursAfter(1)); // Lena €3.33
+    expect(chainStatement(b.state, "lena")).toBeNull(); // never renewed
+    const r1 = renew(b, "lena", daysAfter(27), daysAfter(27));
+    settle(b, daysAfter(27));
+    b.fund(line("r2", 1, "water", 10, 1080), daysAfter(28)); // €3.33 from the renewal
+    const c = chainStatement(b.state, "lena")!;
+    expect(chainStatement(b.state, r1)).toEqual(c);
+    expect(c).toMatchObject({ first: "lena", latest: r1, currency: "EUR" });
+    expect(c.members.map((m) => [m.pledgeId, m.status, m.authorized, m.usable, m.captured, m.released])).toEqual([
+      ["lena", "voided", 2000, null, 333, 1667],
+      [r1, "authorized", 1667, 1667, 0, 0],
+    ]);
+    expect(c.events.map((e) => [e.kind, e.pledgeId])).toEqual([
+      ["pledged", "lena"],
+      ["renewed", r1],
+      ["ended", "lena"],
+    ]);
+    expect(c.rows.map((r) => [r.receiptId, r.pledgeId])).toEqual([
+      ["r1", "lena"],
+      ["r2", r1],
+    ]);
+    // one pledge of €20.00: €3.33 charged, €3.33 waiting for capture, €13.34 the renewal can still pay, nothing released yet
+    expect(c.totals).toEqual({ pledged: 2000, charged: 333, waiting: 333, held: 1334, returning: 0, never: 0, back: 0, uncollected: 0 });
+    expect(c.totals.charged + c.totals.waiting + c.totals.held + c.totals.never + c.totals.back + c.totals.returning).toBe(c.totals.pledged);
   });
 
   it("#5 the close report names each hold's chain, so a chain can be counted once", () => {
