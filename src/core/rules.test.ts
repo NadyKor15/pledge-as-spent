@@ -218,6 +218,7 @@ describe("rules: a line no hold of its need may pay is refused, and the need sta
     expect(() => applyEvent(b.state, { ...reject, ruledOut: ["cheap"] })).toThrow(/allow this line/); // ¥50 a bottle is within the cap
     expect(() => applyEvent(b.state, { ...reject, amountBase: 400, ruledOut: ["ghost"] })).toThrow(/unknown pledge/);
     expect(() => applyEvent(b.state, { ...reject, code: "alcohol", amountBase: 400, ruledOut: ["cheap"] })).toThrow(/donor_rules/);
+    expect(() => applyEvent(b.state, { ...reject, amountBase: 400 })).toThrow(/donor_rules/); // a donor_rules refusal names whom
     const funded = b.fund(line("r1", 1, "water", 2, 400), hoursAfter(1)) as LineFunded; // ¥200: "any" pays, "cheap" kept out
     expect(funded.ruledOut).toEqual(["cheap"]);
     const forged = { ...funded, id: "y", line: { ...funded.line, receiptId: "r2" }, ruledOut: ["cheap", "any"] };

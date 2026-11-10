@@ -162,7 +162,11 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
   // Donor money was there, but every donor hold of the need is kept out by its rules: the line is refused, so it
   // does not use up the need and a later purchase at an allowed price can still be funded.
   if (funded === 0 && F > 0 && keptDonors.length > 0) {
-    return reject("donor_rules", `The donors' rules (a price per unit) keep every hold of ${need.label} out of this line; ${need.label} stays open.`, keptDonors);
+    return reject(
+      "donor_rules",
+      `Every hold of ${need.label} with money left is kept out of this line by its donor's price per unit; the line does not count toward ${need.label}.`,
+      keptDonors,
+    );
   }
   const ruledOut = [...keptDonors, ...(d > 0 ? keptMatches : [])];
 

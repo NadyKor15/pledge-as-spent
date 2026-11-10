@@ -55,7 +55,8 @@ export function PledgeForm({
   const restRef = useRef<"release" | "carry">("release");
   const minor = toMinor(amount, currency);
   // The donor's rules, as the server takes them: the needs still allowed (only when some are left out) and a cap per unit.
-  const capMinor = cap.trim() ? toMinor(cap, currency) : undefined;
+  // a price per unit, not a pledge: no pledge ceiling ("at most ¥15,000 a heater")
+  const capMinor = cap.trim() ? toMinor(cap, currency, { ceiling: false }) : undefined;
   const rulesShown = rulesOn && rulesOpen;
   // A cap that cannot be read stops the pledge: dropping it would hold money the donor limited.
   const badCap = rulesShown && capMinor === null;

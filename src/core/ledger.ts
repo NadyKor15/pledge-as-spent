@@ -857,8 +857,10 @@ function onLineRejected(s: LedgerState, e: E.LineRejected): LedgerState {
   if (!isNonNegInt(e.amountBase)) fail(e, "amountBase must be a non-negative integer");
   if (!nonEmpty(e.code)) fail(e, "a rejection needs a code");
   if (e.needId !== null && !lookup(s.needs, e.needId)) fail(e, `unknown need ${e.needId}`);
+  // a donor_rules refusal always names the holds its rules kept out, and only it does
+  if ((e.code === "donor_rules") !== (e.ruledOut !== undefined)) fail(e, "a donor_rules refusal, and only it, names the holds kept out");
   if (e.ruledOut !== undefined) {
-    if (e.code !== "donor_rules" || e.needId === null || !isPositiveInt(e.needQty)) fail(e, "only a donor_rules refusal names the holds kept out");
+    if (e.needId === null || !isPositiveInt(e.needQty)) fail(e, "a donor_rules refusal needs the line's need and quantity");
     checkRuledOut(s, e, e.needId!, e.amountBase, e.needQty!, new Set());
   }
   return { ...s, lines: { ...s.lines, [key]: { key, event: e } }, lineKeys: [...s.lineKeys, key] };

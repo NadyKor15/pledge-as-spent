@@ -532,7 +532,10 @@ class Sim {
     }
     this.apply(ev);
     this.lines.push({ line, ev });
-    if (ev.type === "LineRejected" && ev.code === "donor_rules") this.rulesRefused += 1;
+    if (ev.type === "LineRejected" && ev.code === "donor_rules") {
+      this.rulesRefused += 1;
+      must(this.state.qtyCovered[line.needId] === pre.qtyCovered[line.needId], "a line refused by the rules does not count toward its need", { line });
+    }
     if (ev.type === "LineFunded" && ev.ruledOut?.some((id) => this.state.pledges[id].kind === "match")) this.matchKeptOut += 1;
     this.carry();
   }
