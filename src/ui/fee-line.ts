@@ -5,17 +5,22 @@ import { api } from "./api";
 import { money } from "./format";
 import type { ReportedFee } from "@/server/reported-fee";
 
-// "Pledge-as-Spent fee: 0 % · PayPal's fee on your share: €0.51": the app takes nothing; what PayPal took is what
-// PayPal itself reported on the donor's captures. A capture it reported no fee for is said so, never estimated.
+// "Pledge-as-Spent fee: 0 % · PayPal's fee on capturing your share: €0.51, paid by the drive, not by you": the app
+// takes nothing; what PayPal took is what PayPal itself reported on the donor's captures, and the drive pays it (as the
+// book's footer says: "PayPal's fees are paid from the drive's balance, not from pledges"). A capture PayPal reported
+// no fee for is said so, never estimated. Wording: NM12 10.11 by P3U2's recommendation, until Nadya's word.
+
+const PAYPAL = "PayPal’s fee on capturing your share";
+const NOT_YOU = "paid by the drive, not by you";
 
 export function feeLine(f: ReportedFee | null | undefined): string | null {
   if (!f) return null;
   const ours = "Pledge-as-Spent fee: 0 %";
-  if (f.captures === 0) return `${ours} · PayPal’s fee on your share: none, nothing captured yet`;
-  if (f.reported === 0) return `${ours} · PayPal’s fee on your share: not reported by PayPal`;
+  if (f.captures === 0) return `${ours} · ${PAYPAL}: none, nothing captured yet`;
+  if (f.reported === 0) return `${ours} · ${PAYPAL}: not reported by PayPal`;
   const amount = money(f.currency, f.minor);
-  if (f.reported < f.captures) return `${ours} · PayPal’s fee on your share: ${amount} (reported by PayPal for ${f.reported} of ${f.captures} captures)`;
-  return `${ours} · PayPal’s fee on your share: ${amount}`;
+  if (f.reported < f.captures) return `${ours} · ${PAYPAL}: ${amount} (reported by PayPal for ${f.reported} of ${f.captures} captures), ${NOT_YOU}`;
+  return `${ours} · ${PAYPAL}: ${amount}, ${NOT_YOU}`;
 }
 
 /** One donor's fee over their renewal chain's holds (one hold without a renewal: its own entry, unchanged). */

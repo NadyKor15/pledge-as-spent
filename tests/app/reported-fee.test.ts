@@ -5,7 +5,7 @@ import { events } from "../../src/db/schema";
 import { reportedFee, reportedFees } from "../../src/server/reported-fee";
 import { feeLine } from "../../src/ui/fee-line";
 
-// Point 6 of the review: "Pledge-as-Spent fee: 0 % · PayPal's fee on your share: €0.51". The amount is what PayPal
+// Point 6 of the review: "Pledge-as-Spent fee: 0 % · PayPal's fee on capturing your share: €0.51, paid by the drive, not by you". The amount is what PayPal
 // reported (paypal_fee of each capture, recorded on CaptureConfirmed); a capture without one is "not reported by PayPal",
 // never an estimate. Three currencies, as the showcase has them (EUR Lena, USD Mark, JPY Yuki).
 
@@ -46,18 +46,18 @@ describe("reportedFees", () => {
     expect(f.mark).toEqual({ currency: "USD", minor: 105, captures: 2, reported: 2 });
     expect(f.yuki).toEqual({ currency: "JPY", minor: 78, captures: 1, reported: 1 });
     expect(f.anna).toEqual({ currency: "EUR", minor: 0, captures: 0, reported: 0 });
-    expect(feeLine(f.lena)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: €0.51");
-    expect(feeLine(f.mark)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: $1.05");
-    expect(feeLine(f.yuki)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: ¥78");
-    expect(feeLine(f.anna)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: none, nothing captured yet");
+    expect(feeLine(f.lena)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: €0.51, paid by the drive, not by you");
+    expect(feeLine(f.mark)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: $1.05, paid by the drive, not by you");
+    expect(feeLine(f.yuki)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: ¥78, paid by the drive, not by you");
+    expect(feeLine(f.anna)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: none, nothing captured yet");
   });
 
   it("a capture PayPal reported no fee for is not filled in: not reported, or reported for some captures only", async () => {
     const db = await book([{ pledgeId: "lena" }, { pledgeId: "mark", fee: { currency: "USD", minor: 65 } }, { pledgeId: "mark" }, { pledgeId: "yuki", fee: { currency: "EUR", minor: 5 } }]);
     const f = await reportedFees(db, DRIVE, holds);
     expect(f.lena).toEqual({ currency: "EUR", minor: 0, captures: 1, reported: 0 });
-    expect(feeLine(f.lena)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: not reported by PayPal");
-    expect(feeLine(f.mark)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on your share: $0.65 (reported by PayPal for 1 of 2 captures)");
+    expect(feeLine(f.lena)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: not reported by PayPal");
+    expect(feeLine(f.mark)).toBe("Pledge-as-Spent fee: 0 % · PayPal’s fee on capturing your share: $0.65 (reported by PayPal for 1 of 2 captures), paid by the drive, not by you");
     // A fee in another currency than the hold's is not this hold's fee: not reported.
     expect(f.yuki).toEqual({ currency: "JPY", minor: 0, captures: 1, reported: 0 });
   });
