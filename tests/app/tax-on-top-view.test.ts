@@ -311,4 +311,101 @@ describe("holdout2-ja-02 on the judges' demo drive (water, diapers, batteries)",
     expect(c.refused).toBe(4);
     expect(c.reasons).not.toContain("Counted with line");
   });
+
+  /**
+   * The same receipt refused as a whole (a closed drive, say), in the rows the book writes then (service.ts fundInBook):
+   * a refused row for every printed line, at its amount with its share of tax, the coupon's at ¥0.
+   */
+  function refusedWhole(v: DriveView, r: Receipt): DriveView {
+    const w = structuredClone(v);
+    const template = w.ledger.find((x) => x.receiptId === r.id && x.kind === "rejected")!;
+    const rows = r.lines.map((l) => ({ ...template, rowId: `${r.id}:${l.lineNo}/rejected`, lineNo: l.lineNo, needId: w.needs.some((n) => n.needId === l.needId) ? l.needId : null, qty: null, base: Math.max(0, lineGross(l)), code: "drive_closed", reasonEn: "The drive is closed." }));
+    w.ledger = [...w.ledger.filter((x) => x.receiptId !== r.id), ...rows];
+    w.receipts = w.receipts.map((x) => (x.id === r.id ? { ...x, status: "rejected" } : x));
+    w.payouts = w.payouts.filter((p) => p.receiptId !== r.id);
+    return w;
+  }
+
+  it("refused as a whole: the coupon's ¥0 row does not make it a line of its own; 5 refused, the coupon inside the mackerel's card", async () => {
+    const { v: funded0, r } = await funded();
+    const v = refusedWhole(funded0, r);
+    const coupon = lineViews(v, r).find((l) => l.line.lineNo === 5)!;
+    expect([coupon.state, coupon.countedWith, coupon.reason]).toEqual(["rejected", 4, "Counted with line 4."]);
+    const s = refusalSummary(v, v.receipts.find((x) => x.id === r.id)!);
+    expect([s.count, s.total, s.currency]).toEqual([5, 4001, "JPY"]);
+
+    const list = refusedList(v);
+    expect(list).toHaveLength(6);
+    const at = list.indexOf("Canned mackerel ¥427");
+    expect(list[at + 1]).toBe("discount −¥43");
+    expect(deriveLedger(v).refused.reduce((sum, x) => sum + yen(x.amount), 0)).toBe(4001);
+
+    const { volunteer, coordinator } = screens(v);
+    expect(volunteer).toContain("5 refused");
+    const cards = rows(volunteer, 'vo-rej"');
+    expect(cards).toHaveLength(5);
+    expect(cards.find((c) => c.includes("Canned mackerel"))).toContain(COUPON);
+    expect(discounts(volunteer)).toBe(1);
+    expect(rows(coordinator, 'co-rej"')).toHaveLength(5);
+    expect(coordinator).toContain("Refused: <b>¥4,001</b> of ¥4,001");
+  });
+});
+
+describe("holdout2-ja-02 read as a US-dollar receipt on the yen demo drive", () => {
+  // The coordinator approves it; the book then refuses every line for its currency (checks.ts toFundableLines) and
+  // writes each row's amount as the book has it. The Ledger and the assistant speak the drive's currency only.
+  async function dollars() {
+    const DRIVE = "demo-h2ja02-usd";
+    const { drive: d, needs } = demoDrive(DRIVE, START);
+    const reading = { ...cassette.reading, currency: "USD" };
+    const answer = savedAnswer({ ...cassette, reading }, "meta");
+    answer.classifiedFor = classificationKey(ParsedReceipt.parse(reading), needs, d.rules);
+    const h = await harness({ fetch: fakeSandbox().fetch, start: START, savedAnswers: [answer] });
+    await h.svc.createDemoDrive({ driveId: DRIVE });
+    const { receipt } = await h.svc.submitReceipt({ driveId: DRIVE, bytes: photo });
+    if ((await h.svc.getDriveView(DRIVE)).receipts.find((x) => x.id === receipt.id)!.status === "review") await h.svc.coordinatorDecision(receipt.id, "approve", "checked on the photo");
+    const v = await h.svc.getDriveView(DRIVE);
+    return { v, r: v.receipts.find((x) => x.id === receipt.id)! };
+  }
+
+  it("the Ledger, ledger_refusals and the quick question give the book's yen amounts, never dollars, and the guard passes", async () => {
+    const { v, r } = await dollars();
+    expect([r.currency, r.status]).toEqual(["USD", "rejected"]);
+    expect(v.ledger.filter((x) => x.receiptId === r.id).map((x) => [x.lineNo, x.kind, x.code, x.base])).toEqual([
+      [1, "rejected", "currency_mismatch", 510],
+      [2, "rejected", "currency_mismatch", 181],
+      [3, "rejected", "currency_mismatch", 1408],
+      [4, "rejected", "currency_mismatch", 427],
+      [5, "rejected", "currency_mismatch", 0],
+      [6, "rejected", "currency_mismatch", 1518],
+    ]);
+
+    // Ledger: the rows' amounts in yen; the coupon has no amount in yen, so it is left out (and out of the total).
+    const list = deriveLedger(v).refused.map((x) => x.amount);
+    expect(list).toEqual(["¥510", "¥181", "¥1,408", "¥427", "¥1,518"]);
+    expect(bookRefusals(v)).toMatchObject({ count: 5, total: 4044, currency: "JPY" });
+
+    const tool = ledgerRefusals(v);
+    expect(tool.text.split("\n")[0]).toBe("5 lines refused, ¥4,044 in total; no donor money was used for them:");
+    expect(tool.text).not.toContain("$");
+    expect(new Set(tool.data.facts.map((f) => f.currency))).toEqual(new Set(["JPY"]));
+    for (const l of ["en", "de", "ja"] as const) {
+      const a = answerStarter(v, "refused", null, l);
+      expect(a.text).not.toMatch(/\$|USD/);
+      expect(a.verdict).toMatchObject({ ok: true, unmatched: [] });
+    }
+  });
+
+  it("the screens show the receipt in its own currency: 5 refused, the coupon inside the mackerel's card", async () => {
+    const { v, r } = await dollars();
+    expect(refusalSummary(v, r)).toMatchObject({ count: 5, total: 4001, currency: "USD" });
+    const { volunteer, coordinator } = screens(v);
+    expect(volunteer).toContain("5 refused");
+    const cards = rows(volunteer, 'vo-rej"');
+    expect(cards).toHaveLength(5);
+    expect(cards.find((c) => c.includes("Canned mackerel"))).toContain("Discount −$0.43, counted with this line · 値引");
+    // The Coordinator compares with the printed total, so it stays in the receipt's currency.
+    expect(coordinator).toContain("Refused: <b>$40.01</b> of $40.01");
+    expect(rows(coordinator, 'co-rej"')).toHaveLength(5);
+  });
 });

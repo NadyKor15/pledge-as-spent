@@ -338,11 +338,12 @@ function bookRows(v: DriveView, lang: Lang): LedgerBookRow[] {
 
 /**
  * The book's refusals (bookRefusals, the same items the screens and the assistant count): each refused line, then the
- * discounts counted with it, so the list adds up to the Coordinator's refused total.
+ * discounts counted with it, so on a receipt in the drive's currency the list adds up to the Coordinator's total.
  */
 function refusals(v: DriveView, lang: Lang): LedgerRefusal[] {
   return bookRefusals(v).items.map((i) => {
-    const amount = moneyIn(lang, i.currency, i.amount);
+    // The book's figure, in the drive's currency (bookRefusals leaves out what has none).
+    const amount = moneyIn(lang, v.drive.baseCurrency, i.base!);
     if (i.countedWith !== undefined) return { key: lineKey(i.receiptId, i.line.lineNo), name: WORDS[lang].discount, amount };
     const need = needById(v, i.row?.needId ?? null);
     const rule = i.line.ruleCode ? WORDS[lang].rule[i.line.ruleCode] : undefined;

@@ -129,7 +129,8 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 .lg-csv { color: var(--muted); font-size: calc(14px * var(--s)); text-decoration: underline; text-underline-offset: 3px; }
 .lg-receipt { display: flex; align-items: center; gap: 22px; color: #4A5160; text-decoration: none; }
 .lg-receipt img { width: 40px; height: auto; max-height: 56px; object-fit: cover; object-position: top; border-radius: 3px; box-shadow: 0 1px 4px rgba(40, 36, 28, .2); }
-.lg-refused { color: var(--refused); line-height: 1.3; }
+/* The bottom line has a fixed height on a desktop: at most two lines of refusals, the rest after an ellipsis. */
+.lg-refused { color: var(--refused); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .lg-open-book { color: var(--back); font-weight: 500; white-space: nowrap; }
 
 /* Phone: one column, the same widgets laid out as on the phone picture. */
@@ -150,7 +151,7 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 [data-stacked="true"] .lg-receipt { grid-row: 1 / 3; gap: 0; }
 [data-stacked="true"] .lg-receipt span { display: none; }
 [data-stacked="true"] .lg-mid { align-self: end; margin: 0; padding: 0; border: 0; }
-[data-stacked="true"] .lg-refused { line-height: 1.35; }
+[data-stacked="true"] .lg-refused { display: block; -webkit-line-clamp: none; overflow: visible; line-height: 1.35; }
 [data-stacked="true"] .lg-rates { margin-top: 2px; font-size: 12px; line-height: 1.35; }
 [data-stacked="true"] .lg-book-acts { align-self: start; align-items: flex-start; padding: 0; border: 0; }
 [data-stacked="true"] .lg-open-book { font-size: 14px; }

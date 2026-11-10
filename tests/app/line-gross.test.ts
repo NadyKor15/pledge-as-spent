@@ -65,9 +65,15 @@ describe("a discount shares the fate of the line above it", () => {
     expect(lineViews(view([]), receipt("review", held)).map((l) => l.state)).toEqual(["review", "review", "rejected"]);
   });
 
-  it("a discount with rows of its own (the whole receipt refused, or no line above it) keeps its own fate", () => {
+  it("the whole receipt refused (a ¥0 refused row for the coupon): the coupon still goes with the line above", () => {
     const all = lineViews(view([refused(1, 427, "Total does not match."), refused(2, 0, "Total does not match."), refused(3, 1518, "Total does not match.")]), receipt("rejected", LINES));
-    expect(all[1].reason).toBe("Total does not match.");
+    expect([all[1].state, all[1].countedWith, all[1].reason]).toEqual(["rejected", 1, "Counted with line 1."]);
+    expect(refusedTotal(all)).toBe(427 - 43 + 1518);
+  });
+
+  it("a discount with a row of its own that is not a ¥0 refusal, or no line above it, keeps its own fate", () => {
+    const own = lineViews(view([refused(1, 427), refused(2, 5, "Its own refusal."), refused(3, 1518)]), receipt("funded", LINES));
+    expect([own[1].countedWith, own[1].reason]).toEqual([undefined, "Its own refusal."]);
     const orphan = [line(1, -40, -3), line(2, 396, 31, { needId: "canned", needQty: 2 })];
     const lines = lineViews(view([refused(1, 0, "A discount with no line above it."), share(2, 427)]), receipt("funded", orphan));
     expect(lines.map((l) => [l.state, l.reason])).toEqual([

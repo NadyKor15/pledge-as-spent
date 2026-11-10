@@ -142,7 +142,8 @@ export const lineMoney = (currency: string | null, line: LineMoney): string => `
 /**
  * Each printed line with its fate: the book first (funded / refused), else the classifier while the receipt waits.
  * A discount (negative amount) is netted into the line above it in the book and has no rows of its own: it shares that
- * line's fate, so it is shown on the same side.
+ * line's fate, so it is shown on the same side. When the whole receipt is refused (a closed drive, another currency)
+ * the book writes a refused row for every printed line, a discount's at ¥0: it still goes with the line above.
  */
 export function lineViews(v: DriveView, r: Receipt): LineView[] {
   const out = ownLineViews(v, r);
@@ -152,7 +153,8 @@ export function lineViews(v: DriveView, r: Receipt): LineView[] {
       head = l;
       return l;
     }
-    if (!head || l.shares.length || v.ledger.some((x) => x.receiptId === r.id && x.lineNo === l.line.lineNo)) return l;
+    const rows = v.ledger.filter((x) => x.receiptId === r.id && x.lineNo === l.line.lineNo);
+    if (!head || l.shares.length || rows.some((x) => x.kind !== "rejected" || x.base !== 0)) return l;
     return { line: l.line, state: head.state, need: undefined, qty: null, reason: `Counted with line ${head.line.lineNo}.`, shares: [], countedWith: head.line.lineNo };
   });
 }
@@ -466,6 +468,12 @@ export interface Refusal {
   /** What it takes off the receipt with its share of tax (negative for a discount), in `currency`, the receipt's. */
   amount: number;
   currency: string;
+  /**
+   * The same in the drive's currency, as the book has it: its row's amount when it has a row of its own; a discount
+   * (or a line the book has not decided) its own amount only on a receipt in the drive's currency, else null: never
+   * converted, and left out of any sum in the drive's currency.
+   */
+  base: number | null;
 }
 
 export interface RefusalSummary {
@@ -473,33 +481,42 @@ export interface RefusalSummary {
   items: Refusal[];
   /** Refused lines; the discounts that go with them are not lines of their own. */
   count: number;
-  /** What the items add up to. */
+  /** What the items add up to, in `currency`: a receipt's own (refusalSummary), the drive's (bookRefusals). */
   total: number;
+  currency: string;
 }
 
-/** A receipt's refusals: the items, their count and their total, as every screen and the assistant show them. */
+/** A receipt's refusals: the items, their count and their total in its currency, as every screen shows them. */
 export function refusalSummary(v: DriveView, r: Receipt, lines: readonly LineView[] = lineViews(v, r)): RefusalSummary {
   const { items, count, total } = refused(lines);
   const currency = r.currency ?? v.drive.baseCurrency;
+  const sameCurrency = currency === v.drive.baseCurrency;
   const rowOf = (lineNo: number) => v.ledger.find((x) => x.receiptId === r.id && x.lineNo === lineNo && (x.kind === "rejected" || x.kind === "unfunded")) ?? null;
   return {
-    items: items.map((l) => ({
-      receiptId: r.id,
-      line: l.line,
-      view: l,
-      row: l.countedWith === undefined ? rowOf(l.line.lineNo) : null,
-      ...(l.countedWith === undefined ? {} : { countedWith: l.countedWith }),
-      amount: lineGross(l.line),
-      currency,
-    })),
+    items: items.map((l) => {
+      const row = l.countedWith === undefined ? rowOf(l.line.lineNo) : null;
+      const amount = lineGross(l.line);
+      return {
+        receiptId: r.id,
+        line: l.line,
+        view: l,
+        row,
+        ...(l.countedWith === undefined ? {} : { countedWith: l.countedWith }),
+        amount,
+        currency,
+        base: row ? row.base : sameCurrency ? amount : null,
+      };
+    }),
     count,
     total,
+    currency,
   };
 }
 
 /**
- * The refusals the book has recorded, receipt by receipt: each line it refused or left unfunded, with the discounts
- * counted with it (the Ledger's "Refused" list, the assistant's answer). A receipt still waiting adds nothing.
+ * The refusals the book has recorded, receipt by receipt, in the drive's currency: each line it refused or left
+ * unfunded, with the discounts counted with it (the Ledger's "Refused" list, the assistant's answer). A receipt still
+ * waiting adds nothing; a discount with no amount in the drive's currency (base null) is left out.
  */
 export function bookRefusals(v: DriveView): RefusalSummary {
   const items: Refusal[] = [];
@@ -507,11 +524,10 @@ export function bookRefusals(v: DriveView): RefusalSummary {
     let booked = false;
     for (const i of refusalSummary(v, r).items) {
       if (i.countedWith === undefined) booked = i.row !== null;
-      if (booked) items.push(i);
+      if (booked && i.base !== null) items.push(i);
     }
   }
-  const { count, total } = refused(items.map((i) => i.view));
-  return { items, count, total };
+  return { items, count: ownLines(items.map((i) => i.view)).length, total: items.reduce((s, i) => s + (i.base ?? 0), 0), currency: v.drive.baseCurrency };
 }
 
 /**
