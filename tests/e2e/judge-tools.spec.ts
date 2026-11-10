@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { floridaDemoOn } from "../../src/ui/demo-flags";
 
 // The judge's own tools, on the real Next build with recorded sandbox answers (tests/e2e/server.ts): "Ask PayPal
 // yourself" on the Ledger and on a donor's statement, "Try to cheat the receipt", and the landing page's ways in.
@@ -204,9 +205,18 @@ test.describe("Ask PayPal yourself on a phone, 390 × 844", () => {
   });
 });
 
-test("the landing page leads to the cheat page; the Florida drive stays hidden unless switched on", async ({ page }) => {
+// NEXT_PUBLIC_FLORIDA_DEMO is read when the app is built: run this suite with the same value the build had.
+const FLORIDA_BUILT = floridaDemoOn(process.env.NEXT_PUBLIC_FLORIDA_DEMO);
+
+test("the landing page leads to the cheat page; the Florida drive is offered only when switched on", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".ld-judge").getByRole("link", { name: "Try to cheat the receipt" })).toHaveAttribute("href", "/cheat");
   await expect(page.locator(".ld-judge")).toContainText("Ask PayPal yourself");
-  await expect(page.getByRole("button", { name: "Open the Florida drive" })).toHaveCount(0);
+  if (FLORIDA_BUILT) {
+    await expect(page.getByRole("button", { name: "Open the Florida drive" })).toBeVisible();
+    await expect(page.locator(".ld-hint").filter({ hasText: "Florida" })).toHaveText("The Florida drive (fictional shelter, fictional storm): hurricane relief in US dollars, through the same checks.");
+  } else {
+    await expect(page.getByRole("button", { name: "Open the Florida drive" })).toHaveCount(0);
+    await expect(page.locator(".ld-hint").filter({ hasText: "Florida" })).toHaveCount(0);
+  }
 });

@@ -1104,6 +1104,36 @@ test("finding 6: at 1440 the receipt's lines are at least 11 px, on all three sc
   expect(await tooSmall(page, ".vo-rej, .vo-need, .vo-chk")).toEqual([]);
 });
 
+// The translation and the printed text under a receipt line on the Coordinator wrap instead of ending in "…".
+// Deploy 6's crawl found them cut at 1280×720, 1366×768, 1920×1080 @150 % and on the phone (4–5 per screen).
+for (const [width, height] of [
+  [1280, 720],
+  [390, 844],
+] as const) {
+  test(`at ${width}×${height} the text under the Coordinator's receipt lines is whole on screen`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await openDemo(page);
+    await page.getByRole("button", { name: "Use the sample receipt" }).click();
+    const smalls = page.locator(".co-pill .line-original, .co-rej .line-original");
+    await expect(page.locator(".co-pill, .co-rej")).toHaveCount(11);
+    expect(await smalls.count()).toBeGreaterThan(3);
+    const cut = await smalls.evaluateAll((els) =>
+      els.filter((el) => el.scrollWidth > el.clientWidth + 1 || getComputedStyle(el).textOverflow === "ellipsis").map((el) => el.textContent),
+    );
+    expect(cut).toEqual([]);
+    // Each one still has its whole text in the tooltip, and stays inside its row.
+    expect(await smalls.first().getAttribute("title")).toBeTruthy();
+    const outside = await smalls.evaluateAll((els) =>
+      els.filter((el) => {
+        const row = el.closest(".co-pill, .co-rej")!.getBoundingClientRect();
+        const b = el.getBoundingClientRect();
+        return b.right > row.right + 1 || b.bottom > row.bottom + 1;
+      }).length,
+    );
+    expect(outside).toBe(0);
+  });
+}
+
 test("an unknown drive is a 404 with a sentence, not a server error", async ({ request }) => {
   const res = await request.get("/api/drives/demo-0000000000");
   expect(res.status()).toBe(404);
