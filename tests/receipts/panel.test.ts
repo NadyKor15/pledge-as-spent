@@ -6,8 +6,8 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { allocateTax, findDuplicate, normalizeCurrency, toFundableLines } from "../../src/receipts/checks";
 import { semanticKey } from "../../src/receipts/hash";
+import { metaRespond } from "../../src/receipts/meta";
 import { JsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
-import { BedrockNovaReader, type ConverseClient } from "../../src/receipts/bedrock";
 import { receiptFromText } from "../../src/receipts/wire";
 import { scoreReceipt } from "../../tools/eval/metrics";
 import type { LineClassification } from "../../src/receipts/types";
@@ -112,14 +112,14 @@ describe("panel 6: a billed call with no usage in the answer keeps its reservati
   const est = { textChars: 1000, toolSpecChars: 0, images: 1, maxTokens: 4000 };
   it("SpendCap keeps the worst case when the provider reports no tokens", async () => {
     const ledger = new JsonlSpendLedger(path.join(mkdtempSync(path.join(tmpdir(), "p6-")), "l.jsonl"));
-    const out = await new SpendCap(ledger).call({ model: "amazon.nova-lite-v1:0", what: "t", estimate: est }, async () => ({ value: 1, tokensIn: null, tokensOut: null }));
+    const out = await new SpendCap(ledger).call({ model: "muse-spark-1.3", what: "t", estimate: est }, async () => ({ value: 1, tokensIn: null, tokensOut: null }));
     expect(out.usage.usdActual).toBeNull();
     expect(await ledger.total()).toBeCloseTo(out.usage.usdCeiling, 6);
   });
-  it("the Bedrock reader passes a missing usage block through as unknown", async () => {
+  it("Meta's reader passes a missing usage block through as unknown", async () => {
     const ledger = new JsonlSpendLedger(path.join(mkdtempSync(path.join(tmpdir(), "p6-")), "l.jsonl"));
-    const client: ConverseClient = { send: async () => ({ output: { message: { role: "assistant", content: [{ text: "RECEIPT: merchant=X; currency=JPY; total=1; readability=good" }] } }, stopReason: "end_turn", $metadata: {} }) as never };
-    const out = await new BedrockNovaReader({ client, cap: new SpendCap(ledger) }).read({ bytes: new Uint8Array([1]), mediaType: "image/png" }, { currency: "JPY", languages: ["ja"] });
+    const fetch = (async () => new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text: "RECEIPT: merchant=X; currency=JPY; total=1; readability=good" }] }] }), { status: 200 })) as unknown as typeof globalThis.fetch;
+    const out = await metaRespond({ apiKey: "k", cap: new SpendCap(ledger), prefix: "read-meta:", fetch }, { what: "read", instructions: "i", parts: [{ type: "input_image", image_url: "data:image/png;base64,AQ==" }] });
     expect(out.usage.usdActual).toBeNull();
     expect(await ledger.total()).toBeCloseTo(out.usage.usdCeiling, 6);
   });

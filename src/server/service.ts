@@ -69,7 +69,6 @@ export type Channel = "web" | "whatsapp" | "telegram";
 export interface Limits {
   demoDrivesPerHour: number;
   liveReadsPerDay: number;
-  spendCapUsd: number;
   maxImageBytes: number;
   /** A capture or payout without a webhook this long is looked up at PayPal. */
   lookupGraceMinutes: number;
@@ -80,7 +79,6 @@ export interface Limits {
 export const DEFAULT_LIMITS: Limits = {
   demoDrivesPerHour: 5,
   liveReadsPerDay: 30,
-  spendCapUsd: 5,
   // Vercel caps a request body at 4.5 MB; the client compresses photos below this.
   maxImageBytes: 4 * 1024 * 1024,
   lookupGraceMinutes: 10,

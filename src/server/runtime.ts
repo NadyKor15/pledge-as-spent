@@ -1,11 +1,10 @@
-import path from "node:path";
 import { openDatabase } from "../db/client";
 import { Recordings } from "../receipts/recorded";
 import recordedJson from "../../eval/receipts/recorded.json";
 import { ServiceError } from "./errors";
 import type { Pipeline } from "./reading";
 import { PledgeService, type Limits } from "./service";
-import { fileLedgerTotal, META_READ_CAP_MAX_USD, seedCarryOver } from "./spend";
+import { META_READ_CAP_MAX_USD } from "./spend";
 import translationsJson from "../../eval/receipts/translations.json";
 import { LineTranslator, type RecordedTranslations } from "./translations";
 
@@ -59,11 +58,8 @@ async function build(): Promise<PledgeService> {
   const ipHashKey = env.CRON_SECRET ?? (production ? undefined : "local-development-only");
   if (!ipHashKey) throw new ServiceError(503, "not_configured", "CRON_SECRET is not set.");
   const handle = await openDatabase(url);
-  // A local PGlite database migrates itself and carries over the file spend ledger; Neon gets both from `npm run db:migrate`.
-  if (handle.kind === "pglite") {
-    await handle.migrate();
-    await seedCarryOver(handle.db, fileLedgerTotal(path.join(process.cwd(), "eval", "spend-ledger.jsonl")), new Date().toISOString());
-  }
+  // A local PGlite database migrates itself; Neon is migrated by `npm run db:migrate`.
+  if (handle.kind === "pglite") await handle.migrate();
   return new PledgeService({
     db: handle.db,
     recordings: Recordings.parse(recordedJson),
