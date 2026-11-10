@@ -65,6 +65,14 @@ describe("discounts under refused lines, and one under a funded line", () => {
     expect(deriveLedger(withCoupons()).refused.map((r) => r.key)).toEqual(["demo-f372326129.r1:10", "demo-f372326129.r1:12", "demo-f372326129.r1:13", "demo-f372326129.r1:11"]);
   });
 
+  it("a funded line with a part refused (its need was covered) keeps its coupon on the funded side", () => {
+    const v = withCoupons();
+    const beer = v.ledger.find((r) => r.lineNo === 10 && r.kind === "rejected")!;
+    v.ledger.push({ ...beer, rowId: `${beer.receiptId}:1/need_covered`, lineNo: 1, needId: "water", base: 100, code: "need_covered" });
+    expect(lineViews(v, v.receipts[0]).find((l) => l.line.lineNo === 14)!.state).toBe("approved");
+    expect(shown(v)).toEqual(["Alcohol ¥1,198", "discount −¥100", "discount −¥50", "Gift card ¥3,000", "Water 2 L ¥100"]);
+  });
+
   it("the list adds up to the Coordinator's refused total, and the coupons are not counted as lines", () => {
     const v = withCoupons();
     const lines = lineViews(v, v.receipts[0]);
