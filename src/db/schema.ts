@@ -128,4 +128,24 @@ export const agentQuestions = pgTable(
   (t) => [index("agent_questions_ip").on(t.ipHash, t.ts), index("agent_questions_ts").on(t.ts)],
 );
 
-export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger, agentQuestions };
+/**
+ * The daily check of a drive's book against PayPal (src/server/reconcile.ts): when PayPal was asked, how many objects,
+ * how many agreed, and each difference as the book and PayPal state it. No keys, no e-mail, no PayPal bodies.
+ */
+export const paypalReconciliations = pgTable(
+  "paypal_reconciliations",
+  {
+    id: serial("id").primaryKey(),
+    driveId: text("drive_id").notNull(),
+    askedAt: ts("asked_at").notNull(),
+    answeredAt: ts("answered_at").notNull(),
+    total: integer("total").notNull(),
+    answered: integer("answered").notNull(),
+    agrees: integer("agrees").notNull(),
+    /** ReconcileDifference[]: every object that did not agree, PayPal's silence included. */
+    differences: jsonb("differences").notNull(),
+  },
+  (t) => [index("paypal_reconciliations_drive").on(t.driveId, t.askedAt)],
+);
+
+export const schema = { events, drives, receipts, paypalCalls, webhookEvents, spendLedger, agentQuestions, paypalReconciliations };

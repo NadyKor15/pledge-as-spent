@@ -1,0 +1,24 @@
+/* The daily check with PayPal: one line beside "Ask PayPal yourself" (ReconcileLine.tsx). */
+
+.rc { margin: 0; font-variant-numeric: tabular-nums; }
+.rc-text { margin: 0; }
+.rc-wait { min-height: 1.3em; }
+.rc-mark { color: #256F4B; font-weight: 700; }
+.rc[data-state="differs"] .rc-text { color: #B0203E; }
+.rc-list { margin: 4px 0 0; padding: 0 0 0 16px; color: #3B3F46; }
+.rc-list li { margin: 2px 0; overflow-wrap: anywhere; }
+
+/* The Ledger's bottom line: under the links, as small as the CSV link, on one line. */
+.rc-ledger { color: var(--muted, #55595F); font-size: calc(13px * var(--s, 1)); line-height: 1.3; white-space: nowrap; }
+.rc-ledger .rc-more { position: relative; }
+.rc-ledger summary { cursor: pointer; list-style: none; }
+.rc-ledger summary::-webkit-details-marker { display: none; }
+.rc-ledger summary::after { content: " ▾"; }
+.rc-ledger details[open] summary::after { content: " ▴"; }
+/* The list opens over the report, above the line, never pushing the bottom line taller. */
+.rc-ledger .rc-list { position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 30; width: max-content; max-width: min(620px, calc(100vw - 32px)); margin: 0; padding: 10px 14px 10px 28px; background: #FFFFFF; border: 1px solid var(--line, #E8E4DC); border-radius: 8px; box-shadow: 0 6px 24px rgba(28, 27, 25, .14); white-space: normal; text-align: left; font-size: calc(13px * var(--s, 1)); }
+[data-stacked="true"] .rc-ledger { font-size: 12px; white-space: normal; }
+[data-stacked="true"] .rc-ledger .rc-list { left: 0; right: auto; font-size: 12px; }
+
+/* The donor's statement: under the button in "Don't take our word for it". */
+.rc-statement { margin-top: 8px; font-size: 12.4px; line-height: 17px; color: #4A5160; letter-spacing: -.2px; }

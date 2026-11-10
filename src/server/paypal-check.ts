@@ -422,6 +422,24 @@ export class PayPalCheck {
     return job;
   }
 
+  /**
+   * The server's own daily check of a drive (src/server/reconcile.ts): the same objects and the same GETs as a press
+   * of "Ask PayPal yourself", but it is not a network's press, so it neither counts toward the hourly limit nor reads
+   * or fills the minute's cache. Null: the drive has no PayPal objects yet.
+   */
+  async dailyCheck(driveId: string): Promise<CheckResult | null> {
+    const loaded = await this.d.load(driveId);
+    if (!loaded) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+    const objects = bookObjects(loaded.state, loaded.journal);
+    if (objects.length === 0) return null;
+    return this.askObjects(driveId, objects);
+  }
+
+  /** PayPal's answer for these objects now: no limit, no cache. The daily check, and the live test on objects of record. */
+  askObjects(driveId: string, objects: CheckObject[]): Promise<CheckResult> {
+    return this.ask(driveId, objects, this.gateway());
+  }
+
   private async ask(driveId: string, objects: CheckObject[], gw: PayPalGateway): Promise<CheckResult> {
     const startedAt = new Date(this.now()).toISOString();
     const deadline = this.limits.deadlineMs;
