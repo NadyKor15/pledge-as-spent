@@ -258,7 +258,11 @@ export type ReceiptFlagCode =
   | "zone_unknown"
   | "out_of_zone"
   | "low_confidence"
-  | "tax_unknown";
+  | "tax_unknown"
+  /** Volunteers by invitation: a person checks each new volunteer's first receipt. */
+  | "first_receipt"
+  /** Volunteers by invitation: this receipt would take the volunteer past their limit. */
+  | "volunteer_limit";
 
 export interface ReceiptFlag {
   code: ReceiptFlagCode;

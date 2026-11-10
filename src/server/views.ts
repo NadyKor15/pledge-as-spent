@@ -1,7 +1,7 @@
 import { asc, eq, getTableColumns, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { drives, events, paypalCalls, receipts } from "../db/schema";
-import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledgeBalance } from "../core";
+import { closeReport, feeSavings, ledgerRows, matchProgress, needProgress, pledgeBalance, volunteerList } from "../core";
 import { splitTax, type ReceiptFlag } from "../receipts/checks";
 import { LineBox, type ParsedReceipt } from "../receipts/types";
 import { readBook } from "./book";
@@ -80,9 +80,11 @@ export interface Features {
   carry: boolean;
   /** RENEW_ENABLED: the donor may renew a hold with a new order approved again (the statement shows the button). */
   renew: boolean;
+  /** VOLUNTEER_INVITES: the coordinator invites volunteers by PayPal address; only they upload and are paid. */
+  invites: boolean;
 }
 
-export const NO_FEATURES: Features = { carry: false, renew: false };
+export const NO_FEATURES: Features = { carry: false, renew: false, invites: false };
 
 export async function driveView(db: Db, driveId: string, features: Features = NO_FEATURES) {
   const state = await readBook(db, driveId);
@@ -129,6 +131,8 @@ export async function driveView(db: Db, driveId: string, features: Features = NO
     paypal: calls.map((c) => ({ ...c, ts: toIso(c.ts) })),
     eventCount: count.n,
     features: { ...features },
+    // Invited volunteers (masked PayPal address, never the link token); the key exists only on drives that invite.
+    ...(state.volunteerIds.length ? { volunteers: volunteerList(state) } : {}),
   };
 }
 

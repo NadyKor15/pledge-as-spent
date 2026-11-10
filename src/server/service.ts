@@ -26,8 +26,11 @@ import {
   renewalOffer,
   renewalPledge,
   chainStatement,
+  payoutRefusal,
+  volunteerCommitted,
   type ChainStatement,
   type RenewalOffer,
+  type VolunteerBook,
   type DonorStatement,
   type HoldRebind,
   type RebindOffer,
@@ -55,7 +58,7 @@ import type { Recordings } from "../receipts/recorded";
 import type { LineClassification, ParsedReceipt, ReceiptImage } from "../receipts/types";
 import { auditingFetch, collectCalls } from "./audit";
 import { findEvent, readBook, withDrive, type DriveBook, type EventSource } from "./book";
-import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_SCENARIOS, demoDrive, demoPledgeId, fxFor, isDemoScenarioId, type DemoScenarioId } from "./demo";
+import { DEFAULT_DEMO_PAYOUT_EMAIL, DEMO_LIFETIME_HOURS, DEMO_SCENARIOS, demoDisplayFor, demoDrive, demoPledgeId, fxFor, isDemoScenarioId, type DemoScenarioId } from "./demo";
 import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
 import { ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
@@ -115,7 +118,18 @@ export interface ServiceDeps {
   rebindEnabled?: boolean;
   /** A donor may renew a hold with a new order approved again. Absent: env RENEW_ENABLED === "1"; off by default. */
   renewEnabled?: boolean;
+  /** The coordinator invites volunteers; payouts only to them. Absent: env VOLUNTEER_INVITES === "1"; off by default. */
+  invitesEnabled?: boolean;
 }
+
+/** A receipt's payout: whether there is anyone to pay, and the invited volunteer it goes to (null: the drive's own address). */
+interface PayTo {
+  canPay: boolean;
+  volunteerId: string | null;
+}
+
+/** The id of the volunteer a demo drive invites for itself (VOLUNTEER_INVITES): uploads without a link are theirs. */
+export const DEMO_VOLUNTEER_ID = "demo-volunteer";
 
 /** How a donor approves a renewal: in the PayPal window, or (a demo drive's test-card hold) with PayPal's sandbox test card. */
 export type RenewalApproval = "paypal_window" | "sandbox_test_card";
@@ -262,11 +276,12 @@ export class PledgeService {
   private async execute(driveId: string, cmds: PayPalCommand[]): Promise<CommandReport[]> {
     if (cmds.length === 0) return [];
     const row = await this.driveRow(driveId);
+    // A payout that names an invited volunteer goes to that volunteer's PayPal address, never the drive's.
+    const book = cmds.some((c) => c.kind === "payout" && c.volunteerId !== undefined) ? await this.openBook(driveId) : null;
     const reports: CommandReport[] = [];
     for (const cmd of cmds) {
-      const { events: evs, report } = await this.paypal(driveId, (gw) =>
-        perform(gw, cmd, { now: this.now(), driveTitle: row.title, payoutEmail: row.payoutEmail }),
-      );
+      const payoutEmail = cmd.kind === "payout" && cmd.volunteerId !== undefined ? (lookup(book!.volunteers, cmd.volunteerId)?.payoutEmail ?? null) : row.payoutEmail;
+      const { events: evs, report } = await this.paypal(driveId, (gw) => perform(gw, cmd, { now: this.now(), driveTitle: row.title, payoutEmail }));
       const { errors } = await this.record(driveId, evs);
       reports.push(errors.length ? { ...report, errors } : report);
     }
@@ -314,6 +329,21 @@ export class PledgeService {
       if (b.state.drive) return;
       const { drive, needs } = demoDrive(driveId, now, scenario);
       await b.append({ id: `opened:${driveId}`, type: "DriveOpened", at: now, driveId, drive, needs }, "app");
+      // VOLUNTEER_INVITES: the demo invites its own volunteer, so uploads without a link are theirs and paid to the demo's
+      // sandbox address. No first-receipt check on the demo (its note says a real drive has one); the judge's path stays one click.
+      if (this.invitesEnabled && payoutEmail) {
+        await b.append(
+          {
+            id: `volunteer:${driveId}:${DEMO_VOLUNTEER_ID}`,
+            type: "VolunteerInvited",
+            at: now,
+            driveId,
+            volunteer: { id: DEMO_VOLUNTEER_ID, name: demoDisplayFor(drive)?.volunteerName ?? "Volunteer", payoutEmail, tokenHash: createHash("sha256").update(`demo:${driveId}:${randomSuffix()}`).digest("hex"), limitBase: null, firstReceiptCheck: false },
+            by: "demo coordinator",
+          },
+          "app",
+        );
+      }
       await b.tx.insert(drives).values({
         id: driveId,
         title: drive.title,
@@ -559,6 +589,89 @@ export class PledgeService {
     return { pledgeId, needId: rebound.toNeedId, rebound };
   }
 
+  /** Off unless switched on: the deps say so, or env VOLUNTEER_INVITES is "1". */
+  get invitesEnabled(): boolean {
+    return this.d.invitesEnabled ?? process.env.VOLUNTEER_INVITES === "1";
+  }
+
+  /**
+   * The coordinator invites a volunteer by name and PayPal address. Answers the
+   * upload link's token ONCE (only its hash is kept). Payouts go only to invited,
+   * active volunteers; with `firstReceiptCheck` (the default) a person checks their
+   * first receipt; `limitMinor` caps all they are paid, in the drive's currency.
+   */
+  async inviteVolunteer(driveId: string, input: { name: string; payoutEmail: string; limitMinor?: number | null; by?: string; firstReceiptCheck?: boolean }): Promise<{ volunteerId: string; token: string; uploadPath: string }> {
+    if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+    const volunteerId = `vol-${randomSuffix()}`;
+    const token = randomBytes(18).toString("base64url");
+    const name = String(input.name ?? "").trim();
+    const limit = input.limitMinor === undefined || input.limitMinor === null ? null : Number(input.limitMinor);
+    await withDrive(this.db, driveId, async (b) => {
+      if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+      try {
+        await b.append(
+          {
+            id: `volunteer:${driveId}:${volunteerId}`,
+            type: "VolunteerInvited",
+            at: this.now(),
+            driveId,
+            volunteer: { id: volunteerId, name, payoutEmail: String(input.payoutEmail ?? "").trim(), tokenHash: createHash("sha256").update(token).digest("hex"), limitBase: limit, firstReceiptCheck: input.firstReceiptCheck ?? true },
+            by: String(input.by ?? "coordinator").trim().slice(0, 80) || "coordinator",
+          },
+          "app",
+        );
+      } catch (e) {
+        if (e instanceof CoreError) throw new ServiceError(400, "invalid_volunteer", e.message.replace(/^invalid_event: VolunteerInvited [^:]+: /, ""));
+        throw e;
+      }
+    });
+    return { volunteerId, token, uploadPath: `/drives/${encodeURIComponent(driveId)}?volunteer=${encodeURIComponent(token)}` };
+  }
+
+  /** The coordinator removes a volunteer: their link stops, nothing new is paid to them (a payout in flight completes). */
+  async removeVolunteer(driveId: string, volunteerId: string, by = "coordinator"): Promise<{ volunteerId: string; removed: true }> {
+    if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+    await withDrive(this.db, driveId, async (b) => {
+      if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+      if (!lookup(b.state.volunteers, volunteerId)) throw new ServiceError(404, "unknown_volunteer", `No volunteer ${volunteerId} on this drive.`);
+      await b.append({ id: `volunteer-removed:${driveId}:${volunteerId}`, type: "VolunteerRemoved", at: this.now(), driveId, volunteerId, by }, "app");
+    });
+    return { volunteerId, removed: true };
+  }
+
+  /** The coordinator changes a volunteer's limit; receipts that waited for it are paid now, within it. */
+  async setVolunteerLimit(driveId: string, volunteerId: string, limitMinor: number | null, by = "coordinator"): Promise<{ volunteerId: string; limitBase: number | null; commands: CommandReport[] }> {
+    if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+    const cmds = await withDrive(this.db, driveId, async (b) => {
+      if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+      if (!lookup(b.state.volunteers, volunteerId)) throw new ServiceError(404, "unknown_volunteer", `No volunteer ${volunteerId} on this drive.`);
+      try {
+        // A double click (same moment, same limit) is the same event; any other change is a new one.
+        await b.append({ id: `volunteer-limit:${driveId}:${volunteerId}:${this.now()}:${limitMinor ?? "none"}`, type: "VolunteerLimitSet", at: this.now(), driveId, volunteerId, limitBase: limitMinor, by }, "app");
+      } catch (e) {
+        if (e instanceof CoreError) throw new ServiceError(400, "invalid_limit", e.message);
+        throw e;
+      }
+      // Funded receipts of this volunteer whose payout waited for the limit, oldest first, as far as the new limit goes.
+      const rows = await b.tx.select({ id: receipts.id, status: receipts.status, checks: receipts.checks }).from(receipts).where(eq(receipts.driveId, driveId)).orderBy(asc(receipts.uploadedAt));
+      const planned: Command[] = [];
+      for (const r of rows) {
+        if (r.status !== "funded" || (r.checks as { volunteerId?: string } | null)?.volunteerId !== volunteerId) continue;
+        if (!b.state.lineKeys.some((k) => k.startsWith(`${r.id}:`)) || (b.state.payouts[r.id] ?? []).some((a) => a.status === "pending")) continue;
+        const owed = receiptFundedBase(b.state, r.id) - (b.state.payouts[r.id] ?? []).filter((a) => a.status === "confirmed").reduce((x, a) => x + a.amount, 0);
+        if (owed <= 0 || payoutRefusal(b.state, r.id, volunteerId, owed)) continue;
+        const p = planPayout(b.state, r.id, volunteerId);
+        if (p) {
+          const [sent] = await this.submitPlanned(b, [p]);
+          if (sent) planned.push(sent as Command);
+        }
+      }
+      return planned as PayPalCommand[];
+    });
+    const state = await this.openBook(driveId);
+    return { volunteerId, limitBase: state.volunteers[volunteerId].limitBase, commands: await this.execute(driveId, cmds) };
+  }
+
   /** Off unless switched on: the deps say so, or env RENEW_ENABLED is "1". */
   get renewEnabled(): boolean {
     return this.d.renewEnabled ?? process.env.RENEW_ENABLED === "1";
@@ -715,7 +828,27 @@ export class PledgeService {
 
   // ---- receipts ----------------------------------------------------------------
 
-  async submitReceipt(input: { driveId: string; bytes: Uint8Array; channel?: Channel; ip?: string | null }): Promise<SubmitResult> {
+  /**
+   * Who brings this receipt, on a drive that invites volunteers: the volunteer whose
+   * upload link it came with. A demo drive takes an upload without a link as its own
+   * invited volunteer's, so the judges' path stays one click. A drive that invites no
+   * one pays its own address, as before (null). Decided before the paid reading.
+   */
+  private uploader(state: LedgerState, demo: boolean, token: string | null | undefined): VolunteerBook | null {
+    if (state.volunteerIds.length === 0) return null;
+    if (token) {
+      const hash = createHash("sha256").update(token).digest("hex");
+      const v = state.volunteerIds.map((id) => state.volunteers[id]).find((x) => x.tokenHash === hash);
+      if (!v) throw new ServiceError(403, "invalid_volunteer_link", "This upload link does not belong to this drive.");
+      if (v.removedAt) throw new ServiceError(403, "volunteer_removed", "The coordinator removed this volunteer; this link no longer takes receipts.");
+      return v;
+    }
+    const seeded = demo ? lookup(state.volunteers, DEMO_VOLUNTEER_ID) : undefined;
+    if (seeded && !seeded.removedAt) return seeded;
+    throw new ServiceError(403, "invited_only", "Only invited volunteers upload receipts to this drive: use the link from your invitation.");
+  }
+
+  async submitReceipt(input: { driveId: string; bytes: Uint8Array; channel?: Channel; ip?: string | null; volunteerToken?: string | null }): Promise<SubmitResult> {
     const { driveId, bytes } = input;
     if (!bytes || bytes.length === 0) throw new ServiceError(400, "no_image", "No image was uploaded.");
     if (bytes.length > this.limits.maxImageBytes) {
@@ -729,6 +862,7 @@ export class PledgeService {
     const row = await this.driveRow(driveId);
     const state = await this.openBook(driveId);
     if (state.drive!.status !== "open") throw new ServiceError(409, "drive_not_open", `The drive is ${state.drive!.status}; it takes no new receipts.`);
+    const volunteer = this.uploader(state, row.demo, input.volunteerToken);
     const sha = sha256Hex(bytes);
     let dh: string | null;
     try {
@@ -761,6 +895,7 @@ export class PledgeService {
         known: known.map((k) => ({ receiptId: k.id, sha256: k.sha256, dHash: k.dhash, semanticKey: k.semanticKey, uploadedAt: toIso(k.uploadedAt) })),
         classifications: reading.classified.lines,
       });
+      if (volunteer) flags.push(...(await this.volunteerFlags(b, volunteer, reading.parsed)));
       await b.tx.insert(receipts).values({
         id: receiptId,
         driveId,
@@ -772,7 +907,7 @@ export class PledgeService {
         mediaType,
         parsed: reading.parsed,
         classified: reading.classified,
-        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { closed: redaction.closed, openLines: redaction.openLines, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}), ...(reading.bands ? { bands: reading.bands, bandTexts: reading.bandTexts ?? {}, purchaseLines: reading.purchaseLines ?? [] } : {}) },
+        checks: { flags, reconciliation: reconcileTotals(reading.parsed), redaction: { closed: redaction.closed, openLines: redaction.openLines, note: redaction.note }, usage: reading.usage, ...(reading.lineBoxes?.length ? { lineBoxes: reading.lineBoxes } : {}), ...(reading.bands ? { bands: reading.bands, bandTexts: reading.bandTexts ?? {}, purchaseLines: reading.purchaseLines ?? [] } : {}), ...(volunteer ? { volunteerId: volunteer.id } : {}) },
         status: flags.length ? "review" : "funded",
         channel,
         reader: reading.reader,
@@ -781,14 +916,41 @@ export class PledgeService {
       });
       // Any flag sends the receipt to the coordinator; no money moves until they decide.
       if (flags.length) return { receiptId, cmds: [] as PayPalCommand[] };
-      return { receiptId, cmds: await this.fundInBook(b, receiptId, reading, row.payoutEmail) };
+      return { receiptId, cmds: await this.fundInBook(b, receiptId, reading, this.payTo(row.payoutEmail, volunteer?.id ?? null)) };
     });
     const commands = await this.execute(driveId, cmds);
     return { receipt: await this.getReceipt(receiptId), commands };
   }
 
+  /** Whom a receipt's payout goes to: its invited volunteer, or the drive's own address on a drive that invites no one. */
+  private payTo(driveEmail: string | null, volunteerId: string | null): PayTo {
+    return { canPay: volunteerId !== null || driveEmail !== null, volunteerId };
+  }
+
+  /**
+   * Checks a person makes on a drive that invites volunteers: each volunteer's first
+   * receipt (unless their invitation said otherwise), and a receipt that would take
+   * the volunteer past their limit. Both send the receipt to the coordinator.
+   */
+  private async volunteerFlags(b: DriveBook, v: VolunteerBook, parsed: ParsedReceipt): Promise<ReceiptFlag[]> {
+    const out: ReceiptFlag[] = [];
+    if (v.firstReceiptCheck) {
+      const rows = await b.tx.select({ status: receipts.status, checks: receipts.checks }).from(receipts).where(eq(receipts.driveId, b.state.drive!.id));
+      const approvedBefore = rows.some((r) => r.status === "funded" && (r.checks as { volunteerId?: string } | null)?.volunteerId === v.id);
+      if (!approvedBefore) out.push({ code: "first_receipt", severity: "review", messageEn: `First receipt from ${v.name}: a person checks every new volunteer's first receipt before any money moves.` });
+    }
+    if (v.limitBase !== null) {
+      const c = volunteerCommitted(b.state, v.id);
+      const asked = parsed.currency === b.state.drive!.baseCurrency && Number.isSafeInteger(parsed.totalMinor) ? (parsed.totalMinor ?? 0) : 0;
+      if (c.pending + c.paid + asked > v.limitBase) {
+        out.push({ code: "volunteer_limit", severity: "review", messageEn: `${v.name} would pass their limit: the coordinator raises it or refuses the receipt; nothing is paid above it.` });
+      }
+    }
+    return out;
+  }
+
   /** Lines into the book (funded or refused, in print order), then the volunteer's payout, then due captures. */
-  private async fundInBook(b: DriveBook, receiptId: string, reading: Pick<Reading, "parsed" | "classified">, payoutEmail: string | null, approval?: CoordinatorApproval): Promise<PayPalCommand[]> {
+  private async fundInBook(b: DriveBook, receiptId: string, reading: Pick<Reading, "parsed" | "classified">, payTo: PayTo, approval?: CoordinatorApproval): Promise<PayPalCommand[]> {
     const now = this.now();
     const s = b.state;
     const parsed = reading.parsed;
@@ -824,9 +986,15 @@ export class PledgeService {
     // Every line refused: the receipt must not read as funded.
     if (receiptFundedBase(b.state, receiptId) === 0) await b.tx.update(receipts).set({ status: "rejected" }).where(eq(receipts.id, receiptId));
     const planned: Command[] = [];
-    if (payoutEmail && b.state.lineKeys.some((k) => k.startsWith(`${receiptId}:`)) && receiptFundedBase(b.state, receiptId) > 0) {
-      const p = planPayout(b.state, receiptId);
-      if (p) planned.push(p);
+    if (payTo.canPay && b.state.lineKeys.some((k) => k.startsWith(`${receiptId}:`)) && receiptFundedBase(b.state, receiptId) > 0) {
+      const vid = payTo.volunteerId ?? undefined;
+      const owed = receiptFundedBase(b.state, receiptId) - (b.state.payouts[receiptId] ?? []).filter((a) => a.status === "confirmed").reduce((x, a) => x + a.amount, 0);
+      const waits = (b.state.payouts[receiptId] ?? []).some((a) => a.status === "pending") ? null : payoutRefusal(b.state, receiptId, vid, owed);
+      if (waits) this.log("payout waits", { receiptId, why: waits }); // e.g. over the volunteer's limit: paid when the coordinator raises it
+      else {
+        const p = planPayout(b.state, receiptId, vid);
+        if (p) planned.push(p);
+      }
     }
     const out = await this.submitPlanned(b, planned);
     out.push(...(await this.submitPlanned(b, planCaptures(b.state, now))));
@@ -917,7 +1085,7 @@ export class PledgeService {
         .update(receipts)
         .set({ status: "funded", decision: { decision, reason: text, by, at: this.now(), approved: approval, ...(chosen.length ? { lineNeeds: chosen } : {}) } })
         .where(eq(receipts.id, receiptId));
-      return this.fundInBook(b, receiptId, reading, row.payoutEmail, approval);
+      return this.fundInBook(b, receiptId, reading, this.payTo(row.payoutEmail, (r.checks as { volunteerId?: string } | null)?.volunteerId ?? null), approval);
     });
     const commands = await this.execute(head.driveId, cmds);
     return { receipt: await this.getReceipt(receiptId), commands };
@@ -1246,7 +1414,7 @@ export class PledgeService {
 
   /** Which money features this server has switched on; all off by default. */
   get features(): Features {
-    return { carry: this.rebindEnabled, renew: this.renewEnabled };
+    return { carry: this.rebindEnabled, renew: this.renewEnabled, invites: this.invitesEnabled };
   }
 
   async getReceipt(receiptId: string): Promise<ReceiptView> {

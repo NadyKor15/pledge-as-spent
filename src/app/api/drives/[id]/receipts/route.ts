@@ -21,7 +21,8 @@ export async function POST(req: Request, ctx: RouteContext<"/api/drives/[id]/rec
     if (sample) bytes = await sampleBytes(sample);
     else if (file instanceof Blob) bytes = new Uint8Array(await file.arrayBuffer());
     else throw new ServiceError(400, "no_image", "Send the photo as multipart field `image`, or `sample=hero` (`sample=florida` on the Florida drive) for the sample receipt.");
-    const result = await svc.submitReceipt({ driveId: id, bytes, channel: (str(f.channel) ?? "web") as Channel, ip: clientIp(req) });
+    // `volunteer`: the token of an invited volunteer's upload link (drives that invite volunteers).
+    const result = await svc.submitReceipt({ driveId: id, bytes, channel: (str(f.channel) ?? "web") as Channel, ip: clientIp(req), volunteerToken: str(f.volunteer) ?? null });
     return respond(f, result, 201);
   });
 }
