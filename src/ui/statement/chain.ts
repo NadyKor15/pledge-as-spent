@@ -37,6 +37,20 @@ export function chainOf(data: unknown): StatementChain | null {
 }
 
 /**
+ * Which hold's statement the page shows. The donor's link names the FIRST hold; once renewed, that hold is voided and its
+ * own fate ("rest never charged", "PayPal voided this hold", no Withdraw) is not the pledge's. A statement opened by any
+ * hold of a chain but the latest goes to the latest (the live one, the one Withdraw revokes); null: stay where it is.
+ */
+export function statementTarget(pledgeId: string, chain: StatementChain | null): string | null {
+  return chain && pledgeId !== chain.latest ? chain.latest : null;
+}
+
+/** The statement page of `pledgeId`, keeping the query and the hash of the page it came from. */
+export function statementHref(pledgeId: string, search = "", hash = ""): string {
+  return `/pledge/${encodeURIComponent(pledgeId)}${search}${hash}`;
+}
+
+/**
  * The statement with the rows of the whole renewed pledge (every hold of the chain, each row with its own share), for
  * everything that reads lines: what was bought, each line's share, the translations. Without a renewal: the hold's own.
  */

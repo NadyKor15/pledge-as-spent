@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { api, asApiError, useAction, useDrive, type ApiError } from "./api";
 import { classes } from "./cls";
@@ -19,7 +20,7 @@ import { statementLines } from "./statement/lines";
 import { LineProofs } from "./statement/LineProofs";
 import { translationNote } from "./statement/lines";
 import { chainFee, feeLine, useReportedFees } from "./fee-line";
-import { chainMeter, chainOf, chainRows, latestMember } from "./statement/chain";
+import { chainMeter, chainOf, chainRows, latestMember, statementHref, statementTarget } from "./statement/chain";
 import { ChainStory } from "./statement/ChainStory";
 import type { StatementTranslation } from "@/server/translations";
 import type { CheckResult } from "@/server/paypal-check";
@@ -63,10 +64,19 @@ export function StatementScreen({ params }: { params: Promise<{ pledgeId: string
     };
   }, [load]);
 
+  // A renewed pledge opened by an older hold's id (the donor's first link): the statement of its latest hold instead.
+  const router = useRouter();
+  const target = data ? statementTarget(data.statement.balance.pledgeId, chainOf(data)) : null;
+  useEffect(() => {
+    if (target) router.replace(statementHref(target, window.location.search, window.location.hash));
+  }, [target, router]);
+
   if (!data) {
     if (!error) return <Loading what="your statement" />;
     return <Failure title={error.status === 404 ? "No such pledge" : "The statement could not be loaded"} message={error.message} />;
   }
+  // Never the older hold's own page meanwhile: its fate is not the pledge's.
+  if (target) return error ? <Failure title="The statement could not be loaded" message={error.message} /> : <Loading what="your statement" />;
   return <WithDrive data={data} reload={reload} />;
 }
 

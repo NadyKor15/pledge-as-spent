@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { statementRowsToTranslate } from "@/server/translations";
 import { METER_KEYS } from "@/ui/hold-meter";
-import { chainMeter, chainOf, chainRows, chainStory, latestMember, type StatementChain } from "@/ui/statement/chain";
+import { chainMeter, chainOf, chainRows, chainStory, latestMember, statementHref, statementTarget, type StatementChain } from "@/ui/statement/chain";
 import { statementLines } from "@/ui/statement/lines";
 import type { DriveView, Statement } from "@/ui/types";
 
@@ -69,6 +69,32 @@ describe("a renewed pledge's statement", () => {
       totals: { ...lena.totals, waiting: 0, charged: 666, held: 0, never: 1334 },
     };
     expect(chainStory(over).at(-1)!.text).toMatch(/the hold ended\. €13\.34 was never charged/);
+  });
+});
+
+// The donor's link names her first hold; after the renewal that hold is voided. The page goes to the latest hold's
+// statement (the live one, the one Withdraw revokes), never shows the old hold's "rest never charged".
+describe("which hold's statement the page shows", () => {
+  it("opened by the first hold of a renewed pledge: the latest hold's", () => {
+    expect(statementTarget("lena", lena)).toBe("r1");
+  });
+
+  it("opened by the latest hold, or without a renewal: stays", () => {
+    expect(statementTarget("r1", lena)).toBeNull();
+    expect(statementTarget("lena", null)).toBeNull();
+    expect(statementTarget("lena", chainOf({}))).toBeNull();
+    expect(statementTarget("lena", chainOf({ chain: { ...lena, members: lena.members.slice(0, 1) } }))).toBeNull();
+  });
+
+  it("a chain of three opened by its middle hold: the latest", () => {
+    const three: StatementChain = { ...lena, latest: "r2", members: [...lena.members, { ...lena.members[1], pledgeId: "r2", renews: "r1" }] };
+    expect(statementTarget("r1", three)).toBe("r2");
+    expect(statementTarget("lena", three)).toBe("r2");
+  });
+
+  it("the latest hold's page keeps the query and the hash", () => {
+    expect(statementHref("demo-x.r1", "?lang=de", "#lines")).toBe("/pledge/demo-x.r1?lang=de#lines");
+    expect(statementHref("a b")).toBe("/pledge/a%20b");
   });
 });
 
