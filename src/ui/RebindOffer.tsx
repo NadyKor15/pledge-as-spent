@@ -38,15 +38,22 @@ export function RebindOffer(props: RebindOfferProps) {
   );
 }
 
+/** Refusals that mean nothing of the hold moves again: the drive is over, or the hold is. */
+const OVER = new Set(["drive_not_open", "hold_not_live", "revoked", "blocked", "expired"]);
+
 /** The donor's choice at the pledge, "keep the rest for next purchases", and where the rest went because of it. */
 function KeptRest({ offer, label }: { offer: NonNullable<StatementView["rebind"]>; label: (id: string | null) => string }) {
   const carried = offer.carried ?? [];
   if (offer.rest !== "carry" && carried.length === 0) return null;
+  // Once nothing can move any more (the drive closed, the hold ended or was withdrawn) the choice is history, not a promise.
+  const over = OVER.has(offer.refusal?.code ?? "");
   return (
     <section style={card} aria-label="What happens to the rest" data-testid="rest-kept">
       <h2 style={h2}>You kept the rest for next purchases</h2>
       <p style={p}>
-        When {label(offer.needId)} is covered, what your hold has not paid for moves by itself to the open need furthest from covered (not in the hold&apos;s last 3 days). It is the same PayPal hold: moving it charges nothing, and what no purchase uses is never charged: PayPal releases it.
+        {over
+          ? "Nothing moves any more. What your hold did not pay for is never charged: PayPal releases it."
+          : <>When {label(offer.needId)} is covered, what your hold has not paid for moves by itself to the open need furthest from covered (not in the hold&apos;s last 3 days). It is the same PayPal hold: moving it charges nothing, and what no purchase uses is never charged: PayPal releases it.</>}
       </p>
       {carried.map((c) => (
         <p key={`${c.fromNeedId}>${c.toNeedId}`} style={{ ...p, color: "var(--ink)" }} data-testid="rest-carried">
