@@ -26,3 +26,6 @@ export const payoutSenderBatchId = (driveId: string, receiptId: string, attempt:
 
 /** One rebind per hold: a second press, or a race of two, maps to the same event and is applied once. */
 export const rebindEventId = (driveId: string, pledgeId: string): string => `rebind:${driveId}:${pledgeId}`;
+
+/** One carry per hold and covered need: a need stays covered, so the same carry can never be planned twice. */
+export const carryEventId = (driveId: string, pledgeId: string, fromNeedId: string): string => `carry:${driveId}:${pledgeId}:${fromNeedId}`;

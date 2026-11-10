@@ -74,7 +74,15 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
 
 export type ReceiptView = ReturnType<typeof receiptView>;
 
-export async function driveView(db: Db, driveId: string) {
+/** Money features switched on for this server (all off by default); screens show their controls only when on. */
+export interface Features {
+  /** REBIND_ENABLED: the donor may move a hold once, and may choose at the pledge to keep the rest for next purchases. */
+  carry: boolean;
+}
+
+export const NO_FEATURES: Features = { carry: false };
+
+export async function driveView(db: Db, driveId: string, features: Features = NO_FEATURES) {
   const state = await readBook(db, driveId);
   if (!state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
   const [row] = await db.select({ demo: drives.demo, createdAt: drives.createdAt }).from(drives).where(eq(drives.id, driveId));
@@ -118,6 +126,7 @@ export async function driveView(db: Db, driveId: string) {
     receipts: rows.map((r) => receiptView(r)),
     paypal: calls.map((c) => ({ ...c, ts: toIso(c.ts) })),
     eventCount: count.n,
+    features: { ...features },
   };
 }
 

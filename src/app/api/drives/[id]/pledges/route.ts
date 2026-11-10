@@ -19,6 +19,7 @@ export async function POST(req: Request, ctx: RouteContext<"/api/drives/[id]/ple
       donorName: String(f.donorName ?? ""),
       donorCountry: str(f.donorCountry) ?? null,
       amount: { currency: amount.currency as Money["currency"], minor: Number(amount.minor) },
+      rest: str(f.rest) ?? null,
     });
     return Response.json(pledge, { status: 201 });
   });

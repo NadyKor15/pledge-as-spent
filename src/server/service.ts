@@ -17,6 +17,7 @@ import {
   planClose,
   planHoldMaintenance,
   planPayout,
+  planCarries,
   payoutSubmittedEvent,
   rebindEvent,
   rebindOffer,
@@ -52,7 +53,7 @@ import { asServiceError, ServiceError } from "./errors";
 import { captureEvent, describe, payoutEvent, perform, type CommandReport, type PayPalCommand, type Recorded } from "./paypal-ops";
 import { ReceiptReading, type CloseReceipt, type Pipeline, type Reading, type SavedAnswer, type StoredClassification } from "./reading";
 import { publishedCopy } from "./redact";
-import { driveView, receiptView, toIso, type DriveView, type ReceiptView } from "./views";
+import { driveView, receiptView, toIso, type DriveView, type Features, type ReceiptView } from "./views";
 import { webhookTarget } from "./webhooks";
 
 export type Channel = "web" | "whatsapp" | "telegram";
@@ -376,10 +377,16 @@ export class PledgeService {
     donorCountry?: string | null;
     amount: Money;
     pledgeId?: string;
+    /** What happens to the rest once the need is covered; absent: release. "carry" only while REBIND_ENABLED is on. */
+    rest?: string | null;
   }): Promise<{ pledgeId: string; orderId: string; approveUrl: string | null; status: string }> {
     const state = await this.openBook(input.driveId);
     const drive = state.drive!;
     if (drive.status !== "open") throw new ServiceError(409, "drive_not_open", `The drive is ${drive.status}.`);
+    const rest = input.rest ?? undefined;
+    if (rest !== undefined && rest !== "release" && rest !== "carry") throw new ServiceError(400, "invalid_rest", "rest must be release or carry.");
+    if (rest === "carry" && !this.rebindEnabled) throw new ServiceError(400, "carry_disabled", "Keeping the rest for next purchases is not switched on.");
+    if (rest === "carry" && input.match) throw new ServiceError(400, "invalid_rest", "A company match backs the whole drive; it has no rest to keep.");
     const donorName = (input.donorName ?? "").trim();
     if (!donorName || donorName.length > 80) throw new ServiceError(400, "invalid_donor", "donorName is required (at most 80 characters).");
     const { currency, minor } = input.amount ?? ({} as Money);
@@ -398,6 +405,7 @@ export class PledgeService {
       needId: isMatch ? null : (input.needId ?? null),
       donorName,
       ...(input.donorCountry ? { donorCountry: String(input.donorCountry).slice(0, 2).toUpperCase() } : {}),
+      ...(rest !== undefined ? { rest } : {}),
       amount: { currency: currency as CurrencyCode, minor },
       fx,
       ...(isMatch ? { match: { ratioNum: input.match!.ratioNum, ratioDen: input.match!.ratioDen } } : {}),
@@ -460,6 +468,8 @@ export class PledgeService {
     // The PayPal window also takes cards: only a PayPal-account hold can be reauthorized later.
     const ev = this.authorizationEvent(driveId, pledgeId, auth, auth.paymentSource === "card" ? "card" : "paypal");
     if (ev) await this.recordStrict(driveId, [ev]);
+    // Approved for a need that is already covered, with "keep the rest": it moves on at once.
+    if (ev && this.rebindEnabled) await withDrive(this.db, driveId, (b) => this.appendCarries(b, this.now()));
     // Approved after the drive closed (or while closing): advance voids the new hold at once.
     await this.advance(driveId);
     const after = await this.openBook(driveId);
@@ -530,6 +540,15 @@ export class PledgeService {
       return b.state.holds[pledgeId].rebound!;
     });
     return { pledgeId, needId: rebound.toNeedId, rebound };
+  }
+
+  /**
+   * The donor's "keep the rest for next purchases": carries due now, appended in
+   * the caller's locked transaction. Nothing while REBIND_ENABLED is off.
+   */
+  private async appendCarries(b: DriveBook, now: string): Promise<void> {
+    if (!this.rebindEnabled) return;
+    for (const ev of planCarries(b.state, now)) await b.append(ev, "app");
   }
 
   /** What the donor's statement may offer now: null while the feature is off. */
@@ -632,6 +651,8 @@ export class PledgeService {
       if (step.f) {
         const ev = allocateLine(b.state, step.f, now);
         if (ev) await b.append(ev, "app");
+        // A need this line covered hands the rest of "keep it" holds on before the next line is split.
+        await this.appendCarries(b, now);
         continue;
       }
       const r = step.r!;
@@ -905,6 +926,7 @@ export class PledgeService {
         const cmds = await withDrive(this.db, d.id, async (b) => {
           // Captures first, so maintenance sees them in flight (no reauthorize while a capture is pending).
           const now = this.now();
+          await this.appendCarries(b, now); // a carry missed by a crash between a line and its carry is picked up here
           const sent = await this.submitPlanned(b, planCaptures(b.state, now));
           sent.push(...(await this.submitPlanned(b, planHoldMaintenance(b.state, now))));
           return sent;
@@ -1062,7 +1084,12 @@ export class PledgeService {
   // ---- reads ---------------------------------------------------------------------
 
   async getDriveView(driveId: string): Promise<DriveView> {
-    return driveView(this.db, driveId);
+    return driveView(this.db, driveId, this.features);
+  }
+
+  /** Which money features this server has switched on; all off by default. */
+  get features(): Features {
+    return { carry: this.rebindEnabled };
   }
 
   async getReceipt(receiptId: string): Promise<ReceiptView> {

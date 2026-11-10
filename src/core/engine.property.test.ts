@@ -31,6 +31,7 @@ import {
   renewalRequestedEvent,
 } from "./plan";
 import { rebindEvent } from "./rebind";
+import { planCarries } from "./carry";
 import { arbRate, CURRENCIES, RUNS } from "./testing/arbitraries";
 import { makeDrive, makePledge } from "./testing/builders";
 import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
@@ -102,7 +103,7 @@ const arbScenario = fc.record({
   rates: fc.array(arbRate(), { minLength: 6, maxLength: 6 }),
   needs: fc.array(fc.integer({ min: 1, max: 60 }), { minLength: 1, maxLength: 8 }),
   holds: fc.array(
-    fc.record({ needIdx: fc.nat(), curIdx: fc.nat(), minor: fc.integer({ min: 1, max: 300_000 }), approval: arbApproval }),
+    fc.record({ needIdx: fc.nat(), curIdx: fc.nat(), minor: fc.integer({ min: 1, max: 300_000 }), approval: arbApproval, carry: fc.boolean() }),
     { minLength: 1, maxLength: 30, size: "max" },
   ),
   match: fc.option(
@@ -331,9 +332,10 @@ class Sim {
     return c === this.sc.base ? "1" : this.sc.rates[CURRENCIES.indexOf(c)];
   }
 
-  addPledge(id: string, kind: "donor" | "match", needId: string | null, c: CurrencyCode, minor: number, approval: Approval) {
+  addPledge(id: string, kind: "donor" | "match", needId: string | null, c: CurrencyCode, minor: number, approval: Approval, carry = false) {
     const ratio = this.sc.match ? { ratioNum: this.sc.match.ratioNum, ratioDen: this.sc.match.ratioDen } : undefined;
-    const pledge: Pledge = makePledge({ id, kind, needId, amount: { currency: c, minor }, rate: this.rate(c), ratio, baseCurrency: this.sc.base });
+    const rest = kind === "donor" && carry ? ("carry" as const) : undefined;
+    const pledge: Pledge = makePledge({ id, kind, needId, amount: { currency: c, minor }, rate: this.rate(c), ratio, baseCurrency: this.sc.base, rest });
     this.apply({ id: this.id("pc"), at: this.now, driveId: "drv1", type: "PledgeCreated", pledge });
     if (approval === "denied") this.apply({ id: this.id("pd"), at: this.now, driveId: "drv1", type: "PledgeDenied", pledgeId: id });
     else if (approval !== "pending") this.authorize(id, approval);
@@ -341,6 +343,50 @@ class Sim {
 
   authorize(pledgeId: string, source: PaymentSource) {
     this.apply({ id: this.id("pa"), at: this.now, driveId: "drv1", type: "PledgeAuthorized", pledgeId, authorizationId: `AUTH-${pledgeId}`, paymentSource: source });
+    this.carry(); // a hold approved for a need that is already covered moves at once
+  }
+
+  carries = 0;
+
+  /**
+   * The service's step after every funded line and authorization: apply the
+   * carries due. Each is checked against an independent reading of the rule,
+   * and planning again right after gives nothing (no hold is left behind).
+   */
+  carry() {
+    const s = this.state;
+    const evs = planCarries(s, this.now);
+    for (const ev of evs) {
+      const before = this.state;
+      const p = before.pledges[ev.pledgeId];
+      const h = before.holds[ev.pledgeId];
+      must(p.kind === "donor" && p.rest === "carry" && p.needId === ev.fromNeedId, "only a donor who chose to keep the rest is carried, from the need the hold backs", ev);
+      must(before.qtyCovered[ev.fromNeedId] >= before.needs[ev.fromNeedId].qtyNeeded, "a carry leaves only a covered need", ev);
+      must(before.qtyCovered[ev.toNeedId] < before.needs[ev.toNeedId].qtyNeeded, "a carry goes only to an open need", ev);
+      must(capacityBase(p, h) > 0 && Date.parse(this.now) < Date.parse(p.expiresAt!) - REBIND_BEFORE_EXPIRY_MS, "a carry moves something that can still fund in time", ev);
+      // independent reading of "the open need that lacks the most, ties by the drive's order"
+      let best: string | null = null;
+      for (const id of before.needIds) {
+        if (id === p.needId) continue;
+        const lack = before.needs[id].qtyNeeded - before.qtyCovered[id];
+        if (lack <= 0) continue;
+        if (best === null) best = id;
+        else {
+          const bl = before.needs[best].qtyNeeded - before.qtyCovered[best];
+          if (lack / before.needs[id].qtyNeeded > bl / before.needs[best].qtyNeeded + 1e-12) best = id;
+        }
+      }
+      must(ev.toNeedId === best, "the rest goes to the need that lacks the most", { ev, best });
+      this.apply(ev);
+      const after = this.state.holds[ev.pledgeId];
+      for (const k of ["authorized", "captured", "capturePending", "accrued", "released", "uncollected", "reversed"] as const) must(after[k] === h[k], "a carry leaves the hold's money as it was", { ev, k });
+      must(JSON.stringify(after.authorizationIds) === JSON.stringify(h.authorizationIds), "a carry keeps PayPal's authorization", ev);
+      expect(planHoldMaintenance(this.state, this.now)).toEqual(planHoldMaintenance(before, this.now));
+      expect(applyEvent(this.state, ev)).toBe(this.state);
+      this.rebinds.set(ev.pledgeId, { from: ev.fromNeedId, to: ev.toNeedId, at: this.now });
+      this.carries += 1;
+    }
+    expect(planCarries(this.state, this.now)).toEqual([]);
   }
 
   open() {
@@ -351,7 +397,7 @@ class Sim {
       batch: { maxAgeHours: sc.maxAgeHours, thresholdMinor: sc.threshold ? { [sc.base]: sc.threshold } : {} },
     });
     this.apply({ id: "open", at: T0, driveId: "drv1", type: "DriveOpened", drive, needs });
-    sc.holds.forEach((h, i) => this.addPledge(`d${String(i).padStart(2, "0")}`, "donor", `n${h.needIdx % needs.length}`, this.currency(h.curIdx), h.minor, h.approval));
+    sc.holds.forEach((h, i) => this.addPledge(`d${String(i).padStart(2, "0")}`, "donor", `n${h.needIdx % needs.length}`, this.currency(h.curIdx), h.minor, h.approval, h.carry));
     if (sc.match) {
       for (let j = 0; j < sc.match.count; j++) this.addPledge(`m${j}`, "match", null, this.currency(sc.match.curIdx + j), sc.match.minor, "paypal");
     }
@@ -380,6 +426,7 @@ class Sim {
     }
     this.apply(ev);
     this.lines.push({ line, ev });
+    this.carry();
   }
 
   capture(force: boolean) {
@@ -542,7 +589,7 @@ class Sim {
         if (s.drive!.status !== "open") return;
         if (op.match && !this.sc.match) return;
         const id = this.id(op.match ? "mx" : "dx");
-        this.addPledge(id, op.match ? "match" : "donor", op.match ? null : `n${op.needIdx % this.sc.needs.length}`, this.currency(op.curIdx), op.minor, "paypal");
+        this.addPledge(id, op.match ? "match" : "donor", op.match ? null : `n${op.needIdx % this.sc.needs.length}`, this.currency(op.curIdx), op.minor, "paypal", op.minor % 2 === 0);
         return;
       }
       case "payout":
@@ -657,10 +704,12 @@ function runScenario(sc: Scenario): Sim {
 describe("engine properties (SPEC §3-§6)", () => {
   it("random drives keep every money invariant from first pledge to close", () => {
     let movedRuns = 0;
+    let carriedRuns = 0;
     fc.assert(
       fc.property(arbScenario, (sc) => {
         const sim = runScenario(sc);
         if (sim.rebinds.size > 0) movedRuns += 1;
+        if (sim.carries > 0) carriedRuns += 1;
         sim.close();
         const s = sim.state;
         expect(s.drive!.status).toBe("closed");
@@ -683,8 +732,9 @@ describe("engine properties (SPEC §3-§6)", () => {
       }),
       { numRuns: RUNS },
     );
-    // the rebind rule was really exercised, not refused in every run
+    // the rebind and carry rules were really exercised, not refused in every run
     expect(movedRuns).toBeGreaterThan(0);
+    expect(carriedRuns).toBeGreaterThan(0);
   }, 600_000);
 
   it("the split does not depend on the order pledges were made in", () => {

@@ -151,6 +151,23 @@ export interface PledgeRebound extends EventBase {
   consent: { by: string; via: string };
 }
 
+/**
+ * The donor chose "keep the rest for this drive's next purchases" at the pledge.
+ * Their need is covered, so what is left of the hold now backs the open need
+ * that lacks the most (ties: the drive's order). PayPal is not called, as with
+ * PledgeRebound; unlike it, this follows a rule and may happen once per need left.
+ */
+export interface RestCarried extends EventBase {
+  type: "RestCarried";
+  pledgeId: string;
+  /** The covered need the hold backed. */
+  fromNeedId: string;
+  /** The need the rule picked; any other is refused. */
+  toNeedId: string;
+  /** The consent is the donor's choice at the pledge. */
+  consent: { by: string; via: "pledge_choice" };
+}
+
 export interface Reauthorized extends EventBase {
   type: "Reauthorized";
   pledgeId: string;
@@ -212,6 +229,7 @@ export type LedgerEvent =
   | PledgeDenied
   | PledgeRevoked
   | PledgeRebound
+  | RestCarried
   | LineFunded
   | LineRejected
   | CaptureSubmitted

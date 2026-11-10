@@ -60,7 +60,7 @@ describe("API routes", () => {
   it("GET /api/drives/[id] returns the book; an unknown drive is a 404 with a sentence", async () => {
     const ok = await driveGET(req(`/api/drives/${driveId}`), ctx(driveId));
     expect(ok.status).toBe(200);
-    expect(Object.keys(await ok.json())).toEqual(["drive", "needs", "holds", "match", "ledger", "payouts", "closeReport", "feeSavings", "receipts", "paypal", "eventCount"]);
+    expect(Object.keys(await ok.json())).toEqual(["drive", "needs", "holds", "match", "ledger", "payouts", "closeReport", "feeSavings", "receipts", "paypal", "eventCount", "features"]);
     const missing = await driveGET(req("/api/drives/nope"), ctx("nope"));
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: "unknown_drive", message: "No drive nope." });

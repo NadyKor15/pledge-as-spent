@@ -30,7 +30,7 @@ export function toMinor(text: string, currency: Currency): number | null {
   return minor > 0 && minor <= max ? minor : null;
 }
 
-export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; needId: string; needLabel: string }) {
+export function PledgeForm({ driveId, needId, needLabel, restChoice = false }: { driveId: string; needId: string; needLabel: string; restChoice?: boolean }) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("20.00");
@@ -39,6 +39,9 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
   const pledgeId = useRef<string | null>(null);
   // Read when PayPal's button is pressed: a name is no reason to reload the button on every letter.
   const donorName = useRef("");
+  // What happens to the rest once this need is covered (shown only when the server has it switched on).
+  const [rest, setRest] = useState<"release" | "carry">("release");
+  const restRef = useRef<"release" | "carry">("release");
   const minor = toMinor(amount, currency);
   const invalid = minor === null;
   const id = `pledge-${needId}`;
@@ -47,7 +50,7 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
     setMessage(null);
     if (minor === null) throw new Error("Enter an amount first.");
     const res = await api<{ pledgeId: string; orderId: string }>(`/api/drives/${encodeURIComponent(driveId)}/pledges`, {
-      json: { needId, donorName: donorName.current.trim() || "Anonymous donor", amount: { currency, minor } },
+      json: { needId, donorName: donorName.current.trim() || "Anonymous donor", amount: { currency, minor }, ...(restChoice ? { rest: restRef.current } : {}) },
     });
     pledgeId.current = res.pledgeId;
     return res.orderId;
@@ -88,6 +91,33 @@ export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; ne
           </select>
         </div>
       </div>
+      {restChoice && (
+        <fieldset className={s.restChoice} data-testid="rest-choice">
+          <legend>When {needLabel} is covered, what is left of your hold</legend>
+          {(
+            [
+              ["release", "Is never charged", `Only receipts for ${needLabel} can use your hold.`],
+              ["carry", "Keeps buying for this drive", "It moves to the open need that lacks the most. Still only approved receipt lines are charged."],
+            ] as const
+          ).map(([value, title, note]) => (
+            <label key={value} className={s.restOpt}>
+              <input
+                type="radio"
+                name={`rest-${needId}`}
+                value={value}
+                checked={rest === value}
+                onChange={() => {
+                  setRest(value);
+                  restRef.current = value;
+                }}
+              />
+              <span>
+                <b>{title}</b> {note}
+              </span>
+            </label>
+          ))}
+        </fieldset>
+      )}
       <p className={s.payNote}>PayPal will say “Pay” — your money is only held until a verified purchase</p>
       {CLIENT_ID ? (
         <div className={s.ppSlot}>

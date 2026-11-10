@@ -10,6 +10,7 @@ import {
   matchRatio,
   requireDrive,
   requirePledge,
+  restOf,
 } from "./ledger";
 import { toBase } from "./money";
 import type { CurrencyCode, HoldStatus, Money, PledgeKind } from "./types";
@@ -42,6 +43,10 @@ export interface PledgeBalance {
   expiresAt: string | null;
   /** The donor moved the rest of this hold from one need to another (once), or null. */
   rebound?: { at: string; fromNeedId: string; toNeedId: string; by: string; via: string } | null;
+  /** The donor's choice at the pledge for the rest; absent: no choice was made, which is "release". */
+  rest?: "release" | "carry";
+  /** Carries that followed that choice, oldest first; absent until the first one. */
+  carried?: { at: string; fromNeedId: string; toNeedId: string }[];
 }
 
 export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
@@ -69,6 +74,9 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     authorizationId: hold.authorizationIds[hold.authorizationIds.length - 1] ?? null,
     expiresAt: pledge.expiresAt ?? null,
     rebound: hold.rebound ? { ...hold.rebound } : null,
+    // Only when the donor made a choice or the rest moved: views of books made before stay byte for byte the same.
+    ...(pledge.rest !== undefined ? { rest: restOf(pledge) } : {}),
+    ...(hold.carried?.length ? { carried: hold.carried.map((c) => ({ ...c })) } : {}),
   };
 }
 

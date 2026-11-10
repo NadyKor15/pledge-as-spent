@@ -84,7 +84,16 @@ export interface Pledge {
   reauthorizedAt?: string;
   /** How the donor approved the hold; only PayPal-account holds can be reauthorized. */
   paymentSource?: PaymentSource;
+  /**
+   * The donor's choice at the pledge for what is left once their need is covered:
+   * "release" (absent means the same) lets it go at the close; "carry" keeps it for
+   * this drive's next purchases, moving it to the open need that lacks the most.
+   * Donor pledges only.
+   */
+  rest?: RestChoice;
 }
+
+export type RestChoice = "release" | "carry";
 
 export type PaymentSource = "paypal" | "card";
 

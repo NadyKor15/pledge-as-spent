@@ -65,6 +65,8 @@ export interface HoldBook {
   endedAt?: string;
   /** The donor moved the rest of this hold to another need (once). */
   rebound?: HoldRebind;
+  /** The rest followed the donor's "keep it for next purchases" choice, oldest first; absent until the first carry. */
+  carried?: HoldCarry[];
 }
 
 export interface HoldRebind {
@@ -73,6 +75,12 @@ export interface HoldRebind {
   toNeedId: string;
   by: string;
   via: string;
+}
+
+export interface HoldCarry {
+  at: string;
+  fromNeedId: string;
+  toNeedId: string;
 }
 
 export interface LineRecord {
@@ -220,7 +228,15 @@ export type RebindRefusalCode =
   | "expired"
   | "too_close_to_expiry"
   | "nothing_left"
-  | "need_covered";
+  | "need_covered"
+  /** Carries: the donor chose to release the rest. */
+  | "not_carry"
+  /** Carries: the need the hold backs is still open. */
+  | "need_open"
+  /** Carries: every other need is covered. */
+  | "no_open_need"
+  /** Carries: the rule picks another need. */
+  | "not_target";
 
 export interface RebindRefusal {
   code: RebindRefusalCode;
@@ -255,6 +271,67 @@ export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string
   }
   if (availableMinor(pledge, hold) <= 0) return no("nothing_left", "Nothing is left on this hold.");
   if (s.qtyCovered[target.id] >= target.qtyNeeded) return no("need_covered", `${target.label} is already covered.`);
+  return null;
+}
+
+// ---- carry ------------------------------------------------------------------
+
+/** The donor's choice for the rest; an absent choice is "release". */
+export const restOf = (p: Pledge): "release" | "carry" => (p.rest === "carry" ? "carry" : "release");
+
+/**
+ * Where the rest of hold `pledgeId` goes when its need is covered: the open need
+ * (not covered, not the hold's own) that lacks the largest share of what it
+ * needs, compared exactly; a tie goes to the need first in the drive's order.
+ * Null when every other need is covered.
+ */
+export function carryTarget(s: LedgerState, pledgeId: string): string | null {
+  const pledge = lookup(s.pledges, pledgeId);
+  let best: { id: string; lack: number; of: number } | null = null;
+  for (const id of s.needIds) {
+    if (pledge && id === pledge.needId) continue;
+    const need = s.needs[id];
+    const lack = need.qtyNeeded - s.qtyCovered[id];
+    if (lack <= 0) continue;
+    // lack / of > best.lack / best.of, without division
+    if (!best || BigInt(lack) * BigInt(best.of) > BigInt(best.lack) * BigInt(need.qtyNeeded)) best = { id, lack, of: need.qtyNeeded };
+  }
+  return best ? best.id : null;
+}
+
+/**
+ * Why the rest of hold `pledgeId` may not be carried from `fromNeedId` to
+ * `toNeedId` at `at`, or null when it may. The planner and the reducer both
+ * ask this one function. The hold rules are the manual move's (live, not
+ * revoked, not blocked, not within 3 days of its expiry), plus: the donor chose
+ * to carry, the need is covered, something of the hold still counts in the
+ * drive's currency, and the target is the one `carryTarget` picks.
+ */
+export function carryRefusal(s: LedgerState, pledgeId: string, toNeedId: string, at: string, fromNeedId?: string): RebindRefusal | null {
+  const no = (code: RebindRefusalCode, reasonEn: string): RebindRefusal => ({ code, reasonEn });
+  const drive = requireDrive(s);
+  if (drive.status !== "open") return no("drive_not_open", `The drive is ${drive.status}; nothing moves any more.`);
+  const pledge = lookup(s.pledges, pledgeId);
+  const hold = lookup(s.holds, pledgeId);
+  if (!pledge || !hold) return no("unknown_pledge", `There is no pledge ${pledgeId} in this drive.`);
+  if (pledge.kind !== "donor") return no("not_donor", "The company match backs the whole drive; it does not move.");
+  if (restOf(pledge) !== "carry") return no("not_carry", "The donor chose to release the rest, not to keep it for next purchases.");
+  if (fromNeedId !== undefined && pledge.needId !== fromNeedId) return no("stale_need", `This pledge backs ${pledge.needId}, not ${fromNeedId}.`);
+  if (!isLiveStatus(pledge.status)) return no("hold_not_live", `The hold is ${pledge.status}; nothing is held for a new need.`);
+  if (hold.revokedAt) return no("revoked", "The pledge was withdrawn.");
+  if (hold.blockedAt) return no("blocked", "PayPal refused a charge on this hold for good.");
+  if (!pledge.expiresAt || parseTime(at) >= parseTime(pledge.expiresAt)) return no("expired", "The hold has expired.");
+  if (parseTime(at) >= parseTime(pledge.expiresAt) - REBIND_BEFORE_EXPIRY_MS) {
+    return no("too_close_to_expiry", "The hold expires within 3 days; there is no time left to fund another need from it.");
+  }
+  if (capacityBase(pledge, hold) <= 0) return no("nothing_left", "Nothing of this hold is left to fund a purchase.");
+  const from = pledge.needId === null ? undefined : lookup(s.needs, pledge.needId);
+  if (from && s.qtyCovered[from.id] < from.qtyNeeded) return no("need_open", `${from.label} is still open: the hold keeps backing it.`);
+  const target = lookup(s.needs, toNeedId);
+  if (!target) return no("unknown_need", `This drive has no need ${toNeedId}.`);
+  const pick = carryTarget(s, pledgeId);
+  if (pick === null) return no("no_open_need", "Every other need is covered; the rest stays and is released at the close.");
+  if (pick !== toNeedId) return no("not_target", `The rest goes to ${s.needs[pick].label}, the need that lacks the most, not to ${target.label}.`);
   return null;
 }
 
@@ -298,6 +375,8 @@ function reduce(s: LedgerState, e: E.LedgerEvent): LedgerState {
       return onPledgeRevoked(s, e);
     case "PledgeRebound":
       return onPledgeRebound(s, e);
+    case "RestCarried":
+      return onRestCarried(s, e);
     case "LineFunded":
       return onLineFunded(s, e);
     case "LineRejected":
@@ -393,6 +472,8 @@ function onPledgeCreated(s: LedgerState, e: E.PledgeCreated): LedgerState {
   if (p.fx.base !== drive.baseCurrency) fail(e, `fx.base ${p.fx.base} must be the drive currency ${drive.baseCurrency}`);
   if (p.fx.quote !== p.amount.currency) fail(e, `fx.quote ${p.fx.quote} must be the pledge currency ${p.amount.currency}`);
   if (!nonEmpty(p.paypal?.orderId)) fail(e, "paypal.orderId is required");
+  if (p.rest !== undefined && p.rest !== "release" && p.rest !== "carry") fail(e, `rest must be release or carry, got ${JSON.stringify(p.rest)}`);
+  if (p.kind === "match" && p.rest === "carry") fail(e, "a match pledge backs the whole drive; it has no rest to carry to another need");
   if (p.kind === "donor") {
     if (p.needId === null || !lookup(s.needs, p.needId)) fail(e, `donor pledge must back a need of this drive`);
     if (p.match) fail(e, "a donor pledge has no match ratio");
@@ -476,6 +557,16 @@ function onPledgeRebound(s: LedgerState, e: E.PledgeRebound): LedgerState {
   const { pledge } = requirePledge(s, e.pledgeId);
   const rebound: HoldRebind = { at: e.at, fromNeedId: e.fromNeedId, toNeedId: e.toNeedId, by: e.consent.by, via: e.consent.via };
   return putHold(putPledge(s, { ...pledge, needId: e.toNeedId }), { ...hold!, rebound });
+}
+
+function onRestCarried(s: LedgerState, e: E.RestCarried): LedgerState {
+  if (!nonEmpty(e.pledgeId) || !nonEmpty(e.fromNeedId) || !nonEmpty(e.toNeedId)) fail(e, "pledgeId, fromNeedId and toNeedId are required");
+  if (!e.consent || !nonEmpty(e.consent.by) || e.consent.via !== "pledge_choice") fail(e, "the donor's consent (by, via pledge_choice) is required");
+  const refusal = carryRefusal(s, e.pledgeId, e.toNeedId, e.at, e.fromNeedId);
+  if (refusal) fail(e, `${refusal.code}: ${refusal.reasonEn}`);
+  const { pledge, hold } = requirePledge(s, e.pledgeId);
+  const carry: HoldCarry = { at: e.at, fromNeedId: e.fromNeedId, toNeedId: e.toNeedId };
+  return putHold(putPledge(s, { ...pledge, needId: e.toNeedId }), { ...hold, carried: [...(hold.carried ?? []), carry] });
 }
 
 function onLineFunded(s: LedgerState, e: E.LineFunded): LedgerState {

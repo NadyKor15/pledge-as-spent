@@ -26,11 +26,43 @@ export interface RebindOfferProps {
   onMoved?: () => void;
 }
 
-export function RebindOffer({ pledgeId, offer, labelOf, onMoved }: RebindOfferProps) {
+export function RebindOffer(props: RebindOfferProps) {
+  const { offer, labelOf } = props;
+  if (!offer) return null;
+  const label = (id: string | null) => (id ? (labelOf?.(id) ?? id) : "");
+  return (
+    <>
+      <KeptRest offer={offer} label={label} />
+      <MoveOffer {...props} />
+    </>
+  );
+}
+
+/** The donor's choice at the pledge, "keep the rest for next purchases", and where the rest went because of it. */
+function KeptRest({ offer, label }: { offer: NonNullable<StatementView["rebind"]>; label: (id: string | null) => string }) {
+  const carried = offer.carried ?? [];
+  if (offer.rest !== "carry" && carried.length === 0) return null;
+  return (
+    <section style={card} aria-label="What happens to the rest" data-testid="rest-kept">
+      <h2 style={h2}>You kept the rest for next purchases</h2>
+      <p style={p}>
+        When {label(offer.needId)} is covered, what your hold has not paid for moves by itself to the open need that lacks the most. It is the same PayPal hold: moving it charges nothing, and what no purchase uses is never charged.
+      </p>
+      {carried.map((c) => (
+        <p key={`${c.fromNeedId}>${c.toNeedId}`} style={{ ...p, color: "var(--ink)" }} data-testid="rest-carried">
+          {day(c.at)}: {label(c.fromNeedId)} was covered, the rest moved to {label(c.toNeedId)}.
+        </p>
+      ))}
+    </section>
+  );
+}
+
+function MoveOffer({ pledgeId, offer: given, labelOf, onMoved }: RebindOfferProps) {
   const [pick, setPick] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
   const action = useAction();
-  if (!offer) return null;
+  if (!given) return null;
+  const offer = given;
   const label = (id: string | null, fallback?: string) => (id ? (labelOf?.(id) ?? fallback ?? id) : "");
 
   if (offer.rebound) {

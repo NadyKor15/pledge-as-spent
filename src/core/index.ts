@@ -11,5 +11,6 @@ export * from "./refusals";
 export * from "./allocate";
 export * from "./plan";
 export * from "./rebind";
+export { planCarries } from "./carry";
 export * from "./fees";
 export * from "./views";

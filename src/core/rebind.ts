@@ -1,7 +1,7 @@
 import { CoreError } from "./errors";
 import type { PledgeRebound } from "./events";
 import { rebindEventId } from "./ids";
-import { availableMinor, capacityBase, rebindRefusal, requireDrive, requirePledge, type HoldRebind, type LedgerState, type RebindRefusal } from "./ledger";
+import { availableMinor, capacityBase, rebindRefusal, requireDrive, requirePledge, restOf, type HoldCarry, type HoldRebind, type LedgerState, type RebindRefusal } from "./ledger";
 import { parseTime } from "./time";
 import type { Money } from "./types";
 
@@ -60,6 +60,10 @@ export interface RebindOffer {
   refusal: RebindRefusal | null;
   /** Set once the donor has moved it. */
   rebound: HoldRebind | null;
+  /** The donor's choice at the pledge: keep the rest for next purchases ("carry") or release it. */
+  rest: "release" | "carry";
+  /** Moves that followed that choice, oldest first. */
+  carried: HoldCarry[];
 }
 
 /** What the donor's statement offers at `now`: the open needs, or the reason there are none. */
@@ -89,5 +93,7 @@ export function rebindOffer(s: LedgerState, pledgeId: string, now: string): Rebi
     targets,
     refusal: targets.length > 0 ? null : (firstRefusal ?? { code: "drive_not_open", reasonEn: `The drive is ${drive.status}.` }),
     rebound: hold.rebound ? { ...hold.rebound } : null,
+    rest: restOf(pledge),
+    carried: (hold.carried ?? []).map((c) => ({ ...c })),
   };
 }

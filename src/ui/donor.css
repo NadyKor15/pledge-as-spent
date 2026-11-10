@@ -282,3 +282,10 @@ select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; 
 /* A scenario without a shelter photo: a plain plate of the same size, a house drawn in the page's muted ink. */
 .dn-heroPlate { display: flex; align-items: center; justify-content: center; background: #EEF1F2; color: #8A949E; }
 .sc-stack .dn-heroPlate svg { width: 28px; height: 24px; }
+/* The donor's choice for the rest of the hold (only when the server has REBIND_ENABLED on). */
+.dn-restChoice { margin: 8px 0 2px; padding: 0; border: 0; min-width: 0; }
+.dn-restChoice legend { padding: 0 0 0 2.42px; font-size: 14.8px; line-height: 17px; color: var(--label-ink); }
+.dn-restOpt { display: flex; align-items: flex-start; gap: 8px; margin-top: 5px; font-size: 13.5px; line-height: 17px; color: var(--hint-ink); cursor: pointer; }
+.dn-restOpt input { margin-top: 2px; flex: none; }
+.dn-restOpt b { color: var(--label-ink); font-weight: 600; }
+.sc-stack .dn-restOpt { font-size: 13px; line-height: 18px; }
