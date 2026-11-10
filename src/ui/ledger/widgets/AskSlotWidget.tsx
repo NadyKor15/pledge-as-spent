@@ -19,8 +19,10 @@ export function AskSlotWidget(params: AgWidgetParams) {
   // scrolled away at the top and "Ask again" at the bottom. Once the chat settles, the slot is asked to grow to it.
   useEffect(() => {
     const slot = root.current;
-    if (!Ask || !slot?.closest('[data-stacked="true"]')) return;
+    if (!Ask || !slot) return;
     const measure = () => {
+      // Read each time: Studio may build the widget before it puts it in the page.
+      if (!slot.closest('[data-stacked="true"]')) return;
       const chat = slot.querySelector<HTMLElement>('[data-testid="ask-widget"]');
       if (!chat || BUSY.has(chat.dataset.phase ?? "")) return;
       // The chat's own bottom border is outside its scroll height.
