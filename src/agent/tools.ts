@@ -353,6 +353,9 @@ export function ledgerRefusals(v: View): LedgerToolResult {
     if (i.countedWith !== undefined) return `- line ${no} ${printed}: a discount of ${f.amount(base, -amount, `line ${no} discount`, { lineKey: key })}, counted with line ${i.countedWith} and refused with it`;
     const word = i.row?.kind === "unfunded" ? "not funded" : "refused";
     const code = i.row?.code;
+    // "<need> is already fully covered": the need's coverage is a figure of the book, so the guard can check "fully".
+    const need = code === "need_full" ? needById(v, i.row?.needId) : undefined;
+    if (need) f.share(Math.min(need.qtyCovered, need.qtyNeeded), need.qtyNeeded, "need", `share of ${need.displayLabel} covered`, { lineKeys: [key] });
     return `- line ${no} ${printed}: ${f.amount(base, amount, `line ${no} ${word}`, { lineKey: key })} ${word}${code ? ` (rule: ${code.replace(/_/g, " ")})` : ""} — ${i.row?.reasonEn ?? "no reason recorded"}`;
   });
   const head = `${count} line${count === 1 ? "" : "s"} refused, ${f.amount(base, total, "refused in total", { lineKeys: keys })} in total; no donor money was used for them:`;

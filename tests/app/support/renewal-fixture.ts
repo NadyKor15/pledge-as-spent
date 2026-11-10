@@ -22,13 +22,17 @@ import { drives } from "../../../src/db/schema";
 
 export type RenewedStage = "renewed" | "captured" | "closed" | "race";
 
+type Service = Awaited<ReturnType<typeof harness>>["svc"];
+
 export interface RenewedDrive {
-  view: Awaited<ReturnType<Awaited<ReturnType<typeof harness>>["svc"]["getDriveView"]>>;
+  view: Awaited<ReturnType<Service["getDriveView"]>>;
   /** Lena's first hold and her renewal. */
   lena: string;
   renewal: string;
   /** The other donors and the match: no renewals. */
   others: string[];
+  /** Lena's statement as the server answers it (RENEW on), opened by her first hold's id and by her renewal's. */
+  statements: { lena: Awaited<ReturnType<Service["getStatement"]>>; renewal: Awaited<ReturnType<Service["getStatement"]>> };
 }
 
 export async function renewedDrive(stage: RenewedStage = "renewed", driveId = `demo-renewed-${stage}`): Promise<RenewedDrive> {
@@ -74,7 +78,8 @@ export async function renewedDrive(stage: RenewedStage = "renewed", driveId = `d
       }
     }
     const view = await h.svc.getDriveView(driveId);
-    return { view, lena, renewal, others: view.holds.map((x) => x.pledgeId).filter((x) => x !== lena && x !== renewal) };
+    const statements = { lena: await h.svc.getStatement(lena), renewal: await h.svc.getStatement(renewal) };
+    return { view, lena, renewal, others: view.holds.map((x) => x.pledgeId).filter((x) => x !== lena && x !== renewal), statements };
   } finally {
     if (before === undefined) delete process.env.RENEW_ENABLED;
     else process.env.RENEW_ENABLED = before;

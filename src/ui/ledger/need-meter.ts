@@ -1,4 +1,4 @@
-import { holdById, shareStage } from "../derive";
+import { holdById, shareStage, shownHolds } from "../derive";
 import { moneyIn, type Lang } from "../format";
 import { meterParts, type MeterKey } from "../hold-meter";
 import type { DriveView } from "../types";
@@ -93,8 +93,10 @@ export function needMeter(view: DriveView, needId: string, model: LedgerModel = 
   }
 
   // One bar per donor: the book's donor rows are already one per renewal chain, their meter the chain's (mergeChain).
+  // The rest stands on the need the chain's latest hold backs now (a renewal that carried its rest on moved it there).
+  const shown = shownHolds(view);
   for (const d of model.donors) {
-    const h = holdById(view, d.pledgeId);
+    const h = shown.find((x) => x.pledgeId === d.pledgeId);
     if (!h || h.kind !== "donor" || h.needId !== needId) continue;
     const p = d.meter ?? meterParts(h);
     // A closed drive keeps no promise: a hold still live there is waiting for PayPal to answer its void.
