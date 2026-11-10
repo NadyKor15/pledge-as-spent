@@ -8,11 +8,11 @@ import { deriveLedger } from "@/ui/ledger/derive";
 import { PosterLink } from "@/ui/ledger/PosterLink";
 import { riverOn } from "@/ui/river/flag";
 import { riverModel } from "@/ui/river/model";
-import { clock, drawRibbons, payoutStatus, riverLinks } from "@/ui/river/RiverScreen";
+import { clock, drawRibbons, gapWidth, payoutStatus, REST_MAX, riverLinks, trunkBase } from "@/ui/river/RiverScreen";
 import { RIVER_WORDS, runs } from "@/ui/river/words";
 import type { DriveView } from "@/ui/types";
 
-// П2, the river of money: the switch (NEXT_PUBLIC_RIVER), the Ledger's link to it, its words and its ribbons.
+// The river of money (variant A): the switch (NEXT_PUBLIC_RIVER), the Ledger's link to it, its words and its ribbons.
 
 const fixture = (name: string) => JSON.parse(readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8")) as DriveView;
 const before = process.env.NEXT_PUBLIC_RIVER;
@@ -99,6 +99,28 @@ describe("words", () => {
   });
 });
 
+describe("a rest bigger than the receipt", () => {
+  it("draws capped: at most half the widest ribbon on a desktop, 44 px on a phone; its card keeps the exact sum", () => {
+    const v = fixture("closed");
+    // Lena pledged €5,000 for a €4.58 share: her rest is many times the receipt.
+    Object.assign(v.holds.find((h) => h.pledgeId === "demo-f372326129.water")!, { authorized: 500000, pledged: 500000, released: 500000 - 458 });
+    const m = riverModel(v, "en");
+    const lena = m.never.find((n) => n.pledgeId === "demo-f372326129.water")!;
+    expect(lena.base).toBeGreaterThan(trunkBase(m));
+    expect(lena.text).toBe("€4,995.42");
+    const rests = riverLinks(m, "x").filter((l) => l.kind === "never");
+    const boxes = new Map<string, { x: number; y: number; w: number; h: number }>();
+    rests.forEach((l, i) => {
+      boxes.set(l.from, { x: 400, y: i * 120, w: 150, h: 70 });
+      boxes.set(l.to as string, { x: 400 + i * 230, y: 600, w: 210, h: 50 });
+    });
+    const drawn = drawRibbons(rests, boxes, 80 / trunkBase(m));
+    expect(drawn).toHaveLength(3);
+    expect(Math.max(...drawn.map((d) => d.stroke ?? 0))).toBe(REST_MAX.desktop);
+    expect(gapWidth(lena.base, REST_MAX.phone / trunkBase(m))).toBe(REST_MAX.phone);
+  });
+});
+
 describe("the ribbons", () => {
   const v = fixture("closed");
   const m = riverModel(v, "en");
@@ -120,7 +142,7 @@ describe("the ribbons", () => {
     expect(into("read")).toBe(14646);
     for (const n of m.needs) expect(into(`need:${n.needId}`)).toBe(outOf(`need:${n.needId}`));
     expect(into("payout")).toBe(m.payout!.amount);
-    expect(links.filter((l) => l.to === null).map((l) => l.id)).toEqual(["stub:10", "stub:11"]);
+    expect(links.filter((l) => l.to === null).map((l) => l.id)).toEqual(["stub:demo-f372326129.r1:10/rejected", "stub:demo-f372326129.r1:11/rejected"]);
     expect(sum(links.filter((l) => l.kind === "never"))).toBe(m.totals.neverBase);
     // The match's shares go to its own hold, not to the refused lines.
     const matchHold = m.holds.find((h) => h.kind === "match")!;
@@ -133,16 +155,17 @@ describe("the ribbons", () => {
       ["receipt", { x: 0, y: 200, w: 100, h: 200 }],
       ["read", { x: 200, y: 250, w: 100, h: 100 }],
       ...m.needs.map((n, i) => [`need:${n.needId}`, { x: 400, y: i * 100, w: 100, h: 40 }] as const),
-      ...m.refused.map((r, i) => [`ref:${r.lineNo}`, { x: 400, y: 400 + i * 100, w: 100, h: 40 }] as const),
+      ...m.refused.map((r, i) => [`ref:${r.key}`, { x: 400, y: 400 + i * 100, w: 100, h: 40 }] as const),
     ]);
     const per = 80 / 14646;
     const drawn = drawRibbons(links, boxes, per);
     expect(drawn).toHaveLength(links.length);
     const start = (id: string) => Number(/^M[\d.]+ ([\d.]+)/.exec(drawn.find((d) => d.id === id)!.d)![1]);
     // Leaving "read": water on top, then diapers, batteries, the two refused lines; together the trunk's thickness.
-    const order = ["rn:water", "rn:diapers", "rn:batteries", "rr:10", "rr:11"].map(start);
+    const [beer, gift] = m.refused.map((r) => `rr:${r.key}`);
+    const order = ["rn:water", "rn:diapers", "rn:batteries", beer, gift].map(start);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(order[0]).toBeCloseTo(300 - 40, 0);
-    expect(start("rr:10") - start("rn:batteries")).toBeCloseTo(2474 * per, 1);
+    expect(start(beer) - start("rn:batteries")).toBeCloseTo(2474 * per, 1);
   });
 });

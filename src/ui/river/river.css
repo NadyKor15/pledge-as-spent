@@ -1,4 +1,4 @@
-/* П2, the river of money (variant A): seven numbered columns on a desktop, seven sections on a phone. Everything that
+/* The river of money (variant A): seven numbered columns on a desktop, seven sections on a phone. Everything that
    plays has --k (its step); the root carries --step. A step shows once --step reaches its --k. */
 .rv-root { --ink: #1C1B19; --muted: #565C66; --green: #146B4E; --teal: #0E6E5A; min-height: 100vh; padding: 0 20px 28px; background: #F7F5F0; color: var(--ink); line-height: 1.3; }
 .rv-root [data-step] { opacity: clamp(0, calc(var(--step) - var(--k) + 1), 1); transition: opacity .6s ease .8s; }
@@ -11,12 +11,14 @@
 .rv-none { margin: 60px auto; max-width: 560px; text-align: center; font-size: 17px; color: var(--muted); }
 
 /* ── Header ─────────────────────────────────────────────────────────────────────────────────────── */
-.rv-top { display: flex; align-items: center; gap: 10px 20px; padding: 16px 6px 15px; border-bottom: 1px solid #E2DED6; }
+.rv-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 16px 6px 15px; border-bottom: 1px solid #E2DED6; }
+.rv-back { color: var(--teal); font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.rv-back:hover { text-decoration: underline; }
 .rv-brand { padding-right: 22px; border-right: 1.5px solid #CFCBC3; font-size: 31px; font-weight: 800; letter-spacing: -.02em; color: var(--green); text-decoration: none; white-space: nowrap; line-height: 1.1; }
 .rv-title { min-width: 0; font-size: 19.5px; font-weight: 600; letter-spacing: -.005em; overflow-wrap: anywhere; }
 .rv-badge { flex: none; padding: 5px 11px; border-radius: 7px; background: #E7E5E0; color: #4A4F57; font-size: 13.5px; white-space: nowrap; }
 .rv-play { flex: none; margin-left: auto; display: flex; align-items: center; gap: 14px; }
-.rv-track { display: block; width: 200px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
+.rv-track { display: block; width: 160px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
 .rv-fill { display: block; width: 0; height: 100%; border-radius: 6px; background: var(--teal); }
 .rv-clock { font-size: 15.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rv-replay { padding: 4px 2px; color: var(--teal); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
@@ -81,6 +83,8 @@
 .rv-batch { font-size: 16px; font-weight: 600; letter-spacing: .02em; margin-bottom: 4px; }
 .rv-to { padding-top: 9px; border-top: 1px solid #CDE3D2; font-size: 18px; }
 .rv-payout .rv-big { margin: 0; padding: 0; border: 0; font-size: 23px; }
+.rv-success.rv-notPaid { background: #E7E5E0; color: #4A4F57; }
+.rv-sumHead { margin-right: 10px; color: var(--ink); font-weight: 600; }
 .rv-success { align-self: stretch; margin-top: 8px; padding: 4px 8px; border-radius: 6px; background: #1E7A4C; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-align: center; }
 
 .rv-never { display: flex; flex-direction: column; gap: 3px; padding: 10px 10px 10px 12px; border-color: #B8C7D7; background: #EDF1F6; color: #263646; }
@@ -112,7 +116,9 @@
 .rv-arrowHead { fill: #A4BAD1; }
 
 /* ── Desktop: seven columns, left to right ──────────────────────────────────────────────────────── */
-.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 394fr 160fr 156fr; row-gap: 10px; margin-top: 16px; }
+/* The desktop is laid out at its own width and scaled to the window (useFit): the box keeps the scaled height. */
+.rv-deskFit { margin-top: 16px; overflow-x: clip; }
+.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 394fr 160fr 156fr; row-gap: 10px; transform-origin: 0 0; }
 .rv-panel { z-index: 0; margin: 0 1.5px; border-radius: 5px; background: #F0EEE9; }
 .rv-headCell { z-index: 2; min-width: 0; padding: 16px 10px 22px 12px; }
 .rv-desk .rv-headTitle { font-size: 16px; gap: 8px; }
@@ -134,7 +140,7 @@
 .rv-band .rv-open { flex: 0 1 420px; margin: 0 auto; }
 
 /* ── Phone: seven sections, top to bottom ───────────────────────────────────────────────────────── */
-.rv-phone { position: relative; margin-top: 8px; }
+.rv-phone { position: relative; max-width: 760px; margin: 8px auto 0; }
 .rv-sec { position: relative; padding: 10px 0 8px; }
 .rv-sec .rv-head { position: relative; margin-bottom: 12px; }
 /* The links between steps: only in the gap between two sections, never under a card or text. */
@@ -163,7 +169,7 @@
 .rv-phone .rv-neverAmt { font-size: 14px; }
 .rv-phone .rv-never > span { font-size: 12px; }
 
-@media (max-width: 1179px) {
+@media (max-width: 1023px) {
   .rv-root { padding: 0 16px 24px; }
   .rv-top { flex-wrap: wrap; gap: 8px 12px; padding: 14px 0 12px; }
   .rv-brand { padding-right: 0; border-right: 0; font-size: 24px; flex-basis: 100%; }

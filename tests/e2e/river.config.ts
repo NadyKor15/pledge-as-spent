@@ -1,6 +1,6 @@
 import { defineConfig } from "@playwright/test";
 
-// The river of money (П2, river.spec.ts) on a port of its own, so it never tests another worktree's server. The build
+// The river of money (variant A, river.spec.ts) on a port of its own, so it never tests another worktree's server. The build
 // must have the river switched on (NEXT_PUBLIC_RIVER is read when the app is built):
 //
 //   NEXT_PUBLIC_RIVER=on npx next build && npx playwright test -c tests/e2e/river.config.ts

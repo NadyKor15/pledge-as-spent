@@ -7,8 +7,8 @@ import { RIVER_WORDS } from "../river/words";
 import "../river/river-link.css";
 
 /**
- * The way to the shelter's printable poster of this drive (П4), in the book's language; with the river of money
- * switched on (П2, NEXT_PUBLIC_RIVER=on), the way to the river next to it. Switched off, the markup is the poster's
+ * The way to the shelter poster of this drive (printable), in the book's language; with the river of money switched
+ * on (variant A, NEXT_PUBLIC_RIVER=on), the way to the river next to it. Switched off, the markup is the poster's
  * link alone, exactly as before the river (tests/app/river-screen.test.ts).
  */
 export function PosterLink({ driveId, lang, className }: { driveId: string; lang: Lang; className: string }) {

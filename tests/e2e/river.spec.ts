@@ -7,7 +7,7 @@ import { riverModel } from "../../src/ui/river/model";
 import { RIVER_WORDS } from "../../src/ui/river/words";
 import type { DriveView } from "../../src/ui/types";
 
-// П2, the river of money, in a real browser on the real snapshots tests/fixtures/drives/closed.json and open.json (no
+// The river of money (variant A), in a real browser on the real snapshots tests/fixtures/drives/closed.json and open.json (no
 // network): the seven steps, the sums equal to the Ledger's (deriveLedger), PayPal's ids whole, nothing out of its
 // card or off the screen at 1440 and 390 in EN, DE and JA; the 20-second playback and Replay; reduced motion; the
 // Ledger's link to it next to the poster's. The build has the river switched on (river.config.ts).
@@ -231,6 +231,7 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
 
         // The sums equal the Ledger's own: donors spent, the match, the payout, never charged. Soft: a wrong sum is
         // reported together with whatever else is out of place below.
+        await expect.soft(page.locator("[data-sum=spent]")).toContainText(l.spentLabel, { timeout: 3_000 });
         await expect.soft(page.locator("[data-sum=spent] b")).toHaveText(yen(l.spent), { timeout: 3_000 });
         await expect.soft(page.locator("[data-sum=match] b")).toHaveText(yen(l.match), { timeout: 3_000 });
         await expect.soft(page.locator("[data-sum=paid] b")).toHaveText(yen(l.spent + l.match), { timeout: 3_000 });
@@ -291,6 +292,9 @@ test("the open drive: holds still open, nothing never charged yet; the sums stil
   await openRiver(page, v);
   await expect(page.locator("[data-card=never]")).toHaveCount(0);
   await expect(page.locator("[data-card=never-open]")).toContainText(RIVER_WORDS.en.stillHeld);
+  // Its shares wait for capture: the Ledger's own word, "approved", not "spent".
+  await expect(page.locator("[data-sum=spent]")).toContainText(l.spentLabel);
+  expect(l.spentLabel).toBe("Donors’ money approved");
   await expect(page.locator("[data-sum=spent] b")).toHaveText(moneyIn("en", "JPY", l.spent));
   await expect(page.locator("[data-sum=paid] b")).toHaveText(moneyIn("en", "JPY", l.spent + l.match));
   await expect(page.locator("[data-sum=never]")).toHaveCount(0);
@@ -331,7 +335,59 @@ test("plays the seven steps over 20 seconds, one after another; Replay starts ag
   await expect(clock).toHaveText(/^0:0[0-2] \/ 0:20$/);
   expect(Number(await root.getAttribute("data-step"))).toBeLessThanOrEqual(2);
   await expect.poll(() => opacity("[data-card=never]")).toBe("0");
+  // ... and plays to the end again.
+  await expect(clock).toHaveText("0:20 / 0:20", { timeout: 30_000 });
+  await expect(root).toHaveAttribute("data-step", "7");
 });
+
+test("← Ledger opens this drive's book, in the river's language", async ({ page }) => {
+  const v = fixture("closed");
+  await openRiver(page, v, "de");
+  const back = page.getByTestId("river-back");
+  await expect(back).toHaveText("← Buch");
+  await expect(back).toHaveAttribute("href", `/drive/${v.drive.id}?as=ledger&lang=de`);
+  await back.click();
+  await expect(page).toHaveURL(new RegExp(`/drive/${v.drive.id}\\?as=ledger&lang=de$`));
+});
+
+// The windows of the acceptance list, and the browser at 125 % and 150 % (1440 → 1152 and 960; 1920 → 1536 and 1280):
+// the desktop's columns from 1024 up, scaled to the window with no empty margins; below, the river top to bottom.
+// German where the words are longest.
+for (const [width, height, lang] of [
+  [1024, 768, "en"],
+  [1024, 768, "de"],
+  [1152, 720, "en"],
+  [1280, 720, "en"],
+  [1280, 800, "en"],
+  [1366, 768, "en"],
+  [1440, 900, "en"],
+  [1536, 864, "en"],
+  [1920, 1080, "en"],
+  [960, 600, "en"],
+  [960, 600, "de"],
+] as const) {
+  test.describe(`the river at ${width}×${height}`, () => {
+    test.use({ viewport: { width, height } });
+    test(`${lang}: no sideways scroll, nothing out of its card or the screen, no ribbon through a card, no word cut`, async ({ page }) => {
+      await openRiver(page, fixture("closed"), lang);
+      const desktop = width >= 1024;
+      await expect(page.getByTestId("river")).toHaveAttribute("data-layout", desktop ? "desktop" : "phone");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+      if (desktop) {
+        // The columns take the whole width given to them: no empty margins at 1920, nothing cut at 1024.
+        const box = (await page.locator(".rv-desk").boundingBox())!;
+        expect(box.width).toBeGreaterThan(width - 60);
+        expect(box.x + box.width).toBeLessThanOrEqual(width);
+        expect(await throughCards(page)).toEqual([]);
+        expect(await bottomRow(page)).toEqual([]);
+      } else {
+        expect(await gapsUnder(page)).toEqual([]);
+      }
+      expect(await misfits(page)).toEqual([]);
+      expect(await page.evaluate(brokenWords, HEADS)).toEqual([]);
+    });
+  });
+}
 
 test("reduced motion: every step at once and the bar full", async ({ page }) => {
   await openRiver(page, fixture("closed"), "en", true);
