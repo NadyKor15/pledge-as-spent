@@ -107,7 +107,7 @@ describe("live reading by Meta", () => {
     expect(row.imageRedacted).toBeNull();
   });
 
-  it("refuses before any call past the reading's ceiling, which code keeps at $3 whatever the setting", async () => {
+  it("refuses before any call past the reading's ceiling, which code keeps at $5 whatever the setting", async () => {
     expect(new PgMetaReadLedger((await harness({ fetch: fakeSandbox().fetch })).db.db, 50).capUsd).toBe(META_READ_CAP_MAX_USD);
     const meta = fakeMeta([A, B, CLS]);
     const h = await harness({ fetch: fakeSandbox().fetch });
