@@ -98,14 +98,15 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
         await expect(page.locator('[data-head="7"]')).toContainText(w.never.title);
         await expect(page.getByText(w.readingA)).toHaveCount(0);
 
-        // The sums equal the Ledger's own: donors spent, the match, the payout, never charged.
-        await expect(page.locator("[data-sum=spent] b")).toHaveText(yen(l.spent));
-        await expect(page.locator("[data-sum=match] b")).toHaveText(yen(l.match));
-        await expect(page.locator("[data-sum=paid] b")).toHaveText(yen(l.spent + l.match));
-        await expect(page.locator("[data-sum=never] b")).toHaveText(yen(l.returned));
-        await expect(page.locator("[data-money=payout]")).toHaveText(yen(l.spent + l.match));
-        await expect(page.locator('[data-money=capture][data-kind="match"]')).toHaveText(yen(l.match));
-        await expect(page.locator("[data-money=receipt]")).toHaveText(yen(14646));
+        // The sums equal the Ledger's own: donors spent, the match, the payout, never charged. Soft: a wrong sum is
+        // reported together with whatever else is out of place below.
+        await expect.soft(page.locator("[data-sum=spent] b")).toHaveText(yen(l.spent), { timeout: 3_000 });
+        await expect.soft(page.locator("[data-sum=match] b")).toHaveText(yen(l.match), { timeout: 3_000 });
+        await expect.soft(page.locator("[data-sum=paid] b")).toHaveText(yen(l.spent + l.match), { timeout: 3_000 });
+        await expect.soft(page.locator("[data-sum=never] b")).toHaveText(yen(l.returned), { timeout: 3_000 });
+        await expect.soft(page.locator("[data-money=payout]")).toHaveText(yen(l.spent + l.match), { timeout: 3_000 });
+        await expect.soft(page.locator('[data-money=capture][data-kind="match"]')).toHaveText(yen(l.match), { timeout: 3_000 });
+        await expect.soft(page.locator("[data-money=receipt]")).toHaveText(yen(14646), { timeout: 3_000 });
 
         // Each need, its shares (the match's in yen), the refused lines, each donor's rest in the donor's currency.
         await expect(page.locator("[data-card=need]")).toHaveCount(3);

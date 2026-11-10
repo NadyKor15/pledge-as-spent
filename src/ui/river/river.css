@@ -12,11 +12,11 @@
 
 /* ── Header ─────────────────────────────────────────────────────────────────────────────────────── */
 .rv-top { display: flex; align-items: center; gap: 10px 20px; padding: 16px 6px 15px; border-bottom: 1px solid #E2DED6; }
-.rv-brand { padding-right: 22px; border-right: 1.5px solid #CFCBC3; font-size: 34px; font-weight: 800; letter-spacing: -.02em; color: var(--green); text-decoration: none; white-space: nowrap; line-height: 1.1; }
-.rv-title { min-width: 0; font-size: 21px; font-weight: 600; letter-spacing: -.005em; overflow-wrap: anywhere; }
-.rv-badge { flex: none; padding: 6px 12px; border-radius: 7px; background: #E7E5E0; color: #4A4F57; font-size: 14px; white-space: nowrap; }
+.rv-brand { padding-right: 22px; border-right: 1.5px solid #CFCBC3; font-size: 31px; font-weight: 800; letter-spacing: -.02em; color: var(--green); text-decoration: none; white-space: nowrap; line-height: 1.1; }
+.rv-title { min-width: 0; font-size: 19.5px; font-weight: 600; letter-spacing: -.005em; overflow-wrap: anywhere; }
+.rv-badge { flex: none; padding: 5px 11px; border-radius: 7px; background: #E7E5E0; color: #4A4F57; font-size: 13.5px; white-space: nowrap; }
 .rv-play { flex: none; margin-left: auto; display: flex; align-items: center; gap: 14px; }
-.rv-track { display: block; width: 230px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
+.rv-track { display: block; width: 200px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
 .rv-fill { display: block; width: 0; height: 100%; border-radius: 6px; background: var(--teal); }
 .rv-clock { font-size: 15.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rv-replay { padding: 4px 2px; color: var(--teal); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
@@ -48,7 +48,7 @@
 .rv-need { border-color: #A6D3AF; background: #F0F8F1; padding: 11px 12px; font-size: 15px; }
 .rv-dot, .rv-lines { color: #3F454D; font-weight: 400; }
 .rv-lines { font-size: 14px; white-space: nowrap; }
-.rv-refused { display: flex; align-items: center; gap: 8px; border-color: #F0B1B8; background: #FDEBED; color: #C52A33; font-size: 14px; font-weight: 600; }
+.rv-refused { display: flex; align-items: center; gap: 7px; padding: 8px 9px 8px 11px; border-color: #F0B1B8; background: #FDEBED; color: #C52A33; font-size: 13.5px; font-weight: 600; }
 .rv-refused > span { min-width: 0; flex: 1; }
 .rv-minus { flex: none; width: 22px; height: 22px; }
 .rv-minus circle { fill: #D2303A; }
@@ -67,7 +67,7 @@
 .rv-hold > b:first-child, .rv-capHead b { font-size: 16px; }
 .rv-hold .rv-amt { font-size: 18px; }
 .rv-whoSmall { font-size: 12.5px; color: var(--muted); }
-.rv-capHead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.rv-capHead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 8px; }
 .rv-capHead > span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .rv-id { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
 .rv-arrow { flex: none; width: 24px; text-align: center; font-size: 20px; color: #2E7D5B; }
@@ -105,14 +105,15 @@
 .rv-arrowHead { fill: #A4BAD1; }
 
 /* ── Desktop: seven columns, left to right ──────────────────────────────────────────────────────── */
-.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 160fr 205fr 180fr 380fr 150fr 185fr; row-gap: 10px; margin-top: 16px; }
+.rv-desk { position: relative; display: grid; grid-template-columns: 150fr 160fr 200fr 175fr 370fr 160fr 185fr; row-gap: 10px; margin-top: 16px; }
 .rv-panel { z-index: 0; margin: 0 1.5px; border-radius: 5px; background: #F0EEE9; }
-.rv-headCell { z-index: 2; padding: 16px 12px 22px 14px; }
+.rv-headCell { z-index: 2; min-width: 0; padding: 16px 10px 22px 12px; }
+.rv-desk .rv-headTitle { font-size: 16.5px; gap: 8px; }
 .rv-cell { z-index: 2; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 8px 0 10px; }
 .rv-c2 { padding-left: 40px; }
 .rv-c3 { padding-left: 58px; padding-right: 6px; }
 .rv-c4 { gap: 6px; padding-left: 42px; padding-right: 6px; }
-.rv-c5 { justify-content: space-around; gap: 12px; padding-left: 44px; padding-right: 6px; }
+.rv-c5 { justify-content: space-around; gap: 12px; padding-left: 40px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
 .rv-desk .rv-hold { width: 150px; }
 .rv-c6 { align-items: flex-end; padding-right: 10px; }
