@@ -1,8 +1,9 @@
 "use client";
 
 import type { AgWidgetParams } from "ag-studio";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import "../panels.css";
+import { fitRows } from "../fit-rows";
 import { journalOf, type JournalEvent } from "../journal";
 import type { LedgerStore } from "../store";
 import { PANEL_WORDS } from "../words-panels";
@@ -77,6 +78,68 @@ function Row({ e, store, on, onTip }: { e: JournalEvent; store: LedgerStore; on:
   );
 }
 
+/** The "+N more ↓" line under a column, with its margin. */
+const MORE_PX = 22;
+
+/**
+ * A column's list on a desktop. Where its rows do not all fit (a laptop at 1366 or zoomed), it ends at its last whole
+ * row and says how many more are below; pressing that scrolls the list. Where they all fit, nothing changes.
+ */
+function GroupList({ count, more, children }: { count: number; more: (n: number) => string; children: ReactNode }) {
+  const list = useRef<HTMLUListElement>(null);
+  const [below, setBelow] = useState(0);
+  useEffect(() => {
+    const ul = list.current;
+    const group = ul?.parentElement;
+    if (!ul || !group) return;
+    const rowsBelow = () => [...ul.children].filter((r) => (r as HTMLElement).offsetTop + (r as HTMLElement).offsetHeight > ul.scrollTop + ul.clientHeight + 1).length;
+    const fit = () => {
+      // Measured as the layout gives it: the list fills its column.
+      ul.style.height = "";
+      ul.style.flex = "";
+      const rows = [...ul.children] as HTMLElement[];
+      const cs = getComputedStyle(ul);
+      const pad = parseFloat(cs.paddingBottom) || 0;
+      const borders = (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.borderBottomWidth) || 0);
+      // The room is the column's: the list's own, plus the "+N more" line's when it is already there.
+      const chip = ul.nextElementSibling as HTMLElement | null;
+      const chipPx = chip?.classList.contains("lg-jr-more") ? chip.offsetHeight + (parseFloat(getComputedStyle(chip).marginTop) || 0) : 0;
+      const { height } = fitRows(rows.map((r) => r.offsetTop + r.offsetHeight), ul.clientHeight + chipPx, pad, MORE_PX);
+      if (height !== null) {
+        ul.style.flex = "none";
+        ul.style.height = `${height + borders}px`;
+      }
+      setBelow(height === null ? 0 : rowsBelow());
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(group);
+    void document.fonts?.ready.then(fit);
+    const scrolled = () => setBelow(ul.style.height ? rowsBelow() : 0);
+    ul.addEventListener("scroll", scrolled, { passive: true });
+    return () => {
+      ro.disconnect();
+      ul.removeEventListener("scroll", scrolled);
+      ul.style.height = "";
+      ul.style.flex = "";
+    };
+  }, [count]);
+  const down = () => {
+    const ul = list.current;
+    if (ul) ul.scrollBy({ top: ul.clientHeight - 8, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  };
+  return (
+    <>
+      <ul ref={list}>{children}</ul>
+      {below > 0 && (
+        <button type="button" className="lg-jr-more" onClick={down}>
+          {more(below)}
+        </button>
+      )}
+    </>
+  );
+}
+
 export function JournalWidget(params: AgWidgetParams) {
   const { store, snap } = useWidget<HTMLElement>(params);
   const [el, setEl] = useState<HTMLElement | null>(null);
@@ -122,13 +185,13 @@ export function JournalWidget(params: AgWidgetParams) {
                 <i aria-hidden="true" />
                 {g.title}
               </h3>
-              <ul>
+              <GroupList count={g.events.length} more={w.more}>
                 {g.events.length ? (
                   g.events.map((e) => <li key={e.key}>{row(e)}</li>)
                 ) : (
                   <li className="lg-jr-none">{w.noneYet}</li>
                 )}
-              </ul>
+              </GroupList>
             </li>
           ))}
         </ol>

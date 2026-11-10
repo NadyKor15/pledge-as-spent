@@ -52,6 +52,8 @@ export interface JournalWords {
   showOnMap: (who: string) => string;
   all: (n: number) => string;
   latest: (n: number) => string;
+  /** Under a column whose list goes on below its last whole row: "+1 more ↓" (pressing it scrolls the list). */
+  more: (n: number) => string;
 }
 
 const amountAfter = (s: string, amount: string) => (amount ? `${s} · ${amount}` : s);
@@ -91,6 +93,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       showOnMap: (who) => `Show ${who} on the map`,
       all: (n) => `All ${n} PayPal events`,
       latest: (n) => `Only the latest ${n}`,
+      more: (n) => `+${n} more ↓`,
     },
   },
   de: {
@@ -127,6 +130,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       showOnMap: (who) => `${who} auf der Karte zeigen`,
       all: (n) => `Alle ${n} PayPal-Ereignisse`,
       latest: (n) => `Nur die letzten ${n}`,
+      more: (n) => `+${n} weitere ↓`,
     },
   },
   ja: {
@@ -163,6 +167,7 @@ export const PANEL_WORDS: Record<Lang, PanelWords> = {
       showOnMap: (who) => `${who} を地図で表示`,
       all: (n) => `PayPal の全 ${n} 件`,
       latest: (n) => `最新 ${n} 件のみ`,
+      more: (n) => `ほか ${n} 件 ↓`,
     },
   },
 };

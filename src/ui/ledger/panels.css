@@ -81,7 +81,9 @@
 .lg-jr-group h3 i { position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 999px; background: var(--teal); }
 .lg-jr-g-never h3 i { background: var(--pas-never); }
 .lg-jr-group:last-child h3::before { right: 0; }
-.lg-jr-group ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; border: 1px solid var(--line); border-radius: 12px; padding: 4px 6px; }
+.lg-jr-group ul { position: relative; flex: 1; min-height: 0; overflow-y: auto; list-style: none; border: 1px solid var(--line); border-radius: 12px; padding: 4px 6px; }
+/* Under a column whose rows do not all fit: how many more are below (JournalWidget GroupList). */
+.lg-jr-more { flex: none; align-self: flex-start; margin-top: 4px; padding: 0 2px; color: var(--teal); font-size: 12.5px; line-height: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .lg-jr-none { padding: 10px 8px; color: var(--muted); font-size: 13px; }
 .lg-jr-row { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 10px; text-align: left; font-size: 13.5px; line-height: 1.3; }
 .lg-jr-group li + li .lg-jr-row, .lg-jr-list li + li .lg-jr-row { border-top: 1px solid #F0EDE7; border-radius: 0; }
@@ -107,7 +109,9 @@
 .lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
 
 /* The way to the shelter's printable poster (П4): the report's top-left corner, across from the languages. */
-.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); font-size: 13px; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+/* At most as wide as the room left of the first total's centred title: a longer label ("Plakat für die Unterkunft")
+   takes two lines instead of running over "Zugesagt". */
+.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); max-width: calc(130px * var(--s)); font-size: 13px; line-height: 1.25; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
 [data-stacked="true"] .lg-poster-link { top: 6px; left: 12px; font-size: 12.5px; }
 
 /* "Show Lena on the map" (S4): over the right end of the row under the pointer or the keyboard's focus. */
