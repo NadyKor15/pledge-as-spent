@@ -6,7 +6,7 @@
 
 import { z } from "zod";
 import type { CurrencyCode, Need } from "../core/types";
-import { classificationsFromWire, CLASSIFIER_SYSTEM, kv, minorUnits, ModelOutputError, READER_SYSTEM, receiptFromText } from "./bedrock";
+import { classificationsFromWire, CLASSIFIER_SYSTEM, kv, minorUnits, ModelOutputError, READER_SYSTEM, receiptFromText } from "./wire";
 import { imagePart, metaRespond, type MetaOptions } from "./meta";
 import { deriveNeedQty, forbiddenCategory, packCount, refineClassifications } from "./quantity";
 import { cutRows, sliceReceipt, type Slicing } from "./slice";
