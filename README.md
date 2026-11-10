@@ -1,10 +1,10 @@
 # Pledge-as-Spent
 
-**Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent goes back.
+**Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent is never charged: PayPal releases the rest of the hold.
 
 Your €20 for water can only buy water.
 
-In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
+In a 2024 BBB Wise Giving Alliance survey of U.S. and Canadian adults, the check rated "very important" most often was an independent review of how a charity spends its money (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
 
@@ -15,7 +15,7 @@ Video: {YouTube URL}
 1. Open the demo and press **Open the demo drive**. Four holds are placed at PayPal.
 2. On the Coordinator screen press **Use the sample receipt**: 9 lines approved, 2 refused, ¥10,448 to the volunteer.
 3. Press **Capture now**: each share turns from waiting to spent once PayPal confirms it. Then press **Close drive** and confirm with **Yes, close the drive**.
-4. Press **See where the money went**: the Ledger shows pledged, spent on needs and returned to donors, on a world map. Press a donor to see what they paid for.
+4. Press **See where the money went**: the Ledger shows pledged, spent on needs and never charged, on a world map. Press a donor to see what they paid for.
 
 | Claim | Proof | What you will see |
 |---|---|---|
@@ -23,11 +23,11 @@ Video: {YouTube URL}
 | One receipt is split across several donors' holds | captures `4VE88173NF234560B` (€4.58), `50398406KN1796230` ($21.45), `2CM40725YN406312S` (¥1,237) | each donor pays their own share, in their own currency |
 | A company match is captured with them | capture `97T59974KS757452K` (¥5,224) | a second hold on the same lines, 1:1 up to a ¥500,000 cap |
 | The volunteer is reimbursed through PayPal Payouts | batch `CB379GNVYPU8G` | ¥10,448, confirmed |
-| Unspent money goes back | the same drive, Ledger tab | €15.42, $8.55 and ¥1,763 returned, every hold voided |
+| Unspent money is never charged | the same drive, Ledger tab | €15.42, $8.55 and ¥1,763 never charged: PayPal voided every hold |
 | Alcohol and a gift card are refused | [the same receipt](https://pledge-as-spent.vercel.app/drive/demo-810b24be50?as=coordinator) | ¥4,198 of ¥14,646 never reaches a donor |
 | AI reads receipts in other languages | held-out [set 2](eval/results/meta-holdout2-h2-20261109T005251Z.md) and [set 1](eval/results/meta-holdout-fixed-20261109T004406Z.md), [more below](#how-ai-is-used) | Meta Muse Spark 1.3 on two sets of 20 receipts in 4 languages: line F1 100% and totals 20/20 on each, no line funded with a wrong need or quantity |
 | The model never moves money | `src/core` | amounts are computed in code; the model only reads and labels lines |
-| Try to cheat the receipt | [/cheat](https://pledge-as-spent.vercel.app/cheat) | five forged receipts (bought before the disaster, the paid receipt again, a store outside the zone, a total raised by hand, beer, cigarettes and a gift card among water) run through the same checks as every upload, on a copy of the demo drive: each line paid, refused or held with its reason, and what the forged lines would have charged donors. Their readings are recorded, not read live; nothing is written and PayPal is not called |
+| Try to cheat the receipt | [/cheat](https://pledge-as-spent.vercel.app/cheat) | five forged receipts (bought before the disaster, the paid receipt again, a store outside the zone, a total raised by hand, beer, cigarettes and a gift card among water) run through the same checks as every upload, on a copy of the demo drive: each line paid, refused or held with its reason, and what the forged lines would have charged donors. Each forgery's reading is the receipt set's own truth, written with the set, so no model reads anything here; nothing is written and PayPal is not called |
 | Ask PayPal yourself | the button on the Ledger, beside the CSV (and on a donor's statement) | the server reads every hold, capture and payout of the drive back from PayPal's sandbox, GET only, and sets each answer next to the book: "N of N objects answered by PayPal". An answer is kept for a minute; fresh checks are limited per network |
 
 The PayPal ids and amounts come from a control drive opened on the hosted demo on 2026-11-09: [`evidence/control-drive-20261109-810b24be50.json`](evidence/control-drive-20261109-810b24be50.json). PayPal's own records matched the ledger: 9 of 9 objects answered, 9 agree.
@@ -36,7 +36,7 @@ The PayPal ids and amounts come from a control drive opened on the hosted demo o
 
 An earthquake, a shelter and three needs: water, size M diapers, AA batteries. This drive is fictional. Lena in Berlin pledges €20 for water, Mark in Columbus $30 for diapers, Yuki in Osaka ¥3,000 for batteries. A local company matches each yen 1:1, up to ¥500,000.
 
-A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift card are on it. AI reads every line, matches each to a need and applies the drive's rules. Nine lines pass, two are refused. The approved ¥10,448 is split: half from the company, half from the donors, each in their own currency. The volunteer is paid back the same day. When the drive closes, what nobody spent goes back, and each donor can see which receipt lines their money bought.
+A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift card are on it. AI reads every line, matches each to a need and applies the drive's rules. Nine lines pass, two are refused. The approved ¥10,448 is split: half from the company, half from the donors, each in their own currency. The volunteer is paid back the same day. When the drive closes, what nobody spent is never charged, because PayPal releases each hold, and each donor can see which receipt lines their money bought.
 
 ## How PayPal is used
 
@@ -137,7 +137,7 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 
 - The money stays on the donor's own PayPal hold until a verified purchase. Nothing is collected first and explained later.
 - One receipt line is shared across donors and a company match, each charged in their own currency.
-- The Ledger splits every pledge into spent, waiting for capture, still held and returned, and the four add up to the pledge.
+- The Ledger splits every pledge into spent, waiting for capture, still held and never charged, and the parts add up to the pledge. "Returned" is used only for money PayPal gave back after a capture, a refund.
 - A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). It is behind the `REBIND_ENABLED` switch.
 
 ## Platform findings
