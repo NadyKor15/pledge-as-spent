@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { HOLD_LIFE_DAYS } from "@/core/time";
 import { api, errorText } from "./api";
 import { classes } from "./cls";
+import { INPUT_CURRENCIES as CURRENCIES, MAX_MAJOR, toMinor, type InputCurrency as Currency } from "./money-input";
 import { pledgeScriptOptions } from "./pledge-paypal";
 
 const s = classes("dn");
@@ -13,22 +14,9 @@ const s = classes("dn");
 // A donor pledge through the PayPal window: the order is created on our server
 // (intent AUTHORIZE), the donor approves it at PayPal, and our server
 // authorizes it. Nothing is captured here: the hold waits for a verified receipt.
+// Amounts are read by money-input: "20,50" is €20.50, never €2,050.
 
-const CURRENCIES = ["EUR", "USD", "JPY"] as const;
-type Currency = (typeof CURRENCIES)[number];
-/** The API's ceiling for one pledge, in major units. */
-const MAX_MAJOR = 10_000;
 const CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "";
-
-/** "20.00" EUR -> 2000; null when not a valid amount for the currency. */
-export function toMinor(text: string, currency: Currency): number | null {
-  const t = text.trim().replace(/,/g, "");
-  const re = currency === "JPY" ? /^\d+$/ : /^\d+(\.\d{1,2})?$/;
-  if (!re.test(t)) return null;
-  const minor = currency === "JPY" ? Number(t) : Math.round(Number(t) * 100);
-  const max = MAX_MAJOR * (currency === "JPY" ? 1 : 100);
-  return minor > 0 && minor <= max ? minor : null;
-}
 
 export function PledgeForm({ driveId, needId, needLabel }: { driveId: string; needId: string; needLabel: string }) {
   const router = useRouter();
