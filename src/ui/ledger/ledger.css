@@ -123,7 +123,8 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 /* Bottom line */
 .lg-foot { position: absolute; inset: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: center; padding: 0 calc(40px * var(--s)); border-top: 1px solid var(--line); font-size: calc(18px * var(--s)); }
 .lg-mid { min-width: 0; margin-left: calc(36px * var(--s)); padding: calc(4px * var(--s)) 0 calc(4px * var(--s)) calc(64px * var(--s)); border-left: 1px solid var(--line); }
-.lg-rates { margin-top: 2px; font-size: calc(14px * var(--s)); color: var(--muted); font-variant-numeric: tabular-nums; }
+/* Room under a refused line that wraps (desktop); the phone keeps its 2px below. */
+.lg-rates { margin-top: calc(9px * var(--s)); font-size: calc(14px * var(--s)); color: var(--muted); font-variant-numeric: tabular-nums; }
 .lg-book-acts { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding-left: calc(64px * var(--s)); border-left: 1px solid var(--line); }
 .lg-csv { color: var(--muted); font-size: calc(14px * var(--s)); text-decoration: underline; text-underline-offset: 3px; }
 .lg-receipt { display: flex; align-items: center; gap: 22px; color: #4A5160; text-decoration: none; }
@@ -150,7 +151,7 @@ html:has(.lg-screen), body:has(.lg-screen) { background: #FAF8F4; }
 [data-stacked="true"] .lg-receipt span { display: none; }
 [data-stacked="true"] .lg-mid { align-self: end; margin: 0; padding: 0; border: 0; }
 [data-stacked="true"] .lg-refused { line-height: 1.35; }
-[data-stacked="true"] .lg-rates { font-size: 12px; line-height: 1.35; }
+[data-stacked="true"] .lg-rates { margin-top: 2px; font-size: 12px; line-height: 1.35; }
 [data-stacked="true"] .lg-book-acts { align-self: start; align-items: flex-start; padding: 0; border: 0; }
 [data-stacked="true"] .lg-open-book { font-size: 14px; }
 [data-stacked="true"] .lg-csv { font-size: 12.5px; }

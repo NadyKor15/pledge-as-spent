@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, shownHolds, shownId, type LineView, type NextStep } from "./derive";
-import { LineOriginal } from "./LineOriginal";
+import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, ownLines, payoutNote, readMark, receiptBadge, receiptChecks, refusalSummary, shareGroups, shownHolds, shownId, type LineView, type NextStep } from "./derive";
+import { LineDiscounts, LineOriginal } from "./LineOriginal";
 import { VolunteersCard } from "./VolunteersCard";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
@@ -320,8 +320,11 @@ function ReceiptBody({
   act: (name: string, path: string, init?: RequestInit & { json?: unknown }) => Promise<unknown>;
 }) {
   const checks = receiptChecks(r);
-  const kept = lines.filter((l) => l.state !== "rejected");
-  const refused = lines.filter((l) => l.state === "rejected");
+  // A discount is shown inside the row of the line it is counted with, never as a line of its own; the refused total
+  // below still adds it (refusalSummary over every line).
+  const own = ownLines(lines);
+  const kept = own.filter((l) => l.state !== "rejected");
+  const refused = own.filter((l) => l.state === "rejected");
   return (
     <>
       <p className={s.msub}>
@@ -363,6 +366,7 @@ function ReceiptBody({
                   </b>
                   {l.state === "pending" ? " · waiting" : l.state === "review" ? " · needs a decision" : ""}
                   <LineOriginal line={l} />
+                  <LineDiscounts of={l} lines={lines} currency={r.currency} />
                 </span>
               </div>
             ))}
@@ -375,12 +379,13 @@ function ReceiptBody({
                   </span>
                   <span className={s.t2}>{l.reason}</span>
                   <LineOriginal line={l} />
+                  <LineDiscounts of={l} lines={lines} currency={r.currency} />
                 </div>
               </div>
             ))}
             {refused.length > 0 && (
               <p className={s.refusedSum} data-testid="refused-sum">
-                Refused: <b>{money(r.currency, refusedTotal(lines))}</b> of {money(r.currency, r.total)} never reaches a donor
+                Refused: <b>{money(r.currency, refusalSummary(view, r, lines).total)}</b> of {money(r.currency, r.total)} never reaches a donor
               </p>
             )}
           </div>

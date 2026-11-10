@@ -430,14 +430,88 @@ export function readLabel(r: Receipt): string {
   return `${readMark(r)} · ${r.lines.length} ${r.lines.length === 1 ? "line" : "lines"}`;
 }
 
-/** What the refused lines of a receipt add up to, each with its share of tax: money no donor is ever charged. */
-export function refusedTotal(lines: readonly { state: string; line: LineMoney }[]): number {
-  return lines.filter((l) => l.state === "rejected").reduce((s, l) => s + lineGross(l.line), 0);
+/** The lines a screen shows as rows of their own: a discount counted with a line is shown inside that line's row. */
+export function ownLines<T extends Pick<LineView, "countedWith">>(lines: readonly T[]): T[] {
+  return lines.filter((l) => l.countedWith === undefined);
 }
 
-/** How many lines of a receipt were refused: a discount counted with a refused line is part of it, not a line of its own. */
-export function refusedCount(lines: readonly Pick<LineView, "state" | "countedWith">[]): number {
-  return lines.filter((l) => l.state === "rejected" && l.countedWith === undefined).length;
+type RefusalLine = { state: string; line: LineMoney; countedWith?: number };
+
+/**
+ * The one rule behind every refused figure, on every screen and in the assistant's answers: a receipt's refused lines
+ * in print order, each discount counted with one of them right after it (lineViews). The count is of lines (a
+ * discount is part of its line); the total adds each with its share of tax, the discounts taken off: money no donor
+ * is ever charged.
+ */
+function refused<T extends RefusalLine>(lines: readonly T[]) {
+  const items = lines.filter((l) => l.state === "rejected");
+  return { items, count: items.filter((l) => l.countedWith === undefined).length, total: items.reduce((s, l) => s + lineGross(l.line), 0) };
+}
+
+/** What the refused lines of a receipt add up to (refusalSummary's total). */
+export const refusedTotal = (lines: readonly RefusalLine[]): number => refused(lines).total;
+
+/** How many lines of a receipt were refused (refusalSummary's count). */
+export const refusedCount = (lines: readonly RefusalLine[]): number => refused(lines).count;
+
+export interface Refusal {
+  receiptId: string;
+  line: ReceiptLine;
+  /** The line as the screens show it (lineViews). */
+  view: LineView;
+  /** The book's refused or unfunded row of a line of its own; null for a discount, or a line the book has not decided. */
+  row: LedgerRow | null;
+  /** A discount: the line it is counted with, which it follows in `items`. */
+  countedWith?: number;
+  /** What it takes off the receipt with its share of tax (negative for a discount), in `currency`, the receipt's. */
+  amount: number;
+  currency: string;
+}
+
+export interface RefusalSummary {
+  /** In print order, each discount right after the line it is counted with. */
+  items: Refusal[];
+  /** Refused lines; the discounts that go with them are not lines of their own. */
+  count: number;
+  /** What the items add up to. */
+  total: number;
+}
+
+/** A receipt's refusals: the items, their count and their total, as every screen and the assistant show them. */
+export function refusalSummary(v: DriveView, r: Receipt, lines: readonly LineView[] = lineViews(v, r)): RefusalSummary {
+  const { items, count, total } = refused(lines);
+  const currency = r.currency ?? v.drive.baseCurrency;
+  const rowOf = (lineNo: number) => v.ledger.find((x) => x.receiptId === r.id && x.lineNo === lineNo && (x.kind === "rejected" || x.kind === "unfunded")) ?? null;
+  return {
+    items: items.map((l) => ({
+      receiptId: r.id,
+      line: l.line,
+      view: l,
+      row: l.countedWith === undefined ? rowOf(l.line.lineNo) : null,
+      ...(l.countedWith === undefined ? {} : { countedWith: l.countedWith }),
+      amount: lineGross(l.line),
+      currency,
+    })),
+    count,
+    total,
+  };
+}
+
+/**
+ * The refusals the book has recorded, receipt by receipt: each line it refused or left unfunded, with the discounts
+ * counted with it (the Ledger's "Refused" list, the assistant's answer). A receipt still waiting adds nothing.
+ */
+export function bookRefusals(v: DriveView): RefusalSummary {
+  const items: Refusal[] = [];
+  for (const r of v.receipts) {
+    let booked = false;
+    for (const i of refusalSummary(v, r).items) {
+      if (i.countedWith === undefined) booked = i.row !== null;
+      if (booked) items.push(i);
+    }
+  }
+  const { count, total } = refused(items.map((i) => i.view));
+  return { items, count, total };
 }
 
 /**
