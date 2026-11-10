@@ -60,6 +60,8 @@ export interface Words {
   receiptPhoto: string;
   receiptWord: string;
   refused: string;
+  /** A discount in the refused list, after the line it is counted with (derive.ts refusals). */
+  discount: string;
   everyLine: string;
   downloadCsv: string;
   noLines: string;
@@ -134,6 +136,7 @@ const EN: Words = {
   receiptPhoto: "Receipt photo",
   receiptWord: "Receipt",
   refused: "Refused",
+  discount: "discount",
   everyLine: "Every line of the book",
   downloadCsv: "Download the book (CSV)",
   noLines: "No lines yet",
@@ -195,6 +198,7 @@ const DE: Words = {
   receiptPhoto: "Belegfoto",
   receiptWord: "Beleg",
   refused: "Abgelehnt",
+  discount: "Rabatt",
   everyLine: "Jede Zeile des Buchs",
   downloadCsv: "Buch herunterladen (CSV)",
   noLines: "Noch keine Zeilen",
@@ -256,6 +260,7 @@ const JA: Words = {
   receiptPhoto: "レシート写真",
   receiptWord: "レシート",
   refused: "対象外",
+  discount: "値引き",
   everyLine: "帳簿の全行",
   downloadCsv: "帳簿をダウンロード (CSV)",
   noLines: "まだ行がありません",

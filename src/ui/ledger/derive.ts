@@ -1,5 +1,5 @@
 import { toBase } from "@/core/money";
-import { holdById, latestFunded, lineName, needById, shareStage } from "../derive";
+import { holdById, latestFunded, lineGross, lineName, lineViews, needById, shareStage, type LineView } from "../derive";
 import { meterParts, type MeterParts } from "../hold-meter";
 import { chainRootId, groupByChain, mergeChain } from "../renewal-chain";
 import { decimals, donorParts, moneyIn, ofCount, pct, rateTextIn, shelterShort, shortName, type Lang } from "../format";
@@ -336,15 +336,26 @@ function bookRows(v: DriveView, lang: Lang): LedgerBookRow[] {
     });
 }
 
+/**
+ * The refused lines, each followed by the discounts counted with it (lineViews): the book nets a discount into its line
+ * and has no row for it, so without them the list would not add up to the Coordinator's refused total.
+ */
 function refusals(v: DriveView, lang: Lang): LedgerRefusal[] {
+  const views = new Map<string, LineView[]>();
   return v.ledger.flatMap((r) => {
     if (r.kind !== "rejected") return [];
-    const line = v.receipts.find((x) => x.id === r.receiptId)?.lines.find((l) => l.lineNo === r.lineNo);
-    if (!line) return [];
+    const receipt = v.receipts.find((x) => x.id === r.receiptId);
+    const line = receipt?.lines.find((l) => l.lineNo === r.lineNo);
+    if (!receipt || !line) return [];
     const need = needById(v, r.needId);
     const rule = line.ruleCode ? WORDS[lang].rule[line.ruleCode] : undefined;
     const name = lang !== "en" && rule ? rule : need && lang !== "en" ? needLabel(lang, need.needId, need.displayLabel) : lineName({ line, need }).title;
-    return [{ key: lineKey(r.receiptId, r.lineNo), name, amount: moneyIn(lang, v.drive.baseCurrency, r.base) }];
+    if (!views.has(receipt.id)) views.set(receipt.id, lineViews(v, receipt));
+    const discounts = views
+      .get(receipt.id)!
+      .filter((l) => l.countedWith === r.lineNo && l.state === "rejected")
+      .map((l) => ({ key: lineKey(r.receiptId, l.line.lineNo), name: WORDS[lang].discount, amount: moneyIn(lang, receipt.currency ?? v.drive.baseCurrency, lineGross(l.line)) }));
+    return [{ key: lineKey(r.receiptId, r.lineNo), name, amount: moneyIn(lang, v.drive.baseCurrency, r.base) }, ...discounts];
   });
 }
 
