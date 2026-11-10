@@ -38,7 +38,10 @@ export const viewportHeight = () => layoutHeight(window.innerHeight, window.visu
 
 /**
  * It changes only when the window does. A window that turns into a phone (devtools' device mode) gets floating
- * scrollbars, so the scrollbar's room is measured again on the next read.
+ * scrollbars, so the scrollbar's room is measured again on the next read. So it is when the page's own width
+ * changes while the window's does not: scrollbars hidden for a moment (a full-page capture) measured 0 and the
+ * stage kept the window's whole width, 15 px past the edge once they came back. Measuring again gives the same
+ * room whether the page shows a scrollbar or not, so this never makes the stage chase its own scrollbar.
  */
 export const subscribeViewport = (cb: () => void) => {
   const changed = () => {
@@ -46,7 +49,21 @@ export const subscribeViewport = (cb: () => void) => {
     cb();
   };
   window.addEventListener("resize", changed);
-  return () => window.removeEventListener("resize", changed);
+  const page = document.documentElement;
+  let pageWidth = page.clientWidth;
+  const observer =
+    typeof ResizeObserver === "undefined"
+      ? null
+      : new ResizeObserver(() => {
+          if (page.clientWidth === pageWidth) return;
+          pageWidth = page.clientWidth;
+          changed();
+        });
+  observer?.observe(page);
+  return () => {
+    window.removeEventListener("resize", changed);
+    observer?.disconnect();
+  };
 };
 const subscribe = subscribeViewport;
 
