@@ -11,10 +11,12 @@ import {
   requireDrive,
   requirePledge,
   restOf,
+  ruleAllows,
+  ruleAllowsNeed,
   volunteerCommitted,
 } from "./ledger";
-import { toBase } from "./money";
-import type { CurrencyCode, HoldStatus, Money, PledgeKind } from "./types";
+import { divRound, minorRate, toBase } from "./money";
+import type { CurrencyCode, HoldStatus, Money, Pledge, PledgeKind } from "./types";
 
 // Read-only projections of the book for screens and the grid.
 
@@ -56,6 +58,8 @@ export interface PledgeBalance {
   surplus?: number;
   /** A linked renewal: the most it may ever promise, i.e. what it carried on from the old hold (stays after its end). */
   usable?: number;
+  /** The donor's rules for the lines this hold may pay (absent: none). */
+  rules?: { needs?: string[]; maxUnitMinor?: number };
 }
 
 export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
@@ -90,6 +94,7 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     ...(hold.renewedTo ? { renewedTo: hold.renewedTo } : {}),
     ...(hold.surplus ? { surplus: hold.surplus } : {}),
     ...(hold.usable !== undefined ? { usable: hold.usable } : {}),
+    ...(pledge.rules !== undefined ? { rules: JSON.parse(JSON.stringify(pledge.rules)) as PledgeBalance["rules"] } : {}),
   };
 }
 
@@ -256,6 +261,12 @@ export interface DonorStatement {
     helpBase: number;
   };
   balance: PledgeBalance;
+  /**
+   * Donors with rules only: lines this hold could have paid but its rules left out
+   * ("price": above the cap per unit; "need": a need the rules leave out), with the
+   * line's price per unit in the donor's currency. Absent without rules.
+   */
+  ruledOut?: { receiptId: string; lineNo: number; needId: string; qty: number; amountBase: number; unitQuote: number; reason: "price" | "need" }[];
 }
 
 /** "Your EUR 4.00 bought this, and unlocked this much of the match." */
@@ -308,7 +319,31 @@ export function donorStatement(s: LedgerState, pledgeId: string): DonorStatement
       helpBase: shareBase + matchBase,
     },
     balance: pledgeBalance(s, pledgeId),
+    ...(pledge.rules ? { ruledOut: ruledOut(s, pledge) } : {}),
   };
+}
+
+/** Lines of the needs this hold backs (a match: all of them) that its rules kept it out of. */
+function ruledOut(s: LedgerState, pledge: Pledge): NonNullable<DonorStatement["ruledOut"]> {
+  const out: NonNullable<DonorStatement["ruledOut"]> = [];
+  const mine = new Set<string>(pledge.kind === "match" ? s.needIds : [...(pledge.rules?.needs ?? []), ...(pledge.needId ? [pledge.needId] : [])]);
+  for (const ev of fundedLines(s)) {
+    const l = ev.line;
+    if (pledge.kind === "donor" && !mine.has(l.needId)) continue;
+    if (ruleAllows(pledge, l.needId, l.amountBase, l.needQty)) continue;
+    const k = minorRate(pledge.fx);
+    out.push({
+      receiptId: l.receiptId,
+      lineNo: l.lineNo,
+      needId: l.needId,
+      qty: l.needQty,
+      amountBase: l.amountBase,
+      // price per unit in the donor's currency: amountBase / needQty / (num / den), half up
+      unitQuote: Number(divRound(BigInt(l.amountBase) * k.den, BigInt(l.needQty) * k.num, "half-up")),
+      reason: ruleAllowsNeed(pledge, l.needId) ? "price" : "need",
+    });
+  }
+  return out;
 }
 
 export type LedgerRowKind = "donor_share" | "match_share" | "rejected" | "unfunded";

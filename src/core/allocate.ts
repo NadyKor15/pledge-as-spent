@@ -10,6 +10,7 @@ import {
   lookup,
   matchRatio,
   requireDrive,
+  ruleAllows,
 } from "./ledger";
 import { toQuote } from "./money";
 import { largestRemainder } from "./split";
@@ -145,8 +146,10 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
       : Number((BigInt(line.amountBase) * BigInt(acceptedQty)) / BigInt(line.needQty));
 
   // §3.2 the match's part
-  const donors = backers(s, now, (p) => p.kind === "donor" && p.needId === need.id);
-  const matches = backers(s, now, (p) => p.kind === "match");
+  // Only holds whose donor rules let them pay this line (its need, its price per unit) share it.
+  const allowed = (p: Pledge) => ruleAllows(p, need.id, line.amountBase, line.needQty);
+  const donors = backers(s, now, (p) => p.kind === "donor" && p.needId === need.id && allowed(p));
+  const matches = backers(s, now, (p) => p.kind === "match" && allowed(p));
   const D = sum(donors.map((b) => b.cap));
   const M = sum(matches.map((b) => b.cap));
   const ratio = matchRatio(s);

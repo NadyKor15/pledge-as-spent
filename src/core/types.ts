@@ -98,6 +98,19 @@ export interface Pledge {
    * rate and rest choice; at most what the old hold has not promised to a line.
    */
   renews?: string;
+  /** The donor's rules for the lines this hold may pay (DONOR_RULES); absent: any line of its need. */
+  rules?: DonorRules;
+}
+
+/**
+ * Which receipt lines a hold may pay. `needs`: only these needs (a donor's own need
+ * among them; it limits where a carry or a move may go). `maxUnitMinor`: at most this
+ * much per unit of the need, in the pledge's currency, the line's share of tax included.
+ * At least one of the two.
+ */
+export interface DonorRules {
+  needs?: string[];
+  maxUnitMinor?: number;
 }
 
 export type RestChoice = "release" | "carry";

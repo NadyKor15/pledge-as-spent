@@ -42,6 +42,7 @@ export interface PledgeSpec {
   baseCurrency?: CurrencyCode;
   /** What happens to the rest when the need is covered; absent: release. */
   rest?: Pledge["rest"];
+  rules?: Pledge["rules"];
 }
 
 export function makePledge(p: PledgeSpec): Pledge {
@@ -53,6 +54,7 @@ export function makePledge(p: PledgeSpec): Pledge {
     needId: kind === "match" ? null : (p.needId ?? null),
     donorName: `Donor ${p.id}`,
     ...(p.rest ? { rest: p.rest } : {}),
+    ...(p.rules ? { rules: p.rules } : {}),
     amount: p.amount,
     fx: {
       base: p.baseCurrency ?? "JPY",

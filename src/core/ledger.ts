@@ -1,7 +1,7 @@
 import { CoreError } from "./errors";
 import type * as E from "./events";
 import { captureRequestId, lineKeyOf, payoutSenderBatchId, reauthRequestId, shareIdOf } from "./ids";
-import { assertMinor, currencyExponent, toBase, validateFx } from "./money";
+import { assertMinor, currencyExponent, minorRate, toBase, validateFx } from "./money";
 import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
 import { largestRemainder } from "./split";
 import { addMs, DAY_MS, HOLD_LIFE_DAYS, HONOR_DAYS, parseTime, REBIND_BEFORE_EXPIRY_MS } from "./time";
@@ -306,7 +306,9 @@ export type RebindRefusalCode =
   /** Renewals: a renewal of this hold still waits for the donor's approval. */
   | "renewal_pending"
   /** Renewals: the chain already holds MAX_RENEWALS renewals. */
-  | "too_many_renewals";
+  | "too_many_renewals"
+  /** Moves: the donor's rules leave the target need out. */
+  | "rule_forbids";
 
 /** Renewals per chain at most: each is a month more; ids grow by ".rN" and PayPal's custom_id takes 127 characters. */
 export const MAX_RENEWALS = 6;
@@ -335,6 +337,7 @@ export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string
   const target = lookup(s.needs, toNeedId);
   if (!target) return no("unknown_need", `This drive has no need ${toNeedId}.`);
   if (pledge.needId === toNeedId) return no("same_need", `This pledge already backs ${target.label}.`);
+  if (!ruleAllowsNeed(pledge, toNeedId)) return no("rule_forbids", `The donor's rules leave out ${target.label}.`);
   if (!isLiveStatus(pledge.status)) return no("hold_not_live", `The hold is ${pledge.status}; nothing is held for a new need.`);
   if (hold.revokedAt) return no("revoked", "The pledge was withdrawn.");
   if (hold.blockedAt) return no("blocked", "PayPal refused a charge on this hold for good.");
@@ -346,6 +349,42 @@ export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string
   if (s.qtyCovered[target.id] >= target.qtyNeeded) return no("need_covered", `${target.label} is already covered.`);
   return null;
 }
+
+// ---- donor rules ------------------------------------------------------------
+
+/** Whether hold `p`'s rules let it pay `needId` at all. */
+export const ruleAllowsNeed = (p: Pledge, needId: string): boolean => !p.rules?.needs || p.rules.needs.includes(needId);
+
+/**
+ * Whether hold `p`'s rules let it pay a line of `needQty` units of `needId` costing
+ * `amountBase` in the drive's currency: the need is one it allows, and the price per
+ * unit, in the pledge's currency at its locked rate, is at most its cap (exact).
+ */
+export function ruleAllows(p: Pledge, needId: string, amountBase: number, needQty: number): boolean {
+  if (!ruleAllowsNeed(p, needId)) return false;
+  const cap = p.rules?.maxUnitMinor;
+  if (cap === undefined) return true;
+  if (!Number.isSafeInteger(needQty) || needQty <= 0) return false;
+  // amountBase / needQty <= cap * num / den  <=>  amountBase * den <= cap * num * needQty
+  const k = minorRate(p.fx);
+  return BigInt(amountBase) * k.den <= BigInt(cap) * k.num * BigInt(needQty);
+}
+
+function checkRules(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
+  const r = p.rules!;
+  if (typeof r !== "object" || r === null || (r.needs === undefined && r.maxUnitMinor === undefined)) fail(e, "rules need at least a list of needs or a price cap");
+  if (r.needs !== undefined) {
+    if (!Array.isArray(r.needs) || r.needs.length === 0) fail(e, "rules: the list of needs is empty");
+    if (new Set(r.needs).size !== r.needs.length) fail(e, "rules: a need is listed twice");
+    for (const id of r.needs) if (typeof id !== "string" || !lookup(s.needs, id)) fail(e, `rules: this drive has no need ${String(id)}`);
+    if (p.kind === "donor" && p.needId !== null && !r.needs.includes(p.needId)) fail(e, `rules: the list leaves out the pledge's own need ${p.needId}`);
+  }
+  if (r.maxUnitMinor !== undefined && !isPositiveInt(r.maxUnitMinor)) fail(e, "rules: the price cap is a positive whole number of minor units");
+  const extra = Object.keys(r).filter((k) => k !== "needs" && k !== "maxUnitMinor");
+  if (extra.length) fail(e, `rules: unknown ${extra.join(", ")}`);
+}
+
+const sameRules = (a: Pledge["rules"], b: Pledge["rules"]): boolean => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
 // ---- carry ------------------------------------------------------------------
 
@@ -362,7 +401,7 @@ export function carryTarget(s: LedgerState, pledgeId: string): string | null {
   const pledge = lookup(s.pledges, pledgeId);
   let best: { id: string; lack: number; of: number } | null = null;
   for (const id of s.needIds) {
-    if (pledge && id === pledge.needId) continue;
+    if (pledge && (id === pledge.needId || !ruleAllowsNeed(pledge, id))) continue; // never to a need the donor's rules leave out
     const need = s.needs[id];
     const lack = need.qtyNeeded - s.qtyCovered[id];
     if (lack <= 0) continue;
@@ -600,6 +639,7 @@ function onPledgeCreated(s: LedgerState, e: E.PledgeCreated): LedgerState {
   } else {
     fail(e, `unknown pledge kind ${(p as Pledge).kind}`);
   }
+  if (p.rules !== undefined) checkRules(s, e, p);
   if (p.renews !== undefined) checkRenewal(s, e, p);
   const hold: HoldBook = {
     pledgeId: p.id,
@@ -641,6 +681,7 @@ function checkRenewal(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
   if (p.amount.currency !== old.amount.currency) fail(e, `a renewal keeps the currency ${old.amount.currency}`);
   if (p.fx.base !== old.fx.base || p.fx.quote !== old.fx.quote || p.fx.rate !== old.fx.rate) fail(e, `a renewal keeps the old hold's rate ${old.fx.rate}`);
   if (restOf(p) !== restOf(old)) fail(e, `a renewal keeps the donor's choice for the rest (${restOf(old)})`);
+  if (!sameRules(p.rules, old.rules)) fail(e, "a renewal keeps the donor's rules for the lines it pays");
   // The exact cap is set when the renewal is linked (what the old hold never promised by then); a line funded
   // between the press and this event only trims the renewal. Here: never more than the old hold itself.
   if (p.amount.minor > oldHold.authorized) fail(e, `a renewal asks for more than the old hold (${oldHold.authorized})`);
@@ -760,6 +801,7 @@ function onLineFunded(s: LedgerState, e: E.LineFunded): LedgerState {
     seenPledges.add(pledge.id);
     if (sh.kind !== pledge.kind) fail(e, `share kind ${sh.kind} on a ${pledge.kind} pledge`);
     if (pledge.kind === "donor" && pledge.needId !== line.needId) fail(e, `pledge ${pledge.id} backs another need`);
+    if (!ruleAllows(pledge, line.needId, line.amountBase, line.needQty)) fail(e, `pledge ${pledge.id}: the donor's rules leave this line out`);
     if (!isFundable(pledge, hold, e.at)) fail(e, `pledge ${pledge.id} cannot fund lines now`);
     if (!isPositiveInt(sh.base) || sh.base > capacityBase(pledge, hold)) fail(e, `share base on ${pledge.id} exceeds its capacity`);
     if (sh.quote.currency !== pledge.amount.currency || !isNonNegInt(sh.quote.minor)) fail(e, `share quote on ${pledge.id} invalid`);

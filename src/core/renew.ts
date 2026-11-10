@@ -37,6 +37,7 @@ export function renewalPledge(s: LedgerState, pledgeId: string, at: string): Ple
     donorName: pledge.donorName,
     ...(pledge.donorCountry ? { donorCountry: pledge.donorCountry } : {}),
     ...(pledge.rest !== undefined ? { rest: pledge.rest } : {}),
+    ...(pledge.rules !== undefined ? { rules: JSON.parse(JSON.stringify(pledge.rules)) as Pledge["rules"] } : {}),
     renews: pledgeId,
     amount: { currency: pledge.amount.currency, minor: availableMinor(pledge, hold) },
     fx: { ...pledge.fx },
