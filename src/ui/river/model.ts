@@ -69,7 +69,7 @@ export interface RiverModel {
   driveId: string;
   baseCurrency: string;
   closed: boolean;
-  receipt: { id: string; merchant: string | null; total: number; totalText: string; lines: number } | null;
+  receipt: { id: string; merchant: string | null; total: number | null; totalText: string; lines: number } | null;
   /** The receipt was read by Meta twice and compared by code: a line passes only when both readings agree. */
   twoReadings: boolean;
   needs: RiverNeed[];
