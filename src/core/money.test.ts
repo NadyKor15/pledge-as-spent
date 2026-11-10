@@ -190,10 +190,29 @@ describe("money properties", () => {
     fc.assert(
       fc.property(arbFx(), fc.integer({ min: 0, max: 1e9 }), fc.integer({ min: 0, max: 1e9 }), (rate, a, b) => {
         const [x, y] = a <= b ? [a, b] : [b, a];
-        expect(toBase(x, rate)).toBeLessThanOrEqual(toBase(y, rate));
-        expect(toQuote(x, rate)).toBeLessThanOrEqual(toQuote(y, rate));
+        // A tiny rate can carry a large amount past the safe integer range; the code refuses that (invalid_amount),
+        // so such pairs say nothing about order and are left out.
+        const [bx, by, qx, qy] = [() => toBase(x, rate), () => toBase(y, rate), () => toQuote(x, rate), () => toQuote(y, rate)].map(inRange);
+        fc.pre(bx !== null && by !== null && qx !== null && qy !== null);
+        expect(bx).toBeLessThanOrEqual(by!);
+        expect(qx).toBeLessThanOrEqual(qy!);
       }),
       { numRuns: RUNS },
     );
   });
+
+  it("refuses a conversion past the safe integer range instead of rounding it (the case fast-check found)", () => {
+    const rate = { base: "JPY", quote: "USD", rate: "0.00001", source: "property-test", asOf: "2026-10-23" } as FxRate;
+    expect(() => toQuote(900719926, rate)).toThrow(CoreError);
+  });
 });
+
+/** The conversion's result, or null when the code refuses it as out of the safe integer range. */
+function inRange(convert: () => number): number | null {
+  try {
+    return convert();
+  } catch (e) {
+    if (e instanceof CoreError && (e as CoreError & { code?: string }).code === "invalid_amount") return null;
+    throw e;
+  }
+}
