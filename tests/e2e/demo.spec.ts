@@ -101,7 +101,9 @@ test("the judges' path: sample receipt, captures, close, statement", async ({ pa
   await expect(page.getByText("€9.16 of help.")).toBeVisible();
   await expect(page.getByText("12 bottles of water 2 L").first()).toBeVisible();
   await expect(page.locator(".st-hold")).toContainText("expires");
-  await expect(page.locator("body")).not.toContainText(/renew|extended/i);
+  // The renewal offer exists only on a server with RENEW_ENABLED (run this suite with the server's switches).
+  if (process.env.RENEW_ENABLED === "1") await expect(page.getByText("Renew €15.42 for 29 more days")).toBeVisible();
+  else await expect(page.locator("body")).not.toContainText(/renew|extended/i);
   const photo = page.locator(".st-win img").first();
   await expect(photo).toHaveJSProperty("complete", true);
   expect(await photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
