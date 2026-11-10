@@ -13,8 +13,10 @@ import {
   lookup,
   unlinkableRenewal,
   needsVoid,
+  payoutRefusal,
   pendingBatch,
   receiptFundedBase,
+  receiptVolunteer,
   requireDrive,
   requirePledge,
   unsettledHolds,
@@ -271,7 +273,7 @@ export function planClose(s: LedgerState, now: string): E.CloseCommand[] {
  * currency; the holds guarantee it. Lines funded after a payout (a flagged line
  * approved later) are paid as a top-up. Null when nothing is owed.
  */
-export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand | null {
+export function planPayout(s: LedgerState, receiptId: string, volunteerId?: string): E.PayoutCommand | null {
   const drive = requireDrive(s);
   if (!s.lineKeys.some((k) => lineReceipt(s, k) === receiptId)) {
     throw new CoreError("unknown_receipt", `no lines of receipt ${receiptId} in the book`);
@@ -280,7 +282,13 @@ export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand |
   const owed = receiptFundedBase(s, receiptId) - paidBase(attempts);
   const pendingIndex = attempts.findIndex((a) => a.status === "pending");
   if (owed <= 0 && pendingIndex < 0) return null;
+  // A receipt is paid to one volunteer: a retry or a top-up goes to the one its first payout went to.
+  const earlier = receiptVolunteer(s, receiptId);
+  if (earlier !== undefined && volunteerId !== undefined && volunteerId !== earlier) {
+    throw new CoreError("invalid_state", `receipt ${receiptId} is paid to ${earlier}, not ${volunteerId}`);
+  }
   if (pendingIndex >= 0) {
+    // In flight at PayPal: the same batch again, whatever happened to the volunteer since (PayPal may have paid already).
     const a = attempts[pendingIndex];
     return {
       kind: "payout",
@@ -290,8 +298,12 @@ export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand |
       amount: { currency: drive.baseCurrency, minor: a.amount },
       attempt: pendingIndex + 1,
       retry: true,
+      ...(a.volunteerId !== undefined ? { volunteerId: a.volunteerId } : {}),
     };
   }
+  const to = volunteerId ?? earlier;
+  const refusal = payoutRefusal(s, receiptId, to, owed);
+  if (refusal) throw new CoreError("invalid_state", `no payout of receipt ${receiptId}: ${refusal}`);
   const attempt = attempts.length + 1;
   return {
     kind: "payout",
@@ -301,6 +313,7 @@ export function planPayout(s: LedgerState, receiptId: string): E.PayoutCommand |
     amount: { currency: drive.baseCurrency, minor: owed },
     attempt,
     retry: false,
+    ...(to !== undefined ? { volunteerId: to } : {}),
   };
 }
 
@@ -321,6 +334,7 @@ export function payoutSubmittedEvent(cmd: E.PayoutCommand, at: string): E.Payout
     receiptId: cmd.receiptId,
     senderBatchId: cmd.senderBatchId,
     amount: { ...cmd.amount },
+    ...(cmd.volunteerId !== undefined ? { volunteerId: cmd.volunteerId } : {}),
   };
 }
 

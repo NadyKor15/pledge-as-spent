@@ -11,6 +11,7 @@ import {
   requireDrive,
   requirePledge,
   restOf,
+  volunteerCommitted,
 } from "./ledger";
 import { toBase } from "./money";
 import type { CurrencyCode, HoldStatus, Money, PledgeKind } from "./types";
@@ -486,4 +487,50 @@ export function closeReport(s: LedgerState): CloseReportRow[] {
         ...(hold.renewedTo ? { renewedTo: hold.renewedTo } : {}),
       };
     });
+}
+
+/** "haruto@example.com" -> "h***@example.com": the only form a volunteer's PayPal address ever leaves the book in. */
+export function maskEmail(email: string): string {
+  const at = email.lastIndexOf("@");
+  if (at <= 0) return "***";
+  return `${email[0]}***${email.slice(at)}`;
+}
+
+export interface VolunteerRow {
+  id: string;
+  name: string;
+  /** Their PayPal address, masked. */
+  payoutMasked: string;
+  invitedAt: string;
+  invitedBy: string;
+  active: boolean;
+  removedAt: string | null;
+  /** The most the drive pays them in all (drive currency), or null for none. */
+  limitBase: number | null;
+  /** A person checks their first receipt before any money moves. */
+  firstReceiptCheck: boolean;
+  /** Payouts in flight and confirmed, in the drive's currency. */
+  pendingBase: number;
+  paidBase: number;
+}
+
+/** The drive's invited volunteers for screens; never their address, never their link token. */
+export function volunteerList(s: LedgerState): VolunteerRow[] {
+  return s.volunteerIds.map((id) => {
+    const v = s.volunteers[id];
+    const c = volunteerCommitted(s, id);
+    return {
+      id,
+      name: v.name,
+      payoutMasked: maskEmail(v.payoutEmail),
+      invitedAt: v.invitedAt,
+      invitedBy: v.invitedBy,
+      active: !v.removedAt,
+      removedAt: v.removedAt ?? null,
+      limitBase: v.limitBase,
+      firstReceiptCheck: v.firstReceiptCheck,
+      pendingBase: c.pending,
+      paidBase: c.paid,
+    };
+  });
 }

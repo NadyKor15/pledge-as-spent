@@ -18,6 +18,7 @@ import {
   replay,
   uncommitted,
   unsettledHolds,
+  volunteerCommitted,
 } from "./ledger";
 import { minorRate } from "./money";
 import {
@@ -60,7 +61,8 @@ type Op =
   | { k: "payout"; pick: number; ok: boolean }
   | { k: "rebind"; pick: number; needIdx: number; repeat: boolean }
   | { k: "renew"; pick: number; approve: "now" | "later" | "card" }
-  | { k: "approveRenewal"; pick: number; deny: boolean };
+  | { k: "approveRenewal"; pick: number; deny: boolean }
+  | { k: "removeVolunteer"; pick: number };
 
 interface LineSpec {
   needIdx: number;
@@ -101,6 +103,7 @@ const arbOp: fc.Arbitrary<Op> = fc.oneof(
   { weight: 2, arbitrary: fc.record({ k: fc.constant("rebind" as const), pick: fc.nat(), needIdx: fc.nat(), repeat: fc.boolean() }) },
   { weight: 2, arbitrary: fc.record({ k: fc.constant("renew" as const), pick: fc.nat(), approve: fc.constantFrom<"now" | "later" | "card">("now", "later", "card") }) },
   { weight: 1, arbitrary: fc.record({ k: fc.constant("approveRenewal" as const), pick: fc.nat(), deny: fc.boolean() }) },
+  { weight: 1, arbitrary: fc.record({ k: fc.constant("removeVolunteer" as const), pick: fc.nat() }) },
 );
 
 const arbScenario = fc.record({
@@ -128,6 +131,8 @@ const arbScenario = fc.record({
   ),
   ops: fc.array(fc.record({ op: arbOp, slot: fc.nat() }), { maxLength: 60, size: "max" }),
   threshold: fc.option(fc.integer({ min: 1, max: 50_000 }), { nil: null }),
+  /** Invited volunteers (none: the drive pays its own address, as before); a limit in the drive's currency or none. */
+  volunteers: fc.array(fc.option(fc.integer({ min: 1, max: 200_000 }), { nil: null }), { maxLength: 3 }),
   maxAgeHours: fc.integer({ min: 1, max: 72 }),
 });
 
@@ -223,6 +228,18 @@ function checkState(s: LedgerState): void {
     }
   }
   for (const id of s.needIds) must(s.qtyCovered[id] <= s.needs[id].qtyNeeded, "need never over-covered", id);
+  // Volunteers: never paid (in flight or confirmed) above their limit; a drive with volunteers names one on every payout.
+  for (const id of s.volunteerIds) {
+    const v = s.volunteers[id];
+    const c = volunteerCommitted(s, id);
+    if (v.limitBase !== null) must(c.pending + c.paid <= v.limitBase, "a volunteer is never paid above their limit", { id, c, limit: v.limitBase });
+  }
+  for (const [rid, attempts] of Object.entries(s.payouts)) {
+    for (const a of attempts) {
+      if (s.volunteerIds.length > 0) must(a.volunteerId !== undefined && Object.hasOwn(s.volunteers, a.volunteerId), "a payout names an invited volunteer", { rid, a });
+      must(attempts.every((x) => x.volunteerId === a.volunteerId), "every payout of a receipt goes to one volunteer", { rid });
+    }
+  }
   // Renewals: a chain (first hold -> linked renewals) never promises more than the donor's first hold.
   for (const id of s.pledgeIds) {
     const p = s.pledges[id];
@@ -424,6 +441,18 @@ class Sim {
       for (let j = 0; j < sc.match.count; j++) this.addPledge(`m${j}`, "match", null, this.currency(sc.match.curIdx + j), sc.match.minor, "paypal");
     }
     this.addPledge(LATE, "donor", "n0", sc.base, 1000, "pending");
+    sc.volunteers.forEach((limit, i) =>
+      this.apply({ id: `vol-${i}`, at: T0, driveId: "drv1", type: "VolunteerInvited", volunteer: { id: `v${i}`, name: `Volunteer ${i}`, payoutEmail: `v${i}@example.com`, tokenHash: `t${i}`, limitBase: limit, firstReceiptCheck: true }, by: "coordinator" }),
+    );
+  }
+
+  volunteerPaid = 0;
+  volunteerRefused = 0;
+
+  /** The volunteer who brought a receipt: receipts are spread over the invited volunteers. */
+  volunteerOf(receiptId: string): string | undefined {
+    const n = this.sc.volunteers.length;
+    return n === 0 ? undefined : `v${Number(receiptId.slice(1)) % n}`;
   }
 
   fund(spec: LineSpec) {
@@ -558,8 +587,24 @@ class Sim {
     const receipts = [...new Set(this.lines.map((l) => l.line.receiptId))];
     if (receipts.length === 0) return;
     const rid = receipts[pick % receipts.length];
-    const cmd = planPayout(this.state, rid);
+    const vid = this.volunteerOf(rid);
+    const s = this.state;
+    let cmd;
+    try {
+      cmd = planPayout(s, rid, vid);
+    } catch (e) {
+      // refused only for a reason the rules name: a removed volunteer, or their limit
+      const v = vid !== undefined ? s.volunteers[vid] : undefined;
+      must(v !== undefined && (Boolean(v.removedAt) || v.limitBase !== null), "a payout is refused only for a removed volunteer or a limit", { rid, vid, e: String(e) });
+      this.volunteerRefused += 1;
+      return;
+    }
     if (!cmd) return;
+    if (cmd.volunteerId !== undefined && !cmd.retry) this.volunteerPaid += 1;
+    if (vid !== undefined && !cmd.retry) {
+      const v = s.volunteers[vid];
+      must(cmd.volunteerId === vid && !v.removedAt, "a new payout goes to the receipt's invited, active volunteer", { rid, vid });
+    }
     const paid = (this.state.payouts[rid] ?? []).filter((a) => a.status === "confirmed").reduce((a, x) => a + x.amount, 0);
     if (!cmd.retry) expect(cmd.amount.minor).toBe(receiptFundedBase(this.state, rid) - paid); // top-ups pay the difference
     if (!cmd.retry) this.apply(payoutSubmittedEvent(cmd, this.now));
@@ -622,6 +667,11 @@ class Sim {
         return this.renew(op.pick, op.approve);
       case "approveRenewal":
         return this.approveRenewal(op.pick, op.deny);
+      case "removeVolunteer": {
+        if (s.volunteerIds.length === 0) return;
+        this.apply({ id: this.id("vr"), at: this.now, driveId: "drv1", type: "VolunteerRemoved", volunteerId: s.volunteerIds[op.pick % s.volunteerIds.length], by: "coordinator" });
+        return;
+      }
     }
   }
 
@@ -807,12 +857,16 @@ describe("engine properties (SPEC §3-§6)", () => {
     let movedRuns = 0;
     let carriedRuns = 0;
     let renewedRuns = 0;
+    let volunteerPaidRuns = 0;
+    let volunteerRefusedRuns = 0;
     fc.assert(
       fc.property(arbScenario, (sc) => {
         const sim = runScenario(sc);
         if (sim.rebinds.size > 0) movedRuns += 1;
         if (sim.carries > 0) carriedRuns += 1;
         if (sim.renewed > 0) renewedRuns += 1;
+        if (sim.volunteerPaid > 0) volunteerPaidRuns += 1;
+        if (sim.volunteerRefused > 0) volunteerRefusedRuns += 1;
         sim.close();
         const s = sim.state;
         expect(s.drive!.status).toBe("closed");
@@ -839,6 +893,8 @@ describe("engine properties (SPEC §3-§6)", () => {
     expect(movedRuns).toBeGreaterThan(0);
     expect(carriedRuns).toBeGreaterThan(0);
     expect(renewedRuns).toBeGreaterThan(0);
+    expect(volunteerPaidRuns).toBeGreaterThan(0);
+    expect(volunteerRefusedRuns).toBeGreaterThan(0);
   }, 600_000);
 
   it("the split does not depend on the order pledges were made in", () => {
