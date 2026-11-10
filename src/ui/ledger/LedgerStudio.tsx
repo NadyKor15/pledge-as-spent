@@ -174,8 +174,9 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       shelter: Math.ceil((112 + 52 + counts.needs * 104) / rowHeight),
       // 94 per donor: the row with the hold's bar (need-meter.css .nm-donor, 92 px + its rule).
       donors: Math.ceil((62 + counts.donors * 94) / rowHeight),
-      // Room for three links under the refusals: the book, its CSV and "Ask PayPal yourself".
-      footer: 15,
+      // Room for three links and the PayPal check line under the refusals: the book, its CSV, "Ask PayPal yourself"
+      // and the daily check, which takes up to three lines in German.
+      footer: 19,
       journal: JOURNAL_ROWS.phone,
       ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
       receipt: RECEIPT_ROWS.phone,
