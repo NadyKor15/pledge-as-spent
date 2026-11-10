@@ -78,9 +78,11 @@ export type ReceiptView = ReturnType<typeof receiptView>;
 export interface Features {
   /** REBIND_ENABLED: the donor may move a hold once, and may choose at the pledge to keep the rest for next purchases. */
   carry: boolean;
+  /** RENEW_ENABLED: the donor may renew a hold with a new order approved again (the statement shows the button). */
+  renew: boolean;
 }
 
-export const NO_FEATURES: Features = { carry: false };
+export const NO_FEATURES: Features = { carry: false, renew: false };
 
 export async function driveView(db: Db, driveId: string, features: Features = NO_FEATURES) {
   const state = await readBook(db, driveId);

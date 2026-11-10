@@ -578,7 +578,7 @@ function onPledgeCreated(s: LedgerState, e: E.PledgeCreated): LedgerState {
   return { ...next, pledgeIds: [...s.pledgeIds, p.id] };
 }
 
-/** A renewal pledge must carry its old hold on unchanged: same donor, need, currency, rate and choice, at most its rest. */
+/** A renewal pledge must carry its old hold on unchanged: same donor, need, currency, rate and choice, never above it. */
 function checkRenewal(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
   const oldId = p.renews!;
   if (!nonEmpty(oldId)) fail(e, "renews must name a hold");
@@ -592,8 +592,9 @@ function checkRenewal(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
   if (p.amount.currency !== old.amount.currency) fail(e, `a renewal keeps the currency ${old.amount.currency}`);
   if (p.fx.base !== old.fx.base || p.fx.quote !== old.fx.quote || p.fx.rate !== old.fx.rate) fail(e, `a renewal keeps the old hold's rate ${old.fx.rate}`);
   if (restOf(p) !== restOf(old)) fail(e, `a renewal keeps the donor's choice for the rest (${restOf(old)})`);
-  const rest = availableMinor(old, oldHold);
-  if (p.amount.minor > rest) fail(e, `a renewal asks for more than the old hold has left (${rest})`);
+  // The exact cap is set when the renewal is linked (what the old hold never promised by then); a line funded
+  // between the press and this event only trims the renewal. Here: never more than the old hold itself.
+  if (p.amount.minor > oldHold.authorized) fail(e, `a renewal asks for more than the old hold (${oldHold.authorized})`);
 }
 
 function onPledgeAuthorized(s: LedgerState, e: E.PledgeAuthorized): LedgerState {
