@@ -1,4 +1,4 @@
-import { boolean, customType, index, integer, jsonb, numeric, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { boolean, customType, index, integer, jsonb, numeric, pgTable, primaryKey, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 // The events table is the drive's book: append only, state = replay(events).
 // Every other table is either a mirror for queries (drives) or data the book
@@ -110,6 +110,23 @@ export const spendLedger = pgTable("spend_ledger", {
   usd: numeric("usd", { precision: 14, scale: 6 }).notNull(),
   ref: text("ref"),
 });
+
+/**
+ * A receipt line in a donor's language, translated once by the model and kept (the donor's statement shows it beside the
+ * line's strip). Data the book does not hold: losing it costs a call, never a figure.
+ */
+export const lineTranslations = pgTable(
+  "line_translations",
+  {
+    receiptId: text("receipt_id").notNull(),
+    lineNo: integer("line_no").notNull(),
+    lang: text("lang").notNull(),
+    text: text("text").notNull(),
+    model: text("model").notNull(),
+    at: ts("at").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.receiptId, t.lineNo, t.lang] })],
+);
 
 /** One question to the live agent: who asked (hashed address) and what it has cost so far. */
 export const agentQuestions = pgTable(

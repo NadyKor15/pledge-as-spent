@@ -1,0 +1,6 @@
+{
+  "note": "Receipt lines translated into a donor's language once, by Meta Muse Spark 1.3 (scripts/record-translations.ts), keyed by the line as printed. The showcase and the sample receipt read these: no model call on the demo.",
+  "model": "muse-spark-1.3",
+  "recordedAt": null,
+  "lines": { "de": {}, "ja": {} }
+}

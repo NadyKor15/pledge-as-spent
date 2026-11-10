@@ -22,6 +22,13 @@
       "when": 1793998517701,
       "tag": "0002_agent_question_provider",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794279174871,
+      "tag": "0003_line_translations",
+      "breakpoints": true
     }
   ]
 }

@@ -73,6 +73,20 @@
 .st-capWait { background: var(--wait-bg); }
 .st-capWait span { color: var(--wait); }
 
+/* "My euro in the receipt": each line the donor paid for, the share, the strip cut from the published photo, the words. */
+.st-itemTxt:has(.st-lines) { flex: 1; }
+.st-lines { margin-top: 7px; display: flex; flex-direction: column; gap: 6px; list-style: none; padding: 0; }
+.st-line { display: flex; flex-direction: column; gap: 3px; padding: 6px 8px 7px; border-radius: var(--r-frame); background: #F4F6F7; }
+.st-lineHead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; white-space: nowrap; }
+.st-lineNo { font-size: 10.6px; letter-spacing: -.2px; color: var(--slate-2); }
+.st-lineShare { font-size: 12.8px; font-weight: 700; letter-spacing: -.4px; color: var(--green); font-variant-numeric: tabular-nums; }
+.st-lineStrip { display: block; flex: none; max-width: 100%; border-radius: 3px; background-color: #EDEAE4; background-repeat: no-repeat; filter: grayscale(1) contrast(1.06); box-shadow: inset 0 0 0 1px rgba(40, 36, 28, .08); }
+.st-lineNoBox { display: flex; flex-wrap: wrap; gap: 0 8px; font-size: 10.6px; line-height: 15px; color: var(--slate-2); }
+.st-linePrinted { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink); }
+.st-lineWords { font-size: 11.6px; line-height: 15.5px; letter-spacing: -.25px; color: var(--slate-3); overflow-wrap: anywhere; }
+.st-page :lang(ja).st-lineWords { line-break: strict; word-break: normal; }
+.st-lineNote { margin-top: 6px; font-size: 10.6px; line-height: 15px; color: var(--slate-2); }
+
 .st-frame { margin: 8.5px 0 0 .5px; width: calc(100% - 1px); border-radius: var(--r-frame); overflow: hidden; background: var(--surface); display: flex; flex-direction: column; gap: 1.5px; }
 .st-win { position: relative; flex: none; overflow: hidden; }
 .st-winA { height: 86.4px; }

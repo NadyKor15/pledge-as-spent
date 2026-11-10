@@ -15,6 +15,10 @@ import { HoldMeter } from "./HoldMeter";
 import { meterParts } from "./hold-meter";
 import { StatementCheck } from "./paypal-check/StatementCheck";
 import { vanishLine, withdrawnNote } from "./statement/vanish";
+import { statementLines } from "./statement/lines";
+import { LineProofs } from "./statement/LineProofs";
+import { translationNote } from "./statement/lines";
+import type { StatementTranslation } from "@/server/translations";
 import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
 import type { DriveView, Receipt, Statement, StatementView } from "./types";
@@ -165,6 +169,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
     follow(RETURN_WATCH_MS);
   }, [returning, follow]);
   const items = boughtItems(view, st);
+  const translation = useLineTranslation(b.pledgeId, st.rows.length);
   const receipts = [...new Map(items.flatMap((i) => (i.receipt ? [[i.receipt.id, i.receipt] as const] : []))).values()];
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
@@ -270,10 +275,13 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
                   {cap.done ? <Check size={15.1} color="var(--check)" /> : <Clock size={15.1} />}
                   <span>{cap.label}</span>
                 </div>
+                {i.receipt && <LineProofs lines={statementLines(view, st, i.receipt.id, i.lineNos)} translations={translation.of(i.receipt.id)} />}
               </div>
             </div>
           );
         })}
+
+        {translation.note && <p className={s.lineNote}>{translation.note}</p>}
 
         {receipts.map((r) => (
           <ReceiptFrame key={r.id} receipt={r} firstLine={Math.min(...items.filter((i) => i.receipt?.id === r.id).flatMap((i) => i.lineNos))} />
@@ -356,6 +364,26 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
       </Link>
     </div>
   );
+}
+
+/** The donor's receipt lines in their language, asked once when the statement opens (and again if its lines change). */
+function useLineTranslation(pledgeId: string, rowCount: number) {
+  const [t, setT] = useState<StatementTranslation | null>(null);
+  useEffect(() => {
+    if (!rowCount) return;
+    let live = true;
+    api<StatementTranslation>(`/api/pledges/${encodeURIComponent(pledgeId)}/statement/translate`, { method: "POST" }).then(
+      (r) => live && setT(r),
+      () => live && setT(null),
+    );
+    return () => {
+      live = false;
+    };
+  }, [pledgeId, rowCount]);
+  return {
+    of: (receiptId: string) => (t && t.lang !== "en" ? new Map(t.lines.filter((l) => l.receiptId === receiptId && l.source !== "english").map((l) => [l.lineNo, { lang: t.lang, text: l.text }])) : undefined),
+    note: translationNote(t),
+  };
 }
 
 /**
