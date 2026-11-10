@@ -71,7 +71,7 @@
 .rv-capHead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 8px; }
 .rv-capHead > span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .rv-id { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
-.rv-arrow { flex: none; width: 24px; text-align: center; font-size: 20px; color: #2E7D5B; }
+.rv-arrow { flex: none; width: 24px; text-align: center; font-size: 22px; line-height: 1; color: #2E7D5B; }
 
 .rv-payout { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px 15px; border: 2px solid #3E9A63; background: #F1F9F2; box-shadow: 0 2px 6px rgba(20, 80, 45, .12); }
 .rv-payTitle { font-size: 19px; }
@@ -163,4 +163,6 @@
   .rv-end { gap: 12px; font-size: 17px; }
   .rv-end::before, .rv-end::after { flex-basis: 12px; min-width: 8px; }
 }
-.rv-root:lang(ja) .rv-note, .rv-root:lang(ja) .rv-end > span, .rv-root:lang(ja) .rv-never > span, .rv-root:lang(ja) .rv-neverAmt { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+/* Japanese: lines break at the words' zero-width spaces (words.ts), not inside a word. */
+.rv-root:lang(ja) .rv-note, .rv-root:lang(ja) .rv-headTitle > span:last-child, .rv-root:lang(ja) .rv-agree, .rv-root:lang(ja) .rv-end > span, .rv-root:lang(ja) .rv-never > span, .rv-root:lang(ja) .rv-neverAmt { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+.rv-root:lang(ja) .rv-desk .rv-headTitle { font-size: 15px; }

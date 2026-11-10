@@ -75,7 +75,9 @@ export function runs(nos: number[]): string {
 
 const UNIT_EN: Record<string, string> = { JPY: "yen", EUR: "euro", USD: "dollar", GBP: "pound", CAD: "dollar", AUD: "dollar" };
 const UNIT_DE: Record<string, string> = { JPY: "Jeder Yen", EUR: "Jeder Euro", USD: "Jeder Dollar", GBP: "Jedes Pfund", CAD: "Jeder Dollar", AUD: "Jeder Dollar" };
-const UNIT_JA: Record<string, string> = { JPY: "1円", EUR: "1ユーロ", USD: "1ドル", GBP: "1ポンド", CAD: "1ドル", AUD: "1ドル" };
+/** A zero-width space: where a Japanese line may break. */
+const Z = "​";
+const UNIT_JA: Record<string, string> ={ JPY: "1円", EUR: "1ユーロ", USD: "1ドル", GBP: "1ポンド", CAD: "1ドル", AUD: "1ドル" };
 
 export const RIVER_WORDS: Record<Lang, RiverWords> = {
   en: {
@@ -155,20 +157,21 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
   ja: {
     replay: "もう一度",
     playback: "再生",
-    receipt: { title: "レシート", note: "処理する店のレシート。" },
-    twoReadings: { title: "2回の読み取りが一致", note: "レシートを2回読み取り、行を確かめます。" },
-    oneReading: { title: "読み取り", note: "レシートを読み取り、行を見つけます。" },
-    lines: { title: "行", note: "レシートの各行と、その扱い。" },
-    shares: { title: "負担額", note: "有効な行は、寄付者と企業マッチングで分け合います。" },
-    sharesNoMatch: { title: "負担額", note: "有効な行は、寄付者の保留から支払われます。" },
-    holds: { title: "PayPal の保留と引き落とし", note: "寄付者は自分のアカウントで保留します。確認を通った負担分だけを引き落とします。" },
-    payout: { title: "支払い", note: "引き落とした金額は避難所のボランティアに支払われます。" },
-    never: { title: "残りは請求されず", note: "残りの保留は PayPal が解除し、請求されません。" },
+    // Japanese breaks only at the zero-width spaces (Z) between phrases (river.css: keep-all), never inside a word.
+    receipt: { title: "レシート", note: `処理する${Z}店の${Z}レシート。` },
+    twoReadings: { title: `2回の${Z}読み取りが${Z}一致`, note: `レシートを${Z}2回${Z}読み取り、${Z}行を${Z}確かめます。` },
+    oneReading: { title: "読み取り", note: `レシートを${Z}読み取り、${Z}行を${Z}見つけます。` },
+    lines: { title: "行", note: `レシートの${Z}各行と、${Z}その扱い。` },
+    shares: { title: "負担額", note: `有効な行は、${Z}寄付者と${Z}企業マッチングで${Z}分け合います。` },
+    sharesNoMatch: { title: "負担額", note: `有効な行は、${Z}寄付者の${Z}保留から${Z}支払われます。` },
+    holds: { title: `PayPal の${Z}保留と${Z}引き落とし`, note: `寄付者は${Z}自分の${Z}アカウントで${Z}保留します。${Z}確認を${Z}通った${Z}負担分だけを${Z}引き落とします。` },
+    payout: { title: "支払い", note: `引き落とした${Z}金額は${Z}避難所の${Z}ボランティアに${Z}支払われます。` },
+    never: { title: `残りは${Z}請求されず`, note: `残りの${Z}保留は PayPal が${Z}解除し、${Z}請求されません。` },
     lineCount: (n) => `${n}行`,
     readingA: "読み取り A",
     readingB: "読み取り B",
-    agree: "2回の読み取りが一致",
-    linesRead: (n) => `${n}行を読み取り`,
+    agree: `2回の${Z}読み取りが${Z}一致`,
+    linesRead: (n) => `${n}行を${Z}読み取り`,
     lineNos: (nos) => `${runs(nos)}行目`,
     line: (n) => `${n}行目`,
     refused: "対象外",
@@ -178,13 +181,13 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     noCaptureId: "ID はまだありません",
     payoutTitle: "支払い",
     neverCharged: (a) => `${a} 請求されず`,
-    released: "PayPal が保留を解除",
+    released: `PayPal が${Z}保留を${Z}解除`,
     stillHeld: "保留はまだ有効",
-    stillHeldNote: "使われなかった保留は、募金の終了時に解除されます。",
+    stillHeldNote: `使われなかった${Z}保留は、${Z}募金の${Z}終了時に${Z}解除されます。`,
     sums: { spent: "寄付者の支出", match: "マッチング", paid: "支払い", never: "請求されず" },
-    traced: (c) => (UNIT_JA[c] ? `レシートから PayPal まで、${UNIT_JA[c]}残らず追跡しました。` : "レシートから PayPal まで、すべての金額を追跡しました。"),
-    closedTail: "これ以上の請求はできません。",
-    openTail: "請求できるのは確認済みの行だけです。",
+    traced: (c) => (UNIT_JA[c] ? `レシートから PayPal まで、${Z}${UNIT_JA[c]}残らず${Z}追跡しました。` : `レシートから PayPal まで、${Z}すべての金額を${Z}追跡しました。`),
+    closedTail: `これ以上の${Z}請求は${Z}できません。`,
+    openTail: `請求できるのは${Z}確認済みの${Z}行だけです。`,
     link: "お金の流れ",
     nothingYet: "まだ支払われたレシートはありません。",
     loading: "お金の流れ",
