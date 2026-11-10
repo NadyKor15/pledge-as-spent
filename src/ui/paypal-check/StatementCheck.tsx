@@ -3,6 +3,7 @@
 import type { CheckResult } from "@/server/paypal-check";
 import type { DriveView, Statement } from "../types";
 import { AskPayPal } from "./AskPayPal";
+import { ReconcileLine } from "./ReconcileLine";
 
 /** The donor's statement: "don't take our word for it", and the button that asks PayPal about this donor's hold. */
 export function StatementCheck({ view, st, onResult }: { view: DriveView; st: Statement; onResult?: (result: CheckResult) => void }) {
@@ -14,6 +15,7 @@ export function StatementCheck({ view, st, onResult }: { view: DriveView; st: St
       </h2>
       <p className="pc-st-text">PayPal’s sandbox answers for your hold, its captures and the volunteer’s payout. Our server only reads: GET requests, with its own keys.</p>
       <AskPayPal driveId={view.drive.id} focus={{ pledgeId: st.balance.pledgeId, receiptIds }} className="st-btn pc-st-btn" testId="statement-ask-paypal" onResult={onResult} />
+      <ReconcileLine driveId={view.drive.id} lang="en" variant="statement" />
     </section>
   );
 }

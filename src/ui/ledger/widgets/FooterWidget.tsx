@@ -3,6 +3,7 @@
 import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
 import { AskPayPal } from "../../paypal-check/AskPayPal";
+import { ReconcileLine } from "../../paypal-check/ReconcileLine";
 import { bookCsv, type LedgerModel } from "../derive";
 import { WORDS } from "../i18n";
 import { useWidget } from "./useWidget";
@@ -59,6 +60,7 @@ export function FooterWidget(params: AgWidgetParams) {
           </button>
         )}
         <AskPayPal driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-ask-paypal" />
+        <ReconcileLine driveId={snap.model.driveId} lang={snap.lang} variant="ledger" />
       </div>
     </div>
   );

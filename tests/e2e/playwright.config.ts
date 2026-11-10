@@ -9,7 +9,7 @@ const PORT = 3311;
 
 export default defineConfig({
   testDir: ".",
-  testMatch: ["demo.spec.ts", "judge-tools.spec.ts"],
+  testMatch: ["demo.spec.ts", "judge-tools.spec.ts", "reconcile.spec.ts"],
   outputDir: "../../tmp/playwright",
   workers: 1,
   timeout: 120_000,
@@ -18,7 +18,8 @@ export default defineConfig({
   webServer: {
     command: "npx tsx tests/e2e/server.ts",
     cwd: "../..",
-    env: { PORT: String(PORT), NODE_ENV: "production" },
+    // CRON_SECRET: the daily check's route (reconcile.spec.ts) is called the way Vercel's cron calls it.
+    env: { PORT: String(PORT), NODE_ENV: "production", CRON_SECRET: "e2e-reconcile-secret" },
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: true,
     timeout: 120_000,

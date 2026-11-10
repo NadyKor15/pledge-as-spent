@@ -1,0 +1,23 @@
+/* The daily check with PayPal: one line beside "Ask PayPal yourself" (ReconcileLine.tsx). Everything is prefixed rc-. */
+
+.rc { margin: 0; font-variant-numeric: tabular-nums; }
+.rc-text { margin: 0; }
+.rc-wait { min-height: 1.3em; }
+.rc-mark { color: #256F4B; font-weight: 700; }
+.rc[data-state="differs"] .rc-text { color: #B0203E; }
+.rc-list { margin: 4px 0 0; padding: 0 0 0 16px; color: #3B3F46; }
+.rc-list li { margin: 2px 0; overflow-wrap: anywhere; }
+
+/* The Ledger's bottom line: under the links, as small as the CSV link, on one line. */
+.rc-ledger { color: var(--muted, #55595F); font-size: calc(13px * var(--s, 1)); line-height: 1.3; white-space: nowrap; }
+.rc-open { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+[data-stacked="true"] .rc-ledger { font-size: 12px; white-space: normal; }
+
+/* The list of differences, in the top layer (the widget around the bottom line clips anything that leaves it). */
+.pc-dialog.rc-dialog { width: min(760px, calc(100vw - 32px)); }
+.rc-sum { margin: 8px 0 6px; color: #B0203E; font-size: 15px; font-variant-numeric: tabular-nums; }
+.rc-dialog .rc-list { margin: 8px 0 12px; padding-left: 20px; font-size: 14px; line-height: 1.45; }
+.rc-about { margin-bottom: 0; font-size: 13px; }
+
+/* The donor's statement: under the button in "Don't take our word for it". */
+.rc-statement { margin-top: 8px; font-size: 12.4px; line-height: 17px; color: #4A5160; letter-spacing: -.2px; }
