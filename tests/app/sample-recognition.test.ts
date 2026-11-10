@@ -2,9 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
-import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import { drives, events } from "../../src/db/schema";
-import type { ConverseClient } from "../../src/receipts/bedrock";
 import { dHash, hammingHex } from "../../src/receipts/hash";
 import { SAMPLE_MAX_DISTANCE, SHIPPED_ANSWERS } from "../../src/server/reading";
 import { handleTelegramUpdate } from "../../src/server/telegram";
@@ -14,21 +12,19 @@ import { harness, loadRecordings, ROOT } from "./support/harness";
 // The photo the bot really received for the sample: recompressed by Telegram, so its bytes differ from the sample's.
 const PHOTO = new Uint8Array(readFileSync(path.join(ROOT, "tests/fixtures/hero-telegram.jpg")));
 
+/** Meta's model, counting its calls; whatever it is asked, it sees no receipt. */
 function counting() {
   let calls = 0;
-  const client: ConverseClient = {
-    async send(cmd: ConverseCommand): Promise<ConverseCommandOutput> {
-      void cmd;
-      calls += 1;
-      return { output: { message: { role: "assistant", content: [{ text: "no receipt here" }] } }, stopReason: "end_turn", usage: { inputTokens: 1, outputTokens: 1, totalTokens: 2 } } as ConverseCommandOutput;
-    },
-  };
-  return { client, calls: () => calls };
+  const fetch = (async () => {
+    calls += 1;
+    return new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text: "no receipt here" }] }], usage: { input_tokens: 1, output_tokens: 1 } }), { status: 200 });
+  }) as unknown as typeof globalThis.fetch;
+  return { fetch, calls: () => calls };
 }
 
 async function setup() {
   const model = counting();
-  const h = await harness({ fetch: fakeSandbox().fetch, recordings: loadRecordings(), savedAnswers: SHIPPED_ANSWERS, bedrock: () => model.client, pipeline: "nova-lite" });
+  const h = await harness({ fetch: fakeSandbox().fetch, recordings: loadRecordings(), savedAnswers: SHIPPED_ANSWERS, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: model.fetch } });
   await h.svc.createDemoDrive({ driveId: "demo-sample" });
   return { h, model };
 }

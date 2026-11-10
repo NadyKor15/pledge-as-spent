@@ -1,27 +1,34 @@
 import { eq } from "drizzle-orm";
 import { afterAll, describe, expect, it } from "vitest";
-import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import { events, receipts } from "../../src/db/schema";
-import type { ConverseClient } from "../../src/receipts/bedrock";
 import { POST as webhookPOST } from "../../src/app/api/telegram/webhook/route";
+import { READ_A_SYSTEM, READ_B_SYSTEM } from "../../src/receipts/meta-reader";
 import { setServiceForTests } from "../../src/server/runtime";
 import { handleTelegramUpdate } from "../../src/server/telegram";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, loadRecordings } from "./support/harness";
 import { noisePng, syntheticReceipt } from "./support/synthetic";
 
-/** A model that answers without a receipt, as Nova does for a picture that is not one. */
-const notAReceipt: ConverseClient = {
-  async send(cmd: ConverseCommand): Promise<ConverseCommandOutput> {
-    void cmd;
-    return { output: { message: { role: "assistant", content: [{ text: "I see no receipt in this picture." }] } }, stopReason: "end_turn", usage: { inputTokens: 10, outputTokens: 5, totalTokens: 15 } } as ConverseCommandOutput;
-  },
-};
+/**
+ * Meta's model for a picture that is not a receipt: both readings answer without a receipt. Each request is answered
+ * by the prompt it carries, never by the order the calls arrive in (the two readings run at the same time).
+ */
+function notAReceipt() {
+  const asked: string[] = [];
+  const fetch = (async (_url: string, init: RequestInit) => {
+    const { instructions } = JSON.parse(String(init.body)) as { instructions: string };
+    asked.push(instructions === READ_A_SYSTEM ? "read A" : instructions === READ_B_SYSTEM ? "read B" : "other");
+    const text = "I see no receipt in this picture.";
+    return new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text }] }], usage: { input_tokens: 10, output_tokens: 5 } }), { status: 200 });
+  }) as unknown as typeof globalThis.fetch;
+  return { fetch, asked };
+}
 
 async function bot(files: Record<string, Uint8Array> = {}) {
   const pp = fakeSandbox();
   const rec = loadRecordings();
-  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: () => notAReceipt, pipeline: "nova-lite" });
+  const meta = notAReceipt();
+  const h = await harness({ fetch: pp.fetch, recordings: rec, pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: meta.fetch } });
   const said: string[] = [];
   const urls: string[] = [];
   const bodies: Record<string, unknown>[] = [];
@@ -44,7 +51,7 @@ async function bot(files: Record<string, Uint8Array> = {}) {
   const deps = { token: "TEST-TOKEN", baseUrl: "https://demo.example", fetch: tg };
   const send = (update_id: number, message: Record<string, unknown>) => handleTelegramUpdate(h.svc, { update_id, message: { chat: { id: 77, type: "private" }, ...message } }, deps);
   const money = async () => (await h.db.db.select().from(events)).filter((e) => e.type === "LineFunded").length;
-  return { h, pp, rec, files, said, urls, bodies, calls, deps, send, money };
+  return { h, pp, rec, meta, files, said, urls, bodies, calls, deps, send, money };
 }
 
 describe("the receipt bot", () => {
@@ -80,6 +87,8 @@ describe("the receipt bot", () => {
     const b = await bot({ cat: noisePng(501) });
     await b.send(4, { photo: [{ file_id: "cat" }] });
     expect(b.said.at(-1)).toContain("could not be read");
+    expect(b.meta.asked).toContain("read A");
+    expect(b.meta.asked).not.toContain("other"); // nothing unread is classified
     expect(await b.h.db.db.select().from(receipts)).toHaveLength(0);
     expect(await b.money()).toBe(0);
   });

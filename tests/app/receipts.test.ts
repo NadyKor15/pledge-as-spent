@@ -1,11 +1,9 @@
 import { eq } from "drizzle-orm";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
-import type { ConverseCommand, ConverseCommandOutput } from "@aws-sdk/client-bedrock-runtime";
 import { events, receipts, spendLedger } from "../../src/db/schema";
-import type { ConverseClient } from "../../src/receipts/bedrock";
-import type { LineClassification, ParsedReceipt } from "../../src/receipts/types";
 import { sha256Hex } from "../../src/receipts/hash";
+import { READ_A_SYSTEM, READ_B_SYSTEM } from "../../src/receipts/meta-reader";
 import { receiptKey } from "../../src/receipts/recorded";
 import { demoDrive } from "../../src/server/demo";
 import { ReceiptReading, SHIPPED_ANSWERS, type SavedAnswer } from "../../src/server/reading";
@@ -17,47 +15,25 @@ import { harness, heroBytes, loadRecordings, receiptBytes } from "./support/harn
 import { noisePng, syntheticReceipt } from "./support/synthetic";
 import { heroClosing, placeLines } from "../fixtures/closed-hero";
 
-/** The reader's plain-text rows (RECEIPT / LINE / PII), as src/receipts/bedrock.ts asks Nova to answer. */
-function readerText(r: ParsedReceipt): string {
-  const kv = (o: Record<string, unknown>) =>
-    Object.entries(o)
-      .filter(([, v]) => v !== null && v !== undefined)
-      .map(([k, v]) => `${k}=${v}`)
-      .join("; ");
-  const head = kv({ merchant: r.merchantName, address: r.merchantAddress, country: r.country, currency: r.currency, purchased: r.purchasedAt, number: r.receiptNumber, subtotal: r.subtotalMinor, tax: r.taxMinor, tax_included: r.taxIncluded, total: r.totalMinor, readability: r.readability });
-  const lines = r.lines.map((l) => `LINE: ${kv({ no: l.lineNo, qty: l.qty, unit: l.unitPriceMinor, amount: l.amountMinor, rate: l.taxRateBp, text: l.rawText, en: l.translationEn })}`);
-  return [`RECEIPT: ${head}`, ...lines].join("\n");
+/** Meta's model: each request is answered by the prompt it carries, not by the order of the calls, and recorded. */
+function fakeMeta() {
+  const asked: string[] = [];
+  const fetch = (async (_url: string, init: RequestInit) => {
+    const { instructions } = JSON.parse(String(init.body)) as { instructions: string };
+    asked.push(instructions === READ_A_SYSTEM ? "read A" : instructions === READ_B_SYSTEM ? "read B" : "other");
+    const text = "I cannot read this."; // a reading with no RECEIPT row: unreadable
+    return new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text }] }], usage: { input_tokens: 1200, output_tokens: 300 } }), { status: 200 });
+  }) as unknown as typeof globalThis.fetch;
+  return { fetch, asked };
 }
 
-/** The classifier's one-string tool answer: one "no=..; need=..; qty=..; verdict=..; conf=..; why=.." row per line. */
-function classifierWire(lines: LineClassification[]): { lines: string } {
-  return {
-    lines: lines
-      .map((c) => [`no=${c.lineNo}`, c.needId && `need=${c.needId}`, c.needQty !== null && `qty=${c.needQty}`, `verdict=${c.verdict}`, c.ruleCode && `rule=${c.ruleCode}`, `conf=${c.confidence}`, `why=${c.reasonEn}`].filter(Boolean).join("; "))
-      .join("\n"),
-  };
-}
-
-/** A Bedrock client speaking the reader's text protocol and the classifier's forced tool; counts calls. */
-function fakeBedrock(answer: { reader: string; lines: LineClassification[] }) {
-  const sent: string[] = [];
-  const client: ConverseClient = {
-    async send(cmd: ConverseCommand): Promise<ConverseCommandOutput> {
-      const tool = cmd.input.toolConfig?.tools?.[0]?.toolSpec?.name;
-      sent.push(tool ?? "read_text");
-      const content = tool ? [{ toolUse: { toolUseId: "t1", name: tool, input: classifierWire(answer.lines) as never } }] : [{ text: answer.reader }];
-      return { output: { message: { role: "assistant", content } }, stopReason: tool ? "tool_use" : "end_turn", usage: { inputTokens: 1200, outputTokens: 300, totalTokens: 1500 }, metrics: { latencyMs: 1 }, $metadata: {} };
-    },
-  };
-  return { client, sent };
-}
-
-async function setup(o: { bedrock?: () => ConverseClient; spent?: number; savedAnswers?: SavedAnswer[] } = {}) {
+/** `meta`: live reading by Meta through this fetch, with a $3 ceiling; `spent` of it already used. */
+async function setup(o: { meta?: typeof globalThis.fetch; spent?: number; savedAnswers?: SavedAnswer[] } = {}) {
   const pp = fakeSandbox();
   const rec = loadRecordings();
-  // The test double speaks the one-step vision reader's protocol.
-  const h = await harness({ fetch: pp.fetch, recordings: rec, bedrock: o.bedrock, pipeline: "nova-lite", savedAnswers: o.savedAnswers });
-  if (o.spent !== undefined) await h.db.db.insert(spendLedger).values({ id: "seed", ts: h.clock.now(), kind: "reserve", what: "seed", usd: o.spent.toFixed(6), ref: null });
+  const live = o.meta ? { pipeline: "meta" as const, metaReading: { apiKey: "k", capUsd: 3, fetch: o.meta } } : {};
+  const h = await harness({ fetch: pp.fetch, recordings: rec, savedAnswers: o.savedAnswers, ...live });
+  if (o.spent !== undefined) await h.db.db.insert(spendLedger).values({ id: "seed", ts: h.clock.now(), kind: "reserve", what: "read-meta:seed", usd: o.spent.toFixed(6), ref: null });
   const driveId = (await h.svc.createDemoDrive({ driveId: "demo-receipts" })).drive.id;
   return { pp, h, rec, driveId };
 }
@@ -156,7 +132,7 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
     const { drive, needs } = demoDrive(driveId, h.clock.now());
     const bytes = heroBytes();
     const input = { driveId, image: { bytes, mediaType: "image/png" as const }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() };
-    const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, spendCapUsd: 0, liveReadMs: 1000 });
+    const reading = new ReceiptReading(h.db.db, { recordings: loadRecordings() }, { liveReadsPerDay: 0, liveReadMs: 1000 });
     expect((await reading.read(input)).reader).toBe("cached:meta");
     const svc = (await harness({ fetch: fakeSandbox().fetch, savedAnswers: [] })).svc;
     const id = (await svc.createDemoDrive({ driveId: "demo-recorded" })).drive.id;
@@ -165,21 +141,21 @@ describe("the sample receipt: a saved live answer, not the truth file", () => {
 });
 
 describe("live reading limits: refused before any model call", () => {
-  it("the $5 spend cap refuses the call and offers the cached sample", async () => {
-    const live = fakeBedrock({ reader: "", lines: [] });
-    const { h, driveId } = await setup({ bedrock: () => live.client, spent: 4.999 });
+  it("the reading's spend ceiling refuses the call and offers the cached sample", async () => {
+    const live = fakeMeta();
+    const { h, driveId } = await setup({ meta: live.fetch, spent: 2.999 });
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(77) }));
     expect(e).toMatchObject({ status: 429, code: "spend_cap" });
     expect(e.extra).toMatchObject({ sample: { field: "sample", value: "hero" } });
-    expect(live.sent).toEqual([]);
+    expect(live.asked).toEqual([]);
     expect(await h.db.db.select().from(receipts)).toHaveLength(0);
     expect(await h.db.db.select().from(spendLedger)).toHaveLength(1);
   });
 
   it("a reader that never answers ends in a plain answer with the sample hint, not a hung request", async () => {
-    const hanging: ConverseClient = { send: () => new Promise(() => {}) };
+    const hanging = (() => new Promise(() => {})) as unknown as typeof globalThis.fetch;
     const pp = fakeSandbox();
-    const h = await harness({ fetch: pp.fetch, recordings: loadRecordings(), bedrock: () => hanging, pipeline: "nova-lite", limits: { liveReadMs: 30 } });
+    const h = await harness({ fetch: pp.fetch, recordings: loadRecordings(), pipeline: "meta", metaReading: { apiKey: "k", capUsd: 3, fetch: hanging }, limits: { liveReadMs: 30 } });
     const driveId = (await h.svc.createDemoDrive({ driveId: "demo-hang" })).drive.id;
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(79) }));
     expect(e).toMatchObject({ status: 503, code: "reading_timeout" });
@@ -188,44 +164,26 @@ describe("live reading limits: refused before any model call", () => {
   });
 
   it("30 live readings a day per IP; the 31st is refused without a call", async () => {
-    const live = fakeBedrock({ reader: "I cannot read this.", lines: [] });
-    const { h, driveId } = await setup({ bedrock: () => live.client });
+    const live = fakeMeta();
+    const { h, driveId } = await setup({ meta: live.fetch });
     const ipHash = h.svc.hashIp("203.0.113.9");
     await h.db.db.insert(receipts).values(
-      Array.from({ length: 30 }, (_, i) => ({ id: `seed.r${i}`, driveId: "other", sha256: `s${i}`, image: new Uint8Array([1]), mediaType: "image/png", status: "funded", channel: "web", reader: "live:nova-lite", ipHash, uploadedAt: h.clock.now() })),
+      Array.from({ length: 30 }, (_, i) => ({ id: `seed.r${i}`, driveId: "other", sha256: `s${i}`, image: new Uint8Array([1]), mediaType: "image/png", status: "funded", channel: "web", reader: "live:meta", ipHash, uploadedAt: h.clock.now() })),
     );
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "203.0.113.9" }));
     expect(e).toMatchObject({ status: 429, code: "live_limit" });
-    expect(live.sent).toEqual([]);
+    expect(live.asked).toEqual([]);
     // Another network still gets its reading (here an answer without a RECEIPT row: unreadable).
     const r = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(78), ip: "198.51.100.1" }));
     expect(r).toMatchObject({ status: 422, code: "unreadable_by_model" });
-    expect(live.sent).toEqual(["read_text"]);
+    expect(live.asked).toContain("read A");
+    expect(live.asked).not.toContain("other"); // an unread photo is never classified
   });
 
   it("with live reading off, an unknown photo gets a plain answer and the sample hint", async () => {
     const { h, driveId } = await setup();
     const e = await reject(h.svc.submitReceipt({ driveId, bytes: noisePng(79) }));
     expect(e).toMatchObject({ status: 503, code: "live_reading_off" });
-  });
-
-  it("a live reading goes through the cap, is stored, and the same photo later costs nothing", async () => {
-    const recTmp = loadRecordings();
-    const { parsed } = syntheticReceipt(recTmp, 80, [{ needId: "water", qty: 6, amount: 798 }]);
-    const lines = Object.values(recTmp.classifications).at(-1)!;
-    const live = fakeBedrock({ reader: readerText(parsed), lines });
-    const { h, driveId } = await setup({ bedrock: () => live.client });
-    const bytes = noisePng(80); // not in this service's recordings: read live
-    const r = await h.svc.submitReceipt({ driveId, bytes, ip: "203.0.113.20" });
-    expect(r.receipt).toMatchObject({ status: "funded", reader: "live:nova-lite" });
-    expect(live.sent).toEqual(["read_text", "submit_classifications"]);
-    const ledger = await h.db.db.select().from(spendLedger);
-    expect(ledger.map((x) => x.kind).sort()).toEqual(["reserve", "reserve", "settle", "settle"]);
-    // Another demo drive, same photo: the stored answer is reused, no model call.
-    const other = (await h.svc.createDemoDrive({ driveId: "demo-receipts-2" })).drive.id;
-    const again = await h.svc.submitReceipt({ driveId: other, bytes, ip: "203.0.113.20" });
-    expect(again.receipt).toMatchObject({ status: "funded", reader: "copy" });
-    expect(live.sent).toHaveLength(2);
   });
 });
 

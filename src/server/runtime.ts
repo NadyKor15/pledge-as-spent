@@ -1,9 +1,7 @@
 import path from "node:path";
 import { openDatabase } from "../db/client";
-import { TesseractEngine, type OcrEngine } from "../receipts/ocr";
 import { Recordings } from "../receipts/recorded";
 import recordedJson from "../../eval/receipts/recorded.json";
-import { bedrockClient } from "./aws";
 import { ServiceError } from "./errors";
 import type { Pipeline } from "./reading";
 import { PledgeService, type Limits } from "./service";
@@ -19,9 +17,7 @@ import { LineTranslator, type RecordedTranslations } from "./translations";
 // PAYPAL_WEBHOOK_ID     id of the webhook registered for /api/paypal/webhook
 // CRON_SECRET           bearer token of /api/cron/daily; also keys the IP hashes
 // APP_BASE_URL          public origin, for PayPal return/cancel links
-// LIVE_READING=on       allow live Bedrock Nova reading
-// AWS_ROLE_ARN          on Vercel: the Nova-only role, reached through OIDC (src/server/aws.ts)
-// READING_PIPELINE      meta | nova-lite | ocr-lite | ocr-pro (default ocr-lite)
+// READING_PIPELINE      meta, or unset: no live reading, only the shipped and stored answers
 // READ_META_ALLOWED=yes + META_READ_CAP_USD (<= $5 in code) + META_MODEL_API_KEY   live reading by Meta (READING_PIPELINE=meta)
 // DEMO_DRIVES_PER_HOUR, LIVE_READS_PER_DAY   per-address limits (defaults in service.ts)
 // DEMO_PAYOUT_EMAIL     sandbox account that receives demo payouts (default: Nadezhda's sandbox volunteer)
@@ -31,12 +27,12 @@ import { LineTranslator, type RecordedTranslations } from "./translations";
 // AGENT_QUESTIONS_PER_HOUR, AGENT_QUESTIONS_PER_DAY, AGENT_QUESTIONS_PER_DAY_ALL   the agent's question counts
 
 // On globalThis: one service (one PGlite instance on a data dir) per process, whichever bundle asks first.
-const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService>; ocr?: OcrEngine } };
+const slot = globalThis as typeof globalThis & { __pledgeAsSpent?: { service?: PledgeService; starting?: Promise<PledgeService> } };
 const state = (slot.__pledgeAsSpent ??= {});
 
-function pipelineFrom(value: string | undefined): Pipeline {
-  if (value === undefined) return "ocr-lite";
-  if (value === "meta" || value === "nova-lite" || value === "ocr-lite" || value === "ocr-pro") return value;
+function pipelineFrom(value: string | undefined): Pipeline | undefined {
+  if (value === undefined) return undefined;
+  if (value === "meta") return value;
   throw new ServiceError(503, "not_configured", `READING_PIPELINE ${value} is not a reading pipeline.`);
 }
 
@@ -76,11 +72,9 @@ async function build(): Promise<PledgeService> {
     appBaseUrl: env.APP_BASE_URL ?? null,
     ...(env.DEMO_PAYOUT_EMAIL ? { demoPayoutEmail: env.DEMO_PAYOUT_EMAIL } : {}),
     ipHashKey,
-    bedrock: env.LIVE_READING === "on" ? () => bedrockClient() : undefined,
     pipeline: pipelineFrom(env.READING_PIPELINE),
     ...metaReadingFrom(env),
     limits: limitsFrom(env),
-    ocr: () => (state.ocr ??= new TesseractEngine(path.join(process.cwd(), "vendor", "tessdata"))),
   });
 }
 

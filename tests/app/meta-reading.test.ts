@@ -100,7 +100,7 @@ describe("live reading by Meta", () => {
     const h = await harness({ fetch: fakeSandbox().fetch });
     const bytes = freshPhoto();
     const { drive, needs } = demoDrive("demo-meta-cap", h.clock.now());
-    const reading = new ReceiptReading(h.db.db, { answers: [], recordings: { readings: {}, classifications: {} } }, { liveReadsPerDay: 5, spendCapUsd: 5, liveReadMs: 30_000 }, { pipeline: "meta", meta: { apiKey: "k", capUsd: 0.001, fetch: meta.fetch } });
+    const reading = new ReceiptReading(h.db.db, { answers: [], recordings: { readings: {}, classifications: {} } }, { liveReadsPerDay: 5, liveReadMs: 30_000 }, { pipeline: "meta", meta: { apiKey: "k", capUsd: 0.001, fetch: meta.fetch } });
     await expect(reading.read({ driveId: "demo-meta-cap", image: { bytes, mediaType: "image/png" }, sha256: sha256Hex(bytes), needs, rules: drive.rules, baseCurrency: drive.baseCurrency, ipHash: "x", now: h.clock.now() })).rejects.toMatchObject({ code: "spend_cap" });
     expect(meta.sent).toHaveLength(0);
   });

@@ -3,39 +3,35 @@ import { and, asc, eq, gt, isNotNull, like, sql } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { receipts } from "../db/schema";
 import type { CurrencyCode, Need } from "../core/types";
-import { BedrockNovaClassifier, BedrockNovaReader, ModelOutputError, NOVA_MODELS, type ConverseClient } from "../receipts/bedrock";
 import { closeReceipt } from "../receipts/close";
 import { hammingHex } from "../receipts/hash";
 import { uprightImage } from "../receipts/orient";
-import { OcrNovaReader, type OcrEngine } from "../receipts/ocr";
-import { RefiningClassifier } from "../receipts/quantity";
 import { classificationKey, receiptKey, RecordedClassifier, RecordedReader, type Recordings } from "../receipts/recorded";
 import { SpendCap, SpendCapExceeded } from "../receipts/spend";
 import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings } from "../receipts/meta-reader";
+import { ModelOutputError } from "../receipts/wire";
 import { Band, LineBox, LineClassification, ParsedReceipt, type LineClassifier, type ModelUsage, type PurchaseLine, type ReceiptImage, type ReceiptReader, type SecondReading } from "../receipts/types";
 import heroAnswer from "../../eval/live/shipped/hero-ja-01.meta.json";
 import floridaRealAnswer from "../../eval/live/shipped/florida-real-2019.meta.json";
 import floridaRows from "../../eval/live/shipped/florida-sample.bands.json";
 import { ServiceError } from "./errors";
-import { META_READ_PREFIX, PgMetaReadLedger, PgSpendLedger } from "./spend";
+import { META_READ_PREFIX, PgMetaReadLedger } from "./spend";
 
 // Where a receipt's reading comes from, cheapest first:
 //   1. the same photo already in this drive (it will be flagged as a duplicate)          reader "copy"
 //   2. a saved answer of a real pipeline run shipped with the app (the sample receipt)  reader "cached:<pipeline>"
 //   3. recorded answers (tests only: the receipts' truth files)                         reader "recorded"
 //   4. a live answer stored for the same photo in another drive                        reader "copy"
-//   5. the live pipeline, under the per-IP daily limit and its spend cap               reader "live:<pipeline>"
-//      (Bedrock's $5 for the Nova pipelines; Meta reading's own ceiling, at most $3, for "meta")
-// On the "meta" pipeline 2-4 are used only when complete (an answer for these needs, and from 4 its rows too);
+//   5. the live pipeline, under the per-IP daily limit and Meta reading's own ceiling   reader "live:<pipeline>"
+// With live reading on, 2-4 are used only when complete (an answer for these needs, and from 4 its rows too);
 // anything less is read live from the start, never classified on one reading.
 
 /**
- * Live pipelines (src/receipts). "meta": Meta's Muse Spark reads the photo twice (the whole photo, and the numbered
- * rows code cut out by pixels) and a line passes only when both readings agree; no Tesseract, no Nova. The others:
- * Tesseract OCR + Nova structuring, or Nova vision in one step (kept for the benchmark's comparison).
+ * The live pipeline (src/receipts): Meta's Muse Spark reads the photo twice (the whole photo, and the numbered rows
+ * code cut out by pixels) and a line passes only when both readings agree.
  */
-export type Pipeline = "meta" | "ocr-lite" | "ocr-pro" | "nova-lite";
-export const PIPELINES: readonly Pipeline[] = ["meta", "ocr-lite", "ocr-pro", "nova-lite"];
+export type Pipeline = "meta";
+export const PIPELINES: readonly Pipeline[] = ["meta"];
 
 export type ReaderSource = "copy" | "recorded" | `cached:${string}` | `recognized:${string}` | `live:${Pipeline}`;
 
@@ -82,8 +78,7 @@ const RowsKept = z.object({
 
 export interface LiveLimits {
   liveReadsPerDay: number;
-  spendCapUsd: number;
-  /** A live reading that takes longer ends in a plain answer: OCR runs in a worker thread that can die silently. */
+  /** A live reading that takes longer ends in a plain answer, not a hung request. */
   liveReadMs: number;
 }
 
@@ -91,12 +86,8 @@ class ReadingTimeout extends Error {}
 
 export interface LiveReading {
   pipeline: Pipeline;
-  /** The Nova pipelines' client. */
-  bedrock?: () => ConverseClient;
-  /** The Meta pipeline: Nadya's Model API key and its own ceiling (never above META_READ_CAP_MAX_USD). */
+  /** Nadya's Model API key and the reading's own ceiling (never above META_READ_CAP_MAX_USD). */
   meta?: { apiKey: string; baseUrl?: string; capUsd: number; fetch?: typeof fetch };
-  /** The OCR engine for the ocr-* pipelines (Tesseract with the vendored traineddata). */
-  ocr?: () => OcrEngine;
 }
 
 /** A real pipeline's saved answer for one photo (a copy of eval/live/<pipeline>/<receipt>.json in eval/live/shipped/, so a new benchmark run does not change the demo). Never a hand-written reading. */
@@ -109,7 +100,7 @@ export interface SavedAnswer {
   classifications: LineClassification[];
   /** classificationKey of the run: the lines were matched against these needs and rules, and no others. */
   classifiedFor: string;
-  /** Where its lines are printed: from its pixel bands (meta), or measured with Tesseract (tools/receipts/line-boxes.ts). */
+  /** Where its lines are printed: from its pixel bands. */
   lineBoxes?: LineBox[];
   /** The Meta pipeline's rows, kept so the published copy is closed the same way as a live reading's. */
   bands?: Band[];
@@ -326,23 +317,11 @@ export class ReceiptReading {
         SAMPLE_HINT,
       );
     }
-    const { pipeline } = this.live;
-    if (pipeline === "meta") {
-      const meta = this.live.meta;
-      if (!meta || !(meta.capUsd > 0)) throw new ServiceError(503, "live_reading_off", "Live receipt reading by Meta is not switched on for this server. Use the sample receipt.", SAMPLE_HINT);
-      const ledger = new PgMetaReadLedger(this.db, meta.capUsd);
-      const o = { apiKey: meta.apiKey, cap: new SpendCap(ledger, ledger.capUsd), prefix: META_READ_PREFIX, ...(meta.baseUrl ? { baseUrl: meta.baseUrl } : {}), ...(meta.fetch ? { fetch: meta.fetch } : {}), timeoutMs: Math.max(10_000, this.limits.liveReadMs - 5_000) };
-      return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), pipeline };
-    }
-    if (!this.live.bedrock) throw new ServiceError(503, "live_reading_off", "Live receipt reading is not switched on for this server. Use the sample receipt.", SAMPLE_HINT);
-    const client = this.live.bedrock();
-    const cap = new SpendCap(new PgSpendLedger(this.db), this.limits.spendCapUsd);
-    // As in the benchmark (tools/eval/run.ts): the classifier uses the pipeline's model size.
-    const modelId = pipeline === "ocr-pro" ? NOVA_MODELS.pro : NOVA_MODELS.lite;
-    const classifier = new BedrockNovaClassifier({ client, cap, modelId });
-    if (pipeline === "nova-lite") return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier, pipeline };
-    if (!this.live.ocr) throw new ServiceError(503, "live_reading_off", "The OCR engine is not configured on this server. Use the sample receipt.", SAMPLE_HINT);
-    return { reader: new OcrNovaReader({ client, cap, modelId, engine: this.live.ocr() }), classifier: new RefiningClassifier(classifier), pipeline };
+    const { pipeline, meta } = this.live;
+    if (!meta || !(meta.capUsd > 0)) throw new ServiceError(503, "live_reading_off", "Live receipt reading by Meta is not switched on for this server. Use the sample receipt.", SAMPLE_HINT);
+    const ledger = new PgMetaReadLedger(this.db, meta.capUsd);
+    const o = { apiKey: meta.apiKey, cap: new SpendCap(ledger, ledger.capUsd), prefix: META_READ_PREFIX, ...(meta.baseUrl ? { baseUrl: meta.baseUrl } : {}), ...(meta.fetch ? { fetch: meta.fetch } : {}), timeoutMs: Math.max(10_000, this.limits.liveReadMs - 5_000) };
+    return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), pipeline };
   }
 
   private async guard<T>(fn: () => Promise<T>): Promise<T> {
