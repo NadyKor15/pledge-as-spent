@@ -178,11 +178,20 @@ export interface DevRun {
   maxCalls: number;
 }
 
+/**
+ * The lane's ceiling from AGENT_DEV_META_MAX_USD: $1 when unset, never above $1. A value that is not a finite number
+ * ≥ 0 is a ceiling of 0 (every call refused): NaN would switch the ceiling off, since every comparison with NaN is false.
+ */
+export function devMetaCapUsd(raw: string | undefined): number {
+  const n = Number(raw ?? "1");
+  return Number.isFinite(n) && n >= 0 ? Math.min(1, n) : 0;
+}
+
 /** AGENT_DEV_META_LEDGER=<file> (never in production): live calls of a development run are booked to the file ledger. */
 export function agentDevFrom(env: NodeJS.ProcessEnv): DevRun | undefined {
   if (env.NODE_ENV === "production" || !env.AGENT_DEV_META_LEDGER || !env.AGENT_DEV_CALLS_LOG) return undefined;
   return {
-    metaLedger: new DevSpendLedger(env.AGENT_DEV_META_LEDGER, env.AGENT_DEV_PREFIX ?? "agent-dev", Math.min(1, Number(env.AGENT_DEV_META_MAX_USD ?? "1"))),
+    metaLedger: new DevSpendLedger(env.AGENT_DEV_META_LEDGER, env.AGENT_DEV_PREFIX ?? "agent-dev", devMetaCapUsd(env.AGENT_DEV_META_MAX_USD)),
     callsLog: env.AGENT_DEV_CALLS_LOG,
     lane: env.AGENT_DEV_LANE ?? "core",
     maxCalls: Number(env.AGENT_DEV_MAX_CALLS ?? "40"),

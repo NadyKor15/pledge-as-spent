@@ -2,7 +2,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { DevSpendLedger, META_AGENT_CAP_MAX_USD } from "./agent";
+import { agentDevFrom, DevSpendLedger, devMetaCapUsd, META_AGENT_CAP_MAX_USD } from "./agent";
 
 // The measure's file ledger is shared with the receipt reading (`read-meta:` rows). Its two ceilings: the lane's own
 // "agent-dev" entries under the lane's cap, and the whole file under Meta's credits. 10.11 the lane's cap was applied to
@@ -35,5 +35,26 @@ describe("DevSpendLedger: the lane's ceiling and Meta's credits", () => {
     const f = ledger([row("read-meta:eval holdout", META_AGENT_CAP_MAX_USD - 0.01), row("agent-dev measure-D-old", 0.1)]);
     const l = new DevSpendLedger(f, "agent-dev", 0.9);
     await expect(l.reserve(entry(0.0178), l.capUsd)).rejects.toThrow(/ceiling \$5\.00/);
+  });
+});
+
+// AGENT_DEV_META_MAX_USD: Number("abc") is NaN, and "spent + usd > NaN" is always false: the lane's ceiling was off.
+describe("the lane's ceiling from the environment", () => {
+  it("unset: $1; a number: itself, never above $1", () => {
+    expect(devMetaCapUsd(undefined)).toBe(1);
+    expect(devMetaCapUsd("0.54")).toBe(0.54);
+    expect(devMetaCapUsd("7")).toBe(1);
+    expect(devMetaCapUsd("0")).toBe(0);
+  });
+
+  it("not a number, negative or infinite: a ceiling of 0", () => {
+    for (const raw of ["abc", "-0.5", "Infinity", "NaN", "1usd"]) expect(devMetaCapUsd(raw)).toBe(0);
+  });
+
+  it("a non-numeric value refuses the lane's every call (the ledger empty)", async () => {
+    const env = { NODE_ENV: "test", AGENT_DEV_META_LEDGER: ledger([]), AGENT_DEV_CALLS_LOG: "/dev/null", AGENT_DEV_META_MAX_USD: "abc" } as NodeJS.ProcessEnv;
+    const l = agentDevFrom(env)!.metaLedger;
+    expect(l.capUsd).toBe(0);
+    await expect(l.reserve(entry(0.0001), l.capUsd)).rejects.toThrow(/development ceiling \$0 for "agent-dev" reached/);
   });
 });
