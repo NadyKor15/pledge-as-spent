@@ -42,6 +42,14 @@ export interface TranslatorDeps {
 
 type Wanted = LineToTranslate & { receiptId: string };
 
+/**
+ * The lines a statement shows, to translate: over the whole renewed pledge when the statement answer carries its chain
+ * (RENEW: the same for the id of any hold of it), else the hold's own rows (RENEW off: no `chain` key; never renewed: null).
+ */
+export function statementRowsToTranslate<R>(out: { statement: { rows: R[] }; chain?: { rows: R[] } | null }): R[] {
+  return out.chain?.rows ?? out.statement.rows;
+}
+
 export class LineTranslator {
   private readonly inFlight = new Map<string, Promise<Map<number, string> | null>>();
   constructor(private readonly d: TranslatorDeps) {}

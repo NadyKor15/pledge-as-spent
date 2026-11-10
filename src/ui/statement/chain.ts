@@ -1,5 +1,6 @@
 import { day, money } from "../format";
 import type { MeterParts } from "../hold-meter";
+import type { Statement } from "../types";
 
 // A renewed pledge on the donor's statement (RENEW, P3FL): the statement answer carries `chain`, the same by the id of
 // either hold (src/core/renew.ts chainStatement). The page shows ONE story, "pledged → renewed → the new hold", and one
@@ -33,6 +34,14 @@ export interface StatementChain {
 export function chainOf(data: unknown): StatementChain | null {
   const c = (data as { chain?: StatementChain | null } | null)?.chain ?? null;
   return c && c.members.length > 1 ? c : null;
+}
+
+/**
+ * The statement with the rows of the whole renewed pledge (every hold of the chain, each row with its own share), for
+ * everything that reads lines: what was bought, each line's share, the translations. Without a renewal: the hold's own.
+ */
+export function chainRows(st: Statement, chain: StatementChain | null): Statement {
+  return chain ? { ...st, rows: chain.rows as Statement["rows"] } : st;
 }
 
 /** The chain's bar: the core's totals, in the HoldMeter's parts (the same order and the same sum). */

@@ -1,5 +1,6 @@
 import { clientIp, withService } from "@/server/http";
 import { getTranslator } from "@/server/runtime";
+import { statementRowsToTranslate } from "@/server/translations";
 
 /** At most this many translation requests per address per hour; a statement asks once when it opens. */
 const PER_HOUR = 30;
@@ -23,9 +24,9 @@ export async function POST(req: Request, ctx: RouteContext<"/api/pledges/[id]/st
   const { id } = await ctx.params;
   return withService(async (svc) => {
     if (!allowed(svc.hashIp(clientIp(req)), Date.now())) return Response.json({ error: "rate_limited", message: "Too many translation requests from this address; try again in an hour." }, { status: 429 });
-    const { drive, statement } = await svc.getStatement(id);
-    const view = await svc.getDriveView(drive.id);
+    const out = await svc.getStatement(id);
+    const view = await svc.getDriveView(out.drive.id);
     const translator = await getTranslator();
-    return Response.json(await translator.forStatement(view, id, statement.rows));
+    return Response.json(await translator.forStatement(view, id, statementRowsToTranslate(out)));
   });
 }

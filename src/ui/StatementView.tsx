@@ -19,7 +19,7 @@ import { statementLines } from "./statement/lines";
 import { LineProofs } from "./statement/LineProofs";
 import { translationNote } from "./statement/lines";
 import { chainFee, feeLine, useReportedFees } from "./fee-line";
-import { chainMeter, chainOf, latestMember } from "./statement/chain";
+import { chainMeter, chainOf, chainRows, latestMember } from "./statement/chain";
 import { ChainStory } from "./statement/ChainStory";
 import type { StatementTranslation } from "@/server/translations";
 import type { CheckResult } from "@/server/paypal-check";
@@ -173,8 +173,10 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
   }, [returning, follow]);
   // A renewed pledge is one story and one bar over its chain (statement/chain.ts); without a renewal, chain is null.
   const chain = chainOf(data);
-  const items = boughtItems(view, chain ? { ...st, rows: chain.rows as Statement["rows"] } : st);
-  const translation = useLineTranslation(b.pledgeId, st.rows.length);
+  // Lines, shares and translations over the chain's rows: a line the first hold paid keeps its share on the page.
+  const rowsSt = chainRows(st, chain);
+  const items = boughtItems(view, rowsSt);
+  const translation = useLineTranslation(b.pledgeId, rowsSt.rows.length);
   // What the app takes (nothing) and what PayPal reported taking on this hold's captures (on every hold of a renewed pledge).
   const fees = useReportedFees(view.drive.id, String(view.eventCount));
   const fee = feeLine(chain ? chainFee(fees, chain.members.map((x) => x.pledgeId)) : fees?.[b.pledgeId]);
@@ -291,7 +293,7 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
                   {cap.done ? <Check size={15.1} color="var(--check)" /> : <Clock size={15.1} />}
                   <span>{cap.label}</span>
                 </div>
-                {i.receipt && <LineProofs lines={statementLines(view, st, i.receipt.id, i.lineNos)} translations={translation.of(i.receipt.id)} />}
+                {i.receipt && <LineProofs lines={statementLines(view, rowsSt, i.receipt.id, i.lineNos)} translations={translation.of(i.receipt.id)} />}
               </div>
             </div>
           );
