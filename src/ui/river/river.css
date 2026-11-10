@@ -1,4 +1,4 @@
-/* П2, the river of money (variant A): seven numbered columns on a desktop, seven sections on a phone. Everything that
+/* The river of money (variant A): seven numbered columns on a desktop, seven sections on a phone. Everything that
    plays has --k (its step); the root carries --step. A step shows once --step reaches its --k. */
 .rv-root { --ink: #1C1B19; --muted: #565C66; --green: #146B4E; --teal: #0E6E5A; min-height: 100vh; padding: 0 20px 28px; background: #F7F5F0; color: var(--ink); line-height: 1.3; }
 .rv-root [data-step] { opacity: clamp(0, calc(var(--step) - var(--k) + 1), 1); transition: opacity .6s ease .8s; }
@@ -11,12 +11,14 @@
 .rv-none { margin: 60px auto; max-width: 560px; text-align: center; font-size: 17px; color: var(--muted); }
 
 /* ── Header ─────────────────────────────────────────────────────────────────────────────────────── */
-.rv-top { display: flex; align-items: center; gap: 10px 20px; padding: 16px 6px 15px; border-bottom: 1px solid #E2DED6; }
+.rv-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 16px 6px 15px; border-bottom: 1px solid #E2DED6; }
+.rv-back { color: var(--teal); font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.rv-back:hover { text-decoration: underline; }
 .rv-brand { padding-right: 22px; border-right: 1.5px solid #CFCBC3; font-size: 31px; font-weight: 800; letter-spacing: -.02em; color: var(--green); text-decoration: none; white-space: nowrap; line-height: 1.1; }
 .rv-title { min-width: 0; font-size: 19.5px; font-weight: 600; letter-spacing: -.005em; overflow-wrap: anywhere; }
 .rv-badge { flex: none; padding: 5px 11px; border-radius: 7px; background: #E7E5E0; color: #4A4F57; font-size: 13.5px; white-space: nowrap; }
 .rv-play { flex: none; margin-left: auto; display: flex; align-items: center; gap: 14px; }
-.rv-track { display: block; width: 200px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
+.rv-track { display: block; width: 160px; height: 11px; border-radius: 6px; background: #DCDAD4; overflow: hidden; }
 .rv-fill { display: block; width: 0; height: 100%; border-radius: 6px; background: var(--teal); }
 .rv-clock { font-size: 15.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rv-replay { padding: 4px 2px; color: var(--teal); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
@@ -36,7 +38,7 @@
 .rv-store { display: block; width: 34px; height: 34px; color: #6B7079; margin-bottom: 10px; }
 /* A Japanese store name breaks at its space ("ミナト生活館 北空店"), not inside a word. */
 .rv-merchant { font-size: 16px; font-weight: 700; line-height: 1.25; word-break: keep-all; overflow-wrap: anywhere; }
-.rv-big { display: block; margin-top: 9px; padding-top: 9px; border-top: 1px solid #DDDAD3; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rv-big { white-space: nowrap; overflow-wrap: normal; display: block; margin-top: 9px; padding-top: 9px; border-top: 1px solid #DDDAD3; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .rv-sub { margin-top: 4px; font-size: 16px; color: #3F454D; }
 
 .rv-read { display: flex; flex-direction: column; align-items: stretch; }
@@ -65,7 +67,8 @@
 .rv-hc { display: flex; align-items: center; }
 .rv-hold, .rv-capture { display: flex; flex-direction: column; gap: 2px; padding: 8px 9px; border: 1.5px solid #2E7D5B; background: #FFFFFF; }
 .rv-hold { flex: none; }
-.rv-capture { flex: 1 1 auto; }
+/* A capture is never narrower than PayPal's id in it: the column grows instead. */
+.rv-capture { flex: 1 1 auto; min-width: max-content; }
 .rv-hold > b:first-child, .rv-capHead b { font-size: 16px; }
 .rv-hold .rv-amt { font-size: 18px; }
 .rv-whoSmall { font-size: 12.5px; color: var(--muted); }
@@ -73,7 +76,7 @@
 .rv-capHead > span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .rv-capture.rv-waiting { border-style: dashed; border-color: #7F9A8C; background: #FAFBFA; }
 .rv-capture.rv-waiting .rv-capHead b { color: #3D4A43; }
-.rv-id { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
+.rv-id { display: block; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
 .rv-arrow { flex: none; width: 24px; text-align: center; font-size: 22px; line-height: 1; color: #2E7D5B; }
 
 .rv-payout { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px 15px; border: 2px solid #3E9A63; background: #F1F9F2; box-shadow: 0 2px 6px rgba(20, 80, 45, .12); }
@@ -81,11 +84,13 @@
 .rv-batch { font-size: 16px; font-weight: 600; letter-spacing: .02em; margin-bottom: 4px; }
 .rv-to { padding-top: 9px; border-top: 1px solid #CDE3D2; font-size: 18px; }
 .rv-payout .rv-big { margin: 0; padding: 0; border: 0; font-size: 23px; }
+.rv-success.rv-notPaid { background: #E7E5E0; color: #4A4F57; }
+.rv-sumHead { margin-right: 10px; color: var(--ink); font-weight: 600; }
 .rv-success { align-self: stretch; margin-top: 8px; padding: 4px 8px; border-radius: 6px; background: #1E7A4C; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-align: center; }
 
 .rv-never { display: flex; flex-direction: column; gap: 3px; padding: 10px 10px 10px 12px; border-color: #B8C7D7; background: #EDF1F6; color: #263646; }
 .rv-neverAmt { font-size: 16.5px; font-variant-numeric: tabular-nums; }
-.rv-never > span { font-size: 12px; color: #43546A; }
+.rv-never > span { font-size: 12.5px; color: #43546A; }
 .rv-open > b { font-size: 16px; }
 
 /* ── Sums and the closing line ──────────────────────────────────────────────────────────────────── */
@@ -112,7 +117,9 @@
 .rv-arrowHead { fill: #A4BAD1; }
 
 /* ── Desktop: seven columns, left to right ──────────────────────────────────────────────────────── */
-.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 394fr 160fr 156fr; row-gap: 10px; margin-top: 16px; }
+/* The desktop is laid out at its own width and scaled to the window (useFit): the box keeps the scaled height. */
+.rv-deskFit { margin-top: 16px; overflow-x: clip; }
+.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 394fr 160fr 156fr; row-gap: 10px; transform-origin: 0 0; }
 .rv-panel { z-index: 0; margin: 0 1.5px; border-radius: 5px; background: #F0EEE9; }
 .rv-headCell { z-index: 2; min-width: 0; padding: 16px 10px 22px 12px; }
 .rv-desk .rv-headTitle { font-size: 16px; gap: 8px; }
@@ -126,7 +133,7 @@
 /* 64 px before the holds: the shares' ribbons come in there, and the rests run down their lanes (drawRests). */
 .rv-c5 { justify-content: space-around; gap: 12px; padding-left: 64px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
-.rv-desk .rv-hold { width: 150px; }
+.rv-desk .rv-hold { width: 156px; }
 .rv-c6 { align-items: flex-end; padding-right: 10px; }
 .rv-c6 .rv-payout { width: 215px; }
 .rv-band { flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 52px 8px 16px 64px; }
@@ -134,7 +141,7 @@
 .rv-band .rv-open { flex: 0 1 420px; margin: 0 auto; }
 
 /* ── Phone: seven sections, top to bottom ───────────────────────────────────────────────────────── */
-.rv-phone { position: relative; margin-top: 8px; }
+.rv-phone { position: relative; max-width: 760px; margin: 8px auto 0; }
 .rv-sec { position: relative; padding: 10px 0 8px; }
 .rv-sec .rv-head { position: relative; margin-bottom: 12px; }
 /* The links between steps: only in the gap between two sections, never under a card or text. */

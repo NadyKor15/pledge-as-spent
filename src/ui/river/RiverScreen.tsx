@@ -13,10 +13,10 @@ import { riverModel, type RiverHold, type RiverModel, type RiverNeed } from "./m
 import { RIVER_WORDS, type RiverWords, type Step } from "./words";
 import "./river.css";
 
-// П2, the river of money (variant A, Nadya TG 6886): one receipt followed from the store to PayPal in seven steps, the
-// ribbons as thick as the money they carry in the drive's currency. Built by the chosen picture
-// (docs/nadya/kindtrail-2026-11-09/u2/ui-2026-11-10-river/img/A-flow.png); the figures are riverModel's, which adds up
-// to the Ledger (tests/app/river-model.test.ts). A desktop reads it left to right; a phone top to bottom.
+// The river of money (variant A): one receipt followed from the store to PayPal in seven steps, the ribbons as thick as
+// the money they carry in the drive's currency. Built by the chosen picture of variant A; the figures are riverModel's,
+// which add up to the receipt's total and to the Ledger (tests/app/river-model.test.ts). A desktop reads it left to
+// right; a phone top to bottom.
 
 const s = classes("rv");
 
@@ -43,7 +43,7 @@ export function RiverScreen({ params }: { params: Promise<{ id: string }> }) {
   return <River view={d.view} />;
 }
 
-/** Below this width the river runs top to bottom. */
+/** Below this width the river runs top to bottom; from 1180 px up the desktop's seven columns, scaled to fit. */
 const PHONE_QUERY = "(max-width: 1179px)";
 const subscribeMedia = (query: string) => (cb: () => void) => {
   const mq = window.matchMedia(query);
@@ -73,6 +73,9 @@ function River({ view }: { view: DriveView }) {
         <h1 className={s.title}>{title}</h1>
         <span className={s.badge}>{HEADER_WORDS[lang].badge(view.drive.demo)}</span>
         <div className={s.play}>
+          <a className={s.back} href={book} data-testid="river-back">
+            ← {HEADER_WORDS[lang].roles.ledger}
+          </a>
           <span className={s.track} role="progressbar" aria-label={w.playback} aria-valuemin={0} aria-valuemax={DURATION_MS / 1000} aria-valuenow={play.sec}>
             <span ref={bar} className={s.fill} data-testid="river-bar" />
           </span>
@@ -96,7 +99,8 @@ function River({ view }: { view: DriveView }) {
       {m.receipt && <Sums m={m} w={w} lang={lang} />}
       <p className={s.end}>
         <span>
-          {w.traced(m.baseCurrency)} {m.closed ? w.closedTail : w.openTail}
+          {/* "Nothing more can be charged" only when the drive is closed and every hold is over. */}
+          {w.traced(m.baseCurrency)} {m.final ? w.closedTail : w.openTail}
         </span>
       </p>
     </div>
@@ -158,13 +162,22 @@ interface Link {
 }
 
 const shareNode = (needId: string, pledgeId: string) => `share:${needId}:${pledgeId}`;
+/** A refused or unfunded part of a line: by its book row (one line can have both). */
+const refNode = (r: RiverModel["refused"][number]) => `ref:${r.key}`;
+/** The receipt's total as the river carries it: funded lines + refused + unfunded. */
+export const trunkBase = (m: RiverModel) => m.totals.grossBase + m.totals.refusedBase + m.totals.unfundedBase;
+/** A rest's ribbon is capped (a big pledge on a small receipt would dwarf the trunk); its card says the exact sum. */
+export const REST_MAX = { desktop: 40, phone: 44 };
+/** A phone's link between two steps: as thick as its money, never wider than REST_MAX.phone. */
+export const gapWidth = (base: number, perUnit: number) => Math.min(REST_MAX.phone, Math.max(3, base * perUnit));
 
 /** The ribbons of one receipt: every amount from the receipt to the payout, the refused lines' stubs, the rests. */
 export function riverLinks(m: RiverModel, dir: "x" | "y"): Link[] {
   if (!m.receipt) return [];
-  const out: Link[] = [{ id: "trunk", from: "receipt", to: "read", base: m.totals.sharesBase + m.totals.refusedBase, kind: "trunk", step: 2, dir }];
+  // The trunk is the receipt's total: the funded lines (what they cost, before any refund), the refused, the unfunded.
+  const out: Link[] = [{ id: "trunk", from: "receipt", to: "read", base: trunkBase(m), kind: "trunk", step: 2, dir }];
   for (const n of m.needs) {
-    out.push({ id: `rn:${n.needId}`, from: "read", to: `need:${n.needId}`, base: n.base, kind: "flow", step: 3, dir });
+    out.push({ id: `rn:${n.needId}`, from: "read", to: `need:${n.needId}`, base: n.gross, kind: "flow", step: 3, dir });
     for (const sh of n.shares) {
       const kind = sh.kind === "match" ? "match" : "flow";
       out.push({ id: `ns:${n.needId}:${sh.pledgeId}`, from: `need:${n.needId}`, to: shareNode(n.needId, sh.pledgeId), base: sh.base, kind, step: 4, dir });
@@ -172,13 +185,15 @@ export function riverLinks(m: RiverModel, dir: "x" | "y"): Link[] {
     }
   }
   for (const r of m.refused) {
-    out.push({ id: `rr:${r.lineNo}`, from: "read", to: `ref:${r.lineNo}`, base: r.base, kind: "refused", step: 3, dir });
-    out.push({ id: `stub:${r.lineNo}`, from: `ref:${r.lineNo}`, to: null, base: r.base, kind: "refused", step: 3, dir });
+    out.push({ id: `rr:${r.key}`, from: "read", to: refNode(r), base: r.base, kind: "refused", step: 3, dir });
+    out.push({ id: `stub:${r.key}`, from: refNode(r), to: null, base: r.base, kind: "refused", step: 3, dir });
   }
-  if (m.payout)
+  // Money flows into the payout only once PayPal confirmed it.
+  if (m.payout?.confirmed)
     for (const h of m.holds)
       if (h.capturedBase > 0) out.push({ id: `cp:${h.pledgeId}`, from: `cap:${h.pledgeId}`, to: "payout", base: h.capturedBase, kind: h.kind === "match" ? "match" : "flow", step: 6, dir });
-  for (const n of m.never) out.push({ id: `nv:${n.pledgeId}`, from: `hold:${n.pledgeId}`, to: `never:${n.pledgeId}`, base: n.base, kind: "never", step: 7, dir: "y" });
+  // A rest that only came back as a refund (nothing released) has its "returned" card, but no ribbon.
+  for (const n of m.never.filter((x) => x.amount > 0)) out.push({ id: `nv:${n.pledgeId}`, from: `hold:${n.pledgeId}`, to: `never:${n.pledgeId}`, base: n.base, kind: "never", step: 7, dir: "y" });
   return out;
 }
 
@@ -229,7 +244,7 @@ function rounded(pts: [number, number][], r: number): string {
 }
 
 /**
- * The rests (П2 picture A: a bottom row of "never charged" cards under columns 5–7, in the holds' order). Each leaves the
+ * The rests (picture A: a bottom row of "never charged" cards under columns 5–7, in the holds' order). Each leaves the
  * bottom edge of its hold, turns left into a lane of its own between the shares and the holds, runs down past the holds
  * below, and at the bottom turns right to its card. Lanes: the top hold's furthest left; turns: the top hold's lowest —
  * so no two rests cross and none runs through a card.
@@ -304,7 +319,7 @@ export function drawRibbons(links: Link[], boxes: Map<string, Box>, perUnit: num
   }
   // The rests first: drawn under the other ribbons where their lanes cross them.
   return [
-    ...drawRests(rests, boxes, th),
+    ...drawRests(rests, boxes, (l) => Math.min(REST_MAX.desktop, th(l))),
     ...live.map((l): Drawn => {
       const a = boxes.get(l.from)!;
       const t = th(l);
@@ -344,13 +359,15 @@ function useRibbons(ref: RefObject<HTMLDivElement | null>, links: Link[], widest
     let frame = 0;
     const measure = () => {
       const r0 = root.getBoundingClientRect();
+      // The desktop is scaled to the window (useFit): measure on screen, draw in the river's own pixels.
+      const z = r0.width / (root.offsetWidth || 1) || 1;
       const boxes = new Map<string, Box>();
       root.querySelectorAll<HTMLElement>("[data-node]").forEach((el) => {
         const r = el.getBoundingClientRect();
-        boxes.set(el.dataset.node as string, { x: r.left - r0.left, y: r.top - r0.top, w: r.width, h: r.height });
+        boxes.set(el.dataset.node as string, { x: (r.left - r0.left) / z, y: (r.top - r0.top) / z, w: r.width / z, h: r.height / z });
       });
       const flow = links.find((l) => l.id === "trunk")?.base ?? 1;
-      setG({ w: r0.width, h: r0.height, ribbons: drawRibbons(links, boxes, widest / Math.max(1, flow)) });
+      setG({ w: root.offsetWidth, h: root.offsetHeight, ribbons: drawRibbons(links, boxes, widest / Math.max(1, flow)) });
     };
     const later = () => {
       cancelAnimationFrame(frame);
@@ -471,9 +488,9 @@ function NeedCard({ n, w }: { n: RiverNeed; w: RiverWords }) {
 
 function RefusedCard({ r, w }: { r: RiverModel["refused"][number]; w: RiverWords }) {
   return (
-    <div className={`${s.card} ${s.refused}`} data-node={`ref:${r.lineNo}`} data-step={3} style={k(3)} data-card="refused">
+    <div className={`${s.card} ${s.refused}`} data-node={refNode(r)} data-step={3} style={k(3)} data-card="refused" data-kind={r.kind}>
       <span>
-        {w.line(r.lineNo)} {r.item} <span className={s.nowrap}>{r.text}</span> · {w.refused}
+        {r.part ? w.partOfLine(r.lineNo) : `${w.line(r.lineNo)} ${r.item ?? ""}`.trim()} <span className={s.nowrap}>{r.text}</span> · {r.kind === "unfunded" ? w.unfunded : w.refused}
       </span>
       <svg className={s.minus} viewBox="0 0 20 20" aria-hidden="true">
         <circle cx="10" cy="10" r="9" />
@@ -498,7 +515,7 @@ function ShareCard({ n, sh, w }: { n: RiverNeed; sh: RiverNeed["shares"][number]
         <>
           <span className={s.who}>{sh.who}</span>
           <span>
-            {w.match} <b className={s.nowrap} data-money="share">{sh.text}</b>
+            {w.match} <b className={s.nowrap} data-money="share">{sh.state === "uncollected" ? sh.grossText : sh.text}</b>
           </span>
         </>
       ) : (
@@ -508,16 +525,22 @@ function ShareCard({ n, sh, w }: { n: RiverNeed; sh: RiverNeed["shares"][number]
             {place && ` · ${place}`}
           </span>
           <b className={`${s.amt} ${s.nowrap}`} data-money="share">
-            {sh.text}
+            {sh.state === "uncollected" ? sh.grossText : sh.text}
           </b>
         </>
       )}
+      {/* PayPal could not take it, or gave part of it back: said on the share, not counted as spent. */}
+      {sh.state === "uncollected" && <span className={s.muted}>{w.shareUncollected}</span>}
+      {sh.returnedText && <span className={s.muted}>{w.returned(sh.returnedText)}</span>}
     </div>
   );
 }
 
 function HoldCapture({ h, w }: { h: RiverHold; w: RiverWords }) {
-  const waiting = h.captureIds.length === 0;
+  // No capture id for this receipt yet: waiting (accrued, capture pending) or PayPal could not collect it. Either
+  // way PayPal has not taken the money, and the card must not read as if it had.
+  const waiting = h.state === "waiting";
+  const lost = h.state === "uncollected";
   return (
     <div className={s.hc} data-hc={h.kind}>
       <div className={`${s.card} ${s.hold}`} data-node={`hold:${h.pledgeId}`} data-step={5} style={k(5)} data-card="hold">
@@ -527,20 +550,22 @@ function HoldCapture({ h, w }: { h: RiverHold; w: RiverWords }) {
           {h.authorizationId ?? "—"}
         </span>
         <b className={`${s.amt} ${s.nowrap}`}>{h.authorizedText}</b>
+        {/* The same hold paid for the drive's other receipts too: with them it adds up to the hold. */}
+        {h.otherText && <span className={s.whoSmall} data-other>{w.otherReceipts(h.otherText)}</span>}
       </div>
       <span className={s.arrow} data-step={5} style={k(5)} aria-hidden="true">
         →
       </span>
-      {/* No capture id for this receipt yet (its shares accrued or capture pending): PayPal has not taken the money,
-          and the card must not read as if it had. */}
-      <div className={`${s.card} ${s.capture} ${waiting ? s.waiting : ""}`} data-node={`cap:${h.pledgeId}`} data-step={5} style={k(5)} data-card="capture" data-waiting={waiting ? "" : undefined}>
+      <div className={`${s.card} ${s.capture} ${waiting || lost ? s.waiting : ""}`} data-node={`cap:${h.pledgeId}`} data-step={5} style={k(5)} data-card="capture" data-state={h.state}>
         <span className={s.capHead}>
-          <b>{waiting ? w.captureWaiting : w.capture}</b>
+          <b>{lost ? w.uncollected : waiting ? w.captureWaiting : w.capture}</b>
           <span className={s.nowrap} data-money="capture" data-kind={h.kind}>
-            {h.capturedText}
+            {lost ? h.uncollectedText : h.capturedText}
           </span>
         </span>
-        {waiting ? (
+        {lost ? (
+          <span className={s.muted}>{w.nothingTaken}</span>
+        ) : waiting ? (
           <span className={s.muted}>{w.notTakenYet}</span>
         ) : (
           h.captureIds.map((c) => (
@@ -549,6 +574,7 @@ function HoldCapture({ h, w }: { h: RiverHold; w: RiverWords }) {
             </span>
           ))
         )}
+        {!lost && h.uncollectedText && <span className={s.muted}>{w.alsoUncollected(h.uncollectedText)}</span>}
       </div>
     </div>
   );
@@ -568,7 +594,10 @@ function Payout({ m, w }: { m: RiverModel; w: RiverWords }) {
           <b className={`${s.big} ${s.nowrap}`} data-money="payout">
             {p.text}
           </b>
-          <span className={s.success}>{payoutStatus(p.status)}</span>
+          {/* SUCCESS only once PayPal confirmed it; otherwise its own status (PENDING, FAILED), and nothing flows in. */}
+          <span className={p.confirmed ? s.success : `${s.success} ${s.notPaid}`} data-status={p.status}>
+            {payoutStatus(p.status)}
+          </span>
         </>
       ) : (
         <span className={s.muted}>—</span>
@@ -589,9 +618,15 @@ function StillHeld({ w }: { w: RiverWords }) {
 function NeverCard({ n, w }: { n: RiverModel["never"][number]; w: RiverWords }) {
   return (
     <div className={`${s.card} ${s.never}`} data-node={`never:${n.pledgeId}`} data-step={7} style={k(7)} data-card="never">
-      <b className={s.neverAmt}>{w.neverCharged(n.text)}</b>
+      {n.amount > 0 && <b className={s.neverAmt}>{w.neverCharged(n.text)}</b>}
+      {/* Charged, then refunded: the Ledger's "returned", never "never charged". */}
+      {n.returnedText && (
+        <b className={s.neverAmt} data-returned>
+          {w.returned(n.returnedText)}
+        </b>
+      )}
       <span>
-        {w.released} · <span className={s.nowrap}>{holdStatus(n.status)}</span>
+        {n.amount > 0 ? w.released : w.refunded} · <span className={s.nowrap}>{holdStatus(n.status)}</span>
       </span>
     </div>
   );
@@ -609,7 +644,7 @@ function Never({ m, w }: { m: RiverModel; w: RiverWords }) {
   );
 }
 
-function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
+export function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
   const c = m.baseCurrency;
   const match = m.totals.matchBase > 0;
   const part = (key: string, label: string, minor: number): ReactNode => (
@@ -617,13 +652,34 @@ function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
       {label} <b className={s.nowrap}>{moneyIn(lang, c, minor)}</b>
     </span>
   );
+  const several = m.receipts > 1;
+  // The rests are the whole holds', not one receipt's: with several receipts they get a line of their own.
+  const rests = [
+    m.closed && m.totals.neverBase > 0 && part("never", w.sums.never, m.totals.neverBase),
+    m.totals.returnedBase > 0 && part("returned", w.sums.returned, m.totals.returnedBase),
+  ].filter(Boolean);
+  // The donors' part in the Ledger's own word ("approved" while some of it waits); "paid out" only once PayPal confirmed
+  // the payout; with more than one receipt in the drive, these are this receipt's sums and say so.
   return (
-    <p className={s.sums} data-testid="river-sums">
-      {part("spent", w.sums.spent, m.totals.donorBase)}
-      {match && part("match", w.sums.match, m.totals.matchBase)}
-      {part("paid", w.sums.paid, m.totals.payoutBase)}
-      {m.closed && part("never", w.sums.never, m.totals.neverBase)}
-    </p>
+    <>
+      <p className={s.sums} data-testid="river-sums" data-receipts={m.receipts}>
+        {several && (
+          <span className={s.sumHead} data-sum="receipt">
+            {w.sums.onReceipt}
+          </span>
+        )}
+        {part("spent", m.spentLabel, m.totals.donorBase)}
+        {match && part("match", w.sums.match, m.totals.matchBase)}
+        {m.payout?.confirmed && part("paid", w.sums.paid, m.totals.payoutBase)}
+        {!several && rests}
+      </p>
+      {several && rests.length > 0 && (
+        <p className={s.sums} data-testid="river-rests">
+          <span className={s.sumHead}>{w.sums.holdsReleased}</span>
+          {rests}
+        </p>
+      )}
+    </>
   );
 }
 
@@ -635,8 +691,43 @@ const orderedHolds = (m: RiverModel) => {
   return m.holds.filter((h) => h.kind === "donor").sort((a, b) => first(a) - first(b));
 };
 
+/**
+ * The desktop is laid out at 1400 px (the picture's width), never narrower, and scaled to the window: 0.80× at 1180
+ * (1180 less a 17 px scrollbar and the 40 px gutter is 1123 px, 1123 / 1400 = 0.802 ≥ Z_MIN, so nothing is cut),
+ * 1.35× at 1920. The smallest text, 12.5 px, stays at 10 px or more (river.spec.ts).
+ */
+const DESIGN = 1400;
+const Z_MIN = 0.8;
+const Z_MAX = 1.35;
+
+/** The scale that fits the river to its box, the width it is laid out at, and the box's height once scaled. */
+function useFit(outer: RefObject<HTMLDivElement | null>, inner: RefObject<HTMLDivElement | null>) {
+  const [f, setF] = useState({ z: 1, width: DESIGN, height: 0 });
+  useLayoutEffect(() => {
+    const o = outer.current;
+    const i = inner.current;
+    if (!o || !i) return;
+    const measure = () => {
+      const avail = o.clientWidth;
+      if (!avail) return;
+      const z = Math.min(Z_MAX, Math.max(Z_MIN, avail / DESIGN));
+      const width = Math.floor(avail / z);
+      const height = Math.ceil(i.offsetHeight * z);
+      setF((p) => (p.z === z && p.width === width && p.height === height ? p : { z, width, height }));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(o);
+    ro.observe(i);
+    return () => ro.disconnect();
+  }, [outer, inner]);
+  return f;
+}
+
 function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
+  const outer = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const fit = useFit(outer, ref);
   const links = useMemo(() => riverLinks(m, "x"), [m]);
   const g = useRibbons(ref, links, WIDEST);
   const heads = steps(m, w);
@@ -648,10 +739,11 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
   const afterRefused = afterNeeds + r;
   const rows = `auto repeat(${n}, auto) repeat(${r}, auto) auto`;
   const at = (col: string, row: string): CSSProperties => ({ gridColumn: col, gridRow: row });
-  const perUnit = WIDEST / Math.max(1, m.totals.sharesBase + m.totals.refusedBase);
-  const bandRoom = m.never.length === 0 ? 40 : Math.round(40 + ARROW + m.never.reduce((a, x) => a + Math.max(2, x.base * perUnit) + 6, 0));
+  const perUnit = WIDEST / Math.max(1, trunkBase(m));
+  const bandRoom = m.never.length === 0 ? 40 : Math.round(40 + ARROW + m.never.reduce((a, x) => a + Math.min(REST_MAX.desktop, Math.max(2, x.base * perUnit)) + 6, 0));
   return (
-    <div className={s.desk} ref={ref} style={{ gridTemplateRows: rows }}>
+    <div className={s.deskFit} ref={outer} style={fit.height ? { height: `${fit.height}px` } : undefined} data-scale={fit.z.toFixed(3)}>
+    <div className={s.desk} ref={ref} style={{ gridTemplateRows: rows, width: `${fit.width}px`, transform: `scale(${fit.z})` }}>
       {heads.map((h, i) => (
         <div key={`p${i}`} className={s.panel} style={at(String(i + 1), "1 / -1")} />
       ))}
@@ -673,7 +765,7 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         </div>
       ))}
       {m.refused.map((x, i) => (
-        <div key={x.lineNo} className={`${s.cell} ${s.c3} ${s.c3ref}`} style={at("3 / 5", String(afterNeeds + i))} data-col="3">
+        <div key={x.key} className={`${s.cell} ${s.c3} ${s.c3ref}`} style={at("3 / 5", String(afterNeeds + i))} data-col="3">
           <RefusedCard r={x} w={w} />
         </div>
       ))}
@@ -707,6 +799,7 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         {m.never.length === 0 && <StillHeld w={w} />}
       </div>
     </div>
+    </div>
   );
 }
 
@@ -718,7 +811,7 @@ function Gap({ base, per, kind, step }: { base: number; per: number; kind: Kind;
   if (base <= 0) return null;
   return (
     <div className={s.gap} data-step={step} style={k(step)} data-gap={kind} aria-hidden="true">
-      <i className={s[`fill-${kind}`]} style={{ width: `${Math.max(3, base * per).toFixed(1)}px` }} />
+      <i className={s[`fill-${kind}`]} style={{ width: `${gapWidth(base, per).toFixed(1)}px` }} />
     </div>
   );
 }
@@ -727,8 +820,8 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
   const heads = steps(m, w);
   const match = m.holds.find((h) => h.kind === "match");
   const cols = (count: number) => ({ "--cols": Math.max(1, Math.min(3, count)) }) as CSSProperties;
-  const flow = m.totals.sharesBase + m.totals.refusedBase;
-  const per = 44 / Math.max(1, flow);
+  const flow = trunkBase(m);
+  const per = REST_MAX.phone / Math.max(1, flow);
   return (
     <div className={s.phone}>
       <section className={s.sec} data-col="1">
@@ -755,12 +848,12 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         {m.refused.length > 0 && (
           <div className={`${s.grid} ${s.refRow}`} style={cols(m.refused.length)}>
             {m.refused.map((x) => (
-              <RefusedCard key={x.lineNo} r={x} w={w} />
+              <RefusedCard key={x.key} r={x} w={w} />
             ))}
           </div>
         )}
       </section>
-      <Gap base={m.totals.sharesBase} per={per} kind="flow" step={4} />
+      <Gap base={m.totals.grossBase} per={per} kind="flow" step={4} />
       <section className={s.sec} data-col="4">
         <StepHead n={4} step={heads[3]} />
         <div className={s.grid} style={cols(m.needs.length)}>
@@ -783,7 +876,7 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           {match && <HoldCapture h={match} w={w} />}
         </div>
       </section>
-      <Gap base={m.payout ? m.totals.payoutBase : 0} per={per} kind="flow" step={6} />
+      <Gap base={m.totals.payoutBase} per={per} kind="flow" step={6} />
       <section className={s.sec} data-col="6">
         <StepHead n={6} step={heads[5]} />
         <div className={s.row}>

@@ -51,7 +51,22 @@ export interface RiverWords {
   stillHeld: string;
   stillHeldNote: string;
   /** The line under the river that adds it up, with the Ledger's own totals. */
-  sums: { spent: string; match: string; paid: string; never: string };
+  /** The line under the river; the donors' part takes the Ledger's own word (riverModel spentLabel). */
+  sums: { onReceipt: string; holdsReleased: string; match: string; paid: string; never: string; returned: string };
+  /** "€1.00 returned": charged, then refunded by PayPal (not "never charged"). */
+  returned: (amount: string) => string;
+  refunded: string;
+  /** A capture card whose shares PayPal could not collect, and the same as part of a capture. */
+  uncollected: string;
+  nothingTaken: string;
+  alsoUncollected: (amount: string) => string;
+  shareUncollected: string;
+  /** The hold's shares on the drive's other receipts: "other receipts: €9.16". */
+  otherReceipts: (amount: string) => string;
+  /** "Part of line 5": the rest of the line was funded. */
+  partOfLine: (n: number) => string;
+  /** A line, or part of one, that the pledges could not cover. */
+  unfunded: string;
   /** The closing line: "Every yen traced from the receipt to PayPal." in the drive's currency. */
   traced: (currency: string) => string;
   closedTail: string;
@@ -111,7 +126,16 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: "PayPal released the hold",
     stillHeld: "Holds still open",
     stillHeldNote: "What a hold does not spend is released when the drive closes.",
-    sums: { spent: "Donors spent", match: "match", paid: "paid out", never: "never charged" },
+    sums: { onReceipt: "On this receipt:", holdsReleased: "Holds released:", match: "match", paid: "paid out", never: "never charged", returned: "returned" },
+    returned: (a) => `${a} returned`,
+    refunded: "PayPal refunded it after the capture",
+    uncollected: "Could not be collected",
+    nothingTaken: "PayPal took nothing",
+    alsoUncollected: (a) => `+ ${a} could not be collected`,
+    shareUncollected: "could not be collected",
+    otherReceipts: (a) => `other receipts: ${a}`,
+    partOfLine: (n) => `Part of line ${n}`,
+    unfunded: "not enough pledges",
     traced: (c) => (UNIT_EN[c] ? `Every ${UNIT_EN[c]} traced from the receipt to PayPal.` : "Every amount traced from the receipt to PayPal."),
     closedTail: "Nothing more can be charged.",
     openTail: "Only checked lines can be charged.",
@@ -150,7 +174,16 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: "PayPal hat die Reservierung freigegeben",
     stillHeld: "Reservierungen noch offen",
     stillHeldNote: "Was eine Reservierung nicht ausgibt, wird freigegeben, wenn die Sammlung endet.",
-    sums: { spent: "Spender ausgegeben", match: "Zuschuss", paid: "ausgezahlt", never: "nie belastet" },
+    sums: { onReceipt: "Auf diesem Beleg:", holdsReleased: "Freigegebene Reservierungen:", match: "Zuschuss", paid: "ausgezahlt", never: "nie belastet", returned: "zurückerstattet" },
+    returned: (a) => `${a} zurückerstattet`,
+    refunded: "PayPal hat nach der Abbuchung erstattet",
+    uncollected: "Konnte nicht eingezogen werden",
+    nothingTaken: "PayPal hat nichts abgebucht",
+    alsoUncollected: (a) => `+ ${a} nicht eingezogen`,
+    shareUncollected: "nicht eingezogen",
+    otherReceipts: (a) => `andere Belege: ${a}`,
+    partOfLine: (n) => `Teil von Zeile ${n}`,
+    unfunded: "nicht genug Zusagen",
     traced: (c) => `${UNIT_DE[c] ?? "Jeder Betrag"} vom Beleg bis zu PayPal verfolgt.`,
     closedTail: "Mehr kann nicht abgebucht werden.",
     openTail: "Abgebucht werden nur geprüfte Zeilen.",
@@ -189,7 +222,16 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: `PayPal が${Z}保留を${Z}解除`,
     stillHeld: "保留はまだ有効",
     stillHeldNote: `使われなかった${Z}保留は、${Z}募金の${Z}終了時に${Z}解除されます。`,
-    sums: { spent: "寄付者の支出", match: "マッチング", paid: "支払い", never: "請求されず" },
+    sums: { onReceipt: "このレシート分:", holdsReleased: "解除された保留:", match: "マッチング", paid: "支払い", never: "請求されず", returned: "返金" },
+    returned: (a) => `${a} 返金済み`,
+    refunded: `PayPal が${Z}引き落とし後に${Z}返金`,
+    uncollected: "回収できませんでした",
+    nothingTaken: `PayPal は${Z}何も${Z}引き落としていません`,
+    alsoUncollected: (a) => `+ ${a} 回収できず`,
+    shareUncollected: "回収できず",
+    otherReceipts: (a) => `ほかのレシート: ${a}`,
+    partOfLine: (n) => `${n}行目の一部`,
+    unfunded: "寄付の約束が不足",
     traced: (c) => (UNIT_JA[c] ? `レシートから PayPal まで、${Z}${UNIT_JA[c]}残らず${Z}追跡しました。` : `レシートから PayPal まで、${Z}すべての金額を${Z}追跡しました。`),
     closedTail: `これ以上の${Z}請求は${Z}できません。`,
     openTail: `請求できるのは${Z}確認済みの${Z}行だけです。`,

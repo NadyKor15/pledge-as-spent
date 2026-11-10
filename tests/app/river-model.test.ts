@@ -5,7 +5,7 @@ import { deriveLedger } from "@/ui/ledger/derive";
 import { readTwice, riverModel } from "@/ui/river/model";
 import type { DriveView } from "@/ui/types";
 
-// The river (П2, variant A) adds up to the Ledger at every step: what the lines cost = the shares; the donors' shares =
+// The river of money (variant A) adds up to the Ledger at every step: what the lines cost = the shares; the donors' shares =
 // the Ledger's "donors' money spent"; donors + match = the payout; the released rests = the Ledger's "never charged".
 
 const fixture = (name: string) => JSON.parse(readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8")) as DriveView;
@@ -65,7 +65,7 @@ describe("the river of the closed demo drive", () => {
 describe("two readings only on Meta's path", () => {
   it("live/cached/recognized:meta read twice; anything else does not", () => {
     for (const r of ["live:meta", "cached:meta", "recognized:meta"]) expect(readTwice(r)).toBe(true);
-    for (const r of ["cached:ocr-pro", "recorded", "copy", "live:nova-lite", "", null, undefined]) expect(readTwice(r)).toBe(false);
+    for (const r of ["cached:ocr-pro", "recorded", "copy", "live:other", "", null, undefined]) expect(readTwice(r)).toBe(false);
   });
 
   it("a Meta-read receipt says so", () => {
@@ -84,6 +84,183 @@ describe("the river of the open drive", () => {
     expect(m.never).toEqual([]);
     expect(m.totals.donorBase).toBe(l.spent);
     expect(m.totals.sharesBase).toBe(m.totals.donorBase + m.totals.matchBase);
+  });
+});
+
+// ── Cases the demo drives do not have, made from the closed demo drive (a refund, a second receipt, a share PayPal
+// could not collect, an unfunded line, part of a line, a pending payout, a rest bigger than the receipt). Each one adds
+// up to the Ledger or to the receipt's total.
+
+const DIAPERS = "demo-f372326129.diapers";
+const WATER = "demo-f372326129.water";
+const BATTERIES = "demo-f372326129.batteries";
+const R1 = "demo-f372326129.r1";
+const holdOf = (v: DriveView, id: string) => v.holds.find((h) => h.pledgeId === id)!;
+const trunk = (m: ReturnType<typeof riverModel>) => m.totals.grossBase + m.totals.refusedBase + m.totals.unfundedBase;
+
+describe("a refund after the capture (partly_reversed)", () => {
+  // Mark's line 4 share: $8.58 captured, $1.00 refunded by PayPal.
+  const v = fixture("closed");
+  const row = v.ledger.find((r) => r.lineNo === 4 && r.pledgeId === DIAPERS)!;
+  row.status = "partly_reversed";
+  row.reversed = 100;
+  Object.assign(holdOf(v, DIAPERS), { captured: 2045, reversed: 100 });
+  const m = riverModel(v, "en");
+  const l = deriveLedger(v, "en");
+
+  it("the shares count net of the refund, at the Ledger's rate: the donors' sum is the Ledger's spent", () => {
+    expect(m.totals.donorBase).toBe(l.spent);
+    expect(m.totals.donorBase).toBe(5224 - 151);
+    const mark = m.needs.find((n) => n.needId === "diapers")!.shares.find((s) => s.kind === "donor")!;
+    expect(mark).toMatchObject({ amount: 2045, text: "$20.45", returned: 100, returnedText: "$1.00" });
+  });
+
+  it("the refund is returned, not never charged; with the released rest it is the Ledger's figure", () => {
+    const rest = m.never.find((n) => n.pledgeId === DIAPERS)!;
+    expect(rest).toMatchObject({ text: "$8.55", returnedText: "$1.00", returnedBase: 151, base: 1292 });
+    expect(m.totals.neverBase + m.totals.returnedBase).toBe(l.returned);
+    expect(m.totals.returnedBase).toBe(151);
+  });
+
+  it("the receipt still adds up: what the lines cost flows in, whatever came back later", () => {
+    expect(trunk(m)).toBe(m.receipt!.total);
+  });
+});
+
+describe("a drive with two paid receipts", () => {
+  // The same purchase twice: r0 before r1. The river follows r1; each hold also paid for r0.
+  const v = fixture("closed");
+  const r0 = { ...v.receipts[0], id: "demo-f372326129.r0" };
+  v.receipts = [r0, ...v.receipts];
+  v.ledger = [...v.ledger.filter((r) => r.receiptId === R1).map((r) => ({ ...r, receiptId: r0.id, rowId: r.rowId.replace(R1, r0.id), captureId: r.captureId ? `${r.captureId}0` : null })), ...v.ledger];
+  // Mark's hold big enough for both ($30 → $60); every hold took this receipt's shares twice.
+  Object.assign(holdOf(v, DIAPERS), { authorized: 6000, pledged: 6000, released: 6000 - 2145 });
+  for (const h of v.holds) Object.assign(h, { captured: h.captured * 2, released: h.released - h.captured });
+  const m = riverModel(v, "en");
+  const l = deriveLedger(v, "en");
+
+  it("says the sums are this receipt's, and they are: half of the Ledger's", () => {
+    expect(m.receipts).toBe(2);
+    expect(m.receipt!.id).toBe(R1);
+    expect(m.totals.donorBase).toBe(5224);
+    expect(l.spent).toBe(2 * 5224);
+    expect(trunk(m)).toBe(m.receipt!.total);
+  });
+
+  it("each hold names its other receipts: this receipt + the others = what the Ledger says the donor spent", () => {
+    for (const h of m.holds.filter((x) => x.kind === "donor")) {
+      const d = l.donors.find((x) => x.pledgeId === h.pledgeId)!;
+      expect(h.otherReceipts).toBe(h.captured);
+      expect(h.captured + h.otherReceipts).toBe(d.spent);
+    }
+    expect(m.holds.find((h) => h.pledgeId === WATER)!.otherText).toBe("€4.58");
+  });
+});
+
+describe("a share PayPal could not collect", () => {
+  // Yuki's batteries: all three shares uncollected; the hold released the rest.
+  const v = fixture("closed");
+  for (const r of v.ledger.filter((x) => x.pledgeId === BATTERIES)) Object.assign(r, { status: "uncollected", captureId: null, code: "uncollected" });
+  Object.assign(holdOf(v, BATTERIES), { captured: 0, uncollected: 1237 });
+  const m = riverModel(v, "en");
+  const l = deriveLedger(v, "en");
+
+  it("is not spent, not waiting: the hold says PayPal could not collect it", () => {
+    const yuki = m.holds.find((h) => h.pledgeId === BATTERIES)!;
+    expect(yuki).toMatchObject({ state: "uncollected", captureIds: [], capturedBase: 0, uncollected: 1237, uncollectedText: "¥1,237" });
+    expect(m.needs.find((n) => n.needId === "batteries")!.shares.find((s) => s.kind === "donor")!.state).toBe("uncollected");
+    expect(m.totals.donorBase).toBe(l.spent);
+    expect(m.totals.neverBase + m.totals.returnedBase).toBe(l.returned);
+  });
+});
+
+describe("unfunded lines and part of a line", () => {
+  // Line 11 left unfunded (not enough pledges); line 6 only part funded: ¥100 of it refused (need covered).
+  const v = fixture("closed");
+  Object.assign(v.ledger.find((r) => r.lineNo === 11)!, { kind: "unfunded", status: "unfunded", code: "not_enough_pledges", rowId: `${R1}:11/unfunded` });
+  v.ledger.find((r) => r.lineNo === 10)!.base -= 100;
+  v.ledger.push({ ...v.ledger.find((r) => r.lineNo === 10)!, lineNo: 6, base: 100, code: "need_covered", rowId: `${R1}:6/need_covered`, needId: "diapers" });
+  const m = riverModel(v, "en");
+
+  it("shows them, as refusals: the trunk is shares + refused + unfunded = the receipt's total", () => {
+    expect(m.refused.map((r) => [r.lineNo, r.kind, r.part, r.base])).toEqual([
+      [6, "rejected", true, 100],
+      [10, "rejected", false, 1098],
+      [11, "unfunded", false, 3000],
+    ]);
+    expect(m.refused[0].item).toBeNull();
+    expect(m.totals.unfundedBase).toBe(3000);
+    expect(trunk(m)).toBe(m.receipt!.total);
+  });
+});
+
+describe("one line with two records and no share (need covered and unfunded)", () => {
+  // Line 11: ¥1,000 refused (the need is covered), ¥2,000 unfunded (not enough pledges).
+  const v = fixture("closed");
+  const gift = v.ledger.find((r) => r.lineNo === 11)!;
+  Object.assign(gift, { base: 1000, code: "need_covered", rowId: `${R1}:11/need_covered` });
+  v.ledger.push({ ...gift, kind: "unfunded", status: "unfunded", base: 2000, code: "not_enough_pledges", rowId: `${R1}:11/unfunded` });
+  const m = riverModel(v, "en");
+
+  it("both are shown, each its own card (keys apart), each as part of line 11; the receipt adds up", () => {
+    const eleven = m.refused.filter((r) => r.lineNo === 11);
+    expect(eleven.map((r) => [r.kind, r.part, r.base])).toEqual([
+      ["rejected", true, 1000],
+      ["unfunded", true, 2000],
+    ]);
+    expect(new Set(m.refused.map((r) => r.key)).size).toBe(m.refused.length);
+    expect(trunk(m)).toBe(m.receipt!.total);
+  });
+});
+
+describe("a rest that only came back as a refund", () => {
+  // Mark's $8.55 rest was captured and refunded: nothing released, nothing never charged.
+  const v = fixture("closed");
+  Object.assign(holdOf(v, DIAPERS), { released: 0, reversed: 855 });
+  const m = riverModel(v, "en");
+  const l = deriveLedger(v, "en");
+
+  it("is returned, with no never-charged part; the rests still add up to the Ledger", () => {
+    expect(m.never.find((n) => n.pledgeId === DIAPERS)).toMatchObject({ amount: 0, base: 0, returnedText: "$8.55", returnedBase: 1292 });
+    expect(m.totals.neverBase + m.totals.returnedBase).toBe(l.returned);
+  });
+});
+
+describe("a payout PayPal has not confirmed", () => {
+  const v = fixture("closed");
+  Object.assign(v.payouts[0].attempts[0], { status: "pending", payoutBatchId: null });
+  const m = riverModel(v, "en");
+
+  it("is shown with its status; nothing counts as paid out", () => {
+    expect(m.payout).toMatchObject({ confirmed: false, status: "pending" });
+    expect(m.totals.payoutBase).toBe(0);
+  });
+});
+
+describe("the closing sentence and the donors' word", () => {
+  it("nothing more can be charged only on a closed drive whose every hold is over", () => {
+    expect(riverModel(fixture("closed")).final).toBe(true);
+    expect(riverModel(fixture("open")).final).toBe(false);
+    const v = fixture("closed");
+    holdOf(v, WATER).status = "authorized";
+    expect(riverModel(v).final).toBe(false);
+  });
+
+  it("the donors' money takes the Ledger's own word: approved while it waits for capture", () => {
+    for (const name of ["closed", "open"] as const) {
+      const v = fixture(name);
+      for (const lang of ["en", "de", "ja"] as const) expect(riverModel(v, lang).spentLabel).toBe(deriveLedger(v, lang).spentLabel);
+    }
+  });
+});
+
+describe("the match's share in the drive's currency", () => {
+  it("whatever the currency of its hold", () => {
+    const v = fixture("closed");
+    for (const r of v.ledger.filter((x) => x.kind === "match_share")) Object.assign(r, { currency: "USD", amount: Math.round(r.base / 1.512) });
+    Object.assign(holdOf(v, "demo-f372326129.match"), { currency: "USD" });
+    const m = riverModel(v, "en");
+    expect(m.needs.map((n) => n.shares.find((s) => s.kind === "match")!.text)).toEqual(["¥743", "¥3,244", "¥1,237"]);
   });
 });
 
