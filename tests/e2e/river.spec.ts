@@ -78,6 +78,84 @@ const misfits = (page: Page) =>
     return [...new Set(out)];
   });
 
+/** The columns' titles and notes. */
+const HEADS = "[data-head] .rv-headTitle > span:last-child, [data-head] .rv-note";
+
+/**
+ * Words of `selector` broken across two lines ("Kassenbo / n"). A word is what lies between spaces and the Japanese
+ * zero-width spaces; a line may also end after a hyphen. Runs in the page (page.evaluate).
+ */
+function brokenWords(selector: string): string[] {
+  const out: string[] = [];
+  for (const el of document.querySelectorAll(selector)) {
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      const text = n.textContent ?? "";
+      for (const m of text.matchAll(/[^\s​-]+-?/g)) {
+        const range = document.createRange();
+        range.setStart(n, m.index ?? 0);
+        range.setEnd(n, (m.index ?? 0) + m[0].length);
+        const lines = new Set([...range.getClientRects()].filter((r) => r.width > 0).map((r) => Math.round(r.top)));
+        if (lines.size > 1) out.push(m[0]);
+      }
+    }
+  }
+  return out;
+}
+
+/** Ribbons that run through a card other than the two they join: points along each ribbon's outline, in the page. */
+const throughCards = (page: Page) =>
+  page.evaluate(() => {
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")].map((e) => ({ node: e.dataset.node ?? "", name: `${e.dataset.card}: ${e.textContent?.slice(0, 30)}`, r: e.getBoundingClientRect() }));
+    const out: string[] = [];
+    for (const g of document.querySelectorAll<SVGGElement>("g[data-ribbon]")) {
+      const own = (g.dataset.ends ?? "").split(" ");
+      for (const p of g.querySelectorAll<SVGPathElement>("path")) {
+        const len = p.getTotalLength();
+        const m = p.getScreenCTM()!;
+        for (let i = 0; i <= 240; i++) {
+          const pt = p.getPointAtLength((len * i) / 240);
+          const x = m.a * pt.x + m.c * pt.y + m.e;
+          const y = m.b * pt.x + m.d * pt.y + m.f;
+          for (const c of cards)
+            if (!own.includes(c.node) && x > c.r.left + 1.5 && x < c.r.right - 1.5 && y > c.r.top + 1.5 && y < c.r.bottom - 1.5) out.push(`${g.dataset.ribbon} through ${c.name}`);
+        }
+      }
+    }
+    return [...new Set(out)];
+  });
+
+/** A phone's links between steps that lie under a card or under text. */
+const gapsUnder = (page: Page) =>
+  page.evaluate(() => {
+    const out: string[] = [];
+    const boxes = [...document.querySelectorAll<HTMLElement>("[data-card], [data-head]")].map((e) => ({ name: e.textContent?.slice(0, 30) ?? "", r: e.getBoundingClientRect() }));
+    for (const g of document.querySelectorAll<HTMLElement>("[data-gap] > i")) {
+      const a = g.getBoundingClientRect();
+      if (a.left < 0 || a.right > document.documentElement.clientWidth) out.push("link off the screen");
+      for (const b of boxes) if (Math.min(a.right, b.r.right) - Math.max(a.left, b.r.left) > 0.5 && Math.min(a.bottom, b.r.bottom) - Math.max(a.top, b.r.top) > 0.5) out.push(`link under ${b.name}`);
+    }
+    return out;
+  });
+
+test("the broken-word check catches a word cut in two (and passes the same word with room)", async ({ page }) => {
+  await openRiver(page, fixture("closed"), "de");
+  const put = (width: number) =>
+    page.evaluate((px) => {
+      document.querySelector(".rv-selftest")?.remove();
+      const p = document.createElement("p");
+      p.className = "rv-selftest";
+      p.style.cssText = `width:${px}px;overflow-wrap:anywhere;word-break:normal;font:700 16px sans-serif`;
+      p.textContent = "Kassenbon";
+      document.body.append(p);
+    }, width);
+  await put(48);
+  expect(await page.evaluate(brokenWords, ".rv-selftest")).toEqual(["Kassenbon"]);
+  await put(400);
+  expect(await page.evaluate(brokenWords, ".rv-selftest")).toEqual([]);
+  await expect(page.locator('[data-head="1"]')).toContainText("Beleg");
+});
+
 for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as const) {
   test.describe(`the river at ${label}`, () => {
     test.use({ viewport: { width, height } });
@@ -120,11 +198,20 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
         expect(ids).toHaveLength(9);
         expect((await page.locator("[data-paypal-id]").allTextContents()).sort()).toEqual(ids);
 
-        // The ribbons: one per amount, the rests' three among them.
-        await expect(page.locator("g[data-ribbon]")).toHaveCount(27);
-        await expect(page.locator('g[data-kind="never"]')).toHaveCount(3);
+        // A desktop: one ribbon per amount, the rests' three among them, none through another card. A phone: no ribbon at
+        // all, only the six short links in the gaps between the seven sections, under nothing.
+        if (width > 1000) {
+          await expect(page.locator("g[data-ribbon]")).toHaveCount(27);
+          await expect(page.locator('g[data-kind="never"]')).toHaveCount(3);
+          expect(await throughCards(page)).toEqual([]);
+        } else {
+          await expect(page.locator("g[data-ribbon]")).toHaveCount(0);
+          await expect(page.locator("[data-gap]")).toHaveCount(6);
+          expect(await gapsUnder(page)).toEqual([]);
+        }
 
         expect(await misfits(page)).toEqual([]);
+        expect(await page.evaluate(brokenWords, HEADS)).toEqual([]);
       });
     }
   });
@@ -139,7 +226,9 @@ test("a receipt Meta read twice: column 2 says the two readings agree", async ({
   await expect(page.getByText(w.readingA, { exact: true })).toBeVisible();
   await expect(page.getByText(w.readingB, { exact: true })).toBeVisible();
   await expect(page.locator("[data-card=read]")).toHaveText(w.agree);
+  expect(await throughCards(page)).toEqual([]);
   expect(await misfits(page)).toEqual([]);
+  expect(await page.evaluate(brokenWords, HEADS)).toEqual([]);
 });
 
 test("the open drive: holds still open, nothing never charged yet; the sums still the Ledger's", async ({ page }) => {
@@ -152,6 +241,16 @@ test("the open drive: holds still open, nothing never charged yet; the sums stil
   await expect(page.locator("[data-sum=paid] b")).toHaveText(moneyIn("en", "JPY", l.spent + l.match));
   await expect(page.locator("[data-sum=never]")).toHaveCount(0);
   await expect(page.locator("p", { hasText: RIVER_WORDS.en.openTail })).toBeVisible();
+  // No capture id for this receipt yet: the card waits, it never says "Capture" as if PayPal had taken the money.
+  const captures = await page.locator("[data-card=capture]").allTextContents();
+  expect(captures).toHaveLength(4);
+  for (const text of captures) {
+    expect(text).not.toMatch(/Capture/);
+    expect(text).toContain(RIVER_WORDS.en.captureWaiting);
+    expect(text).toContain(RIVER_WORDS.en.notTakenYet);
+  }
+  await expect(page.locator("[data-card=capture] [data-paypal-id]")).toHaveCount(0);
+  expect(await throughCards(page)).toEqual([]);
   expect(await misfits(page)).toEqual([]);
 });
 

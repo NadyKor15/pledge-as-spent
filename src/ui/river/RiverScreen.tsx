@@ -196,6 +196,8 @@ interface Drawn {
   dir: "x" | "y";
   stub: boolean;
   arrow: string | null;
+  /** The cards it joins ("from to"): the only cards it may touch (river.spec.ts). */
+  ends: string;
 }
 
 const STUB = { x: 34, y: 22 };
@@ -238,29 +240,31 @@ export function drawRibbons(links: Link[], boxes: Map<string, Box>, perUnit: num
     const a = boxes.get(l.from)!;
     const t = th(l);
     const p0 = at.get(`${l.id}|from`)!;
+    const ends = `${l.from} ${l.to ?? ""}`.trim();
     if (!l.to) {
       const d =
         l.dir === "x"
           ? `M${f(a.x + a.w)} ${f(p0)}h${STUB.x}v${f(t)}h${-STUB.x}Z`
           : `M${f(p0)} ${f(a.y + a.h)}h${f(t)}v${STUB.y}h${f(-t)}Z`;
-      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: true, arrow: null };
+      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: true, arrow: null, ends };
     }
     const b = boxes.get(l.to)!;
-    const p1 = at.get(`${l.id}|to`)!;
+    const arrow = l.kind === "never";
+    // A rest falls straight down from its hold's bottom edge into its card, which lies right under the hold.
+    const p1 = arrow ? Math.min(Math.max(p0, b.x), b.x + b.w - t) : at.get(`${l.id}|to`)!;
     if (l.dir === "x") {
       const x0 = a.x + a.w;
       const x1 = b.x;
       const xm = (x0 + x1) / 2;
       const d = `M${f(x0)} ${f(p0)}C${f(xm)} ${f(p0)} ${f(xm)} ${f(p1)} ${f(x1)} ${f(p1)}L${f(x1)} ${f(p1 + t)}C${f(xm)} ${f(p1 + t)} ${f(xm)} ${f(p0 + t)} ${f(x0)} ${f(p0 + t)}Z`;
-      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: null };
+      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: null, ends };
     }
-    const arrow = l.kind === "never";
     const y0 = a.y + a.h;
     const y1 = b.y - (arrow ? ARROW : 0);
     const ym = (y0 + y1) / 2;
     const d = `M${f(p0)} ${f(y0)}C${f(p0)} ${f(ym)} ${f(p1)} ${f(ym)} ${f(p1)} ${f(y1)}L${f(p1 + t)} ${f(y1)}C${f(p1 + t)} ${f(ym)} ${f(p0 + t)} ${f(ym)} ${f(p0 + t)} ${f(y0)}Z`;
     const head = arrow ? `M${f(p1 - 4)} ${f(y1)}L${f(p1 + t + 4)} ${f(y1)}L${f(p1 + t / 2)} ${f(b.y)}Z` : null;
-    return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: head };
+    return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: head, ends };
   });
 }
 
@@ -312,7 +316,7 @@ function Ribbons({ g }: { g: { w: number; h: number; ribbons: Drawn[] } }) {
         </linearGradient>
       </defs>
       {g.ribbons.map((r) => (
-        <g key={r.id} className={`${s.rib} ${r.dir === "x" ? s.ribx : s.riby}`} style={k(r.step)} data-ribbon={r.id} data-kind={r.kind}>
+        <g key={r.id} className={`${s.rib} ${r.dir === "x" ? s.ribx : s.riby}`} style={k(r.step)} data-ribbon={r.id} data-kind={r.kind} data-ends={r.ends}>
           {/* A stub's fill is its fading gradient: no class, so no stylesheet fill overrides it. */}
           <path className={r.stub ? undefined : s[`fill-${r.kind}`]} d={r.d} fill={r.stub ? `url(#rv-stub-${r.dir})` : undefined} />
           {r.arrow && <path className={s.arrowHead} d={r.arrow} />}
@@ -441,6 +445,7 @@ function ShareCard({ n, sh, w }: { n: RiverNeed; sh: RiverNeed["shares"][number]
 }
 
 function HoldCapture({ h, w }: { h: RiverHold; w: RiverWords }) {
+  const waiting = h.captureIds.length === 0;
   return (
     <div className={s.hc} data-hc={h.kind}>
       <div className={`${s.card} ${s.hold}`} data-node={`hold:${h.pledgeId}`} data-step={5} style={k(5)} data-card="hold">
@@ -454,21 +459,23 @@ function HoldCapture({ h, w }: { h: RiverHold; w: RiverWords }) {
       <span className={s.arrow} data-step={5} style={k(5)} aria-hidden="true">
         →
       </span>
-      <div className={`${s.card} ${s.capture}`} data-node={`cap:${h.pledgeId}`} data-step={5} style={k(5)} data-card="capture">
+      {/* No capture id for this receipt yet (its shares accrued or capture pending): PayPal has not taken the money,
+          and the card must not read as if it had. */}
+      <div className={`${s.card} ${s.capture} ${waiting ? s.waiting : ""}`} data-node={`cap:${h.pledgeId}`} data-step={5} style={k(5)} data-card="capture" data-waiting={waiting ? "" : undefined}>
         <span className={s.capHead}>
-          <b>{w.capture}</b>
+          <b>{waiting ? w.captureWaiting : w.capture}</b>
           <span className={s.nowrap} data-money="capture" data-kind={h.kind}>
             {h.capturedText}
           </span>
         </span>
-        {h.captureIds.length > 0 ? (
+        {waiting ? (
+          <span className={s.muted}>{w.notTakenYet}</span>
+        ) : (
           h.captureIds.map((c) => (
             <span key={c} className={s.id} data-paypal-id>
               {c}
             </span>
           ))
-        ) : (
-          <span className={s.muted}>{w.noCaptureId}</span>
         )}
       </div>
     </div>
@@ -498,23 +505,33 @@ function Payout({ m, w }: { m: RiverModel; w: RiverWords }) {
   );
 }
 
+function StillHeld({ w }: { w: RiverWords }) {
+  return (
+    <div className={`${s.card} ${s.never} ${s.open}`} data-step={7} style={k(7)} data-card="never-open">
+      <b>{w.stillHeld}</b>
+      <span>{w.stillHeldNote}</span>
+    </div>
+  );
+}
+
+function NeverCard({ n, w }: { n: RiverModel["never"][number]; w: RiverWords }) {
+  return (
+    <div className={`${s.card} ${s.never}`} data-node={`never:${n.pledgeId}`} data-step={7} style={k(7)} data-card="never">
+      <b className={s.neverAmt}>{w.neverCharged(n.text)}</b>
+      <span>
+        {w.released} · <span className={s.nowrap}>{holdStatus(n.status)}</span>
+      </span>
+    </div>
+  );
+}
+
+/** The rests in a row (the phone's step 7), or the open drive's note. */
 function Never({ m, w }: { m: RiverModel; w: RiverWords }) {
-  if (m.never.length === 0)
-    return (
-      <div className={`${s.card} ${s.never} ${s.open}`} data-step={7} style={k(7)} data-card="never-open">
-        <b>{w.stillHeld}</b>
-        <span>{w.stillHeldNote}</span>
-      </div>
-    );
+  if (m.never.length === 0) return <StillHeld w={w} />;
   return (
     <>
       {m.never.map((n) => (
-        <div key={n.pledgeId} className={`${s.card} ${s.never}`} data-node={`never:${n.pledgeId}`} data-step={7} style={k(7)} data-card="never">
-          <b className={s.neverAmt}>{w.neverCharged(n.text)}</b>
-          <span>
-            {w.released} · <span className={s.nowrap}>{holdStatus(n.status)}</span>
-          </span>
-        </div>
+        <NeverCard key={n.pledgeId} n={n} w={w} />
       ))}
     </>
   );
@@ -593,10 +610,18 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           ))}
         </div>
       ))}
+      {/* Each donor's rest right under its own hold: its ribbon falls straight from the hold's bottom edge and crosses
+          no other card (the picture's bottom row made the rests' ribbons run behind the other holds and captures). */}
       <div className={`${s.cell} ${s.c5}`} style={at("5", `${first} / ${afterNeeds}`)} data-col="5">
-        {orderedHolds(m).map((h) => (
-          <HoldCapture key={h.pledgeId} h={h} w={w} />
-        ))}
+        {orderedHolds(m).map((h) => {
+          const rest = m.never.find((x) => x.pledgeId === h.pledgeId);
+          return (
+            <div key={h.pledgeId} className={s.hcn}>
+              <HoldCapture h={h} w={w} />
+              {rest && <NeverCard n={rest} w={w} />}
+            </div>
+          );
+        })}
       </div>
       {match && (
         <div className={`${s.cell} ${s.c5} ${s.c5match}`} style={at("5", `${afterNeeds} / ${afterRefused}`)} data-col="5">
@@ -606,35 +631,50 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
       <div className={`${s.cell} ${s.c6}`} style={at("6 / 8", `${first} / ${afterNeeds}`)} data-col="6">
         <Payout m={m} w={w} />
       </div>
-      <div className={`${s.cell} ${s.band}`} style={at("5 / 8", String(afterRefused))} data-col="7">
-        <Never m={m} w={w} />
-      </div>
+      {m.never.length === 0 && (
+        <div className={`${s.cell} ${s.band}`} style={at("5 / 8", String(afterRefused))} data-col="7">
+          <StillHeld w={w} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * A phone's link between two steps: a short vertical band in the empty gap between their sections, as thick as the
+ * money that passes (the refused lines drop out after step 3; the rests are grey). Nothing runs under a card or text.
+ */
+function Gap({ base, per, kind, step }: { base: number; per: number; kind: Kind; step: number }) {
+  if (base <= 0) return null;
+  return (
+    <div className={s.gap} data-step={step} style={k(step)} data-gap={kind} aria-hidden="true">
+      <i className={s[`fill-${kind}`]} style={{ width: `${Math.max(3, base * per).toFixed(1)}px` }} />
     </div>
   );
 }
 
 function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const links = useMemo(() => riverLinks(m, "y"), [m]);
-  const g = useRibbons(ref, links, 44);
   const heads = steps(m, w);
   const match = m.holds.find((h) => h.kind === "match");
   const cols = (count: number) => ({ "--cols": Math.max(1, Math.min(3, count)) }) as CSSProperties;
+  const flow = m.totals.sharesBase + m.totals.refusedBase;
+  const per = 44 / Math.max(1, flow);
   return (
-    <div className={s.phone} ref={ref}>
-      <Ribbons g={g} />
+    <div className={s.phone}>
       <section className={s.sec} data-col="1">
         <StepHead n={1} step={heads[0]} />
         <div className={s.row}>
           <Receipt m={m} w={w} />
         </div>
       </section>
+      <Gap base={flow} per={per} kind="trunk" step={2} />
       <section className={s.sec} data-col="2">
         <StepHead n={2} step={heads[1]} />
         <div className={s.row}>
           <Readings m={m} w={w} />
         </div>
       </section>
+      <Gap base={flow} per={per} kind="trunk" step={3} />
       <section className={s.sec} data-col="3">
         <StepHead n={3} step={heads[2]} />
         <div className={s.grid} style={cols(m.needs.length)}>
@@ -650,6 +690,7 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           </div>
         )}
       </section>
+      <Gap base={m.totals.sharesBase} per={per} kind="flow" step={4} />
       <section className={s.sec} data-col="4">
         <StepHead n={4} step={heads[3]} />
         <div className={s.grid} style={cols(m.needs.length)}>
@@ -662,6 +703,7 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           ))}
         </div>
       </section>
+      <Gap base={m.totals.sharesBase} per={per} kind="flow" step={5} />
       <section className={s.sec} data-col="5">
         <StepHead n={5} step={heads[4]} />
         <div className={s.stack}>
@@ -671,12 +713,14 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           {match && <HoldCapture h={match} w={w} />}
         </div>
       </section>
+      <Gap base={m.payout ? m.totals.payoutBase : 0} per={per} kind="flow" step={6} />
       <section className={s.sec} data-col="6">
         <StepHead n={6} step={heads[5]} />
         <div className={s.row}>
           <Payout m={m} w={w} />
         </div>
       </section>
+      <Gap base={m.totals.neverBase} per={per} kind="never" step={7} />
       <section className={s.sec} data-col="7">
         <StepHead n={7} step={heads[6]} />
         <div className={s.grid} style={cols(m.never.length || 1)}>

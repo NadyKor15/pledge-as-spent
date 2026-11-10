@@ -24,9 +24,10 @@
 /* ── Step heads ─────────────────────────────────────────────────────────────────────────────────── */
 .rv-root .rv-head { opacity: calc(.38 + .62 * clamp(0, calc(var(--step) - var(--k) + 1), 1)); transition: opacity .5s ease; }
 .rv-headTitle { display: flex; align-items: flex-start; gap: 9px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
-.rv-headTitle > span:last-child { min-width: 0; padding-top: 3px; overflow-wrap: anywhere; }
+/* A column's title and note never break inside a word ("Kassenbo / n"): only between words. */
+.rv-headTitle > span:last-child { min-width: 0; padding-top: 3px; overflow-wrap: normal; word-break: normal; hyphens: manual; }
 .rv-num { flex: none; display: inline-grid; place-items: center; width: 27px; height: 27px; border: 1.5px solid #4D525A; border-radius: 50%; font-size: 14px; font-weight: 500; }
-.rv-note { margin-top: 9px; font-size: 13.5px; line-height: 1.38; color: var(--muted); overflow-wrap: anywhere; }
+.rv-note { margin-top: 9px; font-size: 13.5px; line-height: 1.38; color: var(--muted); overflow-wrap: normal; word-break: normal; hyphens: manual; }
 
 /* ── Cards ──────────────────────────────────────────────────────────────────────────────────────── */
 .rv-card { position: relative; z-index: 2; min-width: 0; border: 1.5px solid #9DCBA7; border-radius: 7px; background: #FFFFFF; padding: 8px 11px; font-size: 14.5px; box-shadow: 0 1px 2px rgba(20, 50, 35, .08); overflow-wrap: anywhere; }
@@ -70,6 +71,8 @@
 .rv-whoSmall { font-size: 12.5px; color: var(--muted); }
 .rv-capHead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 8px; }
 .rv-capHead > span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rv-capture.rv-waiting { border-style: dashed; border-color: #7F9A8C; background: #FAFBFA; }
+.rv-capture.rv-waiting .rv-capHead b { color: #3D4A43; }
 .rv-id { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
 .rv-arrow { flex: none; width: 24px; text-align: center; font-size: 22px; line-height: 1; color: #2E7D5B; }
 
@@ -119,6 +122,9 @@
 .rv-c4 { gap: 6px; padding-left: 36px; padding-right: 6px; }
 .rv-c5 { justify-content: space-around; gap: 12px; padding-left: 40px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
+/* A donor's hold and capture, and right under the hold its rest that PayPal released (its ribbon falls in the gap). */
+.rv-hcn { display: flex; flex-direction: column; gap: 28px; }
+.rv-hcn .rv-never { align-self: stretch; }
 .rv-desk .rv-hold { width: 150px; }
 .rv-c6 { align-items: flex-end; padding-right: 10px; }
 .rv-c6 .rv-payout { width: 215px; }
@@ -128,8 +134,14 @@
 
 /* ── Phone: seven sections, top to bottom ───────────────────────────────────────────────────────── */
 .rv-phone { position: relative; margin-top: 8px; }
-.rv-sec { position: relative; padding: 12px 0 26px; }
-.rv-sec .rv-head { position: relative; z-index: 2; margin: 0 -6px 14px; padding: 8px 6px; border-radius: 8px; background: rgba(247, 245, 240, .9); }
+.rv-sec { position: relative; padding: 10px 0 8px; }
+.rv-sec .rv-head { position: relative; margin-bottom: 12px; }
+/* The links between steps: only in the gap between two sections, never under a card or text. */
+.rv-gap { display: flex; justify-content: center; height: 30px; padding: 3px 0; }
+.rv-gap i { display: block; height: 100%; border-radius: 3px; }
+.rv-gap .rv-fill-trunk { background: #A6D7C4; }
+.rv-gap .rv-fill-flow { background: #84C594; }
+.rv-gap .rv-fill-never { background: #C3D3E4; }
 .rv-row { display: flex; justify-content: center; }
 .rv-grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 10px; }
 .rv-refRow { margin-top: 14px; }
@@ -164,5 +176,6 @@
   .rv-end::before, .rv-end::after { flex-basis: 12px; min-width: 8px; }
 }
 /* Japanese: lines break at the words' zero-width spaces (words.ts), not inside a word. */
-.rv-root:lang(ja) .rv-note, .rv-root:lang(ja) .rv-headTitle > span:last-child, .rv-root:lang(ja) .rv-agree, .rv-root:lang(ja) .rv-end > span, .rv-root:lang(ja) .rv-never > span, .rv-root:lang(ja) .rv-neverAmt { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+.rv-root:lang(ja) .rv-agree, .rv-root:lang(ja) .rv-end > span, .rv-root:lang(ja) .rv-never > span, .rv-root:lang(ja) .rv-neverAmt { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+.rv-root:lang(ja) .rv-note, .rv-root:lang(ja) .rv-headTitle > span:last-child { word-break: keep-all; overflow-wrap: normal; line-break: strict; }
 .rv-root:lang(ja) .rv-desk .rv-headTitle { font-size: 15px; }

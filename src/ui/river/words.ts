@@ -40,8 +40,9 @@ export interface RiverWords {
   match: string;
   hold: string;
   capture: string;
-  /** A capture PayPal has not given an id for yet. */
-  noCaptureId: string;
+  /** The capture card of a hold with no capture for this receipt yet (its shares accrued or capture pending). */
+  captureWaiting: string;
+  notTakenYet: string;
   payoutTitle: string;
   /** "€15.42 never charged". */
   neverCharged: (amount: string) => string;
@@ -103,7 +104,8 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     match: "match",
     hold: "Hold",
     capture: "Capture",
-    noCaptureId: "id not yet given",
+    captureWaiting: "Waiting for capture",
+    notTakenYet: "PayPal has not taken it yet",
     payoutTitle: "Payout",
     neverCharged: (a) => `${a} never charged`,
     released: "PayPal released the hold",
@@ -120,10 +122,11 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
   de: {
     replay: "Nochmal",
     playback: "Wiedergabe",
-    receipt: { title: "Kassenbon", note: "Der Kassenbon, den wir verarbeiten." },
-    twoReadings: { title: "Zwei Lesungen stimmen überein", note: "Wir lesen den Kassenbon zweimal, um die Zeilen zu bestätigen." },
-    oneReading: { title: "Gelesen", note: "Wir lesen den Kassenbon, um seine Zeilen zu finden." },
-    lines: { title: "Zeilen", note: "Die Zeilen des Kassenbons und was wir damit tun." },
+    // "Beleg", as the book says it (the phone's book: "Beleg · ミナト…").
+    receipt: { title: "Beleg", note: "Der Beleg, den wir verarbeiten." },
+    twoReadings: { title: "Zwei Lesungen stimmen überein", note: "Wir lesen den Beleg zweimal, um die Zeilen zu bestätigen." },
+    oneReading: { title: "Gelesen", note: "Wir lesen den Beleg, um seine Zeilen zu finden." },
+    lines: { title: "Zeilen", note: "Die Zeilen des Belegs und was wir damit tun." },
     shares: { title: "Anteile", note: "Jede gültige Zeile wird zwischen einem Spender und dem Firmenzuschuss geteilt." },
     sharesNoMatch: { title: "Anteile", note: "Jede gültige Zeile wird aus der Reservierung eines Spenders bezahlt." },
     holds: { title: "PayPal-Reservierungen & Abbuchungen", note: "Spender reservieren auf ihrem eigenen Konto. Wir buchen nur ihren Anteil ab, der die Prüfung besteht." },
@@ -140,18 +143,19 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     match: "Zuschuss",
     hold: "Reservierung",
     capture: "Abbuchung",
-    noCaptureId: "ID noch nicht vergeben",
+    captureWaiting: "Wartet auf Abbuchung",
+    notTakenYet: "PayPal hat noch nichts abgebucht",
     payoutTitle: "Auszahlung",
     neverCharged: (a) => `${a} nie belastet`,
     released: "PayPal hat die Reservierung freigegeben",
     stillHeld: "Reservierungen noch offen",
     stillHeldNote: "Was eine Reservierung nicht ausgibt, wird freigegeben, wenn die Sammlung endet.",
     sums: { spent: "Spender ausgegeben", match: "Zuschuss", paid: "ausgezahlt", never: "nie belastet" },
-    traced: (c) => `${UNIT_DE[c] ?? "Jeder Betrag"} vom Kassenbon bis zu PayPal verfolgt.`,
+    traced: (c) => `${UNIT_DE[c] ?? "Jeder Betrag"} vom Beleg bis zu PayPal verfolgt.`,
     closedTail: "Mehr kann nicht abgebucht werden.",
     openTail: "Abgebucht werden nur geprüfte Zeilen.",
     link: "Geldfluss",
-    nothingYet: "Noch kein Kassenbon wurde bezahlt.",
+    nothingYet: "Noch kein Beleg wurde bezahlt.",
     loading: "den Geldfluss",
   },
   ja: {
@@ -178,7 +182,8 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     match: "マッチング",
     hold: "保留",
     capture: "引き落とし",
-    noCaptureId: "ID はまだありません",
+    captureWaiting: "引き落とし待ち",
+    notTakenYet: `PayPal は${Z}まだ${Z}引き落として${Z}いません`,
     payoutTitle: "支払い",
     neverCharged: (a) => `${a} 請求されず`,
     released: `PayPal が${Z}保留を${Z}解除`,
