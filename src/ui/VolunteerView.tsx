@@ -32,7 +32,13 @@ export function VolunteerView({ view, following, refresh, follow }: { view: Driv
   const path = `/api/drives/${encodeURIComponent(view.drive.id)}/receipts`;
 
   const send = async (name: string, body: () => Promise<FormData>) => {
-    const sent = await run(name, async () => api(path, { method: "POST", body: await body() }));
+    const sent = await run(name, async () => {
+      const form = await body();
+      // An invited volunteer's upload link carries ?volunteer=<token> (VOLUNTEER_INVITES); the server checks it.
+      const token = typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("volunteer");
+      if (token) form.set("volunteer", token);
+      return api(path, { method: "POST", body: form });
+    });
     await refresh();
     if (sent === undefined) return;
     setAsking(false);
