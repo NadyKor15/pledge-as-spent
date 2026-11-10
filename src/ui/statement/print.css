@@ -40,6 +40,18 @@
 .sp-strong th, .sp-strong td { font-weight: 700; }
 .sp-foot { margin-top: 14px; font-size: 8.5pt; line-height: 1.45; color: #475164; break-inside: avoid; }
 
+/* A phone's screen: the sheet's A4 margins would leave the table 260 px, where fixed columns put "$10.89" over
+   "¥1,647" and the header words over each other. Smaller margins, and columns as wide as their content needs. */
+@media screen and (max-width: 640px) {
+  .sp-sheet { padding: 16px 12px; }
+  .sp-table { table-layout: auto; }
+  .sp-table th:nth-child(n) { width: auto; }
+  .sp-table th, .sp-table td { padding-left: 4px; padding-right: 4px; }
+  /* Words keep their width ("Captured", not "Captur/ed"); PayPal's ids may still break anywhere. */
+  .sp-table td { overflow-wrap: break-word; }
+  .sp-table td.sp-mono { overflow-wrap: anywhere; }
+}
+
 @media print {
   .sp-root { padding: 0; background: #fff; min-height: 0; }
   .sp-bar { display: none; }
