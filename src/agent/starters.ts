@@ -150,20 +150,21 @@ function paypalAnswer(d: DonorFigures, l: AgentLocale): string {
 
 function refusedAnswer(v: DriveView, l: AgentLocale): string {
   const base = v.drive.baseCurrency;
-  // The same refusals, count and total as the screens and ledger_refusals (bookRefusals).
+  // The same refusals, count and total as the screens and ledger_refusals (bookRefusals), in the drive's currency.
   const { items: refusals, count, total: sum } = bookRefusals(v);
   const m = (minor: number) => localMoney(base, minor, l);
   if (refusals.length === 0) return { en: "No line of this book was refused.", de: "In diesem Buch wurde keine Zeile abgelehnt.", ja: "この帳簿で却下された行はありません。" }[l];
   const items = refusals.map((i) => {
     const no = i.line.lineNo;
+    const amount = i.base!; // bookRefusals keeps only items with an amount in the drive's currency
     if (i.countedWith !== undefined) {
-      const off = m(-i.amount);
+      const off = m(-amount);
       return { en: `line ${no}, a discount of ${off} counted with line ${i.countedWith}`, de: `Zeile ${no}, Rabatt von ${off}, mit Zeile ${i.countedWith} verrechnet`, ja: `${no}行目の値引き（${off}）：${i.countedWith}行目と一緒に計上` }[l];
     }
     const r = i.row?.code ? RULE[i.row.code]?.[l] : undefined;
     // A reason is one clause of the list: its own full stop would print "needs.; line 3" and "needs..".
     const why = (r?.why ?? i.row?.reasonEn ?? "").trim().replace(/[.。!！]+$/u, "");
-    return { en: `line ${no}, ${r?.name ?? "an item"} for ${m(i.amount)}: ${why}`, de: `Zeile ${no}, ${r?.name ?? "ein Artikel"} für ${m(i.amount)}: ${why}`, ja: `${no}行目の${r?.name ?? "品目"}（${m(i.amount)}）：${why}` }[l];
+    return { en: `line ${no}, ${r?.name ?? "an item"} for ${m(amount)}: ${why}`, de: `Zeile ${no}, ${r?.name ?? "ein Artikel"} für ${m(amount)}: ${why}`, ja: `${no}行目の${r?.name ?? "品目"}（${m(amount)}）：${why}` }[l];
   });
   const total = m(sum);
   return {

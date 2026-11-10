@@ -335,8 +335,9 @@ export function ledgerLine(v: View, line: unknown): LedgerToolResult {
 }
 
 /**
- * The book's refusals as the screens count them (bookRefusals): each refused or unfunded line, then the discounts
- * counted with it. A discount is said as what it takes off ("a discount of ¥43"), not as a line of its own.
+ * The book's refusals as the screens count them (bookRefusals), in the drive's currency as the book has them: each
+ * refused or unfunded line, then the discounts counted with it. A discount is said as what it takes off ("a discount
+ * of ¥43"), not as a line of its own.
  */
 export function ledgerRefusals(v: View): LedgerToolResult {
   const base = v.drive.baseCurrency;
@@ -347,11 +348,12 @@ export function ledgerRefusals(v: View): LedgerToolResult {
   const out = items.map((i, n) => {
     const key = keys[n];
     const no = i.line.lineNo;
+    const amount = i.base!; // bookRefusals keeps only items with an amount in the drive's currency
     const printed = `"${i.line.text}"${i.line.translationEn ? ` (English: ${i.line.translationEn})` : ""}`;
-    if (i.countedWith !== undefined) return `- line ${no} ${printed}: a discount of ${f.amount(i.currency, -i.amount, `line ${no} discount`, { lineKey: key })}, counted with line ${i.countedWith} and refused with it`;
+    if (i.countedWith !== undefined) return `- line ${no} ${printed}: a discount of ${f.amount(base, -amount, `line ${no} discount`, { lineKey: key })}, counted with line ${i.countedWith} and refused with it`;
     const word = i.row?.kind === "unfunded" ? "not funded" : "refused";
     const code = i.row?.code;
-    return `- line ${no} ${printed}: ${f.amount(i.currency, i.amount, `line ${no} ${word}`, { lineKey: key })} ${word}${code ? ` (rule: ${code.replace(/_/g, " ")})` : ""} — ${i.row?.reasonEn ?? "no reason recorded"}`;
+    return `- line ${no} ${printed}: ${f.amount(base, amount, `line ${no} ${word}`, { lineKey: key })} ${word}${code ? ` (rule: ${code.replace(/_/g, " ")})` : ""} — ${i.row?.reasonEn ?? "no reason recorded"}`;
   });
   const head = `${count} line${count === 1 ? "" : "s"} refused, ${f.amount(base, total, "refused in total", { lineKeys: keys })} in total; no donor money was used for them:`;
   return ok([head, ...out].join("\n"), f, keys);
