@@ -63,6 +63,17 @@ describe("carry switched off", () => {
     await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 501, [L("water", 40, 4320)]).bytes });
     expect(await s.carries()).toEqual([]);
   });
+
+  it("switched off after a donor chose to keep the rest: nothing moves any more", async () => {
+    vi.stubEnv("REBIND_ENABLED", "1");
+    const s = await setup();
+    const claire = await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "carry");
+    vi.stubEnv("REBIND_ENABLED", "");
+    await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 506, [L("water", 40, 4320)]).bytes });
+    await s.h.svc.runDaily();
+    expect(await s.carries()).toEqual([]);
+    expect((await s.hold(claire)).needId).toBe("water");
+  });
 });
 
 describe("carry switched on", () => {
