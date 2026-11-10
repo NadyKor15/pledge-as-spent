@@ -32,11 +32,13 @@ const COLUMNS: [id: string, share: number, least: number][] = [
 /** The least width of the desktop book: every column at its least. The receipt stands beside the book only if this fits. */
 export const BOOK_LEAST_PX = COLUMNS.reduce((sum, [, , least]) => sum + least, 0);
 
+// The status column holds its longest word whole in every language ("Abgelehnt", "Verloren", "Teils zurück" breaks
+// between its words): its least is 96 px with its own 6 px padding (ledger.css).
 const PHONE_COLUMNS: typeof COLUMNS = [
-  [BOOK.what, 0.37, 130],
+  [BOOK.what, 0.33, 130],
   [BOOK.who, 0.19, 66],
   [BOOK.much, 0.24, 84],
-  [BOOK.state, 0.2, 70],
+  [BOOK.state, 0.24, 96],
 ];
 
 /**
@@ -324,10 +326,11 @@ export function bookCells(store: LedgerStore): (field: AgWidgetField) => Compone
 
   function StatusCell({ value, data }: CustomCellRendererProps) {
     const row = useRow(store, data);
+    const reason = row?.reason?.replace(/\.$/, "");
     return (
-      <span className="lg-status">
+      <span className="lg-status" title={reason || undefined}>
         <span className={`lg-pill-status lg-tone-${tone(row?.code)}`}>{String(value ?? "")}</span>
-        {row?.reason && <span className="lg-reason">{row.reason.replace(/\.$/, "")}</span>}
+        {reason && <span className="lg-reason">{reason}</span>}
       </span>
     );
   }

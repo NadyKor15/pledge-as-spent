@@ -2,6 +2,8 @@
 
 import type { AgWidgetParams } from "ag-studio";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { PosterLink } from "../PosterLink";
 import { AskPayPal } from "../../paypal-check/AskPayPal";
 import { ReconcileLine } from "../../paypal-check/ReconcileLine";
 import { bookCsv, type LedgerModel } from "../derive";
@@ -23,6 +25,12 @@ export function FooterWidget(params: AgWidgetParams) {
   const { store, snap, root } = useWidget<HTMLDivElement>(params);
   const { receiptUrl, refused, rates, book } = snap.model;
   const w = WORDS[snap.lang];
+  // The report says whether it is laid out for a phone (LedgerStudio's data-stacked); Studio rebuilds the widgets
+  // when that changes, so reading it once the widget is in the page is enough.
+  const [stacked, setStacked] = useState(false);
+  useEffect(() => {
+    setStacked(root.current?.closest("[data-stacked]")?.getAttribute("data-stacked") === "true");
+  }, [root]);
 
   return (
     <div className="lg-foot" ref={root}>
@@ -60,6 +68,8 @@ export function FooterWidget(params: AgWidgetParams) {
           </button>
         )}
         <AskPayPal driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-ask-paypal" />
+        {/* On a phone the poster's link is here, with the book's own links (on a desktop: the report's corner). */}
+        {stacked && <PosterLink driveId={snap.model.driveId} lang={snap.lang} className="lg-csv lg-poster-foot" />}
         <ReconcileLine driveId={snap.model.driveId} lang={snap.lang} variant="ledger" />
       </div>
     </div>

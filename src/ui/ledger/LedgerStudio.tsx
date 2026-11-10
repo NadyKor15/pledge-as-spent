@@ -15,8 +15,8 @@ import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
 import { LangSwitch, writeLangToUrl } from "./LangSwitch";
 import "./ledger.css";
-import { POSTER_WORDS } from "../poster/words";
 import { LineArrows } from "./LineArrows";
+import { PosterLink } from "./PosterLink";
 import { LedgerStore, narrowedTo } from "./store";
 import {
   ASK_WIDGET,
@@ -174,9 +174,9 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       shelter: Math.ceil((112 + 52 + counts.needs * 104) / rowHeight),
       // 94 per donor: the row with the hold's bar (need-meter.css .nm-donor, 92 px + its rule).
       donors: Math.ceil((62 + counts.donors * 94) / rowHeight),
-      // Room for three links and the PayPal check line under the refusals: the book, its CSV, "Ask PayPal yourself"
-      // and the daily check, which takes up to three lines in German.
-      footer: 19,
+      // Room for four links and the PayPal check line under the refusals: the book, its CSV, "Ask PayPal yourself",
+      // the shelter's poster, and the daily check, which takes up to three lines in German.
+      footer: 21,
       journal: JOURNAL_ROWS.phone,
       ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
       receipt: RECEIPT_ROWS.phone,
@@ -409,10 +409,10 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
         <LineArrows store={store} />
         {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
-        {/* The shelter's printable poster of this drive (П4), in the book's language. */}
-        <a className="lg-poster-link" href={`/drive/${encodeURIComponent(model.driveId)}/poster${lang === "en" ? "" : `?lang=${lang}`}`} data-testid="poster-link">
-          {POSTER_WORDS[lang].link}
-        </a>
+        {/* The shelter's printable poster of this drive (П4), in the book's language: in the report's corner on a
+            desktop; on a phone that corner is the first total's title, so the link is in the bottom line there
+            (FooterWidget). One link at a time. */}
+        {!stacked && <PosterLink driveId={model.driveId} lang={lang} className="lg-poster-link" />}
       </div>
     </div>
   );
