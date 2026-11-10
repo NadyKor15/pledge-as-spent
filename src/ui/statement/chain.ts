@@ -54,10 +54,19 @@ export function chainStory(c: StatementChain): { at: string; text: string }[] {
     if (e.kind === "pledged") return { at: e.at, text: `${date}: you pledged ${amount(c.totals.pledged)}, and PayPal held it on your account.` };
     if (e.kind === "renewed") {
       const kept = m ? (m.usable ?? m.authorized) : 0;
-      return { at: e.at, text: `${date}: renewed. PayPal's hold was about to end, so a new hold keeps the ${amount(kept)} not spent yet${m?.expiresAt ? `, until ${day(m.expiresAt, false)}` : ""}.` };
+      // Until the old hold is released (seconds to minutes: PayPal confirms its captures, then the void), PayPal may show
+      // both holds on the donor's account. That is a hold, not a charge: said so, plainly, while it can be seen.
+      const oldOpen = m?.renews ? !c.events.some((x) => x.kind === "ended" && x.pledgeId === m.renews) : false;
+      return {
+        at: e.at,
+        text:
+          `${date}: renewed. PayPal's hold was about to end, so a new hold keeps the ${amount(kept)} not spent yet${m?.expiresAt ? `, until ${day(m.expiresAt, false)}` : ""}.` +
+          (oldOpen ? " Until PayPal releases the first hold, your account may show both holds: that is a hold, not a charge." : ""),
+      };
     }
     // An ended hold: the first one when its renewal carries on, or the latest one when the chain itself is over.
-    if (e.pledgeId !== c.latest) return { at: e.at, text: `${date}: the first hold ended. PayPal released it; the new hold carries on, nothing was charged twice.` };
+    // P3FL's invariant: all the chain's holds promised to lines (charged + waiting + uncollected + refunded) ≤ the first hold.
+    if (e.pledgeId !== c.latest) return { at: e.at, text: `${date}: the first hold ended. PayPal released it and the new hold carries on. Nothing was charged twice, and never more than you pledged in all.` };
     return { at: e.at, text: `${date}: the hold ended. ${c.totals.never > 0 ? `${amount(c.totals.never)} was never charged.` : "Nothing was left on it."}` };
   });
 }

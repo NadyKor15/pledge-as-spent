@@ -42,7 +42,17 @@ describe("a renewed pledge's statement", () => {
     expect(story).toHaveLength(3);
     expect(story[0]).toMatch(/you pledged €20\.00/);
     expect(story[1]).toMatch(/renewed\. .*keeps the €16\.67 not spent yet/);
-    expect(story[2]).toMatch(/first hold ended.*nothing was charged twice/);
+    expect(story[2]).toMatch(/first hold ended.*Nothing was charged twice, and never more than you pledged in all\./);
+    // the first hold has ended: no word about seeing two holds
+    expect(story[1]).not.toMatch(/both holds/);
+  });
+
+  it("while the first hold is not released yet, the renewal says PayPal may show both holds: a hold, not a charge", () => {
+    const early: StatementChain = { ...lena, events: lena.events.filter((e) => e.kind !== "ended") };
+    const story = chainStory(early).map((l) => l.text);
+    expect(story).toHaveLength(2);
+    expect(story[1]).toMatch(/may show both holds: that is a hold, not a charge\./);
+    expect(story.join(" ")).not.toMatch(/held once/);
     expect(latestMember(lena).pledgeId).toBe("r1");
   });
 
