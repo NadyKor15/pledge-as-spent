@@ -98,6 +98,10 @@
 .lg-jr-bad { background: color-mix(in srgb, var(--pas-refused) 14%, #FFFFFF); color: var(--refused); }
 .lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
 
+/* The way to the shelter's printable poster (П4): the report's top-left corner, across from the languages. */
+.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); font-size: 13px; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+[data-stacked="true"] .lg-poster-link { top: 6px; left: 12px; font-size: 12.5px; }
+
 /* "Show Lena on the map" (S4): over the right end of the row under the pointer or the keyboard's focus. */
 .lg-jr-tip { position: absolute; z-index: 6; transform: translate(-100%, calc(-100% - 6px)); padding: 6px 12px; border-radius: 10px; background: #FFFFFF; color: var(--ink); font-size: 13.5px; white-space: nowrap; box-shadow: 0 2px 10px rgba(40, 36, 28, .16), 0 0 0 1px rgba(40, 36, 28, .08); pointer-events: none; }
 

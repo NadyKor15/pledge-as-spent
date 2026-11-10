@@ -15,6 +15,7 @@ import { deriveLedger, type LedgerModel } from "./derive";
 import { LANG_TAG, parseLang, WORDS } from "./i18n";
 import { LangSwitch, writeLangToUrl } from "./LangSwitch";
 import "./ledger.css";
+import { POSTER_WORDS } from "../poster/words";
 import { LineArrows } from "./LineArrows";
 import { LedgerStore, narrowedTo } from "./store";
 import {
@@ -405,6 +406,10 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
         <LineArrows store={store} />
         {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
+        {/* The shelter's printable poster of this drive (П4), in the book's language. */}
+        <a className="lg-poster-link" href={`/drive/${encodeURIComponent(model.driveId)}/poster${lang === "en" ? "" : `?lang=${lang}`}`} data-testid="poster-link">
+          {POSTER_WORDS[lang].link}
+        </a>
       </div>
     </div>
   );

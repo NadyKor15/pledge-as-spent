@@ -580,3 +580,54 @@ test("the Payer cell: a donor's row shows the donor's hold bar under the name; t
     expect(box.rowHeight).toBe(64);
   }
 });
+
+// П4: the shelter's poster. The Ledger links to it; it says what was bought here and carries a QR code to this drive's
+// book; it prints on one A4 page with nothing cut, and reads on a phone.
+async function openPoster(page: Page, view: DriveView, lang = "") {
+  await page.route(`**/api/drives/${view.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(view) }));
+  await page.goto(`/drive/${view.drive.id}/poster${lang ? `?lang=${lang}` : ""}`);
+  await expect(page.getByTestId("poster-sheet")).toBeVisible({ timeout: 60_000 });
+}
+
+test("the Ledger links to the shelter's poster, in the book's language", async ({ page }) => {
+  await openBook(page, fixture("closed"), "&lang=de");
+  const link = page.getByTestId("poster-link");
+  await expect(link).toHaveText("Plakat für die Unterkunft");
+  await expect(link).toHaveAttribute("href", "/drive/demo-f372326129/poster?lang=de");
+});
+
+for (const name of ["closed", "open"] as const) {
+  test(`the poster of the ${name} drive: what was bought, the total, and a QR code to its own book`, async ({ page, baseURL }) => {
+    const v = fixture(name);
+    await openPoster(page, v);
+    const sheet = page.getByTestId("poster-sheet");
+    const url = `${baseURL}/drive/${v.drive.id}?as=ledger`;
+    await expect(sheet).toHaveAttribute("data-url", url);
+    await expect(page.getByTestId("poster-qr")).toHaveAttribute("aria-label", url);
+    await expect(sheet).toContainText("What was bought here");
+    await expect(sheet).toContainText("Every line is checked; donors are charged only for these lines.");
+    await expect(sheet.locator("[data-need]")).toHaveCount(v.needs.length);
+    if (name === "closed") {
+      await expect(sheet.locator("[data-need=water]")).toContainText("12 of 40 bottles");
+      await expect(sheet).toContainText("¥10,448 with the match");
+    }
+    expect(await wider(page)).toBeLessThanOrEqual(0);
+  });
+}
+
+test("the poster prints on one A4 page: no menu, nothing cut, the QR code whole", async ({ page }) => {
+  await openPoster(page, fixture("closed"), "ja");
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByTestId("print-poster")).toBeHidden();
+  const fit = await page.getByTestId("poster-sheet").evaluate((sheet) => {
+    const s = sheet.getBoundingClientRect();
+    const qr = sheet.querySelector("svg")!.getBoundingClientRect();
+    const last = [...sheet.querySelectorAll("p, li, h1, h2")].map((e) => e.getBoundingClientRect().bottom);
+    return { spill: sheet.scrollHeight - sheet.clientHeight, qrInside: qr.bottom <= s.bottom + 0.5 && qr.top >= s.top, lowest: Math.max(...last), bottom: s.bottom };
+  });
+  expect(fit.spill).toBeLessThanOrEqual(0);
+  expect(fit.qrInside).toBe(true);
+  expect(fit.lowest).toBeLessThanOrEqual(fit.bottom + 0.5);
+  const pdf = await page.pdf({ format: "A4", preferCSSPageSize: true, printBackground: true });
+  expect(pdf.toString("latin1").match(/\/Type\s*\/Page(?!s)/g)).toHaveLength(1);
+});
