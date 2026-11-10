@@ -119,9 +119,8 @@ Each line of both lists is pinned by a test on made-up text (`src/agent/guard.te
 | Model | Right of 7 | Model calls per question | Cost per question |
 |---|---|---|---|
 | Meta Muse Spark 1.3 (variant D, the one the agent runs on) | 7 in each of two runs | 2.29 | $0.016 |
-| Tried on 06.11 and not used: variants A, B and C on Amazon Nova Lite and Pro | 4 to 6 | 1.14 to 2.29 | $0.0002 to $0.0037 |
 
-Variant D was run live twice, the second time on the final code. All answers are scored by the same rules, including the false-percentage rule (a pledge called spent "zu 100%" when 23% was is wrong). The cost is Meta's price for each turn's tokens: $1.25 / $4.25 per million input / output tokens. The runs of the variants that were tried and dropped are kept as they were recorded, with their scores, in [`eval/agent/`](eval/agent).
+Variant D was run live twice, the second time on the final code. All answers are scored by the same rules, including the false-percentage rule (a pledge called spent "zu 100%" when 23% was is wrong). The cost is Meta's price for each turn's tokens: $1.25 / $4.25 per million input / output tokens. The runs of the variants that were tried and dropped are kept as they were recorded, with their scores, in [`eval/baseline-legacy/agent/`](eval/baseline-legacy/agent).
 
 The chat's small print names the model: "Meta Muse Spark". Meta spend is capped at $5 in code (`META_AGENT_CAP_USD` can lower that, not raise it; $0.50 over any 24 hours unless `META_AGENT_DAILY_CAP_USD` says less); past either ceiling the chat says the demo's budget for live questions is used up. A turn Muse Spark fails and then answers on its second try counts as one of the 10 model calls of the question, so up to 20 requests can leave the server for one question. Recorded runs and the scorer: [`eval/agent/`](eval/agent), `npx tsx scripts/agent-measure.ts --mode D`.
 

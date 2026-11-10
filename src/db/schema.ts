@@ -64,7 +64,7 @@ export const receipts = pgTable(
     /** review | funded | rejected */
     status: text("status").notNull(),
     channel: text("channel").notNull(),
-    /** recorded | nova | copy */
+    /** recorded | copy | cached:… | recognized:… | live:… (ReaderSource, src/server/reading.ts); older rows keep their pipeline's name */
     reader: text("reader").notNull(),
     ipHash: text("ip_hash"),
     decision: jsonb("decision"),

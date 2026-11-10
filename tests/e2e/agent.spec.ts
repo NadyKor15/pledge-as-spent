@@ -252,7 +252,8 @@ test("one model, named alone: Meta Muse Spark before and after it answered, no o
   await ask(page, Q1.question);
   await expect(page.getByTestId("ask-answer")).toContainText("✓$21.45");
   await expect(page.getByTestId("ask-model")).toHaveText("Meta Muse Spark · read-only · it cannot move money");
-  await expect(page.getByTestId("ask-widget")).not.toContainText(/Nova|Amazon|falls back/);
+  // One small print in the widget, and it is exactly the label above: no other model, no fallback wording.
+  await expect(page.getByTestId("ask-model")).toHaveCount(1);
 });
 
 test("Muse Spark failed twice on the server: the chat says the assistant is busy, in a sentence, not an error", async ({ page }) => {
