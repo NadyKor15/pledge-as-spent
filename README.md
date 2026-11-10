@@ -187,7 +187,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 ## Limits
 
 - A PayPal hold lives 29 days at most. Renewing it needs the donor in PayPal's window again; on the demo drive PayPal's sandbox test card approves it, as it approves the demo's first holds. At most six renewals per pledge.
-- On a real drive only the coordinator invites volunteers and decides on their receipts (`COORDINATOR_SECRET` bearer); the demo drive is open, as the rest of the demo, and pays sandbox addresses only. Volunteers are invited before a drive's first receipt.
+- On a real drive only the coordinator invites volunteers and decides on their receipts (`COORDINATOR_SECRET` bearer). The hosted demo sets no coordinator secret, so on a real drive there these volunteer controls are read-only (the server answers 403); the demo drives the demo opens work in full. The demo drive is open, as the rest of the demo, and pays sandbox addresses only. Volunteers are invited before a drive's first receipt.
 - Donor rules are fixed at the pledge; a renewal keeps them.
 - The volunteer still pays first and is reimbursed afterwards.
 - The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
@@ -197,6 +197,10 @@ AG Studio is a commercial product, used here under the free trial licence offere
 - Muse Spark sees the whole original photo, card and name included. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
 - Rates are a fixed demo snapshot, for the dollar drive too (EUR and JPY to USD are the yen rates divided out).
 - A hold moves to another need once, only while the drive is open, and not in its last 3 days. Lines it already paid for stay with the first need. The company match follows donor money, so a need left without donors gets no match either.
+
+## What's next
+
+- Store check against each country's official registry: in Japan by the qualified-invoice number "T" + 13 digits printed on the receipt, in Florida by the store's name and address in the state's business registry (Sunbiz). Not built yet: the ID for the Japanese tax agency's Web-API is issued only after a few days, the synthetic receipts here carry no real numbers, and in Florida the check is weaker, because the receipt prints no registry number.
 
 ## How this was built
 
