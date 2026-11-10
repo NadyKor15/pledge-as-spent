@@ -332,8 +332,9 @@ const book = (page: Page) => page.locator(".ag-root-wrapper");
 /**
  * Book cells whose text does not fit. An ellipsis hides from scrollWidth and from ranges, so each text
  * is measured on its own in its own font. A cell of several lines (the receipt strip over the name, the
- * label over a PayPal number) is measured line by line; a line that is meant to wrap (a refusal's reason)
- * is left out. `.ag-cell[data-control]` is the synthetic proof it can fail.
+ * label over a PayPal number) is measured line by line; a line that is meant to wrap (a refusal's reason) is not
+ * measured as one line but as a box: all of it must lie inside its cell (it used to be left out, and a reason
+ * wrapped into seven lines past the row went unseen). `.ag-cell[data-control]` is the synthetic proof it can fail.
  */
 const cutShort = (page: Page) =>
   page.evaluate(() => {
@@ -347,7 +348,13 @@ const cutShort = (page: Page) =>
       const leaves = [...cell.querySelectorAll<HTMLElement>("*")].filter((e) => e.children.length === 0 && (e.textContent ?? "").trim() !== "" && !e.closest(".lg-band"));
       for (const leaf of leaves.length ? leaves : [cell]) {
         const own = getComputedStyle(leaf);
-        if (leaf !== cell && own.whiteSpace !== "nowrap") continue;
+        if (leaf !== cell && own.whiteSpace !== "nowrap") {
+          // Wrapped text: every line of it inside the cell's box, none past its edges.
+          const c = cell.getBoundingClientRect();
+          const r = leaf.getBoundingClientRect();
+          if (r.left < c.left - 1 || r.right > c.right + 1 || r.top < c.top - 1 || r.bottom > c.bottom + 1) out.push(leaf.textContent ?? "");
+          continue;
+        }
         // A cell that wraps its text (the payer beside the receipt) is cut only if the lines do not fit its height.
         if (leaf === cell && own.whiteSpace !== "nowrap" && cell.scrollHeight <= cell.clientHeight + 1) continue;
         // The computed shorthand is "" when a part of it has no shorthand form (tabular figures in the PayPal

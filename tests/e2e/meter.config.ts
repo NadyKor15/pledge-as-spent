@@ -9,7 +9,8 @@ const PORT = Number(process.env.METER_PORT ?? 3543);
 
 export default defineConfig({
   testDir: ".",
-  testMatch: "meter.spec.ts",
+  // fit.spec.ts: the book's pills and reasons inside their cells, nothing over the poster link.
+  testMatch: ["meter.spec.ts", "fit.spec.ts"],
   outputDir: "../../tmp/playwright-meter",
   workers: 1,
   timeout: 180_000,
