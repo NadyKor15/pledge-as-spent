@@ -25,6 +25,18 @@ function uploadErrorText(e: ApiError): string {
 }
 
 /** The receipt form until there is a receipt to show; after that, the result as on the reference. */
+/** The invited volunteer's link token: from the address, else the one this tab saw last (sessionStorage). */
+function volunteerToken(): string | null {
+  if (typeof window === "undefined") return null;
+  const fromUrl = new URLSearchParams(window.location.search).get("volunteer");
+  try {
+    if (fromUrl) window.sessionStorage.setItem("pas-volunteer-token", fromUrl);
+    return fromUrl ?? window.sessionStorage.getItem("pas-volunteer-token");
+  } catch {
+    return fromUrl;
+  }
+}
+
 export function VolunteerView({ view, following, refresh, follow }: { view: DriveView; following: boolean; refresh: () => Promise<unknown>; follow: () => void }) {
   const { busy, error, run } = useAction();
   const [asking, setAsking] = useState(false);
@@ -34,8 +46,9 @@ export function VolunteerView({ view, following, refresh, follow }: { view: Driv
   const send = async (name: string, body: () => Promise<FormData>) => {
     const sent = await run(name, async () => {
       const form = await body();
-      // An invited volunteer's upload link carries ?volunteer=<token> (VOLUNTEER_INVITES); the server checks it.
-      const token = typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("volunteer");
+      // An invited volunteer's upload link carries ?volunteer=<token> (VOLUNTEER_INVITES); the server checks it. It is
+      // kept for this tab, so moving between the drive's screens (which drops the query) does not lose it.
+      const token = volunteerToken();
       if (token) form.set("volunteer", token);
       return api(path, { method: "POST", body: form });
     });

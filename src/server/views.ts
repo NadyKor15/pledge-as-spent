@@ -28,7 +28,7 @@ function boxesOf(stored: unknown): Map<number, LineBox["box"]> {
 export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & { imageRedacted?: Uint8Array | null; published?: boolean }) {
   const parsed = row.parsed as ParsedReceipt | null;
   const classified = row.classified as StoredClassification | null;
-  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { closed?: boolean; openLines?: number; note: string | null }; lineBoxes?: unknown };
+  const checks = (row.checks ?? {}) as { flags?: ReceiptFlag[]; redaction?: { closed?: boolean; openLines?: number; note: string | null }; lineBoxes?: unknown; volunteerId?: string; payoutWaits?: string };
   // Only a copy closed to its purchase lines is shown; a stored copy from before closing is not.
   const { published, note } = publication(row.published ?? Boolean(row.imageRedacted), checks.redaction);
   const boxes = boxesOf(checks.lineBoxes);
@@ -46,6 +46,9 @@ export function receiptView(row: Omit<ReceiptRow, "image" | "imageRedacted"> & {
     currency: parsed?.currency ?? null,
     total: parsed?.totalMinor ?? null,
     flags: checks.flags ?? [],
+    // Volunteers by invitation: who brought it, and why its payout waits (e.g. over the volunteer's limit). Absent otherwise.
+    ...(checks.volunteerId ? { volunteerId: checks.volunteerId } : {}),
+    ...(checks.payoutWaits ? { payoutWaits: checks.payoutWaits } : {}),
     lines: (parsed?.lines ?? []).map((l, i) => {
       const c = classified?.lines.find((x) => x.lineNo === l.lineNo);
       return {

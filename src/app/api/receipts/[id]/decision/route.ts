@@ -1,4 +1,4 @@
-import { readFields, respond, str, withService } from "@/server/http";
+import { bearerMatches, readFields, respond, str, withService } from "@/server/http";
 
 /**
  * The coordinator's decision on a flagged receipt. Body: { decision: "approve" | "reject", reason, by?, lineNos?, lineNeeds? }.
@@ -12,7 +12,9 @@ export async function POST(req: Request, ctx: RouteContext<"/api/receipts/[id]/d
     const f = await readFields(req);
     const raw = f.lineNos;
     const lineNos = raw === undefined || raw === "" ? undefined : (Array.isArray(raw) ? raw : String(raw).split(",")).map((x) => Number(String(x).trim()));
-    const result = await svc.coordinatorDecision(id, str(f.decision) as "approve" | "reject", str(f.reason) ?? "", { lineNos, by: str(f.by), lineNeeds: lineNeedsOf(f.lineNeeds) });
+    // A volunteer's receipt on a real drive needs the coordinator's bearer (COORDINATOR_SECRET); nothing else changes.
+    const coordinator = bearerMatches(req, process.env.COORDINATOR_SECRET);
+    const result = await svc.coordinatorDecision(id, str(f.decision) as "approve" | "reject", str(f.reason) ?? "", { lineNos, by: str(f.by), lineNeeds: lineNeedsOf(f.lineNeeds), coordinator });
     return respond(f, result);
   });
 }

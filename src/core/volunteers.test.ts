@@ -101,4 +101,25 @@ describe("volunteers: payouts only to invited, active volunteers, within their l
     b.event("DriveClosing", T(2), {});
     expect(() => applyEvent(b.state, ev({}))).toThrow(/closing/);
   });
+
+  it("takes the first invitation only before the first receipt line (those lines are paid to the drive's own address)", () => {
+    const b = story();
+    b.fund(line("r1", 1, "water", 4, 432), T(1));
+    expect(() => invite(b, "late")).toThrow(/before the drive's first receipt/);
+    const c = story();
+    invite(c, "first");
+    c.fund(line("r1", 1, "water", 4, 432), T(1));
+    expect(() => invite(c, "second", {}, T(2))).not.toThrow(); // later invitations are fine
+  });
+
+  it("invites a removed volunteer's address again, under a new id and link", () => {
+    const b = story();
+    invite(b, "haruto");
+    b.apply({ id: "rm", at: T(1), driveId: "drv1", type: "VolunteerRemoved", volunteerId: "haruto", by: "coordinator" });
+    invite(b, "haruto2", { payoutEmail: "haruto@example.com", tokenHash: "hash-new" }, T(2));
+    expect(volunteerList(b.state).map((v) => [v.id, v.active])).toEqual([
+      ["haruto", false],
+      ["haruto2", true],
+    ]);
+  });
 });

@@ -1124,7 +1124,11 @@ function onVolunteerInvited(s: LedgerState, e: E.VolunteerInvited): LedgerState 
   if (typeof v.name !== "string" || v.name.trim() === "" || v.name.length > 80) fail(e, "a volunteer needs a name (at most 80 characters)");
   if (typeof v.payoutEmail !== "string" || !EMAIL.test(v.payoutEmail) || v.payoutEmail.length > 254) fail(e, "a volunteer needs a PayPal address");
   const email = v.payoutEmail.toLowerCase();
-  if (s.volunteerIds.some((id) => s.volunteers[id].payoutEmail.toLowerCase() === email)) fail(e, "this PayPal address is already invited to this drive");
+  // A removed volunteer may be invited again (a new id, a new link); an active one is invited once.
+  if (s.volunteerIds.some((id) => !s.volunteers[id].removedAt && s.volunteers[id].payoutEmail.toLowerCase() === email)) fail(e, "this PayPal address is already invited to this drive");
+  // Receipts funded before any invitation are paid to the drive's own address; once volunteers are invited every payout
+  // names one. So the first invitation comes before the first receipt line, or those receipts could never be paid.
+  if (s.volunteerIds.length === 0 && s.lineKeys.length > 0) fail(e, "volunteers are invited before the drive's first receipt");
   if (!nonEmpty(v.tokenHash) || s.volunteerIds.some((id) => s.volunteers[id].tokenHash === v.tokenHash)) fail(e, "a volunteer needs their own upload link token");
   if (v.limitBase !== null && !isPositiveInt(v.limitBase)) fail(e, "a volunteer's limit is a positive whole amount, or none");
   if (typeof v.firstReceiptCheck !== "boolean") fail(e, "firstReceiptCheck must be true or false");

@@ -345,19 +345,7 @@ export class PledgeService {
       await b.append({ id: `opened:${driveId}`, type: "DriveOpened", at: now, driveId, drive, needs }, "app");
       // VOLUNTEER_INVITES: the demo invites its own volunteer, so uploads without a link are theirs and paid to the demo's
       // sandbox address. No first-receipt check on the demo (its note says a real drive has one); the judge's path stays one click.
-      if (this.invitesEnabled && payoutEmail) {
-        await b.append(
-          {
-            id: `volunteer:${driveId}:${DEMO_VOLUNTEER_ID}`,
-            type: "VolunteerInvited",
-            at: now,
-            driveId,
-            volunteer: { id: DEMO_VOLUNTEER_ID, name: demoDisplayFor(drive)?.volunteerName ?? "Volunteer", payoutEmail, tokenHash: createHash("sha256").update(`demo:${driveId}:${randomSuffix()}`).digest("hex"), limitBase: null, firstReceiptCheck: false },
-            by: "demo coordinator",
-          },
-          "app",
-        );
-      }
+      if (this.invitesEnabled && payoutEmail) await this.seedDemoVolunteer(b, driveId, payoutEmail);
       await b.tx.insert(drives).values({
         id: driveId,
         title: drive.title,
@@ -624,14 +612,29 @@ export class PledgeService {
    * active volunteers; with `firstReceiptCheck` (the default) a person checks their
    * first receipt; `limitMinor` caps all they are paid, in the drive's currency.
    */
-  async inviteVolunteer(driveId: string, input: { name: string; payoutEmail: string; limitMinor?: number | null; by?: string; firstReceiptCheck?: boolean }): Promise<{ volunteerId: string; token: string; uploadPath: string }> {
+  async inviteVolunteer(
+    driveId: string,
+    input: { name: string; payoutEmail: string; limitMinor?: number | null; by?: string; firstReceiptCheck?: boolean },
+    auth: { coordinator?: boolean } = {},
+  ): Promise<{ volunteerId: string; token: string; uploadPath: string }> {
     if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+    const row = await this.driveRow(driveId);
+    this.requireCoordinator(row.demo, auth);
     const volunteerId = `vol-${randomSuffix()}`;
     const token = randomBytes(18).toString("base64url");
     const name = String(input.name ?? "").trim();
-    const limit = input.limitMinor === undefined || input.limitMinor === null ? null : Number(input.limitMinor);
+    const limit = input.limitMinor === undefined || input.limitMinor === null ? null : input.limitMinor;
+    if (limit !== null && (!Number.isSafeInteger(limit) || limit <= 0)) throw new ServiceError(400, "invalid_limit", "limitMinor must be a whole number of minor units above 0, or none.");
     await withDrive(this.db, driveId, async (b) => {
       if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+      // Receipts that reached the drive before any invitation (even ones still in review) are paid to its own
+      // address; once volunteers exist every payout names one. So the first invitation comes before any receipt.
+      if (b.state.volunteerIds.length === 0) {
+        const [{ n }] = await b.tx.select({ n: sql<number>`count(*)::int` }).from(receipts).where(eq(receipts.driveId, driveId));
+        if (n > 0) throw new ServiceError(409, "receipts_before_invites", "Invite volunteers before the drive's first receipt: receipts already sent here are paid to the drive's own address.");
+        // A demo drive made while invitations were off invites its own volunteer first, so the judges' path stays one click.
+        if (row.demo && row.payoutEmail) await this.seedDemoVolunteer(b, driveId, row.payoutEmail);
+      }
       try {
         await b.append(
           {
@@ -645,27 +648,62 @@ export class PledgeService {
           "app",
         );
       } catch (e) {
-        if (e instanceof CoreError) throw new ServiceError(400, "invalid_volunteer", e.message.replace(/^invalid_event: VolunteerInvited [^:]+: /, ""));
+        if (e instanceof CoreError) throw new ServiceError(400, "invalid_volunteer", e.message.replace(/^invalid_event: VolunteerInvited \S+: /, ""));
         throw e;
       }
     });
-    return { volunteerId, token, uploadPath: `/drives/${encodeURIComponent(driveId)}?volunteer=${encodeURIComponent(token)}` };
+    // The volunteer's own screen of this drive, with the token: their uploads carry it.
+    return { volunteerId, token, uploadPath: `/drive/${encodeURIComponent(driveId)}?as=volunteer&volunteer=${encodeURIComponent(token)}` };
+  }
+
+  /**
+   * On a real drive only the coordinator invites, removes and sets limits (Authorization: Bearer
+   * COORDINATOR_SECRET, checked by the route): payouts go to whoever is invited. A demo drive is open,
+   * as the rest of the demo is; it pays sandbox addresses only.
+   */
+  private requireCoordinator(demo: boolean, auth: { coordinator?: boolean }): void {
+    if (!demo && !auth.coordinator) throw new ServiceError(403, "coordinator_only", "Only the drive's coordinator invites volunteers and changes them.");
+  }
+
+  private async seedDemoVolunteer(b: DriveBook, driveId: string, payoutEmail: string): Promise<void> {
+    if (lookup(b.state.volunteers, DEMO_VOLUNTEER_ID)) return;
+    await b.append(
+      {
+        id: `volunteer:${driveId}:${DEMO_VOLUNTEER_ID}`,
+        type: "VolunteerInvited",
+        at: this.now(),
+        driveId,
+        volunteer: { id: DEMO_VOLUNTEER_ID, name: demoDisplayFor(b.state.drive!)?.volunteerName ?? "Volunteer", payoutEmail, tokenHash: createHash("sha256").update(`demo:${driveId}:${randomSuffix()}`).digest("hex"), limitBase: null, firstReceiptCheck: false },
+        by: "demo coordinator",
+      },
+      "app",
+    );
+  }
+
+  /** The demo's own volunteer stays as it is: the judges' one-click path rests on it. */
+  private requireChangeable(driveId: string, volunteerId: string): void {
+    if (volunteerId === DEMO_VOLUNTEER_ID) throw new ServiceError(403, "demo_volunteer", `The demo's own volunteer of ${driveId} cannot be removed or limited; invite another one to try it.`);
   }
 
   /** The coordinator removes a volunteer: their link stops, nothing new is paid to them (a payout in flight completes). */
-  async removeVolunteer(driveId: string, volunteerId: string, by = "coordinator"): Promise<{ volunteerId: string; removed: true }> {
-    if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+  async removeVolunteer(driveId: string, volunteerId: string, auth: { coordinator?: boolean } = {}, by = "coordinator"): Promise<{ volunteerId: string; removed: true }> {
+    const row = await this.driveRow(driveId);
+    this.requireCoordinator(row.demo, auth);
+    this.requireChangeable(driveId, volunteerId);
     await withDrive(this.db, driveId, async (b) => {
       if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
+      // Works whenever the drive has volunteers, even with invitations switched off: a compromised link must stop.
       if (!lookup(b.state.volunteers, volunteerId)) throw new ServiceError(404, "unknown_volunteer", `No volunteer ${volunteerId} on this drive.`);
       await b.append({ id: `volunteer-removed:${driveId}:${volunteerId}`, type: "VolunteerRemoved", at: this.now(), driveId, volunteerId, by }, "app");
     });
     return { volunteerId, removed: true };
   }
 
-  /** The coordinator changes a volunteer's limit; receipts that waited for it are paid now, within it. */
-  async setVolunteerLimit(driveId: string, volunteerId: string, limitMinor: number | null, by = "coordinator"): Promise<{ volunteerId: string; limitBase: number | null; commands: CommandReport[] }> {
-    if (!this.invitesEnabled) throw new ServiceError(404, "invites_disabled", "Inviting volunteers is not switched on.");
+  /** The coordinator changes a volunteer's limit; receipts whose payout waited for it are paid now, within it. */
+  async setVolunteerLimit(driveId: string, volunteerId: string, limitMinor: number | null, auth: { coordinator?: boolean } = {}, by = "coordinator"): Promise<{ volunteerId: string; limitBase: number | null; commands: CommandReport[] }> {
+    const row = await this.driveRow(driveId);
+    this.requireCoordinator(row.demo, auth);
+    this.requireChangeable(driveId, volunteerId);
     const cmds = await withDrive(this.db, driveId, async (b) => {
       if (!b.state.drive) throw new ServiceError(404, "unknown_drive", `No drive ${driveId}.`);
       if (!lookup(b.state.volunteers, volunteerId)) throw new ServiceError(404, "unknown_volunteer", `No volunteer ${volunteerId} on this drive.`);
@@ -673,27 +711,36 @@ export class PledgeService {
         // A double click (same moment, same limit) is the same event; any other change is a new one.
         await b.append({ id: `volunteer-limit:${driveId}:${volunteerId}:${this.now()}:${limitMinor ?? "none"}`, type: "VolunteerLimitSet", at: this.now(), driveId, volunteerId, limitBase: limitMinor, by }, "app");
       } catch (e) {
-        if (e instanceof CoreError) throw new ServiceError(400, "invalid_limit", e.message);
+        if (e instanceof CoreError) throw new ServiceError(400, "invalid_limit", e.message.replace(/^invalid_event: VolunteerLimitSet \S+: /, ""));
         throw e;
       }
-      // Funded receipts of this volunteer whose payout waited for the limit, oldest first, as far as the new limit goes.
-      const rows = await b.tx.select({ id: receipts.id, status: receipts.status, checks: receipts.checks }).from(receipts).where(eq(receipts.driveId, driveId)).orderBy(asc(receipts.uploadedAt));
-      const planned: Command[] = [];
-      for (const r of rows) {
-        if (r.status !== "funded" || (r.checks as { volunteerId?: string } | null)?.volunteerId !== volunteerId) continue;
-        if (!b.state.lineKeys.some((k) => k.startsWith(`${r.id}:`)) || (b.state.payouts[r.id] ?? []).some((a) => a.status === "pending")) continue;
-        const owed = receiptFundedBase(b.state, r.id) - (b.state.payouts[r.id] ?? []).filter((a) => a.status === "confirmed").reduce((x, a) => x + a.amount, 0);
-        if (owed <= 0 || payoutRefusal(b.state, r.id, volunteerId, owed)) continue;
-        const p = planPayout(b.state, r.id, volunteerId);
-        if (p) {
-          const [sent] = await this.submitPlanned(b, [p]);
-          if (sent) planned.push(sent as Command);
-        }
-      }
-      return planned as PayPalCommand[];
+      return this.payWaiting(b, driveId);
     });
     const state = await this.openBook(driveId);
     return { volunteerId, limitBase: state.volunteers[volunteerId].limitBase, commands: await this.execute(driveId, cmds) };
+  }
+
+  /**
+   * Receipts whose payout waited (checks.payoutWaits: over a volunteer's limit), oldest first: paid now if the
+   * rule allows it, and the mark cleared. Never a receipt whose payout failed: that one is retried as before.
+   */
+  private async payWaiting(b: DriveBook, driveId: string): Promise<PayPalCommand[]> {
+    const rows = await b.tx.select({ id: receipts.id, status: receipts.status, checks: receipts.checks }).from(receipts).where(eq(receipts.driveId, driveId)).orderBy(asc(receipts.uploadedAt));
+    const out: PayPalCommand[] = [];
+    for (const r of rows) {
+      const checks = (r.checks ?? {}) as { volunteerId?: string; payoutWaits?: string };
+      if (r.status !== "funded" || !checks.payoutWaits) continue;
+      const owed = receiptFundedBase(b.state, r.id) - (b.state.payouts[r.id] ?? []).filter((a) => a.status === "confirmed").reduce((x, a) => x + a.amount, 0);
+      if (owed <= 0 || (b.state.payouts[r.id] ?? []).some((a) => a.status === "pending")) continue;
+      if (payoutRefusal(b.state, r.id, checks.volunteerId, owed)) continue; // still waits
+      const p = planPayout(b.state, r.id, checks.volunteerId);
+      if (!p) continue;
+      out.push(...(await this.submitPlanned(b, [p])));
+      const { payoutWaits: _cleared, ...rest } = checks;
+      void _cleared;
+      await b.tx.update(receipts).set({ checks: rest }).where(eq(receipts.id, r.id));
+    }
+    return out;
   }
 
   /** Off unless switched on: the deps say so, or env RENEW_ENABLED is "1". */
@@ -919,6 +966,10 @@ export class PledgeService {
         known: known.map((k) => ({ receiptId: k.id, sha256: k.sha256, dHash: k.dhash, semanticKey: k.semanticKey, uploadedAt: toIso(k.uploadedAt) })),
         classifications: reading.classified.lines,
       });
+      // The coordinator may have removed the volunteer while the photo was being read: the book now decides.
+      if (volunteer && lookup(b.state.volunteers, volunteer.id)?.removedAt) {
+        throw new ServiceError(403, "volunteer_removed", "The coordinator removed this volunteer; this link no longer takes receipts.");
+      }
       if (volunteer) flags.push(...(await this.volunteerFlags(b, volunteer, reading.parsed)));
       await b.tx.insert(receipts).values({
         id: receiptId,
@@ -1014,8 +1065,12 @@ export class PledgeService {
       const vid = payTo.volunteerId ?? undefined;
       const owed = receiptFundedBase(b.state, receiptId) - (b.state.payouts[receiptId] ?? []).filter((a) => a.status === "confirmed").reduce((x, a) => x + a.amount, 0);
       const waits = (b.state.payouts[receiptId] ?? []).some((a) => a.status === "pending") ? null : payoutRefusal(b.state, receiptId, vid, owed);
-      if (waits) this.log("payout waits", { receiptId, why: waits }); // e.g. over the volunteer's limit: paid when the coordinator raises it
-      else {
+      if (waits) {
+        // e.g. over the volunteer's limit: marked on the receipt (the coordinator sees it) and paid when the limit allows
+        const [r] = await b.tx.select({ checks: receipts.checks }).from(receipts).where(eq(receipts.id, receiptId));
+        await b.tx.update(receipts).set({ checks: { ...((r?.checks ?? {}) as Record<string, unknown>), payoutWaits: waits } }).where(eq(receipts.id, receiptId));
+        this.log("payout waits", { receiptId, why: waits });
+      } else {
         const p = planPayout(b.state, receiptId, vid);
         if (p) planned.push(p);
       }
@@ -1038,7 +1093,7 @@ export class PledgeService {
     receiptId: string,
     decision: "approve" | "reject",
     reason: string,
-    opts: { lineNos?: number[]; by?: string; lineNeeds?: { lineNo: number; needId: string }[] } = {},
+    opts: { lineNos?: number[]; by?: string; lineNeeds?: { lineNo: number; needId: string }[]; coordinator?: boolean } = {},
   ): Promise<SubmitResult> {
     if (decision !== "approve" && decision !== "reject") throw new ServiceError(400, "invalid_decision", "decision must be approve or reject.");
     const text = String(reason ?? "").trim().slice(0, 500);
@@ -1057,6 +1112,15 @@ export class PledgeService {
     const cmds = await withDrive(this.db, head.driveId, async (b) => {
       const [r] = await b.tx.select().from(receipts).where(eq(receipts.id, receiptId));
       if (r.status !== "review") throw new ServiceError(409, "already_decided", `Receipt ${receiptId} is ${r.status}.`);
+      const vid = (r.checks as { volunteerId?: string } | null)?.volunteerId;
+      if (vid !== undefined) {
+        // A volunteer's receipt on a real drive: only the coordinator decides (a stranger could invite and approve themselves).
+        if (!row.demo && !opts.coordinator) throw new ServiceError(403, "coordinator_only", "Only the drive's coordinator decides on a volunteer's receipt.");
+        // Approving a removed volunteer's receipt would charge donors for a payout that can never be sent.
+        if (decision === "approve" && lookup(b.state.volunteers, vid)?.removedAt) {
+          throw new ServiceError(409, "volunteer_removed", "The coordinator removed this volunteer: their receipt can only be rejected.");
+        }
+      }
       const flags = ((r.checks as { flags?: ReceiptFlag[] } | null)?.flags ?? []) as ReceiptFlag[];
       const blocking = flags.filter((f) => f.severity === "block");
       if (decision === "approve" && blocking.length) {
