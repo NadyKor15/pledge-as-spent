@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { captureState, chainIds, holdAmounts, holdTag, holdTone, latestFunded, lineMoney, lineName, lineViews, needById, shareGroups, shareStage, shownHolds, type ShareGroup } from "./derive";
+import { captureState, chainIds, holdAmounts, holdTag, holdTone, latestFunded, lineMoney, lineName, lineViews, needById, refusedCount, shareGroups, shareStage, shownHolds, type ShareGroup } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
 import { donorParts, itemPhrase, lineRange, money, ofCount, pct, qtyText } from "./format";
@@ -336,6 +336,7 @@ function ReceiptColumn({ view, receipt: r, role }: { view: DriveView; receipt: R
   const lines = lineViews(view, r);
   const approved = lines.filter((l) => l.state === "approved");
   const refused = lines.filter((l) => l.state === "rejected");
+  const refusedLines = refusedCount(lines);
   const payout = view.payouts.find((p) => p.receiptId === r.id)?.attempts.at(-1);
   return (
     <section className={`${s.card} ${s.col} ${s.rcpt}`}>
@@ -371,7 +372,7 @@ function ReceiptColumn({ view, receipt: r, role }: { view: DriveView; receipt: R
           ))}
           {refused.length > 0 && (
             <h3 className={s.gap}>
-              Refused items ({refused.length} {refused.length === 1 ? "line" : "lines"})
+              Refused items ({refusedLines} {refusedLines === 1 ? "line" : "lines"})
             </h3>
           )}
           {refused.map((l) => (
