@@ -1,19 +1,19 @@
 {
   "note": "Receipt lines translated into a donor's language once, by Meta Muse Spark 1.3 (scripts/record-translations.ts), keyed by the line as printed. The showcase and the sample receipt read these: no model call on the demo.",
   "model": "muse-spark-1.3",
-  "recordedAt": "2026-11-10T03:08:44.035Z",
+  "recordedAt": "2026-11-10T03:10:12.450Z",
   "lines": {
     "de": {
-      "北空の天然水 2L 6本ケース": "北空 Naturwasser 2L 6er Kiste",
-      "雪解けの水 2L": "Schneeschmelzwasser 2L",
+      "北空の天然水 2L 6本ケース": "Natürliches Wasser 2L 6er Kasten",
+      "雪解けの水 2L": "Schmelzwasser 2L",
       "ミネラルウォーター 2Lペット": "Mineralwasser 2L Flasche",
-      "ソフトキッズ おむつ M 44枚": "ソフトキッズ Windeln M 44 Stück",
-      "ベビーラブ パンツ M": "ベビーラブ Höschenwindeln M",
-      "紙おむつ M 18枚 お試しパック": "Papierwindeln M 18 Stück Probepackung",
-      "アルカリ乾電池 単3 20本入": "Alkalibatterien AA 20 Stück",
-      "単3電池 10本入": "Batterien AA 10 Stück",
-      "単3 ばら": "Batterie AA lose",
-      "缶ビール 350ml 6缶": "Dosenbier 350ml 6 Dosen",
+      "ソフトキッズ おむつ M 44枚": "Soft kids Windeln M 44 Stück",
+      "ベビーラブ パンツ M": "Baby Höschenwindeln M",
+      "紙おむつ M 18枚 お試しパック": "Papierwindeln M 18 Testpackung",
+      "アルカリ乾電池 単3 20本入": "Alkali AA Batterien 20er Pack",
+      "単3電池 10本入": "AA Batterien 10er Pack",
+      "単3 ばら": "AA Batterie lose",
+      "缶ビール 350ml 6缶": "Dosenbier 350ml 6er Pack",
       "ギフトカード 3,000円": "Geschenkkarte 3000 Yen"
     },
     "ja": {

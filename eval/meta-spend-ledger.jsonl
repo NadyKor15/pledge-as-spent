@@ -634,3 +634,5 @@
 {"ts":"2026-11-10T03:08:35.861Z","id":"0c94d80d-11f8-4022-b339-e977dd1208e8","kind":"settle","ref":"5731e7f4-91fd-4450-b43c-979415de30b7","what":"read-meta:translate:record demo-810b24be50.r1 de (muse-spark-1.3)","usd":-0.004056,"runningUsd":2.693577}
 {"ts":"2026-11-10T03:08:35.947Z","id":"9b7d6969-05c4-44b1-b944-0947d83e1724","kind":"reserve","what":"read-meta:translate:record demo-810b24be50.r1 ja (muse-spark-1.3)","usd":0.014834,"runningUsd":2.708411}
 {"ts":"2026-11-10T03:08:44.011Z","id":"f7f6ff33-5d73-4df3-bec0-00618023cd91","kind":"settle","ref":"9b7d6969-05c4-44b1-b944-0947d83e1724","what":"read-meta:translate:record demo-810b24be50.r1 ja (muse-spark-1.3)","usd":-0.00992,"runningUsd":2.698491}
+{"ts":"2026-11-10T03:10:04.865Z","id":"381f6f23-10c0-449c-99a2-44f9ddb19372","kind":"reserve","what":"read-meta:translate:record demo-810b24be50.r1 de (muse-spark-1.3)","usd":0.014916,"runningUsd":2.713407}
+{"ts":"2026-11-10T03:10:12.448Z","id":"558a37e4-2053-4926-93c7-dfb6cb9a5697","kind":"settle","ref":"381f6f23-10c0-449c-99a2-44f9ddb19372","what":"read-meta:translate:record demo-810b24be50.r1 de (muse-spark-1.3)","usd":-0.009443,"runningUsd":2.703964}

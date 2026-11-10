@@ -35,7 +35,7 @@ const NAME: Record<Exclude<DonorLang, "en">, string> = { de: "German", ja: "Japa
 export function translateInstructions(lang: Exclude<DonorLang, "en">): string {
   return [
     `You translate lines of a shop receipt into ${NAME[lang]} for the person whose money paid for them.`,
-    "Each line: what was bought, as a shopper would say it, short (at most 8 words). Keep brand names, sizes, counts and units; translate everything else.",
+    "Each line: what was bought, as a shopper would say it, short (at most 8 words). Write brand names in Latin letters as in the English translation; keep sizes, counts and units; translate everything else.",
     "Do not add prices, explanations or anything that is not on the line.",
     'Answer with JSON only: {"lines":[{"n":<line number>,"t":"<translation>"}]}, one entry for every line you were given, in the same order.',
   ].join("\n");

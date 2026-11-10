@@ -21,12 +21,15 @@ const SHOWCASE = path.join(ROOT, "evidence/control-drive-20261109-810b24be50.jso
 
 async function main() {
   const live = process.argv.includes("--live");
+  // --lang de: record only that language (the others in the file stay as they are).
+  const only = process.argv.includes("--lang") ? process.argv[process.argv.indexOf("--lang") + 1] : null;
+  const langs = TRANSLATED.filter((l) => !only || l === only);
   const view = JSON.parse(readFileSync(SHOWCASE, "utf8")).drive as { receipts: { id: string; lines: { lineNo: number; text: string; translationEn: string }[] }[] };
   const receipt = view.receipts[0];
   const lines: LineToTranslate[] = receipt.lines.map((l) => ({ lineNo: l.lineNo, printed: l.text.trim(), english: (l.translationEn ?? "").trim() || l.text.trim() }));
   const ledger = new PrefixJsonlSpendLedger(LEDGER, "read-meta");
   const before = await ledger.total();
-  for (const lang of TRANSLATED) {
+  for (const lang of langs) {
     const lg = lang as "de" | "ja";
     const textChars = translateInstructions(lg).length + translateInput(lines).length;
     console.log(`${lang}: ${lines.length} lines, worst case $${worstCaseUsd(META_READ_MODEL, { textChars, toolSpecChars: 0, images: 0, maxTokens: TRANSLATE_MAX_OUTPUT }).toFixed(4)}`);
@@ -37,7 +40,7 @@ async function main() {
   if (!apiKey) throw new Error("META_MODEL_API_KEY is not set (run through tools/p3/with-meta-nadya.sh)");
   const cap = new SpendCap(ledger, META_READ_CAP_MAX_USD);
   const file = JSON.parse(readFileSync(OUT, "utf8")) as { lines: Record<string, Record<string, string>>; recordedAt: string | null };
-  for (const lang of TRANSLATED) {
+  for (const lang of langs) {
     const lg = lang as "de" | "ja";
     const made = await translateLines({ apiKey, baseUrl: process.env.META_MODEL_API_BASE_URL, cap, prefix: TRANSLATE_PREFIX }, { what: `record ${receipt.id}`, lang: lg, lines });
     file.lines[lg] = Object.fromEntries(lines.map((l) => [l.printed, made.get(l.lineNo)!]));
