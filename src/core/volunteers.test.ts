@@ -48,20 +48,24 @@ describe("volunteers: payouts only to invited, active volunteers, within their l
       ["maria", "Volunteer maria", "m***@example.com", true, 0, 0],
     ]);
     expect(JSON.stringify(lst)).not.toContain("haruto@example.com"); // the address itself never leaves the book's view
+    // the book refuses it too: after haruto's payout failed, a second one written by hand to maria
+    b.apply({ id: "pf1", at: T(2), driveId: "drv1", type: "PayoutFailed", receiptId: "r1", senderBatchId: cmd.senderBatchId, reason: "RECEIVER_UNREGISTERED" });
+    const toMaria = { id: "po-maria", at: T(3), driveId: "drv1", type: "PayoutSubmitted" as const, receiptId: "r1", senderBatchId: "pay:drv1:r1:2", amount: { currency: "JPY" as const, minor: 432 }, volunteerId: "maria" };
+    expect(() => b.apply(toMaria)).toThrow(/paid to haruto, not maria/);
   });
 
   it("refuses a payout to nobody, to a stranger, or to a removed volunteer once the drive invites volunteers", () => {
     const b = story();
     invite(b, "haruto");
     b.fund(line("r1", 1, "water", 4, 432), T(1));
-    expect(() => planPayout(b.state, "r1")).toThrow(/invited volunteer/);
+    expect(() => planPayout(b.state, "r1")).toThrow(/pays only an invited volunteer: the payout must name one/);
     expect(() => planPayout(b.state, "r1", "stranger")).toThrow(/stranger/);
     b.apply({ id: "rm", at: T(2), driveId: "drv1", type: "VolunteerRemoved", volunteerId: "haruto", by: "coordinator" });
     expect(() => planPayout(b.state, "r1", "haruto")).toThrow(/removed/);
     // a forged PayoutSubmitted is refused by the book too
     const forged = { id: "po-f", at: T(3), driveId: "drv1", type: "PayoutSubmitted" as const, receiptId: "r1", senderBatchId: "pay:drv1:r1", amount: { currency: "JPY" as const, minor: 432 }, volunteerId: "haruto" };
     expect(() => applyEvent(b.state, forged)).toThrow(/removed/);
-    expect(() => applyEvent(b.state, { ...forged, volunteerId: undefined })).toThrow(/invited volunteer/);
+    expect(() => applyEvent(b.state, { ...forged, volunteerId: undefined })).toThrow(/the payout must name one/);
   });
 
   it("keeps a drive without invitations as it was: the drive's own payout address, no volunteer named", () => {
@@ -81,6 +85,9 @@ describe("volunteers: payouts only to invited, active volunteers, within their l
     const p1 = planPayout(b.state, "r1", "haruto")!;
     b.apply(payoutSubmittedEvent(p1, T(1)));
     expect(() => planPayout(b.state, "r2", "haruto")).toThrow(/limit/); // 800 + 400 > 1000
+    // exactly at the boundary: one yen short is refused, the limit itself is allowed
+    b.apply({ id: "lim0", at: T(2), driveId: "drv1", type: "VolunteerLimitSet", volunteerId: "haruto", limitBase: 1199, by: "coordinator" });
+    expect(() => planPayout(b.state, "r2", "haruto")).toThrow(/limit/); // 1200 > 1199
     b.apply({ id: "lim", at: T(2), driveId: "drv1", type: "VolunteerLimitSet", volunteerId: "haruto", limitBase: 1200, by: "coordinator" });
     expect(planPayout(b.state, "r2", "haruto")).toMatchObject({ amount: { minor: 400 } });
     // a failed payout frees its part of the limit; a confirmed one keeps it

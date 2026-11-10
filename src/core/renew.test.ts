@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { LineFunded, PledgeRenewed } from "./events";
 import { applyEvent, availableMinor, uncommitted } from "./ledger";
-import { planCaptures, planClose, planHoldMaintenance } from "./plan";
+import { planCaptures, planClose, planExplicitReauthorize, planHoldMaintenance } from "./plan";
 import { rebindEvent } from "./rebind";
 import { chainStatement, planRenewals, renewalOffer, renewalPledge } from "./renew";
 import { Book, daysAfter, hoursAfter, line, makeDrive, makeNeed, T0 } from "./testing/builders";
@@ -157,6 +157,12 @@ describe("renew: findings of the money review, 10.11", () => {
     const forged = { ...renewalPledge(story().state, "lena", hoursAfter(2)), id: "lena.r2", paypal: { orderId: "O2" } };
     expect(() => applyEvent(b.state, { id: "pc-r2", at: hoursAfter(2), driveId: "drv1", type: "PledgeCreated", pledge: forged })).toThrow(/renewal_pending/);
     expect(planRenewals(b.state, hoursAfter(2)).map((e) => e.pledgeId)).toEqual([r1]);
+    // the planner holds to "one link per old hold" on its own, even given a book with two approved renewals of one
+    // hold (the book refuses to make one; this is the planner's own guard, e.g. for a journal from before that check)
+    const s = b.state;
+    const twin = { ...s.pledges[r1], id: "lena.twin" };
+    const two = { ...s, pledgeIds: [...s.pledgeIds, twin.id], pledges: { ...s.pledges, [twin.id]: twin }, holds: { ...s.holds, [twin.id]: { ...s.holds[r1], pledgeId: twin.id } } };
+    expect(planRenewals(two, hoursAfter(2)).map((e) => [e.pledgeId, e.fromPledgeId])).toEqual([[r1, "lena"]]);
   });
 
   it("#1 voids an approved renewal that can no longer be linked: its old hold was renewed by another, or withdrawn", () => {
@@ -177,6 +183,8 @@ describe("renew: findings of the money review, 10.11", () => {
     for (const e of planRenewals(b.state, hoursAfter(3))) b.apply(e);
     expect(b.state.holds[r1]).toMatchObject({ usable: 0, surplus: 2000 });
     expect(planHoldMaintenance(b.state, hoursAfter(3)).filter((c) => c.pledgeId === r1)).toMatchObject([{ kind: "void", reason: "renewed" }]);
+    // nor by hand on day 4, when a reauthorize would open: it would only keep the surplus held longer
+    expect(() => planExplicitReauthorize(b.state, r1, daysAfter(5))).toThrow(/nothing on this hold can still be charged/);
     // a renewal whose usable part is all promised: once its captures are in, its surplus is let go, not reauthorized
     const c = story();
     const r = renew(c, "lena", hoursAfter(1));
