@@ -4,7 +4,7 @@
 
 Your €20 for water can only buy water.
 
-In a 2024 BBB Wise Giving Alliance survey of U.S. and Canadian adults, the check rated "very important" most often was an independent review of how a charity spends its money (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
+In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
 
