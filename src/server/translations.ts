@@ -5,7 +5,7 @@ import { META_READ_MODEL } from "../receipts/meta";
 import { SpendCap } from "../receipts/spend";
 import { donorLang, translateLines, TRANSLATE_MAX_LINES, TRANSLATE_PREFIX, type DonorLang, type LineToTranslate } from "../receipts/translate";
 import type { DriveView } from "./service";
-import { PgMetaReadLedger } from "./spend";
+import { META_TRANSLATE_CAP_USD, PgMetaReadLedger } from "./spend";
 
 // The donor's statement shows each receipt line in the donor's language. Where a translation comes from, in order:
 // the recorded ones in the repo (the showcase and the sample receipt: never a call), the table of translations made
@@ -50,9 +50,22 @@ export function statementRowsToTranslate<R>(out: { statement: { rows: R[] }; cha
   return out.chain?.rows ?? out.statement.rows;
 }
 
+/**
+ * After a failed call (a bad answer, Meta refusing, the ceiling reached) the same receipt and language are not asked
+ * again for this long, in this instance: a failure is not kept in the table, and every German or Japanese statement
+ * opening would otherwise call Meta again and spend the reading's ceiling. Meanwhile: English, said so.
+ */
+export const TRANSLATE_RETRY_AFTER_MS = 10 * 60_000;
+
 export class LineTranslator {
   private readonly inFlight = new Map<string, Promise<Map<number, string> | null>>();
+  /** `receiptId:lang` → when its last call failed (ms). */
+  private readonly failedAt = new Map<string, number>();
   constructor(private readonly d: TranslatorDeps) {}
+
+  private nowMs(): number {
+    return (this.d.now?.() ?? new Date()).getTime();
+  }
 
   /** The donor's lines on their statement, in their language (the hold's country decides it). */
   async forStatement(view: DriveView, pledgeId: string, rows: { receiptId: string; lineNo: number }[]): Promise<StatementTranslation> {
@@ -106,16 +119,22 @@ export class LineTranslator {
     const key = `${receiptId}:${lang}`;
     const running = this.inFlight.get(key);
     if (running) return running;
+    const failed = this.failedAt.get(key);
+    if (failed !== undefined && this.nowMs() - failed < TRANSLATE_RETRY_AFTER_MS) return Promise.resolve(null);
     const p = (async () => {
       try {
-        const cap = new SpendCap(new PgMetaReadLedger(this.d.db, meta.capUsd), meta.capUsd, this.d.now);
+        // The reading's ceiling, and translations' own part of it (META_TRANSLATE_CAP_USD), in one locked step.
+        const ledger = new PgMetaReadLedger(this.d.db, meta.capUsd, { prefix: TRANSLATE_PREFIX, capUsd: META_TRANSLATE_CAP_USD });
+        const cap = new SpendCap(ledger, meta.capUsd, this.d.now);
         const made = await translateLines({ apiKey: meta.apiKey, baseUrl: meta.baseUrl, fetch: meta.fetch, cap, prefix: TRANSLATE_PREFIX }, { what: receiptId, lang, lines });
         const at = (this.d.now?.() ?? new Date()).toISOString();
         const rows = [...made].map(([lineNo, text]) => ({ receiptId, lineNo, lang, text, model: META_READ_MODEL, at }));
         if (rows.length) await this.d.db.insert(lineTranslations).values(rows).onConflictDoNothing();
+        this.failedAt.delete(key);
         return made;
       } catch (e) {
         this.d.log?.(`[translate] ${receiptId} ${lang}: ${(e as Error).message}`);
+        this.remember(key);
         return null;
       } finally {
         this.inFlight.delete(key);
@@ -123,5 +142,12 @@ export class LineTranslator {
     })();
     this.inFlight.set(key, p);
     return p;
+  }
+
+  /** A failed call, kept for the retry window; entries past it are dropped so the map stays small. */
+  private remember(key: string): void {
+    const now = this.nowMs();
+    this.failedAt.set(key, now);
+    if (this.failedAt.size > 1000) for (const [k, t] of this.failedAt) if (now - t >= TRANSLATE_RETRY_AFTER_MS) this.failedAt.delete(k);
   }
 }

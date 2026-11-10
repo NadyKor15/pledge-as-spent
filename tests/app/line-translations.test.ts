@@ -2,10 +2,10 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { openPglite } from "../../src/db/client";
-import { lineTranslations } from "../../src/db/schema";
+import { lineTranslations, spendLedger } from "../../src/db/schema";
 import { donorLang, parseTranslations, TRANSLATE_PREFIX } from "../../src/receipts/translate";
-import { PgMetaReadLedger } from "../../src/server/spend";
-import { LineTranslator, type RecordedTranslations } from "../../src/server/translations";
+import { META_TRANSLATE_CAP_USD, PgMetaReadLedger } from "../../src/server/spend";
+import { LineTranslator, TRANSLATE_RETRY_AFTER_MS, type RecordedTranslations } from "../../src/server/translations";
 import type { DriveView } from "../../src/ui/types";
 
 // The donor's statement lines in the donor's language (P1): recorded translations first (the showcase: no call), then
@@ -136,6 +136,63 @@ describe("LineTranslator", () => {
     const r2 = await new LineTranslator({ db: d, recorded: none, meta: { apiKey: "k", capUsd: 5, fetch: short.fetch } }).forStatement(v, holdOf(v, "Lena").pledgeId, rowsOf(v, "Lena"));
     expect([r2.unavailable, r2.lines.every((l) => l.source === "english")]).toEqual([true, true]);
     expect(await d.select().from(lineTranslations)).toHaveLength(0);
+  });
+});
+
+// A failed call is not kept in the table, and the statement asks on every open: without a stop each German or Japanese
+// opening called Meta again and ate the reading's $5. Two stops: translations' own part of the ceiling ($0.50 of the
+// `read-meta:translate:` rows, in the same ledger and lock), and no new call for the same receipt and language for ten
+// minutes after a failure, in this instance. Meta is a fake fetch: no live call.
+describe("translations never eat the reading's ceiling", () => {
+  const seed = (d: Awaited<ReturnType<typeof db>>, what: string, usd: number) => d.insert(spendLedger).values({ id: `seed-${what}`, ts: "2026-11-10T00:00:00.000Z", kind: "reserve", what, usd: usd.toFixed(6), ref: null });
+
+  it("a failure: the same statement opened again within ten minutes makes no call, English said so; after ten minutes, one", async () => {
+    const refusing = fakeMeta(german, 400);
+    let now = new Date("2026-11-10T08:00:00.000Z");
+    const t = new LineTranslator({ db: await db(), recorded: none, meta: { apiKey: "k", capUsd: 5, fetch: refusing.fetch }, now: () => now });
+    const v = showcase();
+    const open = () => t.forStatement(v, holdOf(v, "Lena").pledgeId, rowsOf(v, "Lena"));
+    expect((await open()).unavailable).toBe(true);
+    expect(refusing.calls).toHaveLength(1);
+    now = new Date(now.getTime() + TRANSLATE_RETRY_AFTER_MS - 1);
+    const again = await open();
+    expect([again.unavailable, again.lines.every((l) => l.source === "english")]).toEqual([true, true]);
+    expect(refusing.calls).toHaveLength(1);
+    now = new Date(now.getTime() + 1);
+    await open();
+    expect(refusing.calls).toHaveLength(2);
+  });
+
+  it("a failure for one receipt or language stops only that one: Yuki's Japanese is still asked", async () => {
+    const refusing = fakeMeta(german, 400);
+    const t = new LineTranslator({ db: await db(), recorded: none, meta: { apiKey: "k", capUsd: 5, fetch: refusing.fetch } });
+    const v = showcase();
+    await t.forStatement(v, holdOf(v, "Lena").pledgeId, rowsOf(v, "Lena"));
+    await t.forStatement(v, holdOf(v, "Yuki").pledgeId, rowsOf(v, "Yuki"));
+    expect(refusing.calls).toHaveLength(2);
+  });
+
+  it(`translations past their own $${META_TRANSLATE_CAP_USD.toFixed(2)}: no call, English said so, though the reading's $5 has room`, async () => {
+    const d = await db();
+    await seed(d, `${TRANSLATE_PREFIX}earlier (muse-spark)`, META_TRANSLATE_CAP_USD - 0.0001);
+    const meta = fakeMeta(german);
+    const r = await new LineTranslator({ db: d, recorded: none, meta: { apiKey: "k", capUsd: 5, fetch: meta.fetch } }).forStatement(showcase(), holdOf(showcase(), "Lena").pledgeId, rowsOf(showcase(), "Lena"));
+    expect(meta.calls).toHaveLength(0);
+    expect([r.unavailable, r.lines.every((l) => l.source === "english")]).toEqual([true, true]);
+    expect(await new PgMetaReadLedger(d, 5).total()).toBeLessThan(1);
+  });
+
+  it("the reading's own rows do not count against translations' part, and a reading is not stopped by it", async () => {
+    const d = await db();
+    await seed(d, "read-meta:receipt r-1 (muse-spark)", 2);
+    const meta = fakeMeta(german);
+    const r = await new LineTranslator({ db: d, recorded: none, meta: { apiKey: "k", capUsd: 5, fetch: meta.fetch } }).forStatement(showcase(), holdOf(showcase(), "Lena").pledgeId, rowsOf(showcase(), "Lena"));
+    expect(meta.calls).toHaveLength(1);
+    expect(r.unavailable).toBe(false);
+    await seed(d, `${TRANSLATE_PREFIX}more`, META_TRANSLATE_CAP_USD);
+    const ledger = new PgMetaReadLedger(d, 5, { prefix: TRANSLATE_PREFIX, capUsd: META_TRANSLATE_CAP_USD });
+    await expect(ledger.reserve({ ts: "2026-11-10T09:00:00.000Z", id: "read-1", kind: "reserve", what: "read-meta:receipt r-2 (muse-spark)", usd: 0.1 }, 5)).resolves.toBeGreaterThan(2);
+    await expect(ledger.reserve({ ts: "2026-11-10T09:00:00.000Z", id: "tr-1", kind: "reserve", what: `${TRANSLATE_PREFIX}r-2 de`, usd: 0.01 }, 5)).rejects.toThrow(/ceiling \$0\.50/);
   });
 });
 
