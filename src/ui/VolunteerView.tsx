@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { api, useAction, type ApiError } from "./api";
 import { classes } from "./cls";
-import { lineMoney, lineName, lineViews, payoutNote, readLabel, receiptChecks, refusedCount, shareGroups } from "./derive";
-import { LineOriginal } from "./LineOriginal";
+import { lineMoney, lineName, lineViews, ownLines, payoutNote, readLabel, receiptChecks, refusalSummary, shareGroups } from "./derive";
+import { LineDiscounts, LineOriginal } from "./LineOriginal";
 import { money, ofCount, titleParts, whenUtc } from "./format";
 import { driveBadge, roleHref } from "./Header";
 import { Check, Clock, Cross, Info, NeedIcon } from "./icons";
@@ -223,9 +223,11 @@ function Status({ icon, head, sub, meta, refresh }: { icon: React.ReactNode; hea
 function Result({ view, receipt: r, following, refresh, another }: { view: DriveView; receipt: Receipt; following: boolean; refresh: () => Promise<unknown>; another: () => void }) {
   const base = view.drive.baseCurrency;
   const lines = lineViews(view, r);
-  const approved = lines.filter((l) => l.state === "approved");
-  const refused = lines.filter((l) => l.state === "rejected");
-  const waiting = lines.filter((l) => l.state === "pending" || l.state === "review");
+  // A discount is shown inside the card of the line it is counted with, never as a line of its own.
+  const own = ownLines(lines);
+  const approved = own.filter((l) => l.state === "approved");
+  const refused = own.filter((l) => l.state === "rejected");
+  const waiting = own.filter((l) => l.state === "pending" || l.state === "review");
   const groups = shareGroups(view, r.id);
   const payout = view.payouts.find((p) => p.receiptId === r.id)?.attempts.at(-1);
   return (
@@ -277,7 +279,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
           {refused.length > 0 && (
             <>
               <span className={s.dot}>·</span>
-              <span className={s.no}>{refusedCount(lines)} refused</span>
+              <span className={s.no}>{refusalSummary(view, r, lines).count} refused</span>
             </>
           )}
         </div>
@@ -310,6 +312,7 @@ function Result({ view, receipt: r, following, refresh, another }: { view: Drive
               </div>
               <div className={s.why}>{l.reason}</div>
               <LineOriginal line={l} />
+              <LineDiscounts of={l} lines={lines} currency={r.currency} />
             </div>
           </div>
         ))}
