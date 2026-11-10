@@ -7,6 +7,8 @@ import { CHECK_WORDS } from "./paypal-check/words";
 // No check yet: the line says so, it never shows a "0" nobody counted.
 
 export interface ReconcileWords {
+  /** The dialog that lists the differences. */
+  title: string;
   checked: string;
   objects: (n: number) => string;
   differences: (n: number) => string;
@@ -20,6 +22,7 @@ export interface ReconcileWords {
 }
 
 const EN: ReconcileWords = {
+  title: "Daily check with PayPal",
   checked: "Checked with PayPal",
   objects: (n) => (n === 1 ? "1 object" : `${n} objects`),
   differences: (n) => (n === 1 ? "1 difference" : `${n} differences`),
@@ -31,6 +34,7 @@ const EN: ReconcileWords = {
 };
 
 const DE: ReconcileWords = {
+  title: "Täglicher Abgleich mit PayPal",
   checked: "Mit PayPal abgeglichen",
   objects: (n) => (n === 1 ? "1 Objekt" : `${n} Objekte`),
   differences: (n) => (n === 1 ? "1 Abweichung" : `${n} Abweichungen`),
@@ -42,6 +46,7 @@ const DE: ReconcileWords = {
 };
 
 const JA: ReconcileWords = {
+  title: "PayPal との毎日の照合",
   checked: "PayPal と照合済み",
   objects: (n) => `対象 ${n} 件`,
   differences: (n) => `相違 ${n} 件`,

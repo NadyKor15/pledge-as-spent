@@ -26,10 +26,15 @@ async function insideFooter(page: Page, line: Locator) {
   expect(box!.x + box!.width).toBeLessThanOrEqual(foot!.x + foot!.width + 0.5);
 }
 
-/** Everything else in the bottom line still fits in it with the new line there: the refusals, the rates, the links. */
+/**
+ * Everything else in the bottom line still fits in it with the new line there: the refusals, the rates, the links.
+ * Only what is shown: the closed dialog of differences sits in the bottom line's markup but takes no room in it.
+ */
 async function footerFits(page: Page) {
-  for (const part of await page.locator(".lg-foot > *").all()) await insideFooter(page, part);
-  for (const p of await page.locator(".lg-foot p").all()) await insideFooter(page, p);
+  for (const part of await page.locator(".lg-foot > *").filter({ visible: true }).all()) await insideFooter(page, part);
+  const shown = page.locator(".lg-foot p").filter({ visible: true });
+  expect(await shown.count()).toBeGreaterThan(0);
+  for (const p of await shown.all()) await insideFooter(page, p);
 }
 
 /** The element is what the browser shows at its own middle: not covered, not clipped away. */
@@ -65,7 +70,7 @@ test("the daily check with PayPal: not checked yet, then the cron's answer on th
   // The line itself (its list is in the same box, closed): textContent would read both.
   const text = line.locator(".rc-text");
   await expect(text).toHaveText(/^Checked with PayPal · [A-Z][a-z]{2} \d{1,2}, \d{2}:\d{2} UTC · 4 objects · 4 differences$/);
-  await expect(line.locator("time")).toHaveAttribute("datetime", kept.last.askedAt);
+  await expect(text.locator("time")).toHaveAttribute("datetime", kept.last.askedAt);
   await insideFooter(page, line);
   await footerFits(page);
   // The list opens in the top layer and names every hold with the book's word and PayPal's; each item is really on

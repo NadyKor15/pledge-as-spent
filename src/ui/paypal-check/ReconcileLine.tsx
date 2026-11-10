@@ -95,7 +95,7 @@ export function ReconcileLine({ driveId, lang = "en", variant }: { driveId: stri
       </button>
       <dialog ref={dialog} className="pc-dialog rc-dialog" lang={lang} aria-labelledby={titleId} data-testid="reconcile-dialog">
         <div className="pc-head">
-          <h2 id={titleId}>{RECONCILE_WORDS[lang].checked}</h2>
+          <h2 id={titleId}>{RECONCILE_WORDS[lang].title}</h2>
           <button type="button" className="pc-x" aria-label={CHECK_WORDS[lang].close} onClick={() => dialog.current?.close()}>
             ×
           </button>

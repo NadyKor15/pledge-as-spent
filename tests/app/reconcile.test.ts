@@ -10,7 +10,7 @@ import { loadForCheck, PayPalCheck, setPayPalCheckForTests, type CheckLimits, ty
 import { differenceOf, latestReconciliation, runReconciliation, summarize, type Reconciliation } from "../../src/server/reconcile";
 import { setServiceForTests } from "../../src/server/runtime";
 import { DEFAULT_SHOWCASE_DRIVE_ID } from "../../src/ui/showcase";
-import { reconcileLine } from "../../src/ui/reconcile-words";
+import { RECONCILE_WORDS, reconcileLine } from "../../src/ui/reconcile-words";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, ROOT, type Harness } from "./support/harness";
 
@@ -486,6 +486,17 @@ describe("Daily check with PayPal: the line, in the Ledger's three languages", (
     expect(reconcileLine(clean, "de").text).toMatch(/^Mit PayPal abgeglichen · 10\. Nov\.?,? 10:05 UTC · 9 Objekte · 0 Abweichungen$/);
     expect(reconcileLine(clean, "ja").text).toMatch(/^PayPal と照合済み · 11月10日\s?10:05 UTC · 対象 9 件 · 相違 0 件$/);
     for (const lang of ["en", "de", "ja"] as const) expect(reconcileLine(clean, lang).when).toEqual({ text: expect.stringContaining("10:05 UTC"), iso: "2026-11-10T10:05:12.000Z" });
+  });
+
+  it("every word of the line and its dialog exists in all three languages, and none is the English one left untranslated", () => {
+    const keys = Object.keys(RECONCILE_WORDS.en).sort();
+    for (const lang of ["de", "ja"] as const) {
+      expect(Object.keys(RECONCILE_WORDS[lang]).sort()).toEqual(keys);
+      for (const k of ["title", "checked", "notYet", "about", "ourBook"] as const) {
+        expect(RECONCILE_WORDS[lang][k]).not.toBe("");
+        expect(RECONCILE_WORDS[lang][k]).not.toBe(RECONCILE_WORDS.en[k]);
+      }
+    }
   });
 
   it("not checked yet: it says so, with no number nobody counted", () => {
