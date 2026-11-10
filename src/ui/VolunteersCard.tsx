@@ -26,6 +26,9 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
   const [link, setLink] = useState<{ name: string; url: string } | null>(null);
   const [editing, setEditing] = useState<{ id: string; value: string } | null>(null);
   if (!view.features?.invites && !view.volunteers?.length) return null;
+  // On a real drive only its coordinator invites and changes volunteers, with the coordinator's key, which this page does
+  // not send: the list is read-only here and says so, instead of buttons the server would answer with a refusal.
+  const canChange = view.features?.invites === true && view.drive.demo;
   const cur = view.drive.baseCurrency;
   // The limit as the server takes it: "none" for an empty field, whole minor units otherwise; a typo is null (blocked).
   const toLimit = (t: string): number | "none" | null => {
@@ -69,7 +72,8 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
           <span>{v.active ? `invited ${day(v.invitedAt)} by ${v.invitedBy}` : `removed ${day(v.removedAt)}`}</span>
           {v.id === "demo-volunteer" && <span>demo: the first-receipt check is skipped for this volunteer; on a real drive a person checks each new volunteer&apos;s first receipt</span>}
           {view.receipts.some((r) => r.volunteerId === v.id && r.payoutWaits) && <span style={{ color: "var(--wait)" }}>a payout waits for a higher limit</span>}
-          {v.active && view.features?.invites && (
+          {/* the demo's own volunteer stays as it is (the judges' path rests on it): no buttons the server would refuse */}
+          {v.active && canChange && v.id !== "demo-volunteer" && (
             <>
               {editing?.id === v.id ? (
                 <form style={{ display: "inline-flex", gap: 6 }} onSubmit={(e) => { e.preventDefault(); const l = toLimit(editing.value); if (l !== null) void change(v.id, { action: "limit", limitMinor: l }).then(() => setEditing(null)); }}>
@@ -88,7 +92,12 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
           )}
         </div>
       ))}
-      {view.features?.invites && (
+      {view.features?.invites && !view.drive.demo && (
+        <p style={p} data-testid="volunteers-coordinator-only">
+          On a real drive only its coordinator invites, limits and removes volunteers, with the drive&apos;s coordinator key. This page shows who is invited.
+        </p>
+      )}
+      {canChange && (
         <form style={{ ...row, marginTop: 12 }} onSubmit={(e) => { e.preventDefault(); void invite(); }} aria-label="Invite a volunteer">
           <input style={{ ...inp, flex: "1 1 120px" }} placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} aria-label="Volunteer's name" />
           <input style={{ ...inp, flex: "2 1 180px" }} placeholder="PayPal email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Volunteer's PayPal email" />
