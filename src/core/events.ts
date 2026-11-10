@@ -168,6 +168,19 @@ export interface RestCarried extends EventBase {
   consent: { by: string; via: "pledge_choice" };
 }
 
+/**
+ * The renewal `pledgeId` (approved) now carries on hold `fromPledgeId`. From this
+ * event on the old hold funds nothing new: what it has accrued is captured, then
+ * it is voided. The new hold may promise at most what the old one had not promised
+ * at this moment; the rest of the new authorization is never used (its surplus,
+ * let go at the void). Appended right after the renewal's authorization.
+ */
+export interface PledgeRenewed extends EventBase {
+  type: "PledgeRenewed";
+  pledgeId: string;
+  fromPledgeId: string;
+}
+
 export interface Reauthorized extends EventBase {
   type: "Reauthorized";
   pledgeId: string;
@@ -230,6 +243,7 @@ export type LedgerEvent =
   | PledgeRevoked
   | PledgeRebound
   | RestCarried
+  | PledgeRenewed
   | LineFunded
   | LineRejected
   | CaptureSubmitted
@@ -251,7 +265,7 @@ export type LedgerEventType = LedgerEvent["type"];
 // Commands are what the planners ask the PayPal side to do. They carry the
 // PayPal-Request-Id (or sender_batch_id) so a retry cannot act twice.
 
-export type CaptureReason = "age" | "threshold" | "expiry" | "closing" | "force" | "revoked";
+export type CaptureReason = "age" | "threshold" | "expiry" | "closing" | "force" | "revoked" | "renewed";
 
 export interface CaptureCommand {
   kind: "capture";
@@ -302,7 +316,7 @@ export interface VoidCommand {
   pledgeId: string;
   authorizationId: string;
   requestId: string;
-  reason: "close" | "revoked" | "capture_refused";
+  reason: "close" | "revoked" | "capture_refused" | "renewed";
 }
 
 export interface PayoutCommand {

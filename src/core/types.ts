@@ -91,6 +91,13 @@ export interface Pledge {
    * Donor pledges only.
    */
   rest?: RestChoice;
+  /**
+   * A renewal: the id of the donor's hold this new order carries on. PayPal ends
+   * a hold 29 days after the first approval and a reauthorize keeps that day, so
+   * going on needs a new order the donor approves again. Same donor, need, currency,
+   * rate and rest choice; at most what the old hold has not promised to a line.
+   */
+  renews?: string;
 }
 
 export type RestChoice = "release" | "carry";

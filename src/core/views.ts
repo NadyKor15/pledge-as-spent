@@ -47,6 +47,12 @@ export interface PledgeBalance {
   rest?: "release" | "carry";
   /** Carries that followed that choice, oldest first; absent until the first one. */
   carried?: { at: string; fromNeedId: string; toNeedId: string }[];
+  /** A renewal: the hold it carries on (absent otherwise). One donor's chain is one pledge on screens. */
+  renews?: string;
+  /** The approved renewal that carries this hold on (absent until then). */
+  renewedTo?: string;
+  /** A renewal: held at PayPal above what it may promise, never charged (absent on other holds). */
+  surplus?: number;
 }
 
 export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
@@ -77,6 +83,9 @@ export function pledgeBalance(s: LedgerState, pledgeId: string): PledgeBalance {
     // Only when the donor made a choice or the rest moved: views of books made before stay byte for byte the same.
     ...(pledge.rest !== undefined ? { rest: restOf(pledge) } : {}),
     ...(hold.carried?.length ? { carried: hold.carried.map((c) => ({ ...c })) } : {}),
+    ...(pledge.renews !== undefined ? { renews: pledge.renews } : {}),
+    ...(hold.renewedTo ? { renewedTo: hold.renewedTo } : {}),
+    ...(hold.surplus ? { surplus: hold.surplus } : {}),
   };
 }
 

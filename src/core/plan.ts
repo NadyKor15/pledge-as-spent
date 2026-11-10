@@ -99,6 +99,7 @@ export function planCaptures(s: LedgerState, now: string, opts: CaptureOptions =
     if (expiresAt - t <= CAPTURE_BEFORE_EXPIRY_MS) reasons.push("expiry");
     if (drive.status !== "open") reasons.push("closing");
     if (hold.revokedAt) reasons.push("revoked");
+    if (hold.renewedTo) reasons.push("renewed"); // the renewal carries on: capture what is owed, then void
     if (opts.force) reasons.push("force");
     if (reasons.length > 0) {
       out.push(captureCommand(drive, pledge, hold, { seq: hold.nextSeq, amount: hold.accrued, shares: hold.accruals }, reasons, false));
@@ -125,6 +126,7 @@ export function captureSubmittedEvent(cmd: E.CaptureCommand, at: string): E.Capt
 function reauthBlocker(s: LedgerState, pledge: Pledge, hold: HoldBook, now: string): string | null {
   if (!isLiveStatus(pledge.status)) return `hold is ${pledge.status}`;
   if (hold.revokedAt) return "pledge was revoked";
+  if (hold.renewedTo) return `hold was renewed by ${hold.renewedTo}`;
   if (requireDrive(s).status !== "open") return "drive is closing";
   if (pledge.paymentSource !== "paypal") return "only PayPal-account holds can be reauthorized";
   const day = dayIndex(pledge.authorizedAt!, now);
@@ -167,7 +169,7 @@ const readyToVoid = (pledge: Pledge, hold: HoldBook): boolean =>
 
 /**
  * SPEC §5: reauthorize once from day 4 (PayPal-account holds only), ask for a
- * renewal from day 26, expire on day 29, void a revoked hold once its accrued
+ * renewal from day 26, expire on day 29, void a revoked or renewed hold once its accrued
  * shares are captured, void a hold whose capture was refused for good, and void
  * any hold still holding money once the drive is closing or closed (a donor may
  * approve after the close).
@@ -184,8 +186,8 @@ export function planHoldMaintenance(s: LedgerState, now: string): E.MaintenanceC
       out.push({ kind: "expire", driveId: drive.id, pledgeId: id });
       continue;
     }
-    if (hold.revokedAt || hold.blockedAt) {
-      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : "revoked"));
+    if (hold.revokedAt || hold.blockedAt || hold.renewedTo) {
+      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : hold.renewedTo ? "renewed" : "revoked"));
       continue;
     }
     if (drive.status !== "open") {

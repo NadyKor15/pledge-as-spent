@@ -27,5 +27,11 @@ export const payoutSenderBatchId = (driveId: string, receiptId: string, attempt:
 /** One rebind per hold: a second press, or a race of two, maps to the same event and is applied once. */
 export const rebindEventId = (driveId: string, pledgeId: string): string => `rebind:${driveId}:${pledgeId}`;
 
+/** The n-th renewal pledge of a hold: a double click derives the same id, so PayPal replays the same order. */
+export const renewalPledgeId = (pledgeId: string, attempt: number): string => `${pledgeId}.r${attempt}`;
+
+/** The link of an approved renewal to its old hold, once. */
+export const renewedEventId = (driveId: string, renewalPledgeId: string): string => `renewed:${driveId}:${renewalPledgeId}`;
+
 /** One carry per hold and covered need: a need stays covered, so the same carry can never be planned twice. */
 export const carryEventId = (driveId: string, pledgeId: string, fromNeedId: string): string => `carry:${driveId}:${pledgeId}:${fromNeedId}`;

@@ -13,6 +13,7 @@ import {
   isLiveStatus,
   type LedgerState,
   matchRatio,
+  promised,
   receiptFundedBase,
   replay,
   uncommitted,
@@ -32,6 +33,7 @@ import {
 } from "./plan";
 import { rebindEvent } from "./rebind";
 import { planCarries } from "./carry";
+import { planRenewals, renewalChain, renewalPledge } from "./renew";
 import { arbRate, CURRENCIES, RUNS } from "./testing/arbitraries";
 import { makeDrive, makePledge } from "./testing/builders";
 import { classifyCaptureFailure, MAX_CAPTURE_ATTEMPTS } from "./refusals";
@@ -56,7 +58,9 @@ type Op =
   | { k: "authorize"; pick: number; source: PaymentSource }
   | { k: "newPledge"; needIdx: number; curIdx: number; minor: number; match: boolean }
   | { k: "payout"; pick: number; ok: boolean }
-  | { k: "rebind"; pick: number; needIdx: number; repeat: boolean };
+  | { k: "rebind"; pick: number; needIdx: number; repeat: boolean }
+  | { k: "renew"; pick: number; approve: "now" | "later" | "card" }
+  | { k: "approveRenewal"; pick: number; deny: boolean };
 
 interface LineSpec {
   needIdx: number;
@@ -95,6 +99,8 @@ const arbOp: fc.Arbitrary<Op> = fc.oneof(
   { weight: 3, arbitrary: fc.record({ k: fc.constant("payout" as const), pick: fc.nat(), ok: fc.boolean() }) },
   { weight: 1, arbitrary: fc.record({ k: fc.constant("outage" as const), pick: fc.nat() }) },
   { weight: 2, arbitrary: fc.record({ k: fc.constant("rebind" as const), pick: fc.nat(), needIdx: fc.nat(), repeat: fc.boolean() }) },
+  { weight: 2, arbitrary: fc.record({ k: fc.constant("renew" as const), pick: fc.nat(), approve: fc.constantFrom<"now" | "later" | "card">("now", "later", "card") }) },
+  { weight: 1, arbitrary: fc.record({ k: fc.constant("approveRenewal" as const), pick: fc.nat(), deny: fc.boolean() }) },
 );
 
 const arbScenario = fc.record({
@@ -217,6 +223,22 @@ function checkState(s: LedgerState): void {
     }
   }
   for (const id of s.needIds) must(s.qtyCovered[id] <= s.needs[id].qtyNeeded, "need never over-covered", id);
+  // Renewals: a chain (first hold -> linked renewals) never promises more than the donor's first hold.
+  for (const id of s.pledgeIds) {
+    const p = s.pledges[id];
+    const h = s.holds[id];
+    if (p.renews !== undefined) {
+      const linked = h.usable !== undefined;
+      if (!linked) must(promised(h) === 0 && availableMinor(p, h) === 0, "an unlinked renewal promises nothing", { id });
+      else must(h.usable! + (h.surplus ?? 0) <= h.authorized && promised(h) <= h.usable!, "a linked renewal promises at most its usable part", { id, h: { usable: h.usable, surplus: h.surplus, authorized: h.authorized } });
+      continue;
+    }
+    if (h.authorized === 0) continue;
+    const chain = renewalChain(s, id);
+    const total = chain.reduce((a, c) => a + promised(s.holds[c]), 0);
+    must(total <= h.authorized, "a renewal chain never promises more than the first hold", { id, chain, total, authorized: h.authorized });
+    for (const c of chain.slice(0, -1)) must(availableMinor(s.pledges[c], s.holds[c]) === 0, "a renewed hold funds nothing new", { c });
+  }
 }
 
 function checkLine(pre: LedgerState, line: FundableLineInput, ev: LedgerEvent, now: string): void {
@@ -596,7 +618,77 @@ class Sim {
         return this.payout(op.pick, op.ok);
       case "rebind":
         return this.rebind(op.pick, op.needIdx, op.repeat);
+      case "renew":
+        return this.renew(op.pick, op.approve);
+      case "approveRenewal":
+        return this.approveRenewal(op.pick, op.deny);
     }
+  }
+
+  renewed = 0;
+
+  /** The donor presses "Renew": an independent reading of the rules decides if the book takes it. */
+  renew(pick: number, approve: "now" | "later" | "card") {
+    const s = this.state;
+    const donors = s.pledgeIds.filter((x) => s.pledges[x].kind === "donor");
+    if (donors.length === 0) return;
+    const id = pick % 7 === 0 ? s.pledgeIds[pick % s.pledgeIds.length] : donors[pick % donors.length];
+    const p = s.pledges[id];
+    const h = s.holds[id];
+    const last = h.renewals?.[h.renewals.length - 1];
+    const pending = last !== undefined && s.pledges[last].status === "pending_approval" && !s.holds[last].revokedAt;
+    const may =
+      s.drive!.status === "open" &&
+      p.kind === "donor" &&
+      !h.renewedTo &&
+      isLiveStatus(p.status) &&
+      !h.revokedAt &&
+      !h.blockedAt &&
+      Date.parse(this.now) < Date.parse(p.expiresAt!) &&
+      !pending &&
+      availableMinor(p, h) > 0;
+    if (!may) {
+      expect(() => renewalPledge(s, id, this.now)).toThrow(/renewal_refused/);
+      return;
+    }
+    const pledge = renewalPledge(s, id, this.now);
+    expect(pledge).toMatchObject({ renews: id, donorName: p.donorName, needId: p.needId, amount: { currency: p.amount.currency, minor: availableMinor(p, h) }, fx: p.fx });
+    this.apply({ id: this.id("pc"), at: this.now, driveId: "drv1", type: "PledgeCreated", pledge: { ...pledge, paypal: { orderId: `ORDER-${pledge.id}` } } });
+    // a double click asks for the same pledge id (PayPal replays the same order) and the book refuses a second one
+    expect(() => renewalPledge(this.state, id, this.now)).toThrow(/renewal_pending/);
+    if (approve !== "later") this.approveRenewalOf(pledge.id, approve === "card" ? "card" : "paypal");
+  }
+
+  approveRenewal(pick: number, deny: boolean) {
+    const s = this.state;
+    const waiting = s.pledgeIds.filter((x) => s.pledges[x].renews !== undefined && s.pledges[x].status === "pending_approval");
+    if (waiting.length === 0) return;
+    const id = waiting[pick % waiting.length];
+    if (deny) this.apply({ id: this.id("pd"), at: this.now, driveId: "drv1", type: "PledgeDenied", pledgeId: id });
+    else this.approveRenewalOf(id, "paypal");
+  }
+
+  approveRenewalOf(id: string, source: PaymentSource) {
+    const oldId = this.state.pledges[id].renews!;
+    const oldBefore = this.state.holds[oldId];
+    const unpromisedBefore = (oldBefore.usable ?? oldBefore.authorized) - promised(oldBefore);
+    this.apply({ id: this.id("pa"), at: this.now, driveId: "drv1", type: "PledgeAuthorized", pledgeId: id, authorizationId: `AUTH-${id}`, paymentSource: source });
+    // authorized, not linked: it funds nothing until the link
+    must(availableMinor(this.state.pledges[id], this.state.holds[id]) === 0, "an unlinked renewal funds nothing", { id });
+    const links = planRenewals(this.state, this.now).filter((e) => e.pledgeId === id);
+    if (this.state.holds[oldId].renewedTo || !isLiveStatus(this.state.pledges[id].status)) {
+      expect(links).toEqual([]);
+      return;
+    }
+    expect(links).toHaveLength(1);
+    this.apply(links[0]);
+    const nh = this.state.holds[id];
+    const carry = oldBefore.revokedAt ? 0 : Math.min(nh.authorized, Math.max(0, unpromisedBefore));
+    must(nh.usable === carry && nh.surplus === nh.authorized - carry, "the renewal carries exactly what the old hold never promised", { id, carry, usable: nh.usable });
+    expect(applyEvent(this.state, links[0])).toBe(this.state);
+    expect(planRenewals(this.state, this.now).filter((e) => e.pledgeId === id)).toEqual([]);
+    this.renewed += 1;
+    this.carry();
   }
 
   /** The donor moves the rest of a hold to another need; an independent reading of the rules decides if it may. */
@@ -705,11 +797,13 @@ describe("engine properties (SPEC §3-§6)", () => {
   it("random drives keep every money invariant from first pledge to close", () => {
     let movedRuns = 0;
     let carriedRuns = 0;
+    let renewedRuns = 0;
     fc.assert(
       fc.property(arbScenario, (sc) => {
         const sim = runScenario(sc);
         if (sim.rebinds.size > 0) movedRuns += 1;
         if (sim.carries > 0) carriedRuns += 1;
+        if (sim.renewed > 0) renewedRuns += 1;
         sim.close();
         const s = sim.state;
         expect(s.drive!.status).toBe("closed");
@@ -735,6 +829,7 @@ describe("engine properties (SPEC §3-§6)", () => {
     // the rebind and carry rules were really exercised, not refused in every run
     expect(movedRuns).toBeGreaterThan(0);
     expect(carriedRuns).toBeGreaterThan(0);
+    expect(renewedRuns).toBeGreaterThan(0);
   }, 600_000);
 
   it("the split does not depend on the order pledges were made in", () => {
