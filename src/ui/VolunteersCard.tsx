@@ -27,16 +27,20 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
   const [editing, setEditing] = useState<{ id: string; value: string } | null>(null);
   if (!view.features?.invites && !view.volunteers?.length) return null;
   const cur = view.drive.baseCurrency;
-  const toMinor = (t: string): number | null => {
+  // The limit as the server takes it: "none" for an empty field, whole minor units otherwise; a typo is null (blocked).
+  const toLimit = (t: string): number | "none" | null => {
     const v = t.trim().replace(/,/g, "");
-    if (!v) return null;
-    if (!/^\d+(\.\d{1,2})?$/.test(v)) return NaN;
-    return cur === "JPY" ? Number(v) : Math.round(Number(v) * 100);
+    if (!v) return "none";
+    const ok = cur === "JPY" ? /^\d+$/.test(v) : /^\d+(\.\d{1,2})?$/.test(v);
+    if (!ok) return null;
+    const n = cur === "JPY" ? Number(v) : Math.round(Number(v) * 100);
+    return n > 0 ? n : null;
   };
+  const badLimit = toLimit(limit) === null;
   const base = `/api/drives/${encodeURIComponent(view.drive.id)}/volunteers`;
   const invite = () =>
     action.run("invite", async () => {
-      const r = await api<{ token: string; uploadPath: string }>(base, { json: { name, payoutEmail: email, limitMinor: toMinor(limit) } });
+      const r = await api<{ token: string; uploadPath: string }>(base, { json: { name, payoutEmail: email, limitMinor: toLimit(limit) } });
       setLink({ name, url: `${window.location.origin}${r.uploadPath}` });
       setName("");
       setEmail("");
@@ -63,13 +67,14 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
           </span>
           <span>{v.limitBase === null ? "no limit" : `limit ${money(cur, v.limitBase)}`}</span>
           <span>{v.active ? `invited ${day(v.invitedAt)} by ${v.invitedBy}` : `removed ${day(v.removedAt)}`}</span>
-          {v.id === "demo-volunteer" && <span>demo: receipts are funded at once; on a real drive a person checks each new volunteer&apos;s first receipt</span>}
+          {v.id === "demo-volunteer" && <span>demo: the first-receipt check is skipped for this volunteer; on a real drive a person checks each new volunteer&apos;s first receipt</span>}
+          {view.receipts.some((r) => r.volunteerId === v.id && r.payoutWaits) && <span style={{ color: "var(--wait)" }}>a payout waits for a higher limit</span>}
           {v.active && view.features?.invites && (
             <>
               {editing?.id === v.id ? (
-                <form style={{ display: "inline-flex", gap: 6 }} onSubmit={(e) => { e.preventDefault(); void change(v.id, { action: "limit", limitMinor: toMinor(editing.value) }).then(() => setEditing(null)); }}>
-                  <input style={{ ...inp, width: 110 }} autoFocus inputMode="decimal" placeholder="no limit" value={editing.value} onChange={(e) => setEditing({ id: v.id, value: e.target.value })} aria-label={`New limit for ${v.name} in ${cur}, empty for none`} />
-                  <button type="submit" style={btn} disabled={action.busy === `v-${v.id}`}>Save</button>
+                <form style={{ display: "inline-flex", gap: 6 }} onSubmit={(e) => { e.preventDefault(); const l = toLimit(editing.value); if (l !== null) void change(v.id, { action: "limit", limitMinor: l }).then(() => setEditing(null)); }}>
+                  <input style={{ ...inp, width: 110 }} autoFocus inputMode="decimal" placeholder="no limit" value={editing.value} onChange={(e) => setEditing({ id: v.id, value: e.target.value })} aria-invalid={toLimit(editing.value) === null} aria-label={`New limit for ${v.name} in ${cur}, empty for none`} />
+                  <button type="submit" style={btn} disabled={action.busy === `v-${v.id}` || toLimit(editing.value) === null}>Save</button>
                 </form>
               ) : (
                 <button type="button" style={quiet} disabled={action.busy === `v-${v.id}`} onClick={() => setEditing({ id: v.id, value: v.limitBase === null ? "" : String(cur === "JPY" ? v.limitBase : v.limitBase / 100) })}>
@@ -88,7 +93,7 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
           <input style={{ ...inp, flex: "1 1 120px" }} placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} aria-label="Volunteer's name" />
           <input style={{ ...inp, flex: "2 1 180px" }} placeholder="PayPal email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Volunteer's PayPal email" />
           <input style={{ ...inp, flex: "0 1 110px" }} placeholder={`Limit, ${cur}`} inputMode="decimal" value={limit} onChange={(e) => setLimit(e.target.value)} aria-label={`Limit in ${cur}, optional`} />
-          <button type="submit" style={btn} disabled={action.busy === "invite" || !name.trim() || !email.trim()}>
+          <button type="submit" style={btn} disabled={action.busy === "invite" || !name.trim() || !email.trim() || badLimit} title={badLimit ? `A limit is a plain amount in ${cur}, like 500` : undefined}>
             {action.busy === "invite" ? "Inviting…" : "Invite"}
           </button>
         </form>
