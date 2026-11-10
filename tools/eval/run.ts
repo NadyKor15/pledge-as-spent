@@ -1,5 +1,5 @@
 // Benchmark: how well a reader + classifier pass the receipt sets, scored against ground truth.
-//   npm run eval -- --reader recorded|nova-lite|nova-pro|ocr-lite|ocr-pro|ocr-mix|meta|meta-replay --set v1|adversarial|hero|holdout [--classifier <same choices>]
+//   npm run eval -- --reader recorded|meta|meta-replay --set v1|adversarial|hero|holdout|holdout2 [--classifier <same choices>]
 // meta: Meta's Muse Spark reads each photo twice (whole photo, numbered rows) and a line passes only when both agree;
 // it needs META_MODEL_API_KEY and spends from eval/meta-spend-ledger.jsonl (entries "read-meta-eval:", ceiling
 // META_SPEND_MAX_USD, default $5). meta-replay re-runs the comparison on the saved answers in eval/live/meta, no model.
@@ -9,14 +9,10 @@ import { createHash } from "node:crypto";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { BedrockNovaClassifier, BedrockNovaReader, NOVA_MODELS, createBedrockClient } from "../../src/receipts/bedrock";
-import { OcrNovaReader, TesseractEngine, type ReadTrace } from "../../src/receipts/ocr";
-import { RefiningClassifier } from "../../src/receipts/quantity";
-import { TwoPassReader } from "../../src/receipts/twopass";
 import { checkReceipt, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { RecordedClassifier, RecordedReader, Recordings, classificationKey, receiptKey } from "../../src/receipts/recorded";
 import { AgreeingClassifier, MetaRawClassifier, MetaThirdReader, MetaTwoReadings, RecordedRawClassifier } from "../../src/receipts/meta-reader";
-import { JsonlSpendLedger, PrefixJsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
+import { PrefixJsonlSpendLedger, SpendCap } from "../../src/receipts/spend";
 import { sha256Hex } from "../../src/receipts/hash";
 import { LineClassification as LineClassificationSchema, ParsedReceipt as ParsedReceiptSchema, SecondReading as SecondReadingSchema, type Agreement, type LineClassification, type LineClassifier, type ModelUsage, type ParsedReceipt, type ReceiptReader, type SecondReading } from "../../src/receipts/types";
 import { HERO_NEEDS, SCENARIOS } from "../receipts/scenario";
@@ -279,7 +275,7 @@ ${r.errors.length ? `\n## Errors\n\n${r.errors.map((e) => `- ${e.id} (${e.stage}
 }
 
 /** One replayable file per receipt: the reading, the classifications, what they cost, and any error. */
-async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0] & { trace?: ReadTrace | null }) {
+async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onReceipt"]>>[0]) {
   await mkdir(dir, { recursive: true });
   const bytes = await readFile(path.join(SETS, x.truth.set, x.truth.image.file));
   const sc = x.truth.locale === "ja" && x.truth.set === "hero" ? { ...SCENARIOS.ja, needs: HERO_NEEDS } : SCENARIOS[x.truth.locale];
@@ -296,7 +292,6 @@ async function saveLive(dir: string, x: Parameters<NonNullable<EvalInput["onRece
     ...(x.agreement ? { rawClassifications: x.agreement.raw } : {}),
     latencyMs: x.latencyMs,
     errors: x.errors,
-    trace: x.trace ?? null,
   };
   await writeFile(path.join(dir, `${x.truth.id}.json`), JSON.stringify(rec, null, 1) + "\n");
 }
@@ -313,9 +308,8 @@ export async function loadLiveRecordings(dir: string): Promise<Recordings> {
   return Recordings.parse(rec);
 }
 
-type Choice = "recorded" | "nova-lite" | "nova-pro" | "nova-lite-2pass" | "nova-pro-2pass" | "ocr-lite" | "ocr-pro" | "ocr-mix" | "meta" | "meta-replay";
-const CHOICES: Choice[] = ["recorded", "nova-lite", "nova-pro", "nova-lite-2pass", "nova-pro-2pass", "ocr-lite", "ocr-pro", "ocr-mix", "meta", "meta-replay"];
-const META_CHOICES: Choice[] = ["meta", "meta-replay"];
+type Choice = "recorded" | "meta" | "meta-replay";
+const CHOICES: Choice[] = ["recorded", "meta", "meta-replay"];
 
 /** The Meta measure's ledger entries; the measure's ceiling counts only these. */
 export const META_EVAL_PREFIX = "read-meta-eval:";
@@ -341,32 +335,15 @@ export async function loadMetaRecordings(dir: string) {
   };
   return { reader, classifier: new AgreeingClassifier(new RecordedRawClassifier((p) => byReading.get(receiptKey(p)))) };
 }
-const OCR_CHOICES: Choice[] = ["ocr-lite", "ocr-pro", "ocr-mix"];
-/** The model that classifies lines for a reader choice: the reader's own model (ocr-mix: Lite copies the numbers, Pro does the rest). */
-const classifierFor = (c: Choice): Choice => (META_CHOICES.includes(c) ? c : c === "ocr-lite" ? "nova-lite" : c === "ocr-pro" || c === "ocr-mix" ? "nova-pro" : (c.replace(/-2pass$/, "") as Choice));
 
-const TESSDATA = path.join(ROOT, "vendor/tessdata");
-
-async function build(choice: Choice, ledger: SpendCap | null, recordings: Recordings, engine: TesseractEngine, trace?: (t: ReadTrace) => void) {
+async function build(choice: Choice, recordings: Recordings) {
   if (choice === "recorded") return { reader: new RecordedReader(recordings), classifier: new RecordedClassifier(recordings) };
   if (choice === "meta-replay") return loadMetaRecordings(process.env.EVAL_REPLAY_DIR ? path.resolve(process.env.EVAL_REPLAY_DIR) : path.join(ROOT, "eval/live/meta"));
-  if (choice === "meta") {
-    const apiKey = process.env.META_MODEL_API_KEY;
-    if (!apiKey) throw new Error("META_MODEL_API_KEY is not set: run through tools/p3/with-meta-nadya.sh");
-    const metaCap = new SpendCap(new PrefixJsonlSpendLedger(path.join(ROOT, "eval/meta-spend-ledger.jsonl"), META_EVAL_PREFIX), Number(process.env.META_SPEND_MAX_USD ?? "5"));
-    const o = { apiKey, cap: metaCap, prefix: META_EVAL_PREFIX, ...(process.env.META_MODEL_API_BASE_URL ? { baseUrl: process.env.META_MODEL_API_BASE_URL } : {}) };
-    return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), cap: metaCap };
-  }
-  const cap = ledger!;
-  const client = createBedrockClient();
-  const modelId = choice === "nova-lite" || choice === "nova-lite-2pass" || choice === "ocr-lite" ? NOVA_MODELS.lite : NOVA_MODELS.pro;
-  const inner = new BedrockNovaClassifier({ client, cap, modelId });
-  // The OCR readers' classifier answers go through the deterministic quantity and forbidden-name checks.
-  const isOcr = OCR_CHOICES.includes(choice);
-  const classifier = isOcr ? new RefiningClassifier(inner) : inner;
-  if (choice.endsWith("-2pass")) return { reader: new TwoPassReader({ client, cap, modelId }), classifier };
-  if (isOcr) return { reader: new OcrNovaReader({ client, cap, modelId, engine, numbersModelId: choice === "ocr-mix" ? NOVA_MODELS.lite : modelId, trace }), classifier };
-  return { reader: new BedrockNovaReader({ client, cap, modelId }), classifier };
+  const apiKey = process.env.META_MODEL_API_KEY;
+  if (!apiKey) throw new Error("META_MODEL_API_KEY is not set: run through tools/p3/with-meta-nadya.sh");
+  const metaCap = new SpendCap(new PrefixJsonlSpendLedger(path.join(ROOT, "eval/meta-spend-ledger.jsonl"), META_EVAL_PREFIX), Number(process.env.META_SPEND_MAX_USD ?? "5"));
+  const o = { apiKey, cap: metaCap, prefix: META_EVAL_PREFIX, ...(process.env.META_MODEL_API_BASE_URL ? { baseUrl: process.env.META_MODEL_API_BASE_URL } : {}) };
+  return { reader: new MetaTwoReadings(o), classifier: new AgreeingClassifier(new MetaRawClassifier(o), new MetaThirdReader(o)), cap: metaCap };
 }
 
 async function main() {
@@ -375,23 +352,18 @@ async function main() {
   const readerChoice = arg("reader") as Choice | undefined;
   const set = arg("set") as SetName | undefined;
   if (!readerChoice || !CHOICES.includes(readerChoice) || !set || !["v1", "adversarial", "hero", "holdout", "holdout2"].includes(set)) {
-    throw new Error(`usage: npm run eval -- --reader ${CHOICES.join("|")} --set v1|adversarial|hero [--classifier ${CHOICES.join("|")}]`);
+    throw new Error(`usage: npm run eval -- --reader ${CHOICES.join("|")} --set v1|adversarial|hero|holdout|holdout2 [--classifier ${CHOICES.join("|")}]`);
   }
-  const classifierChoice = (arg("classifier") as Choice | undefined) ?? classifierFor(readerChoice);
+  const classifierChoice = (arg("classifier") as Choice | undefined) ?? readerChoice;
   const recordings = Recordings.parse(JSON.parse(await readFile(path.join(RECEIPTS, "recorded.json"), "utf8")));
   const live = (readerChoice !== "recorded" || classifierChoice !== "recorded") && readerChoice !== "meta-replay";
-  const cap = live && !META_CHOICES.includes(readerChoice) ? new SpendCap(new JsonlSpendLedger(process.env.SPEND_LEDGER ?? path.join(ROOT, "eval/spend-ledger.jsonl")), process.env.SPEND_MAX_USD ? Number(process.env.SPEND_MAX_USD) : undefined) : null;
-  const engine = new TesseractEngine(TESSDATA);
-  let trace: ReadTrace | null = null;
-  const r = await build(readerChoice, cap, recordings, engine, (t) => {
-    trace = t;
-  });
-  // The reader's own classifier unless another one was asked for: the OCR readers' goes through the deterministic checks.
-  const c = classifierChoice === classifierFor(readerChoice) ? r : await build(classifierChoice, cap, recordings, engine);
-  const name = classifierChoice === classifierFor(readerChoice) ? readerChoice : `${readerChoice}+${classifierChoice}`;
+  const r = await build(readerChoice, recordings);
+  // The reader's own classifier unless another one was asked for.
+  const c = classifierChoice === readerChoice ? r : await build(classifierChoice, recordings);
+  const name = classifierChoice === readerChoice ? readerChoice : `${readerChoice}+${classifierChoice}`;
 
   const truths = await loadTruths(set);
-  const spendCap = (r as { cap?: SpendCap }).cap ?? cap;
+  const spendCap = (r as { cap?: SpendCap }).cap ?? null;
   const ledgerBefore = spendCap ? await spendCap.ledger.total() : null;
   const known = set === "v1" ? truths : await loadTruths("v1");
   const liveDir = live ? (process.env.EVAL_LIVE_DIR ? path.resolve(process.env.EVAL_LIVE_DIR) : path.join(ROOT, "eval/live", name)) : null;
@@ -402,15 +374,9 @@ async function main() {
     classifier: c.classifier,
     truths,
     known,
-    onReceipt: liveDir
-      ? async (x) => {
-          await saveLive(liveDir, { ...x, trace });
-          trace = null;
-        }
-      : undefined,
+    onReceipt: liveDir ? (x) => saveLive(liveDir, x) : undefined,
   });
 
-  await engine.close();
   if (spendCap) result.spend.ledgerDeltaUsd = (await spendCap.ledger.total()) - ledgerBefore!;
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
   const label = process.env.EVAL_LABEL ? `${process.env.EVAL_LABEL}-` : "";
