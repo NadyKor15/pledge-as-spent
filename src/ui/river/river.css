@@ -38,7 +38,7 @@
 .rv-store { display: block; width: 34px; height: 34px; color: #6B7079; margin-bottom: 10px; }
 /* A Japanese store name breaks at its space ("ミナト生活館 北空店"), not inside a word. */
 .rv-merchant { font-size: 16px; font-weight: 700; line-height: 1.25; word-break: keep-all; overflow-wrap: anywhere; }
-.rv-big { display: block; margin-top: 9px; padding-top: 9px; border-top: 1px solid #DDDAD3; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rv-big { white-space: nowrap; overflow-wrap: normal; display: block; margin-top: 9px; padding-top: 9px; border-top: 1px solid #DDDAD3; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .rv-sub { margin-top: 4px; font-size: 16px; color: #3F454D; }
 
 .rv-read { display: flex; flex-direction: column; align-items: stretch; }
@@ -67,7 +67,8 @@
 .rv-hc { display: flex; align-items: center; }
 .rv-hold, .rv-capture { display: flex; flex-direction: column; gap: 2px; padding: 8px 9px; border: 1.5px solid #2E7D5B; background: #FFFFFF; }
 .rv-hold { flex: none; }
-.rv-capture { flex: 1 1 auto; }
+/* A capture is never narrower than PayPal's id in it: the column grows instead. */
+.rv-capture { flex: 1 1 auto; min-width: max-content; }
 .rv-hold > b:first-child, .rv-capHead b { font-size: 16px; }
 .rv-hold .rv-amt { font-size: 18px; }
 .rv-whoSmall { font-size: 12.5px; color: var(--muted); }

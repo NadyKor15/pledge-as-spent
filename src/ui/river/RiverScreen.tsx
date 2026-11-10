@@ -677,9 +677,12 @@ const orderedHolds = (m: RiverModel) => {
   return m.holds.filter((h) => h.kind === "donor").sort((a, b) => first(a) - first(b));
 };
 
-/** The desktop is laid out at 1400 px (the picture's width) and scaled to the window: 0.78× at 1024, 1.35× at 1920. */
+/**
+ * The desktop is laid out at 1400 px (the picture's width), never narrower, and scaled to the window: 0.70× at 1024,
+ * 1.35× at 1920. Laid out narrower, its columns would cut PayPal's ids and break the sums.
+ */
 const DESIGN = 1400;
-const Z_MIN = 0.78;
+const Z_MIN = 0.7;
 const Z_MAX = 1.35;
 
 /** The scale that fits the river to its box, the width it is laid out at, and the box's height once scaled. */
