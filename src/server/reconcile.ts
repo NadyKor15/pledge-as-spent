@@ -43,8 +43,13 @@ export interface Reconciliation {
   differences: ReconcileDifference[];
 }
 
-/** How far one object of the check is from the book, or null when it agrees in full. */
-export function differenceOf(r: Pick<CheckRow, "verdict" | "expiry">): DifferenceKind | null {
+/**
+ * How far one object of the check is from the book, or null when it agrees in full. PayPal's own trouble (no answer,
+ * a timeout, a rate limit, a server error, our token refused) is not a difference with the book: it is said apart as
+ * "PayPal didn't answer". A 404 is PayPal's word that it does not know the object, so it is a difference.
+ */
+export function differenceOf(r: Pick<CheckRow, "verdict" | "expiry"> & { paypal: Pick<CheckRow["paypal"], "http"> }): DifferenceKind | null {
+  if (r.paypal.http !== 200 && r.paypal.http !== 404) return "no_answer";
   if (r.verdict === "agrees") return r.expiry === "differs" ? "end_date" : null;
   return r.verdict;
 }
@@ -81,11 +86,17 @@ export interface DailyLimits {
   maxDrives: number;
   /** No new drive is started after this long (Vercel Hobby stops a function at 300 s). */
   budgetMs: number;
+  /** The pause before a drive is asked again because PayPal left some objects unanswered. */
+  retryDelayMs: number;
 }
 
-export const DEFAULT_DAILY_LIMITS: DailyLimits = { maxDrives: 25, budgetMs: 240_000 };
+export const DEFAULT_DAILY_LIMITS: DailyLimits = { maxDrives: 25, budgetMs: 240_000, retryDelayMs: 2_000 };
 
-export type SkipReason = "no_paypal_objects" | "unknown_drive" | "over_limit" | "out_of_time" | "error";
+/**
+ * no_answer: PayPal answered none of the drive's objects, twice; nothing is kept, so the page keeps the last check
+ * PayPal did answer (with its own date), or says it was not checked yet.
+ */
+export type SkipReason = "no_paypal_objects" | "no_answer" | "unknown_drive" | "over_limit" | "out_of_time" | "error";
 
 export interface ReconcileReport {
   /** When the run started, ISO UTC. */
@@ -113,9 +124,12 @@ export interface ReconcileDeps {
   log?: (message: string, extra?: unknown) => void;
 }
 
+const pause = (ms: number) => (ms > 0 ? new Promise<void>((resolve) => setTimeout(resolve, ms)) : Promise.resolve());
+
 /**
- * One daily run: each drive is asked once, and once more if PayPal left some objects unanswered (the fuller answer is
- * kept). A server without PayPal keys fails the whole run (503): nothing could be checked, so nothing is written.
+ * One daily run: each drive is asked once, and once more after a pause if PayPal left some objects unanswered (the
+ * fuller answer is kept; a second ask that fails keeps the first). A drive PayPal answered nothing about is not kept.
+ * A server without PayPal keys fails the whole run (503): nothing could be checked, so nothing is written.
  */
 export async function runReconciliation(d: ReconcileDeps): Promise<ReconcileReport> {
   const now = d.now ?? Date.now;
@@ -135,8 +149,18 @@ export async function runReconciliation(d: ReconcileDeps): Promise<ReconcileRepo
         continue;
       }
       if (result.answered < result.total) {
-        const again = await d.check.dailyCheck(driveId);
-        if (again && again.answered >= result.answered) result = again;
+        await pause(limits.retryDelayMs);
+        try {
+          const again = await d.check.dailyCheck(driveId);
+          if (again && again.answered >= result.answered) result = again;
+        } catch (e) {
+          if (e instanceof ServiceError && e.code === "paypal_not_configured") throw e;
+          d.log?.("daily PayPal check: the second ask failed, the first answer is kept", { driveId, error: e instanceof Error ? e.message : String(e) });
+        }
+      }
+      if (result.answered === 0) {
+        report.skipped.push({ driveId, why: "no_answer" });
+        continue;
       }
       const rec = summarize(result);
       await d.db.insert(paypalReconciliations).values({

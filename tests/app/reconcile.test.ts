@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { sql } from "drizzle-orm";
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import { GET as cronGET } from "../../src/app/api/cron/reconcile/route";
 import { GET as lastGET } from "../../src/app/api/drives/[id]/reconcile/route";
 import { paypalReconciliations } from "../../src/db/schema";
@@ -17,6 +17,9 @@ import { harness, heroBytes, ROOT, type Harness } from "./support/harness";
 // The daily check with PayPal: the server asks PayPal's sandbox about the showcase drive and every open drive with the
 // code of "Ask PayPal yourself" (GET only), keeps one small row per drive and the page prints it. Everything here runs
 // against the stateful stand-in for PayPal's sandbox: no request leaves the machine.
+
+// Each test opens its own in-memory Postgres and migrates it: on a loaded machine that alone can pass vitest's 5 s.
+vi.setConfig({ testTimeout: 30_000 });
 
 const KEYS = { clientId: "test-client", clientSecret: "test-secret" };
 
@@ -112,6 +115,18 @@ describe("Daily check with PayPal: one run", () => {
     expect((await c.run("demo-rec-b", "203.0.113.10")).cached).toBe(false);
   });
 
+  it("a daily run fills no cache: a press right after it asks PayPal afresh", async () => {
+    const { sb, h } = await closedDrive("demo-rec-b2");
+    const net = watched(sb.fetch);
+    const t = Date.parse("2026-11-10T10:00:00Z");
+    const c = check(h, net.fetch, { now: () => t });
+    await runReconciliation({ db: h.svc.db, check: c, showcaseId: "demo-rec-b2", now: () => t });
+    expect(gets(net.seen)).toBe(9);
+    const press = await c.run("demo-rec-b2", "203.0.113.20");
+    expect(press.cached).toBe(false);
+    expect(gets(net.seen)).toBe(18);
+  });
+
   it("must differ: holds PayPal reports as CREATED while the book says voided are listed with both words, and the counts say so", async () => {
     const { sb, h } = await closedDrive("demo-rec-c");
     const report = await runReconciliation({ db: h.svc.db, check: check(h, holdsCreated(sb.fetch)), showcaseId: "demo-rec-c" });
@@ -128,22 +143,24 @@ describe("Daily check with PayPal: one run", () => {
     expect(line.items[0]).toMatch(/^Hold \S+: differs from our book · our book voided, the rest never charged €20\.00 · PayPal CREATED €20\.00$/);
   });
 
-  it("PayPal silent: asked twice, kept as 0 of 9 answered, each object named as unanswered; the line never says the check was clean", async () => {
-    const { h } = await closedDrive("demo-rec-d");
+  it("PayPal silent: asked twice, nothing is kept, and the page keeps the last check PayPal did answer (or says it was not checked yet)", async () => {
+    const { sb, h } = await closedDrive("demo-rec-d");
     const silent: FetchLike = (url, init) => (new URL(url).pathname === "/v1/oauth2/token" ? fakeSandbox().fetch(url, init) : new Promise<Response>(() => {}));
     const c = check(h, silent, { limits: { deadlineMs: 40, requestTimeoutMs: 20 } });
     let asked = 0;
     const counted = { dailyCheck: (id: string) => ((asked += 1), c.dailyCheck(id)) };
-    const report = await runReconciliation({ db: h.svc.db, check: counted, showcaseId: "demo-rec-d" });
+    const first = await runReconciliation({ db: h.svc.db, check: counted, showcaseId: "demo-rec-d", limits: { retryDelayMs: 0 } });
     expect(asked).toBe(2);
-    expect(report.checked).toEqual([{ driveId: "demo-rec-d", total: 9, answered: 0, agrees: 0, differences: 0 }]);
-    const last = (await latestReconciliation(h.svc.db, "demo-rec-d"))!;
-    expect(last.differences.map((d) => d.verdict)).toEqual(Array(9).fill("no_answer"));
-    expect(last.differences.every((d) => d.paypal.http === 0 && d.paypal.status === null)).toBe(true);
-    const line = reconcileLine(last, "en");
-    expect(line.state).toBe("differs");
-    expect(line.text).toMatch(/ · 9 objects · 0 answered · 0 differences$/);
-    expect(line.items.every((x) => /^(Hold|Capture|Payout to the volunteer) \S+: PayPal didn’t answer$/.test(x))).toBe(true);
+    expect(first).toMatchObject({ checked: [], skipped: [{ driveId: "demo-rec-d", why: "no_answer" }] });
+    expect(await rows(h)).toHaveLength(0);
+    expect(reconcileLine(await latestReconciliation(h.svc.db, "demo-rec-d"), "en").text).toBe("Not checked with PayPal yet");
+    // Must differ: a day PayPal answered, then a silent day: the page still shows the answered day, with its own time.
+    await runReconciliation({ db: h.svc.db, check: check(h, sb.fetch), showcaseId: "demo-rec-d" });
+    const answered = (await latestReconciliation(h.svc.db, "demo-rec-d"))!;
+    expect(answered).toMatchObject({ total: 9, answered: 9, agrees: 9 });
+    await runReconciliation({ db: h.svc.db, check: counted, showcaseId: "demo-rec-d", limits: { retryDelayMs: 0 } });
+    expect(await rows(h)).toHaveLength(1);
+    expect(await latestReconciliation(h.svc.db, "demo-rec-d")).toEqual(answered);
   });
 
   it("a partial answer is asked again once, and the fuller answer is the one kept", async () => {
@@ -153,10 +170,67 @@ describe("Daily check with PayPal: one run", () => {
       if (new URL(url).pathname.startsWith("/v1/payments/payouts/") && ++payoutAsks <= 2) throw new TypeError("fetch failed");
       return sb.fetch(url, init);
     };
-    const report = await runReconciliation({ db: h.svc.db, check: check(h, flaky), showcaseId: "demo-rec-e" });
+    const report = await runReconciliation({ db: h.svc.db, check: check(h, flaky), showcaseId: "demo-rec-e", limits: { retryDelayMs: 0 } });
     expect(report.checked).toEqual([{ driveId: "demo-rec-e", total: 9, answered: 9, agrees: 9, differences: 0 }]);
     expect(await rows(h)).toHaveLength(1);
     expect(payoutAsks).toBeGreaterThan(2);
+  });
+
+  it("still partial after the second ask: kept with the unanswered object named, and the differences counted among the answered only", async () => {
+    const { sb, h } = await closedDrive("demo-rec-e2");
+    const noPayout: FetchLike = async (url, init) => {
+      if (new URL(url).pathname.startsWith("/v1/payments/payouts/")) throw new TypeError("fetch failed");
+      return sb.fetch(url, init);
+    };
+    const report = await runReconciliation({ db: h.svc.db, check: check(h, noPayout), showcaseId: "demo-rec-e2", limits: { retryDelayMs: 0 } });
+    expect(report.checked).toEqual([{ driveId: "demo-rec-e2", total: 9, answered: 8, agrees: 8, differences: 0 }]);
+    const line = reconcileLine(await latestReconciliation(h.svc.db, "demo-rec-e2"), "en");
+    expect(line.state).toBe("differs");
+    expect(line.text).toMatch(/ · 9 objects · 0 differences among 8 answered$/);
+    expect(line.text).not.toMatch(/ · 0 differences$/);
+    expect(line.items).toEqual([expect.stringMatching(/^Payout to the volunteer \S+: PayPal didn’t answer$/)]);
+  });
+
+  it("a second ask that fails keeps the first answer", async () => {
+    const { sb, h } = await closedDrive("demo-rec-e3");
+    const real = check(h, async (url, init) => {
+      if (new URL(url).pathname.startsWith("/v1/payments/payouts/")) throw new TypeError("fetch failed");
+      return sb.fetch(url, init);
+    });
+    let n = 0;
+    const second = { dailyCheck: async (id: string) => (++n === 1 ? real.dailyCheck(id) : Promise.reject(new Error("database went away"))) };
+    const report = await runReconciliation({ db: h.svc.db, check: second, showcaseId: "demo-rec-e3", limits: { retryDelayMs: 0 } });
+    expect(n).toBe(2);
+    expect(report.checked).toEqual([{ driveId: "demo-rec-e3", total: 9, answered: 8, agrees: 8, differences: 0 }]);
+    expect(report.skipped).toEqual([]);
+  });
+
+  it("PayPal's own errors (rate limit, server error) are 'PayPal didn't answer', never a difference with the book; a 404 is a difference", async () => {
+    const { sb, h } = await closedDrive("demo-rec-http");
+    const view = await h.svc.getDriveView("demo-rec-http");
+    const [busyHold, goneHold] = view.holds.map((x) => x.authorizationId);
+    const erring: FetchLike = async (url, init) => {
+      const p = new URL(url).pathname;
+      if (init.method === "GET" && p.endsWith(`/${busyHold}`)) return new Response(JSON.stringify({ name: "RATE_LIMIT_REACHED" }), { status: 429, headers: { "content-type": "application/json" } });
+      if (init.method === "GET" && p.endsWith(`/${goneHold}`)) return new Response(JSON.stringify({ name: "RESOURCE_NOT_FOUND" }), { status: 404, headers: { "content-type": "application/json" } });
+      if (init.method === "GET" && p.startsWith("/v1/payments/payouts/")) return new Response("{}", { status: 503, headers: { "content-type": "application/json" } });
+      return sb.fetch(url, init);
+    };
+    const report = await runReconciliation({ db: h.svc.db, check: check(h, erring), showcaseId: "demo-rec-http", limits: { retryDelayMs: 0 } });
+    expect(report.checked).toEqual([{ driveId: "demo-rec-http", total: 9, answered: 6, agrees: 6, differences: 1 }]);
+    const last = (await latestReconciliation(h.svc.db, "demo-rec-http"))!;
+    expect(last.differences.map((d) => [d.id === busyHold ? "busy" : d.id === goneHold ? "gone" : d.kind, d.verdict, d.paypal.http])).toEqual([
+      ["busy", "no_answer", 429],
+      ["gone", "differs", 404],
+      ["payout", "no_answer", 503],
+    ]);
+    const line = reconcileLine(last, "en");
+    expect(line.text).toMatch(/ · 9 objects · 1 difference among 6 answered$/);
+    expect(line.items).toEqual([
+      `Hold ${busyHold}: PayPal didn’t answer (HTTP 429)`,
+      `Hold ${goneHold}: differs from our book · our book voided, the rest never charged $30.00 · PayPal HTTP 404`,
+      expect.stringMatching(/^Payout to the volunteer \S+: PayPal didn’t answer \(HTTP 503\)$/),
+    ]);
   });
 
   it("no drives: nothing is asked and nothing is written; a showcase id the database does not hold is named as unknown", async () => {
@@ -246,13 +320,17 @@ describe("Daily check with PayPal: what is kept", () => {
       ...over,
     }) as CheckResult["rows"][number];
 
-  it("an object is a difference when its status or amount differs, when PayPal is ahead, when the hold's end date differs, or when PayPal is silent", () => {
-    expect(differenceOf({ verdict: "agrees", expiry: "agrees" })).toBeNull();
-    expect(differenceOf({ verdict: "agrees", expiry: null })).toBeNull();
-    expect(differenceOf({ verdict: "agrees", expiry: "differs" })).toBe("end_date");
-    expect(differenceOf({ verdict: "differs", expiry: null })).toBe("differs");
-    expect(differenceOf({ verdict: "ahead", expiry: "agrees" })).toBe("ahead");
-    expect(differenceOf({ verdict: "no_answer", expiry: null })).toBe("no_answer");
+  it("an object is a difference when its status or amount differs, when PayPal is ahead, when the hold's end date differs; PayPal's silence and errors are said apart", () => {
+    const ok = { paypal: { http: 200 } };
+    expect(differenceOf({ verdict: "agrees", expiry: "agrees", ...ok })).toBeNull();
+    expect(differenceOf({ verdict: "agrees", expiry: null, ...ok })).toBeNull();
+    expect(differenceOf({ verdict: "agrees", expiry: "differs", ...ok })).toBe("end_date");
+    expect(differenceOf({ verdict: "differs", expiry: null, ...ok })).toBe("differs");
+    expect(differenceOf({ verdict: "ahead", expiry: "agrees", ...ok })).toBe("ahead");
+    expect(differenceOf({ verdict: "no_answer", expiry: null, paypal: { http: 0 } })).toBe("no_answer");
+    // PayPal's word that it does not know the object is a difference; its own trouble is not.
+    expect(differenceOf({ verdict: "differs", expiry: null, paypal: { http: 404 } })).toBe("differs");
+    for (const http of [400, 401, 403, 408, 422, 429, 500, 502, 503]) expect(differenceOf({ verdict: "differs", expiry: null, paypal: { http } })).toBe("no_answer");
   });
 
   it("the kept row has the counts and the differing objects as book and PayPal state them: no name, no body, no debug id", () => {
@@ -433,7 +511,7 @@ describe("Daily check with PayPal: the line, in the Ledger's three languages", (
     expect(reconcileLine(one, "ja").items[0]).toMatch(/^引き落とし 3WP65983GD053501C: 帳簿が PayPal より遅れています · 帳簿 PayPal の確認待ち /);
   });
 
-  it("a hold's end date that differs names both dates; a partial answer says how many PayPal answered", () => {
+  it("a hold's end date that differs names both dates; a partial answer counts its differences among the answered only", () => {
     const ended: Reconciliation = {
       ...clean,
       answered: 8,
@@ -452,7 +530,12 @@ describe("Daily check with PayPal: the line, in the Ledger's three languages", (
       ],
     };
     const l = reconcileLine(ended, "en");
-    expect(l.text).toBe("Checked with PayPal · Nov 10, 10:05 UTC · 9 objects · 8 answered · 1 difference");
+    expect(l.text).toBe("Checked with PayPal · Nov 10, 10:05 UTC · 9 objects · 1 difference among 8 answered");
     expect(l.items).toEqual(["Hold 8AB12345CD678901E: end date differs · our book Dec 1, 10:00 UTC · PayPal Dec 2, 10:00 UTC", "Payout to the volunteer PB1: PayPal didn’t answer"]);
+    expect(reconcileLine(ended, "de").text).toMatch(/ · 9 Objekte · 1 Abweichung unter 8 beantworteten$/);
+    expect(reconcileLine(ended, "ja").text).toMatch(/ · 対象 9 件 · 回答 8 件中 相違 1 件$/);
+    // Must differ: nothing differs among the answered, yet one is unanswered: never the clean line, never a bare "0 differences".
+    const quiet = { ...ended, agrees: 8, differences: [ended.differences[1]] };
+    expect(reconcileLine(quiet, "en")).toMatchObject({ state: "differs", text: "Checked with PayPal · Nov 10, 10:05 UTC · 9 objects · 0 differences among 8 answered" });
   });
 });

@@ -26,6 +26,21 @@ async function insideFooter(page: Page, line: Locator) {
   expect(box!.x + box!.width).toBeLessThanOrEqual(foot!.x + foot!.width + 0.5);
 }
 
+/** Everything else in the bottom line still fits in it with the new line there: the refusals, the rates, the links. */
+async function footerFits(page: Page) {
+  for (const part of await page.locator(".lg-foot > *").all()) await insideFooter(page, part);
+  for (const p of await page.locator(".lg-foot p").all()) await insideFooter(page, p);
+}
+
+/** The element is what the browser shows at its own middle: not covered, not clipped away. */
+async function onTop(el: Locator): Promise<boolean> {
+  return el.evaluate((node) => {
+    const r = node.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    return hit !== null && (hit === node || node.contains(hit));
+  });
+}
+
 test("the daily check with PayPal: not checked yet, then the cron's answer on the Ledger in three languages and in the statement, each difference named", async ({ page, request }) => {
   const driveId = await openDemo(page);
   await page.goto(`/drive/${driveId}?as=ledger`);
@@ -52,19 +67,29 @@ test("the daily check with PayPal: not checked yet, then the cron's answer on th
   await expect(text).toHaveText(/^Checked with PayPal · [A-Z][a-z]{2} \d{1,2}, \d{2}:\d{2} UTC · 4 objects · 4 differences$/);
   await expect(line.locator("time")).toHaveAttribute("datetime", kept.last.askedAt);
   await insideFooter(page, line);
-  // The list opens over the report and names every hold with the book's word and PayPal's.
-  await line.locator("summary").click();
-  const list = page.getByTestId("reconcile-differences");
-  await expect(list).toBeVisible();
-  await expect(list.locator("li")).toHaveCount(4);
-  for (const li of await list.locator("li").all()) await expect(li).toHaveText(/^Hold \S+: the book is behind PayPal · our book held \S+ · PayPal VOIDED \S+$/);
-  const lb = await list.boundingBox();
-  expect(lb!.y).toBeGreaterThanOrEqual(0);
+  await footerFits(page);
+  // The list opens in the top layer and names every hold with the book's word and PayPal's; each item is really on
+  // screen (not under the report, not clipped by the widget): the point at its middle is the item itself.
+  await line.locator("button.rc-open").click();
+  const dialog = page.getByTestId("reconcile-dialog");
+  await expect(dialog).toBeVisible();
+  const items = dialog.getByTestId("reconcile-differences").locator("li");
+  await expect(items).toHaveCount(4);
+  for (const li of await items.all()) {
+    await expect(li).toHaveText(/^Hold \S+: the book is behind PayPal · our book held \S+ · PayPal VOIDED \S+$/);
+    expect(await onTop(li)).toBe(true);
+  }
+  await dialog.getByRole("button", { name: "Close" }).click();
+  await expect(dialog).toBeHidden();
 
   await page.goto(`/drive/${driveId}?as=ledger&lang=de`);
   await expect(text).toHaveText(/^Mit PayPal abgeglichen · .+ UTC · 4 Objekte · 4 Abweichungen$/);
+  await insideFooter(page, line);
+  await footerFits(page);
   await page.goto(`/drive/${driveId}?as=ledger&lang=ja`);
   await expect(text).toHaveText(/^PayPal と照合済み · .+ UTC · 対象 4 件 · 相違 4 件$/);
+  await insideFooter(page, line);
+  await footerFits(page);
 
   // The donor's statement: the same line under its own "Ask PayPal yourself", the list in the card.
   await page.goto(`/pledge/${driveId}.water`);
@@ -89,6 +114,7 @@ test.describe("the daily check's line on a phone, 390 × 844", () => {
         await expect(line).toHaveAttribute("data-state", checked ? "differs" : "none");
         await line.scrollIntoViewIfNeeded();
         await insideFooter(page, line);
+        await footerFits(page);
       }
     }
   });
