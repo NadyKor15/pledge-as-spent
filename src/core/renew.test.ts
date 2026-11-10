@@ -89,7 +89,7 @@ describe("renew: a new order for the rest, approved again by the donor", () => {
     const b = story();
     const next = renew(b, "lena", hoursAfter(1)); // asks for the whole €20.00, approval still to come
     expect(b.state.pledges[next].amount.minor).toBe(2000);
-    expect(renewalOffer(b.state, "lena", hoursAfter(1)).pending).toEqual({ pledgeId: next });
+    expect(renewalOffer(b.state, "lena", hoursAfter(1))).toMatchObject({ refusal: null, pending: { pledgeId: next, approved: false, amount: { currency: "EUR", minor: 2000 } } });
     // the old hold keeps funding while the donor is in the PayPal window
     const w = b.fund(line("r1", 1, "water", 10, 1080), hoursAfter(2)) as LineFunded;
     const used = w.shares.find((s) => s.pledgeId === "lena")!.quote.minor;
@@ -143,6 +143,92 @@ describe("renew: a new order for the rest, approved again by the donor", () => {
       expect(b.state.pledges[id].status).toBe("voided");
       expect(old.captured + nw.authorized).toBe(b.state.pledges[id].amount.minor); // spent + carried = pledged
     }
+  });
+});
+
+describe("renew: findings of the money review, 10.11", () => {
+  it("#1 refuses a second renewal while the first is approved but not linked, and links one per old hold", () => {
+    const b = story();
+    const r1 = renew(b, "lena", hoursAfter(1));
+    b.authorize(r1, hoursAfter(2)); // approved; the link is still to come (a crash between the two)
+    expect(renewalOffer(b.state, "lena", hoursAfter(2)).pending).toMatchObject({ pledgeId: r1, approved: true });
+    expect(() => renewalPledge(b.state, "lena", hoursAfter(2))).toThrow(/renewal_pending/);
+    // a second renewal written by hand is refused by the book too
+    const forged = { ...renewalPledge(story().state, "lena", hoursAfter(2)), id: "lena.r2", paypal: { orderId: "O2" } };
+    expect(() => applyEvent(b.state, { id: "pc-r2", at: hoursAfter(2), driveId: "drv1", type: "PledgeCreated", pledge: forged })).toThrow(/renewal_pending/);
+    expect(planRenewals(b.state, hoursAfter(2)).map((e) => e.pledgeId)).toEqual([r1]);
+  });
+
+  it("#1 voids an approved renewal that can no longer be linked: its old hold was renewed by another, or withdrawn", () => {
+    const b = story();
+    const r1 = renew(b, "lena", hoursAfter(1));
+    b.event("PledgeRevoked", hoursAfter(2), { pledgeId: "lena" });
+    b.authorize(r1, hoursAfter(3));
+    expect(planRenewals(b.state, hoursAfter(3))).toEqual([]); // nothing to carry on from a withdrawn hold
+    const voids = planHoldMaintenance(b.state, hoursAfter(3)).filter((c) => c.pledgeId === r1);
+    expect(voids).toMatchObject([{ kind: "void", reason: "renewal_unlinked" }]);
+  });
+
+  it("#2 voids a linked renewal with nothing left to fund at once, and never reauthorizes it", () => {
+    const b = story();
+    const r1 = renew(b, "lena", hoursAfter(1)); // all €20.00
+    b.fund(line("r1", 1, "water", 40, 1_000_000), hoursAfter(2)); // the old hold is used up meanwhile
+    b.authorize(r1, hoursAfter(3));
+    for (const e of planRenewals(b.state, hoursAfter(3))) b.apply(e);
+    expect(b.state.holds[r1]).toMatchObject({ usable: 0, surplus: 2000 });
+    expect(planHoldMaintenance(b.state, hoursAfter(3)).filter((c) => c.pledgeId === r1)).toMatchObject([{ kind: "void", reason: "renewed" }]);
+    // a renewal whose usable part is all promised: once its captures are in, its surplus is let go, not reauthorized
+    const c = story();
+    const r = renew(c, "lena", hoursAfter(1));
+    c.fund(line("r1", 1, "water", 10, 1080), hoursAfter(2)); // the old hold pays €3.33 meanwhile: surplus 333
+    c.authorize(r, hoursAfter(3));
+    for (const e of planRenewals(c.state, hoursAfter(3))) c.apply(e);
+    c.fund(line("r2", 1, "water", 30, 1_000_000), hoursAfter(4)); // uses up the usable part
+    expect(availableMinor(c.state.pledges[r], c.state.holds[r])).toBe(0);
+    settle(c, daysAfter(5));
+    expect(c.state.pledges[r].status).toBe("voided");
+    expect(c.state.holds[r]).toMatchObject({ captured: 1667, released: 333 });
+  });
+
+  it("#3 refuses a link for a withdrawn renewal, or from a withdrawn hold", () => {
+    const b = story();
+    const r1 = renew(b, "lena", hoursAfter(1));
+    b.event("PledgeRevoked", hoursAfter(2), { pledgeId: r1 });
+    b.authorize(r1, hoursAfter(3));
+    const link: PledgeRenewed = { id: "forged", at: hoursAfter(3), driveId: "drv1", type: "PledgeRenewed", pledgeId: r1, fromPledgeId: "lena" };
+    expect(() => applyEvent(b.state, link)).toThrow(/withdrawn/);
+    const c = story();
+    const r2 = renew(c, "lena", hoursAfter(1));
+    c.event("PledgeRevoked", hoursAfter(2), { pledgeId: "lena" });
+    c.authorize(r2, hoursAfter(3));
+    expect(() => applyEvent(c.state, { ...link, pledgeId: r2 })).toThrow(/withdrawn/);
+  });
+
+  it("#4 takes a renewal whose old hold moved to another need meanwhile, and links it to that need", () => {
+    const b = story();
+    const pledge = renewalPledge(b.state, "lena", hoursAfter(1)); // computed for water
+    b.apply(rebindEvent(b.state, { pledgeId: "lena", fromNeedId: "water", toNeedId: "diapers", at: hoursAfter(1), consent: { by: "Donor lena", via: "statement" } }));
+    b.apply({ id: "pc", at: hoursAfter(1), driveId: "drv1", type: "PledgeCreated", pledge: { ...pledge, paypal: { orderId: "O" } } });
+    b.authorize(pledge.id, hoursAfter(2));
+    for (const e of planRenewals(b.state, hoursAfter(2))) b.apply(e);
+    expect(b.state.pledges[pledge.id].needId).toBe("diapers");
+  });
+
+  it("caps a chain at six renewals (a new pledge starts a new hold)", () => {
+    const b = story();
+    let id = "lena";
+    for (let i = 0; i < 6; i++) id = renew(b, id, hoursAfter(1 + i), hoursAfter(1 + i));
+    expect(id.split(".r")).toHaveLength(7);
+    expect(() => renewalPledge(b.state, id, hoursAfter(8))).toThrow(/too_many_renewals/);
+  });
+
+  it("#5 the close report names each hold's chain, so a chain can be counted once", () => {
+    const b = story();
+    const r1 = renew(b, "lena", daysAfter(27), daysAfter(27));
+    settle(b, daysAfter(27));
+    const rows = closeReport(b.state);
+    expect(rows.find((r) => r.pledgeId === "lena")).toMatchObject({ renewedTo: r1 });
+    expect(rows.find((r) => r.pledgeId === r1)).toMatchObject({ renews: "lena" });
   });
 });
 
@@ -201,7 +287,6 @@ describe("renew: refusals and repeats (red team)", () => {
       [{ amount: { currency: "EUR", minor: 2001 } }, /more than/],
       [{ amount: { currency: "USD", minor: 100 } }, /currency/],
       [{ donorName: "Someone else" }, /donor/],
-      [{ needId: "diapers" }, /need/],
       [{ fx: { ...ok.fx, rate: "170" } }, /rate/],
       [{ rest: "carry" }, /rest/],
       [{ kind: "match", needId: null, match: { ratioNum: 1, ratioDen: 1 } }, /donor/],

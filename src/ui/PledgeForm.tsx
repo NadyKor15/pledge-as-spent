@@ -97,7 +97,7 @@ export function PledgeForm({ driveId, needId, needLabel, restChoice = false }: {
           {(
             [
               ["release", "Is never charged", `Only receipts for ${needLabel} can use your hold.`],
-              ["carry", "Keeps buying for this drive", "It moves to the open need that lacks the most. Still only approved receipt lines are charged."],
+              ["carry", "Keeps buying for this drive", "It moves to the open need furthest from covered. Still only approved receipt lines are charged."],
             ] as const
           ).map(([value, title, note]) => (
             <label key={value} className={s.restOpt}>

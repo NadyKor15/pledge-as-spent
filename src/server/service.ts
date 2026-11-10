@@ -115,6 +115,9 @@ export interface ServiceDeps {
   renewEnabled?: boolean;
 }
 
+/** How a donor approves a renewal: in the PayPal window, or (a demo drive's test-card hold) with PayPal's sandbox test card. */
+export type RenewalApproval = "paypal_window" | "sandbox_test_card";
+
 export interface SubmitResult {
   receipt: ReceiptView;
   commands: CommandReport[];
@@ -390,9 +393,9 @@ export class PledgeService {
     const state = await this.openBook(input.driveId);
     const drive = state.drive!;
     if (drive.status !== "open") throw new ServiceError(409, "drive_not_open", `The drive is ${drive.status}.`);
-    const rest = input.rest ?? undefined;
+    // While REBIND_ENABLED is off the field is ignored, exactly as before it existed: no choice is stored.
+    const rest = this.rebindEnabled ? (input.rest ?? undefined) : undefined;
     if (rest !== undefined && rest !== "release" && rest !== "carry") throw new ServiceError(400, "invalid_rest", "rest must be release or carry.");
-    if (rest === "carry" && !this.rebindEnabled) throw new ServiceError(400, "carry_disabled", "Keeping the rest for next purchases is not switched on.");
     if (rest === "carry" && input.match) throw new ServiceError(400, "invalid_rest", "A company match backs the whole drive; it has no rest to keep.");
     const donorName = (input.donorName ?? "").trim();
     if (!donorName || donorName.length > 80) throw new ServiceError(400, "invalid_donor", "donorName is required (at most 80 characters).");
@@ -458,7 +461,12 @@ export class PledgeService {
     const { driveId, state } = await this.pledgeDrive(pledgeId);
     const pledge = state.pledges[pledgeId];
     if (orderId && orderId !== pledge.paypal.orderId) throw new ServiceError(400, "order_mismatch", "orderId does not belong to this pledge.");
-    if (pledge.status !== "pending_approval") return { pledgeId, status: pledge.status, authorizationId: pledge.paypal.authorizationId ?? null };
+    if (pledge.status !== "pending_approval") {
+      // The return from PayPal twice, or after a crash between the authorization and its link: finish the link (idempotent).
+      await this.afterAuthorization(driveId);
+      const now = await this.openBook(driveId);
+      return { pledgeId, status: now.pledges[pledgeId].status, authorizationId: pledge.paypal.authorizationId ?? null };
+    }
     let auth;
     try {
       const requestId = await this.authorizeRequestId(pledgeId);
@@ -561,6 +569,11 @@ export class PledgeService {
    * voids it once that capture is confirmed.
    */
   private async afterAuthorization(driveId: string): Promise<CommandReport[]> {
+    // Nothing to do on a drive without renewals while carries are off: no extra locked transaction.
+    if (!this.rebindEnabled) {
+      const s = await this.openBook(driveId);
+      if (!s.pledgeIds.some((id) => s.pledges[id].renews !== undefined)) return [];
+    }
     const linked = await withDrive(this.db, driveId, async (b) => {
       const now = this.now();
       const evs = planRenewals(b.state, now);
@@ -580,11 +593,11 @@ export class PledgeService {
    * approval answers that renewal. The request id carries the amount: a retry asks
    * PayPal for the same order, a renewal of a different rest for a new one.
    */
-  async renewPledge(pledgeId: string): Promise<{ pledgeId: string; renews: string; orderId: string; approveUrl: string | null; status: string; approval: "paypal_window" | "sandbox_test_card" }> {
+  async renewPledge(pledgeId: string): Promise<{ pledgeId: string; renews: string; orderId: string; approveUrl: string | null; status: string; approval: RenewalApproval; created: boolean }> {
     if (!this.renewEnabled) throw new ServiceError(404, "renew_disabled", "Renewing a hold is not switched on.");
-    const { driveId } = await this.pledgeDrive(pledgeId);
+    const { driveId, state: before } = await this.pledgeDrive(pledgeId);
     const row = await this.driveRow(driveId);
-    const approval = row.demo ? ("sandbox_test_card" as const) : ("paypal_window" as const);
+    const approval = this.renewalApproval(row.demo, before.pledges[pledgeId]);
     const planned = await withDrive(this.db, driveId, async (b) => {
       const hold = lookup(b.state.holds, pledgeId);
       const waiting = hold ? pendingRenewal(b.state, hold) : null;
@@ -600,25 +613,39 @@ export class PledgeService {
     });
     if ("waiting" in planned && planned.waiting) {
       const w = planned.waiting;
-      return { pledgeId: w.id, renews: pledgeId, orderId: w.paypal.orderId, approveUrl: null, status: w.status === "pending_approval" ? "PAYER_ACTION_REQUIRED" : w.status, approval };
+      // Approved but not linked yet (a crash between the two): link it now.
+      if (w.status !== "pending_approval") await this.afterAuthorization(driveId);
+      return { pledgeId: w.id, renews: pledgeId, orderId: w.paypal.orderId, approveUrl: null, status: w.status === "pending_approval" ? "PAYER_ACTION_REQUIRED" : w.status, approval, created: false };
     }
     const { pledge, title, label } = planned as { pledge: Pledge; title: string; label: string };
     const description = `Renewal: ${label} - ${title}`;
-    const key = `${pledge.id}:${pledge.amount.minor}`;
-    const created = (orderId: string): LedgerEvent => ({ id: `pledge:${pledge.id}`, type: "PledgeCreated", at: this.now(), driveId, pledge: { ...pledge, paypal: { orderId } } });
-    if (row.demo) {
-      const order = await this.paypal(driveId, (gw) => gw.createAuthorizeOrderWithTestCard({ pledgeId: pledge.id, driveId, amount: pledge.amount, description, requestId: `hold:${key}` }));
+    const created = (orderId: string, amount: Money = pledge.amount): LedgerEvent => ({ id: `pledge:${pledge.id}`, type: "PledgeCreated", at: this.now(), driveId, pledge: { ...pledge, amount, paypal: { orderId } } });
+    if (approval === "sandbox_test_card") {
+      // The request id is the pledge's alone: a retry, or a twin press, gets PayPal's same order back, never a second hold.
+      const order = await this.paypal(driveId, (gw) => gw.createAuthorizeOrderWithTestCard({ pledgeId: pledge.id, driveId, amount: pledge.amount, description, requestId: `hold:${pledge.id}` }));
       const auth = order.authorization;
       if (!auth) throw new ServiceError(502, "no_authorization", `PayPal order ${order.id} came back without an authorization.`);
-      const items: Recorded[] = [{ event: created(order.id), source: "app" }];
+      // The book records what PayPal holds (a replayed order may be for an earlier, larger rest; the link trims it).
+      const held = auth.amount?.currency === pledge.amount.currency && Number.isSafeInteger(auth.amount.minor) && auth.amount.minor > 0 ? auth.amount : pledge.amount;
+      const items: Recorded[] = [{ event: created(order.id, held), source: "app" }];
       const authorized = this.authorizationEvent(driveId, pledge.id, auth, "card");
       if (authorized) items.push(authorized);
-      await this.recordRenewal(driveId, pledge.id, items);
+      try {
+        await this.recordRenewal(driveId, pledge.id, items);
+      } catch (e) {
+        // PayPal already holds the test card's money for an order the book refused: let it go now, never leave it held.
+        await this.paypal(driveId, (gw) => gw.voidAuthorization({ authorizationId: auth.id, requestId: `void:${driveId}:${pledge.id}:unrecorded` })).catch((v: unknown) =>
+          this.log("could not void a renewal the book refused", { authorizationId: auth.id, error: v }),
+        );
+        throw e;
+      }
       await this.afterAuthorization(driveId);
       await this.advance(driveId);
       const after = await this.openBook(driveId);
-      return { pledgeId: pledge.id, renews: pledgeId, orderId: order.id, approveUrl: null, status: after.pledges[pledge.id]?.status ?? "pending_approval", approval };
+      return { pledgeId: pledge.id, renews: pledgeId, orderId: after.pledges[pledge.id]?.paypal.orderId ?? order.id, approveUrl: null, status: after.pledges[pledge.id]?.status ?? "pending_approval", approval, created: true };
     }
+    // PayPal window: nothing is held until the donor approves (approvePledge records it), so an order PayPal
+    // made for an earlier amount is never a hold. The amount is in the request id: a smaller rest asks a new order.
     const base = this.d.appBaseUrl?.replace(/\/+$/, "");
     const order = await this.paypal(driveId, (gw) =>
       gw.createAuthorizeOrder({
@@ -626,13 +653,34 @@ export class PledgeService {
         driveId,
         amount: pledge.amount,
         description,
-        requestId: `order:${key}`,
+        requestId: `order:${pledge.id}:${pledge.amount.minor}`,
         userAction: "PAY_NOW",
-        ...(base ? { returnUrl: `${base}/pledge/${encodeURIComponent(pledge.id)}`, cancelUrl: `${base}/pledge/${encodeURIComponent(pledgeId)}` } : {}),
+        // back to the old hold's statement, where the waiting renewal can be approved or withdrawn
+        ...(base ? { returnUrl: `${base}/pledge/${encodeURIComponent(pledgeId)}`, cancelUrl: `${base}/pledge/${encodeURIComponent(pledgeId)}` } : {}),
       }),
     );
     await this.recordRenewal(driveId, pledge.id, [{ event: created(order.id), source: "app" }]);
-    return { pledgeId: pledge.id, renews: pledgeId, orderId: order.id, approveUrl: order.approveUrl ?? null, status: order.status, approval };
+    // A twin press may have recorded this pledge first: answer with the order the book holds.
+    const after = await this.openBook(driveId);
+    const recorded = after.pledges[pledge.id];
+    return {
+      pledgeId: pledge.id,
+      renews: pledgeId,
+      orderId: recorded?.paypal.orderId ?? order.id,
+      approveUrl: recorded && recorded.paypal.orderId !== order.id ? null : (order.approveUrl ?? null),
+      status: recorded && recorded.status !== "pending_approval" ? recorded.status : order.status,
+      approval,
+      created: true,
+    };
+  }
+
+  /**
+   * How a renewal is approved: with PayPal's sandbox test card only for a hold that was itself
+   * approved that way on a demo drive (the demo's seeded holds); every other hold in the PayPal
+   * window, by the donor, as their first approval.
+   */
+  private renewalApproval(demo: boolean, pledge: Pledge | undefined): RenewalApproval {
+    return demo && pledge?.paymentSource === "card" ? "sandbox_test_card" : "paypal_window";
   }
 
   /** Records a renewal's events; a twin press that recorded the same pledge first is not an error. */
@@ -1221,16 +1269,18 @@ export class PledgeService {
     drive: { id: string; title: string };
     statement: DonorStatement;
     rebind?: RebindOffer | null;
-    renewal?: (RenewalOffer & { approval: "paypal_window" | "sandbox_test_card" }) | null;
+    renewal?: (RenewalOffer & { approval: RenewalApproval }) | null;
   }> {
     const { driveId, state } = await this.pledgeDrive(pledgeId);
-    const demo = this.renewEnabled ? (await this.driveRow(driveId)).demo : false;
-    return {
+    const out = {
       drive: { id: state.drive!.id, title: state.drive!.title },
       statement: donorStatement(state, pledgeId),
       rebind: this.rebindEnabled ? rebindOffer(state, pledgeId, this.now()) : null,
-      renewal: this.renewEnabled ? { ...renewalOffer(state, pledgeId, this.now()), approval: demo ? "sandbox_test_card" : "paypal_window" } : null,
     };
+    // While RENEW_ENABLED is off the answer is exactly as before: no `renewal` key at all.
+    if (!this.renewEnabled) return out;
+    const demo = (await this.driveRow(driveId)).demo;
+    return { ...out, renewal: { ...renewalOffer(state, pledgeId, this.now()), approval: this.renewalApproval(demo, state.pledges[pledgeId]) } };
   }
 }
 

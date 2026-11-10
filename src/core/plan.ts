@@ -11,6 +11,7 @@ import {
   rootAuthorizationId,
   type LedgerState,
   lookup,
+  unlinkableRenewal,
   needsVoid,
   pendingBatch,
   receiptFundedBase,
@@ -99,7 +100,8 @@ export function planCaptures(s: LedgerState, now: string, opts: CaptureOptions =
     if (expiresAt - t <= CAPTURE_BEFORE_EXPIRY_MS) reasons.push("expiry");
     if (drive.status !== "open") reasons.push("closing");
     if (hold.revokedAt) reasons.push("revoked");
-    if (hold.renewedTo) reasons.push("renewed"); // the renewal carries on: capture what is owed, then void
+    // the renewal carries on, or a renewal's usable part is all promised: capture what is owed, then void (its surplus goes back)
+    if (hold.renewedTo || spentRenewal(pledge, hold)) reasons.push("renewed");
     if (opts.force) reasons.push("force");
     if (reasons.length > 0) {
       out.push(captureCommand(drive, pledge, hold, { seq: hold.nextSeq, amount: hold.accrued, shares: hold.accruals }, reasons, false));
@@ -123,10 +125,16 @@ export function captureSubmittedEvent(cmd: E.CaptureCommand, at: string): E.Capt
   };
 }
 
+/** A linked renewal that can fund nothing more while PayPal still holds its surplus: void it once settled. */
+const spentRenewal = (pledge: Pledge, hold: HoldBook): boolean =>
+  hold.usable !== undefined && !hold.renewedTo && (hold.surplus ?? 0) > 0 && availableMinor(pledge, hold) === 0;
+
 function reauthBlocker(s: LedgerState, pledge: Pledge, hold: HoldBook, now: string): string | null {
   if (!isLiveStatus(pledge.status)) return `hold is ${pledge.status}`;
   if (hold.revokedAt) return "pledge was revoked";
   if (hold.renewedTo) return `hold was renewed by ${hold.renewedTo}`;
+  // Nothing it could still fund and nothing accrued to capture: keeping it at PayPal longer helps no one.
+  if (availableMinor(pledge, hold) === 0 && hold.accrued === 0) return "nothing on this hold can still be charged";
   if (requireDrive(s).status !== "open") return "drive is closing";
   if (pledge.paymentSource !== "paypal") return "only PayPal-account holds can be reauthorized";
   const day = dayIndex(pledge.authorizedAt!, now);
@@ -186,8 +194,12 @@ export function planHoldMaintenance(s: LedgerState, now: string): E.MaintenanceC
       out.push({ kind: "expire", driveId: drive.id, pledgeId: id });
       continue;
     }
-    if (hold.revokedAt || hold.blockedAt || hold.renewedTo) {
-      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : hold.renewedTo ? "renewed" : "revoked"));
+    if (unlinkableRenewal(s, id)) {
+      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, "renewal_unlinked"));
+      continue;
+    }
+    if (hold.revokedAt || hold.blockedAt || hold.renewedTo || spentRenewal(pledge, hold)) {
+      if (readyToVoid(pledge, hold)) out.push(voidCommand(drive, pledge, hold, hold.blockedAt ? "capture_refused" : hold.revokedAt ? "revoked" : "renewed"));
       continue;
     }
     if (drive.status !== "open") {

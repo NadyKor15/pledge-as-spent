@@ -49,19 +49,19 @@ describe("carry switched off", () => {
   beforeEach(() => vi.stubEnv("REBIND_ENABLED", ""));
   afterEach(() => vi.unstubAllEnvs());
 
-  it("refuses the choice before PayPal is asked, and the drive says the feature is off", async () => {
+  it("ignores the choice exactly as before the feature existed, and the drive says the feature is off", async () => {
     const s = await setup();
     expect((await s.h.svc.getDriveView(s.driveId)).features).toEqual({ carry: false, renew: false });
-    const calls = s.pp.calls.length;
-    const base = { driveId: s.driveId, needId: "water", donorName: "Claire (Lyon)", amount: { currency: "EUR" as const, minor: 1000 } };
-    expect(await reject(s.h.svc.createPledge({ ...base, rest: "carry" }))).toMatchObject({ status: 400, code: "carry_disabled" });
-    expect(await reject(s.h.svc.createPledge({ ...base, rest: "maybe" }))).toMatchObject({ status: 400, code: "invalid_rest" });
-    expect(s.pp.calls.length).toBe(calls);
-    // "release" is what every pledge did so far: accepted, nothing ever moves
-    const id = await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "release");
-    expect((await s.hold(id)).rest).toBe("release");
+    // any value is ignored, nothing is stored: the pledge is the one every donor made so far
+    const ids = [await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "carry"), await s.pledge("Ines (Porto)", "water", "EUR", 500, "maybe")];
+    for (const id of ids) {
+      const h = await s.hold(id);
+      expect("rest" in h).toBe(false);
+      expect(h.status).toBe("authorized");
+    }
     await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 501, [L("water", 40, 4320)]).bytes });
     expect(await s.carries()).toEqual([]);
+    expect((await s.hold(ids[0])).needId).toBe("water");
   });
 
   it("switched off after a donor chose to keep the rest: nothing moves any more", async () => {
@@ -85,6 +85,7 @@ describe("carry switched on", () => {
     expect((await s.h.svc.getDriveView(s.driveId)).features).toEqual({ carry: true, renew: false });
     const claire = await s.pledge("Claire (Lyon)", "water", "EUR", 1000, "carry");
     expect(await reject(s.h.svc.createPledge({ driveId: s.driveId, needId: null, match: { ratioNum: 1, ratioDen: 1 }, donorName: "Co", amount: { currency: "JPY", minor: 1000 }, rest: "carry" }))).toMatchObject({ code: "invalid_rest" });
+    expect(await reject(s.h.svc.createPledge({ driveId: s.driveId, needId: "water", donorName: "X", amount: { currency: "EUR", minor: 1000 }, rest: "maybe" }))).toMatchObject({ status: 400, code: "invalid_rest" });
     const before = await s.hold(claire);
 
     // water 40 of 40 (covered), then a pack of diapers on the same receipt

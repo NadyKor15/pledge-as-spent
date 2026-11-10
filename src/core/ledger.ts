@@ -177,11 +177,31 @@ export function needsVoid(p: Pledge, h: HoldBook): boolean {
   return isLiveStatus(p.status) && (uncommitted(h) > 0 || (h.surplus ?? 0) > 0 || (Boolean(h.blockedAt) && h.uncollected > 0));
 }
 
-/** The renewal of this hold that still waits for the donor's approval, if any. */
+/**
+ * The renewal of this hold that is still under way, if any: waiting for the donor's
+ * approval, or approved and not linked yet (the link comes right after, or after a
+ * crash at the next pass). A withdrawn renewal is not under way.
+ */
 export function pendingRenewal(s: LedgerState, h: HoldBook): string | null {
   const last = h.renewals?.[h.renewals.length - 1];
-  if (last === undefined || lookup(s.pledges, last)?.status !== "pending_approval") return null;
-  return lookup(s.holds, last)?.revokedAt ? null : last;
+  if (last === undefined || h.renewedTo) return null;
+  const p = lookup(s.pledges, last);
+  const nh = lookup(s.holds, last);
+  if (!p || !nh || nh.revokedAt) return null;
+  if (p.status === "pending_approval") return last;
+  return isLiveStatus(p.status) && nh.usable === undefined ? last : null;
+}
+
+/**
+ * An approved renewal that can never be linked: its old hold was renewed by
+ * another, or withdrawn. It holds the donor's money for nothing and is voided.
+ */
+export function unlinkableRenewal(s: LedgerState, pledgeId: string): boolean {
+  const p = lookup(s.pledges, pledgeId);
+  const h = lookup(s.holds, pledgeId);
+  if (!p || !h || p.renews === undefined || h.usable !== undefined || !isLiveStatus(p.status)) return false;
+  const old = lookup(s.holds, p.renews);
+  return !old || (old.renewedTo !== undefined && old.renewedTo !== pledgeId) || Boolean(old.revokedAt);
 }
 
 /** Refused batches since the hold's last confirmed one. */
@@ -270,7 +290,12 @@ export type RebindRefusalCode =
   /** Renewals: this hold was already carried on by an approved renewal. */
   | "renewed"
   /** Renewals: a renewal of this hold still waits for the donor's approval. */
-  | "renewal_pending";
+  | "renewal_pending"
+  /** Renewals: the chain already holds MAX_RENEWALS renewals. */
+  | "too_many_renewals";
+
+/** Renewals per chain at most: each is a month more; ids grow by ".rN" and PayPal's custom_id takes 127 characters. */
+export const MAX_RENEWALS = 6;
 
 export interface RebindRefusal {
   code: RebindRefusalCode;
@@ -393,6 +418,9 @@ export function renewalRefusal(s: LedgerState, pledgeId: string, at: string): Re
   const pending = pendingRenewal(s, hold);
   if (pending) return no("renewal_pending", `The renewal ${pending} waits for the donor's approval in PayPal.`);
   if (availableMinor(pledge, hold) <= 0) return no("nothing_left", "Nothing of this hold is left to renew.");
+  let depth = 0;
+  for (let id: string | undefined = pledge.renews; id !== undefined && depth <= MAX_RENEWALS; id = lookup(s.pledges, id)?.renews) depth += 1;
+  if (depth >= MAX_RENEWALS) return no("too_many_renewals", `This pledge was renewed ${depth} times already; a new pledge starts a new hold.`);
   return null;
 }
 
@@ -588,7 +616,8 @@ function checkRenewal(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
   const old = s.pledges[oldId];
   const oldHold = s.holds[oldId];
   if (p.donorName !== old.donorName) fail(e, `a renewal keeps the donor (${old.donorName})`);
-  if (p.needId !== old.needId) fail(e, `a renewal backs the need the old hold backs (${old.needId})`);
+  // The need is not checked here: a move or a carry of the old hold between the press and this event is
+  // followed at the link (onPledgeRenewed takes the old hold's need), so PayPal's approved order is never refused for it.
   if (p.amount.currency !== old.amount.currency) fail(e, `a renewal keeps the currency ${old.amount.currency}`);
   if (p.fx.base !== old.fx.base || p.fx.quote !== old.fx.quote || p.fx.rate !== old.fx.rate) fail(e, `a renewal keeps the old hold's rate ${old.fx.rate}`);
   if (restOf(p) !== restOf(old)) fail(e, `a renewal keeps the donor's choice for the rest (${restOf(old)})`);
@@ -671,7 +700,9 @@ function onPledgeRenewed(s: LedgerState, e: E.PledgeRenewed): LedgerState {
   if (oldHold.renewedTo) fail(e, `hold ${old.id} is already renewed by ${oldHold.renewedTo}`);
   if (pledge.status === "pending_approval" || pledge.status === "denied") fail(e, `renewal ${pledge.id} is not approved (${pledge.status})`);
   if (!isLiveStatus(pledge.status) || hold.usable !== undefined) fail(e, `renewal ${pledge.id} is ${pledge.status}`);
-  const carry = oldHold.revokedAt ? 0 : Math.min(hold.authorized, unpromised(oldHold));
+  if (hold.revokedAt || hold.blockedAt) fail(e, `renewal ${pledge.id} was withdrawn or refused by PayPal; it carries nothing on`);
+  if (oldHold.revokedAt) fail(e, `hold ${old.id} was withdrawn; a renewal carries nothing on from it`);
+  const carry = Math.min(hold.authorized, unpromised(oldHold));
   const nextHold: HoldBook = { ...hold, usable: carry, surplus: hold.authorized - carry, ...(oldHold.rebound ? { rebound: { ...oldHold.rebound } } : {}) };
   // The book's need of the chain is the old hold's now (a move or a carry while the donor was in PayPal follows).
   const nextPledge: Pledge = old.needId === pledge.needId ? pledge : { ...pledge, needId: old.needId };

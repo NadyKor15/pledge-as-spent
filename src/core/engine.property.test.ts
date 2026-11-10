@@ -636,7 +636,11 @@ class Sim {
     const p = s.pledges[id];
     const h = s.holds[id];
     const last = h.renewals?.[h.renewals.length - 1];
-    const pending = last !== undefined && s.pledges[last].status === "pending_approval" && !s.holds[last].revokedAt;
+    // under way: waiting for approval, or approved and not linked yet (never withdrawn)
+    const pending =
+      last !== undefined &&
+      !s.holds[last].revokedAt &&
+      (s.pledges[last].status === "pending_approval" || (isLiveStatus(s.pledges[last].status) && s.holds[last].usable === undefined));
     const may =
       s.drive!.status === "open" &&
       p.kind === "donor" &&
@@ -646,7 +650,8 @@ class Sim {
       !h.blockedAt &&
       Date.parse(this.now) < Date.parse(p.expiresAt!) &&
       !pending &&
-      availableMinor(p, h) > 0;
+      availableMinor(p, h) > 0 &&
+      renewalChain(s, id).indexOf(id) < 6; // at most six renewals per chain
     if (!may) {
       expect(() => renewalPledge(s, id, this.now)).toThrow(/renewal_refused/);
       return;
@@ -676,14 +681,18 @@ class Sim {
     // authorized, not linked: it funds nothing until the link
     must(availableMinor(this.state.pledges[id], this.state.holds[id]) === 0, "an unlinked renewal funds nothing", { id });
     const links = planRenewals(this.state, this.now).filter((e) => e.pledgeId === id);
-    if (this.state.holds[oldId].renewedTo || !isLiveStatus(this.state.pledges[id].status)) {
+    if (this.state.holds[oldId].renewedTo || this.state.holds[oldId].revokedAt || this.state.holds[id].revokedAt || !isLiveStatus(this.state.pledges[id].status)) {
       expect(links).toEqual([]);
+      // it can never be linked: maintenance lets PayPal release it
+      if (isLiveStatus(this.state.pledges[id].status)) {
+        expect(planHoldMaintenance(this.state, this.now).filter((c) => c.pledgeId === id).map((c) => c.kind)).toEqual(["void"]);
+      }
       return;
     }
     expect(links).toHaveLength(1);
     this.apply(links[0]);
     const nh = this.state.holds[id];
-    const carry = oldBefore.revokedAt ? 0 : Math.min(nh.authorized, Math.max(0, unpromisedBefore));
+    const carry = Math.min(nh.authorized, Math.max(0, unpromisedBefore));
     must(nh.usable === carry && nh.surplus === nh.authorized - carry, "the renewal carries exactly what the old hold never promised", { id, carry, usable: nh.usable });
     expect(applyEvent(this.state, links[0])).toBe(this.state);
     expect(planRenewals(this.state, this.now).filter((e) => e.pledgeId === id)).toEqual([]);

@@ -47,6 +47,8 @@ export function renewalPledge(s: LedgerState, pledgeId: string, at: string): Ple
 
 export interface RenewalOffer {
   pledgeId: string;
+  /** The hold's own status (a renewed hold says "voided" only once PayPal released it). */
+  status: Pledge["status"] | null;
   /** When PayPal ends the hold by itself (29 days from the first approval); null before approval. */
   expiresAt: string | null;
   /** From here on the statement reminds the donor (3 days before the end). */
@@ -57,8 +59,11 @@ export interface RenewalOffer {
   available: Money;
   /** Why it may not be renewed now, or null. */
   refusal: RebindRefusal | null;
-  /** A renewal waiting for the donor's approval in PayPal. */
-  pending: { pledgeId: string } | null;
+  /**
+   * A renewal under way: waiting for the donor's approval in PayPal (the button resumes it:
+   * the same order), or approved and about to be linked. `amount` is that order's amount.
+   */
+  pending: { pledgeId: string; amount: Money; approved: boolean } | null;
   /** The renewal that carries this hold on, once approved. */
   renewedTo: string | null;
   /** The hold this one carries on, when it is a renewal. */
@@ -73,19 +78,23 @@ export function renewalOffer(s: LedgerState, pledgeId: string, now: string): Ren
   const pledge = s.pledges[pledgeId];
   const hold = s.holds[pledgeId];
   if (!pledge || !hold) {
-    return { pledgeId, expiresAt: null, remindFrom: null, remind: false, available: { currency: "USD", minor: 0 }, refusal, pending: null, renewedTo: null, renews: null };
+    return { pledgeId, status: null, expiresAt: null, remindFrom: null, remind: false, available: { currency: "USD", minor: 0 }, refusal, pending: null, renewedTo: null, renews: null };
   }
   const expiresAt = pledge.expiresAt ?? null;
   const remindFrom = expiresAt ? addMs(expiresAt, -RENEWAL_REMIND_DAYS * DAY_MS) : null;
   const pending = pendingRenewal(s, hold);
+  // A renewal under way is not a refusal: the statement shows it and lets the donor finish (or withdraw) it.
+  const shown = refusal?.code === "renewal_pending" ? null : refusal;
+  const waiting = pending ? s.pledges[pending] : null;
   return {
     pledgeId,
+    status: pledge.status,
     expiresAt,
     remindFrom,
-    remind: refusal === null && remindFrom !== null && parseTime(now) >= parseTime(remindFrom),
+    remind: shown === null && remindFrom !== null && parseTime(now) >= parseTime(remindFrom),
     available: { currency: pledge.amount.currency, minor: availableMinor(pledge, hold) },
-    refusal,
-    pending: pending ? { pledgeId: pending } : null,
+    refusal: shown,
+    pending: waiting ? { pledgeId: waiting.id, amount: { ...waiting.amount }, approved: waiting.status !== "pending_approval" } : null,
     renewedTo: hold.renewedTo ?? null,
     renews: pledge.renews ?? null,
   };
@@ -100,12 +109,15 @@ export function planRenewals(s: LedgerState, at: string): PledgeRenewed[] {
   const drive = requireDrive(s);
   parseTime(at, "at");
   const out: PledgeRenewed[] = [];
+  const linked = new Set<string>();
   for (const id of s.pledgeIds) {
     const p = s.pledges[id];
     const h = s.holds[id];
-    if (p.renews === undefined || h.usable !== undefined || !isLiveStatus(p.status) || h.revokedAt) continue;
+    if (p.renews === undefined || h.usable !== undefined || !isLiveStatus(p.status) || h.revokedAt || h.blockedAt) continue;
     const old = s.holds[p.renews];
-    if (!old || old.renewedTo) continue;
+    // never two links for one old hold; nothing is carried on from a withdrawn one (that renewal is voided instead)
+    if (!old || old.renewedTo || old.revokedAt || linked.has(p.renews)) continue;
+    linked.add(p.renews);
     out.push({ id: renewedEventId(drive.id, id), at, driveId: drive.id, type: "PledgeRenewed", pledgeId: id, fromPledgeId: p.renews });
   }
   return out;

@@ -11,6 +11,7 @@ export async function POST(req: Request, ctx: RouteContext<"/api/pledges/[id]/re
   const { id } = await ctx.params;
   return withService(async (svc) => {
     const f = await readFields(req);
-    return respond(f, await svc.renewPledge(id), 201);
+    const out = await svc.renewPledge(id);
+    return respond(f, out, out.created ? 201 : 200); // 200: the renewal already under way
   });
 }

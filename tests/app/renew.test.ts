@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DAY_MS, type PledgeRenewed } from "../../src/core";
+import { CoreError, DAY_MS, type PledgeRenewed } from "../../src/core";
 import { drives, events } from "../../src/db/schema";
 import { ServiceError } from "../../src/server/errors";
 import { FAKE_EPOCH, fakeSandbox } from "./support/fake-sandbox";
@@ -54,11 +54,11 @@ describe("renew switched off", () => {
   beforeEach(() => vi.stubEnv("RENEW_ENABLED", ""));
   afterEach(() => vi.unstubAllEnvs());
 
-  it("is refused, the statement offers nothing and PayPal is not asked", async () => {
+  it("is refused, the statement is exactly as before (no renewal key) and PayPal is not asked", async () => {
     const s = await setup();
     const calls = s.pp.calls.length;
     expect(await reject(s.h.svc.renewPledge(s.lena))).toMatchObject({ status: 404, code: "renew_disabled" });
-    expect((await s.h.svc.getStatement(s.lena)).renewal).toBeNull();
+    expect(Object.keys(await s.h.svc.getStatement(s.lena))).toEqual(["drive", "statement", "rebind"]);
     expect((await s.h.svc.getDriveView(s.driveId)).features.renew).toBe(false);
     expect(s.pp.calls.length).toBe(calls);
   });
@@ -139,6 +139,52 @@ describe("renew switched on", () => {
     expect(await s.links()).toHaveLength(1);
   });
 
+  it("a waiting renewal stays on the statement: the donor can approve it later or withdraw it, then renew again", async () => {
+    const s = await setup("real-renew-wait", { real: true });
+    const first = await s.h.svc.renewPledge(s.lena); // the donor closes the PayPal window
+    const r = (await s.h.svc.getStatement(s.lena)).renewal!;
+    expect(r).toMatchObject({ refusal: null, pending: { pledgeId: first.pledgeId, approved: false, amount: { currency: "EUR", minor: 2000 } } });
+    await s.h.svc.revokePledge(first.pledgeId); // "Withdraw this renewal"
+    expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ pending: null, refusal: null });
+    expect((await s.hold(s.lena)).available).toBe(2000);
+    const second = await s.h.svc.renewPledge(s.lena);
+    expect(second.pledgeId).toBe(`${s.lena}.r2`);
+    // approving the withdrawn order later links nothing: PayPal releases it
+    s.pp.approve(first.orderId);
+    await s.h.svc.approvePledge(first.pledgeId, first.orderId);
+    expect(await s.links()).toEqual([]);
+    expect((await s.hold(first.pledgeId)).status).toBe("voided");
+  });
+
+  it("a donor who pledged through the PayPal window on a demo drive renews through the PayPal window too", async () => {
+    const s = await setup("demo-renew-window");
+    const p = await s.h.svc.createPledge({ driveId: s.driveId, needId: "water", donorName: "Claire (Lyon)", amount: { currency: "EUR", minor: 1000 } });
+    s.pp.approve(p.orderId);
+    await s.h.svc.approvePledge(p.pledgeId, p.orderId);
+    expect((await s.h.svc.getStatement(p.pledgeId)).renewal).toMatchObject({ approval: "paypal_window" });
+    expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ approval: "sandbox_test_card" }); // the demo's own test-card hold
+    expect(await s.h.svc.renewPledge(p.pledgeId)).toMatchObject({ approval: "paypal_window", status: "PAYER_ACTION_REQUIRED", created: true });
+  });
+
+  it("a crash between the approval and the link is finished by the next return from PayPal (or a press)", async () => {
+    const s = await setup("real-renew-crash", { real: true });
+    const r = await s.h.svc.renewPledge(s.lena);
+    s.pp.approve(r.orderId);
+    const svc = s.h.svc as unknown as { afterAuthorization: (id: string) => Promise<unknown> };
+    const real = svc.afterAuthorization.bind(s.h.svc);
+    const spy = vi.spyOn(svc, "afterAuthorization").mockRejectedValueOnce(new Error("crash"));
+    await expect(s.h.svc.approvePledge(r.pledgeId, r.orderId)).rejects.toThrow(/crash/);
+    spy.mockImplementation(real);
+    expect(await s.links()).toEqual([]);
+    // meanwhile the statement shows it approved, and a second press refuses a second renewal
+    expect((await s.h.svc.getStatement(s.lena)).renewal).toMatchObject({ pending: { pledgeId: r.pledgeId, approved: true } });
+    expect(await s.h.svc.renewPledge(s.lena)).toMatchObject({ pledgeId: r.pledgeId, created: false });
+    expect(await s.links()).toHaveLength(1); // the press finished the link
+    await s.h.svc.approvePledge(r.pledgeId, r.orderId);
+    expect(await s.links()).toHaveLength(1);
+    vi.restoreAllMocks();
+  });
+
   it("a line funded while the donor is in the PayPal window trims the renewal: never charged more than pledged", async () => {
     const s = await setup("real-renew-race", { real: true });
     const r = await s.h.svc.renewPledge(s.lena); // asks for all €20.00
@@ -158,6 +204,26 @@ describe("renew switched on", () => {
     expect(chain.every((x) => x.settled)).toBe(true);
     expect(chain.reduce((a, x) => a + x.spent, 0)).toBe(used);
     expect(chain.find((x) => x.pledgeId === r.pledgeId)!.released).toBe(2000);
+  });
+
+  it("demo drive: when the book refuses a renewal PayPal already approved, the hold is voided at once, never left held", async () => {
+    const s = await setup();
+    const realRecord = (s.h.svc as unknown as { recordStrict: (...a: unknown[]) => Promise<void> }).recordStrict.bind(s.h.svc);
+    let refused = false;
+    vi.spyOn(s.h.svc as unknown as { recordStrict: (...a: unknown[]) => Promise<void> }, "recordStrict").mockImplementation(async (...a: unknown[]) => {
+      const items = a[1] as { event: { type: string; id: string } }[];
+      if (!refused && items.some((i) => i.event.type === "PledgeCreated" && i.event.id.endsWith(".r1"))) {
+        refused = true;
+        throw new CoreError("invalid_event", "the book changed meanwhile");
+      }
+      return realRecord(...a);
+    });
+    const voidsBefore = s.pp.voids.length;
+    expect(await reject(s.h.svc.renewPledge(s.lena))).toMatchObject({ status: 409, code: "renewal_refused" });
+    expect(s.pp.voids.length).toBe(voidsBefore + 1); // the test card's new authorization, let go
+    expect((await s.hold(s.lena))).toMatchObject({ status: "authorized", available: 2000 }); // Lena's hold untouched
+    expect((await s.h.svc.getDriveView(s.driveId)).holds.some((h) => h.pledgeId.endsWith(".r1"))).toBe(false);
+    vi.restoreAllMocks();
   });
 
   it("refuses a withdrawn hold, a hold with nothing left and a closed drive, before PayPal is asked", async () => {

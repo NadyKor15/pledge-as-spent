@@ -460,6 +460,9 @@ export interface CloseReportRow {
   reversed: number;
   /** pledged === spent + released + uncollected + reversed: true once the hold is settled. */
   settled: boolean;
+  /** Renewals: the hold this one carries on, and the one that carried this on. A chain is one donor's pledge: count it once. */
+  renews?: string;
+  renewedTo?: string;
 }
 
 /** SPEC §6: per authorized hold, "pledged / spent / released" (+ uncollected, reversed) in the donor's currency. */
@@ -479,6 +482,8 @@ export function closeReport(s: LedgerState): CloseReportRow[] {
         uncollected: hold.uncollected,
         reversed: hold.reversed,
         settled: hold.authorized === hold.captured + hold.released + hold.uncollected + hold.reversed,
+        ...(pledge.renews !== undefined ? { renews: pledge.renews } : {}),
+        ...(hold.renewedTo ? { renewedTo: hold.renewedTo } : {}),
       };
     });
 }

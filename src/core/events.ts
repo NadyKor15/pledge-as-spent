@@ -316,7 +316,8 @@ export interface VoidCommand {
   pledgeId: string;
   authorizationId: string;
   requestId: string;
-  reason: "close" | "revoked" | "capture_refused" | "renewed";
+  /** renewed: carried on by a renewal, or a renewal with nothing left to fund; renewal_unlinked: an approved renewal that can never be linked. */
+  reason: "close" | "revoked" | "capture_refused" | "renewed" | "renewal_unlinked";
 }
 
 export interface PayoutCommand {
