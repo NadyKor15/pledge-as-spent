@@ -1,5 +1,5 @@
 import type { AgAiTool, AgAiToolResult } from "ag-studio";
-import { lineGross, lineName, needById, shareStage, shownHolds, shownId, taxUnknown } from "@/ui/derive";
+import { bookRefusals, lineGross, lineName, needById, shareStage, shownHolds, shownId, taxUnknown } from "@/ui/derive";
 import { decimals, donorParts, money } from "@/ui/format";
 import { deriveLedger } from "@/ui/ledger/derive";
 import type { DriveView, Hold, LedgerRow, Receipt } from "@/ui/types";
@@ -334,21 +334,26 @@ export function ledgerLine(v: View, line: unknown): LedgerToolResult {
   return ok(out.join("\n"), f, keys);
 }
 
+/**
+ * The book's refusals as the screens count them (bookRefusals): each refused or unfunded line, then the discounts
+ * counted with it. A discount is said as what it takes off ("a discount of ¥43"), not as a line of its own.
+ */
 export function ledgerRefusals(v: View): LedgerToolResult {
   const base = v.drive.baseCurrency;
-  const rows = v.ledger.filter((x) => x.kind === "rejected" || x.kind === "unfunded");
+  const { items, count, total } = bookRefusals(v);
   const f = new Facts();
-  if (rows.length === 0) return ok("No line of this book was refused.", f, []);
-  const out = rows.map((x) => {
-    const key = lineKeyOf(x);
-    const rl = receiptLine(v, x);
-    const printed = rl ? `"${rl.line.text}"${rl.line.translationEn ? ` (English: ${rl.line.translationEn})` : ""}` : (x.item ?? "");
-    const word = x.kind === "rejected" ? "refused" : "not funded";
-    return `- line ${x.lineNo} ${printed}: ${f.amount(base, x.base, `line ${x.lineNo} ${word}`, { lineKey: key })} ${word}${x.code ? ` (rule: ${x.code.replace(/_/g, " ")})` : ""} — ${x.reasonEn ?? "no reason recorded"}`;
+  if (items.length === 0) return ok("No line of this book was refused.", f, []);
+  const keys = items.map((i) => lineKeyOf({ receiptId: i.receiptId, lineNo: i.line.lineNo }));
+  const out = items.map((i, n) => {
+    const key = keys[n];
+    const no = i.line.lineNo;
+    const printed = `"${i.line.text}"${i.line.translationEn ? ` (English: ${i.line.translationEn})` : ""}`;
+    if (i.countedWith !== undefined) return `- line ${no} ${printed}: a discount of ${f.amount(i.currency, -i.amount, `line ${no} discount`, { lineKey: key })}, counted with line ${i.countedWith} and refused with it`;
+    const word = i.row?.kind === "unfunded" ? "not funded" : "refused";
+    const code = i.row?.code;
+    return `- line ${no} ${printed}: ${f.amount(i.currency, i.amount, `line ${no} ${word}`, { lineKey: key })} ${word}${code ? ` (rule: ${code.replace(/_/g, " ")})` : ""} — ${i.row?.reasonEn ?? "no reason recorded"}`;
   });
-  const keys = rows.map(lineKeyOf);
-  const total = rows.reduce((s, x) => s + x.base, 0);
-  const head = `${rows.length} line${rows.length === 1 ? "" : "s"} refused, ${f.amount(base, total, "refused in total", { lineKeys: keys })} in total; no donor money was used for them:`;
+  const head = `${count} line${count === 1 ? "" : "s"} refused, ${f.amount(base, total, "refused in total", { lineKeys: keys })} in total; no donor money was used for them:`;
   return ok([head, ...out].join("\n"), f, keys);
 }
 

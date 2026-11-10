@@ -1,3 +1,4 @@
+import { bookRefusals } from "@/ui/derive";
 import { decimals, money } from "@/ui/format";
 import type { DriveView } from "@/ui/types";
 import { checkAnswer, type Verdict } from "./guard";
@@ -149,20 +150,26 @@ function paypalAnswer(d: DonorFigures, l: AgentLocale): string {
 
 function refusedAnswer(v: DriveView, l: AgentLocale): string {
   const base = v.drive.baseCurrency;
-  const rows = v.ledger.filter((x) => x.kind === "rejected" || x.kind === "unfunded");
+  // The same refusals, count and total as the screens and ledger_refusals (bookRefusals).
+  const { items: refusals, count, total: sum } = bookRefusals(v);
   const m = (minor: number) => localMoney(base, minor, l);
-  if (rows.length === 0) return { en: "No line of this book was refused.", de: "In diesem Buch wurde keine Zeile abgelehnt.", ja: "この帳簿で却下された行はありません。" }[l];
-  const items = rows.map((x) => {
-    const r = x.code ? RULE[x.code]?.[l] : undefined;
+  if (refusals.length === 0) return { en: "No line of this book was refused.", de: "In diesem Buch wurde keine Zeile abgelehnt.", ja: "この帳簿で却下された行はありません。" }[l];
+  const items = refusals.map((i) => {
+    const no = i.line.lineNo;
+    if (i.countedWith !== undefined) {
+      const off = m(-i.amount);
+      return { en: `line ${no}, a discount of ${off} counted with line ${i.countedWith}`, de: `Zeile ${no}, Rabatt von ${off}, mit Zeile ${i.countedWith} verrechnet`, ja: `${no}行目の値引き（${off}）：${i.countedWith}行目と一緒に計上` }[l];
+    }
+    const r = i.row?.code ? RULE[i.row.code]?.[l] : undefined;
     // A reason is one clause of the list: its own full stop would print "needs.; line 3" and "needs..".
-    const why = (r?.why ?? x.reasonEn ?? "").trim().replace(/[.。!！]+$/u, "");
-    return { en: `line ${x.lineNo}, ${r?.name ?? "an item"} for ${m(x.base)}: ${why}`, de: `Zeile ${x.lineNo}, ${r?.name ?? "ein Artikel"} für ${m(x.base)}: ${why}`, ja: `${x.lineNo}行目の${r?.name ?? "品目"}（${m(x.base)}）：${why}` }[l];
+    const why = (r?.why ?? i.row?.reasonEn ?? "").trim().replace(/[.。!！]+$/u, "");
+    return { en: `line ${no}, ${r?.name ?? "an item"} for ${m(i.amount)}: ${why}`, de: `Zeile ${no}, ${r?.name ?? "ein Artikel"} für ${m(i.amount)}: ${why}`, ja: `${no}行目の${r?.name ?? "品目"}（${m(i.amount)}）：${why}` }[l];
   });
-  const total = m(rows.reduce((s, x) => s + x.base, 0));
+  const total = m(sum);
   return {
-    en: `${rows.length} line${rows.length === 1 ? " was" : "s were"} refused, ${total} in total, and no donor paid for ${rows.length === 1 ? "it" : "them"}: ${items.join("; ")}.`,
-    de: `${rows.length} Zeile${rows.length === 1 ? " wurde" : "n wurden"} abgelehnt, insgesamt ${total}; kein Spender hat dafür bezahlt: ${items.join("; ")}.`,
-    ja: `却下された行は${rows.length}行、合計${total}で、寄付者の支払いはありません：${items.join("。")}。`,
+    en: `${count} line${count === 1 ? " was" : "s were"} refused, ${total} in total, and no donor paid for ${count === 1 ? "it" : "them"}: ${items.join("; ")}.`,
+    de: `${count} Zeile${count === 1 ? " wurde" : "n wurden"} abgelehnt, insgesamt ${total}; kein Spender hat dafür bezahlt: ${items.join("; ")}.`,
+    ja: `却下された行は${count}行、合計${total}で、寄付者の支払いはありません：${items.join("。")}。`,
   }[l];
 }
 
