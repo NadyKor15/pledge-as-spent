@@ -26,8 +26,8 @@
 .pp-none { margin-top: 5mm; font-size: 15pt; color: #3E4A5C; }
 .pp-checked { margin-top: 8mm; padding: 4mm 5mm; border-radius: 3mm; background: #E8F2F0; font-size: 14pt; font-weight: 600; line-height: 1.35; }
 
-/* The QR code at the foot of the page, large enough to scan from a step away. */
-.pp-foot { margin-top: auto; padding-top: 8mm; display: grid; grid-template-columns: 55mm 1fr; align-items: center; gap: 7mm; break-inside: avoid; }
+/* The QR code right under the promise it lets anyone check, large enough to scan from a step away. */
+.pp-foot { margin-top: 9mm; display: grid; grid-template-columns: 55mm 1fr; align-items: center; gap: 7mm; break-inside: avoid; }
 .pp-qr { width: 55mm; height: 55mm; display: block; }
 .pp-scan p { font-size: 13pt; line-height: 1.35; }
 .pp-url { margin-top: 2mm; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9pt !important; color: #475164; overflow-wrap: anywhere; }
@@ -47,7 +47,7 @@
   .pp-total { font-size: 15px; }
   .pp-total b { font-size: 19px; }
   .pp-checked { font-size: 15px; padding: 12px 14px; }
-  .pp-foot { grid-template-columns: 132px 1fr; gap: 14px; padding-top: 24px; }
+  .pp-foot { grid-template-columns: 132px 1fr; gap: 14px; margin-top: 24px; }
   .pp-qr { width: 132px; height: 132px; }
   .pp-scan p { font-size: 14px; }
 }

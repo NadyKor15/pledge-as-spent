@@ -623,9 +623,14 @@ test("the poster prints on one A4 page: no menu, nothing cut, the QR code whole"
     const s = sheet.getBoundingClientRect();
     const qr = sheet.querySelector("svg")!.getBoundingClientRect();
     const last = [...sheet.querySelectorAll("p, li, h1, h2")].map((e) => e.getBoundingClientRect().bottom);
-    return { spill: sheet.scrollHeight - sheet.clientHeight, qrInside: qr.bottom <= s.bottom + 0.5 && qr.top >= s.top, lowest: Math.max(...last), bottom: s.bottom };
+    const promise = sheet.querySelector(".pp-checked")!.getBoundingClientRect();
+    const foot = sheet.querySelector("footer")!.getBoundingClientRect();
+    return { spill: sheet.scrollHeight - sheet.clientHeight, qrInside: qr.bottom <= s.bottom + 0.5 && qr.top >= s.top, lowest: Math.max(...last), bottom: s.bottom, gap: foot.top - promise.bottom };
   });
   expect(fit.spill).toBeLessThanOrEqual(0);
+  // The QR code follows the promise it lets anyone check, an ordinary gap under it, not pushed to the foot of the page.
+  expect(fit.gap).toBeGreaterThan(0);
+  expect(fit.gap).toBeLessThan(60);
   expect(fit.qrInside).toBe(true);
   expect(fit.lowest).toBeLessThanOrEqual(fit.bottom + 0.5);
   const pdf = await page.pdf({ format: "A4", preferCSSPageSize: true, printBackground: true });
