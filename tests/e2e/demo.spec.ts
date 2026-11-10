@@ -436,7 +436,7 @@ for (const { width, height } of [
     await expect(page.locator(".lg-spent .lg-line")).toHaveCount(3);
     const body = page.locator("body");
     await expect(body).toContainText("$8.55 held");
-    // What the page says about the money; the chat's quick question "How much came back to me?" asks, it says nothing.
+    // What the page says about the money; the chat's quick question "How much was never charged?" asks, it says nothing.
     const said = await page.evaluate(() => {
       const chat = [...document.querySelectorAll<HTMLElement>("[data-testid=ask-widget]")];
       chat.forEach((e) => (e.style.display = "none"));
