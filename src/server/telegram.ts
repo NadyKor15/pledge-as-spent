@@ -1,4 +1,4 @@
-import { lineMoney, lineName, lineViews } from "@/ui/derive";
+import { lineMoney, lineName, lineViews, refusalSummary } from "@/ui/derive";
 import { money } from "@/ui/format";
 import { ServiceError } from "./errors";
 import type { PledgeService } from "./service";
@@ -87,20 +87,30 @@ function chatTools(chatId: number, deps: TelegramDeps) {
   };
 }
 
+/**
+ * The chat's counts for a funded receipt: approved lines, refused lines and their reasons. Refused comes from the same
+ * summary as every screen (refusalSummary): a discount counted with another line is not a line of its own.
+ */
+export function receiptCounts(view: Awaited<ReturnType<PledgeService["getDriveView"]>>, receipt: Receipt, fates = lineViews(view, receipt)) {
+  const approved = fates.filter((l) => l.shares.length > 0).length;
+  const summary = refusalSummary(view, receipt, fates);
+  const own = summary.items.filter((i) => i.countedWith === undefined);
+  const reasons = [...new Set(own.map((i) => i.view.reason).filter(Boolean))].join(" ");
+  return { approved, refused: summary.count, reasons };
+}
+
 /** What became of a receipt, in the book's own words, with the coordinator's buttons when a person has to decide. */
 async function report(svc: PledgeService, tools: ReturnType<typeof chatTools>, driveId: string, receipt: Receipt) {
   const view = await svc.getDriveView(driveId);
   const paid = view.payouts.find((p) => p.receiptId === receipt.id)?.attempts.at(-1)?.amount ?? null;
   const fates = lineViews(view, receipt);
-  const approved = fates.filter((l) => l.shares.length > 0).length;
-  const refused = fates.filter((l) => l.state === "rejected");
-  const reasons = [...new Set(refused.map((l) => l.reason).filter(Boolean))].join(" ");
+  const { approved, refused, reasons } = receiptCounts(view, receipt, fates);
   const sample = receipt.reader.startsWith("recognized:") ? "I recognized our sample receipt, so this is its saved, checked reading. A photo of your own is read live.\n\n" : "";
   const head = `${sample}Receipt: ${receipt.lines.length} lines, ${money(receipt.currency, receipt.total) || "total not read"}.`;
   if (receipt.status === "funded") {
     const why = reasons ? `\nRefused: ${reasons}` : "";
     const payout = paid ? `${money(receipt.currency, paid)} goes to the volunteer through PayPal Payouts. ` : "";
-    await tools.say(`${head}\n${approved} approved, ${refused.length} refused.${why}\n${payout}Donors are charged only for the approved lines.${tools.sandboxNote(driveId, "Follow it here")}`);
+    await tools.say(`${head}\n${approved} approved, ${refused} refused.${why}\n${payout}Donors are charged only for the approved lines.${tools.sandboxNote(driveId, "Follow it here")}`);
   } else if (receipt.status === "review") {
     const rows = fates.map((l) => `${l.line.lineNo}. ${lineName(l).title} · ${lineMoney(receipt.currency, l.line)}${l.state === "rejected" ? " · not funded" : ""}`);
     // A total that does not add up or a second copy is not a yes-or-no for a chat: approving would accept it as it stands.

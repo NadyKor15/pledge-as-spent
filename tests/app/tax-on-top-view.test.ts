@@ -11,6 +11,7 @@ import { ParsedReceipt } from "../../src/receipts/types";
 import { withDrive } from "../../src/server/book";
 import { demoDrive } from "../../src/server/demo";
 import { savedAnswer } from "../../src/server/reading";
+import { receiptCounts } from "../../src/server/telegram";
 import { CoordinatorView } from "../../src/ui/CoordinatorView";
 import { bookRefusals, lineGross, lineMoney, lineName, lineViews, refusalSummary, refusedCount, refusedTotal } from "../../src/ui/derive";
 import { DonorView } from "../../src/ui/DonorView";
@@ -301,5 +302,13 @@ describe("holdout2-ja-02 on the judges' demo drive (water, diapers, batteries)",
       expect(a.text.startsWith(totals[l])).toBe(true);
       expect(a.verdict.ok).toBe(true);
     }
+  });
+
+  it("the Telegram bot counts what the screens count: 1 approved, 4 refused, no reason for the coupon of its own", async () => {
+    const { v, r } = await funded();
+    const c = receiptCounts(v, r);
+    expect({ approved: c.approved, refused: c.refused }).toEqual({ approved: 1, refused: refusalSummary(v, r).count });
+    expect(c.refused).toBe(4);
+    expect(c.reasons).not.toContain("Counted with line");
   });
 });
