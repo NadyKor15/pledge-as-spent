@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CommandReport } from "@/server/paypal-ops";
 import { api, useAction, type ApiError } from "./api";
-import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, type LineView, type NextStep } from "./derive";
+import { activityShown, captureLine, captureState, focusReceipt, holdAmounts, holdTag, holdTone, lineMoney, lineName, lineViews, liveFeed, needById, nextStep, payoutNote, readMark, receiptBadge, receiptChecks, refusedTotal, shareGroups, shownHolds, shownId, type LineView, type NextStep } from "./derive";
 import { LineOriginal } from "./LineOriginal";
 import { donorParts, money, ofCount, pct } from "./format";
 import { DesktopHeader, roleHref } from "./Header";
@@ -54,7 +54,8 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
   const lines = receipt ? lineViews(view, receipt) : [];
   useFlows(page, layer, (box) => flows(view, receipt, lines, box));
 
-  const donors = view.holds.filter((h) => h.kind === "donor");
+  // A renewed donor is one card: shownHolds reads their renewal chain as one hold.
+  const donors = shownHolds(view).filter((h) => h.kind === "donor");
   const matches = view.holds.filter((h) => h.kind === "match");
 
   return (
@@ -617,7 +618,7 @@ function flows(view: DriveView, r: Receipt | null, lines: LineView[], box: (k: s
   if (!r || !rb) return [];
   const out: Shape[] = [];
   const dots: Shape[] = [];
-  const funding = view.holds.filter((h) => lines.some((l) => l.shares.some((x) => x.pledgeId === h.pledgeId)));
+  const funding = shownHolds(view).filter((h) => lines.some((l) => l.shares.some((x) => shownId(view, x.pledgeId) === h.pledgeId)));
   const donors = funding.filter((h) => h.kind === "donor");
   donors.forEach((h, k) => {
     const c = box(`hold:${h.pledgeId}`);

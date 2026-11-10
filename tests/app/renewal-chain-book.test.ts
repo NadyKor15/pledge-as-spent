@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { holdById } from "@/ui/derive";
+import { chainIds, holdById, shareGroups, shownHolds, shownId } from "@/ui/derive";
+import { chainFee } from "@/ui/fee-line";
 import { meterParts, METER_KEYS } from "@/ui/hold-meter";
 import { deriveLedger } from "@/ui/ledger/derive";
 import { needMeter } from "@/ui/ledger/need-meter";
@@ -101,4 +102,47 @@ describe("a donor with a renewal is counted once", () => {
       expect(w.promised + w.returning + w.never + w.back).toBe(restBase);
     });
   }
+});
+
+describe("the coordinator's and the donors' screens: Lena is one card", () => {
+  it("no renewal: shownHolds is the drive's holds, the very same objects", () => {
+    for (const name of ["open", "closed"]) {
+      const v = fixture(name);
+      const shown = shownHolds(v);
+      expect(shown).toHaveLength(v.holds.length);
+      shown.forEach((h, i) => expect(h).toBe(v.holds[i]));
+      for (const h of v.holds) {
+        expect(shownId(v, h.pledgeId)).toBe(h.pledgeId);
+        expect(chainIds(v, h.pledgeId)).toEqual([h.pledgeId]);
+      }
+    }
+  });
+  for (const stage of ["renewed", "captured", "closed", "race"] as Stage[]) {
+    it(`${stage}: one donor hold for Lena at her first hold's id and amount; her shares grouped once per need`, () => {
+      const v = renewed(stage);
+      const donors = shownHolds(v).filter((h) => h.kind === "donor");
+      expect(donors).toHaveLength(3);
+      const lena = donors.filter((h) => h.donorName.startsWith("Lena"));
+      expect(lena).toHaveLength(1);
+      expect(lena[0].pledgeId).toBe(OLD);
+      expect(lena[0].authorized).toBe(2000);
+      expect(meterParts(lena[0]).total).toBe(2000);
+      expect(chainIds(v, OLD)).toEqual([OLD, NEW]);
+      expect(shownId(v, NEW)).toBe(OLD);
+      for (const g of shareGroups(v)) {
+        const ids = g.donors.map((d) => d.pledgeId);
+        expect(new Set(ids).size).toBe(ids.length);
+        expect(ids).not.toContain(NEW);
+      }
+    });
+  }
+  it("PayPal's fee on Lena's share adds her chain's holds; one hold keeps its own entry", () => {
+    const fees = {
+      [OLD]: { currency: "EUR", minor: 51, captures: 1, reported: 1 },
+      [NEW]: { currency: "EUR", minor: 35, captures: 1, reported: 0 },
+    };
+    expect(chainFee(fees, [OLD, NEW])).toEqual({ currency: "EUR", minor: 86, captures: 2, reported: 1 });
+    expect(chainFee(fees, [OLD])).toBe(fees[OLD]);
+    expect(chainFee(null, [OLD])).toBeUndefined();
+  });
 });

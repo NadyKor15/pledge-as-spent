@@ -1,5 +1,6 @@
 import type { CommandReport } from "@/server/paypal-ops";
 import { money, shortName } from "./format";
+import { chainRootId, groupByChain, mergeChain } from "./renewal-chain";
 import type { DriveView, Hold, JournalCall, LedgerRow, Need, Receipt, ReceiptLine } from "./types";
 
 // Read-only derivations over the drive view. No numbers are invented here:
@@ -65,6 +66,17 @@ export function holdTone(h: HoldMoney): "wait" | "done" | "off" {
 
 export const needById = (v: DriveView, id: string | null | undefined): Need | undefined => (id ? v.needs.find((n) => n.needId === id) : undefined);
 export const holdById = (v: DriveView, id: string | null | undefined): Hold | undefined => (id ? v.holds.find((h) => h.pledgeId === id) : undefined);
+
+/** The drive's holds as screens list them: a donor's renewed holds are ONE hold (renewal-chain.ts mergeChain), at the first hold's id. */
+export function shownHolds(v: DriveView): Hold[] {
+  return groupByChain(v.holds).map((c) => mergeChain(c));
+}
+
+/** The id a share's hold is shown under: the first hold of its renewal chain (itself without a renewal). */
+export const shownId = (v: DriveView, id: string | null | undefined): string => (id ? chainRootId(v.holds, id) : "");
+
+/** Every hold a shown hold stands for: its renewal chain (just itself without a renewal). */
+export const chainIds = (v: DriveView, shown: string): string[] => v.holds.filter((h) => shownId(v, h.pledgeId) === shown).map((h) => h.pledgeId);
 
 /** The newest receipt that moved money (what donors see as "verified"). */
 export const latestFunded = (v: DriveView): Receipt | null => [...v.receipts].reverse().find((r) => r.status === "funded") ?? null;
@@ -192,11 +204,13 @@ export function shareGroups(v: DriveView, receiptId?: string): ShareGroup[] {
     g.statuses.push(row.status);
     const name = row.donorName ?? "";
     if (row.kind === "donor_share") {
-      const d = g.donors.find((x) => x.pledgeId === row.pledgeId);
+      // A renewed donor is one donor: shares of either hold of the chain count under its first hold.
+      const pid = shownId(v, row.pledgeId);
+      const d = g.donors.find((x) => x.pledgeId === pid);
       if (d) {
         d.base += row.base;
         d.amount += row.amount ?? 0;
-      } else g.donors.push({ pledgeId: row.pledgeId ?? "", name, base: row.base, currency: row.currency ?? row.baseCurrency, amount: row.amount ?? 0 });
+      } else g.donors.push({ pledgeId: pid, name, base: row.base, currency: row.currency ?? row.baseCurrency, amount: row.amount ?? 0 });
     } else {
       const m = g.match.find((x) => x.pledgeId === row.pledgeId);
       if (m) m.base += row.base;
