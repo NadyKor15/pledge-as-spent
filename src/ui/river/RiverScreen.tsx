@@ -198,17 +198,84 @@ interface Drawn {
   arrow: string | null;
   /** The cards it joins ("from to"): the only cards it may touch (river.spec.ts). */
   ends: string;
+  /** A rest's ribbon is a line this wide along its lane (d is its middle), drawn in as it plays. */
+  stroke: number | null;
 }
 
 const STUB = { x: 34, y: 22 };
 const ARROW = 9;
+/** A desktop's widest ribbon (the receipt's), in px; every other ribbon is as much thinner as its amount is smaller. */
+const WIDEST = 80;
+const f = (n: number) => n.toFixed(1);
+
+/** A path through `pts` with its corners rounded (radius r, less where a segment is short). */
+function rounded(pts: [number, number][], r: number): string {
+  let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const [px, py] = pts[i - 1];
+    const [cx, cy] = pts[i];
+    const [nx, ny] = pts[i + 1];
+    const l1 = Math.hypot(cx - px, cy - py);
+    const l2 = Math.hypot(nx - cx, ny - cy);
+    if (l1 === 0 || l2 === 0) {
+      d += `L${f(cx)} ${f(cy)}`;
+      continue;
+    }
+    const rr = Math.min(r, l1 / 2, l2 / 2);
+    d += `L${f(cx - ((cx - px) / l1) * rr)} ${f(cy - ((cy - py) / l1) * rr)}Q${f(cx)} ${f(cy)} ${f(cx + ((nx - cx) / l2) * rr)} ${f(cy + ((ny - cy) / l2) * rr)}`;
+  }
+  const last = pts[pts.length - 1];
+  return `${d}L${f(last[0])} ${f(last[1])}`;
+}
+
+/**
+ * The rests (П2 picture A: a bottom row of "never charged" cards under columns 5–7, in the holds' order). Each leaves the
+ * bottom edge of its hold, turns left into a lane of its own between the shares and the holds, runs down past the holds
+ * below, and at the bottom turns right to its card. Lanes: the top hold's furthest left; turns: the top hold's lowest —
+ * so no two rests cross and none runs through a card.
+ */
+function drawRests(rests: Link[], boxes: Map<string, Box>, th: (l: Link) => number): Drawn[] {
+  if (rests.length === 0) return [];
+  const hold = (l: Link) => boxes.get(l.from)!;
+  const card = (l: Link) => boxes.get(l.to as string)!;
+  const byHold = [...rests].sort((a, b) => hold(a).y - hold(b).y);
+  const lane = new Map<string, number>();
+  let x = Math.min(...rests.map((l) => hold(l).x)) - 8;
+  for (const l of [...byHold].reverse()) {
+    lane.set(l.id, x - th(l) / 2);
+    x -= th(l) + 5;
+  }
+  const turn = new Map<string, number>();
+  let y = Math.min(...rests.map((l) => card(l).y)) - ARROW - 16;
+  for (const l of byHold) {
+    turn.set(l.id, y - th(l) / 2);
+    y -= th(l) + 6;
+  }
+  return byHold.map((l): Drawn => {
+    const t = th(l);
+    const a = hold(l);
+    const b = card(l);
+    const xs = a.x + 10 + t / 2;
+    const yb = a.y + a.h;
+    const below = yb + t / 2 + 7;
+    const xd = b.x + 16 + t / 2;
+    const ye = b.y - ARROW;
+    const xl = lane.get(l.id)!;
+    const yt = turn.get(l.id)!;
+    const d = rounded([[xs, yb], [xs, below], [xl, below], [xl, yt], [xd, yt], [xd, ye]], 10);
+    const arrow = `M${f(xd - t / 2 - 4)} ${f(ye)}L${f(xd + t / 2 + 4)} ${f(ye)}L${f(xd)} ${f(b.y)}Z`;
+    return { id: l.id, d, kind: l.kind, step: l.step, dir: "y", stub: false, arrow, ends: `${l.from} ${l.to}`, stroke: t };
+  });
+}
 
 /** Sankey links between the cards as laid out: ribbons leaving one edge are stacked in the order of where they go. */
 export function drawRibbons(links: Link[], boxes: Map<string, Box>, perUnit: number): Drawn[] {
   const th = (l: Link) => Math.max(2, l.base * perUnit);
   const outSide = (l: Link) => (l.dir === "x" ? "r" : "b");
   const inSide = (l: Link) => (l.dir === "x" ? "l" : "t");
-  const live = links.filter((l) => boxes.has(l.from) && (l.to === null || boxes.has(l.to)));
+  const placed = links.filter((l) => boxes.has(l.from) && (l.to === null || boxes.has(l.to)));
+  const rests = placed.filter((l) => l.kind === "never" && l.to);
+  const live = placed.filter((l) => !rests.includes(l));
   const ports = new Map<string, { node: string; side: string; ends: { l: Link; end: "from" | "to" }[] }>();
   const add = (node: string, side: string, l: Link, end: "from" | "to") => {
     const key = `${node}|${side}`;
@@ -235,37 +302,37 @@ export function drawRibbons(links: Link[], boxes: Map<string, Box>, perUnit: num
       p += th(e.l);
     }
   }
-  const f = (n: number) => n.toFixed(1);
-  return live.map((l) => {
-    const a = boxes.get(l.from)!;
-    const t = th(l);
-    const p0 = at.get(`${l.id}|from`)!;
-    const ends = `${l.from} ${l.to ?? ""}`.trim();
-    if (!l.to) {
-      const d =
-        l.dir === "x"
-          ? `M${f(a.x + a.w)} ${f(p0)}h${STUB.x}v${f(t)}h${-STUB.x}Z`
-          : `M${f(p0)} ${f(a.y + a.h)}h${f(t)}v${STUB.y}h${f(-t)}Z`;
-      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: true, arrow: null, ends };
-    }
-    const b = boxes.get(l.to)!;
-    const arrow = l.kind === "never";
-    // A rest falls straight down from its hold's bottom edge into its card, which lies right under the hold.
-    const p1 = arrow ? Math.min(Math.max(p0, b.x), b.x + b.w - t) : at.get(`${l.id}|to`)!;
-    if (l.dir === "x") {
-      const x0 = a.x + a.w;
-      const x1 = b.x;
-      const xm = (x0 + x1) / 2;
-      const d = `M${f(x0)} ${f(p0)}C${f(xm)} ${f(p0)} ${f(xm)} ${f(p1)} ${f(x1)} ${f(p1)}L${f(x1)} ${f(p1 + t)}C${f(xm)} ${f(p1 + t)} ${f(xm)} ${f(p0 + t)} ${f(x0)} ${f(p0 + t)}Z`;
-      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: null, ends };
-    }
-    const y0 = a.y + a.h;
-    const y1 = b.y - (arrow ? ARROW : 0);
-    const ym = (y0 + y1) / 2;
-    const d = `M${f(p0)} ${f(y0)}C${f(p0)} ${f(ym)} ${f(p1)} ${f(ym)} ${f(p1)} ${f(y1)}L${f(p1 + t)} ${f(y1)}C${f(p1 + t)} ${f(ym)} ${f(p0 + t)} ${f(ym)} ${f(p0 + t)} ${f(y0)}Z`;
-    const head = arrow ? `M${f(p1 - 4)} ${f(y1)}L${f(p1 + t + 4)} ${f(y1)}L${f(p1 + t / 2)} ${f(b.y)}Z` : null;
-    return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: head, ends };
-  });
+  // The rests first: drawn under the other ribbons where their lanes cross them.
+  return [
+    ...drawRests(rests, boxes, th),
+    ...live.map((l): Drawn => {
+      const a = boxes.get(l.from)!;
+      const t = th(l);
+      const p0 = at.get(`${l.id}|from`)!;
+      const ends = `${l.from} ${l.to ?? ""}`.trim();
+      if (!l.to) {
+        const d =
+          l.dir === "x"
+            ? `M${f(a.x + a.w)} ${f(p0)}h${STUB.x}v${f(t)}h${-STUB.x}Z`
+            : `M${f(p0)} ${f(a.y + a.h)}h${f(t)}v${STUB.y}h${f(-t)}Z`;
+        return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: true, arrow: null, ends, stroke: null };
+      }
+      const b = boxes.get(l.to)!;
+      const p1 = at.get(`${l.id}|to`)!;
+      if (l.dir === "x") {
+        const x0 = a.x + a.w;
+        const x1 = b.x;
+        const xm = (x0 + x1) / 2;
+        const d = `M${f(x0)} ${f(p0)}C${f(xm)} ${f(p0)} ${f(xm)} ${f(p1)} ${f(x1)} ${f(p1)}L${f(x1)} ${f(p1 + t)}C${f(xm)} ${f(p1 + t)} ${f(xm)} ${f(p0 + t)} ${f(x0)} ${f(p0 + t)}Z`;
+        return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: null, ends, stroke: null };
+      }
+      const y0 = a.y + a.h;
+      const y1 = b.y;
+      const ym = (y0 + y1) / 2;
+      const d = `M${f(p0)} ${f(y0)}C${f(p0)} ${f(ym)} ${f(p1)} ${f(ym)} ${f(p1)} ${f(y1)}L${f(p1 + t)} ${f(y1)}C${f(p1 + t)} ${f(ym)} ${f(p0 + t)} ${f(ym)} ${f(p0 + t)} ${f(y0)}Z`;
+      return { id: l.id, d, kind: l.kind, step: l.step, dir: l.dir, stub: false, arrow: null, ends, stroke: null };
+    }),
+  ];
 }
 
 /** Measures the cards ([data-node]) inside `ref` and draws the ribbons between them; again on any resize. */
@@ -316,9 +383,14 @@ function Ribbons({ g }: { g: { w: number; h: number; ribbons: Drawn[] } }) {
         </linearGradient>
       </defs>
       {g.ribbons.map((r) => (
-        <g key={r.id} className={`${s.rib} ${r.dir === "x" ? s.ribx : s.riby}`} style={k(r.step)} data-ribbon={r.id} data-kind={r.kind} data-ends={r.ends}>
-          {/* A stub's fill is its fading gradient: no class, so no stylesheet fill overrides it. */}
-          <path className={r.stub ? undefined : s[`fill-${r.kind}`]} d={r.d} fill={r.stub ? `url(#rv-stub-${r.dir})` : undefined} />
+        <g key={r.id} className={`${s.rib} ${r.stroke ? s.ribd : r.dir === "x" ? s.ribx : s.riby}`} style={k(r.step)} data-ribbon={r.id} data-kind={r.kind} data-ends={r.ends}>
+          {r.stroke ? (
+            // A rest: a line as wide as its amount along its lane, drawn in from the hold (pathLength 1 for the dash).
+            <path className={s[`line-${r.kind}`]} d={r.d} strokeWidth={r.stroke.toFixed(1)} pathLength={1} data-stroke={r.stroke.toFixed(1)} />
+          ) : (
+            // A stub's fill is its fading gradient: no class, so no stylesheet fill overrides it.
+            <path className={r.stub ? undefined : s[`fill-${r.kind}`]} d={r.d} fill={r.stub ? `url(#rv-stub-${r.dir})` : undefined} />
+          )}
           {r.arrow && <path className={s.arrowHead} d={r.arrow} />}
         </g>
       ))}
@@ -566,7 +638,7 @@ const orderedHolds = (m: RiverModel) => {
 function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
   const ref = useRef<HTMLDivElement>(null);
   const links = useMemo(() => riverLinks(m, "x"), [m]);
-  const g = useRibbons(ref, links, 80);
+  const g = useRibbons(ref, links, WIDEST);
   const heads = steps(m, w);
   const n = Math.max(1, m.needs.length);
   const match = m.holds.find((h) => h.kind === "match");
@@ -576,6 +648,8 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
   const afterRefused = afterNeeds + r;
   const rows = `auto repeat(${n}, auto) repeat(${r}, auto) auto`;
   const at = (col: string, row: string): CSSProperties => ({ gridColumn: col, gridRow: row });
+  const perUnit = WIDEST / Math.max(1, m.totals.sharesBase + m.totals.refusedBase);
+  const bandRoom = m.never.length === 0 ? 40 : Math.round(40 + ARROW + m.never.reduce((a, x) => a + Math.max(2, x.base * perUnit) + 6, 0));
   return (
     <div className={s.desk} ref={ref} style={{ gridTemplateRows: rows }}>
       {heads.map((h, i) => (
@@ -610,18 +684,10 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
           ))}
         </div>
       ))}
-      {/* Each donor's rest right under its own hold: its ribbon falls straight from the hold's bottom edge and crosses
-          no other card (the picture's bottom row made the rests' ribbons run behind the other holds and captures). */}
       <div className={`${s.cell} ${s.c5}`} style={at("5", `${first} / ${afterNeeds}`)} data-col="5">
-        {orderedHolds(m).map((h) => {
-          const rest = m.never.find((x) => x.pledgeId === h.pledgeId);
-          return (
-            <div key={h.pledgeId} className={s.hcn}>
-              <HoldCapture h={h} w={w} />
-              {rest && <NeverCard n={rest} w={w} />}
-            </div>
-          );
-        })}
+        {orderedHolds(m).map((h) => (
+          <HoldCapture key={h.pledgeId} h={h} w={w} />
+        ))}
       </div>
       {match && (
         <div className={`${s.cell} ${s.c5} ${s.c5match}`} style={at("5", `${afterNeeds} / ${afterRefused}`)} data-col="5">
@@ -631,11 +697,15 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
       <div className={`${s.cell} ${s.c6}`} style={at("6 / 8", `${first} / ${afterNeeds}`)} data-col="6">
         <Payout m={m} w={w} />
       </div>
-      {m.never.length === 0 && (
-        <div className={`${s.cell} ${s.band}`} style={at("5 / 8", String(afterRefused))} data-col="7">
-          <StillHeld w={w} />
-        </div>
-      )}
+      {/* The picture's bottom row: each donor's rest under columns 5–7, in the holds' order. Room above it for the rests'
+          turns (drawRests), as many as there are rests. */}
+      <div className={`${s.cell} ${s.band}`} style={{ ...at("5 / 8", String(afterRefused)), paddingTop: `${bandRoom}px` }} data-col="7">
+        {orderedHolds(m).map((h) => {
+          const rest = m.never.find((x) => x.pledgeId === h.pledgeId);
+          return rest ? <NeverCard key={rest.pledgeId} n={rest} w={w} /> : null;
+        })}
+        {m.never.length === 0 && <StillHeld w={w} />}
+      </div>
     </div>
   );
 }

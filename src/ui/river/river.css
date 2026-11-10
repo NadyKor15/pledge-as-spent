@@ -101,6 +101,9 @@
 .rv-rib { --p: clamp(0, calc(var(--step) - var(--k) + 1), 1); transform-box: fill-box; transition: transform 1.1s cubic-bezier(.4, 0, .2, 1); }
 .rv-ribx { transform-origin: 0 50%; transform: scaleX(var(--p)); }
 .rv-riby { transform-origin: 50% 0; transform: scaleY(var(--p)); }
+/* A rest: a line along its lane, drawn in from its hold (pathLength 1), its arrow shown once it arrives. */
+.rv-line-never { fill: none; stroke: #C3D3E4; stroke-linecap: butt; stroke-linejoin: round; opacity: .95; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); transition: stroke-dashoffset 1.6s cubic-bezier(.4, 0, .2, 1); }
+.rv-ribd .rv-arrowHead { opacity: var(--p); transition: opacity .3s ease 1.3s; }
 .rv-fill-trunk { fill: #A6D7C4; opacity: .9; }
 .rv-fill-flow { fill: #84C594; opacity: .92; }
 .rv-fill-match { fill: #C9E6CB; opacity: .95; }
@@ -109,7 +112,7 @@
 .rv-arrowHead { fill: #A4BAD1; }
 
 /* ── Desktop: seven columns, left to right ──────────────────────────────────────────────────────── */
-.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 370fr 160fr 180fr; row-gap: 10px; margin-top: 16px; }
+.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 394fr 160fr 156fr; row-gap: 10px; margin-top: 16px; }
 .rv-panel { z-index: 0; margin: 0 1.5px; border-radius: 5px; background: #F0EEE9; }
 .rv-headCell { z-index: 2; min-width: 0; padding: 16px 10px 22px 12px; }
 .rv-desk .rv-headTitle { font-size: 16px; gap: 8px; }
@@ -120,16 +123,14 @@
 .rv-c3ref { align-items: flex-start; }
 .rv-c3ref .rv-refused { width: 100%; max-width: 232px; }
 .rv-c4 { gap: 6px; padding-left: 36px; padding-right: 6px; }
-.rv-c5 { justify-content: space-around; gap: 12px; padding-left: 40px; padding-right: 6px; }
+/* 64 px before the holds: the shares' ribbons come in there, and the rests run down their lanes (drawRests). */
+.rv-c5 { justify-content: space-around; gap: 12px; padding-left: 64px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
-/* A donor's hold and capture, and right under the hold its rest that PayPal released (its ribbon falls in the gap). */
-.rv-hcn { display: flex; flex-direction: column; gap: 28px; }
-.rv-hcn .rv-never { align-self: stretch; }
 .rv-desk .rv-hold { width: 150px; }
 .rv-c6 { align-items: flex-end; padding-right: 10px; }
 .rv-c6 .rv-payout { width: 215px; }
-.rv-band { flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 52px 8px 16px 10px; }
-.rv-band .rv-never { flex: 0 1 236px; }
+.rv-band { flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 52px 8px 16px 64px; }
+.rv-band .rv-never { flex: 1 1 0; }
 .rv-band .rv-open { flex: 0 1 420px; margin: 0 auto; }
 
 /* ── Phone: seven sections, top to bottom ───────────────────────────────────────────────────────── */

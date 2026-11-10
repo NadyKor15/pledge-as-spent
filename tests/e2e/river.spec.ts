@@ -103,7 +103,10 @@ function brokenWords(selector: string): string[] {
   return out;
 }
 
-/** Ribbons that run through a card other than the two they join: points along each ribbon's outline, in the page. */
+/**
+ * Ribbons that run through a card other than the two they join: points along each ribbon's outline, in the page. A
+ * rest is a line (data-stroke = its width): its middle must stay half that width away from every other card.
+ */
 const throughCards = (page: Page) =>
   page.evaluate(() => {
     const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")].map((e) => ({ node: e.dataset.node ?? "", name: `${e.dataset.card}: ${e.textContent?.slice(0, 30)}`, r: e.getBoundingClientRect() }));
@@ -113,16 +116,52 @@ const throughCards = (page: Page) =>
       for (const p of g.querySelectorAll<SVGPathElement>("path")) {
         const len = p.getTotalLength();
         const m = p.getScreenCTM()!;
-        for (let i = 0; i <= 240; i++) {
-          const pt = p.getPointAtLength((len * i) / 240);
+        const e = 1.5 - Number(p.getAttribute("data-stroke") ?? 0) / 2;
+        for (let i = 0; i <= 400; i++) {
+          const pt = p.getPointAtLength((len * i) / 400);
           const x = m.a * pt.x + m.c * pt.y + m.e;
           const y = m.b * pt.x + m.d * pt.y + m.f;
           for (const c of cards)
-            if (!own.includes(c.node) && x > c.r.left + 1.5 && x < c.r.right - 1.5 && y > c.r.top + 1.5 && y < c.r.bottom - 1.5) out.push(`${g.dataset.ribbon} through ${c.name}`);
+            if (!own.includes(c.node) && x > c.r.left + e && x < c.r.right - e && y > c.r.top + e && y < c.r.bottom - e) out.push(`${g.dataset.ribbon} through ${c.name}`);
         }
       }
     }
     return [...new Set(out)];
+  });
+
+/** The picture's bottom row: the rests' cards in one row under columns 5–7, in the holds' order, below the payout and
+ *  above the sums; and no two rests' lines on top of each other. */
+const bottomRow = (page: Page) =>
+  page.evaluate(() => {
+    const out: string[] = [];
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-card=never]")].map((e) => ({ node: e.dataset.node ?? "", r: e.getBoundingClientRect() }));
+    const holds = [...document.querySelectorAll<HTMLElement>("[data-card=hold]")].map((e) => e.dataset.node ?? "");
+    const order = cards.map((c) => holds.indexOf(c.node.replace(/^never:/, "hold:")));
+    if (order.some((i, k) => i < 0 || (k > 0 && i <= order[k - 1]))) out.push(`not in the holds' order: ${order}`);
+    if (cards.some((c, k) => k > 0 && (Math.abs(c.r.top - cards[0].r.top) > 1 || c.r.left < cards[k - 1].r.right))) out.push("not one row, left to right");
+    const col5 = document.querySelector<HTMLElement>('[data-head="5"]')!.parentElement!.getBoundingClientRect();
+    if (cards.some((c) => c.r.left < col5.left)) out.push("a rest left of column 5");
+    const payout = document.querySelector<HTMLElement>("[data-card=payout]")!.getBoundingClientRect();
+    const sums = document.querySelector<HTMLElement>("[data-testid=river-sums]")!.getBoundingClientRect();
+    if (cards.some((c) => c.r.top < payout.bottom || c.r.bottom > sums.top)) out.push("a rest over the payout or the sums");
+    const lines = [...document.querySelectorAll<SVGPathElement>('g[data-kind="never"] path[data-stroke]')].map((p) => {
+      const len = p.getTotalLength();
+      const m = p.getScreenCTM()!;
+      const w = Number(p.getAttribute("data-stroke"));
+      const pts = Array.from({ length: 301 }, (_, i) => {
+        const pt = p.getPointAtLength((len * i) / 300);
+        return [m.a * pt.x + m.c * pt.y + m.e, m.b * pt.x + m.d * pt.y + m.f];
+      });
+      return { w, pts };
+    });
+    if (lines.length !== cards.length) out.push(`${lines.length} lines for ${cards.length} rests`);
+    for (let a = 0; a < lines.length; a++)
+      for (let b = a + 1; b < lines.length; b++) {
+        let min = Infinity;
+        for (const p of lines[a].pts) for (const q of lines[b].pts) min = Math.min(min, Math.hypot(p[0] - q[0], p[1] - q[1]));
+        if (min < (lines[a].w + lines[b].w) / 2) out.push(`rests ${a} and ${b} overlap (${min.toFixed(1)} px apart)`);
+      }
+    return out;
   });
 
 /** A phone's links between steps that lie under a card or under text. */
@@ -154,6 +193,20 @@ test("the broken-word check catches a word cut in two (and passes the same word 
   await put(400);
   expect(await page.evaluate(brokenWords, ".rv-selftest")).toEqual([]);
   await expect(page.locator('[data-head="1"]')).toContainText("Beleg");
+
+  // The same for the ribbons' check: a line drawn across the payout card is reported, and none is before it.
+  expect(await throughCards(page)).toEqual([]);
+  await page.evaluate(() => {
+    const r = document.querySelector<HTMLElement>("[data-card=payout]")!.getBoundingClientRect();
+    const ns = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("style", `position:fixed;left:0;top:0;width:${innerWidth}px;height:${innerHeight}px;pointer-events:none`);
+    svg.innerHTML = `<g data-ribbon="probe" data-ends=""><path data-stroke="4" d="M${r.left - 40} ${r.top + r.height / 2}H${r.right + 40}" stroke="red" stroke-width="4"/></g>`;
+    svg.classList.add("rv-probe");
+    document.body.append(svg);
+  });
+  expect(await throughCards(page)).toEqual(["probe through payout: " + (await page.locator("[data-card=payout]").textContent())!.slice(0, 30)]);
+  await page.evaluate(() => document.querySelector(".rv-probe")?.remove());
 });
 
 for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as const) {
@@ -204,6 +257,7 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
           await expect(page.locator("g[data-ribbon]")).toHaveCount(27);
           await expect(page.locator('g[data-kind="never"]')).toHaveCount(3);
           expect(await throughCards(page)).toEqual([]);
+          expect(await bottomRow(page)).toEqual([]);
         } else {
           await expect(page.locator("g[data-ribbon]")).toHaveCount(0);
           await expect(page.locator("[data-gap]")).toHaveCount(6);
