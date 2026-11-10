@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { HOLD_LIFE_DAYS } from "@/core/time";
 import { api, errorText } from "./api";
 import { classes } from "./cls";
+import { INPUT_CURRENCIES as CURRENCIES, MAX_MAJOR, showMinor, toMinor, type InputCurrency as Currency } from "./money-input";
 import { pledgeScriptOptions } from "./pledge-paypal";
 
 const s = classes("dn");
@@ -13,22 +14,9 @@ const s = classes("dn");
 // A donor pledge through the PayPal window: the order is created on our server
 // (intent AUTHORIZE), the donor approves it at PayPal, and our server
 // authorizes it. Nothing is captured here: the hold waits for a verified receipt.
+// Amounts are read by money-input: "20,50" is €20.50, never €2,050.
 
-const CURRENCIES = ["EUR", "USD", "JPY"] as const;
-type Currency = (typeof CURRENCIES)[number];
-/** The API's ceiling for one pledge, in major units. */
-const MAX_MAJOR = 10_000;
 const CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "";
-
-/** "20.00" EUR -> 2000; null when not a valid amount for the currency. */
-export function toMinor(text: string, currency: Currency): number | null {
-  const t = text.trim().replace(/,/g, "");
-  const re = currency === "JPY" ? /^\d+$/ : /^\d+(\.\d{1,2})?$/;
-  if (!re.test(t)) return null;
-  const minor = currency === "JPY" ? Number(t) : Math.round(Number(t) * 100);
-  const max = MAX_MAJOR * (currency === "JPY" ? 1 : 100);
-  return minor > 0 && minor <= max ? minor : null;
-}
 
 export function PledgeForm({
   driveId,
@@ -68,18 +56,26 @@ export function PledgeForm({
   const minor = toMinor(amount, currency);
   // The donor's rules, as the server takes them: the needs still allowed (only when some are left out) and a cap per unit.
   const capMinor = cap.trim() ? toMinor(cap, currency) : undefined;
-  const badCap = capMinor === null;
+  const rulesShown = rulesOn && rulesOpen;
+  // A cap that cannot be read stops the pledge: dropping it would hold money the donor limited.
+  const badCap = rulesShown && capMinor === null;
+  const capBlocked = useRef(false);
   // Read when PayPal's button asks for the order (its callback is not re-made on every keystroke), so kept in a ref.
   useEffect(() => {
-    const r = !rulesOn || !rulesOpen ? null : { ...(excluded.length ? { needs: needs.map((n) => n.id).filter((id) => id === needId || !excluded.includes(id)) } : {}), ...(capMinor ? { maxUnitMinor: capMinor } : {}) };
+    const r = !rulesShown ? null : { ...(excluded.length ? { needs: needs.map((n) => n.id).filter((id) => id === needId || !excluded.includes(id)) } : {}), ...(capMinor ? { maxUnitMinor: capMinor } : {}) };
     rulesRef.current = r && (r.needs || r.maxUnitMinor) ? r : null;
-  }, [rulesOn, rulesOpen, excluded, capMinor, needs, needId]);
-  const invalid = minor === null || badCap;
+    capBlocked.current = badCap;
+  }, [rulesShown, excluded, capMinor, badCap, needs, needId]);
+  const invalid = minor === null;
+  const blocked = invalid || badCap;
+  const ruled = rulesShown && (excluded.length > 0 || !!capMinor);
+  const carryNote = `It moves to the open need furthest from covered${ruled ? `, among the needs your rules allow${capMinor ? ` counted per ${unit}` : ""}` : ""}. Still only approved receipt lines are charged.`;
   const id = `pledge-${needId}`;
 
   const createOrder = async () => {
     setMessage(null);
     if (minor === null) throw new Error("Enter an amount first.");
+    if (capBlocked.current) throw new Error("Fix the most per unit first, or leave it empty.");
     const res = await api<{ pledgeId: string; orderId: string }>(`/api/drives/${encodeURIComponent(driveId)}/pledges`, {
       json: {
         needId,
@@ -134,7 +130,7 @@ export function PledgeForm({
           {(
             [
               ["release", "Is never charged", `Only receipts for ${needLabel} can use your hold.`],
-              ["carry", "Keeps buying for this drive", "It moves to the open need furthest from covered. Still only approved receipt lines are charged."],
+              ["carry", "Keeps buying for this drive", carryNote],
             ] as const
           ).map(([value, title, note]) => (
             <label key={value} className={s.restOpt}>
@@ -188,6 +184,15 @@ export function PledgeForm({
                   {currency} per {unit}, its share of tax included. A dearer line is paid by the other donors.
                 </span>
               </label>
+              {capMinor ? (
+                <p className={s.restOpt} data-testid="rules-cap-read">
+                  Read as: at most {showMinor(capMinor, currency)} per {unit}.
+                </p>
+              ) : badCap ? (
+                <p className={`${s.restOpt} ${s.err}`} role="alert" data-testid="rules-cap-error">
+                  {currency === "JPY" ? `Write whole yen, like 120.` : `Write it like 0.80 or 0,80.`} Or leave it empty for no price limit.
+                </p>
+              ) : null}
             </>
           )}
         </fieldset>
@@ -199,8 +204,8 @@ export function PledgeForm({
           <PayPalScriptProvider key={currency} options={pledgeScriptOptions(CLIENT_ID, currency, needId)}>
             <PayPalButtons
               style={{ layout: "horizontal", color: "gold", shape: "rect", label: "paypal", height: 52, tagline: false }}
-              disabled={minor === null}
-              forceReRender={[minor, currency]}
+              disabled={blocked}
+              forceReRender={[minor, currency, blocked]}
               createOrder={createOrder}
               onApprove={onApprove}
               onCancel={() => setMessage("You closed the PayPal window. Nothing was held.")}

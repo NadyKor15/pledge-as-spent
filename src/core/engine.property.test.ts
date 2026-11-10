@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 import { allocateLine } from "./allocate";
-import type { LedgerEvent, LineFunded } from "./events";
+import type { LedgerEvent, LineFunded, LineRejected } from "./events";
 import { lineKeyOf, shareIdOf } from "./ids";
 import {
   applyEvent,
@@ -130,6 +130,8 @@ const arbScenario = fc.record({
       ratioNum: fc.integer({ min: 1, max: 3 }),
       ratioDen: fc.integer({ min: 1, max: 3 }),
       count: fc.integer({ min: 1, max: 2 }),
+      // the company's rules, as a donor's: a subset of needs and/or a cap per unit (the first match hold only)
+      rules: fc.option(fc.record({ mask: fc.option(fc.nat(), { nil: null }), cap: fc.option(fc.integer({ min: 1, max: 20_000 }), { nil: null }) }), { nil: null }),
     }),
     { nil: null },
   ),
@@ -287,19 +289,8 @@ function checkLine(pre: LedgerState, line: FundableLineInput, ev: LedgerEvent, n
     expect(ev).toMatchObject({ type: "LineRejected", code: "need_covered", amountBase: line.amountBase });
     return;
   }
-  expect(ev.type).toBe("LineFunded");
-  const e = ev as LineFunded;
   const accepted = Math.min(line.needQty, need.qtyNeeded - covered);
   const F = accepted === line.needQty ? line.amountBase : Math.floor((line.amountBase * accepted) / line.needQty);
-  expect(e.acceptedQty).toBe(accepted);
-  expect(e.fundedBase + e.unfundedBase).toBe(F);
-  expect(F + e.rejectedBase).toBe(line.amountBase);
-
-  // shares add up to the funded amount exactly
-  expect(e.shares.reduce((a, x) => a + x.base, 0)).toBe(e.fundedBase);
-  expect(e.shares.filter((x) => x.kind === "donor").reduce((a, x) => a + x.base, 0)).toBe(e.donorBase);
-  expect(e.shares.filter((x) => x.kind === "match").reduce((a, x) => a + x.base, 0)).toBe(e.matchBase);
-  expect(e.shares.reduce((a, x) => a + x.matchBase, 0)).toBe(e.matchBase);
 
   // capacities as the engine must have seen them
   const caps = new Map<string, number>();
@@ -307,10 +298,36 @@ function checkLine(pre: LedgerState, line: FundableLineInput, ev: LedgerEvent, n
     const p = pre.pledges[id];
     if (isFundable(p, pre.holds[id], now)) caps.set(id, capacityBase(p, pre.holds[id]));
   }
-  const donorIds = [...caps.keys()].filter((id) => pre.pledges[id].kind === "donor" && pre.pledges[id].needId === need.id && caps.get(id)! > 0 && allowsIndep(pre.pledges[id], line));
-  const matchIds = [...caps.keys()].filter((id) => pre.pledges[id].kind === "match" && caps.get(id)! > 0 && allowsIndep(pre.pledges[id], line));
+  const live = (id: string) => caps.get(id)! > 0;
+  const onNeed = (id: string) => pre.pledges[id].kind === "donor" && pre.pledges[id].needId === need.id;
+  const isMatch = (id: string) => pre.pledges[id].kind === "match";
+  const donorIds = [...caps.keys()].filter((id) => onNeed(id) && live(id) && allowsIndep(pre.pledges[id], line));
+  const matchIds = [...caps.keys()].filter((id) => isMatch(id) && live(id) && allowsIndep(pre.pledges[id], line));
+  const keptDonors = [...caps.keys()].filter((id) => onNeed(id) && live(id) && !allowsIndep(pre.pledges[id], line));
+  const keptMatches = [...caps.keys()].filter((id) => isMatch(id) && live(id) && !allowsIndep(pre.pledges[id], line));
   const D = donorIds.reduce((a, id) => a + caps.get(id)!, 0);
   const M = matchIds.reduce((a, id) => a + caps.get(id)!, 0);
+
+  // donor money was there, but the rules keep every donor hold of the need out: refused, the need not used up
+  if (F > 0 && D === 0 && keptDonors.length > 0) {
+    must(ev.type === "LineRejected" && ev.code === "donor_rules", "a line no hold of its need may pay is refused, not funded", { ev, keptDonors });
+    expect((ev as LineRejected).ruledOut).toEqual(keptDonors);
+    expect((ev as LineRejected).amountBase).toBe(line.amountBase);
+    return;
+  }
+  expect(ev.type).toBe("LineFunded");
+  const e = ev as LineFunded;
+  expect(e.acceptedQty).toBe(accepted);
+  expect(e.fundedBase + e.unfundedBase).toBe(F);
+  expect(F + e.rejectedBase).toBe(line.amountBase);
+  // the holds kept out are named, the match only when donors paid part of the line
+  expect(e.ruledOut ?? []).toEqual([...keptDonors, ...(e.donorBase > 0 ? keptMatches : [])]);
+
+  // shares add up to the funded amount exactly
+  expect(e.shares.reduce((a, x) => a + x.base, 0)).toBe(e.fundedBase);
+  expect(e.shares.filter((x) => x.kind === "donor").reduce((a, x) => a + x.base, 0)).toBe(e.donorBase);
+  expect(e.shares.filter((x) => x.kind === "match").reduce((a, x) => a + x.base, 0)).toBe(e.matchBase);
+  expect(e.shares.reduce((a, x) => a + x.matchBase, 0)).toBe(e.matchBase);
   expect(e.donorCapacityBase).toBe(D);
   expect(e.matchCapacityBase).toBe(M);
 
@@ -344,6 +361,8 @@ function checkLine(pre: LedgerState, line: FundableLineInput, ev: LedgerEvent, n
     expect(abs(BigInt(sh.base) * BigInt(pool) - BigInt(total) * BigInt(caps.get(sh.pledgeId)!)) < BigInt(pool)).toBe(true);
     if (sh.kind === "donor") expect(p.needId).toBe(need.id);
     must(allowsIndep(p, line), "a hold pays only lines its donor's rules allow", { pledge: sh.pledgeId, rules: p.rules, line });
+    // a capped hold is charged at most its cap for each unit taken into work (exact: integer bound, half-up below it)
+    if (p.rules?.maxUnitMinor !== undefined) must(sh.quote.minor <= p.rules.maxUnitMinor * e.acceptedQty, "a capped hold pays at most its cap per unit", { sh, cap: p.rules.maxUnitMinor, accepted: e.acceptedQty });
   }
   // every backer with a non-zero proportional share is present
   for (const id of [...donorIds, ...matchIds]) {
@@ -432,6 +451,7 @@ class Sim {
       let best: string | null = null;
       for (const id of before.needIds) {
         if (id === p.needId || (p.rules?.needs && !p.rules.needs.includes(id))) continue;
+        if (p.rules?.maxUnitMinor !== undefined && before.needs[id].unit !== before.needs[p.needId!].unit) continue; // a cap keeps to its unit
         const lack = before.needs[id].qtyNeeded - before.qtyCovered[id];
         if (lack <= 0) continue;
         if (best === null) best = id;
@@ -455,7 +475,8 @@ class Sim {
 
   open() {
     const sc = this.sc;
-    const needs: Need[] = sc.needs.map((q, i) => ({ id: `n${i}`, driveId: "drv1", label: `need ${i}`, unit: "unit", qtyNeeded: q }));
+    // two units, so a capped hold's moves meet a need counted otherwise
+    const needs: Need[] = sc.needs.map((q, i) => ({ id: `n${i}`, driveId: "drv1", label: `need ${i}`, unit: i % 3 === 2 ? "pack" : "unit", qtyNeeded: q }));
     const drive = makeDrive({
       baseCurrency: sc.base,
       batch: { maxAgeHours: sc.maxAgeHours, thresholdMinor: sc.threshold ? { [sc.base]: sc.threshold } : {} },
@@ -463,7 +484,7 @@ class Sim {
     this.apply({ id: "open", at: T0, driveId: "drv1", type: "DriveOpened", drive, needs });
     sc.holds.forEach((h, i) => this.addPledge(`d${String(i).padStart(2, "0")}`, "donor", `n${h.needIdx % needs.length}`, this.currency(h.curIdx), h.minor, h.approval, h.carry, h.rules));
     if (sc.match) {
-      for (let j = 0; j < sc.match.count; j++) this.addPledge(`m${j}`, "match", null, this.currency(sc.match.curIdx + j), sc.match.minor, "paypal");
+      for (let j = 0; j < sc.match.count; j++) this.addPledge(`m${j}`, "match", null, this.currency(sc.match.curIdx + j), sc.match.minor, "paypal", false, j === 0 ? sc.match.rules : null);
     }
     this.addPledge(LATE, "donor", "n0", sc.base, 1000, "pending");
     sc.volunteers.forEach((limit, i) =>
@@ -475,6 +496,12 @@ class Sim {
   volunteerRefused = 0;
   /** Lines a fundable hold of their need was kept out of by its donor's rules. */
   ruledOut = 0;
+  /** Lines refused because the rules kept every donor hold of the need out. */
+  rulesRefused = 0;
+  /** Funded lines the company match was kept out of by its rules. */
+  matchKeptOut = 0;
+  /** Moves of a capped hold asked for toward a need counted in another unit (always refused). */
+  capUnitMet = 0;
 
   /** The volunteer who brought a receipt: receipts are spread over the invited volunteers. */
   volunteerOf(receiptId: string): string | undefined {
@@ -505,6 +532,8 @@ class Sim {
     }
     this.apply(ev);
     this.lines.push({ line, ev });
+    if (ev.type === "LineRejected" && ev.code === "donor_rules") this.rulesRefused += 1;
+    if (ev.type === "LineFunded" && ev.ruledOut?.some((id) => this.state.pledges[id].kind === "match")) this.matchKeptOut += 1;
     this.carry();
   }
 
@@ -797,6 +826,8 @@ class Sim {
       !h.rebound &&
       p.needId !== to &&
       (!p.rules?.needs || p.rules.needs.includes(to)) &&
+      // a price cap is per unit of the need it was set on: only to a need counted in the same unit
+      (p.rules?.maxUnitMinor === undefined || p.needId === null || s.needs[p.needId].unit === s.needs[to].unit) &&
       isLiveStatus(p.status) &&
       !h.revokedAt &&
       !h.blockedAt &&
@@ -805,6 +836,7 @@ class Sim {
       availableMinor(p, h) > 0 &&
       s.qtyCovered[to] < s.needs[to].qtyNeeded;
     const input = { pledgeId: id, fromNeedId: from, toNeedId: to, at: this.now, consent: { by: p.donorName, via: "statement" } };
+    if (p.kind === "donor" && p.rules?.maxUnitMinor !== undefined && p.needId !== null && p.needId !== to && s.needs[p.needId].unit !== s.needs[to].unit) this.capUnitMet += 1;
     if (!may) {
       expect(() => rebindEvent(s, input)).toThrow(/rebind_refused/);
       return;
@@ -889,6 +921,9 @@ describe("engine properties (SPEC §3-§6)", () => {
     let volunteerPaidRuns = 0;
     let volunteerRefusedRuns = 0;
     let ruledOutRuns = 0;
+    let rulesRefusedRuns = 0;
+    let matchKeptOutRuns = 0;
+    let capUnitRuns = 0;
     fc.assert(
       fc.property(arbScenario, (sc) => {
         const sim = runScenario(sc);
@@ -898,6 +933,9 @@ describe("engine properties (SPEC §3-§6)", () => {
         if (sim.volunteerPaid > 0) volunteerPaidRuns += 1;
         if (sim.volunteerRefused > 0) volunteerRefusedRuns += 1;
         if (sim.ruledOut > 0) ruledOutRuns += 1;
+        if (sim.rulesRefused > 0) rulesRefusedRuns += 1;
+        if (sim.matchKeptOut > 0) matchKeptOutRuns += 1;
+        if (sim.capUnitMet > 0) capUnitRuns += 1;
         sim.close();
         const s = sim.state;
         expect(s.drive!.status).toBe("closed");
@@ -927,6 +965,9 @@ describe("engine properties (SPEC §3-§6)", () => {
     expect(volunteerPaidRuns).toBeGreaterThan(0);
     expect(volunteerRefusedRuns).toBeGreaterThan(0);
     expect(ruledOutRuns).toBeGreaterThan(0);
+    expect(rulesRefusedRuns).toBeGreaterThan(0);
+    expect(matchKeptOutRuns).toBeGreaterThan(0);
+    expect(capUnitRuns).toBeGreaterThan(0);
   }, 600_000);
 
   it("the split does not depend on the order pledges were made in", () => {

@@ -72,9 +72,15 @@ export interface LineFunded extends EventBase {
   matchCapacityBase: number;
   matchRatio: { num: number; den: number } | null;
   shares: Share[];
+  /**
+   * Holds that could have shared this line but their donor's rules kept them out (DONOR_RULES): donor holds of the
+   * line's need, and match holds when donors paid part of it. Recorded at the split, for the donor's statement.
+   */
+  ruledOut?: string[];
 }
 
-export type CoreRejectCode = "need_covered" | "drive_closed";
+/** donor_rules: every hold that could pay the line is kept out of it by its donor's rules (DONOR_RULES). */
+export type CoreRejectCode = "need_covered" | "drive_closed" | "donor_rules";
 
 export interface LineRejected extends EventBase {
   type: "LineRejected";
@@ -86,6 +92,8 @@ export interface LineRejected extends EventBase {
   /** Engine codes, or the receipts module's rule codes (alcohol, gift_card, ...). */
   code: CoreRejectCode | (string & {});
   reasonEn: string;
+  /** donor_rules: the donor holds of the need whose rules kept them out of this line. */
+  ruledOut?: string[];
 }
 
 export interface CaptureSubmitted extends EventBase {

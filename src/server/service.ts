@@ -127,10 +127,18 @@ export interface ServiceDeps {
 /** The donor's rules as the form sends them, shaped for the book (which checks them against the drive), or a 400. */
 function donorRules(raw: { needs?: unknown; maxUnitMinor?: unknown } | null | undefined): Pledge["rules"] {
   if (raw === null || raw === undefined) return undefined;
-  if (typeof raw !== "object") throw new ServiceError(400, "invalid_rules", "rules must be { needs?, maxUnitMinor? }.");
+  if (typeof raw !== "object" || Array.isArray(raw)) throw new ServiceError(400, "invalid_rules", "rules must be { needs?, maxUnitMinor? }.");
+  // A misspelled key ("maxUnit", "max_unit_minor") would silently drop the donor's limit: refuse it instead.
+  const unknown = Object.keys(raw).filter((k) => k !== "needs" && k !== "maxUnitMinor");
+  if (unknown.length > 0) throw new ServiceError(400, "invalid_rules", `rules has unknown field(s) ${unknown.join(", ")}; only needs and maxUnitMinor.`);
   const needs = raw.needs === undefined || raw.needs === null ? undefined : raw.needs;
   if (needs !== undefined && (!Array.isArray(needs) || needs.some((n) => typeof n !== "string"))) throw new ServiceError(400, "invalid_rules", "rules.needs must be a list of need ids.");
-  const cap = raw.maxUnitMinor === undefined || raw.maxUnitMinor === null || raw.maxUnitMinor === "" ? undefined : Number(raw.maxUnitMinor);
+  const rawCap = raw.maxUnitMinor;
+  // a number, or a string of digits only (form fields); never true/false, "1e3", " 80 " or "0x50"
+  if (rawCap !== undefined && rawCap !== null && rawCap !== "" && typeof rawCap !== "number" && !(typeof rawCap === "string" && /^[0-9]+$/.test(rawCap))) {
+    throw new ServiceError(400, "invalid_rules", "rules.maxUnitMinor must be a whole number of minor units above 0.");
+  }
+  const cap = rawCap === undefined || rawCap === null || rawCap === "" ? undefined : Number(rawCap);
   if (cap !== undefined && (!Number.isSafeInteger(cap) || cap <= 0)) throw new ServiceError(400, "invalid_rules", "rules.maxUnitMinor must be a whole number of minor units above 0.");
   if (needs === undefined && cap === undefined) return undefined; // an empty rule is no rule
   return { ...(needs !== undefined ? { needs: [...(needs as string[])] } : {}), ...(cap !== undefined ? { maxUnitMinor: cap } : {}) };

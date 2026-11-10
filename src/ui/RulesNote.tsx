@@ -31,6 +31,7 @@ export function RulesNote({ statement, labelOf }: { statement: Statement; labelO
           {r.reason === "price"
             ? `${label(r.needId)}, ${r.qty} at ${money(cur, r.unitQuote)} each: above your ${money(cur, rules.maxUnitMinor ?? 0)}, so your hold did not pay it.`
             : `${label(r.needId)}: not among your needs, so your hold did not pay it.`}
+          {r.funded ? "" : ` No hold of ${label(r.needId)} could pay it, so the line was refused and ${label(r.needId)} is still open.`}
         </p>
       ))}
     </section>

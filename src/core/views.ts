@@ -11,7 +11,6 @@ import {
   requireDrive,
   requirePledge,
   restOf,
-  ruleAllows,
   ruleAllowsNeed,
   volunteerCommitted,
 } from "./ledger";
@@ -262,11 +261,12 @@ export interface DonorStatement {
   };
   balance: PledgeBalance;
   /**
-   * Donors with rules only: lines this hold could have paid but its rules left out
-   * ("price": above the cap per unit; "need": a need the rules leave out), with the
-   * line's price per unit in the donor's currency. Absent without rules.
+   * Donors with rules only: lines this hold could have shared when they were split but its
+   * rules left out ("price": above the cap per unit; "need": a match's rules leave the need
+   * out), with the line's price per unit in the donor's currency, rounded up. funded: false —
+   * no hold of the need could pay it, so it was refused and the need stays open. Absent without rules.
    */
-  ruledOut?: { receiptId: string; lineNo: number; needId: string; qty: number; amountBase: number; unitQuote: number; reason: "price" | "need" }[];
+  ruledOut?: { receiptId: string; lineNo: number; needId: string; qty: number; amountBase: number; unitQuote: number; reason: "price" | "need"; funded: boolean }[];
 }
 
 /** "Your EUR 4.00 bought this, and unlocked this much of the match." */
@@ -323,24 +323,27 @@ export function donorStatement(s: LedgerState, pledgeId: string): DonorStatement
   };
 }
 
-/** Lines of the needs this hold backs (a match: all of them) that its rules kept it out of. */
+/**
+ * Lines this hold could have shared when they were split, had its rules not kept it out: as each line recorded
+ * them (the hold live, backing that line's need then; a match only where donors paid part of the line).
+ */
 function ruledOut(s: LedgerState, pledge: Pledge): NonNullable<DonorStatement["ruledOut"]> {
   const out: NonNullable<DonorStatement["ruledOut"]> = [];
-  const mine = new Set<string>(pledge.kind === "match" ? s.needIds : [...(pledge.rules?.needs ?? []), ...(pledge.needId ? [pledge.needId] : [])]);
-  for (const ev of fundedLines(s)) {
-    const l = ev.line;
-    if (pledge.kind === "donor" && !mine.has(l.needId)) continue;
-    if (ruleAllows(pledge, l.needId, l.amountBase, l.needQty)) continue;
-    const k = minorRate(pledge.fx);
+  const k = minorRate(pledge.fx);
+  for (const key of s.lineKeys) {
+    const ev = s.lines[key].event;
+    if (!ev.ruledOut?.includes(pledge.id)) continue;
+    const l = ev.type === "LineFunded" ? ev.line : { receiptId: ev.receiptId, lineNo: ev.lineNo, needId: ev.needId!, needQty: ev.needQty!, amountBase: ev.amountBase };
     out.push({
       receiptId: l.receiptId,
       lineNo: l.lineNo,
       needId: l.needId,
       qty: l.needQty,
       amountBase: l.amountBase,
-      // price per unit in the donor's currency: amountBase / needQty / (num / den), half up
-      unitQuote: Number(divRound(BigInt(l.amountBase) * k.den, BigInt(l.needQty) * k.num, "half-up")),
+      // price per unit in the donor's currency, rounded up: a line kept out by a cap never shows at or below the cap
+      unitQuote: Number(divRound(BigInt(l.amountBase) * k.den, BigInt(l.needQty) * k.num, "ceil")),
       reason: ruleAllowsNeed(pledge, l.needId) ? "price" : "need",
+      funded: ev.type === "LineFunded",
     });
   }
   return out;

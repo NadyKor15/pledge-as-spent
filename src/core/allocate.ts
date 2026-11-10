@@ -122,7 +122,7 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
   if (lookup(s.lines, lineKeyOf(line.receiptId, line.lineNo))) return null;
 
   const head = { id: lineEventId(drive.id, line.receiptId, line.lineNo), at: now, driveId: drive.id };
-  const reject = (code: LineRejected["code"], reasonEn: string): LineRejected => ({
+  const reject = (code: LineRejected["code"], reasonEn: string, ruledOut?: string[]): LineRejected => ({
     ...head,
     type: "LineRejected",
     receiptId: line.receiptId,
@@ -132,6 +132,7 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
     amountBase: line.amountBase,
     code,
     reasonEn,
+    ...(ruledOut ? { ruledOut } : {}),
   });
   if (drive.status !== "open") return reject("drive_closed", `The drive is ${drive.status}; new purchases are not funded.`);
 
@@ -154,6 +155,16 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
   const M = sum(matches.map((b) => b.cap));
   const ratio = matchRatio(s);
   const { m, d, funded, unfunded } = splitMatch(F, D, M, ratio);
+  // Holds that could have shared the line but for their donor's rules. The match follows donor money, so a match
+  // hold counts only when donors pay part of the line.
+  const keptDonors = backers(s, now, (p) => p.kind === "donor" && p.needId === need.id && !allowed(p)).map((b) => b.pledge.id);
+  const keptMatches = backers(s, now, (p) => p.kind === "match" && !allowed(p)).map((b) => b.pledge.id);
+  // Donor money was there, but every donor hold of the need is kept out by its rules: the line is refused, so it
+  // does not use up the need and a later purchase at an allowed price can still be funded.
+  if (funded === 0 && F > 0 && keptDonors.length > 0) {
+    return reject("donor_rules", `The donors' rules (a price per unit) keep every hold of ${need.label} out of this line; ${need.label} stays open.`, keptDonors);
+  }
+  const ruledOut = [...keptDonors, ...(d > 0 ? keptMatches : [])];
 
   // §3.3 donor shares by capacity; §3.5 the match attributed by donor share
   const donorPortions = largestRemainder(d, donors.map((b) => ({ id: b.pledge.id, weight: b.cap })));
@@ -183,6 +194,7 @@ export function allocateLine(s: LedgerState, line: FundableLineInput, now: strin
     matchCapacityBase: M,
     matchRatio: ratio,
     shares,
+    ...(ruledOut.length > 0 ? { ruledOut } : {}),
   };
 }
 

@@ -61,7 +61,7 @@ describe("donor rules switched on", () => {
     expect(water.map((r) => r.pledgeId)).toEqual([`${s.driveId}.water`]); // Lena alone, never Claire
     expect(view.holds.find((h) => h.pledgeId === claire)).toMatchObject({ rules: { maxUnitMinor: 60 }, accrued: 0, captured: 0 });
     const st = (await s.h.svc.getStatement(claire)).statement;
-    expect(st.ruledOut).toEqual([{ receiptId: out.receipt.id, lineNo: 1, needId: "water", qty: 4, amountBase: 432, unitQuote: 67, reason: "price" }]);
+    expect(st.ruledOut).toEqual([{ receiptId: out.receipt.id, lineNo: 1, needId: "water", qty: 4, amountBase: 432, unitQuote: 67, reason: "price", funded: true }]);
     // a cheaper line: Claire pays her share
     const cheap = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 902, [L("water", 10, 900)]).bytes }); // ¥90 a bottle
     const shares = (await s.h.svc.getDriveView(s.driveId)).ledger.filter((r) => r.receiptId === cheap.receipt.id && r.kind === "donor_share").map((r) => r.pledgeId).sort();
@@ -77,6 +77,33 @@ describe("donor rules switched on", () => {
     expect(await reject(s.h.svc.createPledge({ ...base, rules: { needs: ["diapers"] } }))).toMatchObject({ status: 400, message: expect.stringMatching(/own need/) });
     expect(await reject(s.h.svc.createPledge({ ...base, rules: { maxUnitMinor: -5 } }))).toMatchObject({ status: 400, code: "invalid_rules" });
     expect(await reject(s.h.svc.createPledge({ ...base, rules: { needs: "water" } }))).toMatchObject({ status: 400, code: "invalid_rules" });
+    // a misspelled field would drop the donor's limit without a word: refused
+    expect(await reject(s.h.svc.createPledge({ ...base, rules: { maxUnit: 80 } as never }))).toMatchObject({ status: 400, code: "invalid_rules", message: expect.stringMatching(/maxUnit/) });
+    for (const cap of [true, "1e3", " 80", "0x50", "0.8", [80]]) {
+      expect(await reject(s.h.svc.createPledge({ ...base, rules: { maxUnitMinor: cap } }))).toMatchObject({ status: 400, code: "invalid_rules" });
+    }
+    expect(await reject(s.h.svc.createPledge({ ...base, rules: ["water"] as never }))).toMatchObject({ status: 400, code: "invalid_rules" });
     expect(s.pp.calls.length).toBe(calls);
+    // digits from a form field are taken as the number they are
+    const ok = await s.h.svc.createPledge({ ...base, rules: { maxUnitMinor: "80" } });
+    expect(ok.pledgeId).toBeTruthy();
+  });
+
+  it("refuses a line no hold of its need may pay, keeps the need open, and funds a cheaper one after it", async () => {
+    vi.stubEnv("DONOR_RULES", "1");
+    const s = await setup("demo-rules-refuse");
+    const claire = await s.pledge({ maxUnitMinor: 60 }); // at most €0.60 a bottle = ¥97.41
+    await s.h.svc.revokePledge(`${s.driveId}.water`); // Lena withdraws: Claire is the only hold of water
+    const before = (await s.h.svc.getDriveView(s.driveId)).needs.find((n) => n.needId === "water")!;
+    const dear = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 903, [L("water", 4, 432)]).bytes }); // ¥108 a bottle
+    expect(dear.receipt.status).toBe("rejected");
+    const view = await s.h.svc.getDriveView(s.driveId);
+    expect(view.ledger.filter((r) => r.receiptId === dear.receipt.id).map((r) => [r.kind, r.code])).toEqual([["rejected", "donor_rules"]]);
+    expect(view.needs.find((n) => n.needId === "water")).toMatchObject({ qtyCovered: before.qtyCovered }); // not used up
+    expect(view.holds.find((h) => h.pledgeId === claire)).toMatchObject({ accrued: 0, captured: 0 });
+    expect((await s.h.svc.getStatement(claire)).statement.ruledOut).toEqual([{ receiptId: dear.receipt.id, lineNo: 1, needId: "water", qty: 4, amountBase: 432, unitQuote: 67, reason: "price", funded: false }]);
+    const cheap = await s.h.svc.submitReceipt({ driveId: s.driveId, bytes: syntheticReceipt(s.rec, 904, [L("water", 4, 360)]).bytes }); // ¥90 a bottle
+    expect(cheap.receipt.status).toBe("funded");
+    expect((await s.h.svc.getDriveView(s.driveId)).ledger.filter((r) => r.receiptId === cheap.receipt.id && r.kind === "donor_share").map((r) => r.pledgeId)).toEqual([claire]);
   });
 });

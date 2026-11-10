@@ -338,6 +338,9 @@ export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string
   if (!target) return no("unknown_need", `This drive has no need ${toNeedId}.`);
   if (pledge.needId === toNeedId) return no("same_need", `This pledge already backs ${target.label}.`);
   if (!ruleAllowsNeed(pledge, toNeedId)) return no("rule_forbids", `The donor's rules leave out ${target.label}.`);
+  if (!capFitsNeed(s, pledge, toNeedId)) {
+    return no("rule_forbids", `The donor's price cap is per ${s.needs[pledge.needId!].unit}; ${target.label} is counted per ${target.unit}.`);
+  }
   if (!isLiveStatus(pledge.status)) return no("hold_not_live", `The hold is ${pledge.status}; nothing is held for a new need.`);
   if (hold.revokedAt) return no("revoked", "The pledge was withdrawn.");
   if (hold.blockedAt) return no("blocked", "PayPal refused a charge on this hold for good.");
@@ -354,6 +357,17 @@ export function rebindRefusal(s: LedgerState, pledgeId: string, toNeedId: string
 
 /** Whether hold `p`'s rules let it pay `needId` at all. */
 export const ruleAllowsNeed = (p: Pledge, needId: string): boolean => !p.rules?.needs || p.rules.needs.includes(needId);
+
+/**
+ * A price cap is "per unit" of the need the donor set it on: a capped donor hold moves (by hand or by a carry)
+ * only to a need counted in the same unit, so "at most ¥100 a bottle" never turns into "¥100 a pack".
+ */
+export function capFitsNeed(s: LedgerState, p: Pledge, toNeedId: string): boolean {
+  if (p.rules?.maxUnitMinor === undefined || p.needId === null) return true;
+  const from = lookup(s.needs, p.needId);
+  const to = lookup(s.needs, toNeedId);
+  return !!from && !!to && from.unit === to.unit;
+}
 
 /**
  * Whether hold `p`'s rules let it pay a line of `needQty` units of `needId` costing
@@ -384,7 +398,11 @@ function checkRules(s: LedgerState, e: E.PledgeCreated, p: Pledge): void {
   if (extra.length) fail(e, `rules: unknown ${extra.join(", ")}`);
 }
 
-const sameRules = (a: Pledge["rules"], b: Pledge["rules"]): boolean => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+/** The same rules whatever order the needs were listed in. */
+const sameRules = (a: Pledge["rules"], b: Pledge["rules"]): boolean => {
+  const norm = (r: Pledge["rules"]) => (r ? { needs: r.needs ? [...r.needs].sort() : null, cap: r.maxUnitMinor ?? null } : null);
+  return JSON.stringify(norm(a)) === JSON.stringify(norm(b));
+};
 
 // ---- carry ------------------------------------------------------------------
 
@@ -401,7 +419,8 @@ export function carryTarget(s: LedgerState, pledgeId: string): string | null {
   const pledge = lookup(s.pledges, pledgeId);
   let best: { id: string; lack: number; of: number } | null = null;
   for (const id of s.needIds) {
-    if (pledge && (id === pledge.needId || !ruleAllowsNeed(pledge, id))) continue; // never to a need the donor's rules leave out
+    // never to a need the donor's rules leave out, nor (with a price cap) to one counted in another unit
+    if (pledge && (id === pledge.needId || !ruleAllowsNeed(pledge, id) || !capFitsNeed(s, pledge, id))) continue;
     const need = s.needs[id];
     const lack = need.qtyNeeded - s.qtyCovered[id];
     if (lack <= 0) continue;
@@ -815,6 +834,7 @@ function onLineFunded(s: LedgerState, e: E.LineFunded): LedgerState {
       next = putHold(next, { ...hold, accrued: hold.accrued + sh.quote.minor, accruals: [...hold.accruals, accrual] });
     }
   }
+  checkRuledOut(s, e, line.needId, line.amountBase, line.needQty, seenPledges);
   if (sumBase !== e.fundedBase || sumDonor !== e.donorBase) fail(e, "shares do not add up to the funded amounts");
   if (sumAttributed !== e.matchBase) fail(e, "match attribution does not add up to the match");
   const r = matchRatio(s);
@@ -837,7 +857,26 @@ function onLineRejected(s: LedgerState, e: E.LineRejected): LedgerState {
   if (!isNonNegInt(e.amountBase)) fail(e, "amountBase must be a non-negative integer");
   if (!nonEmpty(e.code)) fail(e, "a rejection needs a code");
   if (e.needId !== null && !lookup(s.needs, e.needId)) fail(e, `unknown need ${e.needId}`);
+  if (e.ruledOut !== undefined) {
+    if (e.code !== "donor_rules" || e.needId === null || !isPositiveInt(e.needQty)) fail(e, "only a donor_rules refusal names the holds kept out");
+    checkRuledOut(s, e, e.needId!, e.amountBase, e.needQty!, new Set());
+  }
   return { ...s, lines: { ...s.lines, [key]: { key, event: e } }, lineKeys: [...s.lineKeys, key] };
+}
+
+/** The holds a line names as kept out by their rules: known, once each, without a share, and their rules do refuse it. */
+function checkRuledOut(s: LedgerState, e: E.LineFunded | E.LineRejected, needId: string, amountBase: number, needQty: number, shared: Set<string>): void {
+  if (e.ruledOut === undefined) return;
+  if (!Array.isArray(e.ruledOut) || e.ruledOut.length === 0) fail(e, "ruledOut, when present, names at least one hold");
+  const seen = new Set<string>();
+  for (const id of e.ruledOut) {
+    const pledge = lookup(s.pledges, id);
+    if (!pledge) fail(e, `ruledOut: unknown pledge ${id}`);
+    if (seen.has(id) || shared.has(id)) fail(e, `ruledOut: pledge ${id} twice, or with a share`);
+    seen.add(id);
+    if (pledge!.kind === "donor" && pledge!.needId !== needId) fail(e, `ruledOut: pledge ${id} backs another need`);
+    if (ruleAllows(pledge!, needId, amountBase, needQty)) fail(e, `ruledOut: pledge ${id}'s rules allow this line`);
+  }
 }
 
 function onCaptureSubmitted(s: LedgerState, e: E.CaptureSubmitted): LedgerState {
