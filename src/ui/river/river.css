@@ -23,8 +23,8 @@
 
 /* ── Step heads ─────────────────────────────────────────────────────────────────────────────────── */
 .rv-root .rv-head { opacity: calc(.38 + .62 * clamp(0, calc(var(--step) - var(--k) + 1), 1)); transition: opacity .5s ease; }
-.rv-headTitle { display: flex; align-items: center; gap: 9px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
-.rv-headTitle > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.rv-headTitle { display: flex; align-items: flex-start; gap: 9px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.rv-headTitle > span:last-child { min-width: 0; padding-top: 3px; overflow-wrap: anywhere; }
 .rv-num { flex: none; display: inline-grid; place-items: center; width: 27px; height: 27px; border: 1.5px solid #4D525A; border-radius: 50%; font-size: 14px; font-weight: 500; }
 .rv-note { margin-top: 9px; font-size: 13.5px; line-height: 1.38; color: var(--muted); overflow-wrap: anywhere; }
 
@@ -58,7 +58,7 @@
 .rv-who { font-size: 14.5px; }
 .rv-amt { font-size: 16.5px; font-variant-numeric: tabular-nums; }
 .rv-shareMatch { border-color: #CFE4D2; background: #FAFCFA; color: #3B463F; font-size: 14px; }
-.rv-shareMatch .rv-who { font-size: 14px; }
+.rv-shareMatch .rv-who { font-size: 13.5px; }
 
 .rv-hc { display: flex; align-items: center; }
 .rv-hold, .rv-capture { display: flex; flex-direction: column; gap: 2px; padding: 8px 9px; border: 1.5px solid #2E7D5B; background: #FFFFFF; }
@@ -79,9 +79,9 @@
 .rv-payout .rv-big { margin: 0; padding: 0; border: 0; font-size: 23px; }
 .rv-success { align-self: stretch; margin-top: 8px; padding: 4px 8px; border-radius: 6px; background: #1E7A4C; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-align: center; }
 
-.rv-never { display: flex; flex-direction: column; gap: 3px; padding: 10px 14px; border-color: #B8C7D7; background: #EDF1F6; color: #263646; }
-.rv-neverAmt { font-size: 18px; font-variant-numeric: tabular-nums; }
-.rv-never > span { font-size: 13px; color: #43546A; }
+.rv-never { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border-color: #B8C7D7; background: #EDF1F6; color: #263646; }
+.rv-neverAmt { font-size: 16.5px; font-variant-numeric: tabular-nums; }
+.rv-never > span { font-size: 12px; color: #43546A; }
 .rv-open > b { font-size: 16px; }
 
 /* ── Sums and the closing line ──────────────────────────────────────────────────────────────────── */
@@ -101,18 +101,21 @@
 .rv-fill-flow { fill: #84C594; opacity: .92; }
 .rv-fill-match { fill: #C9E6CB; opacity: .95; }
 .rv-fill-refused { fill: #F2A7AE; opacity: .85; }
-.rv-fill-never { fill: #C1D2E3; opacity: .95; }
+.rv-fill-never { fill: #C3D3E4; opacity: .85; }
 .rv-arrowHead { fill: #A4BAD1; }
 
 /* ── Desktop: seven columns, left to right ──────────────────────────────────────────────────────── */
-.rv-desk { position: relative; display: grid; grid-template-columns: 150fr 160fr 200fr 175fr 370fr 160fr 185fr; row-gap: 10px; margin-top: 16px; }
+.rv-desk { position: relative; display: grid; grid-template-columns: 140fr 155fr 190fr 205fr 370fr 160fr 180fr; row-gap: 10px; margin-top: 16px; }
 .rv-panel { z-index: 0; margin: 0 1.5px; border-radius: 5px; background: #F0EEE9; }
 .rv-headCell { z-index: 2; min-width: 0; padding: 16px 10px 22px 12px; }
 .rv-desk .rv-headTitle { font-size: 16.5px; gap: 8px; }
 .rv-cell { z-index: 2; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 8px 0 10px; }
-.rv-c2 { padding-left: 40px; }
-.rv-c3 { padding-left: 58px; padding-right: 6px; }
-.rv-c4 { gap: 6px; padding-left: 42px; padding-right: 6px; }
+.rv-c2 { padding-left: 36px; }
+.rv-c3 { padding-left: 50px; padding-right: 6px; }
+/* A refused line reaches into the shares' column: nothing of it flows there, so its card can be wider. */
+.rv-c3ref { align-items: flex-start; }
+.rv-c3ref .rv-refused { width: 100%; max-width: 232px; }
+.rv-c4 { gap: 6px; padding-left: 36px; padding-right: 6px; }
 .rv-c5 { justify-content: space-around; gap: 12px; padding-left: 40px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
 .rv-desk .rv-hold { width: 150px; }
@@ -143,7 +146,7 @@
 .rv-phone .rv-arrow { width: 18px; }
 .rv-phone .rv-payout { width: min(260px, 74%); }
 .rv-phone .rv-never { padding: 9px 9px; }
-.rv-phone .rv-neverAmt { font-size: 15px; }
+.rv-phone .rv-neverAmt { font-size: 14px; }
 .rv-phone .rv-never > span { font-size: 12px; }
 
 @media (max-width: 1179px) {

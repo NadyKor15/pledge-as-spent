@@ -407,8 +407,15 @@ function RefusedCard({ r, w }: { r: RiverModel["refused"][number]; w: RiverWords
   );
 }
 
+/** "Lena · Berlin, DE" → "Lena" and "Berlin": the donor and the town, as the picture names them. */
+const donorAndTown = (who: string): [string, string | null] => {
+  const [name, ...rest] = who.split(" · ");
+  const place = rest.join(" · ").replace(/,\s*[A-Z]{2}$/, "");
+  return [name, place || null];
+};
+
 function ShareCard({ n, sh, w }: { n: RiverNeed; sh: RiverNeed["shares"][number]; w: RiverWords }) {
-  const [name, ...place] = sh.who.split(" · ");
+  const [name, place] = donorAndTown(sh.who);
   return (
     <div className={`${s.card} ${s.share} ${sh.kind === "match" ? s.shareMatch : ""}`} data-node={shareNode(n.needId, sh.pledgeId)} data-step={4} style={k(4)} data-card="share" data-kind={sh.kind}>
       {sh.kind === "match" ? (
@@ -422,7 +429,7 @@ function ShareCard({ n, sh, w }: { n: RiverNeed; sh: RiverNeed["shares"][number]
         <>
           <span className={s.who}>
             <b>{name}</b>
-            {place.length > 0 && ` · ${place.join(" · ")}`}
+            {place && ` · ${place}`}
           </span>
           <b className={`${s.amt} ${s.nowrap}`} data-money="share">
             {sh.text}
@@ -575,7 +582,7 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         </div>
       ))}
       {m.refused.map((x, i) => (
-        <div key={x.lineNo} className={`${s.cell} ${s.c3}`} style={at("3", String(afterNeeds + i))} data-col="3">
+        <div key={x.lineNo} className={`${s.cell} ${s.c3} ${s.c3ref}`} style={at("3 / 5", String(afterNeeds + i))} data-col="3">
           <RefusedCard r={x} w={w} />
         </div>
       ))}
