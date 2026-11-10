@@ -113,7 +113,8 @@ const BARE = String.raw`(?:\d{1,3}(?:[,.']\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1
 
 const PREFIX_RE = PREFIX.map(([s]) => esc(s)).join("|");
 const AMOUNT_BEFORE = new RegExp(String.raw`(?<![\w$€¥£])(${PREFIX_RE}|(?:${CODES})(?=[\s\u00A0]?\d))[\s\u00A0]?[-−]?(${NUM})(?![\d])`, "g");
-const AMOUNT_AFTER = new RegExp(String.raw`(?<![\w.,'])(${NUM})[\s\u00A0\u202F]?(€|円|\$|¥|(?:${CODES})\b)`, "g");
+// A symbol directly followed by a digit opens the next amount ("Linie 2 €1.45"): it does not end this one.
+const AMOUNT_AFTER = new RegExp(String.raw`(?<![\w.,'])(${NUM})[\s\u00A0\u202F]?(€|円|\$|¥|(?:${CODES})\b)(?!\d)`, "g");
 
 const IDS = [/(?<![0-9A-Za-z])[0-9A-Z]{17}(?![0-9A-Za-z])/g, /(?<![0-9A-Za-z])(?=[0-9A-Z]*\d)(?=[0-9A-Z]*[A-Z])[0-9A-Z]{13,20}(?![0-9A-Za-z])/g];
 

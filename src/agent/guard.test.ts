@@ -104,6 +104,18 @@ describe("checkAnswer: numbers only from the book (must-light)", () => {
     expect(checkAnswer("Lines 4, 5 and 6 (3 packs) on 5 Nov 2026 at 14:32 cost $21.45.", MARK).ok).toBe(true);
   });
 
+  it('a line number just before a symbol-first amount is not read as that currency ("Linie 2 €1.45", live measure 10.11, Q6)', () => {
+    // The model's first draft in the measure: "Linie 2 €1.45" was read as "2 €", and its "€1.45" was lost to it.
+    const draft = "Von deinen €20.00 wurden €4.58 für Water 2 L ausgegeben: Linie 1 kostete dich €2.46, Linie 2 €1.45 und Linie 3 €0.67.";
+    expect(extractClaims(draft, "de").map((c) => `${c.currency ?? "?"} ${c.value}`)).toEqual(["EUR 20", "EUR 4.58", "EUR 2.46", "EUR 1.45", "EUR 0.67"]);
+    const LENA: Fact[] = [20, 4.58, 2.46, 1.45, 0.67].map((value) => ({ value, currency: "EUR", label: "Lena" }));
+    expect(checkAnswer(draft, LENA, "de").ok).toBe(true);
+    // A symbol after the number still counts when no digit follows it at once.
+    expect(claims("Davon 4,58 € ausgegeben, 2 Flaschen für 1,45 € 2 mal")).toEqual(["EUR 4.58", "EUR 1.45"]);
+    // must-light: a made-up figure in the same shape still blocks.
+    expect(checkAnswer("Linie 2 €1.46", LENA, "de").ok).toBe(false);
+  });
+
   it("the correction names each figure once", () => {
     const v = checkAnswer("$3000 and $3000 and 5PE922386K0983924", MARK);
     expect(correction(v.unmatched)).toBe("Your answer contained figures not returned by the tools: $3000, 5PE922386K0983924; use only tool figures or say you cannot confirm.");
