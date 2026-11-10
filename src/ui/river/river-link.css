@@ -1,0 +1,5 @@
+/* The Ledger's links to the poster and to the river of money, side by side in the poster link's place (PosterLink):
+   the box keeps the place's position, colour and size; the underline is each link's own, not the dot's. */
+.rv-links.rv-links { display: inline-flex; align-items: baseline; flex-wrap: nowrap; gap: 0 7px; white-space: nowrap; text-decoration: none; }
+.rv-links .rv-links-a { color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.rv-links .rv-links-dot { opacity: .6; text-decoration: none; }

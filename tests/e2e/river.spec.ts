@@ -1,0 +1,238 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { expect, test, type Page } from "@playwright/test";
+import { moneyIn, type Lang } from "../../src/ui/format";
+import { deriveLedger } from "../../src/ui/ledger/derive";
+import { riverModel } from "../../src/ui/river/model";
+import { RIVER_WORDS } from "../../src/ui/river/words";
+import type { DriveView } from "../../src/ui/types";
+
+// П2, the river of money, in a real browser on the real snapshots tests/fixtures/drives/closed.json and open.json (no
+// network): the seven steps, the sums equal to the Ledger's (deriveLedger), PayPal's ids whole, nothing out of its
+// card or off the screen at 1440 and 390 in EN, DE and JA; the 20-second playback and Replay; reduced motion; the
+// Ledger's link to it next to the poster's. The build has the river switched on (river.config.ts).
+
+const ROOT = path.resolve(__dirname, "../..");
+const fixture = (name: "closed" | "open") => JSON.parse(readFileSync(path.join(ROOT, `tests/fixtures/drives/${name}.json`), "utf8")) as DriveView;
+const LANGS: Lang[] = ["en", "de", "ja"];
+const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=", "base64");
+
+async function openRiver(page: Page, view: DriveView, lang: Lang = "en", reduce = true) {
+  if (reduce) await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route(`**/api/drives/${view.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(view) }));
+  await page.goto(`/drive/${view.drive.id}/river${lang === "en" ? "" : `?lang=${lang}`}`);
+  await expect(page.getByTestId("river")).toBeVisible({ timeout: 60_000 });
+  if (reduce) await expect(page.getByTestId("river")).toHaveAttribute("data-step", "7", { timeout: 3_000 });
+  await page.evaluate(() => document.fonts.ready.then(() => true));
+  await page.waitForTimeout(300);
+}
+
+/** Everything of the river that leaves its place: the page wider than the screen, a card off it, text out of its card or
+ *  head, two cards over each other, a PayPal id cut, the header's parts over each other. */
+const misfits = (page: Page) =>
+  page.evaluate(() => {
+    const out: string[] = [];
+    const vw = document.documentElement.clientWidth;
+    if (document.documentElement.scrollWidth > vw + 1) out.push(`page ${document.documentElement.scrollWidth} wider than ${vw}`);
+    const inside = (el: Element, r: DOMRect, what: string) => {
+      const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+        const text = (n.textContent ?? "").trim();
+        if (!text) continue;
+        const range = document.createRange();
+        range.selectNodeContents(n);
+        for (const t of range.getClientRects())
+          if (t.width > 0 && (t.left < r.left - 0.5 || t.right > r.right + 0.5 || t.top < r.top - 0.5 || t.bottom > r.bottom + 0.5)) out.push(`${what}: "${text}" out of its box`);
+      }
+    };
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")];
+    for (const c of cards) {
+      const r = c.getBoundingClientRect();
+      if (r.left < -0.5 || r.right > vw + 0.5) out.push(`${c.dataset.card} off the screen [${Math.round(r.left)}..${Math.round(r.right)}]`);
+      if (c.scrollWidth > c.clientWidth + 1) out.push(`${c.dataset.card} wider inside than its box: ${c.textContent}`);
+      inside(c, r, c.dataset.card ?? "card");
+    }
+    for (let i = 0; i < cards.length; i++)
+      for (let j = i + 1; j < cards.length; j++) {
+        const a = cards[i].getBoundingClientRect();
+        const b = cards[j].getBoundingClientRect();
+        const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+        const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+        if (w > 1 && h > 1) out.push(`${cards[i].dataset.card} over ${cards[j].dataset.card}: ${cards[i].textContent} / ${cards[j].textContent}`);
+      }
+    for (const h of document.querySelectorAll<HTMLElement>("[data-head]")) {
+      const box = (h.parentElement ?? h).getBoundingClientRect();
+      if (box.left < -0.5 || box.right > vw + 0.5) out.push(`head ${h.dataset.head} off the screen`);
+      inside(h, box, `head ${h.dataset.head}`);
+    }
+    for (const id of document.querySelectorAll<HTMLElement>("[data-paypal-id]")) if (id.scrollWidth > id.clientWidth + 0.5) out.push(`PayPal id cut: ${id.textContent}`);
+    const top = [...document.querySelectorAll<HTMLElement>("header > *")];
+    for (let i = 0; i < top.length; i++) {
+      const a = top[i].getBoundingClientRect();
+      if (a.right > vw + 0.5) out.push(`header part off the screen: ${top[i].textContent}`);
+      for (let j = i + 1; j < top.length; j++) {
+        const b = top[j].getBoundingClientRect();
+        if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1) out.push(`header parts over each other: ${top[i].textContent} / ${top[j].textContent}`);
+      }
+    }
+    return [...new Set(out)];
+  });
+
+for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as const) {
+  test.describe(`the river at ${label}`, () => {
+    test.use({ viewport: { width, height } });
+    for (const lang of LANGS) {
+      test(`${lang}: seven steps, the Ledger's sums, PayPal's ids whole, nothing out of place`, async ({ page }) => {
+        const v = fixture("closed");
+        const l = deriveLedger(v, lang);
+        const m = riverModel(v, lang);
+        const w = RIVER_WORDS[lang];
+        const yen = (minor: number) => moneyIn(lang, v.drive.baseCurrency, minor);
+        await openRiver(page, v, lang);
+        await expect(page.getByTestId("river")).toHaveAttribute("data-layout", width > 1000 ? "desktop" : "phone");
+
+        // The seven steps, numbered, with the words of this language; column 2 says "Read": this receipt was read once.
+        await expect(page.locator("[data-head]")).toHaveCount(7);
+        await expect(page.locator("[data-head] .rv-num")).toHaveText(["1", "2", "3", "4", "5", "6", "7"]);
+        await expect(page.locator('[data-head="2"]')).toContainText(w.oneReading.title);
+        await expect(page.locator('[data-head="7"]')).toContainText(w.never.title);
+        await expect(page.getByText(w.readingA)).toHaveCount(0);
+
+        // The sums equal the Ledger's own: donors spent, the match, the payout, never charged.
+        await expect(page.locator("[data-sum=spent] b")).toHaveText(yen(l.spent));
+        await expect(page.locator("[data-sum=match] b")).toHaveText(yen(l.match));
+        await expect(page.locator("[data-sum=paid] b")).toHaveText(yen(l.spent + l.match));
+        await expect(page.locator("[data-sum=never] b")).toHaveText(yen(l.returned));
+        await expect(page.locator("[data-money=payout]")).toHaveText(yen(l.spent + l.match));
+        await expect(page.locator('[data-money=capture][data-kind="match"]')).toHaveText(yen(l.match));
+        await expect(page.locator("[data-money=receipt]")).toHaveText(yen(14646));
+
+        // Each need, its shares (the match's in yen), the refused lines, each donor's rest in the donor's currency.
+        await expect(page.locator("[data-card=need]")).toHaveCount(3);
+        await expect(page.locator('[data-card=share][data-kind="match"] [data-money]')).toHaveText(m.needs.map((n) => n.shares.find((s) => s.kind === "match")!.text));
+        await expect(page.locator("[data-card=refused]")).toHaveCount(2);
+        await expect(page.locator("[data-card=refused]").first()).toContainText(w.line(10));
+        await expect(page.locator("[data-card=never] b")).toHaveText(m.never.map((n) => w.neverCharged(n.text)));
+
+        // PayPal's ids, every one whole: the holds, this receipt's captures, the payout batch.
+        const ids = [...m.holds.flatMap((h) => [h.authorizationId ?? "", ...h.captureIds]), m.payout?.batchId ?? ""].filter(Boolean).sort();
+        expect(ids).toHaveLength(9);
+        expect((await page.locator("[data-paypal-id]").allTextContents()).sort()).toEqual(ids);
+
+        // The ribbons: one per amount, the rests' three among them.
+        await expect(page.locator("g[data-ribbon]")).toHaveCount(27);
+        await expect(page.locator('g[data-kind="never"]')).toHaveCount(3);
+
+        expect(await misfits(page)).toEqual([]);
+      });
+    }
+  });
+}
+
+test("a receipt Meta read twice: column 2 says the two readings agree", async ({ page }) => {
+  const v = fixture("closed");
+  v.receipts = v.receipts.map((r) => ({ ...r, reader: "cached:meta" }));
+  await openRiver(page, v);
+  const w = RIVER_WORDS.en;
+  await expect(page.locator('[data-head="2"]')).toContainText(w.twoReadings.title);
+  await expect(page.getByText(w.readingA, { exact: true })).toBeVisible();
+  await expect(page.getByText(w.readingB, { exact: true })).toBeVisible();
+  await expect(page.locator("[data-card=read]")).toHaveText(w.agree);
+  expect(await misfits(page)).toEqual([]);
+});
+
+test("the open drive: holds still open, nothing never charged yet; the sums still the Ledger's", async ({ page }) => {
+  const v = fixture("open");
+  const l = deriveLedger(v, "en");
+  await openRiver(page, v);
+  await expect(page.locator("[data-card=never]")).toHaveCount(0);
+  await expect(page.locator("[data-card=never-open]")).toContainText(RIVER_WORDS.en.stillHeld);
+  await expect(page.locator("[data-sum=spent] b")).toHaveText(moneyIn("en", "JPY", l.spent));
+  await expect(page.locator("[data-sum=paid] b")).toHaveText(moneyIn("en", "JPY", l.spent + l.match));
+  await expect(page.locator("[data-sum=never]")).toHaveCount(0);
+  await expect(page.locator("p", { hasText: RIVER_WORDS.en.openTail })).toBeVisible();
+  expect(await misfits(page)).toEqual([]);
+});
+
+test("plays the seven steps over 20 seconds, one after another; Replay starts again", async ({ page }) => {
+  test.setTimeout(90_000);
+  await openRiver(page, fixture("closed"), "en", false);
+  const root = page.getByTestId("river");
+  const clock = page.getByTestId("river-clock");
+  const opacity = (sel: string) => page.locator(sel).first().evaluate((e) => getComputedStyle(e).opacity);
+  await expect(clock).toHaveText(/^0:0[0-3] \/ 0:20$/);
+  expect(Number(await root.getAttribute("data-step"))).toBeLessThan(3);
+  expect(await opacity("[data-card=never]")).toBe("0");
+  await expect(root).toHaveAttribute("data-step", "4", { timeout: 15_000 });
+  expect(await opacity("[data-card=never]")).toBe("0");
+  await expect(clock).toHaveText("0:20 / 0:20", { timeout: 30_000 });
+  await expect(root).toHaveAttribute("data-step", "7");
+  await expect.poll(() => opacity("[data-card=never]")).toBe("1");
+  const full = await page.evaluate(() => {
+    const bar = document.querySelector<HTMLElement>("[data-testid=river-bar]")!;
+    return Math.abs(bar.getBoundingClientRect().width - bar.parentElement!.getBoundingClientRect().width) < 1;
+  });
+  expect(full).toBe(true);
+  await page.getByTestId("river-replay").click();
+  await expect(clock).toHaveText(/^0:0[0-2] \/ 0:20$/);
+  expect(Number(await root.getAttribute("data-step"))).toBeLessThanOrEqual(2);
+  await expect.poll(() => opacity("[data-card=never]")).toBe("0");
+});
+
+test("reduced motion: every step at once and the bar full", async ({ page }) => {
+  await openRiver(page, fixture("closed"), "en", true);
+  await expect(page.getByTestId("river-clock")).toHaveText("0:20 / 0:20");
+  const opacities = await page.locator(".rv-root [data-step]").evaluateAll((els) => [...new Set(els.map((e) => getComputedStyle(e).opacity))]);
+  expect(opacities).toEqual(["1"]);
+  const transforms = await page.locator("g[data-ribbon]").evaluateAll((els) => [...new Set(els.map((e) => getComputedStyle(e).transform))]);
+  expect(transforms.every((t) => t === "none" || t === "matrix(1, 0, 0, 1, 0, 0)")).toBe(true);
+  const full = await page.evaluate(() => {
+    const bar = document.querySelector<HTMLElement>("[data-testid=river-bar]")!;
+    return Math.abs(bar.getBoundingClientRect().width - bar.parentElement!.getBoundingClientRect().width) < 1;
+  });
+  expect(full).toBe(true);
+});
+
+/** Text drawn over a link: any other visible text whose box crosses the link's. */
+const overLink = (page: Page, testId: string) =>
+  page.evaluate((id) => {
+    const link = document.querySelector<HTMLElement>(`[data-testid=${id}]`);
+    if (!link) return [`no ${id}`];
+    const p = link.getBoundingClientRect();
+    const out: string[] = [];
+    if (p.left < 0 || p.right > document.documentElement.clientWidth) out.push(`${id} off the screen`);
+    const hit = (r: DOMRect) => r.width > 0 && r.height > 0 && r.left < p.right - 1 && p.left < r.right - 1 && r.top < p.bottom - 1 && p.top < r.bottom - 1;
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      const el = n.parentElement;
+      if (!el || link.contains(el) || !(n.textContent ?? "").trim() || getComputedStyle(el).visibility === "hidden") continue;
+      const range = document.createRange();
+      range.selectNodeContents(n);
+      for (const r of range.getClientRects()) if (hit(r)) out.push((n.textContent ?? "").trim());
+    }
+    return [...new Set(out)];
+  }, testId);
+
+for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as const) {
+  test.describe(`the Ledger's link to the river at ${label}`, () => {
+    test.use({ viewport: { width, height } });
+    for (const lang of LANGS) {
+      test(`${lang}: next to the poster's link, nothing over either`, async ({ page }) => {
+        const v = fixture("closed");
+        await page.route(`**/api/drives/${v.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(v) }));
+        await page.route("**/api/receipts/*/image", (r) => r.fulfill({ contentType: "image/png", body: PNG }));
+        await page.goto(`/drive/${v.drive.id}?as=ledger${lang === "en" ? "" : `&lang=${lang}`}`);
+        await expect(page.locator(".lg-map [data-label]").first()).toBeVisible({ timeout: 60_000 });
+        await page.waitForTimeout(800);
+        const river = page.getByTestId("river-link");
+        await expect(river).toHaveCount(1);
+        await expect(page.getByTestId("poster-link")).toHaveCount(1);
+        await expect(river).toHaveText(RIVER_WORDS[lang].link);
+        await expect(river).toHaveAttribute("href", `/drive/${v.drive.id}/river${lang === "en" ? "" : `?lang=${lang}`}`);
+        await river.scrollIntoViewIfNeeded();
+        await expect(river).toBeVisible();
+        expect({ river: await overLink(page, "river-link"), poster: await overLink(page, "poster-link") }).toEqual({ river: [], poster: [] });
+      });
+    }
+  });
+}
