@@ -118,6 +118,9 @@ select.dn-inp { appearance: none; padding: 0 34px 0 8.47px; font-size: 17.37px; 
 .dn-pbar .dn-x { background: var(--bar-released); color: var(--ink-2); }
 .dn-pcHold { margin: 3.03px 0 0 17.19px; font-size: 14.8px; line-height: 16.95px; height: 16.95px; color: var(--ink-4); white-space: nowrap; position: relative; top: -0.61px; }
 .dn-pcHold .dn-id { margin-left: 12.11px; font-size: 13.92px; letter-spacing: 0; }
+/* The fee line: what the app takes (nothing) and what PayPal reported taking on this donor's captures. */
+.dn-pc:has(.dn-pcFee) { height: auto; min-height: 119.85px; padding-bottom: 6px; }
+.dn-pcFee { margin: 3px 17.8px 0 17.19px; font-size: 13.9px; line-height: 17px; color: var(--ink-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dn-pcWait { margin: 6px 17.19px 0; font-size: 15px; line-height: 20px; color: var(--ink-5); }
 .dn-kl { margin-left: 19.61px; width: 579.87px; height: 95.64px; border: 2px solid var(--kl-line); background: var(--kl-bg); }
 .dn-kl .dn-pcRow1 { margin: 4.48px 12.11px 0 17.19px; }

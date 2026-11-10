@@ -48,6 +48,7 @@
 .st-sBack b { color: var(--rel-ink); }
 .st-sBack span { line-height: 14px; white-space: normal; }
 .st-sRel b { color: var(--pas-never-text); letter-spacing: -1px; }
+.st-fee { margin-top: 9px; padding-top: 7px; border-top: 1px solid var(--divider); font-size: 11.2px; line-height: 15px; letter-spacing: -.2px; color: var(--slate-2); }
 .st-note { margin: 7px 14px 0; font-size: 11.6px; line-height: 16px; color: var(--no); }
 
 .st-match { margin-top: 7.4px; min-height: 59.4px; display: flex; align-items: center; padding: 6px 8px 6px 12.3px; background: var(--match-bg); border-color: var(--match-line); }

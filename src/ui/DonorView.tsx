@@ -8,6 +8,7 @@ import { LineOriginal } from "./LineOriginal";
 import { classes } from "./cls";
 import { donorParts, itemPhrase, lineRange, money, ofCount, pct, qtyText } from "./format";
 import { DesktopHeader, DriveTitle, driveBadge } from "./Header";
+import { feeLine, useReportedFees } from "./fee-line";
 import { Check, Chevron, Cross, Handshake, NeedIcon, Person } from "./icons";
 import { PledgeForm } from "./PledgeForm";
 import { curve, useFlows, type Box, type Shape } from "./stage";
@@ -182,6 +183,8 @@ const fits = (label: string, percent: number, trackPx: number) => (percent / 100
 function MoneyColumn({ view }: { view: DriveView }) {
   const donors = view.holds.filter((h) => h.kind === "donor");
   const matches = view.holds.filter((h) => h.kind === "match");
+  // PayPal's own fee on each donor's captures, as reported (read again whenever the book grows).
+  const fees = useReportedFees(view.drive.id, String(view.eventCount));
   return (
     <section className={`${s.card} ${s.col} ${s.money}`}>
       <h2>Where the money went</h2>
@@ -243,6 +246,11 @@ function MoneyColumn({ view }: { view: DriveView }) {
               <div className={s.pcHold}>
                 Hold ID<span className={`mono ${s.id}`}>{h.authorizationId ?? "—"}</span>
               </div>
+              {feeLine(fees?.[h.pledgeId]) && (
+                <div className={s.pcFee} data-testid="donor-fee">
+                  {feeLine(fees?.[h.pledgeId])}
+                </div>
+              )}
             </div>
           );
         })}

@@ -18,6 +18,7 @@ import { vanishLine, withdrawnNote } from "./statement/vanish";
 import { statementLines } from "./statement/lines";
 import { LineProofs } from "./statement/LineProofs";
 import { translationNote } from "./statement/lines";
+import { feeLine, useReportedFees } from "./fee-line";
 import type { StatementTranslation } from "@/server/translations";
 import type { CheckResult } from "@/server/paypal-check";
 import { RebindOffer } from "./RebindOffer";
@@ -170,6 +171,9 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
   }, [returning, follow]);
   const items = boughtItems(view, st);
   const translation = useLineTranslation(b.pledgeId, st.rows.length);
+  // What the app takes (nothing) and what PayPal reported taking on this hold's captures.
+  const fees = useReportedFees(view.drive.id, String(view.eventCount));
+  const fee = feeLine(fees?.[b.pledgeId]);
   const receipts = [...new Map(items.flatMap((i) => (i.receipt ? [[i.receipt.id, i.receipt] as const] : []))).values()];
   const ratio = view.match.ratio;
   const help = st.totals.shareBase > 0 ? Math.round((st.totals.share * st.totals.helpBase) / st.totals.shareBase) : 0;
@@ -213,6 +217,11 @@ function Page({ view, st, data, following, follow, refresh }: { view: DriveView;
             </div>
           ))}
         </div>
+        {fee && (
+          <p className={s.fee} data-testid="statement-fee">
+            {fee}
+          </p>
+        )}
       </section>
 
       {st.totals.uncollected + st.totals.reversed > 0 && (
