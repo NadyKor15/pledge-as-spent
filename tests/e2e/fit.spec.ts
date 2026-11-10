@@ -66,10 +66,11 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
       test(`${lang}: every status pill and refusal reason inside its cell; nothing over the poster link`, async ({ page }) => {
         await openBook(page, lang);
         if (width > 600) await expect(page.locator(".ag-row .lg-reason")).toHaveCount(2);
-        expect(await outOfCell(page)).toEqual([]);
+        const cells = await outOfCell(page);
         await expect(page.getByTestId("poster-link")).toBeVisible();
         await page.getByTestId("poster-link").scrollIntoViewIfNeeded();
-        expect(await overPoster(page)).toEqual([]);
+        // Both measures in one assertion: a failing cell does not hide what covers the poster link.
+        expect({ cells, poster: await overPoster(page) }).toEqual({ cells: [], poster: [] });
       });
     }
   });
