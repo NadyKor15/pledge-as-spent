@@ -50,6 +50,12 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
     body.set("sample", view.drive.sample ?? "hero");
     return act("sample", `/api/drives/${encodeURIComponent(driveId)}/receipts`, { body }).then(() => setPicked(null));
   };
+  // A demo drive that also takes a real receipt's closed copy (the Florida drive: a real 2019 grocery receipt).
+  const realSample = () => {
+    const body = new FormData();
+    body.set("sample", view.drive.realSample!);
+    return act("real", `/api/drives/${encodeURIComponent(driveId)}/receipts`, { body }).then(() => setPicked(null));
+  };
   const errorFor = (name: string) => (error?.name === name ? error.error : null);
 
   const lines = receipt ? lineViews(view, receipt) : [];
@@ -99,6 +105,15 @@ export function CoordinatorView({ view, following, refresh, follow }: Props) {
                     {busy === "sample" ? "Reading the sample receipt…" : "Use the sample receipt"}
                   </button>
                   {errorFor("sample") && <p className={s.error}>{errorFor("sample")!.message}</p>}
+                  {view.drive.realSample && (
+                    <>
+                      <button type="button" className={s.subBtn} disabled={busy !== null} onClick={realSample}>
+                        {busy === "real" ? "Reading the 2019 receipt…" : "Try a real 2019 receipt"}
+                      </button>
+                      <p className={s.realNote}>A real Florida grocery receipt (2019), published as its closed copy. Volunteers can send it later too, from the Volunteer view.</p>
+                      {errorFor("real") && <p className={s.error}>{errorFor("real")!.message}</p>}
+                    </>
+                  )}
                 </>
               ) : (
                 <>

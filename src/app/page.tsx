@@ -57,7 +57,7 @@ export default function Home() {
           {FLORIDA && <DemoStart scenario={FLORIDA_SCENARIO} label="Open the Florida drive" busyLabel="Placing holds at PayPal for the Florida drive…" secondary />}
         </div>
         <p className="ld-hint">Places 4 new sandbox holds: three donors and the company match.</p>
-        {FLORIDA && <p className="ld-hint">The Florida drive: hurricane relief in US dollars, through the same checks.</p>}
+        {FLORIDA && <p className="ld-hint">The Florida drive (fictional shelter, fictional storm): hurricane relief in US dollars, through the same checks.</p>}
         <ol className="ld-steps">
           <li>
             <b>Send a receipt.</b> Press “Use the sample receipt”. AI reads every line, approves what the shelter needs and refuses the rest.

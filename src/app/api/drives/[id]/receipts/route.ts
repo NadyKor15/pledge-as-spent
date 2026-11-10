@@ -4,8 +4,9 @@ import { ServiceError } from "@/server/errors";
 
 /**
  * Upload a receipt photo: multipart field `image` (or `file`), or `sample=hero`
- * (`sample=florida` on the Florida drive) for the sample receipt, read without a
- * model. Optional `channel`: web | whatsapp | telegram.
+ * (`sample=florida` on the Florida drive, and `sample=florida-real` for its real
+ * 2019 receipt) for a sample receipt, read without a model. Optional `channel`:
+ * web | whatsapp | telegram.
  */
 export async function POST(req: Request, ctx: RouteContext<"/api/drives/[id]/receipts">) {
   const { id } = await ctx.params;
@@ -20,7 +21,7 @@ export async function POST(req: Request, ctx: RouteContext<"/api/drives/[id]/rec
     let bytes: Uint8Array;
     if (sample) bytes = await sampleBytes(sample);
     else if (file instanceof Blob) bytes = new Uint8Array(await file.arrayBuffer());
-    else throw new ServiceError(400, "no_image", "Send the photo as multipart field `image`, or `sample=hero` (`sample=florida` on the Florida drive) for the sample receipt.");
+    else throw new ServiceError(400, "no_image", "Send the photo as multipart field `image`, or `sample=hero` (`sample=florida` on the Florida drive, `sample=florida-real` for its real 2019 receipt) for a sample receipt.");
     // `volunteer`: the token of an invited volunteer's upload link (drives that invite volunteers).
     const result = await svc.submitReceipt({ driveId: id, bytes, channel: (str(f.channel) ?? "web") as Channel, ip: clientIp(req), volunteerToken: str(f.volunteer) ?? null });
     return respond(f, result, 201);

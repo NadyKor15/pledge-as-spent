@@ -63,6 +63,15 @@ export function VolunteerView({ view, following, refresh, follow }: { view: Driv
       form.set("sample", view.drive.sample ?? "hero");
       return form;
     });
+  // A demo drive that also takes a real receipt's closed copy (the Florida drive: a real 2019 grocery receipt).
+  const realSample = view.drive.realSample
+    ? () =>
+        send("real", async () => {
+          const form = new FormData();
+          form.set("sample", view.drive.realSample!);
+          return form;
+        })
+    : null;
   const upload = (file: File) =>
     send("upload", async () => {
       const blob = await prepareUpload(file);
@@ -75,7 +84,7 @@ export function VolunteerView({ view, following, refresh, follow }: { view: Driv
   return (
     <div className={s.page}>
       {asking || !receipt ? (
-        <UploadForm view={view} busy={busy} error={error?.error ?? null} upload={upload} sample={sample} back={receipt ? () => setAsking(false) : null} />
+        <UploadForm view={view} busy={busy} error={error?.error ?? null} upload={upload} sample={sample} realSample={realSample} back={receipt ? () => setAsking(false) : null} />
       ) : (
         <Result view={view} receipt={receipt} following={following} refresh={refresh} another={() => setAsking(true)} />
       )}
@@ -104,6 +113,7 @@ function UploadForm({
   error,
   upload,
   sample,
+  realSample,
   back,
 }: {
   view: DriveView;
@@ -111,6 +121,7 @@ function UploadForm({
   error: ApiError | null;
   upload: (f: File) => void;
   sample: () => void;
+  realSample: (() => void) | null;
   back: (() => void) | null;
 }) {
   const input = useRef<HTMLInputElement>(null);
@@ -161,6 +172,14 @@ function UploadForm({
       <button type="button" className={`${s.btn} ${s.secondary}`} disabled={!open || busy !== null} onClick={sample}>
         {busy === "sample" ? "Reading the sample receipt…" : "Use the sample receipt"}
       </button>
+      {realSample && (
+        <>
+          <button type="button" className={`${s.btn} ${s.secondary}`} disabled={!open || busy !== null} onClick={realSample}>
+            {busy === "real" ? "Reading the 2019 receipt…" : "Try a real 2019 receipt"}
+          </button>
+          <p className={s.realNote}>A real Florida grocery receipt (2019), published as its closed copy: only its purchase lines are visible.</p>
+        </>
+      )}
       {back && (
         <button type="button" className={s.link} disabled={busy !== null} onClick={back}>
           Back to the last receipt
