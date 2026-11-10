@@ -153,9 +153,15 @@ export class DevSpendLedger implements SpendLedger {
     return this.inner.total();
   }
 
+  /**
+   * Two ceilings: this lane's own entries (the prefix) stay under capUsd, and the whole file — every Meta row, the
+   * receipt reading's `read-meta:` ones too — under Meta's credits (META_AGENT_CAP_MAX_USD). The lane's ceiling is NOT
+   * applied to the whole file: since the reading's rows share this ledger, that refused every live measure call before
+   * Meta was asked (10.11: "$0.0178 would bring spend to $2.9576, ceiling $0.54", 0 calls, $0).
+   */
   async reserve(entry: LedgerEntry, maxUsd: number) {
-    if (this.spent() + entry.usd > this.capUsd) throw new AgentCapExceeded(`development ceiling $${this.capUsd} for "${this.prefix}" reached`);
-    return this.inner.reserve(entry, maxUsd);
+    if (this.spent() + entry.usd > Math.min(this.capUsd, maxUsd)) throw new AgentCapExceeded(`development ceiling $${this.capUsd} for "${this.prefix}" reached`);
+    return this.inner.reserve(entry, META_AGENT_CAP_MAX_USD);
   }
 
   settle(entry: LedgerEntry) {
