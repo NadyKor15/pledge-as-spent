@@ -510,7 +510,7 @@ test("a line without a box is listed under the photo and still lights its rows (
 // map does; the match, the payout and the receipt are not buttons. Recorded, not live, on a finished drive.
 for (const { width, height, lena, buttons } of [
   { width: 1440, height: 900, lena: "button[data-donor=Lena]", buttons: 9 },
-  { width: 390, height: 844, lena: "[data-donor-row=Lena]", buttons: 3 },
+  { width: 390, height: 844, lena: "button[data-donor=Lena]", buttons: 3 },
 ]) {
   test(`the PayPal journal at ${width} px: a press on Lena's row selects Lena`, async ({ page }) => {
     await page.setViewportSize({ width, height });
@@ -523,10 +523,21 @@ for (const { width, height, lena, buttons } of [
     await expect(journal.locator("button[data-donor-event]")).toHaveCount(buttons);
     await expect(journal.locator("button[data-donor-event='Kitasora Logistics']")).toHaveCount(0);
     const row = journal.locator("button[data-donor-event=Lena]").last();
+    // S4: the hint over the row, on hover and on keyboard focus, not only a title.
+    await row.hover();
+    await expect(page.getByTestId("journal-tip")).toBeVisible();
+    await expect(page.getByTestId("journal-tip")).toHaveText("Show Lena on the map");
     await row.click();
     await expect(row).toHaveAttribute("aria-pressed", "true");
+    // The map is above the journal: it comes into view with Lena lit.
+    await expect(page.locator(".lg-map")).toBeInViewport({ ratio: 0.5 });
+    await expect(page.locator(lena)).toBeInViewport();
     await expect(page.locator(lena)).toHaveClass(/is-on/);
     await expect(page.locator("[data-need=water]")).toHaveClass(/is-on/);
+    await page.mouse.move(1, 1);
+    await row.blur();
+    await row.focus();
+    await expect(page.getByTestId("journal-tip")).toHaveText("Show Lena on the map");
     const picked = await store(page, "s.get().selected");
     expect(picked).toMatchObject({ kind: "donor" });
     expect((picked as { pledgeId: string }).pledgeId).toMatch(/\.water$/);

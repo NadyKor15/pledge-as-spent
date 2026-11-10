@@ -30,7 +30,15 @@ function useWidth(el: HTMLElement | null) {
 
 const tone = (e: JournalEvent) => (e.ok === false ? "bad" : e.never || e.status === "VOIDED" ? "never" : e.ok === null ? "wait" : e.status === "CREATED" || e.status === "SUCCESS" ? "info" : "done");
 
-function Row({ e, store, on, showOnMap }: { e: JournalEvent; store: LedgerStore; on: boolean; showOnMap: (who: string) => string }) {
+type Tip = { who: string; left: number; top: number };
+
+/** The map is above the journal (and above the chat on a phone): bring it into view to show the donor just pressed. */
+function showMap() {
+  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  document.querySelector(".lg-map")?.scrollIntoView({ block: "center", behavior });
+}
+
+function Row({ e, store, on, onTip }: { e: JournalEvent; store: LedgerStore; on: boolean; onTip: (tip: Tip | null) => void }) {
   const body = (
     <>
       <time className="lg-jr-time" dateTime={e.at}>
@@ -43,8 +51,27 @@ function Row({ e, store, on, showOnMap }: { e: JournalEvent; store: LedgerStore;
   if (!e.donor || !e.pledgeId) return <div className="lg-jr-row">{body}</div>;
   const pledgeId = e.pledgeId;
   const who = e.who ?? "";
+  // The hint "Show Lena on the map" over the row's right end (S4), on hover and on keyboard focus; the section draws it.
+  const tip = (el: HTMLElement) => {
+    const card = el.closest(".lg-jr")?.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    if (card) onTip({ who, left: r.right - card.left, top: r.top - card.top });
+  };
   return (
-    <button type="button" className={`lg-jr-row lg-jr-press${on ? " is-on" : ""}`} data-donor-event={who} aria-pressed={on} title={showOnMap(who)} onClick={() => store.toggle({ kind: "donor", pledgeId })}>
+    <button
+      type="button"
+      className={`lg-jr-row lg-jr-press${on ? " is-on" : ""}`}
+      data-donor-event={who}
+      aria-pressed={on}
+      onClick={() => {
+        store.toggle({ kind: "donor", pledgeId });
+        if (store.get().selected) showMap();
+      }}
+      onMouseEnter={(ev) => tip(ev.currentTarget)}
+      onMouseLeave={() => onTip(null)}
+      onFocus={(ev) => tip(ev.currentTarget)}
+      onBlur={() => onTip(null)}
+    >
       {body}
     </button>
   );
@@ -59,7 +86,8 @@ export function JournalWidget(params: AgWidgetParams) {
   const w = PANEL_WORDS[snap.lang].journal;
   const journal = useMemo(() => (snap.view ? journalOf(snap.view, snap.model, snap.lang) : null), [snap.view, snap.model, snap.lang]);
   const picked = snap.selected?.kind === "donor" ? snap.selected.pledgeId : null;
-  const row = (e: JournalEvent) => <Row key={e.key} e={e} store={store} on={picked !== null && e.pledgeId === picked} showOnMap={w.showOnMap} />;
+  const [tip, setTip] = useState<Tip | null>(null);
+  const row = (e: JournalEvent) => <Row key={e.key} e={e} store={store} on={picked !== null && e.pledgeId === picked} onTip={setTip} />;
 
   const events = journal?.events ?? [];
   const latest = all ? [...events].reverse() : events.slice(-PHONE_LATEST).reverse();
@@ -104,6 +132,11 @@ export function JournalWidget(params: AgWidgetParams) {
             </li>
           ))}
         </ol>
+      )}
+      {tip && (
+        <span className="lg-jr-tip" role="tooltip" data-testid="journal-tip" style={{ left: tip.left, top: tip.top }}>
+          {w.showOnMap(tip.who)}
+        </span>
       )}
     </section>
   );

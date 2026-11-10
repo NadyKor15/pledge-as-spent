@@ -98,6 +98,9 @@
 .lg-jr-bad { background: color-mix(in srgb, var(--pas-refused) 14%, #FFFFFF); color: var(--refused); }
 .lg-screen:lang(ja) .lg-jr-text { word-break: keep-all; overflow-wrap: anywhere; }
 
+/* "Show Lena on the map" (S4): over the right end of the row under the pointer or the keyboard's focus. */
+.lg-jr-tip { position: absolute; z-index: 6; transform: translate(-100%, calc(-100% - 6px)); padding: 6px 12px; border-radius: 10px; background: #FFFFFF; color: var(--ink); font-size: 13.5px; white-space: nowrap; box-shadow: 0 2px 10px rgba(40, 36, 28, .16), 0 0 0 1px rgba(40, 36, 28, .08); pointer-events: none; }
+
 /* Phone (and any narrow box): the newest five, the rest on demand, inside the same height. */
 .lg-jr-list { flex: 1; min-height: 0; display: flex; flex-direction: column; margin-top: 8px; }
 .lg-jr-list ul { flex: 1; min-height: 0; overflow-y: auto; list-style: none; }
