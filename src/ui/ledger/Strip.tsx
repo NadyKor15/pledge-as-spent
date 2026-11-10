@@ -25,7 +25,8 @@ function photoSize(url: string) {
   return p;
 }
 
-function usePhotoSize(url: string) {
+/** The photo's own size in pixels, once it has loaded (null before, or if it cannot). */
+export function usePhotoSize(url: string) {
   const [size, setSize] = useState<{ url: string; width: number; height: number } | null>(null);
   useEffect(() => {
     let live = true;

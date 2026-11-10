@@ -9,7 +9,8 @@ import { bookChanges, FLASH_MS, type FlashKind } from "./flash";
 // The store outlives Studio: a report rebuilt on a new layout or language finds the
 // flashes, the narrowing, the open proof and the assistant's slot where they were.
 
-export type Pick = { kind: "donor"; pledgeId: string } | { kind: "need"; needId: string };
+/** A donor, a need, or one printed line of the receipt (its lineKey, `<receiptId>:<lineNo>`: every share of it). */
+export type Pick = { kind: "donor"; pledgeId: string } | { kind: "need"; needId: string } | { kind: "line"; lineKey: string };
 
 /** The assistant's chat, rendered in the `ledger-ask` widget over the book. It gets the store. */
 export type AskComponent = ComponentType<{ store: LedgerStore }>;
@@ -44,16 +45,38 @@ export interface LedgerSnapshot {
   askComponent: AskComponent | null;
   /** What "Ask about this line" does; no callback, no button. */
   askAbout: ((lineKey: string) => void) | null;
+  /**
+   * A pressed receipt line narrows the book (phone, narrow window: the photo is over the book). Beside the open book
+   * (S5) it does not: every row stays, the line's rows are lit and brought into view.
+   */
+  linesNarrow: boolean;
 }
+
+/** The lines the book is narrowed to, or null for every line: the assistant's, else what was pressed. */
+export function narrowedTo(s: { focus: LedgerSnapshot["focus"]; selected: LedgerSnapshot["selected"]; model: LedgerModel; linesNarrow: boolean }): string[] | null {
+  if (s.focus) return s.focus.lineKeys;
+  if (!s.selected || (s.selected.kind === "line" && !s.linesNarrow)) return null;
+  return linesOf(s.model, s.selected);
+}
+
+/** The receipt line lit in the book without narrowing it (beside the open book), or null. */
+export const litLine = (s: { selected: LedgerSnapshot["selected"]; linesNarrow: boolean }): string | null => (s.selected?.kind === "line" && !s.linesNarrow ? s.selected.lineKey : null);
 
 export interface Focus {
   donors: Set<string>;
   needs: Set<string>;
 }
 
-/** Who and what a pick lights up: a donor and what they paid for, or a need and who paid. */
+/** Who and what a pick lights up: a donor and what they paid for, a need and who paid, a line and who paid for it. */
 export function focusOf(m: LedgerModel, pick: Pick | null): Focus | null {
   if (!pick) return null;
+  if (pick.kind === "line") {
+    // A line the book does not have lights up nothing; a refused one lights up nobody (no donor paid for it).
+    if (!m.book.some((r) => r.lineKey === pick.lineKey)) return null;
+    const donors = m.donors.filter((d) => d.lineKeys.includes(pick.lineKey)).map((d) => d.pledgeId);
+    const needs = m.needs.filter((n) => n.lineKeys.includes(pick.lineKey)).map((n) => n.needId);
+    return { donors: new Set(donors), needs: new Set(needs) };
+  }
   if (pick.kind === "donor") {
     const d = m.donors.find((x) => x.pledgeId === pick.pledgeId);
     return d ? { donors: new Set([d.pledgeId]), needs: new Set(d.needIds) } : null;
@@ -64,11 +87,15 @@ export function focusOf(m: LedgerModel, pick: Pick | null): Focus | null {
 
 /** The lines of the book that belong to a pick. */
 export function linesOf(m: LedgerModel, pick: Pick): string[] {
+  if (pick.kind === "line") return m.book.some((r) => r.lineKey === pick.lineKey) ? [pick.lineKey] : [];
   if (pick.kind === "donor") return m.donors.find((d) => d.pledgeId === pick.pledgeId)?.lineKeys ?? [];
   return m.needs.find((n) => n.needId === pick.needId)?.lineKeys ?? [];
 }
 
-const same = (a: Pick | null, b: Pick | null) => (a?.kind === "donor" && b?.kind === "donor" ? a.pledgeId === b.pledgeId : a?.kind === "need" && b?.kind === "need" ? a.needId === b.needId : a === b);
+const pickKey = (p: Pick | null) => (!p ? null : `${p.kind}:${p.kind === "donor" ? p.pledgeId : p.kind === "need" ? p.needId : p.lineKey}`);
+
+/** The same donor, need or line (a pick is a fresh object at every press). */
+export const same = (a: Pick | null, b: Pick | null) => pickKey(a) === pickKey(b);
 
 type Filter = (lineKeys: string[]) => void;
 
@@ -94,6 +121,7 @@ export class LedgerStore {
       bandPx: null,
       askComponent: null,
       askAbout: null,
+      linesNarrow: true,
     };
   }
 
@@ -113,9 +141,15 @@ export class LedgerStore {
 
   /** The lines the book shows: the assistant's narrowing, else what was pressed, else all of them ([]). */
   private shown(): string[] {
-    const { focus, selected, model } = this.snapshot;
-    return focus ? focus.lineKeys : selected ? linesOf(model, selected) : [];
+    return narrowedTo(this.snapshot) ?? [];
   }
+
+  /** Whether a pressed receipt line narrows the book (the report's layout decides: LedgerStudio). */
+  setLinesNarrow = (linesNarrow: boolean) => {
+    if (linesNarrow === this.snapshot.linesNarrow) return;
+    this.set({ linesNarrow });
+    this.filter?.(this.shown());
+  };
 
   /** The map widget owns the cross filter, because a widget can only filter through its own API. */
   connectFilter(filter: Filter) {
@@ -127,7 +161,7 @@ export class LedgerStore {
     if (this.filter === filter) this.filter = null;
   }
 
-  /** A second press on the same donor or need clears the selection. */
+  /** A second press on the same donor, need or line clears the selection. */
   toggle = (pick: Pick) => {
     const selected = same(this.snapshot.selected, pick) ? null : pick;
     this.set({ selected, hovered: null, focus: null });
@@ -203,7 +237,7 @@ export class LedgerStore {
     }
     this.set({ model, flashes });
     if (ids.length) setTimeout(() => this.endFlashes(ids), FLASH_MS);
-    if (!selected || focus) return;
+    if (!selected || focus || litLine(this.snapshot)) return;
     const lines = linesOf(model, selected);
     if (lines.join() !== linesOf(before, selected).join()) this.filter?.(lines);
   }

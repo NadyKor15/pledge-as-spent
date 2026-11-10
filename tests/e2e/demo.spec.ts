@@ -348,7 +348,12 @@ const cutShort = (page: Page) =>
       for (const leaf of leaves.length ? leaves : [cell]) {
         const own = getComputedStyle(leaf);
         if (leaf !== cell && own.whiteSpace !== "nowrap") continue;
+        // A cell that wraps its text (the payer beside the receipt) is cut only if the lines do not fit its height.
+        if (leaf === cell && own.whiteSpace !== "nowrap" && cell.scrollHeight <= cell.clientHeight + 1) continue;
+        // The computed shorthand is "" when a part of it has no shorthand form (tabular figures in the PayPal
+        // numbers); then the probe measured in the page's default font. Take the parts one by one.
         probe.style.font = own.font;
+        if (!own.font) Object.assign(probe.style, { fontFamily: own.fontFamily, fontSize: own.fontSize, fontWeight: own.fontWeight, fontStyle: own.fontStyle, fontVariantNumeric: own.fontVariantNumeric });
         probe.style.letterSpacing = own.letterSpacing;
         probe.textContent = leaf.textContent;
         if (probe.getBoundingClientRect().width > room) out.push(leaf.textContent ?? "");
@@ -488,6 +493,10 @@ test("ledger: the book's text fits, the items get the room, and a selection made
   await expect(book(page)).toBeVisible();
   await expect(bookRows(page)).toHaveCount(6);
   await expect(page.locator(".ag-row", { hasText: "Paper diapers M 18 pieces" }).first()).toBeVisible();
+  // Opening the book scrolls down to it, smoothly (the page is taller with the journal): press once it stands still.
+  await expect
+    .poll(() => page.evaluate(() => new Promise<boolean>((done) => { const y = window.scrollY; setTimeout(() => done(window.scrollY === y), 250); })))
+    .toBe(true);
 
   // The measure itself: a cell that cannot fit is found.
   await page.evaluate(() => {
@@ -505,7 +514,9 @@ test("ledger: the book's text fits, the items get the room, and a selection made
 
   const width = (name: string) => page.locator(`.ag-header-cell[col-id="book.${name}"]`).evaluate((e) => e.getBoundingClientRect().width);
   const itemWidth = await width("item");
-  expect(itemWidth).toBeGreaterThan(300);
+  // The receipt stands beside the open book (T4, S5): the book is 36 of 48 tracks, and the items keep their least
+  // (250 px, cells.tsx) and the largest share of it.
+  expect(itemWidth).toBeGreaterThanOrEqual(250);
   expect(await width("line")).toBeLessThan(100);
   const needOf = { Lena: "Water 2 L", Yuki: "AA batteries", Mark: "Diapers size M" };
   for (const pick of ["Lena", "Yuki", "Mark"] as const) {
