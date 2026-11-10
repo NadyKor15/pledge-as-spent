@@ -137,7 +137,11 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 - The money stays on the donor's own PayPal hold until a verified purchase. Nothing is collected first and explained later.
 - One receipt line is shared across donors and a company match, each charged in their own currency.
 - The Ledger splits every pledge into spent, waiting for capture, still held and never charged, and the parts add up to the pledge. "Returned" is used only for money PayPal gave back after a capture, a refund.
-- A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). It is behind the `REBIND_ENABLED` switch.
+- A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). Switched on in the hosted demo (`REBIND_ENABLED`).
+- **Keep the rest for this drive** (`REBIND_ENABLED`): at the pledge a donor chooses what happens to the rest once their need is covered: it is never charged, or it keeps buying for this drive, moving by itself to the open need furthest from covered. The same PayPal hold; moving it calls nothing at PayPal.
+- **Renew a hold** (`RENEW_ENABLED`): PayPal ends a hold 29 days after the donor approves it, and a reauthorize keeps that day. The statement shows the end date and a Renew button while the hold is alive, brighter in its last 3 days (no e-mails). Renewing is a new PayPal order for what the hold has not paid for, approved again by the donor; the old hold pays what it already bought, then PayPal releases it. Across renewals a donor is never charged more than they first pledged. Run live in the sandbox: [`evidence/renew-sandbox-20261110T033537Z.json`](evidence/renew-sandbox-20261110T033537Z.json).
+- **Volunteers by invitation** (`VOLUNTEER_INVITES`): the coordinator invites volunteers by name and PayPal address; each gets a personal upload link (only its hash is stored). Only an invited volunteer's receipts are taken, a person checks each new volunteer's first receipt on a real drive (the demo drive's own volunteer goes through at once), a limit caps what one volunteer is paid, and the payout goes only to that volunteer's PayPal address, which screens show masked.
+- **Donor rules per line** (`DONOR_RULES`): a donor may limit the lines their hold pays: only some needs, and at most a price per unit in their own currency (its share of tax included). A line is split only between holds whose rules allow it; a line that no hold of its need may pay is refused and the need stays open for a cheaper purchase. The statement lists the lines a rule kept the hold out of.
 
 ## Platform findings
 
@@ -153,7 +157,9 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-37 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 37 hold; four did not when first tried and were fixed. 1541 unit and integration tests, 136 browser tests.
+60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1541 unit and integration tests, 136 browser tests.
+
+Mutation testing of the money rules of the four switched-on features (and of the pledge amount reading): 82 mutants, 80 caught by the tests; the 2 left change nothing the book or a screen can show. Property test: 1,000 random drives per run, in six currencies.
 
 ## Run it
 
@@ -180,10 +186,12 @@ AG Studio is a commercial product, used here under the free trial licence offere
 
 ## Limits
 
-- A PayPal hold lives 29 days at most, so a longer drive needs the donor to pledge again.
+- A PayPal hold lives 29 days at most. Renewing it needs the donor in PayPal's window again; on the demo drive PayPal's sandbox test card approves it, as it approves the demo's first holds. At most six renewals per pledge.
+- On a real drive only the coordinator invites volunteers and decides on their receipts (`COORDINATOR_SECRET` bearer); the demo drive is open, as the rest of the demo, and pays sandbox addresses only. Volunteers are invited before a drive's first receipt.
+- Donor rules are fixed at the pledge; a renewal keeps them.
 - The volunteer still pays first and is reimbursed afterwards.
 - The payout goes out before donors' shares are captured, from the drive's PayPal balance, and that balance also pays PayPal's fees. A real shelter needs money in its PayPal account up front.
-- Fictional drives and synthetic receipts, no real donations. The Florida drive (switched off unless `NEXT_PUBLIC_FLORIDA_DEMO=on`) is a fictional shelter in Hallandale Beach after a fictional storm; it also takes a real Florida grocery receipt (2019), published only as its closed copy, which the checks hold back as bought before the storm. Its line "ICE CUBES SPEARMNT" is spearmint chewing gum, and Meta reads it correctly: the line is refused as gum, not counted as the drive's bagged ice.
+- Fictional drives and synthetic receipts, no real donations. The Florida drive ("Open the Florida drive" on the hosted demo; a deployment offers it with `NEXT_PUBLIC_FLORIDA_DEMO=on`) is a fictional shelter in Hallandale Beach after a fictional storm; it also takes a real Florida grocery receipt (2019, "Try a real 2019 receipt"), published only as its closed copy, which the checks hold back as bought before the storm. Its line "ICE CUBES SPEARMNT" is spearmint chewing gum, and Meta reads it correctly: the line is refused as gum, not counted as the drive's bagged ice.
 - Receipt reading was measured on synthetic receipts only (two held-out sets of 20). A line both readings misread the same way would pass; none did in these runs. A refusal never overcharges a donor, but it can underpay a volunteer.
 - Receipt photos are published closed: only purchase lines are visible, everything else is a plain background; a photo that cannot be closed is not published. A purchase line's own text is shown as printed, so a name printed inside an item line would be shown too.
 - Muse Spark sees the whole original photo, card and name included. A photo whose rows cannot be found (a WebP photo, which has no pure-JS decoder here) gets no second reading, so its lines wait for the coordinator.
