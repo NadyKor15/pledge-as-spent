@@ -8,7 +8,7 @@ import { deriveLedger } from "@/ui/ledger/derive";
 import { PosterLink } from "@/ui/ledger/PosterLink";
 import { riverOn } from "@/ui/river/flag";
 import { riverModel } from "@/ui/river/model";
-import { clock, drawRibbons, gapWidth, payoutStatus, REST_MAX, riverLinks, trunkBase } from "@/ui/river/RiverScreen";
+import { clock, drawRibbons, gapWidth, payoutStatus, REST_MAX, riverLinks, Sums, trunkBase } from "@/ui/river/RiverScreen";
 import { RIVER_WORDS, runs } from "@/ui/river/words";
 import type { DriveView } from "@/ui/types";
 
@@ -96,6 +96,41 @@ describe("words", () => {
     expect(clock(20)).toBe("0:20 / 0:20");
     expect(payoutStatus("confirmed")).toBe("SUCCESS");
     expect(payoutStatus("failed")).toBe("FAILED");
+  });
+});
+
+describe("the sums under the river", () => {
+  const twoReceipts = () => {
+    const v = fixture("closed");
+    const r1 = v.receipts[0].id;
+    const r0 = { ...v.receipts[0], id: `${r1}0` };
+    v.receipts = [r0, ...v.receipts];
+    v.ledger = [...v.ledger.filter((r) => r.receiptId === r1).map((r) => ({ ...r, receiptId: r0.id, rowId: `${r.rowId}0` })), ...v.ledger];
+    return v;
+  };
+  const html = (v: DriveView) => renderToStaticMarkup(createElement(Sums, { m: riverModel(v, "en"), w: RIVER_WORDS.en, lang: "en" }));
+
+  it("one receipt: one line, the rests in it", () => {
+    const h = html(fixture("closed"));
+    expect(h).not.toContain("On this receipt:");
+    expect(h).not.toContain("river-rests");
+    expect(h).toMatch(/data-testid="river-sums".*data-sum="never"/);
+  });
+
+  it("several receipts: this receipt's sums, and the holds' rests on a line of their own", () => {
+    const h = html(twoReceipts());
+    const [sums, rests] = h.split('data-testid="river-rests"');
+    expect(sums).toContain("On this receipt:");
+    expect(sums).not.toContain('data-sum="never"');
+    expect(rests).toContain("Holds released:");
+    expect(rests).toContain('data-sum="never"');
+  });
+
+  it("a rest that only came back as a refund draws no ribbon", () => {
+    const v = fixture("closed");
+    Object.assign(v.holds.find((h) => h.pledgeId === "demo-f372326129.diapers")!, { released: 0, reversed: 855 });
+    const ids = riverLinks(riverModel(v, "en"), "x").filter((l) => l.kind === "never").map((l) => l.id);
+    expect(ids).toEqual(["nv:demo-f372326129.water", "nv:demo-f372326129.batteries"]);
   });
 });
 

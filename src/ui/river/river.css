@@ -76,7 +76,7 @@
 .rv-capHead > span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .rv-capture.rv-waiting { border-style: dashed; border-color: #7F9A8C; background: #FAFBFA; }
 .rv-capture.rv-waiting .rv-capHead b { color: #3D4A43; }
-.rv-id { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
+.rv-id { display: block; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0; white-space: nowrap; color: #1F2A24; }
 .rv-arrow { flex: none; width: 24px; text-align: center; font-size: 22px; line-height: 1; color: #2E7D5B; }
 
 .rv-payout { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px 15px; border: 2px solid #3E9A63; background: #F1F9F2; box-shadow: 0 2px 6px rgba(20, 80, 45, .12); }
@@ -90,7 +90,7 @@
 
 .rv-never { display: flex; flex-direction: column; gap: 3px; padding: 10px 10px 10px 12px; border-color: #B8C7D7; background: #EDF1F6; color: #263646; }
 .rv-neverAmt { font-size: 16.5px; font-variant-numeric: tabular-nums; }
-.rv-never > span { font-size: 12px; color: #43546A; }
+.rv-never > span { font-size: 12.5px; color: #43546A; }
 .rv-open > b { font-size: 16px; }
 
 /* ── Sums and the closing line ──────────────────────────────────────────────────────────────────── */
@@ -133,7 +133,7 @@
 /* 64 px before the holds: the shares' ribbons come in there, and the rests run down their lanes (drawRests). */
 .rv-c5 { justify-content: space-around; gap: 12px; padding-left: 64px; padding-right: 6px; }
 .rv-c5match { justify-content: center; }
-.rv-desk .rv-hold { width: 150px; }
+.rv-desk .rv-hold { width: 156px; }
 .rv-c6 { align-items: flex-end; padding-right: 10px; }
 .rv-c6 .rv-payout { width: 215px; }
 .rv-band { flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 52px 8px 16px 64px; }
@@ -170,7 +170,7 @@
 .rv-phone .rv-neverAmt { font-size: 14px; }
 .rv-phone .rv-never > span { font-size: 12px; }
 
-@media (max-width: 1023px) {
+@media (max-width: 1179px) {
   .rv-root { padding: 0 16px 24px; }
   .rv-top { flex-wrap: wrap; gap: 8px 12px; padding: 14px 0 12px; }
   .rv-brand { padding-right: 0; border-right: 0; font-size: 24px; flex-basis: 100%; }

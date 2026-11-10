@@ -52,7 +52,7 @@ export interface RiverWords {
   stillHeldNote: string;
   /** The line under the river that adds it up, with the Ledger's own totals. */
   /** The line under the river; the donors' part takes the Ledger's own word (riverModel spentLabel). */
-  sums: { onReceipt: string; match: string; paid: string; never: string; returned: string };
+  sums: { onReceipt: string; holdsReleased: string; match: string; paid: string; never: string; returned: string };
   /** "€1.00 returned": charged, then refunded by PayPal (not "never charged"). */
   returned: (amount: string) => string;
   refunded: string;
@@ -126,7 +126,7 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: "PayPal released the hold",
     stillHeld: "Holds still open",
     stillHeldNote: "What a hold does not spend is released when the drive closes.",
-    sums: { onReceipt: "On this receipt:", match: "match", paid: "paid out", never: "never charged", returned: "returned" },
+    sums: { onReceipt: "On this receipt:", holdsReleased: "Holds released:", match: "match", paid: "paid out", never: "never charged", returned: "returned" },
     returned: (a) => `${a} returned`,
     refunded: "PayPal refunded it after the capture",
     uncollected: "Could not be collected",
@@ -174,7 +174,7 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: "PayPal hat die Reservierung freigegeben",
     stillHeld: "Reservierungen noch offen",
     stillHeldNote: "Was eine Reservierung nicht ausgibt, wird freigegeben, wenn die Sammlung endet.",
-    sums: { onReceipt: "Auf diesem Beleg:", match: "Zuschuss", paid: "ausgezahlt", never: "nie belastet", returned: "zurückerstattet" },
+    sums: { onReceipt: "Auf diesem Beleg:", holdsReleased: "Freigegebene Reservierungen:", match: "Zuschuss", paid: "ausgezahlt", never: "nie belastet", returned: "zurückerstattet" },
     returned: (a) => `${a} zurückerstattet`,
     refunded: "PayPal hat nach der Abbuchung erstattet",
     uncollected: "Konnte nicht eingezogen werden",
@@ -222,7 +222,7 @@ export const RIVER_WORDS: Record<Lang, RiverWords> = {
     released: `PayPal が${Z}保留を${Z}解除`,
     stillHeld: "保留はまだ有効",
     stillHeldNote: `使われなかった${Z}保留は、${Z}募金の${Z}終了時に${Z}解除されます。`,
-    sums: { onReceipt: "このレシート分:", match: "マッチング", paid: "支払い", never: "請求されず", returned: "返金" },
+    sums: { onReceipt: "このレシート分:", holdsReleased: "解除された保留:", match: "マッチング", paid: "支払い", never: "請求されず", returned: "返金" },
     returned: (a) => `${a} 返金済み`,
     refunded: `PayPal が${Z}引き落とし後に${Z}返金`,
     uncollected: "回収できませんでした",

@@ -194,6 +194,38 @@ describe("unfunded lines and part of a line", () => {
   });
 });
 
+describe("one line with two records and no share (need covered and unfunded)", () => {
+  // Line 11: ¥1,000 refused (the need is covered), ¥2,000 unfunded (not enough pledges).
+  const v = fixture("closed");
+  const gift = v.ledger.find((r) => r.lineNo === 11)!;
+  Object.assign(gift, { base: 1000, code: "need_covered", rowId: `${R1}:11/need_covered` });
+  v.ledger.push({ ...gift, kind: "unfunded", status: "unfunded", base: 2000, code: "not_enough_pledges", rowId: `${R1}:11/unfunded` });
+  const m = riverModel(v, "en");
+
+  it("both are shown, each its own card (keys apart), each as part of line 11; the receipt adds up", () => {
+    const eleven = m.refused.filter((r) => r.lineNo === 11);
+    expect(eleven.map((r) => [r.kind, r.part, r.base])).toEqual([
+      ["rejected", true, 1000],
+      ["unfunded", true, 2000],
+    ]);
+    expect(new Set(m.refused.map((r) => r.key)).size).toBe(m.refused.length);
+    expect(trunk(m)).toBe(m.receipt!.total);
+  });
+});
+
+describe("a rest that only came back as a refund", () => {
+  // Mark's $8.55 rest was captured and refunded: nothing released, nothing never charged.
+  const v = fixture("closed");
+  Object.assign(holdOf(v, DIAPERS), { released: 0, reversed: 855 });
+  const m = riverModel(v, "en");
+  const l = deriveLedger(v, "en");
+
+  it("is returned, with no never-charged part; the rests still add up to the Ledger", () => {
+    expect(m.never.find((n) => n.pledgeId === DIAPERS)).toMatchObject({ amount: 0, base: 0, returnedText: "$8.55", returnedBase: 1292 });
+    expect(m.totals.neverBase + m.totals.returnedBase).toBe(l.returned);
+  });
+});
+
 describe("a payout PayPal has not confirmed", () => {
   const v = fixture("closed");
   Object.assign(v.payouts[0].attempts[0], { status: "pending", payoutBatchId: null });

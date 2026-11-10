@@ -222,8 +222,9 @@ export function riverModel(v: DriveView, lang: Lang = "en"): RiverModel {
     .filter((r) => (r.kind === "rejected" || r.kind === "unfunded") && r.lineNo !== null)
     .map((r) => {
       const line = receipt?.lines.find((l) => l.lineNo === r.lineNo);
-      // Part of a line ("part of line 5"): the rest of the same line was funded (need_covered, not enough pledges).
-      const part = fundedLines.has(r.lineNo);
+      // Part of a line ("part of line 5"): the rest of the same line was funded, or the line has more than one record
+      // without a share (need_covered and unfunded).
+      const part = fundedLines.has(r.lineNo) || rows.filter((x) => (x.kind === "rejected" || x.kind === "unfunded") && x.lineNo === r.lineNo).length > 1;
       return {
         key: r.rowId,
         lineNo: r.lineNo as number,

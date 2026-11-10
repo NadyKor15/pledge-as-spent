@@ -154,7 +154,8 @@ const bottomRow = (page: Page) =>
       });
       return { w, pts };
     });
-    if (lines.length !== cards.length) out.push(`${lines.length} lines for ${cards.length} rests`);
+    // A rest that only came back as a refund has its card but no line.
+    if (lines.length > cards.length) out.push(`${lines.length} lines for ${cards.length} rests`);
     for (let a = 0; a < lines.length; a++)
       for (let b = a + 1; b < lines.length; b++) {
         let min = Infinity;
@@ -351,12 +352,14 @@ test("← Ledger opens this drive's book, in the river's language", async ({ pag
 });
 
 // The windows of the acceptance list, and the browser at 125 % and 150 % (1440 → 1152 and 960; 1920 → 1536 and 1280):
-// the desktop's columns from 1024 up, scaled to the window with no empty margins; below, the river top to bottom.
-// German where the words are longest.
+// the desktop's columns from 1180 up, scaled to the window with no empty margins and no text under 10 px; below
+// (1152, 1024, 960), the river top to bottom. German where the words are longest.
 for (const [width, height, lang] of [
   [1024, 768, "en"],
   [1024, 768, "de"],
   [1152, 720, "en"],
+  [1180, 800, "en"],
+  [1180, 800, "de"],
   [1280, 720, "en"],
   [1280, 800, "en"],
   [1366, 768, "en"],
@@ -370,16 +373,24 @@ for (const [width, height, lang] of [
     test.use({ viewport: { width, height } });
     test(`${lang}: no sideways scroll, nothing out of its card or the screen, no ribbon through a card, no word cut`, async ({ page }) => {
       await openRiver(page, fixture("closed"), lang);
-      const desktop = width >= 1024;
+      const desktop = width >= 1180;
       await expect(page.getByTestId("river")).toHaveAttribute("data-layout", desktop ? "desktop" : "phone");
       expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
       if (desktop) {
-        // The columns take the whole width given to them: no empty margins at 1920, nothing cut at 1024.
+        // The columns take the whole width given to them: no empty margins at 1920, nothing cut at 1180.
         const box = (await page.locator(".rv-desk").boundingBox())!;
         expect(box.width).toBeGreaterThan(width - 60);
         expect(box.x + box.width).toBeLessThanOrEqual(width);
         expect(await throughCards(page)).toEqual([]);
         expect(await bottomRow(page)).toEqual([]);
+        // Scaled down, PayPal's ids and every other text of the river stay at 10 px or more on screen.
+        const small = await page.evaluate(() => {
+          const z = Number(document.querySelector<HTMLElement>("[data-scale]")!.dataset.scale);
+          const sizes = (sel: string) => [...document.querySelectorAll<HTMLElement>(sel)].map((e) => Number.parseFloat(getComputedStyle(e).fontSize) * z);
+          return { z, ids: Math.min(...sizes(".rv-desk .rv-id")), any: Math.min(...sizes(".rv-desk [data-card] *, .rv-desk [data-head] *")) };
+        });
+        expect(small.ids).toBeGreaterThanOrEqual(9.99);
+        expect(small.any).toBeGreaterThanOrEqual(9.99);
       } else {
         expect(await gapsUnder(page)).toEqual([]);
       }

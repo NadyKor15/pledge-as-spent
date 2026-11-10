@@ -43,8 +43,8 @@ export function RiverScreen({ params }: { params: Promise<{ id: string }> }) {
   return <River view={d.view} />;
 }
 
-/** Below this width the river runs top to bottom; from 1024 px up the desktop's seven columns, scaled to fit. */
-const PHONE_QUERY = "(max-width: 1023px)";
+/** Below this width the river runs top to bottom; from 1180 px up the desktop's seven columns, scaled to fit. */
+const PHONE_QUERY = "(max-width: 1179px)";
 const subscribeMedia = (query: string) => (cb: () => void) => {
   const mq = window.matchMedia(query);
   mq.addEventListener("change", cb);
@@ -192,7 +192,8 @@ export function riverLinks(m: RiverModel, dir: "x" | "y"): Link[] {
   if (m.payout?.confirmed)
     for (const h of m.holds)
       if (h.capturedBase > 0) out.push({ id: `cp:${h.pledgeId}`, from: `cap:${h.pledgeId}`, to: "payout", base: h.capturedBase, kind: h.kind === "match" ? "match" : "flow", step: 6, dir });
-  for (const n of m.never) out.push({ id: `nv:${n.pledgeId}`, from: `hold:${n.pledgeId}`, to: `never:${n.pledgeId}`, base: n.base, kind: "never", step: 7, dir: "y" });
+  // A rest that only came back as a refund (nothing released) has its "returned" card, but no ribbon.
+  for (const n of m.never.filter((x) => x.amount > 0)) out.push({ id: `nv:${n.pledgeId}`, from: `hold:${n.pledgeId}`, to: `never:${n.pledgeId}`, base: n.base, kind: "never", step: 7, dir: "y" });
   return out;
 }
 
@@ -643,7 +644,7 @@ function Never({ m, w }: { m: RiverModel; w: RiverWords }) {
   );
 }
 
-function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
+export function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
   const c = m.baseCurrency;
   const match = m.totals.matchBase > 0;
   const part = (key: string, label: string, minor: number): ReactNode => (
@@ -651,21 +652,34 @@ function Sums({ m, w, lang }: { m: RiverModel; w: RiverWords; lang: Lang }) {
       {label} <b className={s.nowrap}>{moneyIn(lang, c, minor)}</b>
     </span>
   );
+  const several = m.receipts > 1;
+  // The rests are the whole holds', not one receipt's: with several receipts they get a line of their own.
+  const rests = [
+    m.closed && m.totals.neverBase > 0 && part("never", w.sums.never, m.totals.neverBase),
+    m.totals.returnedBase > 0 && part("returned", w.sums.returned, m.totals.returnedBase),
+  ].filter(Boolean);
   // The donors' part in the Ledger's own word ("approved" while some of it waits); "paid out" only once PayPal confirmed
   // the payout; with more than one receipt in the drive, these are this receipt's sums and say so.
   return (
-    <p className={s.sums} data-testid="river-sums" data-receipts={m.receipts}>
-      {m.receipts > 1 && (
-        <span className={s.sumHead} data-sum="receipt">
-          {w.sums.onReceipt}
-        </span>
+    <>
+      <p className={s.sums} data-testid="river-sums" data-receipts={m.receipts}>
+        {several && (
+          <span className={s.sumHead} data-sum="receipt">
+            {w.sums.onReceipt}
+          </span>
+        )}
+        {part("spent", m.spentLabel, m.totals.donorBase)}
+        {match && part("match", w.sums.match, m.totals.matchBase)}
+        {m.payout?.confirmed && part("paid", w.sums.paid, m.totals.payoutBase)}
+        {!several && rests}
+      </p>
+      {several && rests.length > 0 && (
+        <p className={s.sums} data-testid="river-rests">
+          <span className={s.sumHead}>{w.sums.holdsReleased}</span>
+          {rests}
+        </p>
       )}
-      {part("spent", m.spentLabel, m.totals.donorBase)}
-      {match && part("match", w.sums.match, m.totals.matchBase)}
-      {m.payout?.confirmed && part("paid", w.sums.paid, m.totals.payoutBase)}
-      {m.closed && m.totals.neverBase > 0 && part("never", w.sums.never, m.totals.neverBase)}
-      {m.totals.returnedBase > 0 && part("returned", w.sums.returned, m.totals.returnedBase)}
-    </p>
+    </>
   );
 }
 
@@ -678,11 +692,12 @@ const orderedHolds = (m: RiverModel) => {
 };
 
 /**
- * The desktop is laid out at 1400 px (the picture's width), never narrower, and scaled to the window: 0.70× at 1024,
- * 1.35× at 1920. Laid out narrower, its columns would cut PayPal's ids and break the sums.
+ * The desktop is laid out at 1400 px (the picture's width), never narrower, and scaled to the window: 0.80× at 1180
+ * (1180 less a 17 px scrollbar and the 40 px gutter is 1123 px, 1123 / 1400 = 0.802 ≥ Z_MIN, so nothing is cut),
+ * 1.35× at 1920. The smallest text, 12.5 px, stays at 10 px or more (river.spec.ts).
  */
 const DESIGN = 1400;
-const Z_MIN = 0.7;
+const Z_MIN = 0.8;
 const Z_MAX = 1.35;
 
 /** The scale that fits the river to its box, the width it is laid out at, and the box's height once scaled. */
@@ -750,7 +765,7 @@ function DesktopRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         </div>
       ))}
       {m.refused.map((x, i) => (
-        <div key={x.lineNo} className={`${s.cell} ${s.c3} ${s.c3ref}`} style={at("3 / 5", String(afterNeeds + i))} data-col="3">
+        <div key={x.key} className={`${s.cell} ${s.c3} ${s.c3ref}`} style={at("3 / 5", String(afterNeeds + i))} data-col="3">
           <RefusedCard r={x} w={w} />
         </div>
       ))}
@@ -833,7 +848,7 @@ function PhoneRiver({ m, w }: { m: RiverModel; w: RiverWords }) {
         {m.refused.length > 0 && (
           <div className={`${s.grid} ${s.refRow}`} style={cols(m.refused.length)}>
             {m.refused.map((x) => (
-              <RefusedCard key={x.lineNo} r={x} w={w} />
+              <RefusedCard key={x.key} r={x} w={w} />
             ))}
           </div>
         )}
