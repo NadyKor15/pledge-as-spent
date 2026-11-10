@@ -111,7 +111,7 @@
 /* The way to the shelter's printable poster (П4): the report's top-left corner, across from the languages. */
 /* At most as wide as the room left of the first total's centred title: a longer label ("Plakat für die Unterkunft")
    takes two lines instead of running over "Zugesagt". */
-.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); max-width: calc(130px * var(--s)); font-size: 13px; line-height: 1.25; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+.lg-poster-link { position: absolute; z-index: 5; top: calc(8px * var(--s)); left: calc(14px * var(--s)); max-width: calc(160px * var(--s)); font-size: 13px; line-height: 1.25; color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
 [data-stacked="true"] .lg-poster-link { top: 6px; left: 12px; font-size: 12.5px; }
 
 /* "Show Lena on the map" (S4): over the right end of the row under the pointer or the keyboard's focus. */
