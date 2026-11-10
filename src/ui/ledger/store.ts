@@ -43,6 +43,11 @@ export interface LedgerSnapshot {
   bandPx: number | null;
   /** The assistant's chat for the slot over the book; no component, no slot. */
   askComponent: AskComponent | null;
+  /**
+   * Stacked (phone, narrow window): the height the chat needs with its answer or its failure note, once it needed
+   * more than its slot. The slot grows to it, so neither the heading nor "Ask again" is cut. Null: the slot's own.
+   */
+  askPx: number | null;
   /** What "Ask about this line" does; no callback, no button. */
   askAbout: ((lineKey: string) => void) | null;
   /**
@@ -120,6 +125,7 @@ export class LedgerStore {
       proof: null,
       bandPx: null,
       askComponent: null,
+      askPx: null,
       askAbout: null,
       linesNarrow: true,
     };
@@ -193,6 +199,12 @@ export class LedgerStore {
   setAskAbout = (askAbout: ((lineKey: string) => void) | null) => this.set({ askAbout });
 
   setAskComponent = (askComponent: AskComponent | null) => this.set({ askComponent });
+
+  /** Only ever grows (a shorter answer later keeps the room): each change rebuilds Studio's layout. */
+  setAskPx = (px: number) => {
+    const whole = Math.ceil(px);
+    if (whole > (this.snapshot.askPx ?? 0)) this.set({ askPx: whole });
+  };
 
   setLang = (lang: Lang) => {
     if (lang !== this.snapshot.lang) this.set({ lang });

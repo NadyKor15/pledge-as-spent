@@ -159,7 +159,7 @@ export const ASK_PX = 460;
  */
 export const PHONE_ASK_PX = 370;
 
-function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean }): Metrics {
+function metricsFor(stacked: boolean, width: number, scale: number, counts: { needs: number; donors: number; book: number; waiting: boolean; rest: boolean; ask: boolean; askPx: number | null }): Metrics {
   // The book's widget keeps room for the band at all times: opening one moves the frame's edge, never Studio's layout.
   const bookRows = (rowHeight: number) => Math.ceil((bookHeight(counts.book, stacked) + bandRoom(stacked)) / rowHeight);
   if (stacked) {
@@ -178,7 +178,8 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
       // the shelter's poster, and the daily check, which takes up to three lines in German.
       footer: 21,
       journal: JOURNAL_ROWS.phone,
-      ask: counts.ask ? Math.ceil(PHONE_ASK_PX / rowHeight) : 0,
+      // Grown to the chat's answer or failure note once it needed more (store.askPx): nothing in it is cut.
+      ask: counts.ask ? Math.ceil(Math.max(PHONE_ASK_PX, counts.askPx ?? 0) / rowHeight) : 0,
       receipt: RECEIPT_ROWS.phone,
       head: Math.ceil(BOOK_HEAD_PX / rowHeight),
       book: bookRows(rowHeight),
@@ -212,7 +213,7 @@ function metricsFor(stacked: boolean, width: number, scale: number, counts: { ne
   };
 }
 
-function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean): Metrics {
+function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean, askPx: number | null): Metrics {
   const size = useSyncExternalStore(subscribeSize, sizeKey, () => `${REF_W}x${REF_H}`);
   const [w, h] = size.split("x").map(Number);
   // The composition keeps its proportions: narrower or shorter windows scale it, in steps
@@ -224,7 +225,9 @@ function useMetrics(stacked: boolean, model: LedgerModel, ask: boolean): Metrics
   const book = model.book.length;
   const waiting = model.waitingNote !== null;
   const rest = model.restNote !== null;
-  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book, waiting, rest, ask }), [stacked, width, scale, needs, donors, book, waiting, rest, ask]);
+  // The grown chat is a phone's (stacked) only: a desktop keeps its chat's own height.
+  const grown = stacked ? askPx : null;
+  return useMemo(() => metricsFor(stacked, width, scale, { needs, donors, book, waiting, rest, ask, askPx: grown }), [stacked, width, scale, needs, donors, book, waiting, rest, ask, grown]);
 }
 
 /** Page height in tracks, without the book: the report never scrolls inside itself. The assistant's chat is part of it. */
@@ -306,7 +309,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
   const bandPx = useSyncExternalStore(store.subscribe, () => store.get().bandPx) ?? bandHeight(stacked);
   const linesNarrow = useSyncExternalStore(store.subscribe, () => store.get().linesNarrow);
   const picked = narrowedTo({ focus, selected, model, linesNarrow });
-  const metrics = useMetrics(stacked, model, ask);
+  const askPx = useSyncExternalStore(store.subscribe, () => store.get().askPx);
+  const metrics = useMetrics(stacked, model, ask, askPx);
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -337,7 +341,8 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
 
   // The language rebuilds Studio: its own words are read once (AG Studio 3.0.0, Localisation).
   const layoutKey = `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify(metrics.rows)}-${model.phase}-${model.spentLabel}-${lang}`;
-  useCountUp(root, model, run, layoutKey);
+  // The chat growing to its answer rebuilds the layout, but the totals at the top do not count up again for it.
+  useCountUp(root, model, run, `${stacked ? "s" : "d"}-${metrics.scale}-${JSON.stringify({ ...metrics.rows, ask: 0 })}-${model.phase}-${model.spentLabel}-${lang}`);
 
   const widgets = useMemo(() => widgetsFor(store, lang), [store, lang]);
   const data = useMemo(() => ledgerData(model, lang), [model, lang]);
