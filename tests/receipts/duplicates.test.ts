@@ -3,6 +3,7 @@ import { PNG } from "pngjs";
 import jpeg from "jpeg-js";
 import { DHASH_MAX_DISTANCE, findDuplicate, fingerprint, type KnownReceipt } from "../../src/receipts/checks";
 import { dHash, hammingHex, semanticKey, sha256Hex } from "../../src/receipts/hash";
+import { foldText, mergeRows, similarity } from "../../src/receipts/text";
 import type { ReceiptImage } from "../../src/receipts/types";
 import { receipt } from "./fixtures";
 
@@ -20,6 +21,25 @@ function raster(w: number, h: number, f: (x: number, y: number) => number): Buff
 const png = (bytes: Buffer): ReceiptImage => ({ bytes, mediaType: "image/png" });
 // A smooth picture with clear light and dark regions, so no grid cell sits on a tie.
 const page = (x: number, y: number) => Math.round(128 + 100 * Math.sin(x / 23) * Math.cos(y / 17));
+
+// The text helpers the duplicate check compares store names with (src/receipts/text.ts).
+describe("text helpers", () => {
+  it("folds and compares", () => {
+    expect(foldText("ﾐﾅﾄ 生活館!")).toBe("ミナト生活館");
+    expect(similarity("¥1,298", "1298")).toBe(1);
+    expect(similarity("abcd", "abxd")).toBeCloseTo(0.75);
+  });
+  it("merges tile rows by their overlap, fuzzily, and keeps a repeated line that is not in the overlap", () => {
+    const a = ["store", "water 2L ¥128", "water 2L ¥128", "rice ¥300", "milk ¥200"];
+    const b = ["rice ¥300", "milk ¥2O0", "bread ¥150", "water 2L ¥128"];
+    expect(mergeRows(a, b)).toEqual([...a, "bread ¥150", "water 2L ¥128"]);
+  });
+  it("appends everything when the tiles share no rows, and ignores a lone short row", () => {
+    expect(mergeRows(["a one", "b two"], ["c three", "d four"])).toEqual(["a one", "b two", "c three", "d four"]);
+    expect(mergeRows(["----", "milk ¥200"], ["TOTAL", "x"])).toEqual(["----", "milk ¥200", "TOTAL", "x"]);
+    expect(mergeRows([], ["a"])).toEqual(["a"]);
+  });
+});
 
 describe("hashes", () => {
   it("sha256 is the standard digest", () => {

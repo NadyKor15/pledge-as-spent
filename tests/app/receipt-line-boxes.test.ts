@@ -3,6 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { LineBox } from "../../src/receipts/types";
 import { SHIPPED_ANSWERS } from "../../src/server/reading";
+import { receiptView } from "../../src/server/views";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, ROOT } from "./support/harness";
 
@@ -53,5 +54,39 @@ describe("the sample receipt's line boxes", () => {
     const r = (await h.svc.submitReceipt({ driveId, bytes: heroBytes() })).receipt;
     expect(r.reader).toBe("recorded");
     expect(r.lines.every((l) => l.box === null)).toBe(true);
+  });
+});
+
+describe("the drive view gives each line its box", () => {
+  const base = {
+    id: "d.r1",
+    driveId: "d",
+    status: "funded",
+    channel: "web",
+    reader: "cached:ocr-pro",
+    uploadedAt: "2026-11-01T00:00:00Z",
+    sha256: "x",
+    dhash: null,
+    semanticKey: null,
+    mediaType: "image/png",
+    ipHash: null,
+    decision: null,
+    classified: null,
+    parsed: { ...SHIPPED_ANSWERS[0].reading },
+    published: true,
+  };
+  const view = (checks: unknown) => receiptView({ ...base, checks } as never);
+
+  it("from the stored boxes, by line number; a line without one has none", () => {
+    const v = view({ flags: [], lineBoxes: [{ lineNo: 4, box: { x: 0.1, y: 0.4, w: 0.7, h: 0.02 } }] });
+    expect(v.lines.find((l) => l.lineNo === 4)?.box).toEqual({ x: 0.1, y: 0.4, w: 0.7, h: 0.02 });
+    expect(v.lines.filter((l) => l.box !== null)).toHaveLength(1);
+  });
+
+  it("a receipt read before boxes were kept, and a box that is not one, show none", () => {
+    expect(view({ flags: [] }).lines.every((l) => l.box === null)).toBe(true);
+    expect(view(null).lines.every((l) => l.box === null)).toBe(true);
+    const bad = view({ lineBoxes: [{ lineNo: 4, box: { x: 0.9, y: 0.4, w: 0.7, h: 0.02 } }, { lineNo: 5, box: { x: 0.1, y: 0.4, w: 0, h: 0.02 } }, { lineNo: 6 }, "x"] });
+    expect(bad.lines.every((l) => l.box === null)).toBe(true);
   });
 });

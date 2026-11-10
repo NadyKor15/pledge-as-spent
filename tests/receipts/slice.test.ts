@@ -4,7 +4,8 @@ import { PNG } from "pngjs";
 import jpeg from "jpeg-js";
 import { describe, expect, it } from "vitest";
 import { drawNumber, findRows, sliceReceipt, type Band } from "../../src/receipts/slice";
-import type { Rgba } from "../../src/receipts/prep";
+import { findPaper, prepImage, type Rgba } from "../../src/receipts/prep";
+import { Truth } from "../../tools/receipts/truth";
 
 // The second reading and the closed copy both stand on these bands: every printed row in exactly one band,
 // in reading order, and each band's place on the original photo, so it can be shown or closed by pixels alone.
@@ -151,5 +152,73 @@ describe("findRows and drawNumber", () => {
     expect(red(0, 18)).toBeGreaterThan(0);
     expect(red(20, 36)).toBeGreaterThan(0);
     expect(red(40, 100)).toBe(0);
+  });
+});
+
+// The slicer starts from the prepared photo (src/receipts/prep.ts): the paper found on the desk, straightened.
+describe("image preparation", () => {
+  const RECEIPTS = path.join(ROOT, "eval/receipts");
+  const truth = (set: string, id: string) => Truth.parse(JSON.parse(readFileSync(path.join(RECEIPTS, set, `${id}.truth.json`), "utf8")));
+  const image = (set: string, id: string) => ({ bytes: new Uint8Array(readFileSync(path.join(RECEIPTS, set, `${id}.png`))), mediaType: "image/png" as const });
+
+  it("finds a bright paper on a dark desk, scales and maps boxes back", () => {
+    const W = 400;
+    const H = 600;
+    const png = new PNG({ width: W, height: H });
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++) {
+        const paper = x >= 100 && x < 300 && y >= 100 && y < 500;
+        const text = paper && y % 20 < 3 && x > 120 && x < 280;
+        const v = text ? 40 : paper ? 235 : 70;
+        const i = (y * W + x) * 4;
+        png.data[i] = png.data[i + 1] = png.data[i + 2] = v;
+        png.data[i + 3] = 255;
+      }
+    const img = { bytes: new Uint8Array(PNG.sync.write(png)), mediaType: "image/png" as const };
+    const box = findPaper({ width: W, height: H, data: new Uint8Array(png.data) });
+    expect(Math.abs(box.x0 - 100)).toBeLessThanOrEqual(8);
+    expect(Math.abs(box.x1 - 300)).toBeLessThanOrEqual(8);
+    expect(Math.abs(box.y0 - 100)).toBeLessThanOrEqual(8);
+    expect(Math.abs(box.y1 - 500)).toBeLessThanOrEqual(8);
+    const p = prepImage(img, { scale: 2, margin: 0 });
+    expect(p.tiltDeg).toBe(0);
+    expect(Math.abs(p.image.width - 400)).toBeLessThanOrEqual(20);
+    // The prepared image's centre is the paper's centre in the photo.
+    const c = p.toOriginal({ x: 0.5, y: 0.5, w: 0, h: 0 });
+    expect(c.x * W).toBeCloseTo(200, -1);
+    expect(c.y * H).toBeCloseTo(300, -1);
+    expect(p.tiles()).toHaveLength(2); // twice as tall as wide
+  });
+
+  it("straightens real photos: the tilt found matches the tilt the photo was made with", () => {
+    for (const [set, id] of [["hero", "hero-ja-01"], ["v1", "v1-ja-02"], ["v1", "v1-tr-02"], ["v1", "v1-en-05"], ["v1", "v1-es-01"]] as const) {
+      const t = truth(set, id);
+      const p = prepImage(image(set, id));
+      expect(Math.abs(p.tiltDeg - t.spec.photo.rotZ), id).toBeLessThan(1.0);
+      const whole = p.toOriginal({ x: 0, y: 0, w: 1, h: 1 });
+      expect(whole.w * whole.h, id).toBeGreaterThan(0.35);
+      expect(whole.w * whole.h, id).toBeLessThan(0.95);
+    }
+  });
+
+  it("cuts tall receipts into overlapping tiles and maps tile boxes to the photo", () => {
+    const p = prepImage(image("hero", "hero-ja-01"));
+    const tiles = p.tiles();
+    expect(tiles).toHaveLength(2);
+    const overlap = (tiles[0].y1 - tiles[1].y0) / (tiles[0].y1 - tiles[0].y0);
+    expect(overlap).toBeGreaterThan(0.1);
+    expect(overlap).toBeLessThan(0.2);
+    expect(tiles[1].y1).toBe(p.image.height);
+    // The same prepared point, reached from the whole image and from a tile, lands on the same photo point.
+    const yPrepared = tiles[1].y0 + 100;
+    const viaTile = tiles[1].toOriginal({ x: 0.5, y: 100 / (tiles[1].y1 - tiles[1].y0), w: 0, h: 0 });
+    const viaWhole = p.toOriginal({ x: 0.5, y: yPrepared / p.image.height, w: 0, h: 0 });
+    expect(viaTile.x).toBeCloseTo(viaWhole.x, 3);
+    expect(viaTile.y).toBeCloseTo(viaWhole.y, 3);
+    for (const t of tiles) expect(t.bytes[0]).toBe(0xff); // JPEG
+  });
+
+  it("rejects what it cannot decode", () => {
+    expect(() => prepImage({ bytes: new Uint8Array(4), mediaType: "image/webp" })).toThrow(/cannot decode/);
   });
 });
