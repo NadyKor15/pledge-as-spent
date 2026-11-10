@@ -109,6 +109,8 @@ export interface LineView {
   qty: number | null;
   reason: string | null;
   shares: LedgerRow[];
+  /** A discount counted with the line above it (lineViews): that line's number. Absent on a line of its own. */
+  countedWith?: number;
 }
 
 const RULE_LABEL: Record<string, string> = { alcohol: "Alcohol", tobacco: "Tobacco", gift_card: "Gift card" };
@@ -151,7 +153,7 @@ export function lineViews(v: DriveView, r: Receipt): LineView[] {
       return l;
     }
     if (!head || l.shares.length || v.ledger.some((x) => x.receiptId === r.id && x.lineNo === l.line.lineNo)) return l;
-    return { line: l.line, state: head.state, need: undefined, qty: null, reason: `Counted with line ${head.line.lineNo}.`, shares: [] };
+    return { line: l.line, state: head.state, need: undefined, qty: null, reason: `Counted with line ${head.line.lineNo}.`, shares: [], countedWith: head.line.lineNo };
   });
 }
 
@@ -431,6 +433,11 @@ export function readLabel(r: Receipt): string {
 /** What the refused lines of a receipt add up to, each with its share of tax: money no donor is ever charged. */
 export function refusedTotal(lines: readonly { state: string; line: LineMoney }[]): number {
   return lines.filter((l) => l.state === "rejected").reduce((s, l) => s + lineGross(l.line), 0);
+}
+
+/** How many lines of a receipt were refused: a discount counted with a refused line is part of it, not a line of its own. */
+export function refusedCount(lines: readonly Pick<LineView, "state" | "countedWith">[]): number {
+  return lines.filter((l) => l.state === "rejected" && l.countedWith === undefined).length;
 }
 
 /**

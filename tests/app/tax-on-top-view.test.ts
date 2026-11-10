@@ -7,7 +7,7 @@ import { ParsedReceipt } from "../../src/receipts/types";
 import { withDrive } from "../../src/server/book";
 import { demoDrive } from "../../src/server/demo";
 import { savedAnswer } from "../../src/server/reading";
-import { lineGross, lineMoney, lineName, lineViews, refusedTotal } from "../../src/ui/derive";
+import { lineGross, lineMoney, lineName, lineViews, refusedCount, refusedTotal } from "../../src/ui/derive";
 import { deriveLedger } from "../../src/ui/ledger/derive";
 import { lineProof } from "../../src/ui/ledger/proof";
 import { moneyIn } from "../../src/ui/format";
@@ -35,6 +35,9 @@ function addsUp(lines: ReturnType<typeof lineViews>, total: number) {
 }
 
 const states = (lines: ReturnType<typeof lineViews>) => Object.fromEntries(lines.map((l) => [l.line.lineNo, l.state]));
+/** "¥1,408" -> 1408, "−¥43" -> -43: the Ledger's refused list, in English. */
+const yen = (s: string) => (s.startsWith("−") ? -1 : 1) * Number(s.replace(/[^0-9]/g, ""));
+const refusedList = (v: DriveView, lang: "en" | "de" | "ja" = "en") => deriveLedger(v, lang).refused.map((x) => `${x.name} ${x.amount}`);
 const sharesOf = (v: DriveView, r: Receipt, n: number) => v.ledger.filter((x) => x.receiptId === r.id && x.lineNo === n && (x.kind === "donor_share" || x.kind === "match_share"));
 
 describe("holdout2-ja-02 on a drive that needs water and canned food", () => {
@@ -111,6 +114,18 @@ describe("holdout2-ja-02 on a drive that needs water and canned food", () => {
     expect(proofOf(4)).toMatch(/^Line 4 · .+ · ¥384 = /);
     expect(proofOf(4, "de")).toContain(` · ${moneyIn("de", "JPY", 384)} = `);
   });
+
+  it("the coupon under the funded mackerel is not in the Ledger's refused list, which still adds up to the Coordinator's", async () => {
+    const { h, DRIVE, receiptId } = await drive();
+    await h.svc.coordinatorDecision(receiptId, "approve", "coupon checked on the photo");
+    const v = await h.svc.getDriveView(DRIVE);
+    const r = v.receipts.find((x) => x.id === receiptId)!;
+    const lines = lineViews(v, r);
+    expect(refusedList(v)).toEqual(["Soy sauce cup noodles ¥181", "Alcohol ¥1,408", "Underwear L 44pcs ¥1,518"]);
+    expect(deriveLedger(v).refused.reduce((s, x) => s + yen(x.amount), 0)).toBe(refusedTotal(lines));
+    expect(refusedTotal(lines)).toBe(3107);
+    expect(refusedCount(lines)).toBe(3);
+  });
 });
 
 describe("holdout2-ja-02 on the judges' demo drive (water, diapers, batteries)", () => {
@@ -142,5 +157,38 @@ describe("holdout2-ja-02 on the judges' demo drive (water, diapers, batteries)",
     // Before: ¥3,184 of ¥4,001, prices without their tax against a total with it.
     expect(addsUp(lines, 4001)).toEqual({ refused: 3491, kept: 510 });
     expect(sharesOf(v, r, 1).reduce((s, x) => s + x.base, 0)).toBe(510);
+  });
+
+  it("every screen's refused figures agree: the Ledger lists the coupon after the mackerel, the Volunteer counts 4 lines", async () => {
+    const { h, DRIVE, receiptId } = await demo();
+    let v = await h.svc.getDriveView(DRIVE);
+    if (v.receipts.find((x) => x.id === receiptId)!.status === "review") {
+      await h.svc.coordinatorDecision(receiptId, "approve", "coupon checked on the photo");
+      v = await h.svc.getDriveView(DRIVE);
+    }
+    const r = v.receipts.find((x) => x.id === receiptId)!;
+    const lines = lineViews(v, r);
+
+    // Ledger: "Refused: … · Canned mackerel ¥427 · discount −¥43 · …" (before: no coupon, ¥3,534 against ¥3,491).
+    expect(refusedList(v)).toEqual(["Soy sauce cup noodles ¥181", "Alcohol ¥1,408", "Canned mackerel ¥427", "discount −¥43", "Underwear L 44pcs ¥1,518"]);
+    expect(refusedList(v, "de")).toEqual(["Soy sauce cup noodles 181 ¥", "Alkohol 1.408 ¥", "Canned mackerel 427 ¥", "Rabatt −43 ¥", "Underwear L 44pcs 1.518 ¥"]);
+    expect(refusedList(v, "ja")).toEqual(["Soy sauce cup noodles ¥181", "酒類 ¥1,408", "Canned mackerel ¥427", "値引き −¥43", "Underwear L 44pcs ¥1,518"]);
+    const ledger = deriveLedger(v).refused.reduce((s, x) => s + yen(x.amount), 0);
+
+    // Coordinator: "Refused: ¥3,491 of ¥4,001". Volunteer: the refused lines it lists, with the coupon under its line.
+    const coordinator = refusedTotal(lines);
+    const volunteer = lines.filter((l) => l.state === "rejected");
+    expect(volunteer.map((l) => [l.line.lineNo, l.countedWith ?? null])).toEqual([
+      [2, null],
+      [3, null],
+      [4, null],
+      [5, 4],
+      [6, null],
+    ]);
+    expect(volunteer[3].reason).toBe("Counted with line 4.");
+    expect(refusedCount(lines)).toBe(4);
+
+    expect([ledger, coordinator, volunteer.reduce((s, l) => s + lineGross(l.line), 0)]).toEqual([3491, 3491, 3491]);
+    expect(coordinator + lines.filter((l) => l.state !== "rejected").reduce((s, l) => s + lineGross(l.line), 0)).toBe(4001);
   });
 });
