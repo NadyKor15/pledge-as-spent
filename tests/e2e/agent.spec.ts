@@ -6,7 +6,7 @@ import type { DriveView } from "../../src/ui/types";
 import { heroClosed } from "../fixtures/closed-hero";
 
 // "Ask the book" on the Ledger page: the chat in the book's slot, over the book. The drive is the closed demo
-// snapshot and the model's turns are the ones recorded in the live measure (eval/agent/recorded/A), or
+// snapshot and the model's turns are the ones recorded in the live measure (eval/baseline-legacy/agent/recorded/A), or
 // made up where a case needs it; the server's /api/agent routes are answered here. Everything between runs for
 // real: AG Studio's agent loop, the book's tools, the guard, the widget, the book narrowed by the answer.
 
@@ -22,7 +22,7 @@ interface Turn {
   agentId: string;
   response: { output: unknown[] };
 }
-const recorded = (q: string) => (JSON.parse(readFileSync(path.join(ROOT, `eval/agent/recorded/A/${q}.json`), "utf8")) as { question: string; turns: Turn[] });
+const recorded = (q: string) => (JSON.parse(readFileSync(path.join(ROOT, `eval/baseline-legacy/agent/recorded/A/${q}.json`), "utf8")) as { question: string; turns: Turn[] });
 const Q1 = recorded("Q1");
 const turnsOf = (r: { turns: Turn[] }) => r.turns.map((t) => ({ agentId: t.agentId, output: t.response.output }));
 const message = (text: string) => ({ id: `m_${Math.random()}`, kind: "output", type: "message", role: "assistant", status: "completed", content: [{ type: "text", text, annotations: [] }] });

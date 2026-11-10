@@ -97,7 +97,7 @@ describe("sliceReceipt", () => {
 
   it("puts every row the OCR measured on the sample receipt inside a band", () => {
     const out = sliceReceipt(png("eval/receipts/hero/hero-ja-01.png"));
-    const boxes = JSON.parse(readFileSync(path.join(ROOT, "eval/live/shipped/hero-ja-01.lines.json"), "utf8")).lineBoxes as { box: { x: number; y: number; w: number; h: number } }[];
+    const boxes = JSON.parse(readFileSync(path.join(ROOT, "eval/baseline-legacy/live/shipped/hero-ja-01.lines.json"), "utf8")).lineBoxes as { box: { x: number; y: number; w: number; h: number } }[];
     expect(boxes.length).toBeGreaterThan(5);
     for (const { box } of boxes) {
       // The left end of the row (the product name) and its right end (the amount).

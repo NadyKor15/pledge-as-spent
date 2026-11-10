@@ -38,7 +38,7 @@ interface Recording {
 interface Opts {
   mode: Mode;
   q: string;
-  /** Folder of recordings under eval/agent/recorded (A, B, C, r1-lite…). */
+  /** Folder of recordings under eval/agent/recorded (D, D2, sim-…) or eval/baseline-legacy/agent/recorded (A, B, C, r1-lite…). */
   set: string;
   lang: AgentLocale | null;
   bad: boolean;

@@ -7,10 +7,11 @@ import { receiptView } from "../../src/server/views";
 import { fakeSandbox } from "./support/fake-sandbox";
 import { harness, heroBytes, ROOT } from "./support/harness";
 
-// Where each line of a receipt is printed travels from the reader to the drive view, and the sample receipt
-// carries boxes measured once with Tesseract (tools/receipts/line-boxes.ts), so the demo never calls a model for them.
+// Where each line of a receipt is printed travels from the reader to the drive view, and the sample receipt carries
+// the boxes of its saved reading's rows, so the demo never calls a model for them.
 
-const sidecar = JSON.parse(readFileSync(path.join(ROOT, "eval/live/shipped/hero-ja-01.lines.json"), "utf8")) as { imageSha256: string; lineBoxes: unknown[] };
+// The rows the earlier reader measured on the sample photo, kept as evidence to check the new boxes against.
+const sidecar = JSON.parse(readFileSync(path.join(ROOT, "eval/baseline-legacy/live/shipped/hero-ja-01.lines.json"), "utf8")) as { imageSha256: string; lineBoxes: unknown[] };
 
 describe("the sample receipt's line boxes", () => {
   it("come from the rows Meta's second reading named for each of its 11 lines, measured on the sample photo itself", () => {
@@ -25,7 +26,7 @@ describe("the sample receipt's line boxes", () => {
       expect(box.x + box.w).toBeLessThan(0.9);
       expect(box.h).toBeLessThan(0.07);
     }
-    // Each box overlaps the row Tesseract once measured for the same line (eval/live/shipped/hero-ja-01.lines.json).
+    // Each box overlaps the row the earlier reader measured for the same line.
     const old = sidecar.lineBoxes.map((b) => LineBox.parse(b));
     for (const o of old) {
       const n = boxes.find((b) => b.lineNo === o.lineNo)!.box;

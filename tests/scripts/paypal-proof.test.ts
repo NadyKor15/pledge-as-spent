@@ -93,7 +93,7 @@ describe("paypal-proof: asking PayPal", () => {
   });
 
   it("takes the ids from an evidence file too", async () => {
-    const r = await run(["demo-f372326129", "--from", "evidence/live-vercel-20261101.json", "--key", "controlDrive"]);
+    const r = await run(["demo-f372326129", "--from", "eval/baseline-legacy/evidence/live-vercel-20261101.json", "--key", "controlDrive"]);
     expect(r.code).toBe(0);
     expect(r.out).toContain("9 of 9 objects answered by PayPal");
     expect(r.calls.some((c) => c.url.includes("/api/drives/"))).toBe(false);

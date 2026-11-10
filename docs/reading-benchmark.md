@@ -30,4 +30,4 @@ Not measured: real photos (all receipts are synthetic), the two out-of-focus adv
 
 ## Against the earlier reader
 
-The earlier reader (Tesseract OCR + Amazon Nova Pro, held-out set 1, 2026-11-01, `eval/results/ocr-pro-holdout-20261101T010436Z.md`) scored line F1 95.6 %, line class 80/98 (81.6 %), need quantity 38/60 (63.3 %), and its blur boxes missed 7 of 42 personal data items; Meta's two readings after the changes score 100 %, 95/98 (96.9 %), 57/60 (95.0 %), and the closed copy leaves 0 of 42 open.
+The earlier reader (Tesseract OCR + Amazon Nova Pro, held-out set 1, 2026-11-01, `eval/baseline-legacy/results/ocr-pro-holdout-20261101T010436Z.md`) scored line F1 95.6 %, line class 80/98 (81.6 %), need quantity 38/60 (63.3 %), and its blur boxes missed 7 of 42 personal data items; Meta's two readings after the changes score 100 %, 95/98 (96.9 %), 57/60 (95.0 %), and the closed copy leaves 0 of 42 open.

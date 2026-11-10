@@ -6,3 +6,13 @@ eval/receipts/adversarial
 tsconfig.tsbuildinfo
 .data
 eval/receipts/holdout
+eval/baseline-legacy/live/nova-lite
+eval/baseline-legacy/live/nova-pro
+eval/baseline-legacy/live/nova-pro-2pass
+eval/baseline-legacy/live/ocr-lite
+eval/baseline-legacy/live/ocr-mix
+eval/baseline-legacy/live/ocr-pro
+eval/baseline-legacy/live/shipped/hero-ja-01.json
+eval/baseline-legacy/results
+eval/baseline-legacy/evidence
+eval/baseline-legacy/spend-ledger.jsonl
