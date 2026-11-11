@@ -36,6 +36,18 @@ Video: {YouTube URL}
 
 The PayPal ids and amounts come from a control drive opened on the hosted demo on 2026-11-09: [`evidence/control-drive-20261109-810b24be50.json`](evidence/control-drive-20261109-810b24be50.json). PayPal's own records matched the ledger: 9 of 9 objects answered, 9 agree.
 
+## Try it as two people
+
+One person runs the drive, the other gives with their own PayPal sandbox personal account.
+
+1. Person A opens the demo and presses **Open the demo drive**, then presses **Donor** in the header and sends that page's address to person B.
+2. Person B enters an amount for **Water 2 L**, for example €5, presses the yellow PayPal button and approves the hold in PayPal's window with their sandbox personal account. B lands on their statement: nothing is charged yet.
+3. A presses **Coordinator**: B's hold is there with the other pledges. A presses **Use the sample receipt**: the three water lines are split across Lena's hold, B's hold and the company match, in proportion to the holds. Then **Capture now**.
+4. B reloads the statement: the receipt lines B's money paid for, to the cent, captured by PayPal. **Ask PayPal yourself** reads B's hold, its capture and the volunteer's payout back from PayPal.
+5. A presses **Close drive** and **Yes, close the drive**. The rest of B's hold is never charged: PayPal voids it. The Ledger lists B under the map.
+
+Checked on the hosted demo on 2026-11-11 with a sandbox personal account from a different PayPal developer account than the app's: €5 pledged, €0.92 captured for three water lines, €4.08 never charged. PayPal's answers matched the book for all 11 objects of the drive: [`evidence/two-people-20261111-drive.json`](evidence/two-people-20261111-drive.json), [`evidence/two-people-20261111-paypal-check.json`](evidence/two-people-20261111-paypal-check.json).
+
 ## The story
 
 An earthquake, a shelter and three needs: water, size M diapers, AA batteries. This drive is fictional. Lena in Berlin pledges €20 for water, Mark in Columbus $30 for diapers, Yuki in Osaka ¥3,000 for batteries. A local company matches each yen 1:1, up to ¥500,000.
@@ -194,7 +206,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1563 unit and integration tests, 175 browser tests.
+60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1563 unit and integration tests, 183 browser tests.
 
 Mutation testing of the money rules of the four switched-on features (and of the pledge amount reading): 82 mutants, 80 caught by the tests; the 2 left change nothing the book or a screen can show. Property test: 1,000 random drives per run, in six currencies.
 
