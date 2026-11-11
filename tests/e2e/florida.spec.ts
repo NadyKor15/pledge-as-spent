@@ -61,3 +61,29 @@ test("on the Florida drive the real 2019 receipt is held for a person and moves 
   await expect(page.locator(".co-pMid")).toContainText(/Your decision|This receipt cannot be approved/, { timeout: 30_000 });
   await expect(page.getByRole("button", { name: REAL })).toHaveCount(0);
 });
+
+for (const [width, height] of [
+  [1440, 900],
+  [1280, 720],
+  [1920, 1080],
+] as const) {
+  test(`at ${width}×${height} the Florida drive's five needs all fit the shelter's card, nothing in its scroll`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    const id = await open(page, "Open the Florida drive");
+    await page.goto(`/drive/${id}?as=ledger`);
+    const list = page.locator(".lg-shelter ul");
+    await expect(list.locator("li")).toHaveCount(5, { timeout: 60_000 });
+    await expect(list).toHaveClass(/lg-many/);
+    // Before the smaller rows the card scrolled: AA batteries cut in half, Blankets out of sight (crawl of 11.11).
+    expect(await list.evaluate((ul) => ul.scrollHeight - ul.clientHeight)).toBeLessThanOrEqual(1);
+    const box = (await list.boundingBox())!;
+    for (const li of await list.locator("li").all()) {
+      const b = (await li.boundingBox())!;
+      expect(b.y + b.height).toBeLessThanOrEqual(box.y + box.height + 1);
+    }
+    await expect(page.locator(".lg-shelter").getByText("Blankets")).toBeVisible();
+    // The money line under each bar is whole: one line, nothing cut.
+    const cut = await page.locator(".lg-shelter .nm-money").evaluateAll((els) => els.filter((el) => el.scrollWidth > el.clientWidth + 1).map((el) => el.textContent));
+    expect(cut).toEqual([]);
+  });
+}

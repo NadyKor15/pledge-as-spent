@@ -74,7 +74,8 @@ export function ShelterWidget(params: AgWidgetParams) {
           {snap.model.receiptTotal && <span> · {snap.model.receiptTotal}</span>}
         </p>
       )}
-      <ul>
+      {/* Four needs or more (the Florida drive has five): smaller rows, so all of them fit the card (need-meter.css). */}
+      <ul className={snap.model.needs.length > 3 ? "lg-many" : undefined}>
         {snap.model.needs.map((n, i) => {
           const pick: Pick = { kind: "need", needId: n.needId };
           const on = focus?.needs.has(n.needId) ?? false;

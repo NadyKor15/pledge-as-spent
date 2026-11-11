@@ -14,6 +14,18 @@
    language (NM11; the words are short for it, tests/e2e/meter.spec.ts measures it): never wrapped. */
 .nm-money { margin-top: calc(5px * var(--s)); font-size: calc(13.5px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nm-never-text { color: var(--pas-never-text); }
+/* Four needs or more on the desktop (the Florida drive has five): the card keeps the map's height, so every row gets
+   smaller instead of the last ones going into the list's scroll unseen. The name and the count share a line, the
+   picture is a thumbnail, the bar and the money line run under them. Three needs keep the rows above. */
+[data-stacked="false"] .lg-shelter ul.lg-many { margin-top: calc(4px * var(--s)); }
+[data-stacked="false"] .lg-shelter ul.lg-many li { min-height: 0; }
+[data-stacked="false"] .lg-shelter ul.lg-many .lg-need { grid-template-columns: calc(58px * var(--s)) 1fr; gap: calc(12px * var(--s)); padding: calc(3px * var(--s)) 0; }
+[data-stacked="false"] .lg-shelter ul.lg-many .lg-pic img { max-width: calc(54px * var(--s)); max-height: calc(54px * var(--s)); }
+[data-stacked="false"] .lg-shelter ul.lg-many .lg-info { display: grid; grid-template-columns: minmax(0, auto) 1fr; align-items: baseline; column-gap: calc(10px * var(--s)); }
+[data-stacked="false"] .lg-shelter ul.lg-many .lg-what { font-size: calc(18px * var(--s)); }
+[data-stacked="false"] .lg-shelter ul.lg-many .lg-count { margin: 0; font-size: calc(14.5px * var(--s)); text-align: right; white-space: nowrap; }
+[data-stacked="false"] .lg-shelter ul.lg-many .nm-bar { grid-column: 1 / -1; height: calc(12px * var(--s)); margin-top: calc(6px * var(--s)); }
+[data-stacked="false"] .lg-shelter ul.lg-many .nm-money { grid-column: 1 / -1; margin-top: calc(3px * var(--s)); font-size: calc(12.5px * var(--s)); }
 /* The tones on screen, under the needs. */
 .nm-legend { flex: none; display: flex; flex-wrap: wrap; gap: calc(4px * var(--s)) calc(16px * var(--s)); margin-top: calc(8px * var(--s)); padding-top: calc(8px * var(--s)); border-top: 1px solid var(--line); font-size: calc(13px * var(--s)); line-height: 1.3; color: var(--muted); }
 .nm-legend > span { display: flex; align-items: center; gap: 7px; }
