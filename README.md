@@ -1,5 +1,9 @@
 # Pledge-as-Spent
 
+![The river of money on the live demo: a receipt's lines go to donors' PayPal holds and captures, the volunteer's payout, and what is never charged](docs/screens/river-of-money.gif)
+
+*The river of money on the live demo, from the receipt to "never charged" (sped up 2.5×).*
+
 **Disaster relief where a donor's money moves only for receipt lines that pass the checks.** A pledge is a PayPal hold for one listed need. A volunteer photographs the receipt, AI reads each line in the store's own language, and every donor is charged only their share of the approved lines. Whatever is not spent is never charged: PayPal releases the rest of the hold.
 
 Your €20 for water can only buy water.
