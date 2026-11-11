@@ -414,7 +414,7 @@ export function LedgerStudio({ view, stacked, stale, refresh, modelPlan = "off" 
         <LineArrows store={store} />
         {/* After the report in the page's order: Tab walks the report first (review finding 17), then the language. */}
         <LangSwitch lang={lang} onChange={setLang} />
-        {/* The shelter's printable poster of this drive (П4), in the book's language: in the report's corner on a
+        {/* The shelter's printable poster of this drive, in the book's language: in the report's corner on a
             desktop; on a phone that corner is the first total's title, so the link is in the bottom line there
             (FooterWidget). One link at a time. */}
         {!stacked && <PosterLink driveId={model.driveId} lang={lang} className="lg-poster-link" />}

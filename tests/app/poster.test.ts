@@ -7,7 +7,7 @@ import { qrModules, qrPath } from "@/ui/poster/qr";
 import { POSTER_WORDS } from "@/ui/poster/words";
 import type { DriveView } from "@/ui/types";
 
-// П4, the shelter's poster: what was bought here, read from the drive as the Ledger reads it, and a QR code that opens
+// The shelter's poster: what was bought here, read from the drive as the Ledger reads it, and a QR code that opens
 // this drive's book. The code is drawn by qrcode-generator and read back here by a second library (jsQR).
 
 const fixture = (name: string) => JSON.parse(readFileSync(path.join(__dirname, `../fixtures/drives/${name}.json`), "utf8")) as DriveView;

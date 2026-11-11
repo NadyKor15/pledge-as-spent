@@ -581,7 +581,7 @@ test("the Payer cell: a donor's row shows the donor's hold bar under the name; t
   }
 });
 
-// П4: the shelter's poster. The Ledger links to it; it says what was bought here and carries a QR code to this drive's
+// The shelter's poster. The Ledger links to it; it says what was bought here and carries a QR code to this drive's
 // book; it prints on one A4 page with nothing cut, and reads on a phone.
 async function openPoster(page: Page, view: DriveView, lang = "") {
   await page.route(`**/api/drives/${view.drive.id}`, (r) => r.fulfill({ contentType: "application/json", body: JSON.stringify(view) }));

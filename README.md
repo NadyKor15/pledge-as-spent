@@ -14,7 +14,7 @@ In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charit
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
 
-Video: {YouTube URL}
+Video (2:58): https://youtu.be/lo-tGgHYWSY
 
 ## Judge it in 90 seconds
 
