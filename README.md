@@ -157,7 +157,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 ## Red team
 
-60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1563 unit and integration tests, 171 browser tests.
+60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1563 unit and integration tests, 175 browser tests.
 
 Mutation testing of the money rules of the four switched-on features (and of the pledge amount reading): 82 mutants, 80 caught by the tests; the 2 left change nothing the book or a screen can show. Property test: 1,000 random drives per run, in six currencies.
 
