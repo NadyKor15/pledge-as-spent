@@ -58,7 +58,17 @@ async function main() {
   const app = next({ dev, dir: ROOT, port, hostname: "127.0.0.1" });
   const handle = app.getRequestHandler();
   await app.prepare();
-  createServer((req, res) => void handle(req, res)).listen(port, "127.0.0.1", () => {
+  createServer((req, res) => {
+    // Test-only, with the stand-in: a donor approving an order in PayPal's window, which a test cannot open
+    // (two-donors.spec.ts). Never in the app: this server exists only for e2e runs.
+    const approve = fake && /^\/__e2e\/approve\/([A-Z0-9]+)$/.exec(req.url ?? "");
+    if (approve && fake && req.method === "POST") {
+      fake.approve(approve[1]);
+      res.writeHead(204).end();
+      return;
+    }
+    void handle(req, res);
+  }).listen(port, "127.0.0.1", () => {
     console.log(`> ${FAKE ? "fake" : "recorded"}-sandbox app on http://127.0.0.1:${port} (${dev ? "dev" : "production"})`);
   });
 }
