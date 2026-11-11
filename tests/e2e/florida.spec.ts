@@ -66,6 +66,7 @@ for (const [width, height] of [
   [1440, 900],
   [1280, 720],
   [1920, 1080],
+  [390, 844],
 ] as const) {
   test(`at ${width}×${height} the Florida drive's five needs all fit the shelter's card, nothing in its scroll`, async ({ page }) => {
     await page.setViewportSize({ width, height });
