@@ -1,0 +1,103 @@
+{
+  "mode": "D",
+  "routing": "model",
+  "source": "live",
+  "at": "2026-11-11T00:19:29.278Z",
+  "right": 4,
+  "of": 5,
+  "calls": 13,
+  "usd": 0.095181,
+  "avgCalls": 2.6,
+  "avgUsd": 0.019036,
+  "lane": "measure-D-20261111T001836",
+  "serverCalls": {
+    "n": 12,
+    "usd": 0.09518299999999999
+  },
+  "rows": [
+    {
+      "id": "Q1",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "routed": null,
+      "calls": 2,
+      "ledgerCalls": 2,
+      "usd": 0.010129,
+      "text": "Your $30.00 hold paid $21.45 for Diapers size M: lines 4, 5 and 6 cost you $8.58, $10.89 and $1.98, PayPal capture 5PE922386K0983923. The other $8.55 was never charged: PayPal released it when the drive closed.",
+      "errors": []
+    },
+    {
+      "id": "Q2",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "routed": null,
+      "calls": 2,
+      "ledgerCalls": 2,
+      "usd": 0.007524,
+      "text": "Line 10 for ¥1,198 was refused because alcohol is not funded. Line 11 for ¥3,000 was refused because gift cards are not funded by this drive.",
+      "errors": []
+    },
+    {
+      "id": "Q3",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "routed": null,
+      "calls": 2,
+      "ledgerCalls": 2,
+      "usd": 0.009206,
+      "text": "Your €4.58 spent went to Water 2 L on lines 1 and 2 and 3 costing you €2.46 and €1.45 and €0.67 with PayPal capture 3WP65983GD053501C. €15.42 came back to you never charged as PayPal released it when the drive closed while €4.58 was taken.",
+      "errors": []
+    },
+    {
+      "id": "Q4",
+      "correct": true,
+      "missing": [],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "answered",
+      "routed": null,
+      "calls": 2,
+      "ledgerCalls": 2,
+      "usd": 0.007202,
+      "text": "Your PayPal order is 10L99507KP256054Y and your authorization hold is 4V841583EA244972U with capture 3HK86339B7905131L for ¥1,237.",
+      "errors": []
+    },
+    {
+      "id": "Q5",
+      "correct": false,
+      "missing": [
+        "JPY 1486"
+      ],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "limit",
+      "routed": null,
+      "calls": 5,
+      "ledgerCalls": 2,
+      "usd": 0.06112,
+      "text": "This question needed more steps than one question may take. Ask it more narrowly — for one donor or one line.",
+      "errors": [
+        "console: Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "id": "Q5",
+  "mode": "D",
+  "routing": "model",
+  "question": "How much went to water across all donors?",
+  "locale": "en",
+  "recordedAt": "2026-11-11T00:20:28.313Z",
+  "models": [
+    "muse-spark-1.3"
+  ],
+  "phase": "limit",
+  "message": "The demo's budget for live questions is used up for now. Every figure is still in the book below, and the quick questions above keep working: the book's own code answers them.",
+  "answer": null,
+  "turns": [
+    {
+      "agentId": "ledger",
+      "n": 0,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 1,
+        "lastItem": "message:user",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "fc_call_ee0086a1-5a6c-421f-85e1-108b07aba477",
+            "kind": "output",
+            "type": "function_call",
+            "callId": "call_ee0086a1-5a6c-421f-85e1-108b07aba477",
+            "name": "delegate_to",
+            "arguments": "{\"type\":{\"id\":\"data\"},\"instructions\":\"<<Call execute_query with exactly this query: {\\\"variant\\\":\\\"aggregation\\\",\\\"kind\\\":\\\"apiQuery\\\",\\\"axes\\\":[{\\\"dimensions\\\":[{\\\"field\\\":{\\\"id\\\":\\\"book.need\\\"}}]}],\\\"measures\\\":[{\\\"field\\\":{\\\"id\\\":\\\"book.share\\\",\\\"aggregation\\\":\\\"sum\\\"}}]} Then report each need's sum exactly as the query returned it.>>\"}"
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1772,
+          "outputTokens": 288
+        },
+        "model": "muse-spark-1.3"
+      }
+    },
+    {
+      "agentId": "data",
+      "n": 0,
+      "request": {
+        "instructionsChars": 3826,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "execute_query",
+          "view_schema",
+          "complete_task"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "limit_agent_budget",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "The demo's budget for live questions is used up for now. Every figure is still in the book below, and the quick questions above keep working: the book's own code answers them.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed"
+      }
+    },
+    {
+      "agentId": "data",
+      "n": 1,
+      "request": {
+        "instructionsChars": 3826,
+        "inputItems": 4,
+        "lastItem": "message:assistant",
+        "tools": [
+          "execute_query",
+          "view_schema",
+          "complete_task"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "limit_agent_budget",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "The demo's budget for live questions is used up for now. Every figure is still in the book below, and the quick questions above keep working: the book's own code answers them.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed"
+      }
+    },
+    {
+      "agentId": "ledger",
+      "n": 1,
+      "request": {
+        "instructionsChars": 2366,
+        "inputItems": 3,
+        "lastItem": "function_call_output",
+        "tools": [
+          "ledger_find_donor",
+          "ledger_donor_money",
+          "ledger_line",
+          "ledger_refusals",
+          "ledger_paypal_ids",
+          "ledger_totals",
+          "delegate_to"
+        ]
+      },
+      "response": {
+        "output": [
+          {
+            "id": "msg_resp_6af3b4cbcf32b25c5b154011",
+            "kind": "output",
+            "type": "message",
+            "role": "assistant",
+            "status": "completed",
+            "content": [
+              {
+                "type": "text",
+                "text": "I cannot confirm it from the book.",
+                "annotations": []
+              }
+            ]
+          }
+        ],
+        "status": "completed",
+        "usage": {
+          "inputTokens": 1932,
+          "outputTokens": 258
+        },
+        "model": "muse-spark-1.3"
+      }
+    }
+  ],
+  "toolRuns": [
+    {
+      "agentId": "data",
+      "name": "view_schema",
+      "args": {},
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"Totals [totals]\\n\\tPledged [totals.promised]\\n\\t\\tType: column, Data Type: number\\n\\tDonors’ money spent [totals.spent]\\n\\t\\tType: column, Data Type: number\\n\\tReturned to donors [totals.rest]\\n\\t\\tType: column, Data Type: number\\n\\tCompany match [totals.match]\\n\\t\\tType: column, Data Type: number\\nBook [book]\\n\\tOrder [book.order]\\n\\t\\tType: column, Data Type: number\\n\\tRow [book.rowKey]\\n\\t\\tType: column, Data Type: string\\n\\tLine key [book.lineKey]\\n\\t\\tType: column, Data Type: string\\n\\tLine [book.line]\\n\\t\\tType: column, Data Type: number\\n\\tReceipt line [book.item]\\n\\t\\tType: column, Data Type: string\\n\\tNeed [book.need]\\n\\t\\tType: column, Data Type: string\\n\\tNeed [book.needShown]\\n\\t\\tType: column, Data Type: string\\n\\tPayer [book.payer]\\n\\t\\tType: column, Data Type: string\\n\\tPayer [book.payerLabel]\\n\\t\\tType: column, Data Type: string\\n\\tShare [book.share]\\n\\t\\tType: column, Data Type: number\\n\\tShare [book.paid]\\n\\t\\tType: column, Data Type: string\\n\\tSpent [book.charged]\\n\\t\\tType: column, Data Type: string\\n\\tPayPal capture [book.capture]\\n\\t\\tType: column, Data Type: string\\n\\tStatus [book.status]\\n\\t\\tType: column, Data Type: string\\n\\tWhat [book.what]\\n\\t\\tType: column, Data Type: string\\n\\tWho [book.who]\\n\\t\\tType: column, Data Type: string\\n\\tHow much [book.much]\\n\\t\\tType: column, Data Type: string\\n\\tStatus [book.state]\\n\\t\\tType: column, Data Type: string\",\"data\":{\"totalFieldsets\":2,\"totalFields\":22}}"
+    },
+    {
+      "agentId": "ledger",
+      "name": "delegate_to",
+      "args": {
+        "type": {
+          "id": "data"
+        },
+        "instructions": "<<Call execute_query with exactly this query: {\"variant\":\"aggregation\",\"kind\":\"apiQuery\",\"axes\":[{\"dimensions\":[{\"field\":{\"id\":\"book.need\"}}]}],\"measures\":[{\"field\":{\"id\":\"book.share\",\"aggregation\":\"sum\"}}]} Then report each need's sum exactly as the query returned it.>>"
+      },
+      "ok": true,
+      "result": "{\"success\":true,\"response\":\"(the delegate finished without a summary)\"}"
+    }
+  ],
+  "score": {
+    "id": "Q5",
+    "correct": false,
+    "missing": [
+      "JPY 1486"
+    ],
+    "extra": [],
+    "missingWords": [],
+    "guardFired": false,
+    "delegated": false,
+    "phase": "limit",
+    "routed": null,
+    "calls": 4,
+    "ledgerCalls": 2,
+    "usd": 0.006951,
+    "text": "The demo's budget for live questions is used up for now. Every figure is still in the book below, and the quick questions above keep working: the book's own code answers them.",
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 429 (Too Many Requests)",
+      "console: Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
+    ]
+  }
+}

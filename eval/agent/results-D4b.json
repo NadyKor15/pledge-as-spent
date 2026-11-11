@@ -1,0 +1,40 @@
+{
+  "mode": "D",
+  "routing": "model",
+  "source": "live",
+  "at": "2026-11-11T00:20:28.333Z",
+  "right": 0,
+  "of": 1,
+  "calls": 4,
+  "usd": 0.006951,
+  "avgCalls": 4,
+  "avgUsd": 0.006951,
+  "lane": "measure-D-20261111T002013",
+  "serverCalls": {
+    "n": 2,
+    "usd": 0.006951000000000001
+  },
+  "rows": [
+    {
+      "id": "Q5",
+      "correct": false,
+      "missing": [
+        "JPY 1486"
+      ],
+      "extra": [],
+      "missingWords": [],
+      "guardFired": false,
+      "delegated": false,
+      "phase": "limit",
+      "routed": null,
+      "calls": 4,
+      "ledgerCalls": 2,
+      "usd": 0.006951,
+      "text": "The demo's budget for live questions is used up for now. Every figure is still in the book below, and the quick questions above keep working: the book's own code answers them.",
+      "errors": [
+        "console: Failed to load resource: the server responded with a status of 429 (Too Many Requests)",
+        "console: Failed to load resource: the server responded with a status of 429 (Too Many Requests)"
+      ]
+    }
+  ]
+}
