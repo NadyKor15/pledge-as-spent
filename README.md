@@ -44,6 +44,22 @@ A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift 
 
 ## How PayPal is used
 
+```mermaid
+flowchart TD
+  D["Donor pledges: a PayPal order with intent AUTHORIZE"] --> H["A PayPal hold per pledge, nothing charged yet"]
+  M["The company match pledges too"] --> H
+  V["A volunteer photographs the receipt"] --> R["Meta Muse Spark reads it twice, both readings must agree"]
+  R --> C{"Checks on the receipt and on each line"}
+  C -->|"refused line"| X["Refused with its reason, never reaches a donor"]
+  C -->|"receipt in doubt"| P["Waits for the coordinator, no money moves"]
+  C -->|"approved line"| S["Split across the donors' holds and the match, in code"]
+  H --> S
+  S --> O["The volunteer is paid back with PayPal Payouts"]
+  S --> K["Each share captured from its hold, in batches"]
+  K --> W["PayPal webhooks confirm it: only then paid"]
+  H --> N["The drive closes: PayPal voids the rest, never charged"]
+```
+
 | Step | PayPal API | Endpoint |
 |---|---|---|
 | Pledge | Orders v2, `intent: AUTHORIZE` | `POST /v2/checkout/orders` |
