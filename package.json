@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "judge": "tsx scripts/judge.ts",
     "typecheck": "next typegen && tsc --noEmit",
     "test:live": "vitest run tests/live",
     "story:sandbox": "tsx scripts/sandbox-story.ts",
