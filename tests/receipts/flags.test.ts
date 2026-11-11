@@ -96,4 +96,17 @@ describe("flag sentences a coordinator reads", () => {
     const left = checkReceipt({ receipt: three, drive, classifications: [cls(1)] }).find((f) => f.code === "low_confidence");
     expect(left?.messageEn).toBe("Lines 2, 3 need a person to confirm.");
   });
+
+  it("name a doubtful void or discount by the product line above it, which every screen counts it with", () => {
+    const doubt = { verdict: "review" as const, ruleCode: "unclear" as const, needId: null, needQty: null, confidence: 0.5 };
+    const message = (r: ReturnType<typeof receipt>, c: ReturnType<typeof cls>[]) => checkReceipt({ receipt: r, drive, classifications: c }).find((f) => f.code === "low_confidence")?.messageEn;
+    // The Florida receipt's shape: two nursery waters and a void of one of them, none of the three settled by the readings.
+    const florida = receipt({ lines: [line(1, 1000), line(2, 135), line(3, 135), line(4, -135)] });
+    expect(message(florida, [cls(1), cls(2, doubt), cls(3, doubt), cls(4, doubt)])).toBe("Lines 2, 3 need a person to confirm.");
+    // Only the void is in doubt: the receipt still goes to a person, who decides the line it is counted with.
+    expect(message(florida, [cls(1), cls(2), cls(3), cls(4, doubt)])).toBe("Line 3 needs a person to confirm.");
+    // Must differ: a negative line with no product line above it stands alone and is named itself.
+    const first = receipt({ lines: [line(1, -100), line(2, 1000)] });
+    expect(message(first, [cls(1, doubt), cls(2)])).toBe("Line 1 needs a person to confirm.");
+  });
 });

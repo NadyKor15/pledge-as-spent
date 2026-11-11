@@ -183,6 +183,8 @@ describe("a real Florida grocery receipt (2019) on the Florida drive", () => {
     expect(out.receipt.reader).toBe("cached:meta");
     // bought before the storm; the nursery water rows the two readings could not settle wait for a person too
     expect(out.receipt.flags.map((f) => f.code).sort()).toEqual(["low_confidence", "pre_disaster"]);
+    // Line 8 is the void of one nursery water, counted with line 7 on every screen: two lines wait, and the flag names two.
+    expect(out.receipt.flags.find((f) => f.code === "low_confidence")?.messageEn).toBe("Lines 6, 7 need a person to confirm.");
     expect(out.receipt.status).toBe("review");
     const lines = out.receipt.lines;
     expect(lines).toHaveLength(12);

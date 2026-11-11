@@ -331,7 +331,14 @@ export function checkReceipt(input: CheckInput): ReceiptFlag[] {
   const unanswered = input.classifications ? r.lines.filter((l) => l.amountMinor >= 0 && !input.classifications!.some((c) => c.lineNo === l.lineNo)).map((l) => l.lineNo) : [];
   // A quantity that does not fit the printed one is held for a person in toFundableLines: then a person must be asked.
   const misfit = (input.classifications ?? []).filter((c) => c.verdict === "eligible" && c.needId && !c.ruleCode && c.needQty !== null && !quantityFits(c.needQty, r.lines.find((l) => l.lineNo === c.lineNo)?.qty ?? 1, MAX_PACK_SIZE)).map((c) => c.lineNo);
-  const toConfirm = [...new Set([...doubtful, ...unanswered, ...misfit])].sort((a, b) => a - b);
+  // A void or discount under a product line is counted with that line on every screen (lineViews), so a doubt about it is
+  // named by that line: the receipt still goes to a person, and the list matches the lines that wait for them.
+  const headOf = (lineNo: number) => {
+    const i = r.lines.findIndex((l) => l.lineNo === lineNo);
+    const above = i > 0 && r.lines[i].amountMinor < 0 ? r.lines.slice(0, i).findLast((l) => l.amountMinor >= 0) : undefined;
+    return above?.lineNo ?? lineNo;
+  };
+  const toConfirm = [...new Set([...doubtful, ...unanswered, ...misfit].map(headOf))].sort((a, b) => a - b);
   if (toConfirm.length) add("low_confidence", "review", `${toConfirm.length === 1 ? "Line" : "Lines"} ${toConfirm.join(", ")} ${toConfirm.length === 1 ? "needs" : "need"} a person to confirm.`);
 
   // A line whose share of the tax cannot be worked out is held, unless it is refused anyway: a person must know.
