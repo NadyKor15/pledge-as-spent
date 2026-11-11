@@ -214,6 +214,8 @@ Mutation testing of the money rules of the four switched-on features (and of the
 
 The hosted demo needs nothing. To add a pledge there, use your own PayPal sandbox personal account.
 
+To check the claims of the table at the top on your own machine (Node 22 or later): `npm ci && npm run judge`. It runs offline: recorded PayPal sandbox answers, in-memory Postgres, saved receipt readings, no keys. It prints each claim with the tests behind it, then PASS or FAIL. On a fresh copy of the repository with no `.env` it took 14 seconds after `npm ci` on a Mac mini (M4 Pro).
+
 Local:
 
 ```bash
