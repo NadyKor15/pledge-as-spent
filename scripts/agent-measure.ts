@@ -188,10 +188,9 @@ async function main() {
       }
       rows.push(row);
       console.log(`${q.id} ${row.correct ? "RIGHT" : "WRONG"} phase=${r.phase} routed=${row.routed} calls=${row.calls} $${row.usd} delegated=${s.delegated} guard=${s.guardFired} missing=${s.missing.join("|")} extra=${s.extra.join("|")} errors=${r.errors.length}${"replay" in row ? ` replay=${(row as { replay: string }).replay}` : ""}\n   ${row.text}`);
-      if (live && r.phase === "limit") {
-        console.log("stop: the server refused (limit, budget or this run's ceiling)");
-        break;
-      }
+      // A refusal (one question's step limit, the budget) is that question's miss; the next ones are still asked, so one
+      // refusal does not drop the rest of the measure. This run's own ceiling stops it before a question (above).
+      if (live && r.phase === "limit") console.log(`refused: ${q.id} counts as a miss; the next question is asked`);
     }
   } finally {
     await browser.close();
