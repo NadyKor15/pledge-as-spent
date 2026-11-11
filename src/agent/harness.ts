@@ -1,6 +1,6 @@
 import { createAiHarness, directLlmRunner, type AgAiChatSession, type AgAiHarness, type AgAiHistoryStore, type AgAiThread, type AgLlmAdapter, type AgStudioApi } from "ag-studio";
 import type { DriveView } from "@/ui/types";
-import { guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
+import { delegateDoneAdapter, guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
 import { FactRegistry } from "./facts";
 import { linesFor, type Verdict } from "./guard";
 import { say } from "./i18n";
@@ -214,6 +214,8 @@ export class LedgerAgent {
       },
     };
     const model = this.o.modelFor ? this.o.modelFor(agentId, live) : liveAdapter({ agentId, ...live });
+    // Studio's data agent: a summary written as text after its query is the complete_task it meant (adapter.ts).
+    if (agentId === "data") return delegateDoneAdapter(model);
     if (agentId !== "ledger") return model;
     return guardedAdapter(model, {
       facts: () => this.facts.list(),

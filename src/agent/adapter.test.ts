@@ -1,6 +1,6 @@
 import type { AgAiTelemetryEvent, AgLlmAdapter, AgLlmRequest, AgLlmResponse } from "ag-studio";
 import { describe, expect, it } from "vitest";
-import { afterComplete, guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
+import { afterComplete, delegateDoneAdapter, guardedAdapter, liveAdapter, type GuardOutcome } from "./adapter";
 import { FactRegistry, factsFromQueryResult } from "./facts";
 import { TEXT } from "./i18n";
 import { NEED_SUM_QUERY } from "./route";
@@ -69,6 +69,59 @@ describe("guardedAdapter", () => {
     const m = model([call("ledger_donor_money")]);
     const { r } = await drive(guardedAdapter(m.adapter, { facts: () => [], locale: () => "en" }));
     expect(r.output[0]).toMatchObject({ type: "function_call", name: "ledger_donor_money" });
+  });
+});
+
+describe("delegateDoneAdapter (Studio's data agent)", () => {
+  // The data agent's reply in the live measure of 11.11 (Q5), written as text instead of a complete_task call.
+  const SUMMARY_AS_TEXT =
+    "via complete_task summary:\n- @field[book.need] = Water 2 L : @field[book.share] sum = 1486\n- @field[book.need] = Diapers size M : @field[book.share] sum = 6488";
+  const user = (text: string) => ({ id: "u", kind: "input", type: "message", role: "user", status: "completed", content: [{ type: "text", text }] });
+  const queried = (success: boolean) =>
+    ({
+      input: [
+        user("Call execute_query with exactly this query."),
+        { id: "fq", kind: "output", type: "function_call", callId: "q1", name: "execute_query", arguments: JSON.stringify({ query: NEED_SUM_QUERY }) },
+        { id: "oq", kind: "input", type: "function_call_output", callId: "q1", output: JSON.stringify(success ? { success: true, response: "rows", data: { result: [{ "book.need": "Water 2 L", "book.share": 1486 }] } } : { success: false, response: "invalid query" }) },
+      ],
+      tools: [{ type: "function", name: "execute_query" }, { type: "function", name: "complete_task" }],
+      responseFormat: { type: "text" },
+    }) as unknown as AgLlmRequest;
+  const turn = async (a: AgLlmAdapter, r: AgLlmRequest) => {
+    const h = a.executeTurn(r);
+    for await (const e of h.stream) void e;
+    return h.complete;
+  };
+
+  it("after a successful execute_query, a summary written as text becomes the complete_task call it meant", async () => {
+    const m = model([msg(SUMMARY_AS_TEXT)]);
+    const r = await turn(delegateDoneAdapter(m.adapter), queried(true));
+    expect(r.output).toHaveLength(1);
+    const c = r.output[0] as { type: string; name: string; arguments: string; callId: string };
+    expect(c).toMatchObject({ type: "function_call", name: "complete_task" });
+    expect(c.callId).toBeTruthy();
+    const args = JSON.parse(c.arguments) as { summary: string; artifacts: unknown[] };
+    expect(args.summary).toBe("- @field[book.need] = Water 2 L : @field[book.share] sum = 1486\n- @field[book.need] = Diapers size M : @field[book.share] sum = 6488");
+    expect(args.artifacts).toEqual([]);
+  });
+
+  it("must-light: no execute_query yet, a failed one, a real tool call, our limit sentence or no complete_task tool: the reply is left as it is", async () => {
+    const before = { ...queried(true), input: [user("Call execute_query with exactly this query.")] } as AgLlmRequest;
+    expect(textOf(await turn(delegateDoneAdapter(model([msg(SUMMARY_AS_TEXT)]).adapter), before))).toBe(SUMMARY_AS_TEXT);
+    expect(textOf(await turn(delegateDoneAdapter(model([msg(SUMMARY_AS_TEXT)]).adapter), queried(false)))).toBe(SUMMARY_AS_TEXT);
+    const real = await turn(delegateDoneAdapter(model([call("complete_task")]).adapter), queried(true));
+    expect(real.output[0]).toMatchObject({ type: "function_call", name: "complete_task", callId: "c1" });
+    const limit: AgLlmResponse = { id: "r", createdAt: 0, status: "completed", output: [{ id: "limit_question_too_long", kind: "output", type: "message", role: "assistant", status: "completed", content: [{ type: "text", text: TEXT.tooLong.en, annotations: [] }] }] };
+    expect(textOf(await turn(delegateDoneAdapter(model([limit]).adapter), queried(true)))).toBe(TEXT.tooLong.en);
+    const noTool = { ...queried(true), tools: [{ type: "function", name: "execute_query" }] } as unknown as AgLlmRequest;
+    expect(textOf(await turn(delegateDoneAdapter(model([msg(SUMMARY_AS_TEXT)]).adapter), noTool))).toBe(SUMMARY_AS_TEXT);
+  });
+
+  it("the figures still count only from execute_query's rows, never from the summary text", () => {
+    const facts = new FactRegistry(() => "JPY");
+    facts.add(factsFromQueryResult(JSON.stringify({ success: true, response: "rows", data: { result: [{ "book.need": "Water 2 L", "book.share": 1486 }] } }), "JPY"));
+    expect(facts.list().map((f) => f.value)).toContain(1486);
+    expect(facts.list().map((f) => f.value)).not.toContain(6488);
   });
 });
 

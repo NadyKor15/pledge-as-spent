@@ -12,6 +12,8 @@ import type { AgentId } from "./wire";
 //   against the figures the book's tools returned. Not confirmed -> the model is asked once more,
 //   hidden from Studio; still not confirmed -> "I can't confirm that figure from the book."
 //   Text that was not confirmed never reaches the reader.
+// - delegateDoneAdapter wraps it for Studio's data agent: a summary written as text after a successful query is
+//   taken as the complete_task call it meant.
 
 /** The events Studio renders for an answer that is already complete. */
 export function eventsFor(output: readonly AgAiOutputItem[]): AgAiEvent[] {
@@ -140,6 +142,48 @@ async function run(inner: AgLlmAdapter, request: AgLlmRequest, options?: AgLlmEx
     }
   })();
   return h.complete;
+}
+
+type InputItem = { type: string; callId?: string; name?: string; output?: string };
+
+/** Whether this delegation has already run execute_query and got rows back (Studio serialises `{success, …}`). */
+function queried(request: AgLlmRequest): boolean {
+  const items = request.input as unknown as InputItem[];
+  const names = new Map(items.filter((i) => i.type === "function_call").map((i) => [i.callId, i.name]));
+  return items.some((i) => {
+    if (i.type !== "function_call_output" || names.get(i.callId) !== "execute_query") return false;
+    try {
+      return (JSON.parse(i.output ?? "") as { success?: boolean }).success === true;
+    } catch {
+      return false;
+    }
+  });
+}
+
+const offers = (request: AgLlmRequest, name: string) => ((request.tools ?? []) as unknown as { name?: string }[]).some((t) => t.name === name);
+
+/**
+ * Studio's data agent ends a delegation by calling complete_task. Muse Spark sometimes writes that summary as plain text
+ * instead ("via complete_task summary: …", live measure 11.11, Q5); Studio then asks the agent once more, one more heavy
+ * turn. When this delegation has already run execute_query with success, a reply with text and no tool call is taken as
+ * the complete_task it meant, the text as its summary. Figures still count only from execute_query's rows (facts.ts).
+ */
+export function delegateDoneAdapter(inner: AgLlmAdapter): AgLlmAdapter {
+  return {
+    executeTurn(request, options) {
+      const complete = (async (): Promise<AgLlmResponse> => {
+        const r = await run(inner, request, options);
+        if (hasCall(r) || isLimitReply(r) || !offers(request, "complete_task") || !queried(request)) return r;
+        const summary = stripThinking(textOf(r))
+          .replace(/^\s*via complete_task summary:\s*/i, "")
+          .trim();
+        if (!summary) return r;
+        const callId = `done-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+        return { ...r, output: [{ id: `fc_${callId}`, kind: "output", type: "function_call", callId, name: "complete_task", arguments: JSON.stringify({ summary, artifacts: [] }) }] };
+      })();
+      return afterComplete(complete);
+    },
+  };
 }
 
 export interface GuardOptions {
