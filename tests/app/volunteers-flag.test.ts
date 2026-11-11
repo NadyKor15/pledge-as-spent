@@ -81,6 +81,25 @@ describe("a demo drive with invitations on", () => {
     expect(html).toContain('aria-label="Invite a volunteer"');
     expect(html).not.toContain('data-testid="volunteers-coordinator-only"');
   });
+
+  it("on a closed drive the card has no invite form and no Limit or Remove, and says why: the server refuses them there", async () => {
+    const s = await setup();
+    const driveId = "demo-vol-closed";
+    await s.h.svc.createDemoDrive({ driveId });
+    const inv = await invitePOST(req(`/api/drives/${driveId}/volunteers`, { name: "Maria", payoutEmail: "maria.lopez@example.com", limitMinor: 5000 }), ctx({ id: driveId }));
+    expect(inv.status).toBe(201);
+    await s.h.svc.closeDrive(driveId);
+    // must-light: the server does refuse an invitation on the closed drive
+    const late = await invitePOST(req(`/api/drives/${driveId}/volunteers`, { name: "Kai", payoutEmail: "kai@example.com", limitMinor: "none" }), ctx({ id: driveId }));
+    expect(late.status).toBeGreaterThanOrEqual(400);
+    const html = await screen(s.h, driveId);
+    expect(html.split('data-testid="volunteer-row"').slice(1)).toHaveLength(2);
+    expect(html).not.toContain('aria-label="Invite a volunteer"');
+    expect(html).not.toContain(">Remove<");
+    expect(html).not.toContain(">Limit<");
+    expect(html).toContain('data-testid="volunteers-closed"');
+    expect(html).toContain("volunteers can no longer be invited, limited or removed");
+  });
 });
 
 describe("a real drive with invitations on", () => {

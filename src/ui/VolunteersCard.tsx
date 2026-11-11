@@ -27,8 +27,10 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
   const [editing, setEditing] = useState<{ id: string; value: string } | null>(null);
   if (!view.features?.invites && !view.volunteers?.length) return null;
   // On a real drive only its coordinator invites and changes volunteers, with the coordinator's key, which this page does
-  // not send: the list is read-only here and says so, instead of buttons the server would answer with a refusal.
-  const canChange = view.features?.invites === true && view.drive.demo;
+  // not send: the list is read-only here and says so, instead of buttons the server would answer with a refusal. A drive
+  // that is no longer open takes no new or changed volunteers either (the book refuses them), so the same holds there.
+  const open = view.drive.status === "open";
+  const canChange = view.features?.invites === true && view.drive.demo && open;
   const cur = view.drive.baseCurrency;
   // The limit as the server takes it: "none" for an empty field, whole minor units otherwise; a typo is null (blocked).
   const toLimit = (t: string): number | "none" | null => {
@@ -95,6 +97,11 @@ export function VolunteersCard({ view, refresh }: { view: DriveView; refresh: ()
       {view.features?.invites && !view.drive.demo && (
         <p style={p} data-testid="volunteers-coordinator-only">
           On a real drive only its coordinator invites, limits and removes volunteers, with the drive&apos;s coordinator key. This page shows who is invited.
+        </p>
+      )}
+      {view.features?.invites && view.drive.demo && !open && (
+        <p style={p} data-testid="volunteers-closed">
+          The drive is {view.drive.status}: volunteers can no longer be invited, limited or removed.
         </p>
       )}
       {canChange && (
