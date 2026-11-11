@@ -42,6 +42,23 @@ An earthquake, a shelter and three needs: water, size M diapers, AA batteries. T
 
 A volunteer buys supplies and photographs the Japanese receipt. Beer and a gift card are on it. AI reads every line, matches each to a need and applies the drive's rules. Nine lines pass, two are refused. The approved ¥10,448 is split: half from the company, half from the donors, each in their own currency. The volunteer is paid back the same day. When the drive closes, what nobody spent is never charged, because PayPal releases each hold, and each donor can see which receipt lines their money bought.
 
+## Screens
+
+![The Coordinator after the sample receipt: nine lines approved and split across the donors' holds and the company match, beer and a gift card refused with their reasons](docs/screens/coordinator-1440.jpg)
+
+*The Coordinator after the sample receipt: 9 lines approved and split across the donors' holds and the company match; beer and a gift card refused, each with its reason. PayPal ids from the sandbox run in [`evidence/e2e-20261023T154908Z.json`](evidence/e2e-20261023T154908Z.json).*
+
+![The Ledger of the closed drive: pledged, spent on needs and never charged, with the check against PayPal](docs/screens/ledger-1440.jpg)
+
+*The Ledger of the closed drive: every pledge spent on receipt lines or never charged, and the book checked against PayPal: 9 objects, 0 differences.*
+
+<table>
+<tr>
+<td valign="top" width="50%"><img src="docs/screens/statement-lena.jpg" width="300" alt="Lena's statement on a phone: the water her hold bought, line by line, and what was never charged"><br><em>A donor's statement on a phone: what Lena's €20 hold bought, line by line in German, and the €15.42 never charged.</em></td>
+<td valign="top" width="50%"><img src="docs/screens/florida-held-phone.jpg" width="300" alt="The Florida drive on a phone: a real 2019 receipt held back as bought before the storm"><br><em>The Florida drive (fictional) on a phone: a real 2019 grocery receipt is dated before the storm, so it waits for the coordinator and no money moves.</em></td>
+</tr>
+</table>
+
 ## How PayPal is used
 
 ```mermaid
