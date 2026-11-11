@@ -70,6 +70,9 @@
 .vo-pr { font-variant-numeric: tabular-nums; letter-spacing: -.05em; }
 .vo-why { margin-top: .5px; font-size: 11px; line-height: 14px; letter-spacing: -.02em; color: var(--rej-text); }
 .vo-rejTx small.line-original { font-size: 11px; }
+/* The printed text and a discount counted with a line wrap instead of ending in "…", the same words (as on the
+   Coordinator): the Florida drive's real receipt has long ones. */
+.vo-page small.line-original { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
 
 /* card 3: payout */
 .vo-cPay { margin-top: 6.4px; padding: 5.6px 8.2px 6.4px 6.1px; }

@@ -47,6 +47,12 @@ test("on the Florida drive the real 2019 receipt is held for a person and moves 
   await expect(page.getByText("With the coordinator")).toBeVisible({ timeout: 60_000 });
   await expect(page.getByText("No money moves until they decide")).toBeVisible();
 
+  // The text under each refused line (the printed one, a discount counted with it) is whole, wrapped, never "…".
+  const cut = await page.locator(".vo-page .line-original").evaluateAll((els) =>
+    els.filter((el) => el.scrollWidth > el.clientWidth + 1 || getComputedStyle(el).textOverflow === "ellipsis").map((el) => el.textContent),
+  );
+  expect(cut).toEqual([]);
+
   const after = await viewOf(request, id);
   expect(after.receipts).toHaveLength(1);
   const r = after.receipts[0];
