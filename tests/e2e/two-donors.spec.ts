@@ -80,5 +80,12 @@ for (const [width, height] of [
     expect(m.text).toMatch(/Lena ¥594 \(€3\.65\) \+ Second donor ¥149 \(€0\.92\) \+ Kitasora Logistics ¥743/);
     expect(m.out).toEqual([]);
     expect(m.scroll).toBeLessThanOrEqual(0);
+    // The taller row stays inside the "Who pays" panel: wrapping must not push it under the panel's edge.
+    const rowInPanel = await page.locator(".co-wrow", { hasText: SECOND }).evaluate((row) => {
+      const r = row.getBoundingClientRect();
+      const p = row.closest(".co-panel")!.getBoundingClientRect();
+      return r.top >= p.top - 1 && r.bottom <= p.bottom + 1 && r.right <= p.right + 1;
+    });
+    expect(rowInPanel).toBe(true);
   });
 }
