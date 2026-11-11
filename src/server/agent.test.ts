@@ -319,7 +319,31 @@ describe("a turn", () => {
     expect(sent).toHaveLength(0);
   });
 
-  it("about 40K input tokens a question, then a sentence", async () => {
+  it("a question has room for 64K input tokens: three turns as heavy as the data agent's (about 18K each) pass, a fourth gets the sentence", async () => {
+    // Live measure 11.11, Q5: the data agent ran the right query, wrote its summary as text instead of complete_task,
+    // and the one more turn it then needed went past the old 40K ceiling. 64K leaves room for that turn.
+    const { agent, sent } = await service();
+    const { questionId } = await agent.question("1.1.1.1", {});
+    // One message is at most 20 000 characters: three make a turn of about 54 000 characters, 18K by the server's count.
+    const heavy = () => turnAs(agent, turn(questionId, { input: [0, 1, 2].map(() => userMsg("x".repeat(18_000))) }));
+    for (let i = 0; i < 3; i++) await heavy();
+    await expect(heavy()).rejects.toMatchObject({ code: "question_too_long" });
+    expect(sent).toHaveLength(3);
+    const [q] = await db.db.select().from(agentQuestions);
+    expect(q.tokens).toBeGreaterThan(40_000);
+    expect(q.tokens).toBeLessThanOrEqual(64_000);
+  });
+
+  it("must-light: under the old 40K ceiling the same third heavy turn is refused", async () => {
+    const { agent, sent } = await service({ limits: { tokensPerQuestion: 40_000 } });
+    const { questionId } = await agent.question("1.1.1.1", {});
+    const heavy = () => turnAs(agent, turn(questionId, { input: [0, 1, 2].map(() => userMsg("x".repeat(18_000))) }));
+    for (let i = 0; i < 2; i++) await heavy();
+    await expect(heavy()).rejects.toMatchObject({ code: "question_too_long" });
+    expect(sent).toHaveLength(2);
+  });
+
+  it("a small token ceiling, then a sentence", async () => {
     const { agent } = await service({ limits: { tokensPerQuestion: 2_000 } });
     const { questionId } = await agent.question("1.1.1.1", {});
     await turnAs(agent, turn(questionId));

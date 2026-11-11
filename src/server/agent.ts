@@ -15,7 +15,7 @@ import { META_SPEND_PREFIX } from "./spend";
 // The live agent's server half. The browser runs AG Studio's agent loop (our `ledger` agent and
 // Studio's built-in `data` agent); every model turn comes here, one at a time, under a question id:
 // - a question is counted per address (4 an hour, 10 a day) and for everyone (20 a day);
-// - a question may make 10 model calls and send about 40K input tokens, delegate turns included;
+// - a question may make 10 model calls and send about 64K input tokens, delegate turns included;
 // - money: Meta's own ceilings over its `agent-meta:` rows ($5 in code at most, $0.50 over any 24 hours);
 // - only our two agents, only their tools, one model: Meta Muse Spark. A turn Muse Spark fails is tried once
 //   more on Muse Spark; then the reader is told the assistant is busy. No other model answers.
@@ -37,7 +37,9 @@ export const DEFAULT_AGENT_LIMITS: AgentLimits = {
   questionsPerDay: 10,
   questionsPerDayAll: 20,
   callsPerQuestion: 10,
-  tokensPerQuestion: 40_000,
+  // A turn of Studio's data agent weighs about 18K (the book's schema and the query tool): 64K leaves room for one turn
+  // more than a sum over one need takes, when the data agent has to be asked again (live measure 11.11, Q5).
+  tokensPerQuestion: 64_000,
   questionTtlMinutes: 30,
 };
 
