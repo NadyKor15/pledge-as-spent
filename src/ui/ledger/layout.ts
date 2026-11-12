@@ -172,8 +172,8 @@ export function planMap(donors: LedgerDonor[], { width, height, compact, below =
       const at = points[i];
       const bow = bows(at, hub, width, compact, maxX);
       const spends = donor.spentBase > 0;
-      // Only what PayPal took travels: what a drive did not spend never left the donor, so no arc comes back (S1,
-      // TG 6710). Those amounts are under the shelter's needs and in the label's bar.
+      // Only what PayPal took travels: what a drive did not spend never left the donor, so no arc comes back (S1).
+      // Those amounts are under the shelter's needs and in the label's bar.
       return { donor, at, bow, spends, out: spends ? sample(at, bow.out, hub) : [] };
     })
     .sort((a, b) => a.at.x - b.at.x);

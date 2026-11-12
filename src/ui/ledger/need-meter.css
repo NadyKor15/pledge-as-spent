@@ -11,7 +11,7 @@
    the legend fit the card on an open drive with nothing to scroll. */
 [data-stacked="false"] .lg-card.lg-shelter .lg-pic img { max-height: calc(104px * var(--s)); }
 /* Under the bar: what the holds still promise, or what PayPal released. One line at 1440 and at 390, in every
-   language (NM11; the words are short for it, tests/e2e/meter.spec.ts measures it): never wrapped. */
+   language (the words are short for it, tests/e2e/meter.spec.ts measures it): never wrapped. */
 .nm-money { margin-top: calc(5px * var(--s)); font-size: calc(13.5px * var(--s)); line-height: 1.3; color: #4A5160; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nm-never-text { color: var(--pas-never-text); }
 /* Four needs or more on the desktop (the Florida drive has five): the card keeps the map's height, so every row gets

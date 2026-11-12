@@ -104,7 +104,7 @@ describe("the bar", () => {
   });
 });
 
-describe("the bar's colours, as on sheet A (NM11 17:37:28Z)", () => {
+describe("the bar's colours, as on sheet A", () => {
   it("never charged is the light grey-blue of the statement's bar; its figures the graphite", () => {
     const css = readFileSync(path.join(__dirname, "../../src/ui/hold-meter.css"), "utf8");
     expect(css).toContain("--pas-never: #B8C0CA;");

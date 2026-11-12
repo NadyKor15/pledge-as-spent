@@ -412,7 +412,7 @@ for (const { width, height } of [
     expect(await wider(page)).toBeLessThanOrEqual(0);
     const labels = await crowded(page);
     expect(labels.count).toBeGreaterThan(8);
-    // S1 (TG 6710): only what PayPal took travels; what was never charged has no arc back, and no arrowhead.
+    // S1: only what PayPal took travels; what was never charged has no arc back, and no arrowhead.
     expect(labels.marks).toBe(3);
     expect(labels.out).toEqual([]);
     await expect(page.locator(".lg-back .lg-line")).toHaveCount(0);

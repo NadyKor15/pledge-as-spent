@@ -34,7 +34,7 @@ describe("routeQuestion: the book's code picks the tool before the model's first
     expect(plan("Wie viel ging insgesamt an Windeln?")).toMatchObject({ intent: "needSum", needId: "diapers" });
     expect(plan("ベルリンのレナです。私のお金で何が買われましたか？")).toMatchObject({ intent: "money", donor: "Lena (Berlin)" });
     expect(plan("マークです。いくら戻ってきましたか？")).toMatchObject({ intent: "back", donor: "Mark (Columbus)" });
-    // The quick question's own words since "never charged" (NM11, 09.11), typed by hand.
+    // The quick question's own words since "never charged", typed by hand.
     expect(plan("I'm Lena from Berlin. How much was never charged?")).toMatchObject({ intent: "back", donor: "Lena (Berlin)" });
     expect(plan("Ich bin Lena aus Berlin. Wie viel wurde nie belastet?")).toMatchObject({ intent: "back", donor: "Lena (Berlin)" });
     expect(plan("マークです。いくらが請求されずに済みましたか？")).toMatchObject({ intent: "back", donor: "Mark (Columbus)" });

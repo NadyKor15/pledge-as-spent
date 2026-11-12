@@ -199,7 +199,7 @@ function book(stacked: boolean): AgGridWidget {
 /** The page: three totals, the map and the shelter card, the bottom line, the assistant's chat, and the book. */
 export function ledgerState(m: LedgerModel, x: Metrics, lang: Lang = m.lang ?? "en"): AgReportState {
   const w = WORDS[lang];
-  // A closed drive's third total is what was never charged: graphite, as on S1 (TG 6710), not a colour of money moving.
+  // A closed drive's third total is what was never charged: graphite, as on S1, not a colour of money moving.
   const rest = m.phase === "closed" ? COLORS.never : COLORS.held;
   const r = x.rows;
   const s = x.scale;

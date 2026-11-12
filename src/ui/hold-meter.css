@@ -1,4 +1,4 @@
-/* HoldMeter: the hold's parts as a strict bar (form A, Nadya TG 6708; colours of sheet A, NM11 17:37:28Z). The --pas-*
+/* HoldMeter: the hold's parts as a strict bar (form A; colours of sheet A). The --pas-*
    colours are shared by every place that shows a hold's parts (statement, money map, donors card, book, needs). */
 :root {
   --pas-charged: #2F855A;

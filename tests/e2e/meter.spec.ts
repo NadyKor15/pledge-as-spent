@@ -4,7 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 import type { DriveView, Hold } from "../../src/ui/types";
 
 // The shelter card's money line on an OPEN drive is one line, at 1440 and at 390, in EN, DE and JA: a judge sees the
-// open drive live and in the video (NM11). Measured in the browser: the line's height is one line-height and nothing
+// open drive live and in the video. Measured in the browser: the line's height is one line-height and nothing
 // is cut. Runs on the open fixture after PayPal took the first water line (all three tones), no network.
 
 const ROOT = path.resolve(__dirname, "../..");
@@ -53,7 +53,7 @@ for (const [label, width, height] of [["1440", 1440, 900], ["390", 390, 844]] as
     }
 
     // Two holds in one currency: "on 2 holds". (Two currencies on one need, "€X · $Y on 2 holds", do not fit 390 in one
-    // line: an open question for NM11, not tested here.)
+    // line: an open question, not tested here.)
     for (const lang of ["en", "de", "ja"]) {
       test(`${lang}: two donors' holds on one need, one currency: still one line`, async ({ page }) => {
         const v = openThreeTones();

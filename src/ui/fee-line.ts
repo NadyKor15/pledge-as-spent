@@ -8,7 +8,7 @@ import type { ReportedFee } from "@/server/reported-fee";
 // "Pledge-as-Spent fee: 0 % · PayPal's fee on capturing your share: €0.51, paid by the drive, not by you": the app
 // takes nothing; what PayPal took is what PayPal itself reported on the donor's captures, and the drive pays it (as the
 // book's footer says: "PayPal's fees are paid from the drive's balance, not from pledges"). A capture PayPal reported
-// no fee for is said so, never estimated. Wording: NM12 10.11 by P3U2's recommendation, until Nadya's word.
+// no fee for is said so, never estimated.
 
 const PAYPAL = "PayPal’s fee on capturing your share";
 const NOT_YOU = "paid by the drive, not by you";

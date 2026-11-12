@@ -180,7 +180,7 @@ describe.each(SIZES)("the money map at $width px", (size) => {
 describe("what the arcs say", () => {
   const size = SIZES[0];
 
-  it("a closed drive draws only what PayPal took: green arcs to the shelter, no way back, no 'never charged' pill (S1, TG 6710)", () => {
+  it("a closed drive draws only what PayPal took: green arcs to the shelter, no way back, no 'never charged' pill (S1)", () => {
     const plan = planMap(deriveLedger(fixture("closed")).donors, size);
     expect(plan.placed).toHaveLength(3);
     for (const p of plan.placed) {

@@ -7,7 +7,7 @@ import type { Lang } from "../format";
 export interface HoldWords {
   /** The tones of a need's bar, as its legend names them (need-meter.ts TONES). */
   tone: { bought: string; waiting: string; promised: string; returning: string; never: string; back: string };
-  /** "€X on Lena's hold · nobody charged": one line under the bar on an open drive, at 1440 and at 390 (NM11). */
+  /** "€X on Lena's hold · nobody charged": one line under the bar on an open drive, at 1440 and at 390. */
   promisedOn: (amount: string, name: string) => string;
   /** "€X · $Y on 2 holds · nobody charged". */
   promisedOnMany: (amount: string, holds: number) => string;
