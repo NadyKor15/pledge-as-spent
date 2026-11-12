@@ -20,7 +20,7 @@ export interface MetaProvider {
   fetch?: typeof fetch;
 }
 
-/** Meta's ceiling in code (Nadya, 06.11): the environment can lower it, never raise it. */
+/** Meta's ceiling in code: the environment can lower it, never raise it. */
 export const META_AGENT_CAP_MAX_USD = 5;
 /** Meta's spend over any 24 hours unless META_AGENT_DAILY_CAP_USD says less. */
 export const META_AGENT_DAILY_CAP_DEFAULT_USD = 0.5;

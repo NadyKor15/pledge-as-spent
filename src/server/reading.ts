@@ -86,7 +86,7 @@ class ReadingTimeout extends Error {}
 
 export interface LiveReading {
   pipeline: Pipeline;
-  /** Nadya's Model API key and the reading's own ceiling (never above META_READ_CAP_MAX_USD). */
+  /** The author's Meta Model API key and the reading's own ceiling (never above META_READ_CAP_MAX_USD). */
   meta?: { apiKey: string; baseUrl?: string; capUsd: number; fetch?: typeof fetch };
 }
 

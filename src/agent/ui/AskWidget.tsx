@@ -12,7 +12,7 @@ import { delegationText } from "../steps";
 import type { Fact } from "../types";
 import "./ask.css";
 
-// "Ask the book" (design ASK-B2, Nadya's pick). The answer is large; every figure the book
+// "Ask the book". The answer is large; every figure the book
 // confirms is a green chip inside the sentence; pressing one narrows the book to its lines. Under
 // the answer one line says how many figures were checked — the row of chips the picture repeats
 // under the answer is left out on purpose.

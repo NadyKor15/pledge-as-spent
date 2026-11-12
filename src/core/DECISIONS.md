@@ -1,4 +1,4 @@
-# Money engine: decisions where SPEC-core left room
+# Money engine: decisions the design left open
 
 Conservative readings taken while building the engine (23.10.2026; 7-11, 17, 18 revised the same day after an acceptance review). Each one is covered by a test.
 

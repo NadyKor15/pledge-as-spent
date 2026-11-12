@@ -5,7 +5,7 @@ import { PNG } from "pngjs";
 import type { DriveView } from "../../src/ui/types";
 import { noNeedReceiptBytes } from "./support/no-need-receipt";
 
-// SPEC-ui §3: open /, create the demo, take the sample receipt as coordinator,
+// The demo path: open /, create the demo, take the sample receipt as coordinator,
 // see 9 approved / 2 rejected and ¥10,448, close the drive, see "released" on
 // every hold. The other screens are checked on the same drive.
 

@@ -18,7 +18,7 @@ import { deriveLedger } from "@/ui/ledger/derive";
 import { ledgerData } from "@/ui/ledger/studio-state";
 import type { DriveView } from "@/ui/types";
 
-// Debug page of the live agent. Not product code: the book lane owns the real Ledger page; this page
+// Debug page of the live agent. Not product code: the real Ledger page is src/ui/ledger; this page
 // stands in for it (a plain table for the "narrowed" book) so the agent can be run and photographed.
 
 const VIEW = closed as unknown as DriveView;
@@ -187,7 +187,7 @@ function Run({ o, recording }: { o: Opts; recording: Recording | null }) {
   }, [auto, agent, state.ready, recording, question]);
 
   const donors = useMemo(() => VIEW.holds.filter((h) => h.kind === "donor").map((h) => ({ name: h.donorName, label: h.donorName.replace(/\s*\((.+)\)/, " · $1") })), []);
-  // As on ASK-B2: narrowed to a donor, the book shows that donor's shares of the lines.
+  // As in the Ledger: narrowed to a donor, the book shows that donor's shares of the lines.
   const payer = focus?.label.split(" · ")[0];
   const rows = focus ? model.book.filter((r) => focus.lineKeys.includes(r.lineKey) && (!payer || !donors.some((d) => d.label.startsWith(payer)) || r.payer === payer)) : model.book;
 

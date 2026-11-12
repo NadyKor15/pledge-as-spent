@@ -98,7 +98,7 @@ export interface ServiceDeps {
   demoPayoutEmail?: string | null;
   /** HMAC key for IP hashes; IPs themselves are never stored. */
   ipHashKey: string;
-  /** Live reading by Meta (READING_PIPELINE=meta): Nadya's key and the reading's own ceiling. */
+  /** Live reading by Meta (READING_PIPELINE=meta): the author's key and the reading's own ceiling. */
   metaReading?: { apiKey: string; baseUrl?: string; capUsd: number; fetch?: typeof fetch };
   /** Closes the published copy of a photo by its rows (src/receipts/close.ts). */
   closeReceipt?: CloseReceipt;

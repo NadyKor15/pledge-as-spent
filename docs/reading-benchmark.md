@@ -2,7 +2,7 @@
 
 ## Meta's two readings: the numbers to quote
 
-Every receipt is read by Meta Muse Spark 1.3 twice (the whole photo; the numbered rows code cut out by pixels), one Muse Spark call classifies the lines of both, and code compares them (`src/receipts/meta-reader.ts`, `src/receipts/slice.ts`). Benchmark reader `meta` (`npm run eval -- --reader meta --set <set>`, key through `infisical run`); every answer is saved in `eval/live/meta*/` and `--reader meta-replay` re-runs the comparison on them without a model. Spend: `eval/meta-spend-ledger.jsonl`, rows `read-meta-eval:` with a running total (`runningUsd`); the measure's ceiling was $5 of the author's Meta credits.
+Every receipt is read by Meta Muse Spark 1.3 twice (the whole photo; the numbered rows code cut out by pixels), one Muse Spark call classifies the lines of both, and code compares them (`src/receipts/meta-reader.ts`, `src/receipts/slice.ts`). Benchmark reader `meta` (`npm run eval -- --reader meta --set <set>`, key in `META_MODEL_API_KEY`); every answer is saved in `eval/live/meta*/` and `--reader meta-replay` re-runs the comparison on them without a model. Spend: `eval/meta-spend-ledger.jsonl`, rows `read-meta-eval:` with a running total (`runningUsd`); the measure's ceiling was $5 of the author's Meta credits.
 
 | Run (UTC) | Set | Code | Line F1 | Totals | Line class | Need quantity | Forbidden refused / funded | Wrong eligible lines | Lines to coordinator | Spend | Results |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -25,6 +25,8 @@ The measure spent $2.68 in all (ledger total of `read-meta-eval:` rows, no open 
 - from the repeat run: on "ALKALİN AA 6 ADET" × 2 both readings agreed on 2 because code does not know the pack word ADET, while the model counted 12; a quantity code reads from the row that the model counts differently, with no pack size in the name, now goes to the coordinator.
 
 Money: a line's amount is always the printed amount; the need quantity moves a need's progress and caps a line at what the need still lacks. "Wrong eligible lines" counts lines the comparison would fund with a wrong need or quantity; on receipts with no flag at all (which fund without a person) it was 0 in every run.
+
+Reading the run files: their "Receipts sent to the coordinator" counts receipts with any flag (on held-out sets 1 and 2 only low-confidence flags, 3 and 1); "covered by a blur box" is the earlier blur method, not the closed copy the app publishes now (0 of 42 left visible, `docs/closing-benchmark.md`); "answered calls" counts stages, with reading A and reading B summed as one.
 
 Not measured: real photos (all receipts are synthetic), the two out-of-focus adversarial photos after the unreadable change, the closed copy (measured by its own script, `tools/eval/close-measure.ts`, results in `docs/closing-benchmark.md`).
 

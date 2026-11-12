@@ -1,4 +1,4 @@
-# App backend: decisions where SPEC-app-backend left room
+# App backend: decisions the design left open
 
 Readings taken while building the integration (23.10.2026). Each one is covered by a test in `tests/app/`.
 
@@ -12,5 +12,5 @@ Readings taken while building the integration (23.10.2026). Each one is covered 
 8. **Personal data** is not searched for: a published photo is closed to its purchase lines (`src/receipts/close.ts`), everything else a plain background, in PNG and JPEG. A photo that cannot be closed is not published, and only a copy carrying the closing mark is served.
 9. **Concurrency.** Each drive's writes run under `pg_advisory_xact_lock(1, hashtext(driveId))`; the unique `(drive_id, seq)` index refuses a writer working from a stale book. PGlite runs one transaction at a time, so in tests the lock is never contended; the races there are real `Promise.all` interleavings outside the transactions.
 10. **FX** is a fixed snapshot (1 EUR = 162.35 JPY, 1 USD = 151.20 JPY, `demo snapshot (fixed for a reproducible demo)`, 2026-10-23) for demo and live pledges alike. Known limit for live pledges.
-11. **Per-share rounding.** The core converts each share to the donor's currency separately (half-up), so Mark's three diaper shares cost $21.45, while the agreed demo figure ($21.46) converts the ¥3,244 total at once. Reported; the agreed expectation is kept as an expected failure in `demo-replay.test.ts`.
+11. **Per-share rounding.** The core converts each share to the donor's currency separately (half-up), so Mark's three diaper shares cost $21.45; converting the ¥3,244 total at once would give $21.46. PayPal captured exactly $21.45 live, and `demo-replay.test.ts` asserts $21.45.
 12. **Debug page** reads the drive through its own JSON API (`APP_BASE_URL` or loopback, never the request's Host header), so no database code runs in the page bundle.

@@ -10,7 +10,7 @@
 
 Your €20 for water can only buy water.
 
-In BBB Wise Giving Alliance's 2024 survey, an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and Vice wrote: "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
+In [BBB Wise Giving Alliance's 2024 survey](https://media.give.org/wp-content/uploads/2025/11/19133519/2024_summer_dtr_report_final.pdf), an independent review of how a charity spends its money was the accountability check U.S. respondents valued most (75.9%). After the 2021 Texas freeze, Austin Mutual Aid drew more than 14,000 donors and reported a $2.6 million total, and [Vice wrote](https://www.vice.com/en/article/austin-mutual-aid-raised-millions-during-february-2021-texas-storm-freeze-where-is-it-now/): "Because AMA has so far failed to show their receipts, there is almost no way to check AMA's math." Here the receipt comes first and the charge second.
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
 
@@ -124,6 +124,7 @@ The prompts were first tuned on three sets of synthetic receipts, so the numbers
 | Forbidden lines refused with the right code | 10/10 | 10/10 |
 | Lines funded with a wrong need or quantity | 0 | 0 |
 | Lines sent to the coordinator | 0 of 99 | 1 of 98 |
+| Receipts sent to the coordinator (a low-confidence flag; no fraud flag on these sets) | 1 of 20 | 3 of 20 |
 
 Set 1's changes came after looking at its first run ([`eval/results/meta-holdout-20261109T001827Z.md`](eval/results/meta-holdout-20261109T001827Z.md)) and its repeat: a tax base is never the subtotal, the arithmetic and third reading above, and one rule found on the repeat. There both readings agreed on a wrong quantity because code did not know a pack word ("6 ADET"), so a quantity code reads from the row that the model counts differently, with no pack size in the name, now goes to the coordinator instead of passing. Set 1 is therefore not held-out for the changed code; set 2 is. On the 13 adversarial receipts (re-shot duplicates, purchases before the disaster, stores outside the zone, forbidden goods; [`eval/results/meta-adversarial-20261109T002345Z.md`](eval/results/meta-adversarial-20261109T002345Z.md)) every check scored 13 of 13 or all of its cases, except two deliberately out-of-focus photos: the first reading gave no answer for them, which the code now turns into an "unreadable" flag (not measured live since). All receipts are synthetic photos of fictional stores; real crumpled receipts will read worse. A receipt costs about $0.03 at Meta's prices for the two readings and the classification ($0.5850 and $0.5931 for the 20 receipts of each set). Details, every run and its spend: [`docs/reading-benchmark.md`](docs/reading-benchmark.md), `npm run eval -- --reader meta`.
 
@@ -139,7 +140,7 @@ The Ledger tab has a chat over the book. A donor asks in their own words, for ex
 
 - Our agent, `ledger`, is Studio's primary agent: a `directLlmRunner` with six read-only tools over the drive the page already holds (`ledger_find_donor`, `ledger_donor_money`, `ledger_line`, `ledger_refusals`, `ledger_paypal_ids`, `ledger_totals`). The tools hand the model amounts already formatted with their currency, and they add up the totals per donor and per need, so the model never has to add anything.
 - For a figure across all donors ("How much went to water across all donors?") it hands the task to Studio's built-in `data` agent with `delegate_to`. That agent runs `execute_query` on the book in Studio's own data engine. It keeps only `execute_query` and `view_schema`, so it cannot change the report.
-- Studio's agent loop runs in the browser. Each model turn goes to `/api/agent/turn`, which calls Meta Muse Spark 1.3 without streaming, within limits: 4 questions an hour and 10 a day per network, 20 a day in all, 10 model calls and about 64,000 input tokens per question, and Meta's ceilings: $5 in code at most and $0.50 over any 24 hours. Muse Spark is the only model: a turn it fails is tried once more on Muse Spark, and then the chat says "The assistant is busy, please try again in a minute." (in English, German or Japanese). The live agent runs only when the server is given `AGENT_META_ALLOWED=yes`, a ceiling in `META_AGENT_CAP_USD` and a key.
+- Studio's agent loop runs in the browser. Each model turn goes to `/api/agent/turn`, which calls Meta Muse Spark 1.3 without streaming, within limits (the defaults; the server's settings can change them): 4 questions an hour and 10 a day per network, 20 a day in all, 10 model calls and about 64,000 input tokens per question, and Meta's ceilings: $5 in code at most and $0.50 over any 24 hours. Muse Spark is the only model: a turn it fails is tried once more on Muse Spark, and then the chat says "The assistant is busy, please try again in a minute." (in English, German or Japanese). The live agent runs only when the server is given `AGENT_META_ALLOWED=yes`, a ceiling in `META_AGENT_CAP_USD` and a key.
 - The book is shown in Studio's view mode, which has no chat panel, so the chat is a custom widget in the book's own layout, on Studio's chat session. Studio rebuilds the report when the layout or the language changes. The conversation lives outside it, and an answer cut short by a rebuild says so and offers to ask again.
 - The four quick questions are answered by the book's own code with the same tools and no model, so they keep working when the live AI has used its questions.
 - "Ask about this line", in a row's proof band, sends that line to the chat.
@@ -169,7 +170,7 @@ Each line of both lists is pinned by a test on made-up text (`src/agent/guard.te
 
 | Model | Right of 7 | Model calls per question | Cost per question |
 |---|---|---|---|
-| Meta Muse Spark 1.3 (variant D, the one the agent runs on) | 7 with correct figures, 6 by the strict score (final code) | 2.29 | $0.016 |
+| Meta Muse Spark 1.3 (the setup the agent runs on) | 7 with correct figures, 6 by the strict score (final code) | 2.29 | $0.016 |
 
 Ask the book, live on Meta Muse Spark: 7 of 7 test questions answered with correct figures; 6 of 7 by the strict score, one answer also named the other needs' totals ([`eval/agent/results-D5.json`](eval/agent/results-D5.json), the run on the final code). Earlier live runs on older code are kept with their scores in [`eval/agent/`](eval/agent): 7 of 7 twice; 6 of 7 once, when the check misread "Linie 2 €1.45" as 2 euros (fixed); one stopped at the size limit of a single question (since raised). All answers are scored by the same rules, including the false-percentage rule (a pledge called spent "zu 100%" when 23% was is wrong). The cost is Meta's price for each turn's tokens: $1.25 / $4.25 per million input / output tokens. The runs of the variants that were tried and dropped are kept as they were recorded, with their scores, in [`eval/baseline-legacy/agent/`](eval/baseline-legacy/agent).
 
@@ -189,7 +190,7 @@ Receipt reading for donors already exists, for example Kindtrail in this hackath
 - One receipt line is shared across donors and a company match, each charged in their own currency.
 - The Ledger splits every pledge into spent, waiting for capture, still held and never charged, and the parts add up to the pledge. "Returned" is used only for money PayPal gave back after a capture, a refund.
 - A donor can move what is left of their hold to another open need with one press on their statement, before the drive closes. PayPal is not asked for anything: the same authorization, for the same amount and the same expiry, now backs the new need, and the book records the donor's consent and the time. On a sandbox drive the authorization read back the same before and after, with no PayPal call between ([`evidence/florida-sandbox-20261109T001355Z.json`](evidence/florida-sandbox-20261109T001355Z.json)). Switched on in the hosted demo (`REBIND_ENABLED`).
-- **Keep the rest for this drive** (`REBIND_ENABLED`): at the pledge a donor chooses what happens to the rest once their need is covered: it is never charged, or it keeps buying for this drive, moving by itself to the open need furthest from covered. The same PayPal hold; moving it calls nothing at PayPal.
+- **Keeps buying for this drive** (`REBIND_ENABLED`): at the pledge a donor chooses what happens to the rest once their need is covered: it is never charged, or it keeps buying for this drive, moving by itself to the open need furthest from covered. The same PayPal hold; moving it calls nothing at PayPal.
 - **Renew a hold** (`RENEW_ENABLED`): PayPal ends a hold 29 days after the donor approves it, and a reauthorize keeps that day. The statement shows the end date and a Renew button while the hold is alive, brighter in its last 3 days (no e-mails). Renewing is a new PayPal order for what the hold has not paid for, approved again by the donor; the old hold pays what it already bought, then PayPal releases it. Across renewals a donor is never charged more than they first pledged. Run live in the sandbox: [`evidence/renew-sandbox-20261110T033537Z.json`](evidence/renew-sandbox-20261110T033537Z.json).
 - **Volunteers by invitation** (`VOLUNTEER_INVITES`): the coordinator invites volunteers by name and PayPal address; each gets a personal upload link (only its hash is stored). Only an invited volunteer's receipts are taken, a person checks each new volunteer's first receipt on a real drive (the demo drive's own volunteer goes through at once), a limit caps what one volunteer is paid, and the payout goes only to that volunteer's PayPal address, which screens show masked.
 - **Donor rules per line** (`DONOR_RULES`): a donor may limit the lines their hold pays: only some needs, and at most a price per unit in their own currency (its share of tax included). A line is split only between holds whose rules allow it; a line that no hold of its need may pay is refused and the need stays open for a cheaper purchase. The statement lists the lines a rule kept the hold out of.
@@ -210,7 +211,7 @@ Full list with evidence: [`docs/platform-findings.md`](docs/platform-findings.md
 
 60 attacks on the money path, each with its test: [`docs/red-team.md`](docs/red-team.md). All 60 hold; five did not when first tried and were fixed. 1567 unit and integration tests, 183 browser tests.
 
-Mutation testing of the money rules of the four switched-on features (and of the pledge amount reading): 82 mutants, 80 caught by the tests; the 2 left change nothing the book or a screen can show. Property test: 1,000 random drives per run, in six currencies.
+Mutation testing of the money rules of the four switched-on features (and of the pledge amount reading): 82 mutants, 80 caught by the tests; the 2 left change nothing the book or a screen can show ([`docs/mutation-testing.md`](docs/mutation-testing.md)). Property test: 1,000 random drives per run, in six currencies.
 
 ## Run it
 
@@ -225,7 +226,7 @@ npm ci
 npm run dev
 ```
 
-The app opens at http://localhost:3000 with a local PGlite database. Opening a drive needs your own PayPal sandbox app: set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET`, and `NEXT_PUBLIC_PAYPAL_CLIENT_ID` for the pledge form. Live reading is optional: `READING_PIPELINE=meta`, `READ_META_ALLOWED=yes`, a ceiling in `META_READ_CAP_USD` (at most $5 in code) and a Meta Model API key in `META_MODEL_API_KEY`; without them, only the sample and benchmark receipts are read. The server settings are listed at the top of [`src/server/runtime.ts`](src/server/runtime.ts).
+The app opens at http://localhost:3000 with a local PGlite database. Opening a drive needs your own PayPal sandbox app: set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET`, and `NEXT_PUBLIC_PAYPAL_CLIENT_ID` for the pledge form. Live reading is optional: `READING_PIPELINE=meta`, `READ_META_ALLOWED=yes`, a ceiling in `META_READ_CAP_USD` (at most $5 in code) and a Meta Model API key in `META_MODEL_API_KEY`; without them, only the sample and benchmark receipts are read. A local machine gets no PayPal webhook, so after Capture now a share shows as spent once the server looks it up at PayPal, 10 minutes later (`PAYPAL_WEBHOOK_ID` on a deployment PayPal can reach makes it seconds). Set `DEMO_PAYOUT_EMAIL` to a personal account of your own sandbox to receive the demo payout. The server settings are listed at the top of [`src/server/runtime.ts`](src/server/runtime.ts).
 
 To check a drive against PayPal's own records, read-only: `PAYPAL_CLIENT_ID=... PAYPAL_CLIENT_SECRET=... node scripts/paypal-proof.mjs <drive id>`. It takes the drive's PayPal ids from its public API, asks PayPal's sandbox for each hold, capture and payout with GET only (plus PayPal's token exchange), prints "N of N objects answered by PayPal" and writes the answers to `evidence/`. The ids are visible only to the sandbox app that made them, so use the keys of that app.
 
@@ -259,7 +260,7 @@ AG Studio is a commercial product, used here under the free trial licence offere
 
 ## How this was built
 
-Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Meta Muse Spark 1.3 reads every receipt (twice, with a third look at a disputed line); the Ledger's assistant runs on Meta Muse Spark 1.3 alone.
+Built by Nadezhda Korchagina with Claude Code as the development tool, after October 1, 2026. Product AI: Meta Muse Spark 1.3 reads every receipt (twice, with a third look at a disputed line); the Ledger's assistant runs on Meta Muse Spark 1.3 alone; Muse Spark 1.3 also translates the receipt lines on a donor's statement into German or Japanese.
 
 ## License
 
