@@ -14,7 +14,7 @@ In [BBB Wise Giving Alliance's 2024 survey](https://media.give.org/wp-content/up
 
 Live demo: **https://pledge-as-spent.vercel.app** · no login, no keys · a fictional drive in the PayPal sandbox, no real money moves.
 
-Video (2:58): https://youtu.be/lo-tGgHYWSY
+Video (2:58): https://youtu.be/lo-tGgHYWSY · Devpost: https://devpost.com/software/pledge-as-spent
 
 ## Judge it in 90 seconds
 
